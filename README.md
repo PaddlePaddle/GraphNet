@@ -13,13 +13,14 @@ GraphNet 包含大量来自真实高性能计算任务的图结构表示，可�
 降低高性能算法测评的门槛。
 
 
-## 生成单侧
-
+## 单测生成Demo
+### torch 
 ```
-python vision_model_generator.py --key "model-name like resnet18"  --model-path  "path to be restored at"
+python vision_model_generator.py --key resnet18  --model-path  "path/to/your/generated/graph_net/"
 ```
 
-## 运行单侧
+## 单测运行Demo
+### torch
 ```
 python runner.py  --model-path ../../sample/torch/resnet18
 ```

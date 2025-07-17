@@ -16,12 +16,14 @@ GraphNet 包含大量来自真实高性能计算任务的图结构表示，可�
 ## 单测生成Demo
 ### torch 
 ```
-python vision_model_generator.py --key resnet18  --model-path  "path/to/your/generated/graph_net/"
+export PYTHONPATH=$PYTHONPATH:/path/to/your/GraphNet/repo
+python3 -m graph_net.torch.extractor.vision_model_extractor --key resnet18  --model-path  /path/to/your/extracted/graph_net/sample
 ```
 
 ## 单测运行Demo
 ### torch
 ```
-python runner.py  --model-path ../../sample/torch/resnet18
+export PYTHONPATH=$PYTHONPATH:/path/to/your/GraphNet/repo
+python3 -m graph_net.torch.runner.single_device_runner --model-path /path/to/your/extracted/graph_net/sample
 ```
 

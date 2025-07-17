@@ -9,23 +9,6 @@ import argparse
 
 dyn_template = """
 %MODULE
-
-model = GraphModule()
-
-inputs_params = utils.load_converted_from_text(f'./source_tensor_meta.py')
-inputs = inputs_params["input_info"]
-inputs = [utils.replay_tensor(i) for i in inputs]
-params = inputs_params["weight_info"]
-
-state_dict = {}
-for k, v in params.items():
-    k = utils.convert_param_name(k)
-    v = utils.replay_tensor(v)
-    state_dict[k] = v
-
-y = model(x=inputs[0], **state_dict)[0]
-print(torch.argmin(y), torch.argmax(y))
-print(y.shape)
 """
 
 def convert_param_name(original_name):

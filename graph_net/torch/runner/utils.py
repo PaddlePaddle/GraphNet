@@ -133,6 +133,6 @@ def replay_tensor(info):
 
     mean = info["info"]["mean"]
     std = info["info"]["std"]
-    if info["data"] is not None:
+    if "data" in info and info["data"] is not None:
         return info["data"].to(device)
     return torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean

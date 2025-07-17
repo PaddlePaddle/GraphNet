@@ -1,4 +1,4 @@
-import utils
+import graph_net.torch.runner.utils as utils
 import argparse
 import importlib.util
 import torch

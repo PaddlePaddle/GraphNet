@@ -6,8 +6,8 @@ import torchvision
 from torchvision import transforms
 from torch.export import export
 from torch import nn
-import utils
-from utils import convert_param_name, indent_with_tab, apply_templates
+import graph_net.torch.extractor.utils as utils
+from graph_net.torch.extractor.utils import convert_param_name, indent_with_tab, apply_templates
 
 
 def main(key, model_path):

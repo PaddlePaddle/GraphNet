@@ -1,3 +1,5 @@
 {
-    "framework": "torch"
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
 }

@@ -126,7 +126,7 @@ def save_converted_to_text(converted, file_path):
                 return "[{}]".format(", ".join(f'{x}' for x in data.tolist()))
         else:
             return repr(data)
-    
+
     lines = [[],[]]
 
     def process_tensor_info(tensor_info, name_prefix="example_input"):

@@ -126,12 +126,14 @@ def save_converted_to_text(converted, file_path):
                 return "[{}]".format(", ".join(f'{x}' for x in data.tolist()))
         else:
             return repr(data)
-
-    lines = []
+    
+    lines = [[],[]]
 
     def process_tensor_info(tensor_info, name_prefix="example_input"):
         data_list = None
+        file_index = 1
         if "input_" in tensor_info["name"]:
+            file_index = 0
             if tensor_info["type"] in ["small_tensor", "small_int_tensor"]:
                 data_list = tensor_info["data"].flatten()
             elif tensor_info["type"] == "big_int_tensor":
@@ -149,17 +151,16 @@ def save_converted_to_text(converted, file_path):
         device = info.get("device", "cpu")
         mean = info.get("mean", 0.0)
         std = info.get("std", 1.0)
-
         uid = f"{name_prefix}_tensor_meta_{generate_uid()}"
-        lines.append(f"class {uid}:")
-        lines.append(f"\tname = \"{tensor_info.get('name', '')}\"")
-        lines.append(f"\tshape = {shape}")
-        lines.append(f"\tdtype = \"{dtype}\"")
-        lines.append(f"\tdevice = \"{device}\"")
-        lines.append(f"\tmean = {mean}")
-        lines.append(f"\tstd = {std}")
-        lines.append(f"\tdata = {format_data(data_list)}")
-        lines.append("")
+        lines[file_index].append(f"class {uid}:")
+        lines[file_index].append(f"\tname = \"{tensor_info.get('name', '')}\"")
+        lines[file_index].append(f"\tshape = {shape}")
+        lines[file_index].append(f"\tdtype = \"{dtype}\"")
+        lines[file_index].append(f"\tdevice = \"{device}\"")
+        lines[file_index].append(f"\tmean = {mean}")
+        lines[file_index].append(f"\tstd = {std}")
+        lines[file_index].append(f"\tdata = {format_data(data_list)}")
+        lines[file_index].append("")
 
     input_infos = converted["input_info"]
     if isinstance(input_infos, dict):
@@ -173,5 +174,7 @@ def save_converted_to_text(converted, file_path):
         weight_info["name"] = name
         process_tensor_info(weight_info, name_prefix="Program_weight")
 
-    with open(file_path, 'w') as f:
-        f.write("\n".join(lines))
+    with open(f"{file_path}/input_meta.py", 'w') as f:
+        f.write("\n".join(lines[0]))
+    with open(f"{file_path}/weight_meta.py", 'w') as f:
+        f.write("\n".join(lines[1]))

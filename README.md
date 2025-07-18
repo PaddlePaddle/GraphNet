@@ -23,3 +23,34 @@ export PYTHONPATH=$PYTHONPATH:/path/to/your/GraphNet/repo
 python3 -m graph_net.torch.runner.single_device_runner --model-path /path/to/your/extracted/graph_net/sample
 ```
 
+##  数据集约束
+
+GraphNet数据集遵循以下约束规范：
+
+1. 动态图能正常运行
+2. 每份计算图有通用方法测定性能指标
+3. 计算图与python代码之间序列化与反序列化
+4. 整图可分解为不相交的两个子图
+5. 可配置pass或编译器行为
+6. 每份计算图中的op names可以被静态解析出来
+7. 若存在自定义算子，则自定义算子的代码必须能被完整访问
+8. 可通过统一方式配置计算图在不同芯片上运行
+
+## 社区交流
+
+* 扫描微信二维码或QQ二维码，即可加入交流群与众多社区开发者以及官方团队深度交流.
+
+<div align="center">
+<table>
+<tr>
+<td align="center">
+    <img width="150" height="150" src="https://github.com/user-attachments/assets/12a4c2a1-0d3c-468f-9e6b-e141600fa6ff" />
+    <br>
+</td>
+<td align="center">
+    <img width="150" height="150" src="https://github.com/user-attachments/assets/140fa03e-36ef-44bf-8d9a-ca65c83b0139" />
+    <br>
+</td>
+</tr>
+</table>
+</div>

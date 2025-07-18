@@ -44,12 +44,10 @@ GraphNet数据集遵循以下约束规范：
 <table>
 <tr>
 <td align="center">
-    <img width="150" height="150" src="https://github.com/user-attachments/assets/12a4c2a1-0d3c-468f-9e6b-e141600fa6ff" />
-    <br>
+    <img width="190" height="220" src="https://github.com/user-attachments/assets/12a4c2a1-0d3c-468f-9e6b-e141600fa6ff" />
 </td>
 <td align="center">
-    <img width="150" height="150" src="https://github.com/user-attachments/assets/140fa03e-36ef-44bf-8d9a-ca65c83b0139" />
-    <br>
+    <img width="190" height="220" src="https://github.com/user-attachments/assets/140fa03e-36ef-44bf-8d9a-ca65c83b0139" />
 </td>
 </tr>
 </table>

@@ -27,7 +27,7 @@ def main(model_path: str):
     model_class = load_class_from_file(f"{model_path}/model.py", class_name="GraphModule")
     model = model_class()
 
-    inputs_params = utils.load_converted_from_text(f'{model_path}/source_tensor_meta.py')
+    inputs_params = utils.load_converted_from_text(f'{model_path}')
     inputs = inputs_params["input_info"]
     inputs = [utils.replay_tensor(i) for i in inputs]
     params = inputs_params["weight_info"]

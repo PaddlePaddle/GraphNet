@@ -73,7 +73,7 @@ def main(key, model_path):
     converted = utils.convert_state_and_inputs(params, exported.example_inputs[0])
     utils.save_converted_to_text(
         converted, 
-        file_path=f'{model_path}/source_tensor_meta.py'
+        file_path=f'{model_path}'
     )
     utils.save_constraints_text(
         converted, 

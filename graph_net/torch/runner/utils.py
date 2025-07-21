@@ -55,9 +55,10 @@ def load_converted_from_text(file_path):
             except:
                 return value_str
 
-    with open(file_path, 'r') as f:
+    with open(f"{file_path}/input_meta.py", 'r') as f:
         lines = f.readlines()
-
+    with open(f"{file_path}/weight_meta.py", 'r') as f:
+        lines += f.readlines()
     classes = []
     current_class = None
 

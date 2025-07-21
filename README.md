@@ -23,3 +23,20 @@ export PYTHONPATH=$PYTHONPATH:/path/to/your/GraphNet/repo
 python3 -m graph_net.torch.runner.single_device_runner --model-path /path/to/your/extracted/graph_net/sample
 ```
 
+## pack计算图
+### torch
+```
+# 假设 samples/torch 为待管理的目录
+export GRAPH_NET_EXTRACT_WORKSPACE=~/projects/samples/torch
+
+# 1. 打包并指定输出文件名
+python -m graph_net.pack --output torch_samples.zip
+
+# 2. 打包并使用默认文件名（torch.zip）
+python -m graph_net.pack
+
+# 3. 清空 samples/torch 目录内容
+python -m graph_net.pack --clear
+
+
+```

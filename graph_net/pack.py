@@ -37,20 +37,34 @@ def clear_directory(src_dir: str):
     print(f'Cleared contents of "{src_dir}"')
 
 
+def parse_boolean_flag(value: str) -> bool:
+    """
+    Parse a string to boolean, accepting 'True' or 'False' (case-insensitive).
+    """
+    lower = value.lower()
+    if lower == 'true':
+        return True
+    if lower == 'false':
+        return False
+    raise argparse.ArgumentTypeError(f"clear_after_pack must be 'True' or 'False', got '{value}'")
+
+
 def main():
     parser = argparse.ArgumentParser(
         prog='python -m graph_net.pack',
-        description='Pack or clear the directory defined by $GRAPH_NET_EXTRACT_WORKSPACE'
-    )
-    parser.add_argument(
-        '--clear',
-        action='store_true',
-        help='Clear all contents of the $GRAPH_NET_EXTRACT_WORKSPACE directory'
+        description='Pack the $GRAPH_NET_EXTRACT_WORKSPACE directory into ZIP (clear_after_pack is required)'
     )
     parser.add_argument(
         '--output',
         metavar='OUTPUT_PATH',
-        help='Specify the output ZIP file path (default is <workspace>.zip)'
+        help='Specify the output ZIP file path (default is <workspace>.zip)',
+    )
+    parser.add_argument(
+        '--clear-after-pack',
+        dest='clear_after_pack',
+        required=True,
+        type=parse_boolean_flag,
+        help="Specify whether to clear workspace after packing: 'True' or 'False'"
     )
 
     args = parser.parse_args()
@@ -61,20 +75,19 @@ def main():
     if not os.path.isdir(ws):
         parser.error(f'The path specified by GRAPH_NET_EXTRACT_WORKSPACE ("{ws}") is not a valid directory')
 
-    # If --clear flag is provided, perform the clear operation and exit
-    if args.clear:
-        clear_directory(ws)
-        return
-
-    # Pack operation
-    # Default output name: <workspace>.zip in current working directory
+    # Determine output path
     if args.output:
         output_path = args.output
     else:
         base = os.path.basename(ws.rstrip(os.sep)) or 'workspace'
         output_path = f"{base}.zip"
 
+    # Perform pack
     pack_directory(ws, output_path)
+
+    # Optionally clear after pack
+    if args.clear_after_pack:
+        clear_directory(ws)
 
 
 if __name__ == '__main__':

@@ -13,14 +13,15 @@ GraphNet —— 一个面向编译器开发的大规模数据集，旨在为研�
 ### torch 
 ```
 export PYTHONPATH=$PYTHONPATH:/path/to/your/GraphNet/repo
-python3 -m graph_net.torch.extractor.vision_model_extractor --key resnet18  --model-path  /path/to/your/extracted/graph_net/sample
+python3 -m graph_net.torch.extractor.vision_model_extractor --key resnet18  --model-path  /Users/zhengenrong/Downloads/GraphNet/graph_net/torch/extracted_models
+sample
 ```
 
 ## 计算图运行Demo
 ### torch
 ```
 export PYTHONPATH=$PYTHONPATH:/path/to/your/GraphNet/repo
-python3 -m graph_net.torch.runner.single_device_runner --model-path /path/to/your/extracted/graph_net/sample
+python3 -m graph_net.torch._run.single_device_runner --model-path /Users/zhengenrong/Downloads/GraphNet/samples/torch/extracted_models/resnet18
 ```
 
 ##  数据集约束

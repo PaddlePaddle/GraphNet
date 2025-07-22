@@ -11,31 +11,6 @@ dyn_template = """
 %MODULE
 """
 
-def convert_param_name(original_name):
-    if original_name.endswith(('.weight', '.bias')):
-        prefix = 'p_'
-        base_name = original_name
-
-    elif any(x in original_name for x in ['running_mean', 'running_var', 'num_batches_tracked']):
-        prefix = 'b_'
-        base_name = original_name
-    else:
-        raise ValueError(f"Unrecognized parameter type: {original_name}")
-    
-    if '.' in base_name:
-        parts = base_name.split('.')
-        if len(parts) == 2 and not parts[0].startswith('layer'):
-            return prefix + parts[0] + '_' + parts[1]
-        else:
-            # layer1.0 -> layer1___0___
-            pattern = r'(layer\d+)\.(\d+)\.'
-            replacement = r'\1___\2___'
-            converted = re.sub(pattern, replacement, base_name)
-            converted = converted.replace('.', '_')
-            return f"{prefix}getattr_l__self___{converted}"
-    else:
-        return prefix + base_name
-
 def indent_with_tab(code: str) -> str:
     lines = code.splitlines()
     indented_lines = [f"    {line}" for line in lines]
@@ -49,7 +24,7 @@ def apply_templates(code: str) -> str:
     return py_code
 
 
-def convert_state_and_inputs(state_dict, example_inputs):
+def convert_state_and_inputs_and_ctrls(state_dict, example_inputs, ctrls):
     def tensor_info(tensor):
         is_float = tensor.dtype.is_floating_point
         return {
@@ -82,8 +57,7 @@ def convert_state_and_inputs(state_dict, example_inputs):
     else:
         processed_inputs = {"type": "unknown", "value": example_inputs}
 
-    processed_weights = {}
-    for key, tensor in state_dict.items():
+    def handle_named_tensors(tensor):
         data_value = None
         data_type = "random_tensor"
         if tensor.dtype in [torch.int8, torch.int16, torch.int32, torch.int64]:
@@ -92,18 +66,31 @@ def convert_state_and_inputs(state_dict, example_inputs):
                 data_value = tensor.clone()
             else:
                 data_type = "big_int_tensor"
-
         info = tensor_info(tensor)
-        processed_weights[key] = {"info": info}
-        processed_weights[key]["data"] = data_value
-        processed_weights[key]["type"] = data_type
+        return {
+            "info": info,
+            "data": data_value,
+            "type": data_type
+        }
+ 
+    processed_weights = {
+        key: handle_named_tensors(tensor) for key, tensor in state_dict.items()
+    }
+
+    processed_ctrls = {
+        key: handle_named_tensors(tensor) for key, tensor in ctrls.items()
+    }
 
     # dynamic_shapes = extract_dynamic_shapes(example_inputs)
     return {
         "input_info": processed_inputs,
         "weight_info": processed_weights,
+        "ctrl_info": processed_ctrls,
         "dynamic_shapes": None
     }
+
+def convert_state_and_inputs(state_dict, example_inputs):
+    return convert_state_and_inputs_and_ctrls(state_dict, example_inputs, {})
 
 def save_constraints_text(converted, file_path):
     lines = []
@@ -127,13 +114,9 @@ def save_converted_to_text(converted, file_path):
         else:
             return repr(data)
 
-    lines = [[],[]]
-
     def process_tensor_info(tensor_info, name_prefix="example_input"):
         data_list = None
-        file_index = 1
         if "input_" in tensor_info["name"]:
-            file_index = 0
             if tensor_info["type"] in ["small_tensor", "small_int_tensor"]:
                 data_list = tensor_info["data"].flatten()
             elif tensor_info["type"] == "big_int_tensor":
@@ -152,29 +135,42 @@ def save_converted_to_text(converted, file_path):
         mean = info.get("mean", 0.0)
         std = info.get("std", 1.0)
         uid = f"{name_prefix}_tensor_meta_{generate_uid()}"
-        lines[file_index].append(f"class {uid}:")
-        lines[file_index].append(f"\tname = \"{tensor_info.get('name', '')}\"")
-        lines[file_index].append(f"\tshape = {shape}")
-        lines[file_index].append(f"\tdtype = \"{dtype}\"")
-        lines[file_index].append(f"\tdevice = \"{device}\"")
-        lines[file_index].append(f"\tmean = {mean}")
-        lines[file_index].append(f"\tstd = {std}")
-        lines[file_index].append(f"\tdata = {format_data(data_list)}")
-        lines[file_index].append("")
+        return [
+            (f"class {uid}:"),
+            (f"\tname = \"{tensor_info.get('name', '')}\""),
+            (f"\tshape = {shape}"),
+            (f"\tdtype = \"{dtype}\""),
+            (f"\tdevice = \"{device}\""),
+            (f"\tmean = {mean}"),
+            (f"\tstd = {std}"),
+            (f"\tdata = {format_data(data_list)}"),
+            ("")
+        ]
 
     input_infos = converted["input_info"]
     if isinstance(input_infos, dict):
         input_infos = [input_infos]
 
+    input_lines = []
     for idx, input_info in enumerate(input_infos):
         input_info["name"] = f"input_{idx}"
-        process_tensor_info(input_info, name_prefix="Program_input")
-
-    for name, weight_info in converted["weight_info"].items():
-        weight_info["name"] = name
-        process_tensor_info(weight_info, name_prefix="Program_weight")
+        input_lines.extend(process_tensor_info(input_info, name_prefix="Program_input"))
 
     with open(f"{file_path}/input_meta.py", 'w') as f:
-        f.write("\n".join(lines[0]))
+        f.write("\n".join(input_lines))
+
+    weight_lines = []
+    for name, weight_info in converted["weight_info"].items():
+        weight_info["name"] = name
+        weight_lines.extend(process_tensor_info(weight_info, name_prefix="Program_weight"))
+
     with open(f"{file_path}/weight_meta.py", 'w') as f:
-        f.write("\n".join(lines[1]))
+        f.write("\n".join(weight_lines))
+
+    ctrl_lines = []
+    for name, ctrl_info in converted["ctrl_info"].items():
+        ctrl_info["name"] = name
+        ctrl_lines.extend(process_tensor_info(ctrl_info, name_prefix="Program_ctrl"))
+
+    with open(f"{file_path}/ctrl_meta.py", 'w') as f:
+        f.write("\n".join(ctrl_lines))

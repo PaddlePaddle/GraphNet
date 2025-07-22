@@ -45,12 +45,9 @@ def main(key, model_path):
 
     # Process parameters
     params = exported.state_dict
-    new_params = {
-        convert_param_name(k): v 
-        for k, v in params.items()
-    }
 
     # Generate and save model code
+    print(exported.graph_module.graph)
     base_code = exported.graph_module.__str__()
     write_code = apply_templates(base_code)
     

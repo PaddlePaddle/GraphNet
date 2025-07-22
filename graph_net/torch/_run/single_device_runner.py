@@ -1,6 +1,7 @@
-import graph_net.torch.runner.utils as utils
+import graph_net.torch._run.utils as utils
 import argparse
 import importlib.util
+import inspect
 import torch
 from pathlib import Path
 from typing import Type, Any
@@ -31,14 +32,31 @@ def main(model_path: str):
     inputs = inputs_params["input_info"]
     inputs = [utils.replay_tensor(i) for i in inputs]
     params = inputs_params["weight_info"]
+    state_dict = {
+        k: utils.replay_tensor(v) for k, v in params.items()
+    }
 
-    state_dict = {}
-    for k, v in params.items():
-        k = utils.convert_param_name(k)
-        v = utils.replay_tensor(v)
-        state_dict[k] = v
+    ctrls = inputs_params["ctrl_info"]
+    ctrl_dict = {
+        k: utils.replay_tensor(v) for k, v in ctrls.items()
+    }
 
-    y = model(x=inputs[0], **state_dict)[0]
+    input_names = [
+        k for k, _ in inspect.signature(model_class.forward).parameters.items()
+        if k != "self"
+        if k not in state_dict
+        if k not in ctrl_dict
+    ]
+
+    assert len(input_names) == len(inputs), \
+        f"Input names {input_names} do not match inputs {inputs}"
+
+    input_dict = {
+        k: v for k, v in zip(input_names, inputs)
+    }
+
+    y = model(**state_dict, **ctrl_dict, **input_dict)[0]
+
     print(torch.argmin(y), torch.argmax(y))
     print(y.shape)
 

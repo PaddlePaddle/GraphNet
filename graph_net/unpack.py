@@ -44,19 +44,19 @@ def main():
         description='Unpack a ZIP archive into a specified directory'
     )
     parser.add_argument(
-        '--unpack-src',
+        '--src',
         required=True,
         help='Path to the ZIP archive to unpack'
     )
     parser.add_argument(
-        '--unpack-dir',
+        '--dst',
         required=True,
         help='Destination directory where files will be unpacked'
     )
 
     args = parser.parse_args()
 
-    unpack_archive(args.unpack_src, args.unpack_dir)
+    unpack_archive(args.src, args.dst)
 
 
 if __name__ == '__main__':

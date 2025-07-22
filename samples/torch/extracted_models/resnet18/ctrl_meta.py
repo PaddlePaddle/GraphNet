@@ -1,4 +1,4 @@
-class Program_ctrl_tensor_meta_96ddfd3d90c841c2b180b21e9599c4a8:
+class Program_ctrl_tensor_meta_be773aa8901c4c639de2c545b67fd087:
 	name = "s1"
 	shape = []
 	dtype = "torch.int64"

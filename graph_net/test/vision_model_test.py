@@ -4,10 +4,9 @@ import json
 import torch
 import torchvision
 from torchvision import transforms
-from graph_net.torch._extract.extractor import extract
 import os
-
-os.environ["GRAPH_NET_EXTRACT_WORKSPACE"] = "../../samples/torch/extracted_models"
+import graph_net
+from graph_net.torch.extractor import extract
 
 if __name__ == '__main__':
     # Normalization parameters for ImageNet

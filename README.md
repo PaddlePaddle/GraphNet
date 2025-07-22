@@ -7,20 +7,27 @@ GraphNet —— 一个面向编译器开发的大规模数据集，旨在为研�
 
 1. 快速测试不同编译器策略的通用优化效果
 2. 训练AI-for-system模型以自动生成编译器优化Pass
+3. 方便已有编译器做回归测试
 
 
-## 计算图抽取Demo
+## 计算图抽取
 ### torch 
 ```
+@graph_net.torch.extract(name="resnet18")
+def create_model():
+    model = torchvision.models.resnet18(weights="DEFAULT")
+    model.eval()
+    return model.to(device)
+```
+### Demo
+```
 export PYTHONPATH=$PYTHONPATH:/path/to/your/GraphNet/repo
-python3 -m graph_net.torch.extractor.vision_model_extractor --key resnet18  --model-path  /Users/zhengenrong/Downloads/GraphNet/graph_net/torch/extracted_models
-sample
+python test/vision_model_test.py 
 ```
 
 ## 计算图运行Demo
 ### torch
 ```
-export PYTHONPATH=$PYTHONPATH:/path/to/your/GraphNet/repo
 python3 -m graph_net.torch._run.single_device_runner --model-path /Users/zhengenrong/Downloads/GraphNet/samples/torch/extracted_models/resnet18
 ```
 

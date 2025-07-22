@@ -1,25 +1,27 @@
 import torch
 from transformers import AutoModel, AutoTokenizer
-from graph_net.torch._extract.extractor import extract
+import graph_net.torch 
 import os
 
-os.environ["GRAPH_NET_EXTRACT_WORKSPACE"] = "../../samples/torch/extracted_models"
+
+@graph_net.torch.extract(name="distilbert-function")
+def create_model():
+    model = AutoModel.from_pretrained("distilbert-base-uncased")
+    model.eval()
+    return model.to(device)
 
 if __name__ == '__main__':
     model_name = "distilbert-base-uncased"
     
     tokenizer = AutoTokenizer.from_pretrained(model_name)
-    model = AutoModel.from_pretrained(model_name)
-    model.eval()
 
     text = "Hello world"
     inputs = tokenizer(text, return_tensors="pt")
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model.to(device)
     inputs = {k: v.to(device) for k, v in inputs.items()}
 
-    model = extract(name="distilbert-base-uncased")(model)
+    model = create_model()
 
     print("Running inference...")
     output = model(**inputs) 

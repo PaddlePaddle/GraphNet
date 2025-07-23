@@ -35,6 +35,10 @@ def get_compiler(args):
 	assert args.compiler == 'default'
 	return torch.compile
 
+def get_synchronizer_func(args):
+	assert args.compiler == 'default'
+	return torch.cuda.synchronize
+
 def get_model(args):
     model_class = load_class_from_file(f"{args.model_path}/model.py", class_name="GraphModule")
     return model_class()
@@ -51,21 +55,24 @@ class DurationBox:
 	value: int
     
 @contextmanager
-def naive_timer(duration_box):
+def naive_timer(duration_box, get_synchronizer_func):
+	get_synchronizer_func()
 	start = time.time()
 	yield
+	get_synchronizer_func()
 	end = time.time()
 	duration_box.value = end - start
 
 def test_single_model(args):
 	compiler = get_compiler(args)
+	synchronizer_func = get_synchronizer_func(args)
 	input_dict = get_input_dict(args)
 	model = get_model(args)
 	compiled_model = compiler(model)
 
 	# eager
 	eager_duration_box = DurationBox(-1)
-	with naive_timer(eager_duration_box):
+	with naive_timer(eager_duration_box, synchronizer_func):
 		expected_out = model(**input_dict)
 
 	# warmup
@@ -74,7 +81,7 @@ def test_single_model(args):
 
 	# compiled
 	compiled_duration_box = DurationBox(-1)
-	with naive_timer(compiled_duration_box):
+	with naive_timer(compiled_duration_box, synchronizer_func):
 		compiled_out = compiled_model(**input_dict)
 
 	def print_cmp(key, func, **kwargs):

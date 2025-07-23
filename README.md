@@ -1,31 +1,45 @@
 # GraphNet
+English | [简体中文](README_cn.md)
 
-## 📌 项目简介
-GraphNet —— 一个面向编译器开发的大规模数据集，旨在为研究者提供一个统一、开放的实验平台。其中包含大量来自真实模型的计算图，方便评估不同编译器Pass的优化效果。
+GraphNet is a large‑scale dataset for compiler development, providing researchers with a standardized, open‑access experimental environment. It includes numerous computation graphs extracted from deep learning models, making it easy to compare the optimization effectiveness of different compiler passes.
 
-通过 GraphNet，用户可以：
+With GraphNet, users can:
+1. Quickly benchmark the optimization performance of various compiler strategies.
+2. Easily conduct regression tests on existing compilers.
+3. Train AI‑for‑Systems models to automatically generate compiler optimization passes.
 
-1. 快速测试不同编译器策略的通用优化效果
-2. 方便已有编译器做回归测试
-3. 训练AI-for-system模型以自动生成编译器优化Pass
+## ⚡ Quick Start
+### Extract a computation graph
+```
+git clone https://github.com/PaddlePaddle/GraphNet.git
+cd GraphNet
 
+# Set your workspace directory (e.g. /home/yourname/graphnet_workspace)
+export GRAPH_NET_EXTRACT_WORKSPACE=/home/yourname/graphnet_workspace
 
-##  数据集约束
+# Extract the ResNet‑18 computation graph
+python graph_net/test/vision_model_test.py
+```
+### Validation
+```
+# Validate the extracted graph (e.g. /home/yourname/graphnet_workspace/resnet18)
+python -m graph_net.torch.validate \
+  --model-path /home/yourname/graphnet_workspace/resnet18
+```
 
-GraphNet数据集遵循以下约束规范：
+## Dataset  Construction  Constraints
+GraphNet enforces the following constraints during dataset construction:
 
-1. 动态图能正常运行
-2. 每份计算图有通用方法测定性能指标
-3. 计算图与python代码之间序列化与反序列化
-4. 整图可分解为不相交的两个子图
-5. 可配置pass或编译器行为
-6. 每份计算图中的op names可以被静态解析出来
-7. 若存在自定义算子，则自定义算子的代码必须能被完整访问
-8. 可通过统一方式配置计算图在不同芯片上运行
+1. Dynamic graphs must execute correctly.
+2. Each computation graph should include a standardized method for measuring performance.
+3. Graphs and their corresponding Python code must support serialization and deserialization.
+4. The full graph can be decomposed into two disjoint subgraphs.
+5. Compiler passes or behaviors must be configurable.
+6. Operator names within each computation graph must be statically parseable.
+7. If custom operators are used, their implementation code must be fully accessible.
+8. Graph execution on different hardware backends must be configurable via a unified interface.
 
-## 社区交流
-
-* 扫描微信二维码或QQ二维码，即可加入交流群与众多社区开发者以及官方团队深度交流.
+## Community
 
 <div align="center">
 <table>
@@ -39,3 +53,7 @@ GraphNet数据集遵循以下约束规范：
 </tr>
 </table>
 </div>
+
+##  License
+This project is released under the MIT License
+

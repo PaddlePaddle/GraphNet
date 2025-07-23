@@ -69,7 +69,7 @@ python -m graph_net.pack \
 
 Note: To configure your user details (username and email) for GraphNet, run:
 ```
-python -m graph_net.config \
+python -m graph_net.config --global \
   --username "your-name" \
   --email "your-email"
 ```
@@ -89,5 +89,5 @@ GraphNet Community
 </div>
 
 ##  License
-This project is released under the MIT License
+This project is released under the [MIT License](LICENSE).
 

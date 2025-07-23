@@ -71,7 +71,7 @@ python -m graph_net.pack \
 
 注意： 要为 GraphNet 配置您的用户信息（用户名和电子邮件），请运行：
 ```
-python -m graph_net.config \
+python -m graph_net.config --global\
   --username "your-name" \
   --email "your-email"
 ```
@@ -92,3 +92,6 @@ python -m graph_net.config \
 </tr>
 </table>
 </div>
+
+## 开源协议
+[MIT License](LICENSE)

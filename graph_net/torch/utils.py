@@ -25,7 +25,7 @@ def apply_templates(code: str) -> str:
     py_code = dyn_template.replace('%MODULE', code)
     return py_code
 
-def convert_state_and_inputs_and_ctrls(state_dict, example_inputs, ctrls):
+def convert_state_and_inputs_impl(state_dict, example_inputs):
     def tensor_info(tensor):
         is_float = tensor.dtype.is_floating_point
         return {
@@ -78,20 +78,15 @@ def convert_state_and_inputs_and_ctrls(state_dict, example_inputs, ctrls):
         key: handle_named_tensors(tensor) for key, tensor in state_dict.items()
     }
 
-    processed_ctrls = {
-        key: handle_named_tensors(tensor) for key, tensor in ctrls.items()
-    }
-
     # dynamic_shapes = extract_dynamic_shapes(example_inputs)
     return {
         "input_info": processed_inputs,
         "weight_info": processed_weights,
-        "ctrl_info": processed_ctrls,
         "dynamic_shapes": None
     }
 
 def convert_state_and_inputs(state_dict, example_inputs):
-    return convert_state_and_inputs_and_ctrls(state_dict, example_inputs, {})
+    return convert_state_and_inputs_impl(state_dict, example_inputs)
 
 def save_constraints_text(converted, file_path):
     lines = []
@@ -168,117 +163,18 @@ def save_converted_to_text(converted, file_path):
     with open(f"{file_path}/weight_meta.py", 'w') as f:
         f.write("\n".join(weight_lines))
 
-    ctrl_lines = []
-    for name, ctrl_info in converted["ctrl_info"].items():
-        ctrl_info["name"] = name
-        ctrl_lines.extend(process_tensor_info(ctrl_info, name_prefix="Program_ctrl"))
-
-    with open(f"{file_path}/ctrl_meta.py", 'w') as f:
-        f.write("\n".join(ctrl_lines))
-
 def load_converted_from_text(file_path):
 
-    def parse_value(value_str):
-        value_str = value_str.strip()
-        if value_str == "None":
-            return None
-        if value_str == "[]":
-            return []
-        elif value_str.startswith('"') or value_str.startswith("'"):
-            return value_str[1:-1]
-        elif value_str.startswith('['):
-            elements = value_str[1:-1].split(',')
-            result = []
-            for e in elements:
-                e = e.strip()
-                try:
-                    result.append(eval(e))
-                except:
-                    result.append(e)
-            return result
-        else:
-            try:
-                return eval(value_str)
-            except:
-                return value_str
+    input_info = list(convert_meta_classes_to_tensors(f"{file_path}/input_meta.py"))
 
-    with open(f"{file_path}/input_meta.py", 'r') as f:
-        lines = f.readlines()
-    with open(f"{file_path}/weight_meta.py", 'r') as f:
-        lines += f.readlines()
-    classes = []
-    current_class = None
-
-    for line in lines:
-        line = line.strip()
-        if line.startswith("class "):
-            if current_class is not None:
-                classes.append(current_class)
-            current_class = {}
-        elif "=" in line:
-            key, val = line.split("=", 1)
-            key = key.strip()
-            val = val.strip()
-            current_class[key] = parse_value(val)
-
-    if current_class is not None:
-        classes.append(current_class)
-
-    input_info = []
-    weight_info = {}
-
-    def get_input_info(cls):
-        item = {
-            "type": "random_tensor",
-            "info": {
-                "shape": cls.get("shape", []),
-                "dtype": getattr(torch, cls.get("dtype", "torch.float").split('.')[-1]),
-                "device": cls.get("device", "cpu"),
-                "mean": cls.get("mean", 0.0),
-                "std": cls.get("std", 1.0),
-            }
-        }
-        if cls.get("data") is not None:
-            if isinstance(cls.get("data"), str):
-                pass
-            else:
-                item["data"] = torch.tensor(cls["data"], dtype=item["info"]["dtype"]).reshape(cls.get("shape"), [])
-        return item
-    
-    def get_weight_info(cls):
-        data_value = None
-        data_type = getattr(torch, cls.get("dtype", "torch.float").split('.')[-1])
-        if cls.get("data") is not None:
-            if isinstance(cls.get("data"), str):
-                raise ValueError("Unimplemented")
-            else:
-                data_value = torch.tensor(cls["data"], dtype=data_type).reshape(cls.get("shape"), [])
-        return {
-            "info": {
-                "shape": cls.get("shape", []),
-                "dtype": data_type,
-                "device": cls.get("device", "cpu"),
-                "mean": cls.get("mean", 0.0),
-                "std": cls.get("std", 1.0),
-            },
-            "data": data_value,
-        }
-
-    for cls in classes:
-        if 'input_' in cls["name"]:
-            input_info.append(get_input_info(cls))
-        else:
-            weight_info[cls["name"]] = get_weight_info(cls)
-
-    ctrl_info = {
+    weight_info = {
         data['name']: data
-        for data in convert_meta_classes_to_tensors(f"{file_path}/ctrl_meta.py")
+        for data in convert_meta_classes_to_tensors(f"{file_path}/weight_meta.py")
     }
 
     return {
-        "input_info": input_info if len(input_info) > 0 else None,
+        "input_info": input_info,
         "weight_info": weight_info,
-        "ctrl_info": ctrl_info,
         "dynamic_shapes": None 
     }
 

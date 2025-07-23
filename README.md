@@ -25,33 +25,34 @@ python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/resnet18
 ```
 
-### graph_net.torch.extractor: Extract your own model
+### graph_net.torch.extractor
 
 ```python
 from graph_net.torch.extractor import extract
 
-# Instantiate your model (e.g. a torchvision model)
+# Instantiate the model (e.g. a torchvision model)
 model = ...  
 
-# Wrap your model with the extractor by name
+# Extract your own model
 model = extract(name="model_name")(model)
 
 # After running, the extracted graph will be saved to:
 #   $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
-### graph_net.torch.single_device_runner: Inference the extracted model
+### graph_net.torch.single_device_runner
 
 ```
 # Run inference on an extracted model
 python -m graph_net.torch.single_device_runner \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
+```
 
-# Re‑extract the graph during inference
-python -m graph_net.torch.single_device_runner \
-  --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name \
-  --enable-extract True \
-  --extract-name model_name
+### graph_net.torch.validate
+```
+# Verify that the extracted model meets requirements
+python -m graph_net.torch.validate \
+  --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
 ## Dataset  Construction  Constraints

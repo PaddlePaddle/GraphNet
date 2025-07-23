@@ -1,5 +1,4 @@
-# GraphNet
-English | [简体中文](README_cn.md)
+# GraphNet  ![](https://img.shields.io/badge/version-v0.0-brightgreen)
 
 GraphNet is a large‑scale dataset for compiler development, providing researchers with a standardized, open‑access experimental environment. It includes numerous computation graphs extracted from deep learning models, making it easy to compare the optimization effectiveness of different compiler passes.
 

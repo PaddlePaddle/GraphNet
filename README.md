@@ -7,6 +7,17 @@ With GraphNet, users can:
 2. Easily conduct regression tests on existing compilers.
 3. Train AI‑for‑Systems models to automatically generate compiler optimization passes.
 
+
+Dataset Construction Constraints：
+1. Dynamic graphs must execute correctly.
+2. Each computation graph should include a standardized method for measuring performance.
+3. Graphs and their corresponding Python code must support serialization and deserialization.
+4. The full graph can be decomposed into two disjoint subgraphs.
+5. Compiler passes or behaviors must be configurable.
+6. Operator names within each computation graph must be statically parseable.
+7. If custom operators are used, their implementation code must be fully accessible.
+8. Graph execution on different hardware backends must be configurable via a unified interface.
+
 ## ⚡ Quick Start
 
 ### Demo: Extract & Validate ResNet‑18
@@ -47,19 +58,22 @@ python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
-## Dataset  Construction  Constraints
-GraphNet enforces the following constraints during dataset construction:
+### graph_net.pack
+```
+# Create a ZIP archive of $GRAPH_NET_EXTRACT_WORKSPACE.
+# The --clear-after-pack flag (True|False) determines whether to delete the workspace after packing.
+python -m graph_net.pack \
+  --output /path/to/output.zip \
+  --clear-after-pack True
+```
 
-1. Dynamic graphs must execute correctly.
-2. Each computation graph should include a standardized method for measuring performance.
-3. Graphs and their corresponding Python code must support serialization and deserialization.
-4. The full graph can be decomposed into two disjoint subgraphs.
-5. Compiler passes or behaviors must be configurable.
-6. Operator names within each computation graph must be statically parseable.
-7. If custom operators are used, their implementation code must be fully accessible.
-8. Graph execution on different hardware backends must be configurable via a unified interface.
-
-## Community
+Note: To configure your user details (username and email) for GraphNet, run:
+```
+python -m graph_net.config \
+  --username "your-name" \
+  --email "your-email"
+```
+GraphNet Community
 
 <div align="center">
 <table>

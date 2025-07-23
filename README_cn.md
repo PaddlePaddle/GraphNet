@@ -27,17 +27,16 @@ python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/resnet18
 ```
 
-### graph_net.torch.extractor 使用方式
+### graph_net.torch.extract 使用方式
 
 ```python
 import graph_net
-from graph_net.torch.extractor import extract
 
 # Instantiate the model (e.g. a torchvision model)
 model = ...  
 
 # Extract your own model
-model = extract(name="model_name")(model)
+model = graph_net.torch.extract(name="model_name")(model)
 
 # After running, the extracted graph will be saved to:
 #   $GRAPH_NET_EXTRACT_WORKSPACE/model_name

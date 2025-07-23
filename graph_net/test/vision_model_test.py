@@ -6,7 +6,6 @@ import torchvision
 from torchvision import transforms
 import os
 import graph_net
-from graph_net.torch.extractor import extract
 
 if __name__ == '__main__':
     # Normalization parameters for ImageNet
@@ -30,7 +29,7 @@ if __name__ == '__main__':
     model.to(device)
     normalized_input = normalized_input.to(device)
     
-    model = extract(name="resnet18")(model)
+    model = graph_net.torch.extract(name="resnet18")(model)
 
     print("Running inference...")
     print("Input shape:", normalized_input.shape)

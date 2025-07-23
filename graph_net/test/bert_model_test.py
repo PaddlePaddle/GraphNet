@@ -3,7 +3,6 @@ from transformers import AutoModel, AutoTokenizer
 import graph_net.torch 
 import os
 
-
 @graph_net.torch.extract(name="distilbert-function")
 def create_model():
     model = AutoModel.from_pretrained("distilbert-base-uncased")

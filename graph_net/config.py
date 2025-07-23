@@ -16,6 +16,7 @@ def load_env_workspace():
 
 def write_config(path: str, data: dict):
     # Ensure parent dir exists
+    
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=2)

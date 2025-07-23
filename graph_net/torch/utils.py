@@ -96,9 +96,6 @@ def save_constraints_text(converted, file_path):
         f.write("\n".join(lines))
 
 def save_converted_to_text(converted, file_path):
-    def generate_uid():
-        return str(uuid.uuid4()).replace('-', '')
-
     def format_data(data):
         if data is None:
             return "None"
@@ -130,7 +127,7 @@ def save_converted_to_text(converted, file_path):
         device = info.get("device", "cpu")
         mean = info.get("mean", 0.0)
         std = info.get("std", 1.0)
-        uid = f"{name_prefix}_tensor_meta_{generate_uid()}"
+        uid = f"{name_prefix}_tensor_meta_{tensor_info.get('name', '')}"
         return [
             (f"class {uid}:"),
             (f"\tname = \"{tensor_info.get('name', '')}\""),

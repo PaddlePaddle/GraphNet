@@ -9,6 +9,17 @@ GraphNet —— 一个面向编译器开发的大规模数据集，旨在为研�
 2. 方便已有编译器做回归测试
 3. 训练AI-for-system模型以自动生成编译器优化Pass
 
+数据集构建约束：
+
+1. 动态图能正常运行
+2. 每份计算图有通用方法测定性能指标
+3. 计算图与python代码之间序列化与反序列化
+4. 整图可分解为不相交的两个子图
+5. 可配置pass或编译器行为
+6. 每份计算图中的op names可以被静态解析出来
+7. 若存在自定义算子，则自定义算子的代码必须能被完整访问
+8. 可通过统一方式配置计算图在不同芯片上运行
+
 ## 快速开始
 
 示例：对ResNet‑18进行计算图捕获和验证
@@ -49,20 +60,23 @@ python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
-##  数据集约束
+### graph_net.pack 使用方式
+```
+# Create a ZIP archive of $GRAPH_NET_EXTRACT_WORKSPACE.
+# The --clear-after-pack flag (True|False) determines whether to delete the workspace after packing.
+python -m graph_net.pack \
+  --output /path/to/output.zip \
+  --clear-after-pack True
+```
 
-GraphNet数据集遵循以下约束规范：
+注意： 要为 GraphNet 配置您的用户信息（用户名和电子邮件），请运行：
+```
+python -m graph_net.config --global\
+  --username "your-name" \
+  --email "your-email"
+```
 
-1. 动态图能正常运行
-2. 每份计算图有通用方法测定性能指标
-3. 计算图与python代码之间序列化与反序列化
-4. 整图可分解为不相交的两个子图
-5. 可配置pass或编译器行为
-6. 每份计算图中的op names可以被静态解析出来
-7. 若存在自定义算子，则自定义算子的代码必须能被完整访问
-8. 可通过统一方式配置计算图在不同芯片上运行
-
-## 社区交流
+社区交流
 
 * 扫描微信二维码或QQ二维码，即可加入交流群与众多社区开发者以及官方团队深度交流.
 
@@ -78,3 +92,6 @@ GraphNet数据集遵循以下约束规范：
 </tr>
 </table>
 </div>
+
+## 开源协议
+[MIT License](LICENSE)

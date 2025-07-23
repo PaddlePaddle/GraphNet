@@ -28,6 +28,7 @@ python -m graph_net.torch.validate \
 ### graph_net.torch.extractor
 
 ```python
+import graph_net
 from graph_net.torch.extractor import extract
 
 # Instantiate the model (e.g. a torchvision model)
@@ -38,14 +39,6 @@ model = extract(name="model_name")(model)
 
 # After running, the extracted graph will be saved to:
 #   $GRAPH_NET_EXTRACT_WORKSPACE/model_name
-```
-
-### graph_net.torch.single_device_runner
-
-```
-# Run inference on an extracted model
-python -m graph_net.torch.single_device_runner \
-  --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
 ### graph_net.torch.validate

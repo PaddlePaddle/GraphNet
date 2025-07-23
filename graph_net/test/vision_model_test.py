@@ -5,6 +5,7 @@ import torch
 import torchvision
 from torchvision import transforms
 import os
+import graph_net
 from graph_net.torch.extractor import extract
 
 if __name__ == '__main__':

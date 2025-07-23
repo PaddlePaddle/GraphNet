@@ -8,22 +8,43 @@ With GraphNet, users can:
 3. Train AI‑for‑Systems models to automatically generate compiler optimization passes.
 
 ## ⚡ Quick Start
-### Extract a computation graph
+
+### Demo: Extract & Validate ResNet‑18
 ```
 git clone https://github.com/PaddlePaddle/GraphNet.git
 cd GraphNet
 
-# Set your workspace directory (e.g. /home/yourname/graphnet_workspace)
+# Set your workspace directory
 export GRAPH_NET_EXTRACT_WORKSPACE=/home/yourname/graphnet_workspace
 
 # Extract the ResNet‑18 computation graph
 python graph_net/test/vision_model_test.py
-```
-### Validation
-```
+
 # Validate the extracted graph (e.g. /home/yourname/graphnet_workspace/resnet18)
 python -m graph_net.torch.validate \
-  --model-path /home/yourname/graphnet_workspace/resnet18
+  --model-path $GRAPH_NET_EXTRACT_WORKSPACE/resnet18
+```
+
+### graph_net.torch.extract
+
+```python
+import graph_net
+
+# Instantiate the model (e.g. a torchvision model)
+model = ...  
+
+# Extract your own model
+model = graph_net.torch.extract(name="model_name")(model)
+
+# After running, the extracted graph will be saved to:
+#   $GRAPH_NET_EXTRACT_WORKSPACE/model_name
+```
+
+### graph_net.torch.validate
+```
+# Verify that the extracted model meets requirements
+python -m graph_net.torch.validate \
+  --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
 ## Dataset  Construction  Constraints

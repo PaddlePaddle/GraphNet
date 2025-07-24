@@ -33,7 +33,7 @@ def extract(name, dynamic=True):
                     input_idx += 1
             assert input_idx == len(sample_inputs)
             # 3. Generate and save model code
-            base_code = gm.__str__()
+            base_code = gm.code
             write_code = utils.apply_templates(base_code)
             with open(os.path.join(model_path, 'model.py'), 'w') as fp:
                 fp.write(write_code)

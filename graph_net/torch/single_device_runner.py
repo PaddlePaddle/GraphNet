@@ -10,25 +10,16 @@ from graph_net.torch.extractor import extract
 
 
 def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Module]:
-    file = Path(file_path).resolve()
-    module_name = file.stem
-
-    with open(file_path, 'r', encoding='utf-8') as f:
-        original_code = f.read()
-    import_stmt= "import torch"
-    modified_code = f"{import_stmt}\n{original_code}"
-    spec = importlib.util.spec_from_loader(module_name, loader=None)
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[module_name] = module
-    compiled_code = compile(modified_code, filename=file, mode='exec')
-    exec(compiled_code, module.__dict__)
-
-    model_class = getattr(module, class_name, None)
+    spec = importlib.util.spec_from_file_location("unnamed", file_path)
+    unnamed = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(unnamed)
+    model_class = getattr(unnamed, class_name, None)
     return model_class
 
 def main(args):
     model_path = args.model_path
     model_class = load_class_from_file(f"{model_path}/model.py", class_name="GraphModule")
+    assert model_class is not None
     model = model_class()
     print(f'{model_path=}')
     if args.enable_extract:

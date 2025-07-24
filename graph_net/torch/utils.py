@@ -9,21 +9,10 @@ import argparse
 import importlib
 import inspect
 
-dyn_template = """
-%MODULE
-"""
-
-def indent_with_tab(code: str) -> str:
-    lines = code.splitlines()
-    indented_lines = [f"    {line}" for line in lines]
-    return "\n".join(indented_lines)
-
-def apply_templates(code: str) -> str:
-    code = indent_with_tab(code)
-    code = code.replace("    GraphModule()", "class GraphModule(torch.nn.Module):")
-    code = code.replace("    \n" * 3, "\n")
-    py_code = dyn_template.replace('%MODULE', code)
-    return py_code
+def apply_templates(forward_code: str) -> str:
+    tab = "    "
+    forward_code = f"\n{tab}".join(forward_code.split("\n"))
+    return f"import torch\n\nclass GraphModule(torch.nn.Module):\n{tab}{forward_code}"
 
 def convert_state_and_inputs_impl(state_dict, example_inputs):
     def tensor_info(tensor):

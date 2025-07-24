@@ -20,7 +20,18 @@ Dataset Construction Constraints：
 
 ## ⚡ Quick Start
 
-### Demo: Extract & Validate ResNet‑18
+### Benchmark your compiler on the model:
+
+**graph_net.torch.test_compiler** 
+```
+python3 -m graph_net.torch.test_compiler \
+  --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name/ \
+  --compiler /path/to/custom/compiler 
+# Note: if --compiler is omitted, PyTorch’s built-in compiler is used by default
+```
+
+### Contribute computation graphs to GraphNet:
+**Demo: Extract & Validate ResNet‑18**
 ```
 git clone https://github.com/PaddlePaddle/GraphNet.git
 cd GraphNet
@@ -36,7 +47,7 @@ python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/resnet18
 ```
 
-### graph_net.torch.extract
+**graph_net.torch.extract**
 
 ```python
 import graph_net
@@ -51,14 +62,14 @@ model = graph_net.torch.extract(name="model_name")(model)
 #   $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
-### graph_net.torch.validate
+**graph_net.torch.validate**
 ```
 # Verify that the extracted model meets requirements
 python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
-### graph_net.pack
+**graph_net.pack**
 ```
 # Create a ZIP archive of $GRAPH_NET_EXTRACT_WORKSPACE.
 # The --clear-after-pack flag (True|False) determines whether to delete the workspace after packing.
@@ -73,7 +84,7 @@ python -m graph_net.config --global \
   --username "your-name" \
   --email "your-email"
 ```
-GraphNet Community
+Once you have packaged these extracted models, submit them to the GraphNet community via the following group chats.
 
 <div align="center">
 <table>

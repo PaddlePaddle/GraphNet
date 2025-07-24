@@ -36,28 +36,6 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
             "std": float(tensor.std().item()) if is_float else None,
         }
 
-    def process_tensor(tensor):
-        if not isinstance(tensor, torch.Tensor):
-            return {"type": "unknown", "value": tensor}
-
-        info = tensor_info(tensor)
-        if tensor.dtype in [torch.int8, torch.int16, torch.int32, torch.int64]:
-            if tensor.numel() < 1024:
-                return {"type": "small_int_tensor", "data": tensor.clone(), "info": info}
-            else:
-                return {"type": "big_int_tensor", "data": tensor.clone(), "info": info}
-        elif tensor.numel() < 1024:
-            return {"type": "small_tensor", "data": tensor.clone(), "info": info}
-        else:
-            return {"type": "random_tensor", "info": info}
-
-    if isinstance(example_inputs, torch.Tensor):
-        processed_inputs = process_tensor(example_inputs)
-    elif isinstance(example_inputs, (list, tuple)):
-        processed_inputs = [process_tensor(t) for t in example_inputs]
-    else:
-        processed_inputs = {"type": "unknown", "value": example_inputs}
-
     def handle_named_tensors(tensor):
         data_value = None
         data_type = "random_tensor"
@@ -80,7 +58,6 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
 
     # dynamic_shapes = extract_dynamic_shapes(example_inputs)
     return {
-        "input_info": processed_inputs,
         "weight_info": processed_weights,
         "dynamic_shapes": None
     }
@@ -140,18 +117,6 @@ def save_converted_to_text(converted, file_path):
             ("")
         ]
 
-    input_infos = converted["input_info"]
-    if isinstance(input_infos, dict):
-        input_infos = [input_infos]
-
-    input_lines = []
-    for idx, input_info in enumerate(input_infos):
-        input_info["name"] = f"input_{idx}"
-        input_lines.extend(process_tensor_info(input_info, name_prefix="Program_input"))
-
-    with open(f"{file_path}/input_meta.py", 'w') as f:
-        f.write("\n".join(input_lines))
-
     weight_lines = []
     for name, weight_info in converted["weight_info"].items():
         weight_info["name"] = name
@@ -161,16 +126,12 @@ def save_converted_to_text(converted, file_path):
         f.write("\n".join(weight_lines))
 
 def load_converted_from_text(file_path):
-
-    input_info = list(convert_meta_classes_to_tensors(f"{file_path}/input_meta.py"))
-
     weight_info = {
         data['name']: data
         for data in convert_meta_classes_to_tensors(f"{file_path}/weight_meta.py")
     }
 
     return {
-        "input_info": input_info,
         "weight_info": weight_info,
         "dynamic_shapes": None 
     }

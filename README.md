@@ -29,7 +29,7 @@ cd GraphNet
 export GRAPH_NET_EXTRACT_WORKSPACE=/home/yourname/graphnet_workspace
 
 # Extract the ResNet‑18 computation graph
-python graph_net/test/vision_model_test.py
+python -m graph_net.test.vision_model_test
 
 # Validate the extracted graph (e.g. /home/yourname/graphnet_workspace/resnet18)
 python -m graph_net.torch.validate \

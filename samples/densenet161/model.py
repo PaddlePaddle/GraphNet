@@ -1,3 +1,4 @@
+import torch
 
 class GraphModule(torch.nn.Module):
 

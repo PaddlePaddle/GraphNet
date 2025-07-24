@@ -1,10 +1,10 @@
 class Program_weight_tensor_meta_L_self_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_0_parameters_weight_"
-	shape = [40, 3, 3, 3]
+	shape = [16, 3, 3, 3]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.006865986622869968
-	std = 0.3833344578742981
+	mean = 0.38231968879699707
+	std = 4.2628068923950195
 	data = None
 
 class Program_weight_tensor_meta_s1:
@@ -21,2303 +21,2303 @@ class Program_weight_tensor_meta_L_x_:
 	shape = [1, 3, 224, 224]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.4995700418949127
-	std = 0.28904300928115845
+	mean = 0.4998745918273926
+	std = 0.28870922327041626
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_1_buffers_running_mean_"
-	shape = [40]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.03650737926363945
-	std = 0.18325336277484894
+	mean = -0.17837095260620117
+	std = 0.3590174913406372
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_1_buffers_running_var_"
-	shape = [40]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.0266828536987305
-	std = 2.8663651943206787
+	mean = 903.0218505859375
+	std = 954.6583862304688
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_1_parameters_weight_"
-	shape = [40]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.395887851715088
-	std = 1.0569336414337158
+	mean = 3.6200814247131348
+	std = 2.737358570098877
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_1_parameters_bias_"
-	shape = [40]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.7823995351791382
-	std = 3.236548900604248
+	mean = 4.576068878173828
+	std = 6.174275875091553
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_3_parameters_weight_"
-	shape = [40, 1, 3, 3]
+	shape = [16, 1, 3, 3]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.002304478781297803
-	std = 0.6776452660560608
+	mean = -0.35655948519706726
+	std = 6.892001152038574
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_4_buffers_running_mean_"
-	shape = [40]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.02896754816174507
-	std = 1.356415867805481
+	mean = -32.42243957519531
+	std = 99.50071716308594
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_4_buffers_running_var_"
-	shape = [40]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 5.380225658416748
-	std = 6.20778751373291
+	mean = 2975.10546875
+	std = 4625.78857421875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_4_parameters_weight_"
-	shape = [40]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.5324745178222656
-	std = 1.4185198545455933
+	mean = 5.681783676147461
+	std = 3.6488046646118164
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_4_parameters_bias_"
-	shape = [40]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.453291654586792
-	std = 3.62164044380188
+	mean = 4.664792060852051
+	std = 10.05333423614502
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_6_parameters_weight_"
-	shape = [24, 40, 1, 1]
+	shape = [8, 16, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0028727538883686066
-	std = 0.29927846789360046
+	mean = 0.38799020648002625
+	std = 5.466838359832764
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_7_buffers_running_mean_"
-	shape = [24]
+	shape = [8]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.11552934348583221
-	std = 11.56651782989502
+	mean = 59.511512756347656
+	std = 358.21124267578125
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_7_buffers_running_var_"
-	shape = [24]
+	shape = [8]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 24.123611450195312
-	std = 10.199731826782227
+	mean = 12595.234375
+	std = 5897.01904296875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_7_parameters_weight_"
-	shape = [24]
+	shape = [8]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 4.938635349273682
-	std = 1.2586358785629272
+	mean = 11.961081504821777
+	std = 3.1767935752868652
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_7_parameters_bias_"
-	shape = [24]
+	shape = [8]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0004789465747307986
-	std = 0.0020516938529908657
+	mean = 4.7133289626799524e-05
+	std = 0.00011114230437669903
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_0_parameters_weight_"
-	shape = [72, 24, 1, 1]
+	shape = [24, 8, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0022808897774666548
-	std = 0.28321489691734314
+	mean = 0.10413545370101929
+	std = 5.740032196044922
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_1_buffers_running_mean_"
-	shape = [72]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0006511607789434493
-	std = 0.00316041661426425
+	mean = -0.0002281964261783287
+	std = 0.001526402309536934
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_1_buffers_running_var_"
-	shape = [72]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 55.81116485595703
-	std = 41.04066848754883
+	mean = 49270.203125
+	std = 51203.54296875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_1_parameters_weight_"
-	shape = [72]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.5101587772369385
-	std = 1.7549813985824585
+	mean = 4.514670372009277
+	std = 3.1080145835876465
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_1_parameters_bias_"
-	shape = [72]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.7085015177726746
-	std = 1.6021513938903809
+	mean = 3.7611045837402344
+	std = 5.908066272735596
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_3_parameters_weight_"
-	shape = [72, 1, 3, 3]
+	shape = [24, 1, 3, 3]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.020253608003258705
-	std = 0.2529319226741791
+	mean = 0.05732981488108635
+	std = 5.6087846755981445
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_4_buffers_running_mean_"
-	shape = [72]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.18994702398777008
-	std = 2.7711942195892334
+	mean = -8.61092758178711
+	std = 87.7703857421875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_4_buffers_running_var_"
-	shape = [72]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 7.129420757293701
-	std = 6.0571370124816895
+	mean = 4305.72265625
+	std = 6043.99853515625
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_4_parameters_weight_"
-	shape = [72]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.0935962200164795
-	std = 1.3040623664855957
+	mean = 5.003024578094482
+	std = 2.1702654361724854
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_4_parameters_bias_"
-	shape = [72]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.1331799030303955
-	std = 2.8679614067077637
+	mean = 7.032123565673828
+	std = 8.39792537689209
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_6_parameters_weight_"
-	shape = [32, 72, 1, 1]
+	shape = [16, 24, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.005371580366045237
-	std = 0.2649134695529938
+	mean = -0.3352177143096924
+	std = 4.725007057189941
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_7_buffers_running_mean_"
-	shape = [32]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.2515864372253418
-	std = 10.200040817260742
+	mean = -92.18324279785156
+	std = 367.81610107421875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_7_buffers_running_var_"
-	shape = [32]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 43.987335205078125
-	std = 36.62844467163086
+	mean = 12043.962890625
+	std = 2994.73779296875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_7_parameters_weight_"
-	shape = [32]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 4.994309902191162
-	std = 1.2547194957733154
+	mean = 7.818789005279541
+	std = 1.3431448936462402
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_0_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_8_modules_0_modules_layers_modules_7_parameters_bias_"
-	shape = [32]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.1317144273780286e-05
-	std = 0.0008721636258997023
+	mean = 8.027696821955033e-06
+	std = 3.513651972752996e-05
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_0_parameters_weight_"
-	shape = [96, 32, 1, 1]
+	shape = [48, 16, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0018779037054628134
-	std = 0.1877669095993042
+	mean = 0.18043921887874603
+	std = 3.343055486679077
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_1_buffers_running_mean_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0002575113030616194
-	std = 0.0010759721044450998
+	mean = 7.834634743630886e-06
+	std = 0.00046406389446929097
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_1_buffers_running_var_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 49.56464767456055
-	std = 61.036293029785156
+	mean = 11677.6484375
+	std = 9556.8173828125
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_1_parameters_weight_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.8229045867919922
-	std = 0.8889948725700378
+	mean = 3.994231939315796
+	std = 1.9325611591339111
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_1_parameters_bias_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.538148820400238
-	std = 2.015960931777954
+	mean = 3.170008420944214
+	std = 2.902740716934204
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_3_parameters_weight_"
-	shape = [96, 1, 3, 3]
+	shape = [48, 1, 3, 3]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.003510682610794902
-	std = 0.2606312930583954
+	mean = -0.20076827704906464
+	std = 4.128305912017822
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_4_buffers_running_mean_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.34190163016319275
-	std = 1.510766863822937
+	mean = -6.937564849853516
+	std = 27.88951301574707
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_4_buffers_running_var_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.6014828085899353
-	std = 1.0073598623275757
+	mean = 1045.1318359375
+	std = 1397.295654296875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_4_parameters_weight_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.9469894170761108
-	std = 0.9691277742385864
+	mean = 5.143019676208496
+	std = 2.144399404525757
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_4_parameters_bias_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.7326678037643433
-	std = 2.099358081817627
+	mean = 2.115368604660034
+	std = 3.870760679244995
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_6_parameters_weight_"
-	shape = [32, 96, 1, 1]
+	shape = [16, 48, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.006407245993614197
-	std = 0.16999821364879608
+	mean = -0.16641345620155334
+	std = 2.8779184818267822
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_7_buffers_running_mean_"
-	shape = [32]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.32142403721809387
-	std = 4.878383159637451
+	mean = -22.600914001464844
+	std = 106.09102630615234
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_7_buffers_running_var_"
-	shape = [32]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 8.913663864135742
-	std = 3.0306055545806885
+	mean = 6693.7392578125
+	std = 3357.725341796875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_7_parameters_weight_"
-	shape = [32]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.8603157997131348
-	std = 1.3037350177764893
+	mean = 8.040606498718262
+	std = 2.0376229286193848
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_1_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_8_modules_1_modules_layers_modules_7_parameters_bias_"
-	shape = [32]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -8.024778799153864e-05
-	std = 0.0007136071799322963
+	mean = 3.4260956454090774e-06
+	std = 2.073764153465163e-05
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_0_parameters_weight_"
-	shape = [96, 32, 1, 1]
+	shape = [48, 16, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0021612904965877533
-	std = 0.16897360980510712
+	mean = -0.04644094035029411
+	std = 3.1541054248809814
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_1_buffers_running_mean_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0003597281756810844
-	std = 0.0016628243029117584
+	mean = -1.2751474969263654e-05
+	std = 0.0006859519053250551
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_1_buffers_running_var_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 33.36226272583008
-	std = 13.468287467956543
+	mean = 23740.125
+	std = 12767.794921875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_1_parameters_weight_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.786778211593628
-	std = 0.4428630769252777
+	mean = 3.5793681144714355
+	std = 1.7209293842315674
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_1_parameters_bias_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.5774948596954346
-	std = 1.1833552122116089
+	mean = 3.3017385005950928
+	std = 2.353545665740967
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_3_parameters_weight_"
-	shape = [96, 1, 3, 3]
+	shape = [48, 1, 3, 3]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.00033329729922115803
-	std = 0.24828626215457916
+	mean = -0.24474209547042847
+	std = 3.826772689819336
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_4_buffers_running_mean_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.18763181567192078
-	std = 1.0028444528579712
+	mean = -4.941661834716797
+	std = 29.36989974975586
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_4_buffers_running_var_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.5789448618888855
-	std = 0.3970597982406616
+	mean = 922.5565185546875
+	std = 1003.0028686523438
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_4_parameters_weight_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.8977422714233398
-	std = 0.8184175491333008
+	mean = 5.152773857116699
+	std = 1.7724303007125854
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_4_parameters_bias_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.3307002782821655
-	std = 2.5236682891845703
+	mean = 1.9249600172042847
+	std = 5.396345138549805
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_6_parameters_weight_"
-	shape = [32, 96, 1, 1]
+	shape = [16, 48, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 6.534167187055573e-05
-	std = 0.1536041498184204
+	mean = -0.1339910328388214
+	std = 2.897392749786377
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_7_buffers_running_mean_"
-	shape = [32]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.859771192073822
-	std = 4.169831275939941
+	mean = -51.35189437866211
+	std = 138.0325927734375
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_7_buffers_running_var_"
-	shape = [32]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.513455629348755
-	std = 1.5660247802734375
+	mean = 5237.82568359375
+	std = 1749.0157470703125
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_7_parameters_weight_"
-	shape = [32]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.9402828216552734
-	std = 2.066220283508301
+	mean = 11.641633987426758
+	std = 3.8196871280670166
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_8_modules_2_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_8_modules_2_modules_layers_modules_7_parameters_bias_"
-	shape = [32]
+	shape = [16]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -3.987297532148659e-05
-	std = 0.0005057074595242739
+	mean = 5.583234496953082e-07
+	std = 1.5308429283322766e-05
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_0_parameters_weight_"
-	shape = [96, 32, 1, 1]
+	shape = [48, 16, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0017287539085373282
-	std = 0.24835814535617828
+	mean = 0.14992547035217285
+	std = 4.115146160125732
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_1_buffers_running_mean_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0002525844029150903
-	std = 0.0027155946008861065
+	mean = 7.710471254540607e-05
+	std = 0.000963754893746227
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_1_buffers_running_var_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 135.16799926757812
-	std = 54.88761901855469
+	mean = 78210.6640625
+	std = 50651.47265625
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_1_parameters_weight_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.705929756164551
-	std = 0.6000787019729614
+	mean = 4.825633525848389
+	std = 2.1676628589630127
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_1_parameters_bias_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.05235392972826958
-	std = 1.1978704929351807
+	mean = 2.74513578414917
+	std = 3.1401479244232178
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_3_parameters_weight_"
-	shape = [96, 1, 5, 5]
+	shape = [48, 1, 5, 5]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0054237134754657745
-	std = 0.17825236916542053
+	mean = -0.10249302536249161
+	std = 2.6554157733917236
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_4_buffers_running_mean_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.1503753364086151
-	std = 3.2632133960723877
+	mean = -9.758148193359375
+	std = 147.70191955566406
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_4_buffers_running_var_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 4.911648750305176
-	std = 5.908303737640381
+	mean = 6145.24365234375
+	std = 6019.26123046875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_4_parameters_weight_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.1974844932556152
-	std = 0.6687012314796448
+	mean = 5.440618515014648
+	std = 1.4406442642211914
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_4_parameters_bias_"
-	shape = [96]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.1318230628967285
-	std = 2.811033248901367
+	mean = 6.23935079574585
+	std = 7.6506147384643555
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_6_parameters_weight_"
-	shape = [56, 96, 1, 1]
+	shape = [24, 48, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.00607755221426487
-	std = 0.2054673135280609
+	mean = 0.03763045370578766
+	std = 3.726172685623169
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_7_buffers_running_mean_"
-	shape = [56]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.8206515312194824
-	std = 8.64564323425293
+	mean = -35.88845443725586
+	std = 371.0209655761719
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_7_buffers_running_var_"
-	shape = [56]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 17.348867416381836
-	std = 14.093939781188965
+	mean = 14722.544921875
+	std = 5962.6748046875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_7_parameters_weight_"
-	shape = [56]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 4.204340934753418
-	std = 1.0583386421203613
+	mean = 11.210077285766602
+	std = 1.49088716506958
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_0_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_9_modules_0_modules_layers_modules_7_parameters_bias_"
-	shape = [56]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -5.302297358866781e-05
-	std = 0.0004607714945450425
+	mean = -4.783614144798776e-07
+	std = 8.977356628747657e-06
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_0_parameters_weight_"
-	shape = [168, 56, 1, 1]
+	shape = [72, 24, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0020210696384310722
-	std = 0.11281176656484604
+	mean = 0.030064204707741737
+	std = 2.164358615875244
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_1_buffers_running_mean_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -3.666623160825111e-05
-	std = 0.00047952550812624395
+	mean = 4.692127731686924e-06
+	std = 0.00012841350689996034
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_1_buffers_running_var_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 19.935440063476562
-	std = 8.916715621948242
+	mean = 20234.443359375
+	std = 16253.09375
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_1_parameters_weight_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.332908272743225
-	std = 0.34560686349868774
+	mean = 2.8855488300323486
+	std = 1.2144783735275269
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_1_parameters_bias_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.6824843883514404
-	std = 1.2652493715286255
+	mean = 3.493133544921875
+	std = 2.9543466567993164
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_3_parameters_weight_"
-	shape = [168, 1, 5, 5]
+	shape = [72, 1, 5, 5]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.006824654061347246
-	std = 0.15132151544094086
+	mean = -0.08226034045219421
+	std = 2.4893341064453125
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_4_buffers_running_mean_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.385764479637146
-	std = 1.230418086051941
+	mean = -18.340885162353516
+	std = 56.70978546142578
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_4_buffers_running_var_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.6867619156837463
-	std = 0.8236916065216064
+	mean = 855.7315673828125
+	std = 892.697021484375
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_4_parameters_weight_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.799269199371338
-	std = 0.8620574474334717
+	mean = 4.533015251159668
+	std = 1.4883395433425903
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_4_parameters_bias_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.34560316801071167
-	std = 2.1840524673461914
+	mean = 1.5657405853271484
+	std = 4.298894882202148
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_6_parameters_weight_"
-	shape = [56, 168, 1, 1]
+	shape = [24, 72, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0009809406474232674
-	std = 0.11348818987607956
+	mean = 0.021477065980434418
+	std = 2.256023645401001
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_7_buffers_running_mean_"
-	shape = [56]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.5876206159591675
-	std = 2.850949287414551
+	mean = -7.286946773529053
+	std = 99.3577880859375
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_7_buffers_running_var_"
-	shape = [56]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.510964870452881
-	std = 2.098452568054199
+	mean = 3670.258544921875
+	std = 1322.4169921875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_7_parameters_weight_"
-	shape = [56]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.4258055686950684
-	std = 1.584747076034546
+	mean = 6.873472213745117
+	std = 1.3642176389694214
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_1_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_9_modules_1_modules_layers_modules_7_parameters_bias_"
-	shape = [56]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -3.7073292332934216e-05
-	std = 0.0003445204929448664
+	mean = -3.4469115917090676e-07
+	std = 7.137870397855295e-06
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_0_parameters_weight_"
-	shape = [168, 56, 1, 1]
+	shape = [72, 24, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.003946215379983187
-	std = 0.11237765103578568
+	mean = -0.02333325892686844
+	std = 1.9609262943267822
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_1_buffers_running_mean_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 6.89501321176067e-05
-	std = 0.0008070325129665434
+	mean = 2.271080666105263e-05
+	std = 0.00016645646246615797
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_1_buffers_running_var_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 24.90202522277832
-	std = 12.320769309997559
+	mean = 20808.556640625
+	std = 10340.4814453125
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_1_parameters_weight_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.3805794715881348
-	std = 0.32760682702064514
+	mean = 3.0018913745880127
+	std = 0.7397199273109436
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_1_parameters_bias_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.22359371185302734
-	std = 0.969629168510437
+	mean = 2.098560333251953
+	std = 2.0296151638031006
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_3_parameters_weight_"
-	shape = [168, 1, 5, 5]
+	shape = [72, 1, 5, 5]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0007179112872108817
-	std = 0.1319175660610199
+	mean = -0.08504807204008102
+	std = 2.0638511180877686
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_4_buffers_running_mean_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.19471582770347595
-	std = 0.7994523644447327
+	mean = -10.734128952026367
+	std = 24.120208740234375
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_4_buffers_running_var_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.3943178951740265
-	std = 0.4343455135822296
+	mean = 594.4597778320312
+	std = 414.0176696777344
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_4_parameters_weight_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.5329378843307495
-	std = 0.720473051071167
+	mean = 4.397818088531494
+	std = 1.5162525177001953
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_4_parameters_bias_"
-	shape = [168]
+	shape = [72]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.18328727781772614
-	std = 2.443875551223755
+	mean = 0.07537443190813065
+	std = 3.876786231994629
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_6_parameters_weight_"
-	shape = [56, 168, 1, 1]
+	shape = [24, 72, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.002048836089670658
-	std = 0.10753301531076431
+	mean = -0.06074855104088783
+	std = 2.0285816192626953
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_7_buffers_running_mean_"
-	shape = [56]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.5918241739273071
-	std = 2.4099056720733643
+	mean = 16.54840087890625
+	std = 75.95585632324219
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_7_buffers_running_var_"
-	shape = [56]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.8362765312194824
-	std = 1.71830415725708
+	mean = 2214.382568359375
+	std = 496.2176208496094
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_7_parameters_weight_"
-	shape = [56]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.528724193572998
-	std = 1.6595780849456787
+	mean = 5.960391044616699
+	std = 1.219139814376831
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_9_modules_2_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_9_modules_2_modules_layers_modules_7_parameters_bias_"
-	shape = [56]
+	shape = [24]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -5.311772838467732e-05
-	std = 0.0003303239936940372
+	mean = -4.08253981731832e-08
+	std = 5.75776039113407e-06
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_0_parameters_weight_"
-	shape = [336, 56, 1, 1]
+	shape = [144, 24, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.005267008673399687
-	std = 0.14009977877140045
+	mean = -0.1570201963186264
+	std = 2.5909323692321777
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_1_buffers_running_mean_"
-	shape = [336]
+	shape = [144]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.00031999850762076676
-	std = 0.0012517898576334119
+	mean = -3.989690640082699e-07
+	std = 0.0002553157100919634
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_1_buffers_running_var_"
-	shape = [336]
+	shape = [144]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 43.80881118774414
-	std = 16.088428497314453
+	mean = 42217.9453125
+	std = 22558.8046875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_1_parameters_weight_"
-	shape = [336]
+	shape = [144]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.829216718673706
-	std = 0.3477444052696228
+	mean = 4.169195652008057
+	std = 0.9770536422729492
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_1_parameters_bias_"
-	shape = [336]
+	shape = [144]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.7631033062934875
-	std = 1.0381755828857422
+	mean = 0.2812051773071289
+	std = 2.3531882762908936
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_3_parameters_weight_"
-	shape = [336, 1, 5, 5]
+	shape = [144, 1, 5, 5]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0015046859625726938
-	std = 0.1149299293756485
+	mean = 0.15715762972831726
+	std = 1.6754190921783447
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_4_buffers_running_mean_"
-	shape = [336]
+	shape = [144]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.3111155927181244
-	std = 1.2578157186508179
+	mean = -0.7363117933273315
+	std = 65.0078353881836
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_4_buffers_running_var_"
-	shape = [336]
+	shape = [144]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.7231935858726501
-	std = 0.8079968690872192
+	mean = 1719.5615234375
+	std = 1907.3236083984375
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_4_parameters_weight_"
-	shape = [336]
+	shape = [144]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.7128961086273193
-	std = 0.8849385976791382
+	mean = 4.7703537940979
+	std = 1.4052191972732544
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_4_parameters_bias_"
-	shape = [336]
+	shape = [144]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.4857641458511353
-	std = 1.9149410724639893
+	mean = 3.326878070831299
+	std = 3.4651589393615723
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_6_parameters_weight_"
-	shape = [104, 336, 1, 1]
+	shape = [40, 144, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0008697565644979477
-	std = 0.11497294902801514
+	mean = 0.021693209186196327
+	std = 2.2450661659240723
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_7_buffers_running_mean_"
-	shape = [104]
+	shape = [40]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.80649334192276
-	std = 4.712460517883301
+	mean = 27.05901527404785
+	std = 153.02487182617188
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_7_buffers_running_var_"
-	shape = [104]
+	shape = [40]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 13.54222297668457
-	std = 16.85995864868164
+	mean = 15316.34375
+	std = 5478.76220703125
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_7_parameters_weight_"
-	shape = [104]
+	shape = [40]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.6693315505981445
-	std = 0.8534833788871765
+	mean = 10.089350700378418
+	std = 1.1846007108688354
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_0_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_10_modules_0_modules_layers_modules_7_parameters_bias_"
-	shape = [104]
+	shape = [40]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -1.869669290499587e-06
-	std = 0.0002953738148789853
+	mean = 4.104196307253005e-07
+	std = 3.0177134249242954e-06
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_0_parameters_weight_"
-	shape = [624, 104, 1, 1]
+	shape = [240, 40, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0003197308978997171
-	std = 0.06895702332258224
+	mean = -0.027475981041789055
+	std = 1.3762377500534058
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_1_buffers_running_mean_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.65734777005855e-05
-	std = 0.0002085182350128889
+	mean = -4.651037954772619e-07
+	std = 2.769494676613249e-05
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_1_buffers_running_var_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 9.916049003601074
-	std = 4.093985557556152
+	mean = 9197.42578125
+	std = 4198.201171875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_1_parameters_weight_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.0879873037338257
-	std = 0.25650519132614136
+	mean = 2.4527502059936523
+	std = 0.5160057544708252
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_1_parameters_bias_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.11888587474822998
-	std = 0.8875293731689453
+	mean = 1.1308863162994385
+	std = 1.7843092679977417
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_3_parameters_weight_"
-	shape = [624, 1, 5, 5]
+	shape = [240, 1, 5, 5]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.007493106182664633
-	std = 0.08749839663505554
+	mean = -0.10832696408033371
+	std = 1.389039397239685
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_4_buffers_running_mean_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.1654164046049118
-	std = 0.46924498677253723
+	mean = -6.591033458709717
+	std = 14.306374549865723
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_4_buffers_running_var_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.16254498064517975
-	std = 0.18886679410934448
+	mean = 238.4015350341797
+	std = 281.6515197753906
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_4_parameters_weight_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.3963438272476196
-	std = 0.6642512083053589
+	mean = 3.646632671356201
+	std = 1.095808506011963
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_4_parameters_bias_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.6645556092262268
-	std = 1.294238567352295
+	mean = -0.0637793242931366
+	std = 2.0388307571411133
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_6_parameters_weight_"
-	shape = [104, 624, 1, 1]
+	shape = [40, 240, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.6859510651556775e-05
-	std = 0.06386738270521164
+	mean = -0.01466486044228077
+	std = 1.3107854127883911
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_7_buffers_running_mean_"
-	shape = [104]
+	shape = [40]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.043938279151916504
-	std = 1.5278143882751465
+	mean = -4.839145183563232
+	std = 58.023292541503906
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_7_buffers_running_var_"
-	shape = [104]
+	shape = [40]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.3691092729568481
-	std = 0.9627937078475952
+	mean = 2593.0419921875
+	std = 1110.4190673828125
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_7_parameters_weight_"
-	shape = [104]
+	shape = [40]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.170196533203125
-	std = 1.2577685117721558
+	mean = 5.544996738433838
+	std = 1.8336634635925293
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_1_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_10_modules_1_modules_layers_modules_7_parameters_bias_"
-	shape = [104]
+	shape = [40]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -1.8485878172214143e-05
-	std = 0.0002753034350462258
+	mean = -4.226667158491182e-07
+	std = 2.3732341105642263e-06
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_0_parameters_weight_"
-	shape = [624, 104, 1, 1]
+	shape = [240, 40, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0001929865247802809
-	std = 0.07201848179101944
+	mean = -0.01797323301434517
+	std = 1.3591835498809814
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_1_buffers_running_mean_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.118120730505325e-05
-	std = 0.0003905784396920353
+	mean = 8.987156547846098e-07
+	std = 4.1738880099728703e-05
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_1_buffers_running_var_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 13.896822929382324
-	std = 5.901153087615967
+	mean = 10481.517578125
+	std = 4952.30029296875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_1_parameters_weight_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.1173717975616455
-	std = 0.2496006339788437
+	mean = 2.3566057682037354
+	std = 0.47523951530456543
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_1_parameters_bias_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.22535979747772217
-	std = 0.7783892154693604
+	mean = 0.4113793969154358
+	std = 1.5790139436721802
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_3_parameters_weight_"
-	shape = [624, 1, 5, 5]
+	shape = [240, 1, 5, 5]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.003308700630441308
-	std = 0.08145520091056824
+	mean = -0.027071231976151466
+	std = 1.2070651054382324
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_4_buffers_running_mean_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0765923485159874
-	std = 0.4266546070575714
+	mean = -3.9802963733673096
+	std = 13.388699531555176
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_4_buffers_running_var_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.11701921373605728
-	std = 0.26202988624572754
+	mean = 131.5272979736328
+	std = 223.8887481689453
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_4_parameters_weight_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.207700252532959
-	std = 0.7057735323905945
+	mean = 3.2874794006347656
+	std = 1.1164424419403076
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_4_parameters_bias_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.71359783411026
-	std = 1.5752239227294922
+	mean = -0.10424989461898804
+	std = 2.6680409908294678
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_6_parameters_weight_"
-	shape = [104, 624, 1, 1]
+	shape = [40, 240, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0001384826173307374
-	std = 0.06381483376026154
+	mean = 0.01796857640147209
+	std = 1.2492930889129639
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_7_buffers_running_mean_"
-	shape = [104]
+	shape = [40]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.24705065786838531
-	std = 1.3476885557174683
+	mean = 3.364971876144409
+	std = 46.50163650512695
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_7_buffers_running_var_"
-	shape = [104]
+	shape = [40]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.8796128034591675
-	std = 0.3316352665424347
+	mean = 1581.3160400390625
+	std = 353.5146179199219
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_7_parameters_weight_"
-	shape = [104]
+	shape = [40]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.173827648162842
-	std = 1.0556732416152954
+	mean = 4.792893886566162
+	std = 1.1482317447662354
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_10_modules_2_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_10_modules_2_modules_layers_modules_7_parameters_bias_"
-	shape = [104]
+	shape = [40]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -3.404698145459406e-05
-	std = 0.000248476309934631
+	mean = -9.247121823818816e-08
+	std = 2.1660368929588003e-06
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_0_parameters_weight_"
-	shape = [624, 104, 1, 1]
+	shape = [240, 40, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0005223602056503296
-	std = 0.09195803105831146
+	mean = -0.028530655428767204
+	std = 1.7714574337005615
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_1_buffers_running_mean_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.437287887209095e-06
-	std = 0.0008516704547218978
+	mean = 3.541379101079656e-06
+	std = 7.819868915248662e-05
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_1_buffers_running_var_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 22.4179744720459
-	std = 9.252142906188965
+	mean = 19782.60546875
+	std = 8177.173828125
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_1_parameters_weight_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.259234070777893
-	std = 0.2705034613609314
+	mean = 2.5088343620300293
+	std = 0.755297839641571
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_1_parameters_bias_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.003309456165879965
-	std = 0.8226755857467651
+	mean = 1.378119945526123
+	std = 1.6549957990646362
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_3_parameters_weight_"
-	shape = [624, 1, 3, 3]
+	shape = [240, 1, 3, 3]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.006601184140890837
-	std = 0.1403220146894455
+	mean = 0.017444966360926628
+	std = 2.3556230068206787
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_4_buffers_running_mean_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.07195277512073517
-	std = 0.36847296357154846
+	mean = -2.5738673210144043
+	std = 16.02684211730957
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_4_buffers_running_var_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.12481048703193665
-	std = 0.15341749787330627
+	mean = 179.674560546875
+	std = 190.76934814453125
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_4_parameters_weight_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.3837355375289917
-	std = 0.5387808084487915
+	mean = 3.7807562351226807
+	std = 0.9507486820220947
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_4_parameters_bias_"
-	shape = [624]
+	shape = [240]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.49714064598083496
-	std = 1.8731801509857178
+	mean = 1.9210439920425415
+	std = 3.097120523452759
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_6_parameters_weight_"
-	shape = [128, 624, 1, 1]
+	shape = [48, 240, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.00044707991764880717
-	std = 0.08155472576618195
+	mean = -0.009954338893294334
+	std = 1.6492034196853638
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_7_buffers_running_mean_"
-	shape = [128]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.20983275771141052
-	std = 4.240005970001221
+	mean = 8.626651763916016
+	std = 114.21459197998047
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_7_buffers_running_var_"
-	shape = [128]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 8.60487174987793
-	std = 8.298754692077637
+	mean = 11826.1435546875
+	std = 3995.703125
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_7_parameters_weight_"
-	shape = [128]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.197314739227295
-	std = 0.685597836971283
+	mean = 8.475677490234375
+	std = 0.6672734022140503
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_0_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_11_modules_0_modules_layers_modules_7_parameters_bias_"
-	shape = [128]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 5.603094177786261e-05
-	std = 0.00030368531588464975
+	mean = -4.855364750255831e-07
+	std = 3.7582813092740253e-06
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_0_parameters_weight_"
-	shape = [768, 128, 1, 1]
+	shape = [288, 48, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0007415094296447933
-	std = 0.06202264502644539
+	mean = -0.00011622077727224678
+	std = 1.2560608386993408
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_1_buffers_running_mean_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -6.22334482613951e-05
-	std = 0.00028490243130363524
+	mean = -4.258672106516315e-06
+	std = 3.6221579648554325e-05
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_1_buffers_running_var_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 8.128765106201172
-	std = 3.406606912612915
+	mean = 6431.83203125
+	std = 2645.997802734375
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_1_parameters_weight_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.0596740245819092
-	std = 0.2258022427558899
+	mean = 2.3190884590148926
+	std = 0.5298250913619995
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_1_parameters_bias_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.26299309730529785
-	std = 0.7523847222328186
+	mean = 0.36906570196151733
+	std = 1.6287339925765991
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_3_parameters_weight_"
-	shape = [768, 1, 3, 3]
+	shape = [288, 1, 3, 3]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.008780481293797493
-	std = 0.10237988084554672
+	mean = 0.01768985576927662
+	std = 1.5767337083816528
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_4_buffers_running_mean_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.02879912219941616
-	std = 0.18445710837841034
+	mean = -1.3488088846206665
+	std = 7.57918643951416
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_4_buffers_running_var_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0380965881049633
-	std = 0.04922609403729439
+	mean = 55.92293930053711
+	std = 40.9013557434082
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_4_parameters_weight_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.2151340246200562
-	std = 0.5911365747451782
+	mean = 3.2979609966278076
+	std = 0.9462466239929199
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_4_parameters_bias_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.744598388671875
-	std = 1.2735240459442139
+	mean = -0.3551517128944397
+	std = 2.4822232723236084
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_6_parameters_weight_"
-	shape = [128, 768, 1, 1]
+	shape = [48, 288, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.00034632926690392196
-	std = 0.05716118589043617
+	mean = -0.0001994368649320677
+	std = 1.1895904541015625
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_7_buffers_running_mean_"
-	shape = [128]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.08879555761814117
-	std = 1.044939637184143
+	mean = 6.609663009643555
+	std = 43.452552795410156
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_7_buffers_running_var_"
-	shape = [128]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.8890700340270996
-	std = 0.307688444852829
+	mean = 1737.4085693359375
+	std = 556.5917358398438
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_7_parameters_weight_"
-	shape = [128]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.7925586700439453
-	std = 0.6578272581100464
+	mean = 4.542329788208008
+	std = 1.2871860265731812
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_11_modules_1_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_11_modules_1_modules_layers_modules_7_parameters_bias_"
-	shape = [128]
+	shape = [48]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.297761577414349e-05
-	std = 0.00023043359396979213
+	mean = -7.018799692559696e-07
+	std = 2.882286935346201e-06
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_0_parameters_weight_"
-	shape = [768, 128, 1, 1]
+	shape = [288, 48, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0007269205525517464
-	std = 0.08367884904146194
+	mean = -0.0762317106127739
+	std = 1.6749932765960693
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_1_buffers_running_mean_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.8329493943601847e-05
-	std = 0.0006272267200984061
+	mean = 1.880683885246981e-05
+	std = 7.096062472555786e-05
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_1_buffers_running_var_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 16.934276580810547
-	std = 3.606097936630249
+	mean = 16331.1982421875
+	std = 5272.921875
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_1_parameters_weight_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.4387190341949463
-	std = 0.16444718837738037
+	mean = 3.452141284942627
+	std = 0.6381077766418457
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_1_parameters_bias_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -1.2174705266952515
-	std = 0.6915499567985535
+	mean = -0.7624524235725403
+	std = 1.8832488059997559
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_3_parameters_weight_"
-	shape = [768, 1, 5, 5]
+	shape = [288, 1, 5, 5]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.006341008469462395
-	std = 0.08235479146242142
+	mean = -0.012653861194849014
+	std = 1.3055223226547241
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_4_buffers_running_mean_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.061039164662361145
-	std = 0.5678934454917908
+	mean = -8.129185676574707
+	std = 24.968427658081055
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_4_buffers_running_var_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.12636393308639526
-	std = 0.6942024827003479
+	mean = 408.3033447265625
+	std = 338.9753723144531
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_4_parameters_weight_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.9857133626937866
-	std = 0.39265522360801697
+	mean = 3.4260852336883545
+	std = 0.7586196064949036
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_4_parameters_bias_"
-	shape = [768]
+	shape = [288]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.30758798122406
-	std = 1.9623353481292725
+	mean = 3.4478232860565186
+	std = 3.0507442951202393
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_6_parameters_weight_"
-	shape = [248, 768, 1, 1]
+	shape = [96, 288, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.00016476896416861564
-	std = 0.07216862589120865
+	mean = -0.002705842489376664
+	std = 1.457439661026001
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_7_buffers_running_mean_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.08263032138347626
-	std = 4.369546413421631
+	mean = 2.7741432189941406
+	std = 127.56310272216797
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_7_buffers_running_var_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 4.763574600219727
-	std = 5.105434894561768
+	mean = 7240.09130859375
+	std = 2151.005126953125
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_7_parameters_weight_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.172020435333252
-	std = 0.4806838631629944
+	mean = 6.213029384613037
+	std = 0.6350176930427551
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_0_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_12_modules_0_modules_layers_modules_7_parameters_bias_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 5.2244790822442155e-06
-	std = 0.002045423025265336
+	mean = 4.121405794421662e-08
+	std = 2.43270437749743e-06
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_0_parameters_weight_"
-	shape = [1488, 248, 1, 1]
+	shape = [576, 96, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.00010350626689614728
-	std = 0.04561007395386696
+	mean = 0.006339311599731445
+	std = 0.9172641038894653
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_1_buffers_running_mean_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0017690567765384912
-	std = 0.0024998667649924755
+	mean = 7.964793553583149e-07
+	std = 2.2653373889625072e-05
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_1_buffers_running_var_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 4.485474109649658
-	std = 1.8715057373046875
+	mean = 3964.944580078125
+	std = 1426.709228515625
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_1_parameters_weight_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.0127302408218384
-	std = 0.21878445148468018
+	mean = 2.237117290496826
+	std = 0.40185511112213135
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_1_parameters_bias_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.12045276910066605
-	std = 0.691602885723114
+	mean = 0.6042006611824036
+	std = 1.3591009378433228
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_3_parameters_weight_"
-	shape = [1488, 1, 5, 5]
+	shape = [576, 1, 5, 5]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.003215302713215351
-	std = 0.06931327283382416
+	mean = -0.13388526439666748
+	std = 1.0546690225601196
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_4_buffers_running_mean_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.08428695052862167
-	std = 0.2762700319290161
+	mean = -4.829972743988037
+	std = 9.006797790527344
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_4_buffers_running_var_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.05293271690607071
-	std = 0.04877959564328194
+	mean = 111.15829467773438
+	std = 76.0100326538086
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_4_parameters_weight_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.1325420141220093
-	std = 0.4561605453491211
+	mean = 3.4038679599761963
+	std = 0.843496561050415
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_4_parameters_bias_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.9906068444252014
-	std = 1.2077873945236206
+	mean = -0.5159755349159241
+	std = 1.728894591331482
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_6_parameters_weight_"
-	shape = [248, 1488, 1, 1]
+	shape = [96, 576, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -1.2569240425364114e-05
-	std = 0.04497203230857849
+	mean = -0.005349842365831137
+	std = 0.9051737785339355
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_7_buffers_running_mean_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.01289486512541771
-	std = 1.2603702545166016
+	mean = -5.008306503295898
+	std = 45.31125259399414
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_7_buffers_running_var_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.7429617643356323
-	std = 0.3328168988227844
+	mean = 1750.4339599609375
+	std = 393.9009704589844
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_7_parameters_weight_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.5316473245620728
-	std = 0.48538562655448914
+	mean = 3.990494728088379
+	std = 0.6740044355392456
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_1_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_12_modules_1_modules_layers_modules_7_parameters_bias_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -7.01336011843523e-06
-	std = 0.0019454752327874303
+	mean = 2.6001377051443342e-08
+	std = 1.940556558110984e-06
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_0_parameters_weight_"
-	shape = [1488, 248, 1, 1]
+	shape = [576, 96, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -6.92450485075824e-05
-	std = 0.05318715050816536
+	mean = 0.007167809642851353
+	std = 0.9891396760940552
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_1_buffers_running_mean_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.008672425523400307
-	std = 0.009159679524600506
+	mean = -5.083154064777773e-06
+	std = 4.057196929352358e-05
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_1_buffers_running_var_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 9.779328346252441
-	std = 5.286813259124756
+	mean = 6319.76806640625
+	std = 2121.173583984375
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_1_parameters_weight_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.1213997602462769
-	std = 0.3460513949394226
+	mean = 2.283233642578125
+	std = 0.4176020324230194
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_1_parameters_bias_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.22478702664375305
-	std = 0.6697372794151306
+	mean = -0.1815805733203888
+	std = 1.4755444526672363
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_3_parameters_weight_"
-	shape = [1488, 1, 5, 5]
+	shape = [576, 1, 5, 5]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.01385592669248581
-	std = 0.06745544821023941
+	mean = -0.011862867511808872
+	std = 0.9426538348197937
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_4_buffers_running_mean_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.009612604044377804
-	std = 0.37267452478408813
+	mean = -3.029594659805298
+	std = 9.465009689331055
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_4_buffers_running_var_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.053277380764484406
-	std = 0.060526445508003235
+	mean = 75.70152282714844
+	std = 83.5876693725586
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_4_parameters_weight_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.9216851592063904
-	std = 0.5230399966239929
+	mean = 3.125941514968872
+	std = 0.8825933337211609
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_4_parameters_bias_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -1.9516502618789673
-	std = 1.7484841346740723
+	mean = -0.5776241421699524
+	std = 2.2157533168792725
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_6_parameters_weight_"
-	shape = [248, 1488, 1, 1]
+	shape = [96, 576, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.0001073493913281709
-	std = 0.04051646590232849
+	mean = -0.007789551746100187
+	std = 0.9086698293685913
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_7_buffers_running_mean_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.004478274844586849
-	std = 0.3443793058395386
+	mean = -2.058563709259033
+	std = 49.949607849121094
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_7_buffers_running_var_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.06312896311283112
-	std = 0.023933356627821922
+	mean = 1546.0355224609375
+	std = 301.4808349609375
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_7_parameters_weight_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.7475944757461548
-	std = 0.5809005498886108
+	mean = 4.746190547943115
+	std = 0.8330621123313904
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_2_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_12_modules_2_modules_layers_modules_7_parameters_bias_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -4.945938599121291e-06
-	std = 0.0011000577360391617
+	mean = 7.563720316738909e-08
+	std = 1.5164101796472096e-06
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_0_parameters_weight_"
-	shape = [1488, 248, 1, 1]
+	shape = [576, 96, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.00046893476974219084
-	std = 0.04742026701569557
+	mean = 0.01722424477338791
+	std = 0.9831403493881226
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_1_buffers_running_mean_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.00684566143900156
-	std = 0.010652383789420128
+	mean = -1.600088580744341e-05
+	std = 5.160763976164162e-05
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_1_buffers_running_var_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 11.29928970336914
-	std = 5.406398296356201
+	mean = 10615.2353515625
+	std = 4453.396484375
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_1_parameters_weight_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.0157287120819092
-	std = 0.23467117547988892
+	mean = 2.2778117656707764
+	std = 0.4149012267589569
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_1_parameters_bias_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.3376997411251068
-	std = 0.6708991527557373
+	mean = -0.30095693469047546
+	std = 1.3765684366226196
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_3_parameters_weight_"
-	shape = [1488, 1, 5, 5]
+	shape = [576, 1, 5, 5]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.007869918830692768
-	std = 0.059971556067466736
+	mean = 0.030049137771129608
+	std = 0.9466640949249268
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_4_buffers_running_mean_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.03173462674021721
-	std = 0.2580077350139618
+	mean = -2.3072850704193115
+	std = 9.87350845336914
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_4_buffers_running_var_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.03325400874018669
-	std = 0.047642793506383896
+	mean = 77.60013580322266
+	std = 105.40680694580078
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_4_parameters_weight_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.9073412418365479
-	std = 0.5929144620895386
+	mean = 3.152716636657715
+	std = 0.8750748038291931
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_4_parameters_bias_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -1.3580116033554077
-	std = 1.3411877155303955
+	mean = -0.40701034665107727
+	std = 2.268104076385498
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_6_parameters_weight_"
-	shape = [248, 1488, 1, 1]
+	shape = [96, 576, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 9.442841837881133e-05
-	std = 0.03855875879526138
+	mean = -0.013735082931816578
+	std = 0.9233583211898804
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_7_buffers_running_mean_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0237574465572834
-	std = 0.6248179078102112
+	mean = -4.224118232727051
+	std = 46.39544677734375
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_7_buffers_running_var_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.1253344714641571
-	std = 0.11663457006216049
+	mean = 1821.30322265625
+	std = 358.4465637207031
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_7_parameters_weight_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.0192911624908447
-	std = 0.7629934549331665
+	mean = 6.278604507446289
+	std = 1.2291746139526367
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_12_modules_3_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_12_modules_3_modules_layers_modules_7_parameters_bias_"
-	shape = [248]
+	shape = [96]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 2.4957702407846227e-05
-	std = 0.0008155166869983077
+	mean = 1.5747031056889682e-07
+	std = 1.2579935173562262e-06
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_0_parameters_weight_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_0_parameters_weight_"
-	shape = [1488, 248, 1, 1]
+	shape = [576, 96, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.00038645401946268976
-	std = 0.053949251770973206
+	mean = 0.0030321800149977207
+	std = 1.229856014251709
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_1_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_1_buffers_running_mean_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.009318840689957142
-	std = 0.010824324563145638
+	mean = -1.1283938874839805e-05
+	std = 8.073692151810974e-05
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_1_buffers_running_var_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_1_buffers_running_var_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 19.018512725830078
-	std = 9.902060508728027
+	mean = 26344.619140625
+	std = 7645.3408203125
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_1_parameters_weight_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_1_parameters_weight_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.2141348123550415
-	std = 0.24026161432266235
+	mean = 2.7107994556427
+	std = 0.564288318157196
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_1_parameters_bias_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_1_parameters_bias_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.625735878944397
-	std = 0.6533819437026978
+	mean = -0.13742320239543915
+	std = 1.6190598011016846
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_3_parameters_weight_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_3_parameters_weight_"
-	shape = [1488, 1, 3, 3]
+	shape = [576, 1, 3, 3]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.005094084423035383
-	std = 0.07157105952501297
+	mean = 0.08264856040477753
+	std = 1.4400687217712402
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_4_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_4_buffers_running_mean_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.024175433441996574
-	std = 0.1678631454706192
+	mean = -2.5813822746276855
+	std = 8.614848136901855
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_4_buffers_running_var_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_4_buffers_running_var_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.022529590874910355
-	std = 0.049404680728912354
+	mean = 79.6116943359375
+	std = 49.725379943847656
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_4_parameters_weight_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_4_parameters_weight_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.0684945583343506
-	std = 0.44538751244544983
+	mean = 3.527074098587036
+	std = 0.5800145864486694
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_4_parameters_bias_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_4_parameters_bias_"
-	shape = [1488]
+	shape = [576]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.021740727126598358
-	std = 1.8421661853790283
+	mean = 1.7159461975097656
+	std = 2.856292724609375
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_6_parameters_weight_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_6_parameters_weight_"
-	shape = [416, 1488, 1, 1]
+	shape = [160, 576, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -8.350528514711186e-05
-	std = 0.03869166597723961
+	mean = 0.013236342929303646
+	std = 1.075690507888794
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_7_buffers_running_mean_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_7_buffers_running_mean_"
-	shape = [416]
+	shape = [160]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.03667960688471794
-	std = 1.7542837858200073
+	mean = 12.747305870056152
+	std = 120.65408325195312
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_7_buffers_running_var_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_7_buffers_running_var_"
-	shape = [416]
+	shape = [160]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.0903196334838867
-	std = 0.7584816217422485
+	mean = 5415.02099609375
+	std = 915.7642822265625
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_7_parameters_weight_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_7_parameters_weight_"
-	shape = [416]
+	shape = [160]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.892559289932251
-	std = 0.20184169709682465
+	mean = 5.636412143707275
+	std = 0.20138515532016754
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_13_modules_0_modules_layers_modules_7_parameters_bias_:
 	name = "L_self_modules_layers_modules_13_modules_0_modules_layers_modules_7_parameters_bias_"
-	shape = [416]
+	shape = [160]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.0041845825981e-06
-	std = 0.0005460857646539807
+	mean = 5.277461241348647e-07
+	std = 2.8958681923541008e-06
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_14_parameters_weight_:
 	name = "L_self_modules_layers_modules_14_parameters_weight_"
-	shape = [1280, 416, 1, 1]
+	shape = [1280, 160, 1, 1]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.00011757927131839097
-	std = 0.039613425731658936
+	mean = -0.026441948488354683
+	std = 0.860231876373291
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_15_buffers_running_mean_:
@@ -2325,8 +2325,8 @@ class Program_weight_tensor_meta_L_self_modules_layers_modules_15_buffers_runnin
 	shape = [1280]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -0.0010872839484363794
-	std = 0.0002745236561167985
+	mean = -5.3516876505455e-05
+	std = 2.3775945010129362e-05
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_15_buffers_running_var_:
@@ -2334,8 +2334,8 @@ class Program_weight_tensor_meta_L_self_modules_layers_modules_15_buffers_runnin
 	shape = [1280]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 4.156909465789795
-	std = 0.34733903408050537
+	mean = 5322.8984375
+	std = 628.21923828125
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_15_parameters_weight_:
@@ -2343,8 +2343,8 @@ class Program_weight_tensor_meta_L_self_modules_layers_modules_15_parameters_wei
 	shape = [1280]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 3.2006256580352783
-	std = 0.27588748931884766
+	mean = 2.466665744781494
+	std = 0.2617865800857544
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_layers_modules_15_parameters_bias_:
@@ -2352,8 +2352,8 @@ class Program_weight_tensor_meta_L_self_modules_layers_modules_15_parameters_bia
 	shape = [1280]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -3.981339693069458
-	std = 0.661153256893158
+	mean = -4.208653926849365
+	std = 0.777584433555603
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_classifier_modules_1_parameters_weight_:
@@ -2361,8 +2361,8 @@ class Program_weight_tensor_meta_L_self_modules_classifier_modules_1_parameters_
 	shape = [1000, 1280]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 1.296047798859945e-06
-	std = 0.0446377769112587
+	mean = 5.983571827528067e-05
+	std = 0.4461536407470703
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_classifier_modules_1_parameters_bias_:
@@ -2370,6 +2370,6 @@ class Program_weight_tensor_meta_L_self_modules_classifier_modules_1_parameters_
 	shape = [1000]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = -5.088597845315235e-06
-	std = 0.053330592811107635
+	mean = 0.0018792601767927408
+	std = 0.36415496468544006
 	data = None

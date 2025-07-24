@@ -21,8 +21,8 @@ class Program_weight_tensor_meta_L_x_:
 	shape = [1, 3, 224, 224]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.500295102596283
-	std = 0.2883894145488739
+	mean = 0.4998891353607178
+	std = 0.2890673279762268
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_Conv2d_1a_3x3_modules_conv_parameters_weight_:

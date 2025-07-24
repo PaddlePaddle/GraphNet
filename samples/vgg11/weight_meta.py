@@ -30,8 +30,8 @@ class Program_weight_tensor_meta_L_x_:
 	shape = [1, 3, 224, 224]
 	dtype = "torch.float32"
 	device = "cuda:0"
-	mean = 0.49931779503822327
-	std = 0.2892153859138489
+	mean = 0.5008911490440369
+	std = 0.2895403206348419
 	data = None
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_3_parameters_weight_:

@@ -3,17 +3,17 @@ from transformers import AutoModel, AutoTokenizer
 import graph_net.torch 
 import os
 
+def get_model_name():
+    return "distilbert-base-uncased"
 
-@graph_net.torch.extract(name="distilbert-function")
 def create_model():
-    model = AutoModel.from_pretrained("distilbert-base-uncased")
+    model = AutoModel.from_pretrained(get_model_name())
     model.eval()
     return model.to(device)
 
 if __name__ == '__main__':
-    model_name = "distilbert-base-uncased"
     
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(get_model_name())
 
     text = "Hello world"
     inputs = tokenizer(text, return_tensors="pt")
@@ -22,6 +22,7 @@ if __name__ == '__main__':
     inputs = {k: v.to(device) for k, v in inputs.items()}
 
     model = create_model()
+    model = graph_net.torch.extract(name=get_model_name())(model)
 
     print("Running inference...")
     output = model(**inputs) 

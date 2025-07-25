@@ -13,6 +13,7 @@ def extract(name, dynamic=True):
         dynamic (bool): Enable dynamic shape support in torch.compile.
     """
     def wrapper(model: torch.nn.Module):
+        assert isinstance(model, torch.nn.Module), f"{type(model)=}"
         def extractor(gm: torch.fx.GraphModule, sample_inputs):
             # 1. Get workspace path
             workspace_path = os.environ.get("GRAPH_NET_EXTRACT_WORKSPACE")
@@ -28,7 +29,7 @@ def extract(name, dynamic=True):
                 if node.op == 'placeholder':
                     input = sample_inputs[input_idx]
                     if isinstance(input, torch.SymInt):
-                        input = torch.tensor(0)
+                        input = torch.tensor(4)
                     params[node.target] = input
                     input_idx += 1
             assert input_idx == len(sample_inputs)

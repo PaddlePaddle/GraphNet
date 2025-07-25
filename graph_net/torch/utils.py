@@ -14,15 +14,22 @@ def apply_templates(forward_code: str) -> str:
     forward_code = f"\n{tab}".join(forward_code.split("\n"))
     return f"import torch\n\nclass GraphModule(torch.nn.Module):\n{tab}{forward_code}"
 
+def get_limited_precision_float_str(value):
+    if not isinstance(value, float):
+        return value
+    return f"{value:.3f}"
+
 def convert_state_and_inputs_impl(state_dict, example_inputs):
     def tensor_info(tensor):
         is_float = tensor.dtype.is_floating_point
+        mean = float(tensor.mean().item()) if is_float else None
+        std = float(tensor.std().item()) if is_float else None
         return {
             "shape": list(tensor.shape),
             "dtype": str(tensor.dtype),
             "device": str(tensor.device),
-            "mean": float(tensor.mean().item()) if is_float else None,
-            "std": float(tensor.std().item()) if is_float else None,
+            "mean": get_limited_precision_float_str(mean),
+            "std": get_limited_precision_float_str(std),
         }
 
     def process_tensor(tensor):
@@ -123,8 +130,8 @@ def save_converted_to_text(converted, file_path):
             (f"\tshape = {shape}"),
             (f"\tdtype = \"{dtype}\""),
             (f"\tdevice = \"{device}\""),
-            (f"\tmean = {mean}"),
-            (f"\tstd = {std}"),
+            (f"\tmean = {get_limited_precision_float_str(mean)}"),
+            (f"\tstd = {get_limited_precision_float_str(std)}"),
             (f"\tdata = {format_data(data_list)}"),
             ("")
         ]

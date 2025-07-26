@@ -84,13 +84,13 @@ python -m graph_net.config --global \
   --username "your-name" \
   --email "your-email"
 ```
-Once you have packaged these extracted models, submit them to the GraphNet community via the following group chats.
+Once you have packaged these extracted computation graphs, submit them to the GraphNet community via the following group chats.
 
 <div align="center">
 <table>
 <tr>
 <td align="center">
-    <img width="190" height="220" src="https://github.com/user-attachments/assets/12a4c2a1-0d3c-468f-9e6b-e141600fa6ff" />
+    <img width="190" height="220" src="https://github.com/user-attachments/assets/31b4f0ba-417e-48b6-a860-124d74bd6643" />
 </td>
 <td align="center">
     <img width="190" height="220" src="https://github.com/user-attachments/assets/140fa03e-36ef-44bf-8d9a-ca65c83b0139" />

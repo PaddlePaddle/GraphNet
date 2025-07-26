@@ -1,6 +1,5 @@
 # GraphNet
 
-## 📌 项目简介
 GraphNet —— 一个面向编译器开发的大规模数据集，旨在为研究者提供一个统一、开放的实验平台。其中包含大量来自真实模型的计算图，方便评估不同编译器Pass的优化效果。
 
 通过 GraphNet，用户可以：
@@ -21,7 +20,16 @@ GraphNet —— 一个面向编译器开发的大规模数据集，旨在为研�
 8. 可通过统一方式配置计算图在不同芯片上运行
 
 ## 快速开始
+### 测试编译器性能
+**graph_net.torch.test_compiler** 
+```
+python3 -m graph_net.torch.test_compiler \
+  --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name/ \
+  --compiler /path/to/custom/compiler 
+# Note: if --compiler is omitted, PyTorch’s built-in compiler is used by default
+```
 
+### 向 GraphNet 提交计算图
 示例：对ResNet‑18进行计算图捕获和验证
 ```
 git clone https://github.com/PaddlePaddle/GraphNet.git
@@ -38,7 +46,7 @@ python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/resnet18
 ```
 
-### graph_net.torch.extract 使用方式
+**graph_net.torch.extract 使用方式**
 
 ```python
 import graph_net
@@ -53,14 +61,14 @@ model = graph_net.torch.extract(name="model_name")(model)
 #   $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
-### graph_net.torch.validate 使用方式
+**graph_net.torch.validate 使用方式**
 ```
 # Verify that the extracted model meets requirements
 python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
-### graph_net.pack 使用方式
+**graph_net.pack 使用方式**
 ```
 # Create a ZIP archive of $GRAPH_NET_EXTRACT_WORKSPACE.
 # The --clear-after-pack flag (True|False) determines whether to delete the workspace after packing.
@@ -76,15 +84,13 @@ python -m graph_net.config --global\
   --email "your-email"
 ```
 
-社区交流
-
-* 扫描微信二维码或QQ二维码，即可加入交流群与众多社区开发者以及官方团队深度交流.
+打包完这些计算图后，请通过以下群聊提交给 GraphNet 社区
 
 <div align="center">
 <table>
 <tr>
 <td align="center">
-    <img width="190" height="220" src="https://github.com/user-attachments/assets/12a4c2a1-0d3c-468f-9e6b-e141600fa6ff" />
+    <img width="190" height="220" src="https://github.com/user-attachments/assets/31b4f0ba-417e-48b6-a860-124d74bd6643" />
 </td>
 <td align="center">
     <img width="190" height="220" src="https://github.com/user-attachments/assets/140fa03e-36ef-44bf-8d9a-ca65c83b0139" />

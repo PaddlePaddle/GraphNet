@@ -9,7 +9,7 @@ jobs:
     name: Pre Commit
     if: ${{ github.repository_owner == 'PaddlePaddle' }}
     runs-on:
-      group: APPROVAL
+      group: ubuntu-22.04
     env:
       PR_ID: ${{ github.event.pull_request.number }}
       BRANCH: develop

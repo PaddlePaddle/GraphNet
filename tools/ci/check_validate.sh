@@ -14,9 +14,9 @@ export PYTHONPATH=${GRAPH_NET_EXTRACT_WORKSPACE}:$PYTHONPATH
 [ -z "$CUDA_VISIBLE_DEVICES" ] && CUDA_VISIBLE_DEVICES="0"
 
 function prepare_env() {
-  num_changed_files=$(git diff --name-only develop | grep -E "samples/(.*\.py|.*\.json)" | wc -l)
-  if [ ${num_changed_files} -eq 0 ]; then
-    LOG "[INFO] This pull request doesn't change any files of op benchmark, skip the CI."
+  num_changed_samples=$(git diff --name-only develop | grep -E "samples/(.*\.py|.*\.json)" | wc -l)
+  if [ ${num_changed_samples} -eq 0 ]; then
+    LOG "[INFO] This pull request doesn't change any samples, skip the CI."
     exit 0
   fi
 

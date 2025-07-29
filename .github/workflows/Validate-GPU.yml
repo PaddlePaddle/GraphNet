@@ -81,7 +81,6 @@ jobs:
         run: |
           docker exec -t ${{ env.container_name }} /bin/bash -c '
           source ${{ github.workspace }}/../../../proxy
-          git config --global --add safe.directory ${work_dir}
           bash ${work_dir}/tools/ci/check_validate.sh
           '
 

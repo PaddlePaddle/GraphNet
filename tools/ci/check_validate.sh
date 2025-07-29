@@ -14,6 +14,7 @@ export PYTHONPATH=${GRAPH_NET_EXTRACT_WORKSPACE}:$PYTHONPATH
 [ -z "$CUDA_VISIBLE_DEVICES" ] && CUDA_VISIBLE_DEVICES="0"
 
 function prepare_env() {
+  git config --global --add safe.directory "*"
   num_changed_samples=$(git diff --name-only develop | grep -E "samples/(.*\.py|.*\.json)" | wc -l)
   if [ ${num_changed_samples} -eq 0 ]; then
     LOG "[INFO] This pull request doesn't change any samples, skip the CI."
@@ -44,7 +45,7 @@ function check_validation() {
   for model_path in ${MODIFIED_MODEL_PATHS[@]}
   do
     python -m graph_net.torch.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} >&2
-    [ $? -ne 0 ] && fail_name[${#fail_name[@]}]="${model_path}(Run on ${device_type})"
+    [ $? -ne 0 ] && fail_name[${#fail_name[@]}]="${model_path}"
   done
   if [ ${#fail_name[@]} -ne 0 ]
   then

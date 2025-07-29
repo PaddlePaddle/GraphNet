@@ -18,7 +18,7 @@ jobs:
         run: |
           rm -rf * .[^.]*
 
-      - name: Checkout base repo
+      - name: Clone GraphNet
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.base.ref }}

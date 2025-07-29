@@ -4,6 +4,7 @@ import json
 from typing import Union, Callable
 from . import utils
 
+
 def extract(name, dynamic=True):
     """
     A decorator for PyTorch functions to capture the computation graph.

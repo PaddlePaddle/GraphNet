@@ -26,6 +26,7 @@ function prepare_env() {
   env http_proxy="" https_proxy="" pip install -U pip > /dev/null
   [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
   # install torch 
+  pip install torch==2.7.0 --index-url https://download.pytorch.org/whl/cu118
 }
 
 function check_validation() {

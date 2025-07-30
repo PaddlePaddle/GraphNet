@@ -1,5 +1,5 @@
 ### PR Category
-<!-- One of [ New Samples | New Models | New Frameworks | Feature Enhancement | Other ] -->
+<!-- One of [ New Sample | Feature Enhancement | Bug Fix | Other ] -->
 
 
 ### Description

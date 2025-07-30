@@ -13,7 +13,7 @@ env:
   CI_name: ci-graphnet-validate
   CFS_DIR: /home/data/cfs
   no_proxy: "bcebos.com,apiin.im.baidu.com,gitee.com,aliyun.com,.baidu.com,.tuna.tsinghua.edu.cn"
-  docker_image: "ccr-2vdh3abv-pub.cnc.bj.baidubce.com/ci/paddle:4251d0b615371e0d0ed9040d7455e2b4" # cuda11.7
+  docker_image: "registry.baidubce.com/paddlepaddle/paddle:latest-dev-cuda11.8-cudnn8.6-trt8.5-gcc82"
 
 defaults:
   run:
@@ -81,7 +81,6 @@ jobs:
         run: |
           docker exec -t ${{ env.container_name }} /bin/bash -c '
           source ${{ github.workspace }}/../../../proxy
-          git config --global --add safe.directory ${work_dir}
           bash ${work_dir}/tools/ci/check_validate.sh
           '
 

@@ -267,10 +267,11 @@ a. Packages all files under `$GRAPH_NET_EXTRACT_WORKSPACE` into `/path/to/output
 
 b. Clears the workspace if `--clear-after-pack` is `True`
 
-Note: If third-party ops are used, contributors must include them manually in the graph directory. As long as `validate` passes, no specific folder structure is required.
+Note: If third-party ops are used, contributors must include them manually in the package. As long as `validate` passes, no specific folder structure is required.
 
 3. **Commit the changes**
 
+Commit the packaged computation graph in the previous step.
 ```bash
 git add <new files>
 git commit -m "Description"

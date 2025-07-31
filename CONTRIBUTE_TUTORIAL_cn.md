@@ -258,10 +258,11 @@ python -m graph_net.pack --output /path/to/output.zip --clear-after-pack True
    
  b. 若`--clear-after-pack`为`True`，则打包后清空`$GRAPH_NET_EXTRACT_WORKSPACE`
 
-请注意，如果有第三方算子，需要贡献者自行打包到计算图目录内。目前没有特别规定存放的目录结构，但只要通过了validate环节，就可以达到验收标准。
+请注意，如果有第三方算子，需要贡献者自行打包到计算图压缩包内。目前没有特别规定存放的目录结构，但只要通过了validate环节，就可以达到验收标准。
 
 3. **提交修改**
 
+提交上一步打包完成的计算图压缩包
 ```bash
 git add <新增的文件>
 git commit -m "描述"

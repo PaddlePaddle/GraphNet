@@ -10,23 +10,23 @@
 
 2. **克隆仓库到本地**：
 
-```
+```bash
 git clone https://github.com/你的用户名/GraphNet.git
 cd GraphNet
 ```
 3. **添加上游仓库引用**：
 
-```
+```bash
 git remote add upstream https://github.com/PaddlePaddle/GraphNet.git
 ```
 4. **安装依赖**
 
-```
+```bash
 pip install torch, torchvision
 ```
 5. **设置提取路径**：
 
-```
+```bash
 export GRAPH_NET_EXTRACT_WORKSPACE=/home/yourname/graphnet_workspace
 ```
 ### 二、编辑脚本
@@ -34,7 +34,8 @@ export GRAPH_NET_EXTRACT_WORKSPACE=/home/yourname/graphnet_workspace
 > 我们鼓励借助LLM Agent的能力，把本文档中的example、仓库中不同模型的example与extractor装饰器和promts一起输入，面向所需新的模型开发抽取脚本。
 
 核心流程示例：
-```import torch
+```python
+import torch
 from torchvision.models import get_model, get_model_weights, list_models  # 或者其他模型库
 from graph_net.torch.extractor import extract
 
@@ -87,18 +88,49 @@ a. **准备模型**：加载模型定义及权重。
 b. **构造输入**
 
 > GraphNet的示例仅限于特定模型，在完成任务时可能需要改输入数据的构造。
+
 不同模型对输入格式要求不一致，需根据模型类型生成合适的 `input_data`：
 
 
-|模型类型|输入构造示例|
-|-|-|
-|图像分类 / CV|torch.rand(1, C, H, W)；如 ResNet、ViT 默认 (3,224,224)|
-|视频模型|torch.rand(1, C, T, H, W)；如 R3D、MViT 中 T=num_frames|
-|NLP 文本模型|tokenizer = AutoTokenizer.from_pretrained(model_name)inputs = tokenizer(text,return_tensors="pt",padding=True,truncation=True,max_length=512,)input_data = {key: val.to(device) for key, val in inputs.items()}|
-|多输入 / 复杂|根据模型forward签名构造，如同时输入图像特征和位置编码等时，将所有Tensor按顺序或命名打包成 tuple/dict|
+<table>
+    <thead>
+        <tr>
+            <th>模型类型</th>
+            <th>输入构造示例</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>图像分类 / CV</td>
+            <td><code>torch.rand(1, C, H, W)</code>；如 ResNet、ViT 默认 <code>(3,224,224)</code></td>
+        </tr>
+        <tr>
+            <td>视频模型</td>
+            <td><code>torch.rand(1, C, T, H, W)</code>；如 R3D、MViT 中 <code>T=num_frames</code></td>
+        </tr>
+        <tr>
+            <td>NLP 文本模型</td>
+            <td>
+                <pre><code class="language-python">tokenizer = AutoTokenizer.from_pretrained(model_name)
+                inputs = tokenizer(
+                    text,
+                    return_tensors="pt",
+                    padding=True,
+                    truncation=True,
+                    max_length=512,
+                )
+                input_data = {key: val.to(device) for key, val in inputs.items()}</code></pre>
+            </td>
+        </tr>
+        <tr>
+            <td>多输入 / 复杂</td>
+            <td>根据模型<code>forward</code>签名构造，如同时输入图像特征和位置编码等时，将所有Tensor按顺序或命名打包成 <code>tuple</code>/<code>dict</code></td>
+        </tr>
+    </tbody>
+</table>
 
 > **提示**：如果不确定 `model.forward()` 需要哪些参数，可以先打印签名：
-```
+```python
 import inspect
 print(inspect.signature(model.forward))
 ```
@@ -113,7 +145,7 @@ ii. 如果需要使用外置的显式`@extract`装饰器，则需要装饰模型
 
 
 #### 2. 【可选】调整extractor
-在少数情况下，可能需要修改extract decorator从而适配特定模型。此时，请提前在2.1步骤提起PR时，**特别在"Content"项标注说明**，与我们一起规划该特性。
+在少数情况下，可能需要修改extract decorator从而适配特定模型。此时，请提前提起issue并**特别标注说明**，与我们一起规划该特性。
 
 值得注意的是，这种操作更考验开发者的能力，同时我们也会对新的extractor代码质量及安全性进行人工Review。
 
@@ -132,7 +164,7 @@ ii. 如果需要使用外置的显式`@extract`装饰器，则需要装饰模型
 在首次抽取计算图时，可能因 `input_data` 维度不匹配而导致失败。此时我们借助 LLM，根据日志提示补充或修正输入构造逻辑。
 
 示例错误日志：
-```
+```bash
 [FAIL] r2plus1d_18: Dynamo failed to run FX node with fake tensors:
  call_function <built-in method conv3d of type object at 0x7f14dbbd1f40>(
    *(FakeTensor(..., device='cuda:0', size=(1, s0, s1, s1)),
@@ -146,7 +178,7 @@ ii. 如果需要使用外置的显式`@extract`装饰器，则需要装饰模型
 ```
 从日志可见，该模型在做 3D 卷积时，输入通道数（1）与权重通道数（3）不符。基于这一提示，向 LLM 请求补全如下输入逻辑，即为时序模型增加帧维度 `T`：
 
-```
+```python
 if any(tok in name for tok in ("r2plus1d")):
     # 时序模型需按 (B, C, T, H, W) 构造输入
     T = cfg.get("num_frames", 16)
@@ -189,7 +221,7 @@ if any(tok in name for tok in ("r2plus1d")):
 
 运行集成了`@graph_net.torch.extract`或`@graph_net.paddle.extract`的自动提取脚本，例如：
 
-```
+```bash
 # Extract the ResNet‑18 computation graph
 python -m graph_net.test.vision_model_test
 ```
@@ -199,7 +231,7 @@ python -m graph_net.test.vision_model_test
 
 2. **validate 自查**
 
-```
+```bash
 python -m graph_net.torch.validate --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 `validate` 验证您刚刚抽取的计算图符合Dataset Construction Constraints，如果结果为Success，则可以提交。
@@ -209,7 +241,7 @@ python -m graph_net.torch.validate --model-path $GRAPH_NET_EXTRACT_WORKSPACE/mod
 ### **四、提交**计算图
 1. **配置贡献者用户名和email**
 
-```
+```bash
 python -m graph_net.config \
     --global \
     --username "john_doe" \
@@ -217,7 +249,7 @@ python -m graph_net.config \
 ```
 2. **打包计算图**
 
-```
+```bash
 python -m graph_net.pack --output /path/to/output.zip --clear-after-pack True
 ```
 该API的功能为：
@@ -230,13 +262,13 @@ python -m graph_net.pack --output /path/to/output.zip --clear-after-pack True
 
 3. **提交修改**
 
-```
+```bash
 git add <新增的文件>
 git commit -m "描述"
 ```
 4. **推送分支到远程**（你的 Fork 仓库）
 
-```
+```bash
 git push origin feature/your-branch-name
 ```
 5. **提交 Pull Request**
@@ -259,7 +291,7 @@ git push origin feature/your-branch-name
 
 **// ------- PR 内容 --------**
 
-```
+```markdown
 Model:  eg. distilbert-base-uncased
 Framework: eg. Pytorch/Paddle
 Dependency: eg. torchvision, transformers

@@ -1,4 +1,4 @@
-# Co-Creation Guide
+# Co-Creation Tutorial
 > Move fast, break things.
 
 ### 1. Environment Setup

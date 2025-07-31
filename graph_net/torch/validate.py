@@ -20,7 +20,7 @@ def main(args):
     with temp_workspace() as tmp_dir_name:
         extract_name = "temp"
         print("Check extractability ...")
-        cmd = f"{sys.executable} -m graph_net.torch.single_device_runner --model-path {model_path} --enable-extract True --extract-name {extract_name} --dump-graph-hash-key True"
+        cmd = f"{sys.executable} -m graph_net.torch.single_device_runner --model-path {model_path} --enable-extract True --extract-name {extract_name} --dump-graph-hash-key"
         cmd_ret = os.system(cmd)
         assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
         cmd = f"{sys.executable} -m graph_net.torch.single_device_runner --model-path {tmp_dir_name}/{extract_name}"

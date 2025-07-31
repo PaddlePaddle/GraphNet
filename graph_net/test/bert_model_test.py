@@ -1,18 +1,20 @@
 import torch
 from transformers import AutoModel, AutoTokenizer
-import graph_net.torch 
+import graph_net.torch
 import os
+
 
 def get_model_name():
     return "distilbert-base-uncased"
+
 
 def create_model():
     model = AutoModel.from_pretrained(get_model_name())
     model.eval()
     return model.to(device)
 
-if __name__ == '__main__':
-    
+
+if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained(get_model_name())
 
     text = "Hello world"
@@ -25,5 +27,5 @@ if __name__ == '__main__':
     model = graph_net.torch.extract(name=get_model_name())(model)
 
     print("Running inference...")
-    output = model(**inputs) 
+    output = model(**inputs)
     print("Inference finished. Output shape:", output.last_hidden_state.shape)

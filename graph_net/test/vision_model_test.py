@@ -7,11 +7,10 @@ from torchvision import transforms
 import os
 import graph_net
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Normalization parameters for ImageNet
     normalize = transforms.Normalize(
-        mean=[0.485, 0.456, 0.406],
-        std=[0.229, 0.224, 0.225]
+        mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]
     )
 
     # Create dummy input
@@ -28,7 +27,7 @@ if __name__ == '__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
     normalized_input = normalized_input.to(device)
-    
+
     model = graph_net.torch.extract(name="resnet18")(model)
 
     print("Running inference...")

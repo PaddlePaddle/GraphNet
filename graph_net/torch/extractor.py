@@ -5,7 +5,7 @@ from typing import Union, Callable
 from . import utils
 
 
-def extract(name, dynamic=True):
+def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=False):
     """
     A decorator for PyTorch functions to capture the computation graph.
 
@@ -30,16 +30,33 @@ def extract(name, dynamic=True):
             # 2. Get full params
             params = {}
             input_idx = 0
+            unique_id = 0
+
+            def try_rename_placeholder(node):
+                assert node.op == "placeholder"
+                if not placeholder_auto_rename:
+                    return
+                nonlocal unique_id
+                node.target = f"v{unique_id}"
+                unique_id += 1
+                node.name = f"v{unique_id}"
+                unique_id += 1
+
             for node in gm.graph.nodes:
                 if node.op == "placeholder":
+                    try_rename_placeholder(node)
                     input = sample_inputs[input_idx]
                     if isinstance(input, torch.SymInt):
                         input = torch.tensor(4)
                     params[node.target] = input
                     input_idx += 1
             assert input_idx == len(sample_inputs)
+            if mut_graph_codes is not None:
+                assert isinstance(mut_graph_codes, list)
+                mut_graph_codes.append(gm.code)
             # 3. Generate and save model code
             base_code = gm.code
+            # gm.graph.print_tabular()
             write_code = utils.apply_templates(base_code)
             with open(os.path.join(model_path, "model.py"), "w") as fp:
                 fp.write(write_code)

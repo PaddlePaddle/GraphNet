@@ -93,41 +93,41 @@ b. **构造输入**
 
 
 <table>
-        <thead>
-            <tr>
-                <th>模型类型</th>
-                <th>输入构造示例</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>图像分类 / CV</td>
-                <td><code>torch.rand(1, C, H, W)</code>；如 ResNet、ViT 默认 <code>(3,224,224)</code></td>
-            </tr>
-            <tr>
-                <td>视频模型</td>
-                <td><code>torch.rand(1, C, T, H, W)</code>；如 R3D、MViT 中 <code>T=num_frames</code></td>
-            </tr>
-            <tr>
-                <td>NLP 文本模型</td>
-                <td>
-                    <pre><code class="language-python">tokenizer = AutoTokenizer.from_pretrained(model_name)
-                    inputs = tokenizer(
-                        text,
-                        return_tensors="pt",
-                        padding=True,
-                        truncation=True,
-                        max_length=512,
-                    )
-                    input_data = {key: val.to(device) for key, val in inputs.items()}</code></pre>
-                </td>
-            </tr>
-            <tr>
-                <td>多输入 / 复杂</td>
-                <td>根据模型<code>forward</code>签名构造，如同时输入图像特征和位置编码等时，将所有Tensor按顺序或命名打包成 <code>tuple</code>/<code>dict</code></td>
-            </tr>
-        </tbody>
-    </table>
+    <thead>
+        <tr>
+            <th>模型类型</th>
+            <th>输入构造示例</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>图像分类 / CV</td>
+            <td><code>torch.rand(1, C, H, W)</code>；如 ResNet、ViT 默认 <code>(3,224,224)</code></td>
+        </tr>
+        <tr>
+            <td>视频模型</td>
+            <td><code>torch.rand(1, C, T, H, W)</code>；如 R3D、MViT 中 <code>T=num_frames</code></td>
+        </tr>
+        <tr>
+            <td>NLP 文本模型</td>
+            <td>
+                <pre><code class="language-python">tokenizer = AutoTokenizer.from_pretrained(model_name)
+                inputs = tokenizer(
+                    text,
+                    return_tensors="pt",
+                    padding=True,
+                    truncation=True,
+                    max_length=512,
+                )
+                input_data = {key: val.to(device) for key, val in inputs.items()}</code></pre>
+            </td>
+        </tr>
+        <tr>
+            <td>多输入 / 复杂</td>
+            <td>根据模型<code>forward</code>签名构造，如同时输入图像特征和位置编码等时，将所有Tensor按顺序或命名打包成 <code>tuple</code>/<code>dict</code></td>
+        </tr>
+    </tbody>
+</table>
 
 > **提示**：如果不确定 `model.forward()` 需要哪些参数，可以先打印签名：
 ```python

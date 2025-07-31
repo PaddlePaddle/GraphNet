@@ -241,7 +241,7 @@ Expected output will be saved under `$GRAPH_NET_EXTRACT_WORKSPACE`.
 python -m graph_net.torch.validate --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
-`validate` checks if the extracted graph meets the Dataset Construction Constraints. If success, you’re ready to submit.
+`validate` checks if the extracted graph meets the Dataset Construction Constraints. If success, you’re ready to continue.
 
 
 ### 4. Submitting the Extracted Graph

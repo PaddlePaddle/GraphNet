@@ -234,7 +234,7 @@ python -m graph_net.test.vision_model_test
 ```bash
 python -m graph_net.torch.validate --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
-`validate` 验证您刚刚抽取的计算图符合Dataset Construction Constraints，如果结果为Success，则可以提交。
+`validate` 验证您刚刚抽取的计算图符合Dataset Construction Constraints，如果结果为Success，则可以继续。
 
 
 
@@ -254,7 +254,7 @@ python -m graph_net.pack --output /path/to/output.zip --clear-after-pack True
 ```
 该API的功能为：
 
- a. 打包`$GRAPH_NET_EXTRACT_WORKSPACE`下的所有文件到`/path/to/output.zip`
+ a. 打包`$GRAPH_NET_EXTRACT_WORKSPACE`下的所有文件到`/path/to/output.zip` （可以设置到`GraphNet/samples`）
    
  b. 若`--clear-after-pack`为`True`，则打包后清空`$GRAPH_NET_EXTRACT_WORKSPACE`
 
@@ -262,9 +262,9 @@ python -m graph_net.pack --output /path/to/output.zip --clear-after-pack True
 
 3. **提交修改**
 
-提交上一步打包完成的计算图压缩包
+移动上一步打包完成的计算图压缩包到**samples**目录，然后提交。
 ```bash
-git add <新增的文件>
+git add <计算图压缩包>
 git commit -m "描述"
 ```
 4. **推送分支到远程**（你的 Fork 仓库）

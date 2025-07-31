@@ -15,7 +15,6 @@ def create_model():
 
 
 if __name__ == "__main__":
-
     tokenizer = AutoTokenizer.from_pretrained(get_model_name())
 
     text = "Hello world"

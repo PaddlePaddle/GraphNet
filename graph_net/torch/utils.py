@@ -168,7 +168,6 @@ def save_converted_to_text(converted, file_path):
 
 
 def load_converted_from_text(file_path):
-
     input_info = list(convert_meta_classes_to_tensors(f"{file_path}/input_meta.py"))
 
     weight_info = {
@@ -224,7 +223,6 @@ def extract_dynamic_shapes(example_inputs):
 
 
 def replay_tensor(info):
-
     device = info["info"]["device"]
     dtype = info["info"]["dtype"]
     shape = info["info"]["shape"]

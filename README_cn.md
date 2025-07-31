@@ -90,7 +90,7 @@ python -m graph_net.config --global\
 <table>
 <tr>
 <td align="center">
-    <img width="190" height="220" src="https://github.com/user-attachments/assets/31b4f0ba-417e-48b6-a860-124d74bd6643" />
+    <img width="190" height="220" src="https://github.com/user-attachments/assets/1a42cceb-f026-44a6-acbe-dee810410893" />
 </td>
 <td align="center">
     <img width="190" height="220" src="https://github.com/user-attachments/assets/140fa03e-36ef-44bf-8d9a-ca65c83b0139" />
@@ -101,3 +101,5 @@ python -m graph_net.config --global\
 
 ## 开源协议
 [MIT License](LICENSE)
+
+

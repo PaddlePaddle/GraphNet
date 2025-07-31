@@ -31,6 +31,7 @@ def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=Fa
             params = {}
             input_idx = 0
             unique_id = 0
+
             def try_rename_placeholder(node):
                 assert node.op == "placeholder"
                 if not placeholder_auto_rename:
@@ -40,6 +41,7 @@ def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=Fa
                 unique_id += 1
                 node.name = f"v{unique_id}"
                 unique_id += 1
+
             for node in gm.graph.nodes:
                 if node.op == "placeholder":
                     try_rename_placeholder(node)

@@ -63,7 +63,7 @@ def main(args):
         graph_hash = open(current_model_graph_hash_path).read()
         assert (
             graph_hash not in graph_hash2graph_net_model_path
-        ), f"Redundant models detected. old-model-path:{current_model_graph_hash_path}, new-model-path:{graph_hash2graph_net_model_path[graph_hash]}."
+        ), f"Redundant models detected. old-model-path:{graph_hash2graph_net_model_path[graph_hash]}, new-model-path:{current_model_graph_hash_path}."
 
 
 if __name__ == "__main__":

@@ -15,8 +15,13 @@ import glob
 
 
 def get_recursively_model_pathes(root_dir):
+    for sub_dir in _get_recursively_model_pathes(root_dir):
+        yield os.path.realpath(sub_dir)
+
+
+def _get_recursively_model_pathes(root_dir):
     if is_single_model_dir(root_dir):
-        yield root_dir
+        yield os.path.realpath(root_dir)
         return
     for sub_dir in get_immediate_subdirectory_paths(root_dir):
         if is_single_model_dir(sub_dir):

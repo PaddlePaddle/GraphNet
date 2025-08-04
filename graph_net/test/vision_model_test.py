@@ -28,7 +28,7 @@ if __name__ == "__main__":
     model.to(device)
     normalized_input = normalized_input.to(device)
 
-    model = graph_net.torch.extract(name="resnet18")(model)
+    model = graph_net.torch.extract(name="resnet18", dynamic=True)(model)
 
     print("Running inference...")
     print("Input shape:", normalized_input.shape)

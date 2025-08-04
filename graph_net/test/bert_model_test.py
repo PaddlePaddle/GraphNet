@@ -24,7 +24,7 @@ if __name__ == "__main__":
     inputs = {k: v.to(device) for k, v in inputs.items()}
 
     model = create_model()
-    model = graph_net.torch.extract(name=get_model_name())(model)
+    model = graph_net.torch.extract(name=get_model_name(), dynamic=True)(model)
 
     print("Running inference...")
     output = model(**inputs)

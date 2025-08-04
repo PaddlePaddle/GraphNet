@@ -8,7 +8,7 @@ With GraphNet, users can:
 3. Train AI‑for‑Systems models to automatically generate compiler optimization passes.
 
 
-Dataset Construction Constraints：
+### Dataset Construction Constraints：
 1. Dynamic graphs must execute correctly.
 2. Each computation graph should include a standardized method for measuring performance.
 3. Graphs and their corresponding Python code must support serialization and deserialization.
@@ -91,10 +91,10 @@ Once you have packaged these extracted computation graphs, submit them to the Gr
 <table>
 <tr>
 <td align="center">
-    <img width="190" height="220" src="https://github.com/user-attachments/assets/31b4f0ba-417e-48b6-a860-124d74bd6643" />
+    <img width="200" src="https://github.com/user-attachments/assets/30f034dd-f7d9-49f5-bae8-30ba2ac9c6b4" />
 </td>
 <td align="center">
-    <img width="190" height="220" src="https://github.com/user-attachments/assets/140fa03e-36ef-44bf-8d9a-ca65c83b0139" />
+    <img width="200" src="https://github.com/user-attachments/assets/140fa03e-36ef-44bf-8d9a-ca65c83b0139" />
 </td>
 </tr>
 </table>

@@ -48,7 +48,7 @@ from graph_net.torch.extractor import extract
 
 def run_model(name: str, device_str: str) -> None:
     """
-    Run computation graph extraction for the specified model.
+    Run computational graph extraction for the specified model.
 
     Args:
         name (str): Model name (e.g., 'resnet50', 'vit_b_16', 'bert-base-uncased').
@@ -222,14 +222,14 @@ Re-run `extract(name)(model)(input_data)` to complete extraction.
   * Insert hooks at specific layers by passing them into `wrapped = extract(...)(model, hooks=...)`.
 
 
-### 3. Extracting the Computation Graph
+### 3. Extracting the Computational Graph
 
 1. **Run extract**
 
 Execute scripts with `@graph_net.torch.extract` or `@graph_net.paddle.extract`. For example:
 
 ```bash
-# Extract the ResNet‑18 computation graph
+# Extract the ResNet‑18 computational graph
 python -m graph_net.test.vision_model_test
 ```
 
@@ -241,7 +241,7 @@ Expected output will be saved under `$GRAPH_NET_EXTRACT_WORKSPACE`.
 python -m graph_net.torch.validate --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
-`validate` checks if the extracted graph meets the Dataset Construction Constraints. If success, you’re ready to submit.
+`validate` checks if the extracted graph meets the Dataset Construction Constraints. If success, you’re ready to continue.
 
 
 ### 4. Submitting the Extracted Graph
@@ -263,16 +263,17 @@ python -m graph_net.pack --output /path/to/output.zip --clear-after-pack True
 
 This API:
 
-a. Packages all files under `$GRAPH_NET_EXTRACT_WORKSPACE` into `/path/to/output.zip`
+a. Packages all files under `$GRAPH_NET_EXTRACT_WORKSPACE` into `/path/to/output.zip` (You can set it to `GraphNet/samples`)
 
 b. Clears the workspace if `--clear-after-pack` is `True`
 
-Note: If third-party ops are used, contributors must include them manually in the graph directory. As long as `validate` passes, no specific folder structure is required.
+Note: If third-party ops are used, contributors must include them manually in the package. As long as `validate` passes, no specific folder structure is required.
 
 3. **Commit the changes**
 
+Move the packaged computational graph in the previous step to **samples** directory and commit.
 ```bash
-git add <new files>
+git add <the packaged computational graph>
 git commit -m "Description"
 ```
 

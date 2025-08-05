@@ -29,7 +29,9 @@ def main(args):
         if not args.no_check_redundancy:
             print("Check redundancy ...")
             graph_net_samples_path = (
-                graph_net.torch.samples_util.get_default_samples_directory()
+                (graph_net.torch.samples_util.get_default_samples_directory())
+                if args.graph_net_samples_path is None
+                else args.graph_net_samples_path
             )
             cmd = f"{sys.executable} -m graph_net.torch.check_redundant_incrementally --model-path {args.model_path} --graph-net-samples-path {graph_net_samples_path}"
             cmd_ret = os.system(cmd)
@@ -48,6 +50,13 @@ if __name__ == "__main__":
         type=str,
         required=True,
         help="Path to folder e.g '../../samples/torch/resnet18'",
+    )
+    parser.add_argument(
+        "--graph-net-samples-path",
+        type=str,
+        required=False,
+        default=None,
+        help="Path to GraphNet samples folder. e.g '../../samples'",
     )
     parser.add_argument(
         "--no-check-redundancy",

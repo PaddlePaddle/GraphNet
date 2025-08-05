@@ -8,7 +8,7 @@ GraphNet —— 一个面向编译器开发的大规模数据集，旨在为研�
 2. 方便已有编译器做回归测试
 3. 训练AI-for-system模型以自动生成编译器优化Pass
 
-数据集构建约束：
+### 数据集构建约束：
 
 1. 动态图能正常运行
 2. 每份计算图有通用方法测定性能指标
@@ -90,7 +90,7 @@ python -m graph_net.config --global\
 <table>
 <tr>
 <td align="center">
-    <img width="190" height="220" src="https://github.com/user-attachments/assets/31b4f0ba-417e-48b6-a860-124d74bd6643" />
+    <img width="190" height="220" src="https://github.com/user-attachments/assets/1a42cceb-f026-44a6-acbe-dee810410893" />
 </td>
 <td align="center">
     <img width="190" height="220" src="https://github.com/user-attachments/assets/140fa03e-36ef-44bf-8d9a-ca65c83b0139" />
@@ -101,3 +101,5 @@ python -m graph_net.config --global\
 
 ## 开源协议
 [MIT License](LICENSE)
+
+

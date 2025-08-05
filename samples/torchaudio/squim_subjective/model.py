@@ -1,10 +1,11 @@
 import torch
 
+from torch import device
+
 
 class GraphModule(torch.nn.Module):
     def forward(
         self,
-        s0: torch.SymInt,
         L_waveform_: torch.Tensor,
         L_reference_: torch.Tensor,
         L_self_modules_ssl_model_modules_feature_extractor_modules_conv_layers_modules_0_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
@@ -23,7 +24,6 @@ class GraphModule(torch.nn.Module):
         L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_modules_conv_modules_parametrizations_modules_weight_parameters_original0_: torch.nn.parameter.Parameter,
         L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_modules_conv_modules_parametrizations_modules_weight_parameters_original1_: torch.nn.parameter.Parameter,
         L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_modules_conv_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_num_remove: torch.SymInt,
         L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layer_norm_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layer_norm_parameters_bias_: torch.nn.parameter.Parameter,
         L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
@@ -224,7 +224,6 @@ class GraphModule(torch.nn.Module):
         L_self_modules_predictor_modules_att_pool_layer_modules_linear1_parameters_bias_: torch.nn.parameter.Parameter,
         L_self_modules_predictor_modules_att_pool_layer_modules_linear2_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_predictor_modules_att_pool_layer_modules_linear2_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_predictor_att_dim: torch.SymInt,
     ):
         l_waveform_ = L_waveform_
         l_reference_ = L_reference_
@@ -244,7 +243,6 @@ class GraphModule(torch.nn.Module):
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_modules_conv_modules_parametrizations_modules_weight_parameters_original0_ = L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_modules_conv_modules_parametrizations_modules_weight_parameters_original0_
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_modules_conv_modules_parametrizations_modules_weight_parameters_original1_ = L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_modules_conv_modules_parametrizations_modules_weight_parameters_original1_
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_modules_conv_parameters_bias_ = L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_modules_conv_parameters_bias_
-        l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_num_remove = L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_num_remove
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layer_norm_parameters_weight_ = L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layer_norm_parameters_weight_
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layer_norm_parameters_bias_ = L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layer_norm_parameters_bias_
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_q_proj_parameters_weight_ = L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_q_proj_parameters_weight_
@@ -449,8 +447,7 @@ class GraphModule(torch.nn.Module):
         l_self_modules_predictor_modules_att_pool_layer_modules_linear1_parameters_bias_ = L_self_modules_predictor_modules_att_pool_layer_modules_linear1_parameters_bias_
         l_self_modules_predictor_modules_att_pool_layer_modules_linear2_parameters_weight_ = L_self_modules_predictor_modules_att_pool_layer_modules_linear2_parameters_weight_
         l_self_modules_predictor_modules_att_pool_layer_modules_linear2_parameters_bias_ = L_self_modules_predictor_modules_att_pool_layer_modules_linear2_parameters_bias_
-        l_self_modules_predictor_att_dim = L_self_modules_predictor_att_dim
-        reference = l_reference_[(slice(None, None, None), slice(None, s0, None))]
+        reference = l_reference_[(slice(None, None, None), slice(None, 80000, None))]
         l_reference_ = None
         x = l_waveform_.unsqueeze(1)
         l_waveform_ = None
@@ -580,11 +577,8 @@ class GraphModule(torch.nn.Module):
             16,
         )
         x_20 = x_21 = None
-        neg = (
-            -l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_num_remove
-        )
-        x_23 = x_22[(Ellipsis, slice(None, neg, None))]
-        x_22 = neg = None
+        x_23 = x_22[(Ellipsis, slice(None, -1, None))]
+        x_22 = None
         x_24 = torch._C._nn.gelu(x_23)
         x_23 = None
         x_25 = x_24.transpose(-2, -1)
@@ -601,24 +595,12 @@ class GraphModule(torch.nn.Module):
         x_26 = None
         x_28 = torch.nn.functional.dropout(x_27, 0.1, False, False)
         x_27 = None
-        floordiv = s0 // 80
-        s0 = None
-        sym_sum = torch.sym_sum([-3, floordiv])
-        floordiv = None
-        floordiv_1 = sym_sum // 2
-        sym_sum = None
-        sym_sum_1 = torch.sym_sum([-1, floordiv_1])
-        floordiv_1 = None
-        floordiv_2 = sym_sum_1 // 2
-        sym_sum_1 = None
-        sym_sum_2 = torch.sym_sum([1, floordiv_2])
-        floordiv_2 = None
         linear_1 = torch._C._nn.linear(
             x_28,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_q_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_q_proj_parameters_bias_,
         )
-        view = linear_1.view(1, sym_sum_2, 12, 64)
+        view = linear_1.view(1, 249, 12, 64)
         linear_1 = None
         q = view.transpose(2, 1)
         view = None
@@ -627,7 +609,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_k_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_k_proj_parameters_bias_,
         )
-        view_1 = linear_2.view(1, sym_sum_2, 12, 64)
+        view_1 = linear_2.view(1, 249, 12, 64)
         linear_2 = None
         k = view_1.transpose(2, 1)
         view_1 = None
@@ -636,7 +618,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_v_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_v_proj_parameters_bias_,
         )
-        view_2 = linear_3.view(1, sym_sum_2, 12, 64)
+        view_2 = linear_3.view(1, 249, 12, 64)
         linear_3 = None
         v = view_2.transpose(2, 1)
         view_2 = None
@@ -698,7 +680,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_q_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_q_proj_parameters_bias_,
         )
-        view_3 = linear_7.view(1, sym_sum_2, 12, 64)
+        view_3 = linear_7.view(1, 249, 12, 64)
         linear_7 = None
         q_1 = view_3.transpose(2, 1)
         view_3 = None
@@ -707,7 +689,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_k_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_k_proj_parameters_bias_,
         )
-        view_4 = linear_8.view(1, sym_sum_2, 12, 64)
+        view_4 = linear_8.view(1, 249, 12, 64)
         linear_8 = None
         k_1 = view_4.transpose(2, 1)
         view_4 = None
@@ -716,7 +698,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_v_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_v_proj_parameters_bias_,
         )
-        view_5 = linear_9.view(1, sym_sum_2, 12, 64)
+        view_5 = linear_9.view(1, 249, 12, 64)
         linear_9 = None
         v_1 = view_5.transpose(2, 1)
         view_5 = None
@@ -778,7 +760,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_q_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_q_proj_parameters_bias_,
         )
-        view_6 = linear_13.view(1, sym_sum_2, 12, 64)
+        view_6 = linear_13.view(1, 249, 12, 64)
         linear_13 = None
         q_2 = view_6.transpose(2, 1)
         view_6 = None
@@ -787,7 +769,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_k_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_k_proj_parameters_bias_,
         )
-        view_7 = linear_14.view(1, sym_sum_2, 12, 64)
+        view_7 = linear_14.view(1, 249, 12, 64)
         linear_14 = None
         k_2 = view_7.transpose(2, 1)
         view_7 = None
@@ -796,7 +778,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_v_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_v_proj_parameters_bias_,
         )
-        view_8 = linear_15.view(1, sym_sum_2, 12, 64)
+        view_8 = linear_15.view(1, 249, 12, 64)
         linear_15 = None
         v_2 = view_8.transpose(2, 1)
         view_8 = None
@@ -858,7 +840,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_q_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_q_proj_parameters_bias_,
         )
-        view_9 = linear_19.view(1, sym_sum_2, 12, 64)
+        view_9 = linear_19.view(1, 249, 12, 64)
         linear_19 = None
         q_3 = view_9.transpose(2, 1)
         view_9 = None
@@ -867,7 +849,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_k_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_k_proj_parameters_bias_,
         )
-        view_10 = linear_20.view(1, sym_sum_2, 12, 64)
+        view_10 = linear_20.view(1, 249, 12, 64)
         linear_20 = None
         k_3 = view_10.transpose(2, 1)
         view_10 = None
@@ -876,7 +858,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_v_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_v_proj_parameters_bias_,
         )
-        view_11 = linear_21.view(1, sym_sum_2, 12, 64)
+        view_11 = linear_21.view(1, 249, 12, 64)
         linear_21 = None
         v_3 = view_11.transpose(2, 1)
         view_11 = None
@@ -938,7 +920,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_q_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_q_proj_parameters_bias_,
         )
-        view_12 = linear_25.view(1, sym_sum_2, 12, 64)
+        view_12 = linear_25.view(1, 249, 12, 64)
         linear_25 = None
         q_4 = view_12.transpose(2, 1)
         view_12 = None
@@ -947,7 +929,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_k_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_k_proj_parameters_bias_,
         )
-        view_13 = linear_26.view(1, sym_sum_2, 12, 64)
+        view_13 = linear_26.view(1, 249, 12, 64)
         linear_26 = None
         k_4 = view_13.transpose(2, 1)
         view_13 = None
@@ -956,7 +938,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_v_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_v_proj_parameters_bias_,
         )
-        view_14 = linear_27.view(1, sym_sum_2, 12, 64)
+        view_14 = linear_27.view(1, 249, 12, 64)
         linear_27 = None
         v_4 = view_14.transpose(2, 1)
         view_14 = None
@@ -1018,7 +1000,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_q_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_q_proj_parameters_bias_,
         )
-        view_15 = linear_31.view(1, sym_sum_2, 12, 64)
+        view_15 = linear_31.view(1, 249, 12, 64)
         linear_31 = None
         q_5 = view_15.transpose(2, 1)
         view_15 = None
@@ -1027,7 +1009,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_k_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_k_proj_parameters_bias_,
         )
-        view_16 = linear_32.view(1, sym_sum_2, 12, 64)
+        view_16 = linear_32.view(1, 249, 12, 64)
         linear_32 = None
         k_5 = view_16.transpose(2, 1)
         view_16 = None
@@ -1036,7 +1018,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_v_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_v_proj_parameters_bias_,
         )
-        view_17 = linear_33.view(1, sym_sum_2, 12, 64)
+        view_17 = linear_33.view(1, 249, 12, 64)
         linear_33 = None
         v_5 = view_17.transpose(2, 1)
         view_17 = None
@@ -1098,7 +1080,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_q_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_q_proj_parameters_bias_,
         )
-        view_18 = linear_37.view(1, sym_sum_2, 12, 64)
+        view_18 = linear_37.view(1, 249, 12, 64)
         linear_37 = None
         q_6 = view_18.transpose(2, 1)
         view_18 = None
@@ -1107,7 +1089,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_k_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_k_proj_parameters_bias_,
         )
-        view_19 = linear_38.view(1, sym_sum_2, 12, 64)
+        view_19 = linear_38.view(1, 249, 12, 64)
         linear_38 = None
         k_6 = view_19.transpose(2, 1)
         view_19 = None
@@ -1116,7 +1098,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_v_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_v_proj_parameters_bias_,
         )
-        view_20 = linear_39.view(1, sym_sum_2, 12, 64)
+        view_20 = linear_39.view(1, 249, 12, 64)
         linear_39 = None
         v_6 = view_20.transpose(2, 1)
         view_20 = None
@@ -1178,7 +1160,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_q_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_q_proj_parameters_bias_,
         )
-        view_21 = linear_43.view(1, sym_sum_2, 12, 64)
+        view_21 = linear_43.view(1, 249, 12, 64)
         linear_43 = None
         q_7 = view_21.transpose(2, 1)
         view_21 = None
@@ -1187,7 +1169,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_k_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_k_proj_parameters_bias_,
         )
-        view_22 = linear_44.view(1, sym_sum_2, 12, 64)
+        view_22 = linear_44.view(1, 249, 12, 64)
         linear_44 = None
         k_7 = view_22.transpose(2, 1)
         view_22 = None
@@ -1196,7 +1178,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_v_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_v_proj_parameters_bias_,
         )
-        view_23 = linear_45.view(1, sym_sum_2, 12, 64)
+        view_23 = linear_45.view(1, 249, 12, 64)
         linear_45 = None
         v_7 = view_23.transpose(2, 1)
         view_23 = None
@@ -1258,7 +1240,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_q_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_q_proj_parameters_bias_,
         )
-        view_24 = linear_49.view(1, sym_sum_2, 12, 64)
+        view_24 = linear_49.view(1, 249, 12, 64)
         linear_49 = None
         q_8 = view_24.transpose(2, 1)
         view_24 = None
@@ -1267,7 +1249,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_k_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_k_proj_parameters_bias_,
         )
-        view_25 = linear_50.view(1, sym_sum_2, 12, 64)
+        view_25 = linear_50.view(1, 249, 12, 64)
         linear_50 = None
         k_8 = view_25.transpose(2, 1)
         view_25 = None
@@ -1276,7 +1258,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_v_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_v_proj_parameters_bias_,
         )
-        view_26 = linear_51.view(1, sym_sum_2, 12, 64)
+        view_26 = linear_51.view(1, 249, 12, 64)
         linear_51 = None
         v_8 = view_26.transpose(2, 1)
         view_26 = None
@@ -1338,7 +1320,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_q_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_q_proj_parameters_bias_,
         )
-        view_27 = linear_55.view(1, sym_sum_2, 12, 64)
+        view_27 = linear_55.view(1, 249, 12, 64)
         linear_55 = None
         q_9 = view_27.transpose(2, 1)
         view_27 = None
@@ -1347,7 +1329,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_k_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_k_proj_parameters_bias_,
         )
-        view_28 = linear_56.view(1, sym_sum_2, 12, 64)
+        view_28 = linear_56.view(1, 249, 12, 64)
         linear_56 = None
         k_9 = view_28.transpose(2, 1)
         view_28 = None
@@ -1356,7 +1338,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_v_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_v_proj_parameters_bias_,
         )
-        view_29 = linear_57.view(1, sym_sum_2, 12, 64)
+        view_29 = linear_57.view(1, 249, 12, 64)
         linear_57 = None
         v_9 = view_29.transpose(2, 1)
         view_29 = None
@@ -1418,7 +1400,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_q_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_q_proj_parameters_bias_,
         )
-        view_30 = linear_61.view(1, sym_sum_2, 12, 64)
+        view_30 = linear_61.view(1, 249, 12, 64)
         linear_61 = None
         q_10 = view_30.transpose(2, 1)
         view_30 = None
@@ -1427,7 +1409,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_k_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_k_proj_parameters_bias_,
         )
-        view_31 = linear_62.view(1, sym_sum_2, 12, 64)
+        view_31 = linear_62.view(1, 249, 12, 64)
         linear_62 = None
         k_10 = view_31.transpose(2, 1)
         view_31 = None
@@ -1436,7 +1418,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_v_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_v_proj_parameters_bias_,
         )
-        view_32 = linear_63.view(1, sym_sum_2, 12, 64)
+        view_32 = linear_63.view(1, 249, 12, 64)
         linear_63 = None
         v_10 = view_32.transpose(2, 1)
         view_32 = None
@@ -1498,7 +1480,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_q_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_q_proj_parameters_bias_,
         )
-        view_33 = linear_67.view(1, sym_sum_2, 12, 64)
+        view_33 = linear_67.view(1, 249, 12, 64)
         linear_67 = None
         q_11 = view_33.transpose(2, 1)
         view_33 = None
@@ -1507,7 +1489,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_k_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_k_proj_parameters_bias_,
         )
-        view_34 = linear_68.view(1, sym_sum_2, 12, 64)
+        view_34 = linear_68.view(1, 249, 12, 64)
         linear_68 = None
         k_11 = view_34.transpose(2, 1)
         view_34 = None
@@ -1516,7 +1498,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_v_proj_parameters_weight_,
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_v_proj_parameters_bias_,
         )
-        view_35 = linear_69.view(1, sym_sum_2, 12, 64)
+        view_35 = linear_69.view(1, 249, 12, 64)
         linear_69 = None
         v_11 = view_35.transpose(2, 1)
         view_35 = None
@@ -1710,14 +1692,8 @@ class GraphModule(torch.nn.Module):
         x_157 = (
             x_158
         ) = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_modules_conv_parameters_bias_ = (None)
-        neg_1 = (
-            -l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_num_remove
-        )
-        l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_num_remove = (
-            None
-        )
-        x_160 = x_159[(Ellipsis, slice(None, neg_1, None))]
-        x_159 = neg_1 = None
+        x_160 = x_159[(Ellipsis, slice(None, -1, None))]
+        x_159 = None
         x_161 = torch._C._nn.gelu(x_160)
         x_160 = None
         x_162 = x_161.transpose(-2, -1)
@@ -1740,7 +1716,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_q_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_q_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_q_proj_parameters_bias_ = (None)
-        view_36 = linear_75.view(1, sym_sum_2, 12, 64)
+        view_36 = linear_75.view(1, 249, 12, 64)
         linear_75 = None
         q_12 = view_36.transpose(2, 1)
         view_36 = None
@@ -1750,7 +1726,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_k_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_k_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_k_proj_parameters_bias_ = (None)
-        view_37 = linear_76.view(1, sym_sum_2, 12, 64)
+        view_37 = linear_76.view(1, 249, 12, 64)
         linear_76 = None
         k_12 = view_37.transpose(2, 1)
         view_37 = None
@@ -1760,7 +1736,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_v_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_v_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_0_modules_attention_modules_v_proj_parameters_bias_ = (None)
-        view_38 = linear_77.view(1, sym_sum_2, 12, 64)
+        view_38 = linear_77.view(1, 249, 12, 64)
         linear_77 = None
         v_12 = view_38.transpose(2, 1)
         view_38 = None
@@ -1824,7 +1800,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_q_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_q_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_q_proj_parameters_bias_ = (None)
-        view_39 = linear_81.view(1, sym_sum_2, 12, 64)
+        view_39 = linear_81.view(1, 249, 12, 64)
         linear_81 = None
         q_13 = view_39.transpose(2, 1)
         view_39 = None
@@ -1834,7 +1810,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_k_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_k_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_k_proj_parameters_bias_ = (None)
-        view_40 = linear_82.view(1, sym_sum_2, 12, 64)
+        view_40 = linear_82.view(1, 249, 12, 64)
         linear_82 = None
         k_13 = view_40.transpose(2, 1)
         view_40 = None
@@ -1844,7 +1820,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_v_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_v_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_1_modules_attention_modules_v_proj_parameters_bias_ = (None)
-        view_41 = linear_83.view(1, sym_sum_2, 12, 64)
+        view_41 = linear_83.view(1, 249, 12, 64)
         linear_83 = None
         v_13 = view_41.transpose(2, 1)
         view_41 = None
@@ -1908,7 +1884,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_q_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_q_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_q_proj_parameters_bias_ = (None)
-        view_42 = linear_87.view(1, sym_sum_2, 12, 64)
+        view_42 = linear_87.view(1, 249, 12, 64)
         linear_87 = None
         q_14 = view_42.transpose(2, 1)
         view_42 = None
@@ -1918,7 +1894,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_k_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_k_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_k_proj_parameters_bias_ = (None)
-        view_43 = linear_88.view(1, sym_sum_2, 12, 64)
+        view_43 = linear_88.view(1, 249, 12, 64)
         linear_88 = None
         k_14 = view_43.transpose(2, 1)
         view_43 = None
@@ -1928,7 +1904,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_v_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_v_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_2_modules_attention_modules_v_proj_parameters_bias_ = (None)
-        view_44 = linear_89.view(1, sym_sum_2, 12, 64)
+        view_44 = linear_89.view(1, 249, 12, 64)
         linear_89 = None
         v_14 = view_44.transpose(2, 1)
         view_44 = None
@@ -1992,7 +1968,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_q_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_q_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_q_proj_parameters_bias_ = (None)
-        view_45 = linear_93.view(1, sym_sum_2, 12, 64)
+        view_45 = linear_93.view(1, 249, 12, 64)
         linear_93 = None
         q_15 = view_45.transpose(2, 1)
         view_45 = None
@@ -2002,7 +1978,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_k_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_k_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_k_proj_parameters_bias_ = (None)
-        view_46 = linear_94.view(1, sym_sum_2, 12, 64)
+        view_46 = linear_94.view(1, 249, 12, 64)
         linear_94 = None
         k_15 = view_46.transpose(2, 1)
         view_46 = None
@@ -2012,7 +1988,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_v_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_v_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_3_modules_attention_modules_v_proj_parameters_bias_ = (None)
-        view_47 = linear_95.view(1, sym_sum_2, 12, 64)
+        view_47 = linear_95.view(1, 249, 12, 64)
         linear_95 = None
         v_15 = view_47.transpose(2, 1)
         view_47 = None
@@ -2076,7 +2052,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_q_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_q_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_q_proj_parameters_bias_ = (None)
-        view_48 = linear_99.view(1, sym_sum_2, 12, 64)
+        view_48 = linear_99.view(1, 249, 12, 64)
         linear_99 = None
         q_16 = view_48.transpose(2, 1)
         view_48 = None
@@ -2086,7 +2062,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_k_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_k_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_k_proj_parameters_bias_ = (None)
-        view_49 = linear_100.view(1, sym_sum_2, 12, 64)
+        view_49 = linear_100.view(1, 249, 12, 64)
         linear_100 = None
         k_16 = view_49.transpose(2, 1)
         view_49 = None
@@ -2096,7 +2072,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_v_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_v_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_4_modules_attention_modules_v_proj_parameters_bias_ = (None)
-        view_50 = linear_101.view(1, sym_sum_2, 12, 64)
+        view_50 = linear_101.view(1, 249, 12, 64)
         linear_101 = None
         v_16 = view_50.transpose(2, 1)
         view_50 = None
@@ -2160,7 +2136,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_q_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_q_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_q_proj_parameters_bias_ = (None)
-        view_51 = linear_105.view(1, sym_sum_2, 12, 64)
+        view_51 = linear_105.view(1, 249, 12, 64)
         linear_105 = None
         q_17 = view_51.transpose(2, 1)
         view_51 = None
@@ -2170,7 +2146,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_k_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_k_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_k_proj_parameters_bias_ = (None)
-        view_52 = linear_106.view(1, sym_sum_2, 12, 64)
+        view_52 = linear_106.view(1, 249, 12, 64)
         linear_106 = None
         k_17 = view_52.transpose(2, 1)
         view_52 = None
@@ -2180,7 +2156,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_v_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_v_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_5_modules_attention_modules_v_proj_parameters_bias_ = (None)
-        view_53 = linear_107.view(1, sym_sum_2, 12, 64)
+        view_53 = linear_107.view(1, 249, 12, 64)
         linear_107 = None
         v_17 = view_53.transpose(2, 1)
         view_53 = None
@@ -2244,7 +2220,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_q_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_q_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_q_proj_parameters_bias_ = (None)
-        view_54 = linear_111.view(1, sym_sum_2, 12, 64)
+        view_54 = linear_111.view(1, 249, 12, 64)
         linear_111 = None
         q_18 = view_54.transpose(2, 1)
         view_54 = None
@@ -2254,7 +2230,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_k_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_k_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_k_proj_parameters_bias_ = (None)
-        view_55 = linear_112.view(1, sym_sum_2, 12, 64)
+        view_55 = linear_112.view(1, 249, 12, 64)
         linear_112 = None
         k_18 = view_55.transpose(2, 1)
         view_55 = None
@@ -2264,7 +2240,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_v_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_v_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_6_modules_attention_modules_v_proj_parameters_bias_ = (None)
-        view_56 = linear_113.view(1, sym_sum_2, 12, 64)
+        view_56 = linear_113.view(1, 249, 12, 64)
         linear_113 = None
         v_18 = view_56.transpose(2, 1)
         view_56 = None
@@ -2328,7 +2304,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_q_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_q_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_q_proj_parameters_bias_ = (None)
-        view_57 = linear_117.view(1, sym_sum_2, 12, 64)
+        view_57 = linear_117.view(1, 249, 12, 64)
         linear_117 = None
         q_19 = view_57.transpose(2, 1)
         view_57 = None
@@ -2338,7 +2314,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_k_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_k_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_k_proj_parameters_bias_ = (None)
-        view_58 = linear_118.view(1, sym_sum_2, 12, 64)
+        view_58 = linear_118.view(1, 249, 12, 64)
         linear_118 = None
         k_19 = view_58.transpose(2, 1)
         view_58 = None
@@ -2348,7 +2324,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_v_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_v_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_7_modules_attention_modules_v_proj_parameters_bias_ = (None)
-        view_59 = linear_119.view(1, sym_sum_2, 12, 64)
+        view_59 = linear_119.view(1, 249, 12, 64)
         linear_119 = None
         v_19 = view_59.transpose(2, 1)
         view_59 = None
@@ -2412,7 +2388,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_q_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_q_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_q_proj_parameters_bias_ = (None)
-        view_60 = linear_123.view(1, sym_sum_2, 12, 64)
+        view_60 = linear_123.view(1, 249, 12, 64)
         linear_123 = None
         q_20 = view_60.transpose(2, 1)
         view_60 = None
@@ -2422,7 +2398,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_k_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_k_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_k_proj_parameters_bias_ = (None)
-        view_61 = linear_124.view(1, sym_sum_2, 12, 64)
+        view_61 = linear_124.view(1, 249, 12, 64)
         linear_124 = None
         k_20 = view_61.transpose(2, 1)
         view_61 = None
@@ -2432,7 +2408,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_v_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_v_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_8_modules_attention_modules_v_proj_parameters_bias_ = (None)
-        view_62 = linear_125.view(1, sym_sum_2, 12, 64)
+        view_62 = linear_125.view(1, 249, 12, 64)
         linear_125 = None
         v_20 = view_62.transpose(2, 1)
         view_62 = None
@@ -2496,7 +2472,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_q_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_q_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_q_proj_parameters_bias_ = (None)
-        view_63 = linear_129.view(1, sym_sum_2, 12, 64)
+        view_63 = linear_129.view(1, 249, 12, 64)
         linear_129 = None
         q_21 = view_63.transpose(2, 1)
         view_63 = None
@@ -2506,7 +2482,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_k_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_k_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_k_proj_parameters_bias_ = (None)
-        view_64 = linear_130.view(1, sym_sum_2, 12, 64)
+        view_64 = linear_130.view(1, 249, 12, 64)
         linear_130 = None
         k_21 = view_64.transpose(2, 1)
         view_64 = None
@@ -2516,7 +2492,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_v_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_v_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_9_modules_attention_modules_v_proj_parameters_bias_ = (None)
-        view_65 = linear_131.view(1, sym_sum_2, 12, 64)
+        view_65 = linear_131.view(1, 249, 12, 64)
         linear_131 = None
         v_21 = view_65.transpose(2, 1)
         view_65 = None
@@ -2580,7 +2556,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_q_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_q_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_q_proj_parameters_bias_ = (None)
-        view_66 = linear_135.view(1, sym_sum_2, 12, 64)
+        view_66 = linear_135.view(1, 249, 12, 64)
         linear_135 = None
         q_22 = view_66.transpose(2, 1)
         view_66 = None
@@ -2590,7 +2566,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_k_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_k_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_k_proj_parameters_bias_ = (None)
-        view_67 = linear_136.view(1, sym_sum_2, 12, 64)
+        view_67 = linear_136.view(1, 249, 12, 64)
         linear_136 = None
         k_22 = view_67.transpose(2, 1)
         view_67 = None
@@ -2600,7 +2576,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_v_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_v_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_10_modules_attention_modules_v_proj_parameters_bias_ = (None)
-        view_68 = linear_137.view(1, sym_sum_2, 12, 64)
+        view_68 = linear_137.view(1, 249, 12, 64)
         linear_137 = None
         v_22 = view_68.transpose(2, 1)
         view_68 = None
@@ -2664,7 +2640,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_q_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_q_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_q_proj_parameters_bias_ = (None)
-        view_69 = linear_141.view(1, sym_sum_2, 12, 64)
+        view_69 = linear_141.view(1, 249, 12, 64)
         linear_141 = None
         q_23 = view_69.transpose(2, 1)
         view_69 = None
@@ -2674,7 +2650,7 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_k_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_k_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_k_proj_parameters_bias_ = (None)
-        view_70 = linear_142.view(1, sym_sum_2, 12, 64)
+        view_70 = linear_142.view(1, 249, 12, 64)
         linear_142 = None
         k_23 = view_70.transpose(2, 1)
         view_70 = None
@@ -2684,8 +2660,8 @@ class GraphModule(torch.nn.Module):
             l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_v_proj_parameters_bias_,
         )
         l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_v_proj_parameters_weight_ = l_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layers_modules_11_modules_attention_modules_v_proj_parameters_bias_ = (None)
-        view_71 = linear_143.view(1, sym_sum_2, 12, 64)
-        linear_143 = sym_sum_2 = None
+        view_71 = linear_143.view(1, 249, 12, 64)
+        linear_143 = None
         v_23 = view_71.transpose(2, 1)
         view_71 = None
         attn_output_46 = torch._C._nn.scaled_dot_product_attention(
@@ -2774,13 +2750,7 @@ class GraphModule(torch.nn.Module):
         x_274 = l_self_modules_predictor_modules_att_pool_layer_modules_linear2_parameters_weight_ = l_self_modules_predictor_modules_att_pool_layer_modules_linear2_parameters_bias_ = (None)
         x_276 = torch.nn.functional.softmax(x_275, dim=1)
         x_275 = None
-        B = torch.linspace(
-            0,
-            4,
-            steps=l_self_modules_predictor_att_dim,
-            device=device(type="cuda", index=0),
-        )
-        l_self_modules_predictor_att_dim = None
+        B = torch.linspace(0, 4, steps=5, device=device(type="cuda", index=0))
         mul = x_276 * B
         x_276 = B = None
         x_277 = mul.sum(dim=1)

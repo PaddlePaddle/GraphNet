@@ -1,20 +1,10 @@
-class Program_weight_tensor_meta_s0:
-    name = "s0"
-    shape = []
-    dtype = "torch.int64"
-    device = "cpu"
-    mean = None
-    std = None
-    data = [4]
-
-
 class Program_weight_tensor_meta_L_waveform_:
     name = "L_waveform_"
     shape = [1, 80000]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.003
-    std = 1.000
+    mean = 0.004
+    std = 1.004
     data = None
 
 
@@ -24,7 +14,7 @@ class Program_weight_tensor_meta_L_reference_:
     dtype = "torch.float32"
     device = "cuda:0"
     mean = -0.003
-    std = 0.995
+    std = 0.997
     data = None
 
 
@@ -186,16 +176,6 @@ class Program_weight_tensor_meta_L_self_modules_ssl_model_modules_encoder_module
     mean = 0.204
     std = 0.113
     data = None
-
-
-class Program_weight_tensor_meta_L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_num_remove:
-    name = "L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_pos_conv_embed_num_remove"
-    shape = []
-    dtype = "torch.int64"
-    device = "cpu"
-    mean = None
-    std = None
-    data = [4]
 
 
 class Program_weight_tensor_meta_L_self_modules_ssl_model_modules_encoder_modules_transformer_modules_layer_norm_parameters_weight_:
@@ -2174,7 +2154,7 @@ class Program_weight_tensor_meta_L_self_modules_predictor_modules_att_pool_layer
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.043
-    std = nan
+    std = float("nan")
     data = None
 
 
@@ -2196,13 +2176,3 @@ class Program_weight_tensor_meta_L_self_modules_predictor_modules_att_pool_layer
     mean = -0.067
     std = 0.046
     data = None
-
-
-class Program_weight_tensor_meta_L_self_modules_predictor_att_dim:
-    name = "L_self_modules_predictor_att_dim"
-    shape = []
-    dtype = "torch.int64"
-    device = "cpu"
-    mean = None
-    std = None
-    data = [4]

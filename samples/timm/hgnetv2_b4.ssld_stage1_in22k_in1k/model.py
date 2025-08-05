@@ -1,0 +1,2815 @@
+import torch
+
+
+class GraphModule(torch.nn.Module):
+    def forward(
+        self,
+        L_self_modules_stem_modules_stem1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        s1: torch.SymInt,
+        L_x_: torch.Tensor,
+        L_self_modules_stem_modules_stem1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stem_modules_stem1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stem_modules_stem1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_stem1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_stem2a_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_stem2a_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stem_modules_stem2a_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stem_modules_stem2a_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_stem2a_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_stem2b_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_stem2b_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stem_modules_stem2b_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stem_modules_stem2b_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_stem2b_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_stem3_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_stem3_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stem_modules_stem3_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stem_modules_stem3_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_stem3_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_stem4_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_stem4_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stem_modules_stem4_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stem_modules_stem4_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_stem4_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_downsample_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_downsample_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_downsample_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_downsample_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_downsample_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_downsample_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_downsample_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_downsample_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_downsample_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_downsample_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_downsample_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_downsample_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_head_modules_last_conv_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_head_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_head_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+    ):
+        l_self_modules_stem_modules_stem1_modules_conv_parameters_weight_ = (
+            L_self_modules_stem_modules_stem1_modules_conv_parameters_weight_
+        )
+        l_x_ = L_x_
+        l_self_modules_stem_modules_stem1_modules_bn_buffers_running_mean_ = (
+            L_self_modules_stem_modules_stem1_modules_bn_buffers_running_mean_
+        )
+        l_self_modules_stem_modules_stem1_modules_bn_buffers_running_var_ = (
+            L_self_modules_stem_modules_stem1_modules_bn_buffers_running_var_
+        )
+        l_self_modules_stem_modules_stem1_modules_bn_parameters_weight_ = (
+            L_self_modules_stem_modules_stem1_modules_bn_parameters_weight_
+        )
+        l_self_modules_stem_modules_stem1_modules_bn_parameters_bias_ = (
+            L_self_modules_stem_modules_stem1_modules_bn_parameters_bias_
+        )
+        l_self_modules_stem_modules_stem2a_modules_conv_parameters_weight_ = (
+            L_self_modules_stem_modules_stem2a_modules_conv_parameters_weight_
+        )
+        l_self_modules_stem_modules_stem2a_modules_bn_buffers_running_mean_ = (
+            L_self_modules_stem_modules_stem2a_modules_bn_buffers_running_mean_
+        )
+        l_self_modules_stem_modules_stem2a_modules_bn_buffers_running_var_ = (
+            L_self_modules_stem_modules_stem2a_modules_bn_buffers_running_var_
+        )
+        l_self_modules_stem_modules_stem2a_modules_bn_parameters_weight_ = (
+            L_self_modules_stem_modules_stem2a_modules_bn_parameters_weight_
+        )
+        l_self_modules_stem_modules_stem2a_modules_bn_parameters_bias_ = (
+            L_self_modules_stem_modules_stem2a_modules_bn_parameters_bias_
+        )
+        l_self_modules_stem_modules_stem2b_modules_conv_parameters_weight_ = (
+            L_self_modules_stem_modules_stem2b_modules_conv_parameters_weight_
+        )
+        l_self_modules_stem_modules_stem2b_modules_bn_buffers_running_mean_ = (
+            L_self_modules_stem_modules_stem2b_modules_bn_buffers_running_mean_
+        )
+        l_self_modules_stem_modules_stem2b_modules_bn_buffers_running_var_ = (
+            L_self_modules_stem_modules_stem2b_modules_bn_buffers_running_var_
+        )
+        l_self_modules_stem_modules_stem2b_modules_bn_parameters_weight_ = (
+            L_self_modules_stem_modules_stem2b_modules_bn_parameters_weight_
+        )
+        l_self_modules_stem_modules_stem2b_modules_bn_parameters_bias_ = (
+            L_self_modules_stem_modules_stem2b_modules_bn_parameters_bias_
+        )
+        l_self_modules_stem_modules_stem3_modules_conv_parameters_weight_ = (
+            L_self_modules_stem_modules_stem3_modules_conv_parameters_weight_
+        )
+        l_self_modules_stem_modules_stem3_modules_bn_buffers_running_mean_ = (
+            L_self_modules_stem_modules_stem3_modules_bn_buffers_running_mean_
+        )
+        l_self_modules_stem_modules_stem3_modules_bn_buffers_running_var_ = (
+            L_self_modules_stem_modules_stem3_modules_bn_buffers_running_var_
+        )
+        l_self_modules_stem_modules_stem3_modules_bn_parameters_weight_ = (
+            L_self_modules_stem_modules_stem3_modules_bn_parameters_weight_
+        )
+        l_self_modules_stem_modules_stem3_modules_bn_parameters_bias_ = (
+            L_self_modules_stem_modules_stem3_modules_bn_parameters_bias_
+        )
+        l_self_modules_stem_modules_stem4_modules_conv_parameters_weight_ = (
+            L_self_modules_stem_modules_stem4_modules_conv_parameters_weight_
+        )
+        l_self_modules_stem_modules_stem4_modules_bn_buffers_running_mean_ = (
+            L_self_modules_stem_modules_stem4_modules_bn_buffers_running_mean_
+        )
+        l_self_modules_stem_modules_stem4_modules_bn_buffers_running_var_ = (
+            L_self_modules_stem_modules_stem4_modules_bn_buffers_running_var_
+        )
+        l_self_modules_stem_modules_stem4_modules_bn_parameters_weight_ = (
+            L_self_modules_stem_modules_stem4_modules_bn_parameters_weight_
+        )
+        l_self_modules_stem_modules_stem4_modules_bn_parameters_bias_ = (
+            L_self_modules_stem_modules_stem4_modules_bn_parameters_bias_
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_conv_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_conv_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_conv_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_conv_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_weight_ = L_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_1_modules_downsample_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_1_modules_downsample_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_1_modules_downsample_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_1_modules_downsample_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_1_modules_downsample_modules_bn_parameters_weight_ = L_self_modules_stages_modules_1_modules_downsample_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_1_modules_downsample_modules_bn_parameters_bias_ = L_self_modules_stages_modules_1_modules_downsample_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_conv_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_conv_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_conv_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_conv_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_downsample_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_downsample_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_downsample_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_downsample_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_downsample_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_downsample_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_downsample_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_downsample_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_downsample_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_downsample_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_downsample_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_downsample_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_downsample_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_downsample_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_downsample_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_downsample_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_
+        l_self_modules_head_modules_last_conv_modules_0_parameters_weight_ = (
+            L_self_modules_head_modules_last_conv_modules_0_parameters_weight_
+        )
+        l_self_modules_head_modules_fc_parameters_weight_ = (
+            L_self_modules_head_modules_fc_parameters_weight_
+        )
+        l_self_modules_head_modules_fc_parameters_bias_ = (
+            L_self_modules_head_modules_fc_parameters_bias_
+        )
+        x = torch.conv2d(
+            l_x_,
+            l_self_modules_stem_modules_stem1_modules_conv_parameters_weight_,
+            None,
+            (2, 2),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        l_x_ = l_self_modules_stem_modules_stem1_modules_conv_parameters_weight_ = None
+        x_1 = torch.nn.functional.batch_norm(
+            x,
+            l_self_modules_stem_modules_stem1_modules_bn_buffers_running_mean_,
+            l_self_modules_stem_modules_stem1_modules_bn_buffers_running_var_,
+            l_self_modules_stem_modules_stem1_modules_bn_parameters_weight_,
+            l_self_modules_stem_modules_stem1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x = (
+            l_self_modules_stem_modules_stem1_modules_bn_buffers_running_mean_
+        ) = (
+            l_self_modules_stem_modules_stem1_modules_bn_buffers_running_var_
+        ) = (
+            l_self_modules_stem_modules_stem1_modules_bn_parameters_weight_
+        ) = l_self_modules_stem_modules_stem1_modules_bn_parameters_bias_ = None
+        x_2 = torch.nn.functional.relu(x_1, inplace=False)
+        x_1 = None
+        x_3 = torch._C._nn.pad(x_2, (0, 1, 0, 1), "constant", None)
+        x_2 = None
+        x_4 = torch.conv2d(
+            x_3,
+            l_self_modules_stem_modules_stem2a_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stem_modules_stem2a_modules_conv_parameters_weight_ = None
+        x_5 = torch.nn.functional.batch_norm(
+            x_4,
+            l_self_modules_stem_modules_stem2a_modules_bn_buffers_running_mean_,
+            l_self_modules_stem_modules_stem2a_modules_bn_buffers_running_var_,
+            l_self_modules_stem_modules_stem2a_modules_bn_parameters_weight_,
+            l_self_modules_stem_modules_stem2a_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_4 = (
+            l_self_modules_stem_modules_stem2a_modules_bn_buffers_running_mean_
+        ) = (
+            l_self_modules_stem_modules_stem2a_modules_bn_buffers_running_var_
+        ) = (
+            l_self_modules_stem_modules_stem2a_modules_bn_parameters_weight_
+        ) = l_self_modules_stem_modules_stem2a_modules_bn_parameters_bias_ = None
+        x_6 = torch.nn.functional.relu(x_5, inplace=False)
+        x_5 = None
+        x2 = torch._C._nn.pad(x_6, (0, 1, 0, 1), "constant", None)
+        x_6 = None
+        x_7 = torch.conv2d(
+            x2,
+            l_self_modules_stem_modules_stem2b_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x2 = l_self_modules_stem_modules_stem2b_modules_conv_parameters_weight_ = None
+        x_8 = torch.nn.functional.batch_norm(
+            x_7,
+            l_self_modules_stem_modules_stem2b_modules_bn_buffers_running_mean_,
+            l_self_modules_stem_modules_stem2b_modules_bn_buffers_running_var_,
+            l_self_modules_stem_modules_stem2b_modules_bn_parameters_weight_,
+            l_self_modules_stem_modules_stem2b_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_7 = (
+            l_self_modules_stem_modules_stem2b_modules_bn_buffers_running_mean_
+        ) = (
+            l_self_modules_stem_modules_stem2b_modules_bn_buffers_running_var_
+        ) = (
+            l_self_modules_stem_modules_stem2b_modules_bn_parameters_weight_
+        ) = l_self_modules_stem_modules_stem2b_modules_bn_parameters_bias_ = None
+        x_9 = torch.nn.functional.relu(x_8, inplace=False)
+        x_8 = None
+        x1 = torch.nn.functional.max_pool2d(
+            x_3, 2, 1, 0, 1, ceil_mode=True, return_indices=False
+        )
+        x_3 = None
+        x_10 = torch.cat([x1, x_9], dim=1)
+        x1 = x_9 = None
+        x_11 = torch.conv2d(
+            x_10,
+            l_self_modules_stem_modules_stem3_modules_conv_parameters_weight_,
+            None,
+            (2, 2),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x_10 = l_self_modules_stem_modules_stem3_modules_conv_parameters_weight_ = None
+        x_12 = torch.nn.functional.batch_norm(
+            x_11,
+            l_self_modules_stem_modules_stem3_modules_bn_buffers_running_mean_,
+            l_self_modules_stem_modules_stem3_modules_bn_buffers_running_var_,
+            l_self_modules_stem_modules_stem3_modules_bn_parameters_weight_,
+            l_self_modules_stem_modules_stem3_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_11 = (
+            l_self_modules_stem_modules_stem3_modules_bn_buffers_running_mean_
+        ) = (
+            l_self_modules_stem_modules_stem3_modules_bn_buffers_running_var_
+        ) = (
+            l_self_modules_stem_modules_stem3_modules_bn_parameters_weight_
+        ) = l_self_modules_stem_modules_stem3_modules_bn_parameters_bias_ = None
+        x_13 = torch.nn.functional.relu(x_12, inplace=False)
+        x_12 = None
+        x_14 = torch.conv2d(
+            x_13,
+            l_self_modules_stem_modules_stem4_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_13 = l_self_modules_stem_modules_stem4_modules_conv_parameters_weight_ = None
+        x_15 = torch.nn.functional.batch_norm(
+            x_14,
+            l_self_modules_stem_modules_stem4_modules_bn_buffers_running_mean_,
+            l_self_modules_stem_modules_stem4_modules_bn_buffers_running_var_,
+            l_self_modules_stem_modules_stem4_modules_bn_parameters_weight_,
+            l_self_modules_stem_modules_stem4_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_14 = (
+            l_self_modules_stem_modules_stem4_modules_bn_buffers_running_mean_
+        ) = (
+            l_self_modules_stem_modules_stem4_modules_bn_buffers_running_var_
+        ) = (
+            l_self_modules_stem_modules_stem4_modules_bn_parameters_weight_
+        ) = l_self_modules_stem_modules_stem4_modules_bn_parameters_bias_ = None
+        x_16 = torch.nn.functional.relu(x_15, inplace=False)
+        x_15 = None
+        x_17 = torch.conv2d(
+            x_16,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_18 = torch.nn.functional.batch_norm(
+            x_17,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_17 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_bias_ = (None)
+        x_19 = torch.nn.functional.relu(x_18, inplace=False)
+        x_18 = None
+        x_20 = torch.conv2d(
+            x_19,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_21 = torch.nn.functional.batch_norm(
+            x_20,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_20 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_bias_ = (None)
+        x_22 = torch.nn.functional.relu(x_21, inplace=False)
+        x_21 = None
+        x_23 = torch.conv2d(
+            x_22,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_24 = torch.nn.functional.batch_norm(
+            x_23,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_23 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_bias_ = (None)
+        x_25 = torch.nn.functional.relu(x_24, inplace=False)
+        x_24 = None
+        x_26 = torch.conv2d(
+            x_25,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_27 = torch.nn.functional.batch_norm(
+            x_26,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_26 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_bias_ = (None)
+        x_28 = torch.nn.functional.relu(x_27, inplace=False)
+        x_27 = None
+        x_29 = torch.conv2d(
+            x_28,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_30 = torch.nn.functional.batch_norm(
+            x_29,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_29 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_bias_ = (None)
+        x_31 = torch.nn.functional.relu(x_30, inplace=False)
+        x_30 = None
+        x_32 = torch.conv2d(
+            x_31,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_33 = torch.nn.functional.batch_norm(
+            x_32,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_32 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_bias_ = (None)
+        x_34 = torch.nn.functional.relu(x_33, inplace=False)
+        x_33 = None
+        x_35 = torch.cat([x_16, x_19, x_22, x_25, x_28, x_31, x_34], dim=1)
+        x_16 = x_19 = x_22 = x_25 = x_28 = x_31 = x_34 = None
+        x_36 = torch.conv2d(
+            x_35,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_35 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_ = (None)
+        x_37 = torch.nn.functional.batch_norm(
+            x_36,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_36 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_ = (None)
+        x_38 = torch.nn.functional.relu(x_37, inplace=False)
+        x_37 = None
+        x_39 = torch.conv2d(
+            x_38,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_38 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_ = (None)
+        x_40 = torch.nn.functional.batch_norm(
+            x_39,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_39 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_ = (None)
+        x_41 = torch.nn.functional.relu(x_40, inplace=False)
+        x_40 = None
+        x_42 = torch.conv2d(
+            x_41,
+            l_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_weight_,
+            None,
+            (2, 2),
+            (1, 1),
+            (1, 1),
+            128,
+        )
+        x_41 = l_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_weight_ = (None)
+        x_43 = torch.nn.functional.batch_norm(
+            x_42,
+            l_self_modules_stages_modules_1_modules_downsample_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_1_modules_downsample_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_1_modules_downsample_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_downsample_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_42 = l_self_modules_stages_modules_1_modules_downsample_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_1_modules_downsample_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_1_modules_downsample_modules_bn_parameters_weight_ = l_self_modules_stages_modules_1_modules_downsample_modules_bn_parameters_bias_ = (None)
+        x_44 = torch.conv2d(
+            x_43,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_45 = torch.nn.functional.batch_norm(
+            x_44,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_44 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_0_modules_bn_parameters_bias_ = (None)
+        x_46 = torch.nn.functional.relu(x_45, inplace=False)
+        x_45 = None
+        x_47 = torch.conv2d(
+            x_46,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_48 = torch.nn.functional.batch_norm(
+            x_47,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_47 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_1_modules_bn_parameters_bias_ = (None)
+        x_49 = torch.nn.functional.relu(x_48, inplace=False)
+        x_48 = None
+        x_50 = torch.conv2d(
+            x_49,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_51 = torch.nn.functional.batch_norm(
+            x_50,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_50 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_2_modules_bn_parameters_bias_ = (None)
+        x_52 = torch.nn.functional.relu(x_51, inplace=False)
+        x_51 = None
+        x_53 = torch.conv2d(
+            x_52,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_54 = torch.nn.functional.batch_norm(
+            x_53,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_53 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_3_modules_bn_parameters_bias_ = (None)
+        x_55 = torch.nn.functional.relu(x_54, inplace=False)
+        x_54 = None
+        x_56 = torch.conv2d(
+            x_55,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_57 = torch.nn.functional.batch_norm(
+            x_56,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_56 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_4_modules_bn_parameters_bias_ = (None)
+        x_58 = torch.nn.functional.relu(x_57, inplace=False)
+        x_57 = None
+        x_59 = torch.conv2d(
+            x_58,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_60 = torch.nn.functional.batch_norm(
+            x_59,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_59 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_layers_modules_5_modules_bn_parameters_bias_ = (None)
+        x_61 = torch.nn.functional.relu(x_60, inplace=False)
+        x_60 = None
+        x_62 = torch.cat([x_43, x_46, x_49, x_52, x_55, x_58, x_61], dim=1)
+        x_43 = x_46 = x_49 = x_52 = x_55 = x_58 = x_61 = None
+        x_63 = torch.conv2d(
+            x_62,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_62 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_ = (None)
+        x_64 = torch.nn.functional.batch_norm(
+            x_63,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_63 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_ = (None)
+        x_65 = torch.nn.functional.relu(x_64, inplace=False)
+        x_64 = None
+        x_66 = torch.conv2d(
+            x_65,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_65 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_ = (None)
+        x_67 = torch.nn.functional.batch_norm(
+            x_66,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_66 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_ = (None)
+        x_68 = torch.nn.functional.relu(x_67, inplace=False)
+        x_67 = None
+        x_69 = torch.conv2d(
+            x_68,
+            l_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_weight_,
+            None,
+            (2, 2),
+            (1, 1),
+            (1, 1),
+            512,
+        )
+        x_68 = l_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_weight_ = (None)
+        x_70 = torch.nn.functional.batch_norm(
+            x_69,
+            l_self_modules_stages_modules_2_modules_downsample_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_downsample_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_downsample_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_downsample_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_69 = l_self_modules_stages_modules_2_modules_downsample_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_downsample_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_downsample_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_downsample_modules_bn_parameters_bias_ = (None)
+        x_71 = torch.conv2d(
+            x_70,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_72 = torch.nn.functional.batch_norm(
+            x_71,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_71 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_73 = torch.conv2d(
+            x_72,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_72 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_74 = torch.nn.functional.batch_norm(
+            x_73,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_73 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_75 = torch.nn.functional.relu(x_74, inplace=False)
+        x_74 = None
+        x_76 = torch.conv2d(
+            x_75,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_77 = torch.nn.functional.batch_norm(
+            x_76,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_76 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_78 = torch.conv2d(
+            x_77,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_77 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_79 = torch.nn.functional.batch_norm(
+            x_78,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_78 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_80 = torch.nn.functional.relu(x_79, inplace=False)
+        x_79 = None
+        x_81 = torch.conv2d(
+            x_80,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_82 = torch.nn.functional.batch_norm(
+            x_81,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_81 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_83 = torch.conv2d(
+            x_82,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_82 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_84 = torch.nn.functional.batch_norm(
+            x_83,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_83 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_85 = torch.nn.functional.relu(x_84, inplace=False)
+        x_84 = None
+        x_86 = torch.conv2d(
+            x_85,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_87 = torch.nn.functional.batch_norm(
+            x_86,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_86 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_88 = torch.conv2d(
+            x_87,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_87 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_89 = torch.nn.functional.batch_norm(
+            x_88,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_88 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_90 = torch.nn.functional.relu(x_89, inplace=False)
+        x_89 = None
+        x_91 = torch.conv2d(
+            x_90,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_92 = torch.nn.functional.batch_norm(
+            x_91,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_91 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_93 = torch.conv2d(
+            x_92,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_92 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_94 = torch.nn.functional.batch_norm(
+            x_93,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_93 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_95 = torch.nn.functional.relu(x_94, inplace=False)
+        x_94 = None
+        x_96 = torch.conv2d(
+            x_95,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_97 = torch.nn.functional.batch_norm(
+            x_96,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_96 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_98 = torch.conv2d(
+            x_97,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_97 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_99 = torch.nn.functional.batch_norm(
+            x_98,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_98 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_100 = torch.nn.functional.relu(x_99, inplace=False)
+        x_99 = None
+        x_101 = torch.cat([x_70, x_75, x_80, x_85, x_90, x_95, x_100], dim=1)
+        x_70 = x_75 = x_80 = x_85 = x_90 = x_95 = x_100 = None
+        x_102 = torch.conv2d(
+            x_101,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_101 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_ = (None)
+        x_103 = torch.nn.functional.batch_norm(
+            x_102,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_102 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_ = (None)
+        x_104 = torch.nn.functional.relu(x_103, inplace=False)
+        x_103 = None
+        x_105 = torch.conv2d(
+            x_104,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_104 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_ = (None)
+        x_106 = torch.nn.functional.batch_norm(
+            x_105,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_105 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_ = (None)
+        x_107 = torch.nn.functional.relu(x_106, inplace=False)
+        x_106 = None
+        x_108 = torch.conv2d(
+            x_107,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_109 = torch.nn.functional.batch_norm(
+            x_108,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_108 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_110 = torch.conv2d(
+            x_109,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_109 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_111 = torch.nn.functional.batch_norm(
+            x_110,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_110 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_112 = torch.nn.functional.relu(x_111, inplace=False)
+        x_111 = None
+        x_113 = torch.conv2d(
+            x_112,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_114 = torch.nn.functional.batch_norm(
+            x_113,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_113 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_115 = torch.conv2d(
+            x_114,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_114 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_116 = torch.nn.functional.batch_norm(
+            x_115,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_115 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_117 = torch.nn.functional.relu(x_116, inplace=False)
+        x_116 = None
+        x_118 = torch.conv2d(
+            x_117,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_119 = torch.nn.functional.batch_norm(
+            x_118,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_118 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_120 = torch.conv2d(
+            x_119,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_119 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_121 = torch.nn.functional.batch_norm(
+            x_120,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_120 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_122 = torch.nn.functional.relu(x_121, inplace=False)
+        x_121 = None
+        x_123 = torch.conv2d(
+            x_122,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_124 = torch.nn.functional.batch_norm(
+            x_123,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_123 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_125 = torch.conv2d(
+            x_124,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_124 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_126 = torch.nn.functional.batch_norm(
+            x_125,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_125 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_127 = torch.nn.functional.relu(x_126, inplace=False)
+        x_126 = None
+        x_128 = torch.conv2d(
+            x_127,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_129 = torch.nn.functional.batch_norm(
+            x_128,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_128 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_130 = torch.conv2d(
+            x_129,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_129 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_131 = torch.nn.functional.batch_norm(
+            x_130,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_130 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_132 = torch.nn.functional.relu(x_131, inplace=False)
+        x_131 = None
+        x_133 = torch.conv2d(
+            x_132,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_134 = torch.nn.functional.batch_norm(
+            x_133,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_133 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_135 = torch.conv2d(
+            x_134,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_134 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_136 = torch.nn.functional.batch_norm(
+            x_135,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_135 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_137 = torch.nn.functional.relu(x_136, inplace=False)
+        x_136 = None
+        x_138 = torch.cat([x_107, x_112, x_117, x_122, x_127, x_132, x_137], dim=1)
+        x_112 = x_117 = x_122 = x_127 = x_132 = x_137 = None
+        x_139 = torch.conv2d(
+            x_138,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_138 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_conv_parameters_weight_ = (None)
+        x_140 = torch.nn.functional.batch_norm(
+            x_139,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_139 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_0_modules_bn_parameters_bias_ = (None)
+        x_141 = torch.nn.functional.relu(x_140, inplace=False)
+        x_140 = None
+        x_142 = torch.conv2d(
+            x_141,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_141 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_conv_parameters_weight_ = (None)
+        x_143 = torch.nn.functional.batch_norm(
+            x_142,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_142 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_aggregation_modules_1_modules_bn_parameters_bias_ = (None)
+        x_144 = torch.nn.functional.relu(x_143, inplace=False)
+        x_143 = None
+        x_145 = x_144 + x_107
+        x_144 = x_107 = None
+        x_146 = torch.conv2d(
+            x_145,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_147 = torch.nn.functional.batch_norm(
+            x_146,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_146 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_148 = torch.conv2d(
+            x_147,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_147 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_149 = torch.nn.functional.batch_norm(
+            x_148,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_148 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_150 = torch.nn.functional.relu(x_149, inplace=False)
+        x_149 = None
+        x_151 = torch.conv2d(
+            x_150,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_152 = torch.nn.functional.batch_norm(
+            x_151,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_151 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_153 = torch.conv2d(
+            x_152,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_152 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_154 = torch.nn.functional.batch_norm(
+            x_153,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_153 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_155 = torch.nn.functional.relu(x_154, inplace=False)
+        x_154 = None
+        x_156 = torch.conv2d(
+            x_155,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_157 = torch.nn.functional.batch_norm(
+            x_156,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_156 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_158 = torch.conv2d(
+            x_157,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_157 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_159 = torch.nn.functional.batch_norm(
+            x_158,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_158 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_160 = torch.nn.functional.relu(x_159, inplace=False)
+        x_159 = None
+        x_161 = torch.conv2d(
+            x_160,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_162 = torch.nn.functional.batch_norm(
+            x_161,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_161 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_163 = torch.conv2d(
+            x_162,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_162 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_164 = torch.nn.functional.batch_norm(
+            x_163,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_163 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_165 = torch.nn.functional.relu(x_164, inplace=False)
+        x_164 = None
+        x_166 = torch.conv2d(
+            x_165,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_167 = torch.nn.functional.batch_norm(
+            x_166,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_166 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_168 = torch.conv2d(
+            x_167,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_167 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_169 = torch.nn.functional.batch_norm(
+            x_168,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_168 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_170 = torch.nn.functional.relu(x_169, inplace=False)
+        x_169 = None
+        x_171 = torch.conv2d(
+            x_170,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_172 = torch.nn.functional.batch_norm(
+            x_171,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_171 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_173 = torch.conv2d(
+            x_172,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            192,
+        )
+        x_172 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_174 = torch.nn.functional.batch_norm(
+            x_173,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_173 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_175 = torch.nn.functional.relu(x_174, inplace=False)
+        x_174 = None
+        x_176 = torch.cat([x_145, x_150, x_155, x_160, x_165, x_170, x_175], dim=1)
+        x_150 = x_155 = x_160 = x_165 = x_170 = x_175 = None
+        x_177 = torch.conv2d(
+            x_176,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_176 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_conv_parameters_weight_ = (None)
+        x_178 = torch.nn.functional.batch_norm(
+            x_177,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_177 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_0_modules_bn_parameters_bias_ = (None)
+        x_179 = torch.nn.functional.relu(x_178, inplace=False)
+        x_178 = None
+        x_180 = torch.conv2d(
+            x_179,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_179 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_conv_parameters_weight_ = (None)
+        x_181 = torch.nn.functional.batch_norm(
+            x_180,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_180 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_aggregation_modules_1_modules_bn_parameters_bias_ = (None)
+        x_182 = torch.nn.functional.relu(x_181, inplace=False)
+        x_181 = None
+        x_183 = x_182 + x_145
+        x_182 = x_145 = None
+        x_184 = torch.conv2d(
+            x_183,
+            l_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_weight_,
+            None,
+            (2, 2),
+            (1, 1),
+            (1, 1),
+            1024,
+        )
+        x_183 = l_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_weight_ = (None)
+        x_185 = torch.nn.functional.batch_norm(
+            x_184,
+            l_self_modules_stages_modules_3_modules_downsample_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_downsample_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_downsample_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_downsample_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_184 = l_self_modules_stages_modules_3_modules_downsample_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_downsample_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_downsample_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_downsample_modules_bn_parameters_bias_ = (None)
+        x_186 = torch.conv2d(
+            x_185,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_187 = torch.nn.functional.batch_norm(
+            x_186,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_186 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_188 = torch.conv2d(
+            x_187,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            384,
+        )
+        x_187 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_189 = torch.nn.functional.batch_norm(
+            x_188,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_188 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_0_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_190 = torch.nn.functional.relu(x_189, inplace=False)
+        x_189 = None
+        x_191 = torch.conv2d(
+            x_190,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_192 = torch.nn.functional.batch_norm(
+            x_191,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_191 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_193 = torch.conv2d(
+            x_192,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            384,
+        )
+        x_192 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_194 = torch.nn.functional.batch_norm(
+            x_193,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_193 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_1_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_195 = torch.nn.functional.relu(x_194, inplace=False)
+        x_194 = None
+        x_196 = torch.conv2d(
+            x_195,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_197 = torch.nn.functional.batch_norm(
+            x_196,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_196 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_198 = torch.conv2d(
+            x_197,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            384,
+        )
+        x_197 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_199 = torch.nn.functional.batch_norm(
+            x_198,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_198 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_2_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_200 = torch.nn.functional.relu(x_199, inplace=False)
+        x_199 = None
+        x_201 = torch.conv2d(
+            x_200,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_202 = torch.nn.functional.batch_norm(
+            x_201,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_201 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_203 = torch.conv2d(
+            x_202,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            384,
+        )
+        x_202 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_204 = torch.nn.functional.batch_norm(
+            x_203,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_203 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_3_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_205 = torch.nn.functional.relu(x_204, inplace=False)
+        x_204 = None
+        x_206 = torch.conv2d(
+            x_205,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_207 = torch.nn.functional.batch_norm(
+            x_206,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_206 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_208 = torch.conv2d(
+            x_207,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            384,
+        )
+        x_207 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_209 = torch.nn.functional.batch_norm(
+            x_208,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_208 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_4_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_210 = torch.nn.functional.relu(x_209, inplace=False)
+        x_209 = None
+        x_211 = torch.conv2d(
+            x_210,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_conv_parameters_weight_ = (
+            None
+        )
+        x_212 = torch.nn.functional.batch_norm(
+            x_211,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_211 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv1_modules_bn_parameters_bias_ = (None)
+        x_213 = torch.conv2d(
+            x_212,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (2, 2),
+            (1, 1),
+            384,
+        )
+        x_212 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_conv_parameters_weight_ = (None)
+        x_214 = torch.nn.functional.batch_norm(
+            x_213,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_213 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_layers_modules_5_modules_conv2_modules_bn_parameters_bias_ = (None)
+        x_215 = torch.nn.functional.relu(x_214, inplace=False)
+        x_214 = None
+        x_216 = torch.cat([x_185, x_190, x_195, x_200, x_205, x_210, x_215], dim=1)
+        x_185 = x_190 = x_195 = x_200 = x_205 = x_210 = x_215 = None
+        x_217 = torch.conv2d(
+            x_216,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_216 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_conv_parameters_weight_ = (None)
+        x_218 = torch.nn.functional.batch_norm(
+            x_217,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_217 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_0_modules_bn_parameters_bias_ = (None)
+        x_219 = torch.nn.functional.relu(x_218, inplace=False)
+        x_218 = None
+        x_220 = torch.conv2d(
+            x_219,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_219 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_conv_parameters_weight_ = (None)
+        x_221 = torch.nn.functional.batch_norm(
+            x_220,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        x_220 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_aggregation_modules_1_modules_bn_parameters_bias_ = (None)
+        x_222 = torch.nn.functional.relu(x_221, inplace=False)
+        x_221 = None
+        x_223 = torch.nn.functional.adaptive_avg_pool2d(x_222, 1)
+        x_222 = None
+        input_1 = torch.conv2d(
+            x_223,
+            l_self_modules_head_modules_last_conv_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_223 = (
+            l_self_modules_head_modules_last_conv_modules_0_parameters_weight_
+        ) = None
+        input_2 = torch.nn.functional.relu(input_1, inplace=False)
+        input_1 = None
+        x_224 = torch.nn.functional.dropout(input_2, 0.0, False, False)
+        input_2 = None
+        x_225 = x_224.flatten(1, -1)
+        x_224 = None
+        x_226 = torch._C._nn.linear(
+            x_225,
+            l_self_modules_head_modules_fc_parameters_weight_,
+            l_self_modules_head_modules_fc_parameters_bias_,
+        )
+        x_225 = (
+            l_self_modules_head_modules_fc_parameters_weight_
+        ) = l_self_modules_head_modules_fc_parameters_bias_ = None
+        return (x_226,)

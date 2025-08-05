@@ -1,0 +1,2139 @@
+import torch
+
+
+class GraphModule(torch.nn.Module):
+    def forward(
+        self,
+        L_self_modules_stem_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        s1: torch.SymInt,
+        L_x_: torch.Tensor,
+        L_self_modules_stem_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_parameters_gamma_: torch.nn.parameter.Parameter,
+        L_self_modules_head_modules_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_head_modules_norm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_head_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_head_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+    ):
+        l_self_modules_stem_modules_0_parameters_weight_ = (
+            L_self_modules_stem_modules_0_parameters_weight_
+        )
+        l_self_modules_stem_modules_0_parameters_bias_ = (
+            L_self_modules_stem_modules_0_parameters_bias_
+        )
+        l_x_ = L_x_
+        l_self_modules_stem_modules_1_parameters_weight_ = (
+            L_self_modules_stem_modules_1_parameters_weight_
+        )
+        l_self_modules_stem_modules_1_parameters_bias_ = (
+            L_self_modules_stem_modules_1_parameters_bias_
+        )
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_parameters_gamma_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_parameters_gamma_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_parameters_gamma_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_parameters_gamma_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_parameters_gamma_ = L_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_parameters_gamma_
+        l_self_modules_dense_stages_modules_1_modules_0_parameters_weight_ = (
+            L_self_modules_dense_stages_modules_1_modules_0_parameters_weight_
+        )
+        l_self_modules_dense_stages_modules_1_modules_0_parameters_bias_ = (
+            L_self_modules_dense_stages_modules_1_modules_0_parameters_bias_
+        )
+        l_self_modules_dense_stages_modules_1_modules_1_parameters_weight_ = (
+            L_self_modules_dense_stages_modules_1_modules_1_parameters_weight_
+        )
+        l_self_modules_dense_stages_modules_1_modules_1_parameters_bias_ = (
+            L_self_modules_dense_stages_modules_1_modules_1_parameters_bias_
+        )
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_parameters_gamma_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_parameters_gamma_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_parameters_gamma_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_parameters_gamma_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_parameters_gamma_ = L_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_parameters_gamma_
+        l_self_modules_dense_stages_modules_2_modules_0_parameters_weight_ = (
+            L_self_modules_dense_stages_modules_2_modules_0_parameters_weight_
+        )
+        l_self_modules_dense_stages_modules_2_modules_0_parameters_bias_ = (
+            L_self_modules_dense_stages_modules_2_modules_0_parameters_bias_
+        )
+        l_self_modules_dense_stages_modules_2_modules_1_parameters_weight_ = (
+            L_self_modules_dense_stages_modules_2_modules_1_parameters_weight_
+        )
+        l_self_modules_dense_stages_modules_2_modules_1_parameters_bias_ = (
+            L_self_modules_dense_stages_modules_2_modules_1_parameters_bias_
+        )
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_parameters_gamma_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_parameters_gamma_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_parameters_gamma_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_parameters_gamma_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_parameters_gamma_ = L_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_parameters_gamma_
+        l_self_modules_dense_stages_modules_3_modules_0_parameters_weight_ = (
+            L_self_modules_dense_stages_modules_3_modules_0_parameters_weight_
+        )
+        l_self_modules_dense_stages_modules_3_modules_0_parameters_bias_ = (
+            L_self_modules_dense_stages_modules_3_modules_0_parameters_bias_
+        )
+        l_self_modules_dense_stages_modules_3_modules_1_parameters_weight_ = (
+            L_self_modules_dense_stages_modules_3_modules_1_parameters_weight_
+        )
+        l_self_modules_dense_stages_modules_3_modules_1_parameters_bias_ = (
+            L_self_modules_dense_stages_modules_3_modules_1_parameters_bias_
+        )
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_parameters_gamma_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_parameters_gamma_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_parameters_gamma_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_parameters_gamma_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_parameters_gamma_ = L_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_parameters_gamma_
+        l_self_modules_dense_stages_modules_4_modules_0_parameters_weight_ = (
+            L_self_modules_dense_stages_modules_4_modules_0_parameters_weight_
+        )
+        l_self_modules_dense_stages_modules_4_modules_0_parameters_bias_ = (
+            L_self_modules_dense_stages_modules_4_modules_0_parameters_bias_
+        )
+        l_self_modules_dense_stages_modules_4_modules_1_parameters_weight_ = (
+            L_self_modules_dense_stages_modules_4_modules_1_parameters_weight_
+        )
+        l_self_modules_dense_stages_modules_4_modules_1_parameters_bias_ = (
+            L_self_modules_dense_stages_modules_4_modules_1_parameters_bias_
+        )
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_parameters_gamma_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_parameters_gamma_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_parameters_gamma_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_parameters_gamma_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_parameters_gamma_ = L_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_parameters_gamma_
+        l_self_modules_dense_stages_modules_5_modules_0_parameters_weight_ = (
+            L_self_modules_dense_stages_modules_5_modules_0_parameters_weight_
+        )
+        l_self_modules_dense_stages_modules_5_modules_0_parameters_bias_ = (
+            L_self_modules_dense_stages_modules_5_modules_0_parameters_bias_
+        )
+        l_self_modules_dense_stages_modules_5_modules_1_parameters_weight_ = (
+            L_self_modules_dense_stages_modules_5_modules_1_parameters_weight_
+        )
+        l_self_modules_dense_stages_modules_5_modules_1_parameters_bias_ = (
+            L_self_modules_dense_stages_modules_5_modules_1_parameters_bias_
+        )
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_parameters_gamma_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_parameters_gamma_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_parameters_gamma_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_parameters_gamma_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_parameters_gamma_ = L_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_parameters_gamma_
+        l_self_modules_dense_stages_modules_6_modules_0_parameters_weight_ = (
+            L_self_modules_dense_stages_modules_6_modules_0_parameters_weight_
+        )
+        l_self_modules_dense_stages_modules_6_modules_0_parameters_bias_ = (
+            L_self_modules_dense_stages_modules_6_modules_0_parameters_bias_
+        )
+        l_self_modules_dense_stages_modules_6_modules_1_parameters_weight_ = (
+            L_self_modules_dense_stages_modules_6_modules_1_parameters_weight_
+        )
+        l_self_modules_dense_stages_modules_6_modules_1_parameters_bias_ = (
+            L_self_modules_dense_stages_modules_6_modules_1_parameters_bias_
+        )
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_parameters_gamma_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_parameters_gamma_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_parameters_gamma_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_parameters_gamma_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_parameters_gamma_ = L_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_parameters_gamma_
+        l_self_modules_head_modules_norm_parameters_weight_ = (
+            L_self_modules_head_modules_norm_parameters_weight_
+        )
+        l_self_modules_head_modules_norm_parameters_bias_ = (
+            L_self_modules_head_modules_norm_parameters_bias_
+        )
+        l_self_modules_head_modules_fc_parameters_weight_ = (
+            L_self_modules_head_modules_fc_parameters_weight_
+        )
+        l_self_modules_head_modules_fc_parameters_bias_ = (
+            L_self_modules_head_modules_fc_parameters_bias_
+        )
+        input_1 = torch.conv2d(
+            l_x_,
+            l_self_modules_stem_modules_0_parameters_weight_,
+            l_self_modules_stem_modules_0_parameters_bias_,
+            (4, 4),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_x_ = (
+            l_self_modules_stem_modules_0_parameters_weight_
+        ) = l_self_modules_stem_modules_0_parameters_bias_ = None
+        x = input_1.permute(0, 2, 3, 1)
+        input_1 = None
+        x_1 = torch.nn.functional.layer_norm(
+            x,
+            (64,),
+            l_self_modules_stem_modules_1_parameters_weight_,
+            l_self_modules_stem_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x = (
+            l_self_modules_stem_modules_1_parameters_weight_
+        ) = l_self_modules_stem_modules_1_parameters_bias_ = None
+        x_2 = x_1.permute(0, 3, 1, 2)
+        x_1 = None
+        x_3 = torch.cat([x_2], 1)
+        input_2 = torch.conv2d(
+            x_3,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            64,
+        )
+        x_3 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_4 = input_2.permute(0, 2, 3, 1)
+        input_2 = None
+        x_5 = torch.nn.functional.layer_norm(
+            x_4,
+            (64,),
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_4 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_6 = x_5.permute(0, 3, 1, 2)
+        x_5 = None
+        input_3 = torch.conv2d(
+            x_6,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_6 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_4 = torch._C._nn.gelu(input_3)
+        input_3 = None
+        input_5 = torch.conv2d(
+            input_4,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_4 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        reshape = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block0_parameters_gamma_ = (
+            None
+        )
+        x_7 = input_5.mul(reshape)
+        input_5 = reshape = None
+        x_8 = torch.cat([x_2, x_7], 1)
+        input_6 = torch.conv2d(
+            x_8,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            128,
+        )
+        x_8 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_9 = input_6.permute(0, 2, 3, 1)
+        input_6 = None
+        x_10 = torch.nn.functional.layer_norm(
+            x_9,
+            (128,),
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_9 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_11 = x_10.permute(0, 3, 1, 2)
+        x_10 = None
+        input_7 = torch.conv2d(
+            x_11,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_11 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_8 = torch._C._nn.gelu(input_7)
+        input_7 = None
+        input_9 = torch.conv2d(
+            input_8,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_8 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        reshape_1 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block1_parameters_gamma_ = (
+            None
+        )
+        x_12 = input_9.mul(reshape_1)
+        input_9 = reshape_1 = None
+        x_13 = torch.cat([x_2, x_7, x_12], 1)
+        input_10 = torch.conv2d(
+            x_13,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            192,
+        )
+        x_13 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_14 = input_10.permute(0, 2, 3, 1)
+        input_10 = None
+        x_15 = torch.nn.functional.layer_norm(
+            x_14,
+            (192,),
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_14 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_16 = x_15.permute(0, 3, 1, 2)
+        x_15 = None
+        input_11 = torch.conv2d(
+            x_16,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_16 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_12 = torch._C._nn.gelu(input_11)
+        input_11 = None
+        input_13 = torch.conv2d(
+            input_12,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_12 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        reshape_2 = l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_0_modules_0_modules_dense_block2_parameters_gamma_ = (
+            None
+        )
+        x_17 = input_13.mul(reshape_2)
+        input_13 = reshape_2 = None
+        input_14 = torch.cat([x_2, x_7, x_12, x_17], 1)
+        x_2 = x_7 = x_12 = x_17 = None
+        x_18 = input_14.permute(0, 2, 3, 1)
+        input_14 = None
+        x_19 = torch.nn.functional.layer_norm(
+            x_18,
+            (256,),
+            l_self_modules_dense_stages_modules_1_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_0_parameters_bias_,
+            1e-06,
+        )
+        x_18 = (
+            l_self_modules_dense_stages_modules_1_modules_0_parameters_weight_
+        ) = l_self_modules_dense_stages_modules_1_modules_0_parameters_bias_ = None
+        x_20 = x_19.permute(0, 3, 1, 2)
+        x_19 = None
+        input_15 = torch.conv2d(
+            x_20,
+            l_self_modules_dense_stages_modules_1_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_1_parameters_bias_,
+            (2, 2),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_20 = (
+            l_self_modules_dense_stages_modules_1_modules_1_parameters_weight_
+        ) = l_self_modules_dense_stages_modules_1_modules_1_parameters_bias_ = None
+        x_21 = torch.cat([input_15], 1)
+        input_16 = torch.conv2d(
+            x_21,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            128,
+        )
+        x_21 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_22 = input_16.permute(0, 2, 3, 1)
+        input_16 = None
+        x_23 = torch.nn.functional.layer_norm(
+            x_22,
+            (128,),
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_22 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_24 = x_23.permute(0, 3, 1, 2)
+        x_23 = None
+        input_17 = torch.conv2d(
+            x_24,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_24 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_18 = torch._C._nn.gelu(input_17)
+        input_17 = None
+        input_19 = torch.conv2d(
+            input_18,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_18 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        reshape_3 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block0_parameters_gamma_ = (
+            None
+        )
+        x_25 = input_19.mul(reshape_3)
+        input_19 = reshape_3 = None
+        x_26 = torch.cat([input_15, x_25], 1)
+        input_20 = torch.conv2d(
+            x_26,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            232,
+        )
+        x_26 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_27 = input_20.permute(0, 2, 3, 1)
+        input_20 = None
+        x_28 = torch.nn.functional.layer_norm(
+            x_27,
+            (232,),
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_27 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_29 = x_28.permute(0, 3, 1, 2)
+        x_28 = None
+        input_21 = torch.conv2d(
+            x_29,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_29 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_22 = torch._C._nn.gelu(input_21)
+        input_21 = None
+        input_23 = torch.conv2d(
+            input_22,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_22 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        reshape_4 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block1_parameters_gamma_ = (
+            None
+        )
+        x_30 = input_23.mul(reshape_4)
+        input_23 = reshape_4 = None
+        x_31 = torch.cat([input_15, x_25, x_30], 1)
+        input_24 = torch.conv2d(
+            x_31,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            336,
+        )
+        x_31 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_32 = input_24.permute(0, 2, 3, 1)
+        input_24 = None
+        x_33 = torch.nn.functional.layer_norm(
+            x_32,
+            (336,),
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_32 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_34 = x_33.permute(0, 3, 1, 2)
+        x_33 = None
+        input_25 = torch.conv2d(
+            x_34,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_34 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_26 = torch._C._nn.gelu(input_25)
+        input_25 = None
+        input_27 = torch.conv2d(
+            input_26,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_26 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        reshape_5 = l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_1_modules_2_modules_dense_block2_parameters_gamma_ = (
+            None
+        )
+        x_35 = input_27.mul(reshape_5)
+        input_27 = reshape_5 = None
+        input_28 = torch.cat([input_15, x_25, x_30, x_35], 1)
+        input_15 = x_25 = x_30 = x_35 = None
+        x_36 = input_28.permute(0, 2, 3, 1)
+        input_28 = None
+        x_37 = torch.nn.functional.layer_norm(
+            x_36,
+            (440,),
+            l_self_modules_dense_stages_modules_2_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_0_parameters_bias_,
+            1e-06,
+        )
+        x_36 = (
+            l_self_modules_dense_stages_modules_2_modules_0_parameters_weight_
+        ) = l_self_modules_dense_stages_modules_2_modules_0_parameters_bias_ = None
+        x_38 = x_37.permute(0, 3, 1, 2)
+        x_37 = None
+        input_29 = torch.conv2d(
+            x_38,
+            l_self_modules_dense_stages_modules_2_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_1_parameters_bias_,
+            (2, 2),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_38 = (
+            l_self_modules_dense_stages_modules_2_modules_1_parameters_weight_
+        ) = l_self_modules_dense_stages_modules_2_modules_1_parameters_bias_ = None
+        x_39 = torch.cat([input_29], 1)
+        input_30 = torch.conv2d(
+            x_39,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            216,
+        )
+        x_39 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_40 = input_30.permute(0, 2, 3, 1)
+        input_30 = None
+        x_41 = torch.nn.functional.layer_norm(
+            x_40,
+            (216,),
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_40 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_42 = x_41.permute(0, 3, 1, 2)
+        x_41 = None
+        input_31 = torch.conv2d(
+            x_42,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_42 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_32 = torch._C._nn.gelu(input_31)
+        input_31 = None
+        input_33 = torch.conv2d(
+            input_32,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_32 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se = input_33.mean((2, 3), keepdim=True)
+        x_se_1 = torch.conv2d(
+            x_se,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid = torch.nn.functional.hardsigmoid(x_se_1, False)
+        x_se_1 = None
+        input_34 = input_33 * hardsigmoid
+        input_33 = hardsigmoid = None
+        reshape_6 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block0_parameters_gamma_ = (
+            None
+        )
+        x_43 = input_34.mul(reshape_6)
+        input_34 = reshape_6 = None
+        x_44 = torch.cat([input_29, x_43], 1)
+        input_35 = torch.conv2d(
+            x_44,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            344,
+        )
+        x_44 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_45 = input_35.permute(0, 2, 3, 1)
+        input_35 = None
+        x_46 = torch.nn.functional.layer_norm(
+            x_45,
+            (344,),
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_45 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_47 = x_46.permute(0, 3, 1, 2)
+        x_46 = None
+        input_36 = torch.conv2d(
+            x_47,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_47 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_37 = torch._C._nn.gelu(input_36)
+        input_36 = None
+        input_38 = torch.conv2d(
+            input_37,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_37 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_2 = input_38.mean((2, 3), keepdim=True)
+        x_se_3 = torch.conv2d(
+            x_se_2,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_2 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_1 = torch.nn.functional.hardsigmoid(x_se_3, False)
+        x_se_3 = None
+        input_39 = input_38 * hardsigmoid_1
+        input_38 = hardsigmoid_1 = None
+        reshape_7 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block1_parameters_gamma_ = (
+            None
+        )
+        x_48 = input_39.mul(reshape_7)
+        input_39 = reshape_7 = None
+        x_49 = torch.cat([input_29, x_43, x_48], 1)
+        input_40 = torch.conv2d(
+            x_49,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            472,
+        )
+        x_49 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_50 = input_40.permute(0, 2, 3, 1)
+        input_40 = None
+        x_51 = torch.nn.functional.layer_norm(
+            x_50,
+            (472,),
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_50 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_52 = x_51.permute(0, 3, 1, 2)
+        x_51 = None
+        input_41 = torch.conv2d(
+            x_52,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_52 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_42 = torch._C._nn.gelu(input_41)
+        input_41 = None
+        input_43 = torch.conv2d(
+            input_42,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_42 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_4 = input_43.mean((2, 3), keepdim=True)
+        x_se_5 = torch.conv2d(
+            x_se_4,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_4 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_2 = torch.nn.functional.hardsigmoid(x_se_5, False)
+        x_se_5 = None
+        input_44 = input_43 * hardsigmoid_2
+        input_43 = hardsigmoid_2 = None
+        reshape_8 = l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_2_modules_2_modules_dense_block2_parameters_gamma_ = (
+            None
+        )
+        x_53 = input_44.mul(reshape_8)
+        input_44 = reshape_8 = None
+        input_45 = torch.cat([input_29, x_43, x_48, x_53], 1)
+        input_29 = x_43 = x_48 = x_53 = None
+        x_54 = input_45.permute(0, 2, 3, 1)
+        input_45 = None
+        x_55 = torch.nn.functional.layer_norm(
+            x_54,
+            (600,),
+            l_self_modules_dense_stages_modules_3_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_0_parameters_bias_,
+            1e-06,
+        )
+        x_54 = (
+            l_self_modules_dense_stages_modules_3_modules_0_parameters_weight_
+        ) = l_self_modules_dense_stages_modules_3_modules_0_parameters_bias_ = None
+        x_56 = x_55.permute(0, 3, 1, 2)
+        x_55 = None
+        input_46 = torch.conv2d(
+            x_56,
+            l_self_modules_dense_stages_modules_3_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_1_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_56 = (
+            l_self_modules_dense_stages_modules_3_modules_1_parameters_weight_
+        ) = l_self_modules_dense_stages_modules_3_modules_1_parameters_bias_ = None
+        x_57 = torch.cat([input_46], 1)
+        input_47 = torch.conv2d(
+            x_57,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            296,
+        )
+        x_57 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_58 = input_47.permute(0, 2, 3, 1)
+        input_47 = None
+        x_59 = torch.nn.functional.layer_norm(
+            x_58,
+            (296,),
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_58 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_60 = x_59.permute(0, 3, 1, 2)
+        x_59 = None
+        input_48 = torch.conv2d(
+            x_60,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_60 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_49 = torch._C._nn.gelu(input_48)
+        input_48 = None
+        input_50 = torch.conv2d(
+            input_49,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_49 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_6 = input_50.mean((2, 3), keepdim=True)
+        x_se_7 = torch.conv2d(
+            x_se_6,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_6 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_3 = torch.nn.functional.hardsigmoid(x_se_7, False)
+        x_se_7 = None
+        input_51 = input_50 * hardsigmoid_3
+        input_50 = hardsigmoid_3 = None
+        reshape_9 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block0_parameters_gamma_ = (
+            None
+        )
+        x_61 = input_51.mul(reshape_9)
+        input_51 = reshape_9 = None
+        x_62 = torch.cat([input_46, x_61], 1)
+        input_52 = torch.conv2d(
+            x_62,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            424,
+        )
+        x_62 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_63 = input_52.permute(0, 2, 3, 1)
+        input_52 = None
+        x_64 = torch.nn.functional.layer_norm(
+            x_63,
+            (424,),
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_63 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_65 = x_64.permute(0, 3, 1, 2)
+        x_64 = None
+        input_53 = torch.conv2d(
+            x_65,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_65 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_54 = torch._C._nn.gelu(input_53)
+        input_53 = None
+        input_55 = torch.conv2d(
+            input_54,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_54 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_8 = input_55.mean((2, 3), keepdim=True)
+        x_se_9 = torch.conv2d(
+            x_se_8,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_8 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_4 = torch.nn.functional.hardsigmoid(x_se_9, False)
+        x_se_9 = None
+        input_56 = input_55 * hardsigmoid_4
+        input_55 = hardsigmoid_4 = None
+        reshape_10 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block1_parameters_gamma_ = (
+            None
+        )
+        x_66 = input_56.mul(reshape_10)
+        input_56 = reshape_10 = None
+        x_67 = torch.cat([input_46, x_61, x_66], 1)
+        input_57 = torch.conv2d(
+            x_67,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            552,
+        )
+        x_67 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_68 = input_57.permute(0, 2, 3, 1)
+        input_57 = None
+        x_69 = torch.nn.functional.layer_norm(
+            x_68,
+            (552,),
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_68 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_70 = x_69.permute(0, 3, 1, 2)
+        x_69 = None
+        input_58 = torch.conv2d(
+            x_70,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_70 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_59 = torch._C._nn.gelu(input_58)
+        input_58 = None
+        input_60 = torch.conv2d(
+            input_59,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_59 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_10 = input_60.mean((2, 3), keepdim=True)
+        x_se_11 = torch.conv2d(
+            x_se_10,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_10 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_5 = torch.nn.functional.hardsigmoid(x_se_11, False)
+        x_se_11 = None
+        input_61 = input_60 * hardsigmoid_5
+        input_60 = hardsigmoid_5 = None
+        reshape_11 = l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_3_modules_2_modules_dense_block2_parameters_gamma_ = (
+            None
+        )
+        x_71 = input_61.mul(reshape_11)
+        input_61 = reshape_11 = None
+        input_62 = torch.cat([input_46, x_61, x_66, x_71], 1)
+        input_46 = x_61 = x_66 = x_71 = None
+        x_72 = input_62.permute(0, 2, 3, 1)
+        input_62 = None
+        x_73 = torch.nn.functional.layer_norm(
+            x_72,
+            (680,),
+            l_self_modules_dense_stages_modules_4_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_0_parameters_bias_,
+            1e-06,
+        )
+        x_72 = (
+            l_self_modules_dense_stages_modules_4_modules_0_parameters_weight_
+        ) = l_self_modules_dense_stages_modules_4_modules_0_parameters_bias_ = None
+        x_74 = x_73.permute(0, 3, 1, 2)
+        x_73 = None
+        input_63 = torch.conv2d(
+            x_74,
+            l_self_modules_dense_stages_modules_4_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_1_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_74 = (
+            l_self_modules_dense_stages_modules_4_modules_1_parameters_weight_
+        ) = l_self_modules_dense_stages_modules_4_modules_1_parameters_bias_ = None
+        x_75 = torch.cat([input_63], 1)
+        input_64 = torch.conv2d(
+            x_75,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            336,
+        )
+        x_75 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_76 = input_64.permute(0, 2, 3, 1)
+        input_64 = None
+        x_77 = torch.nn.functional.layer_norm(
+            x_76,
+            (336,),
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_76 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_78 = x_77.permute(0, 3, 1, 2)
+        x_77 = None
+        input_65 = torch.conv2d(
+            x_78,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_78 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_66 = torch._C._nn.gelu(input_65)
+        input_65 = None
+        input_67 = torch.conv2d(
+            input_66,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_66 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_12 = input_67.mean((2, 3), keepdim=True)
+        x_se_13 = torch.conv2d(
+            x_se_12,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_12 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_6 = torch.nn.functional.hardsigmoid(x_se_13, False)
+        x_se_13 = None
+        input_68 = input_67 * hardsigmoid_6
+        input_67 = hardsigmoid_6 = None
+        reshape_12 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block0_parameters_gamma_ = (
+            None
+        )
+        x_79 = input_68.mul(reshape_12)
+        input_68 = reshape_12 = None
+        x_80 = torch.cat([input_63, x_79], 1)
+        input_69 = torch.conv2d(
+            x_80,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            464,
+        )
+        x_80 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_81 = input_69.permute(0, 2, 3, 1)
+        input_69 = None
+        x_82 = torch.nn.functional.layer_norm(
+            x_81,
+            (464,),
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_81 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_83 = x_82.permute(0, 3, 1, 2)
+        x_82 = None
+        input_70 = torch.conv2d(
+            x_83,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_83 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_71 = torch._C._nn.gelu(input_70)
+        input_70 = None
+        input_72 = torch.conv2d(
+            input_71,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_71 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_14 = input_72.mean((2, 3), keepdim=True)
+        x_se_15 = torch.conv2d(
+            x_se_14,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_14 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_7 = torch.nn.functional.hardsigmoid(x_se_15, False)
+        x_se_15 = None
+        input_73 = input_72 * hardsigmoid_7
+        input_72 = hardsigmoid_7 = None
+        reshape_13 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block1_parameters_gamma_ = (
+            None
+        )
+        x_84 = input_73.mul(reshape_13)
+        input_73 = reshape_13 = None
+        x_85 = torch.cat([input_63, x_79, x_84], 1)
+        input_74 = torch.conv2d(
+            x_85,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            592,
+        )
+        x_85 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_86 = input_74.permute(0, 2, 3, 1)
+        input_74 = None
+        x_87 = torch.nn.functional.layer_norm(
+            x_86,
+            (592,),
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_86 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_88 = x_87.permute(0, 3, 1, 2)
+        x_87 = None
+        input_75 = torch.conv2d(
+            x_88,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_88 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_76 = torch._C._nn.gelu(input_75)
+        input_75 = None
+        input_77 = torch.conv2d(
+            input_76,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_76 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_16 = input_77.mean((2, 3), keepdim=True)
+        x_se_17 = torch.conv2d(
+            x_se_16,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_16 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_8 = torch.nn.functional.hardsigmoid(x_se_17, False)
+        x_se_17 = None
+        input_78 = input_77 * hardsigmoid_8
+        input_77 = hardsigmoid_8 = None
+        reshape_14 = l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_4_modules_2_modules_dense_block2_parameters_gamma_ = (
+            None
+        )
+        x_89 = input_78.mul(reshape_14)
+        input_78 = reshape_14 = None
+        input_79 = torch.cat([input_63, x_79, x_84, x_89], 1)
+        input_63 = x_79 = x_84 = x_89 = None
+        x_90 = input_79.permute(0, 2, 3, 1)
+        input_79 = None
+        x_91 = torch.nn.functional.layer_norm(
+            x_90,
+            (720,),
+            l_self_modules_dense_stages_modules_5_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_0_parameters_bias_,
+            1e-06,
+        )
+        x_90 = (
+            l_self_modules_dense_stages_modules_5_modules_0_parameters_weight_
+        ) = l_self_modules_dense_stages_modules_5_modules_0_parameters_bias_ = None
+        x_92 = x_91.permute(0, 3, 1, 2)
+        x_91 = None
+        input_80 = torch.conv2d(
+            x_92,
+            l_self_modules_dense_stages_modules_5_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_1_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_92 = (
+            l_self_modules_dense_stages_modules_5_modules_1_parameters_weight_
+        ) = l_self_modules_dense_stages_modules_5_modules_1_parameters_bias_ = None
+        x_93 = torch.cat([input_80], 1)
+        input_81 = torch.conv2d(
+            x_93,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            360,
+        )
+        x_93 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_94 = input_81.permute(0, 2, 3, 1)
+        input_81 = None
+        x_95 = torch.nn.functional.layer_norm(
+            x_94,
+            (360,),
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_94 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_96 = x_95.permute(0, 3, 1, 2)
+        x_95 = None
+        input_82 = torch.conv2d(
+            x_96,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_96 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_83 = torch._C._nn.gelu(input_82)
+        input_82 = None
+        input_84 = torch.conv2d(
+            input_83,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_83 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_18 = input_84.mean((2, 3), keepdim=True)
+        x_se_19 = torch.conv2d(
+            x_se_18,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_18 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_9 = torch.nn.functional.hardsigmoid(x_se_19, False)
+        x_se_19 = None
+        input_85 = input_84 * hardsigmoid_9
+        input_84 = hardsigmoid_9 = None
+        reshape_15 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block0_parameters_gamma_ = (
+            None
+        )
+        x_97 = input_85.mul(reshape_15)
+        input_85 = reshape_15 = None
+        x_98 = torch.cat([input_80, x_97], 1)
+        input_86 = torch.conv2d(
+            x_98,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            488,
+        )
+        x_98 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_99 = input_86.permute(0, 2, 3, 1)
+        input_86 = None
+        x_100 = torch.nn.functional.layer_norm(
+            x_99,
+            (488,),
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_99 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_101 = x_100.permute(0, 3, 1, 2)
+        x_100 = None
+        input_87 = torch.conv2d(
+            x_101,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_101 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_88 = torch._C._nn.gelu(input_87)
+        input_87 = None
+        input_89 = torch.conv2d(
+            input_88,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_88 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_20 = input_89.mean((2, 3), keepdim=True)
+        x_se_21 = torch.conv2d(
+            x_se_20,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_20 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_10 = torch.nn.functional.hardsigmoid(x_se_21, False)
+        x_se_21 = None
+        input_90 = input_89 * hardsigmoid_10
+        input_89 = hardsigmoid_10 = None
+        reshape_16 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block1_parameters_gamma_ = (
+            None
+        )
+        x_102 = input_90.mul(reshape_16)
+        input_90 = reshape_16 = None
+        x_103 = torch.cat([input_80, x_97, x_102], 1)
+        input_91 = torch.conv2d(
+            x_103,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            616,
+        )
+        x_103 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_104 = input_91.permute(0, 2, 3, 1)
+        input_91 = None
+        x_105 = torch.nn.functional.layer_norm(
+            x_104,
+            (616,),
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_104 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_106 = x_105.permute(0, 3, 1, 2)
+        x_105 = None
+        input_92 = torch.conv2d(
+            x_106,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_106 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_93 = torch._C._nn.gelu(input_92)
+        input_92 = None
+        input_94 = torch.conv2d(
+            input_93,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_93 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_22 = input_94.mean((2, 3), keepdim=True)
+        x_se_23 = torch.conv2d(
+            x_se_22,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_22 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_11 = torch.nn.functional.hardsigmoid(x_se_23, False)
+        x_se_23 = None
+        input_95 = input_94 * hardsigmoid_11
+        input_94 = hardsigmoid_11 = None
+        reshape_17 = l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_5_modules_2_modules_dense_block2_parameters_gamma_ = (
+            None
+        )
+        x_107 = input_95.mul(reshape_17)
+        input_95 = reshape_17 = None
+        input_96 = torch.cat([input_80, x_97, x_102, x_107], 1)
+        input_80 = x_97 = x_102 = x_107 = None
+        x_108 = input_96.permute(0, 2, 3, 1)
+        input_96 = None
+        x_109 = torch.nn.functional.layer_norm(
+            x_108,
+            (744,),
+            l_self_modules_dense_stages_modules_6_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_0_parameters_bias_,
+            1e-06,
+        )
+        x_108 = (
+            l_self_modules_dense_stages_modules_6_modules_0_parameters_weight_
+        ) = l_self_modules_dense_stages_modules_6_modules_0_parameters_bias_ = None
+        x_110 = x_109.permute(0, 3, 1, 2)
+        x_109 = None
+        input_97 = torch.conv2d(
+            x_110,
+            l_self_modules_dense_stages_modules_6_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_1_parameters_bias_,
+            (2, 2),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_110 = (
+            l_self_modules_dense_stages_modules_6_modules_1_parameters_weight_
+        ) = l_self_modules_dense_stages_modules_6_modules_1_parameters_bias_ = None
+        x_111 = torch.cat([input_97], 1)
+        input_98 = torch.conv2d(
+            x_111,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            368,
+        )
+        x_111 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_112 = input_98.permute(0, 2, 3, 1)
+        input_98 = None
+        x_113 = torch.nn.functional.layer_norm(
+            x_112,
+            (368,),
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_112 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_114 = x_113.permute(0, 3, 1, 2)
+        x_113 = None
+        input_99 = torch.conv2d(
+            x_114,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_114 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_100 = torch._C._nn.gelu(input_99)
+        input_99 = None
+        input_101 = torch.conv2d(
+            input_100,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_100 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_24 = input_101.mean((2, 3), keepdim=True)
+        x_se_25 = torch.conv2d(
+            x_se_24,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_24 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_12 = torch.nn.functional.hardsigmoid(x_se_25, False)
+        x_se_25 = None
+        input_102 = input_101 * hardsigmoid_12
+        input_101 = hardsigmoid_12 = None
+        reshape_18 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block0_parameters_gamma_ = (
+            None
+        )
+        x_115 = input_102.mul(reshape_18)
+        input_102 = reshape_18 = None
+        x_116 = torch.cat([input_97, x_115], 1)
+        input_103 = torch.conv2d(
+            x_116,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            592,
+        )
+        x_116 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_117 = input_103.permute(0, 2, 3, 1)
+        input_103 = None
+        x_118 = torch.nn.functional.layer_norm(
+            x_117,
+            (592,),
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_117 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_119 = x_118.permute(0, 3, 1, 2)
+        x_118 = None
+        input_104 = torch.conv2d(
+            x_119,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_119 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_105 = torch._C._nn.gelu(input_104)
+        input_104 = None
+        input_106 = torch.conv2d(
+            input_105,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_105 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_26 = input_106.mean((2, 3), keepdim=True)
+        x_se_27 = torch.conv2d(
+            x_se_26,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_26 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_13 = torch.nn.functional.hardsigmoid(x_se_27, False)
+        x_se_27 = None
+        input_107 = input_106 * hardsigmoid_13
+        input_106 = hardsigmoid_13 = None
+        reshape_19 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block1_parameters_gamma_ = (
+            None
+        )
+        x_120 = input_107.mul(reshape_19)
+        input_107 = reshape_19 = None
+        x_121 = torch.cat([input_97, x_115, x_120], 1)
+        input_108 = torch.conv2d(
+            x_121,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            816,
+        )
+        x_121 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_0_parameters_bias_ = (None)
+        x_122 = input_108.permute(0, 2, 3, 1)
+        input_108 = None
+        x_123 = torch.nn.functional.layer_norm(
+            x_122,
+            (816,),
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_,
+            1e-06,
+        )
+        x_122 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_1_parameters_bias_ = (None)
+        x_124 = x_123.permute(0, 3, 1, 2)
+        x_123 = None
+        input_109 = torch.conv2d(
+            x_124,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_124 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_2_parameters_bias_ = (None)
+        input_110 = torch._C._nn.gelu(input_109)
+        input_109 = None
+        input_111 = torch.conv2d(
+            input_110,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_110 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_4_parameters_bias_ = (None)
+        x_se_28 = input_111.mean((2, 3), keepdim=True)
+        x_se_29 = torch.conv2d(
+            x_se_28,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_,
+            l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_se_28 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_weight_ = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_modules_layers_modules_layers_modules_5_modules_fc_parameters_bias_ = (None)
+        hardsigmoid_14 = torch.nn.functional.hardsigmoid(x_se_29, False)
+        x_se_29 = None
+        input_112 = input_111 * hardsigmoid_14
+        input_111 = hardsigmoid_14 = None
+        reshape_20 = l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_parameters_gamma_.reshape(
+            1, -1, 1, 1
+        )
+        l_self_modules_dense_stages_modules_6_modules_2_modules_dense_block2_parameters_gamma_ = (
+            None
+        )
+        x_125 = input_112.mul(reshape_20)
+        input_112 = reshape_20 = None
+        input_113 = torch.cat([input_97, x_115, x_120, x_125], 1)
+        input_97 = x_115 = x_120 = x_125 = None
+        x_126 = torch.nn.functional.adaptive_avg_pool2d(input_113, 1)
+        input_113 = None
+        x_127 = x_126.permute(0, 2, 3, 1)
+        x_126 = None
+        x_128 = torch.nn.functional.layer_norm(
+            x_127,
+            (1040,),
+            l_self_modules_head_modules_norm_parameters_weight_,
+            l_self_modules_head_modules_norm_parameters_bias_,
+            1e-06,
+        )
+        x_127 = (
+            l_self_modules_head_modules_norm_parameters_weight_
+        ) = l_self_modules_head_modules_norm_parameters_bias_ = None
+        x_129 = x_128.permute(0, 3, 1, 2)
+        x_128 = None
+        x_130 = x_129.flatten(1, -1)
+        x_129 = None
+        x_131 = torch.nn.functional.dropout(x_130, 0.0, False, False)
+        x_130 = None
+        x_132 = torch._C._nn.linear(
+            x_131,
+            l_self_modules_head_modules_fc_parameters_weight_,
+            l_self_modules_head_modules_fc_parameters_bias_,
+        )
+        x_131 = (
+            l_self_modules_head_modules_fc_parameters_weight_
+        ) = l_self_modules_head_modules_fc_parameters_bias_ = None
+        return (x_132,)

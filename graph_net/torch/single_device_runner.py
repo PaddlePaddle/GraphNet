@@ -58,7 +58,7 @@ def main(args):
         print(f"{model_path=}")
         if args.enable_extract:
             assert args.extract_name is not None
-            kwargs = dict(name=args.extract_name, **dump_graph_options)
+            kwargs = dict(name=args.extract_name, dynamic=False, **dump_graph_options)
             model = extract(**kwargs)(model)
 
         inputs_params = utils.load_converted_from_text(f"{model_path}")

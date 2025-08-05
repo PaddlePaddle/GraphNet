@@ -1,0 +1,1032 @@
+import torch
+
+
+class GraphModule(torch.nn.Module):
+    def forward(
+        self,
+        L_self_modules_patch_embed_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        s1: torch.SymInt,
+        L_x_: torch.Tensor,
+        L_self_modules_patch_embed_modules_norm_buffers_running_mean_: torch.Tensor,
+        L_self_modules_patch_embed_modules_norm_buffers_running_var_: torch.Tensor,
+        L_self_modules_patch_embed_modules_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_patch_embed_modules_norm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_downsample_modules_reduction_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_downsample_modules_norm_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_downsample_modules_norm_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_downsample_modules_reduction_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_downsample_modules_norm_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_downsample_modules_norm_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_spatial_mixing_modules_partial_conv3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_spatial_mixing_modules_partial_conv3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_spatial_mixing_modules_partial_conv3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_spatial_mixing_modules_partial_conv3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_spatial_mixing_modules_partial_conv3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_spatial_mixing_modules_partial_conv3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_downsample_modules_reduction_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_downsample_modules_norm_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_downsample_modules_norm_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_: torch.Tensor,
+        L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_conv_head_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_classifier_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_classifier_parameters_bias_: torch.nn.parameter.Parameter,
+    ):
+        l_self_modules_patch_embed_modules_proj_parameters_weight_ = (
+            L_self_modules_patch_embed_modules_proj_parameters_weight_
+        )
+        l_x_ = L_x_
+        l_self_modules_patch_embed_modules_norm_buffers_running_mean_ = (
+            L_self_modules_patch_embed_modules_norm_buffers_running_mean_
+        )
+        l_self_modules_patch_embed_modules_norm_buffers_running_var_ = (
+            L_self_modules_patch_embed_modules_norm_buffers_running_var_
+        )
+        l_self_modules_patch_embed_modules_norm_parameters_weight_ = (
+            L_self_modules_patch_embed_modules_norm_parameters_weight_
+        )
+        l_self_modules_patch_embed_modules_norm_parameters_bias_ = (
+            L_self_modules_patch_embed_modules_norm_parameters_bias_
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_
+        l_self_modules_stages_modules_1_modules_downsample_modules_reduction_parameters_weight_ = L_self_modules_stages_modules_1_modules_downsample_modules_reduction_parameters_weight_
+        l_self_modules_stages_modules_1_modules_downsample_modules_norm_buffers_running_mean_ = L_self_modules_stages_modules_1_modules_downsample_modules_norm_buffers_running_mean_
+        l_self_modules_stages_modules_1_modules_downsample_modules_norm_buffers_running_var_ = L_self_modules_stages_modules_1_modules_downsample_modules_norm_buffers_running_var_
+        l_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_weight_ = L_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_weight_
+        l_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_bias_ = L_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_ = L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_
+        l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_ = L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_
+        l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_downsample_modules_reduction_parameters_weight_ = L_self_modules_stages_modules_2_modules_downsample_modules_reduction_parameters_weight_
+        l_self_modules_stages_modules_2_modules_downsample_modules_norm_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_downsample_modules_norm_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_downsample_modules_norm_buffers_running_var_ = L_self_modules_stages_modules_2_modules_downsample_modules_norm_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_weight_ = L_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_weight_
+        l_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_bias_ = L_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_spatial_mixing_modules_partial_conv3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_0_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_0_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_spatial_mixing_modules_partial_conv3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_0_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_0_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_spatial_mixing_modules_partial_conv3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_0_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_0_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_spatial_mixing_modules_partial_conv3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_0_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_0_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_spatial_mixing_modules_partial_conv3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_0_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_0_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_spatial_mixing_modules_partial_conv3_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_0_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_0_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_buffers_running_mean_ = L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_buffers_running_mean_
+        l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_buffers_running_var_ = L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_buffers_running_var_
+        l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_3_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_3_parameters_weight_
+        l_self_modules_stages_modules_3_modules_downsample_modules_reduction_parameters_weight_ = L_self_modules_stages_modules_3_modules_downsample_modules_reduction_parameters_weight_
+        l_self_modules_stages_modules_3_modules_downsample_modules_norm_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_downsample_modules_norm_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_downsample_modules_norm_buffers_running_var_ = L_self_modules_stages_modules_3_modules_downsample_modules_norm_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_weight_ = L_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_weight_
+        l_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_bias_ = L_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_ = L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_
+        l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_ = L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_
+        l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_
+        l_self_modules_conv_head_parameters_weight_ = (
+            L_self_modules_conv_head_parameters_weight_
+        )
+        l_self_modules_classifier_parameters_weight_ = (
+            L_self_modules_classifier_parameters_weight_
+        )
+        l_self_modules_classifier_parameters_bias_ = (
+            L_self_modules_classifier_parameters_bias_
+        )
+        conv2d = torch.conv2d(
+            l_x_,
+            l_self_modules_patch_embed_modules_proj_parameters_weight_,
+            None,
+            (4, 4),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_x_ = l_self_modules_patch_embed_modules_proj_parameters_weight_ = None
+        x = torch.nn.functional.batch_norm(
+            conv2d,
+            l_self_modules_patch_embed_modules_norm_buffers_running_mean_,
+            l_self_modules_patch_embed_modules_norm_buffers_running_var_,
+            l_self_modules_patch_embed_modules_norm_parameters_weight_,
+            l_self_modules_patch_embed_modules_norm_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        conv2d = (
+            l_self_modules_patch_embed_modules_norm_buffers_running_mean_
+        ) = (
+            l_self_modules_patch_embed_modules_norm_buffers_running_var_
+        ) = (
+            l_self_modules_patch_embed_modules_norm_parameters_weight_
+        ) = l_self_modules_patch_embed_modules_norm_parameters_bias_ = None
+        split = torch.functional.split(x, [10, 30], dim=1)
+        x1 = split[0]
+        x2 = split[1]
+        split = None
+        x1_1 = torch.conv2d(
+            x1,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x1 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = (None)
+        x_1 = torch.cat((x1_1, x2), 1)
+        x1_1 = x2 = None
+        input_1 = torch.conv2d(
+            x_1,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_1 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_ = (None)
+        input_2 = torch.nn.functional.batch_norm(
+            input_1,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        input_1 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_ = (None)
+        input_3 = torch._C._nn.gelu(input_2, approximate="none")
+        input_2 = None
+        input_4 = torch.conv2d(
+            input_3,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_3 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_ = (None)
+        x_2 = x + input_4
+        x = input_4 = None
+        conv2d_4 = torch.conv2d(
+            x_2,
+            l_self_modules_stages_modules_1_modules_downsample_modules_reduction_parameters_weight_,
+            None,
+            (2, 2),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_2 = l_self_modules_stages_modules_1_modules_downsample_modules_reduction_parameters_weight_ = (None)
+        x_3 = torch.nn.functional.batch_norm(
+            conv2d_4,
+            l_self_modules_stages_modules_1_modules_downsample_modules_norm_buffers_running_mean_,
+            l_self_modules_stages_modules_1_modules_downsample_modules_norm_buffers_running_var_,
+            l_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        conv2d_4 = l_self_modules_stages_modules_1_modules_downsample_modules_norm_buffers_running_mean_ = l_self_modules_stages_modules_1_modules_downsample_modules_norm_buffers_running_var_ = l_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_weight_ = l_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_bias_ = (None)
+        split_1 = torch.functional.split(x_3, [20, 60], dim=1)
+        x1_2 = split_1[0]
+        x2_1 = split_1[1]
+        split_1 = None
+        x1_3 = torch.conv2d(
+            x1_2,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x1_2 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = (None)
+        x_4 = torch.cat((x1_3, x2_1), 1)
+        x1_3 = x2_1 = None
+        input_5 = torch.conv2d(
+            x_4,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_4 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_ = (None)
+        input_6 = torch.nn.functional.batch_norm(
+            input_5,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        input_5 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_ = (None)
+        input_7 = torch._C._nn.gelu(input_6, approximate="none")
+        input_6 = None
+        input_8 = torch.conv2d(
+            input_7,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_7 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_ = (None)
+        x_5 = x_3 + input_8
+        x_3 = input_8 = None
+        split_2 = torch.functional.split(x_5, [20, 60], dim=1)
+        x1_4 = split_2[0]
+        x2_2 = split_2[1]
+        split_2 = None
+        x1_5 = torch.conv2d(
+            x1_4,
+            l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x1_4 = l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = (None)
+        x_6 = torch.cat((x1_5, x2_2), 1)
+        x1_5 = x2_2 = None
+        input_9 = torch.conv2d(
+            x_6,
+            l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_6 = l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_ = (None)
+        input_10 = torch.nn.functional.batch_norm(
+            input_9,
+            l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        input_9 = l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_ = l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_ = l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_ = (None)
+        input_11 = torch._C._nn.gelu(input_10, approximate="none")
+        input_10 = None
+        input_12 = torch.conv2d(
+            input_11,
+            l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_11 = l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_ = (None)
+        x_7 = x_5 + input_12
+        x_5 = input_12 = None
+        conv2d_11 = torch.conv2d(
+            x_7,
+            l_self_modules_stages_modules_2_modules_downsample_modules_reduction_parameters_weight_,
+            None,
+            (2, 2),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_7 = l_self_modules_stages_modules_2_modules_downsample_modules_reduction_parameters_weight_ = (None)
+        x_8 = torch.nn.functional.batch_norm(
+            conv2d_11,
+            l_self_modules_stages_modules_2_modules_downsample_modules_norm_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_downsample_modules_norm_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        conv2d_11 = l_self_modules_stages_modules_2_modules_downsample_modules_norm_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_downsample_modules_norm_buffers_running_var_ = l_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_weight_ = l_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_bias_ = (None)
+        split_3 = torch.functional.split(x_8, [40, 120], dim=1)
+        x1_6 = split_3[0]
+        x2_3 = split_3[1]
+        split_3 = None
+        x1_7 = torch.conv2d(
+            x1_6,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x1_6 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = (None)
+        x_9 = torch.cat((x1_7, x2_3), 1)
+        x1_7 = x2_3 = None
+        input_13 = torch.conv2d(
+            x_9,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_9 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_ = (None)
+        input_14 = torch.nn.functional.batch_norm(
+            input_13,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        input_13 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_ = (None)
+        input_15 = torch._C._nn.gelu(input_14, approximate="none")
+        input_14 = None
+        input_16 = torch.conv2d(
+            input_15,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_15 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_ = (None)
+        x_10 = x_8 + input_16
+        x_8 = input_16 = None
+        split_4 = torch.functional.split(x_10, [40, 120], dim=1)
+        x1_8 = split_4[0]
+        x2_4 = split_4[1]
+        split_4 = None
+        x1_9 = torch.conv2d(
+            x1_8,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x1_8 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = (None)
+        x_11 = torch.cat((x1_9, x2_4), 1)
+        x1_9 = x2_4 = None
+        input_17 = torch.conv2d(
+            x_11,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_11 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_ = (None)
+        input_18 = torch.nn.functional.batch_norm(
+            input_17,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        input_17 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_ = (None)
+        input_19 = torch._C._nn.gelu(input_18, approximate="none")
+        input_18 = None
+        input_20 = torch.conv2d(
+            input_19,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_19 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_ = (None)
+        x_12 = x_10 + input_20
+        x_10 = input_20 = None
+        split_5 = torch.functional.split(x_12, [40, 120], dim=1)
+        x1_10 = split_5[0]
+        x2_5 = split_5[1]
+        split_5 = None
+        x1_11 = torch.conv2d(
+            x1_10,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_spatial_mixing_modules_partial_conv3_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x1_10 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = (None)
+        x_13 = torch.cat((x1_11, x2_5), 1)
+        x1_11 = x2_5 = None
+        input_21 = torch.conv2d(
+            x_13,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_13 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_0_parameters_weight_ = (None)
+        input_22 = torch.nn.functional.batch_norm(
+            input_21,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        input_21 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_1_parameters_bias_ = (None)
+        input_23 = torch._C._nn.gelu(input_22, approximate="none")
+        input_22 = None
+        input_24 = torch.conv2d(
+            input_23,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_3_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_23 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_3_parameters_weight_ = (None)
+        x_14 = x_12 + input_24
+        x_12 = input_24 = None
+        split_6 = torch.functional.split(x_14, [40, 120], dim=1)
+        x1_12 = split_6[0]
+        x2_6 = split_6[1]
+        split_6 = None
+        x1_13 = torch.conv2d(
+            x1_12,
+            l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_spatial_mixing_modules_partial_conv3_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x1_12 = l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = (None)
+        x_15 = torch.cat((x1_13, x2_6), 1)
+        x1_13 = x2_6 = None
+        input_25 = torch.conv2d(
+            x_15,
+            l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_15 = l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_0_parameters_weight_ = (None)
+        input_26 = torch.nn.functional.batch_norm(
+            input_25,
+            l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        input_25 = l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_1_parameters_bias_ = (None)
+        input_27 = torch._C._nn.gelu(input_26, approximate="none")
+        input_26 = None
+        input_28 = torch.conv2d(
+            input_27,
+            l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_3_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_27 = l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_3_parameters_weight_ = (None)
+        x_16 = x_14 + input_28
+        x_14 = input_28 = None
+        split_7 = torch.functional.split(x_16, [40, 120], dim=1)
+        x1_14 = split_7[0]
+        x2_7 = split_7[1]
+        split_7 = None
+        x1_15 = torch.conv2d(
+            x1_14,
+            l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_spatial_mixing_modules_partial_conv3_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x1_14 = l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = (None)
+        x_17 = torch.cat((x1_15, x2_7), 1)
+        x1_15 = x2_7 = None
+        input_29 = torch.conv2d(
+            x_17,
+            l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_17 = l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_0_parameters_weight_ = (None)
+        input_30 = torch.nn.functional.batch_norm(
+            input_29,
+            l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        input_29 = l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_1_parameters_bias_ = (None)
+        input_31 = torch._C._nn.gelu(input_30, approximate="none")
+        input_30 = None
+        input_32 = torch.conv2d(
+            input_31,
+            l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_3_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_31 = l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_3_parameters_weight_ = (None)
+        x_18 = x_16 + input_32
+        x_16 = input_32 = None
+        split_8 = torch.functional.split(x_18, [40, 120], dim=1)
+        x1_16 = split_8[0]
+        x2_8 = split_8[1]
+        split_8 = None
+        x1_17 = torch.conv2d(
+            x1_16,
+            l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_spatial_mixing_modules_partial_conv3_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x1_16 = l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = (None)
+        x_19 = torch.cat((x1_17, x2_8), 1)
+        x1_17 = x2_8 = None
+        input_33 = torch.conv2d(
+            x_19,
+            l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_19 = l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_0_parameters_weight_ = (None)
+        input_34 = torch.nn.functional.batch_norm(
+            input_33,
+            l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        input_33 = l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_1_parameters_bias_ = (None)
+        input_35 = torch._C._nn.gelu(input_34, approximate="none")
+        input_34 = None
+        input_36 = torch.conv2d(
+            input_35,
+            l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_3_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_35 = l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_3_parameters_weight_ = (None)
+        x_20 = x_18 + input_36
+        x_18 = input_36 = None
+        split_9 = torch.functional.split(x_20, [40, 120], dim=1)
+        x1_18 = split_9[0]
+        x2_9 = split_9[1]
+        split_9 = None
+        x1_19 = torch.conv2d(
+            x1_18,
+            l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_spatial_mixing_modules_partial_conv3_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x1_18 = l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = (None)
+        x_21 = torch.cat((x1_19, x2_9), 1)
+        x1_19 = x2_9 = None
+        input_37 = torch.conv2d(
+            x_21,
+            l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_21 = l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_0_parameters_weight_ = (None)
+        input_38 = torch.nn.functional.batch_norm(
+            input_37,
+            l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        input_37 = l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_1_parameters_bias_ = (None)
+        input_39 = torch._C._nn.gelu(input_38, approximate="none")
+        input_38 = None
+        input_40 = torch.conv2d(
+            input_39,
+            l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_3_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_39 = l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_3_parameters_weight_ = (None)
+        x_22 = x_20 + input_40
+        x_20 = input_40 = None
+        split_10 = torch.functional.split(x_22, [40, 120], dim=1)
+        x1_20 = split_10[0]
+        x2_10 = split_10[1]
+        split_10 = None
+        x1_21 = torch.conv2d(
+            x1_20,
+            l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_spatial_mixing_modules_partial_conv3_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x1_20 = l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = (None)
+        x_23 = torch.cat((x1_21, x2_10), 1)
+        x1_21 = x2_10 = None
+        input_41 = torch.conv2d(
+            x_23,
+            l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_23 = l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_0_parameters_weight_ = (None)
+        input_42 = torch.nn.functional.batch_norm(
+            input_41,
+            l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_buffers_running_mean_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_buffers_running_var_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        input_41 = l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_buffers_running_mean_ = l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_buffers_running_var_ = l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_1_parameters_bias_ = (None)
+        input_43 = torch._C._nn.gelu(input_42, approximate="none")
+        input_42 = None
+        input_44 = torch.conv2d(
+            input_43,
+            l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_3_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_43 = l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_3_parameters_weight_ = (None)
+        x_24 = x_22 + input_44
+        x_22 = input_44 = None
+        conv2d_36 = torch.conv2d(
+            x_24,
+            l_self_modules_stages_modules_3_modules_downsample_modules_reduction_parameters_weight_,
+            None,
+            (2, 2),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_24 = l_self_modules_stages_modules_3_modules_downsample_modules_reduction_parameters_weight_ = (None)
+        x_25 = torch.nn.functional.batch_norm(
+            conv2d_36,
+            l_self_modules_stages_modules_3_modules_downsample_modules_norm_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_downsample_modules_norm_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        conv2d_36 = l_self_modules_stages_modules_3_modules_downsample_modules_norm_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_downsample_modules_norm_buffers_running_var_ = l_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_weight_ = l_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_bias_ = (None)
+        split_11 = torch.functional.split(x_25, [80, 240], dim=1)
+        x1_22 = split_11[0]
+        x2_11 = split_11[1]
+        split_11 = None
+        x1_23 = torch.conv2d(
+            x1_22,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x1_22 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = (None)
+        x_26 = torch.cat((x1_23, x2_11), 1)
+        x1_23 = x2_11 = None
+        input_45 = torch.conv2d(
+            x_26,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_26 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_0_parameters_weight_ = (None)
+        input_46 = torch.nn.functional.batch_norm(
+            input_45,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        input_45 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_1_parameters_bias_ = (None)
+        input_47 = torch._C._nn.gelu(input_46, approximate="none")
+        input_46 = None
+        input_48 = torch.conv2d(
+            input_47,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_47 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_3_parameters_weight_ = (None)
+        x_27 = x_25 + input_48
+        x_25 = input_48 = None
+        split_12 = torch.functional.split(x_27, [80, 240], dim=1)
+        x1_24 = split_12[0]
+        x2_12 = split_12[1]
+        split_12 = None
+        x1_25 = torch.conv2d(
+            x1_24,
+            l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_,
+            None,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            1,
+        )
+        x1_24 = l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_spatial_mixing_modules_partial_conv3_parameters_weight_ = (None)
+        x_28 = torch.cat((x1_25, x2_12), 1)
+        x1_25 = x2_12 = None
+        input_49 = torch.conv2d(
+            x_28,
+            l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_28 = l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_0_parameters_weight_ = (None)
+        input_50 = torch.nn.functional.batch_norm(
+            input_49,
+            l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_,
+            False,
+            0.1,
+            1e-05,
+        )
+        input_49 = l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_mean_ = l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_buffers_running_var_ = l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_1_parameters_bias_ = (None)
+        input_51 = torch._C._nn.gelu(input_50, approximate="none")
+        input_50 = None
+        input_52 = torch.conv2d(
+            input_51,
+            l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        input_51 = l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_3_parameters_weight_ = (None)
+        x_29 = x_27 + input_52
+        x_27 = input_52 = None
+        x_30 = torch.nn.functional.adaptive_avg_pool2d(x_29, 1)
+        x_29 = None
+        x_31 = torch.conv2d(
+            x_30,
+            l_self_modules_conv_head_parameters_weight_,
+            None,
+            (1, 1),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_30 = l_self_modules_conv_head_parameters_weight_ = None
+        x_32 = torch._C._nn.gelu(x_31, approximate="none")
+        x_31 = None
+        x_33 = x_32.flatten(1, -1)
+        x_32 = None
+        x_34 = torch._C._nn.linear(
+            x_33,
+            l_self_modules_classifier_parameters_weight_,
+            l_self_modules_classifier_parameters_bias_,
+        )
+        x_33 = (
+            l_self_modules_classifier_parameters_weight_
+        ) = l_self_modules_classifier_parameters_bias_ = None
+        return (x_34,)

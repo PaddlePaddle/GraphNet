@@ -23,8 +23,6 @@ def apply_templates(forward_code: str) -> str:
 def get_limited_precision_float_str(value):
     if not isinstance(value, float):
         return value
-    if not math.isfinite(value):
-        return f'float("{value}")'
     return f"{value:.3f}"
 
 
@@ -32,7 +30,12 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
     def tensor_info(tensor):
         is_float = tensor.dtype.is_floating_point
         mean = float(tensor.mean().item()) if is_float else None
-        std = float(tensor.std().item()) if is_float else None
+        std = None
+        if is_float:
+            if tensor.numel() <= 1:
+                std = 0.0
+            else:
+                std = float(tensor.std().item())
         return {
             "shape": list(tensor.shape),
             "dtype": str(tensor.dtype),

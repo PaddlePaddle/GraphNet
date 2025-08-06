@@ -66,6 +66,7 @@ def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=Fa
                 "framework": "torch",
                 "num_devices_required": 1,
                 "num_nodes_required": 1,
+                "dynamic": bool(dynamic),
             }
             with open(os.path.join(model_path, "graph_net.json"), "w") as f:
                 json.dump(metadata, f, indent=4)

@@ -1,0 +1,8119 @@
+import torch
+
+from torch import device
+
+
+class GraphModule(torch.nn.Module):
+    def forward(
+        self,
+        L_self_modules_model_modules_language_model_modules_embed_tokens_parameters_weight_: torch.nn.parameter.Parameter,
+        L_kwargs_input_ids_: torch.Tensor,
+        L_kwargs_attention_mask_: torch.Tensor,
+        L_self_modules_model_modules_language_model_modules_rotary_emb_buffers_inv_freq_: torch.Tensor,
+        L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_q_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_q_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_k_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_v_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_o_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_gate_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_up_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_down_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_model_modules_language_model_modules_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_score_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_score_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_score_modules_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_score_modules_2_parameters_bias_: torch.nn.parameter.Parameter,
+    ):
+        l_self_modules_model_modules_language_model_modules_embed_tokens_parameters_weight_ = L_self_modules_model_modules_language_model_modules_embed_tokens_parameters_weight_
+        l_kwargs_input_ids_ = L_kwargs_input_ids_
+        l_kwargs_attention_mask_ = L_kwargs_attention_mask_
+        l_self_modules_model_modules_language_model_modules_rotary_emb_buffers_inv_freq_ = L_self_modules_model_modules_language_model_modules_rotary_emb_buffers_inv_freq_
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_input_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_input_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_q_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_q_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_q_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_q_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_k_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_k_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_k_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_v_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_v_proj_parameters_bias_ = L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_v_proj_parameters_bias_
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_o_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_o_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_gate_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_gate_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_up_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_up_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_down_proj_parameters_weight_ = L_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_down_proj_parameters_weight_
+        l_self_modules_model_modules_language_model_modules_norm_parameters_weight_ = (
+            L_self_modules_model_modules_language_model_modules_norm_parameters_weight_
+        )
+        l_self_modules_score_modules_0_parameters_weight_ = (
+            L_self_modules_score_modules_0_parameters_weight_
+        )
+        l_self_modules_score_modules_0_parameters_bias_ = (
+            L_self_modules_score_modules_0_parameters_bias_
+        )
+        l_self_modules_score_modules_2_parameters_weight_ = (
+            L_self_modules_score_modules_2_parameters_weight_
+        )
+        l_self_modules_score_modules_2_parameters_bias_ = (
+            L_self_modules_score_modules_2_parameters_bias_
+        )
+        inputs_embeds = torch.nn.functional.embedding(
+            l_kwargs_input_ids_,
+            l_self_modules_model_modules_language_model_modules_embed_tokens_parameters_weight_,
+            None,
+            None,
+            2.0,
+            False,
+            False,
+        )
+        l_kwargs_input_ids_ = l_self_modules_model_modules_language_model_modules_embed_tokens_parameters_weight_ = (None)
+        long = l_kwargs_attention_mask_.long()
+        cumsum = long.cumsum(-1)
+        long = None
+        position_ids = cumsum - 1
+        cumsum = None
+        eq = l_kwargs_attention_mask_.__eq__(0)
+        masked_fill_ = position_ids.masked_fill_(eq, 1)
+        eq = masked_fill_ = None
+        unsqueeze = position_ids.unsqueeze(0)
+        position_ids = None
+        expand = unsqueeze.expand(3, -1, -1)
+        unsqueeze = None
+        position_ids_1 = expand.to(device(type="cuda", index=0))
+        expand = None
+        max_1 = position_ids_1.max(0, keepdim=False)
+        getitem = max_1[0]
+        max_1 = None
+        max_2 = getitem.max(-1, keepdim=True)
+        getitem = None
+        max_position_ids = max_2[0]
+        max_2 = None
+        add = max_position_ids + 1
+        max_position_ids = None
+        mrope_position_deltas = add - 9
+        add = None
+        cache_position = torch.arange(0, 9, device=device(type="cuda", index=0))
+        attention_mask = l_kwargs_attention_mask_.to(
+            device=device(type="cuda", index=0), dtype=torch.bool
+        )
+        l_kwargs_attention_mask_ = None
+        kv_arange = torch.arange(9, device=device(type="cuda", index=0))
+        kv_arange += 0
+        kv_arange_1 = kv_arange
+        kv_arange = None
+        batch_arange = torch.arange(1, device=device(type="cuda", index=0))
+        head_arange = torch.arange(1, device=device(type="cuda", index=0))
+        lazy_load_decompositions = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions = None
+        _vmap_increment_nesting = torch._C._functorch._vmap_increment_nesting(
+            1, "error"
+        )
+        _vmap_increment_nesting = None
+        child = torch._C._functorch._add_batch_dim(batch_arange, 0, 1)
+        batch_arange = None
+        lazy_load_decompositions_1 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_1 = None
+        _vmap_increment_nesting_1 = torch._C._functorch._vmap_increment_nesting(
+            1, "error"
+        )
+        _vmap_increment_nesting_1 = None
+        child_1 = torch._C._functorch._add_batch_dim(head_arange, 0, 2)
+        head_arange = child_1 = None
+        lazy_load_decompositions_2 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_2 = None
+        _vmap_increment_nesting_2 = torch._C._functorch._vmap_increment_nesting(
+            9, "error"
+        )
+        _vmap_increment_nesting_2 = None
+        child_2 = torch._C._functorch._add_batch_dim(cache_position, 0, 3)
+        cache_position = None
+        lazy_load_decompositions_3 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_3 = None
+        _vmap_increment_nesting_3 = torch._C._functorch._vmap_increment_nesting(
+            9, "error"
+        )
+        _vmap_increment_nesting_3 = None
+        child_3 = torch._C._functorch._add_batch_dim(kv_arange_1, 0, 4)
+        kv_arange_1 = None
+        result = child_2.new_ones((), dtype=torch.bool)
+        le = child_3.le(child_2)
+        child_2 = None
+        result_1 = result.__and__(le)
+        result = le = None
+        index = torch.ops.aten.index(attention_mask, [child, child_3])
+        attention_mask = child = child_3 = None
+        result_2 = result_1.__and__(index)
+        result_1 = index = None
+        batched_outputs = torch._C._functorch._remove_batch_dim(result_2, 4, 9, 0)
+        result_2 = None
+        _vmap_decrement_nesting = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting = None
+        batched_outputs_1 = torch._C._functorch._remove_batch_dim(
+            batched_outputs, 3, 9, 0
+        )
+        batched_outputs = None
+        _vmap_decrement_nesting_1 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_1 = None
+        batched_outputs_2 = torch._C._functorch._remove_batch_dim(
+            batched_outputs_1, 2, 1, 0
+        )
+        batched_outputs_1 = None
+        _vmap_decrement_nesting_2 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_2 = None
+        causal_mask = torch._C._functorch._remove_batch_dim(batched_outputs_2, 1, 1, 0)
+        batched_outputs_2 = None
+        _vmap_decrement_nesting_3 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_3 = None
+        getitem_5 = l_self_modules_model_modules_language_model_modules_rotary_emb_buffers_inv_freq_[
+            (None, None, slice(None, None, None), None)
+        ]
+        l_self_modules_model_modules_language_model_modules_rotary_emb_buffers_inv_freq_ = (
+            None
+        )
+        float_1 = getitem_5.float()
+        getitem_5 = None
+        inv_freq_expanded = float_1.expand(3, 1, -1, 1)
+        float_1 = None
+        getitem_6 = position_ids_1[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+            )
+        ]
+        position_ids_1 = None
+        position_ids_expanded = getitem_6.float()
+        getitem_6 = None
+        _enter_autocast = torch.amp.autocast_mode._enter_autocast(
+            "cuda", None, False, None
+        )
+        float_3 = inv_freq_expanded.float()
+        inv_freq_expanded = None
+        float_4 = position_ids_expanded.float()
+        position_ids_expanded = None
+        matmul = float_3 @ float_4
+        float_3 = float_4 = None
+        freqs = matmul.transpose(2, 3)
+        matmul = None
+        emb = torch.cat((freqs, freqs), dim=-1)
+        freqs = None
+        cos = emb.cos()
+        cos_1 = cos * 1.0
+        cos = None
+        sin = emb.sin()
+        emb = None
+        sin_1 = sin * 1.0
+        sin = None
+        _exit_autocast = torch.amp.autocast_mode._exit_autocast(_enter_autocast)
+        _enter_autocast = _exit_autocast = None
+        cos_2 = cos_1.to(dtype=torch.bfloat16)
+        cos_1 = None
+        sin_2 = sin_1.to(dtype=torch.bfloat16)
+        sin_1 = None
+        hidden_states = inputs_embeds.to(torch.float32)
+        pow_1 = hidden_states.pow(2)
+        variance = pow_1.mean(-1, keepdim=True)
+        pow_1 = None
+        add_1 = variance + 1e-06
+        variance = None
+        rsqrt = torch.rsqrt(add_1)
+        add_1 = None
+        hidden_states_1 = hidden_states * rsqrt
+        hidden_states = rsqrt = None
+        to_5 = hidden_states_1.to(torch.bfloat16)
+        hidden_states_1 = None
+        hidden_states_2 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_input_layernorm_parameters_weight_
+            * to_5
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_input_layernorm_parameters_weight_ = (
+            to_5
+        ) = None
+        query_states = torch._C._nn.linear(
+            hidden_states_2,
+            l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states = torch._C._nn.linear(
+            hidden_states_2,
+            l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states = torch._C._nn.linear(
+            hidden_states_2,
+            l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_2 = l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view = query_states.view(1, 9, -1, 128)
+        query_states = None
+        query_states_1 = view.transpose(1, 2)
+        view = None
+        view_1 = key_states.view(1, 9, -1, 128)
+        key_states = None
+        key_states_1 = view_1.transpose(1, 2)
+        view_1 = None
+        view_2 = value_states.view(1, 9, -1, 128)
+        value_states = None
+        value_states_1 = view_2.transpose(1, 2)
+        view_2 = None
+        split = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x = split[0]
+        x_1 = split[1]
+        x_2 = split[2]
+        x_3 = split[3]
+        x_4 = split[4]
+        x_5 = split[5]
+        split = None
+        getitem_13 = x[0]
+        x = None
+        getitem_14 = x_1[1]
+        x_1 = None
+        getitem_15 = x_2[2]
+        x_2 = None
+        getitem_16 = x_3[0]
+        x_3 = None
+        getitem_17 = x_4[1]
+        x_4 = None
+        getitem_18 = x_5[2]
+        x_5 = None
+        cat_1 = torch.cat(
+            [getitem_13, getitem_14, getitem_15, getitem_16, getitem_17, getitem_18],
+            dim=-1,
+        )
+        getitem_13 = (
+            getitem_14
+        ) = getitem_15 = getitem_16 = getitem_17 = getitem_18 = None
+        cos_3 = cat_1.unsqueeze(1)
+        cat_1 = None
+        split_1 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_6 = split_1[0]
+        x_7 = split_1[1]
+        x_8 = split_1[2]
+        x_9 = split_1[3]
+        x_10 = split_1[4]
+        x_11 = split_1[5]
+        split_1 = None
+        getitem_25 = x_6[0]
+        x_6 = None
+        getitem_26 = x_7[1]
+        x_7 = None
+        getitem_27 = x_8[2]
+        x_8 = None
+        getitem_28 = x_9[0]
+        x_9 = None
+        getitem_29 = x_10[1]
+        x_10 = None
+        getitem_30 = x_11[2]
+        x_11 = None
+        cat_2 = torch.cat(
+            [getitem_25, getitem_26, getitem_27, getitem_28, getitem_29, getitem_30],
+            dim=-1,
+        )
+        getitem_25 = (
+            getitem_26
+        ) = getitem_27 = getitem_28 = getitem_29 = getitem_30 = None
+        sin_3 = cat_2.unsqueeze(1)
+        cat_2 = None
+        mul_4 = query_states_1 * cos_3
+        x1 = query_states_1[(Ellipsis, slice(None, 64, None))]
+        x2 = query_states_1[(Ellipsis, slice(64, None, None))]
+        query_states_1 = None
+        neg = -x2
+        x2 = None
+        cat_3 = torch.cat((neg, x1), dim=-1)
+        neg = x1 = None
+        mul_5 = cat_3 * sin_3
+        cat_3 = None
+        q_embed = mul_4 + mul_5
+        mul_4 = mul_5 = None
+        mul_6 = key_states_1 * cos_3
+        cos_3 = None
+        x1_1 = key_states_1[(Ellipsis, slice(None, 64, None))]
+        x2_1 = key_states_1[(Ellipsis, slice(64, None, None))]
+        key_states_1 = None
+        neg_1 = -x2_1
+        x2_1 = None
+        cat_4 = torch.cat((neg_1, x1_1), dim=-1)
+        neg_1 = x1_1 = None
+        mul_7 = cat_4 * sin_3
+        cat_4 = sin_3 = None
+        k_embed = mul_6 + mul_7
+        mul_6 = mul_7 = None
+        getitem_35 = k_embed[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed = None
+        hidden_states_3 = getitem_35.expand(1, 2, 6, 9, 128)
+        getitem_35 = None
+        key = hidden_states_3.reshape(1, 12, 9, 128)
+        hidden_states_3 = None
+        getitem_36 = value_states_1[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_1 = None
+        hidden_states_4 = getitem_36.expand(1, 2, 6, 9, 128)
+        getitem_36 = None
+        value = hidden_states_4.reshape(1, 12, 9, 128)
+        hidden_states_4 = None
+        attention_mask_1 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query = q_embed.contiguous()
+        q_embed = None
+        key_1 = key.contiguous()
+        key = None
+        value_1 = value.contiguous()
+        value = None
+        attn_output = torch._C._nn.scaled_dot_product_attention(
+            query,
+            key_1,
+            value_1,
+            attn_mask=attention_mask_1,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query = key_1 = value_1 = attention_mask_1 = None
+        transpose_4 = attn_output.transpose(1, 2)
+        attn_output = None
+        attn_output_1 = transpose_4.contiguous()
+        transpose_4 = None
+        reshape_2 = attn_output_1.reshape(1, 9, -1)
+        attn_output_1 = None
+        attn_output_2 = reshape_2.contiguous()
+        reshape_2 = None
+        attn_output_3 = torch._C._nn.linear(
+            attn_output_2,
+            l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_2 = l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_5 = inputs_embeds + attn_output_3
+        inputs_embeds = attn_output_3 = None
+        hidden_states_6 = hidden_states_5.to(torch.float32)
+        pow_2 = hidden_states_6.pow(2)
+        variance_1 = pow_2.mean(-1, keepdim=True)
+        pow_2 = None
+        add_5 = variance_1 + 1e-06
+        variance_1 = None
+        rsqrt_1 = torch.rsqrt(add_5)
+        add_5 = None
+        hidden_states_7 = hidden_states_6 * rsqrt_1
+        hidden_states_6 = rsqrt_1 = None
+        to_7 = hidden_states_7.to(torch.bfloat16)
+        hidden_states_7 = None
+        hidden_states_8 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_
+            * to_7
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_ = (
+            to_7
+        ) = None
+        linear_4 = torch._C._nn.linear(
+            hidden_states_8,
+            l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu = torch.nn.functional.silu(linear_4, inplace=False)
+        linear_4 = None
+        linear_5 = torch._C._nn.linear(
+            hidden_states_8,
+            l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_8 = l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_10 = silu * linear_5
+        silu = linear_5 = None
+        down_proj = torch._C._nn.linear(
+            mul_10,
+            l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_10 = l_self_modules_model_modules_language_model_modules_layers_modules_0_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_9 = hidden_states_5 + down_proj
+        hidden_states_5 = down_proj = None
+        hidden_states_10 = hidden_states_9.to(torch.float32)
+        pow_3 = hidden_states_10.pow(2)
+        variance_2 = pow_3.mean(-1, keepdim=True)
+        pow_3 = None
+        add_7 = variance_2 + 1e-06
+        variance_2 = None
+        rsqrt_2 = torch.rsqrt(add_7)
+        add_7 = None
+        hidden_states_11 = hidden_states_10 * rsqrt_2
+        hidden_states_10 = rsqrt_2 = None
+        to_9 = hidden_states_11.to(torch.bfloat16)
+        hidden_states_11 = None
+        hidden_states_12 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_input_layernorm_parameters_weight_
+            * to_9
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_input_layernorm_parameters_weight_ = (
+            to_9
+        ) = None
+        query_states_2 = torch._C._nn.linear(
+            hidden_states_12,
+            l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_2 = torch._C._nn.linear(
+            hidden_states_12,
+            l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_2 = torch._C._nn.linear(
+            hidden_states_12,
+            l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_12 = l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_3 = query_states_2.view(1, 9, -1, 128)
+        query_states_2 = None
+        query_states_3 = view_3.transpose(1, 2)
+        view_3 = None
+        view_4 = key_states_2.view(1, 9, -1, 128)
+        key_states_2 = None
+        key_states_3 = view_4.transpose(1, 2)
+        view_4 = None
+        view_5 = value_states_2.view(1, 9, -1, 128)
+        value_states_2 = None
+        value_states_3 = view_5.transpose(1, 2)
+        view_5 = None
+        split_2 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_12 = split_2[0]
+        x_13 = split_2[1]
+        x_14 = split_2[2]
+        x_15 = split_2[3]
+        x_16 = split_2[4]
+        x_17 = split_2[5]
+        split_2 = None
+        getitem_44 = x_12[0]
+        x_12 = None
+        getitem_45 = x_13[1]
+        x_13 = None
+        getitem_46 = x_14[2]
+        x_14 = None
+        getitem_47 = x_15[0]
+        x_15 = None
+        getitem_48 = x_16[1]
+        x_16 = None
+        getitem_49 = x_17[2]
+        x_17 = None
+        cat_5 = torch.cat(
+            [getitem_44, getitem_45, getitem_46, getitem_47, getitem_48, getitem_49],
+            dim=-1,
+        )
+        getitem_44 = (
+            getitem_45
+        ) = getitem_46 = getitem_47 = getitem_48 = getitem_49 = None
+        cos_4 = cat_5.unsqueeze(1)
+        cat_5 = None
+        split_3 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_18 = split_3[0]
+        x_19 = split_3[1]
+        x_20 = split_3[2]
+        x_21 = split_3[3]
+        x_22 = split_3[4]
+        x_23 = split_3[5]
+        split_3 = None
+        getitem_56 = x_18[0]
+        x_18 = None
+        getitem_57 = x_19[1]
+        x_19 = None
+        getitem_58 = x_20[2]
+        x_20 = None
+        getitem_59 = x_21[0]
+        x_21 = None
+        getitem_60 = x_22[1]
+        x_22 = None
+        getitem_61 = x_23[2]
+        x_23 = None
+        cat_6 = torch.cat(
+            [getitem_56, getitem_57, getitem_58, getitem_59, getitem_60, getitem_61],
+            dim=-1,
+        )
+        getitem_56 = (
+            getitem_57
+        ) = getitem_58 = getitem_59 = getitem_60 = getitem_61 = None
+        sin_4 = cat_6.unsqueeze(1)
+        cat_6 = None
+        mul_13 = query_states_3 * cos_4
+        x1_2 = query_states_3[(Ellipsis, slice(None, 64, None))]
+        x2_2 = query_states_3[(Ellipsis, slice(64, None, None))]
+        query_states_3 = None
+        neg_2 = -x2_2
+        x2_2 = None
+        cat_7 = torch.cat((neg_2, x1_2), dim=-1)
+        neg_2 = x1_2 = None
+        mul_14 = cat_7 * sin_4
+        cat_7 = None
+        q_embed_1 = mul_13 + mul_14
+        mul_13 = mul_14 = None
+        mul_15 = key_states_3 * cos_4
+        cos_4 = None
+        x1_3 = key_states_3[(Ellipsis, slice(None, 64, None))]
+        x2_3 = key_states_3[(Ellipsis, slice(64, None, None))]
+        key_states_3 = None
+        neg_3 = -x2_3
+        x2_3 = None
+        cat_8 = torch.cat((neg_3, x1_3), dim=-1)
+        neg_3 = x1_3 = None
+        mul_16 = cat_8 * sin_4
+        cat_8 = sin_4 = None
+        k_embed_1 = mul_15 + mul_16
+        mul_15 = mul_16 = None
+        getitem_66 = k_embed_1[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_1 = None
+        hidden_states_13 = getitem_66.expand(1, 2, 6, 9, 128)
+        getitem_66 = None
+        key_2 = hidden_states_13.reshape(1, 12, 9, 128)
+        hidden_states_13 = None
+        getitem_67 = value_states_3[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_3 = None
+        hidden_states_14 = getitem_67.expand(1, 2, 6, 9, 128)
+        getitem_67 = None
+        value_2 = hidden_states_14.reshape(1, 12, 9, 128)
+        hidden_states_14 = None
+        attention_mask_2 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_1 = q_embed_1.contiguous()
+        q_embed_1 = None
+        key_3 = key_2.contiguous()
+        key_2 = None
+        value_3 = value_2.contiguous()
+        value_2 = None
+        attn_output_4 = torch._C._nn.scaled_dot_product_attention(
+            query_1,
+            key_3,
+            value_3,
+            attn_mask=attention_mask_2,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_1 = key_3 = value_3 = attention_mask_2 = None
+        transpose_8 = attn_output_4.transpose(1, 2)
+        attn_output_4 = None
+        attn_output_5 = transpose_8.contiguous()
+        transpose_8 = None
+        reshape_5 = attn_output_5.reshape(1, 9, -1)
+        attn_output_5 = None
+        attn_output_6 = reshape_5.contiguous()
+        reshape_5 = None
+        attn_output_7 = torch._C._nn.linear(
+            attn_output_6,
+            l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_6 = l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_15 = hidden_states_9 + attn_output_7
+        hidden_states_9 = attn_output_7 = None
+        hidden_states_16 = hidden_states_15.to(torch.float32)
+        pow_4 = hidden_states_16.pow(2)
+        variance_3 = pow_4.mean(-1, keepdim=True)
+        pow_4 = None
+        add_11 = variance_3 + 1e-06
+        variance_3 = None
+        rsqrt_3 = torch.rsqrt(add_11)
+        add_11 = None
+        hidden_states_17 = hidden_states_16 * rsqrt_3
+        hidden_states_16 = rsqrt_3 = None
+        to_11 = hidden_states_17.to(torch.bfloat16)
+        hidden_states_17 = None
+        hidden_states_18 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_
+            * to_11
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_ = (
+            to_11
+        ) = None
+        linear_11 = torch._C._nn.linear(
+            hidden_states_18,
+            l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_1 = torch.nn.functional.silu(linear_11, inplace=False)
+        linear_11 = None
+        linear_12 = torch._C._nn.linear(
+            hidden_states_18,
+            l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_18 = l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_19 = silu_1 * linear_12
+        silu_1 = linear_12 = None
+        down_proj_1 = torch._C._nn.linear(
+            mul_19,
+            l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_19 = l_self_modules_model_modules_language_model_modules_layers_modules_1_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_19 = hidden_states_15 + down_proj_1
+        hidden_states_15 = down_proj_1 = None
+        hidden_states_20 = hidden_states_19.to(torch.float32)
+        pow_5 = hidden_states_20.pow(2)
+        variance_4 = pow_5.mean(-1, keepdim=True)
+        pow_5 = None
+        add_13 = variance_4 + 1e-06
+        variance_4 = None
+        rsqrt_4 = torch.rsqrt(add_13)
+        add_13 = None
+        hidden_states_21 = hidden_states_20 * rsqrt_4
+        hidden_states_20 = rsqrt_4 = None
+        to_13 = hidden_states_21.to(torch.bfloat16)
+        hidden_states_21 = None
+        hidden_states_22 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_input_layernorm_parameters_weight_
+            * to_13
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_input_layernorm_parameters_weight_ = (
+            to_13
+        ) = None
+        query_states_4 = torch._C._nn.linear(
+            hidden_states_22,
+            l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_4 = torch._C._nn.linear(
+            hidden_states_22,
+            l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_4 = torch._C._nn.linear(
+            hidden_states_22,
+            l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_22 = l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_6 = query_states_4.view(1, 9, -1, 128)
+        query_states_4 = None
+        query_states_5 = view_6.transpose(1, 2)
+        view_6 = None
+        view_7 = key_states_4.view(1, 9, -1, 128)
+        key_states_4 = None
+        key_states_5 = view_7.transpose(1, 2)
+        view_7 = None
+        view_8 = value_states_4.view(1, 9, -1, 128)
+        value_states_4 = None
+        value_states_5 = view_8.transpose(1, 2)
+        view_8 = None
+        split_4 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_24 = split_4[0]
+        x_25 = split_4[1]
+        x_26 = split_4[2]
+        x_27 = split_4[3]
+        x_28 = split_4[4]
+        x_29 = split_4[5]
+        split_4 = None
+        getitem_75 = x_24[0]
+        x_24 = None
+        getitem_76 = x_25[1]
+        x_25 = None
+        getitem_77 = x_26[2]
+        x_26 = None
+        getitem_78 = x_27[0]
+        x_27 = None
+        getitem_79 = x_28[1]
+        x_28 = None
+        getitem_80 = x_29[2]
+        x_29 = None
+        cat_9 = torch.cat(
+            [getitem_75, getitem_76, getitem_77, getitem_78, getitem_79, getitem_80],
+            dim=-1,
+        )
+        getitem_75 = (
+            getitem_76
+        ) = getitem_77 = getitem_78 = getitem_79 = getitem_80 = None
+        cos_5 = cat_9.unsqueeze(1)
+        cat_9 = None
+        split_5 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_30 = split_5[0]
+        x_31 = split_5[1]
+        x_32 = split_5[2]
+        x_33 = split_5[3]
+        x_34 = split_5[4]
+        x_35 = split_5[5]
+        split_5 = None
+        getitem_87 = x_30[0]
+        x_30 = None
+        getitem_88 = x_31[1]
+        x_31 = None
+        getitem_89 = x_32[2]
+        x_32 = None
+        getitem_90 = x_33[0]
+        x_33 = None
+        getitem_91 = x_34[1]
+        x_34 = None
+        getitem_92 = x_35[2]
+        x_35 = None
+        cat_10 = torch.cat(
+            [getitem_87, getitem_88, getitem_89, getitem_90, getitem_91, getitem_92],
+            dim=-1,
+        )
+        getitem_87 = (
+            getitem_88
+        ) = getitem_89 = getitem_90 = getitem_91 = getitem_92 = None
+        sin_5 = cat_10.unsqueeze(1)
+        cat_10 = None
+        mul_22 = query_states_5 * cos_5
+        x1_4 = query_states_5[(Ellipsis, slice(None, 64, None))]
+        x2_4 = query_states_5[(Ellipsis, slice(64, None, None))]
+        query_states_5 = None
+        neg_4 = -x2_4
+        x2_4 = None
+        cat_11 = torch.cat((neg_4, x1_4), dim=-1)
+        neg_4 = x1_4 = None
+        mul_23 = cat_11 * sin_5
+        cat_11 = None
+        q_embed_2 = mul_22 + mul_23
+        mul_22 = mul_23 = None
+        mul_24 = key_states_5 * cos_5
+        cos_5 = None
+        x1_5 = key_states_5[(Ellipsis, slice(None, 64, None))]
+        x2_5 = key_states_5[(Ellipsis, slice(64, None, None))]
+        key_states_5 = None
+        neg_5 = -x2_5
+        x2_5 = None
+        cat_12 = torch.cat((neg_5, x1_5), dim=-1)
+        neg_5 = x1_5 = None
+        mul_25 = cat_12 * sin_5
+        cat_12 = sin_5 = None
+        k_embed_2 = mul_24 + mul_25
+        mul_24 = mul_25 = None
+        getitem_97 = k_embed_2[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_2 = None
+        hidden_states_23 = getitem_97.expand(1, 2, 6, 9, 128)
+        getitem_97 = None
+        key_4 = hidden_states_23.reshape(1, 12, 9, 128)
+        hidden_states_23 = None
+        getitem_98 = value_states_5[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_5 = None
+        hidden_states_24 = getitem_98.expand(1, 2, 6, 9, 128)
+        getitem_98 = None
+        value_4 = hidden_states_24.reshape(1, 12, 9, 128)
+        hidden_states_24 = None
+        attention_mask_3 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_2 = q_embed_2.contiguous()
+        q_embed_2 = None
+        key_5 = key_4.contiguous()
+        key_4 = None
+        value_5 = value_4.contiguous()
+        value_4 = None
+        attn_output_8 = torch._C._nn.scaled_dot_product_attention(
+            query_2,
+            key_5,
+            value_5,
+            attn_mask=attention_mask_3,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_2 = key_5 = value_5 = attention_mask_3 = None
+        transpose_12 = attn_output_8.transpose(1, 2)
+        attn_output_8 = None
+        attn_output_9 = transpose_12.contiguous()
+        transpose_12 = None
+        reshape_8 = attn_output_9.reshape(1, 9, -1)
+        attn_output_9 = None
+        attn_output_10 = reshape_8.contiguous()
+        reshape_8 = None
+        attn_output_11 = torch._C._nn.linear(
+            attn_output_10,
+            l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_10 = l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_25 = hidden_states_19 + attn_output_11
+        hidden_states_19 = attn_output_11 = None
+        hidden_states_26 = hidden_states_25.to(torch.float32)
+        pow_6 = hidden_states_26.pow(2)
+        variance_5 = pow_6.mean(-1, keepdim=True)
+        pow_6 = None
+        add_17 = variance_5 + 1e-06
+        variance_5 = None
+        rsqrt_5 = torch.rsqrt(add_17)
+        add_17 = None
+        hidden_states_27 = hidden_states_26 * rsqrt_5
+        hidden_states_26 = rsqrt_5 = None
+        to_15 = hidden_states_27.to(torch.bfloat16)
+        hidden_states_27 = None
+        hidden_states_28 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_
+            * to_15
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_ = (
+            to_15
+        ) = None
+        linear_18 = torch._C._nn.linear(
+            hidden_states_28,
+            l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_2 = torch.nn.functional.silu(linear_18, inplace=False)
+        linear_18 = None
+        linear_19 = torch._C._nn.linear(
+            hidden_states_28,
+            l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_28 = l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_28 = silu_2 * linear_19
+        silu_2 = linear_19 = None
+        down_proj_2 = torch._C._nn.linear(
+            mul_28,
+            l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_28 = l_self_modules_model_modules_language_model_modules_layers_modules_2_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_29 = hidden_states_25 + down_proj_2
+        hidden_states_25 = down_proj_2 = None
+        hidden_states_30 = hidden_states_29.to(torch.float32)
+        pow_7 = hidden_states_30.pow(2)
+        variance_6 = pow_7.mean(-1, keepdim=True)
+        pow_7 = None
+        add_19 = variance_6 + 1e-06
+        variance_6 = None
+        rsqrt_6 = torch.rsqrt(add_19)
+        add_19 = None
+        hidden_states_31 = hidden_states_30 * rsqrt_6
+        hidden_states_30 = rsqrt_6 = None
+        to_17 = hidden_states_31.to(torch.bfloat16)
+        hidden_states_31 = None
+        hidden_states_32 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_input_layernorm_parameters_weight_
+            * to_17
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_input_layernorm_parameters_weight_ = (
+            to_17
+        ) = None
+        query_states_6 = torch._C._nn.linear(
+            hidden_states_32,
+            l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_6 = torch._C._nn.linear(
+            hidden_states_32,
+            l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_6 = torch._C._nn.linear(
+            hidden_states_32,
+            l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_32 = l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_9 = query_states_6.view(1, 9, -1, 128)
+        query_states_6 = None
+        query_states_7 = view_9.transpose(1, 2)
+        view_9 = None
+        view_10 = key_states_6.view(1, 9, -1, 128)
+        key_states_6 = None
+        key_states_7 = view_10.transpose(1, 2)
+        view_10 = None
+        view_11 = value_states_6.view(1, 9, -1, 128)
+        value_states_6 = None
+        value_states_7 = view_11.transpose(1, 2)
+        view_11 = None
+        split_6 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_36 = split_6[0]
+        x_37 = split_6[1]
+        x_38 = split_6[2]
+        x_39 = split_6[3]
+        x_40 = split_6[4]
+        x_41 = split_6[5]
+        split_6 = None
+        getitem_106 = x_36[0]
+        x_36 = None
+        getitem_107 = x_37[1]
+        x_37 = None
+        getitem_108 = x_38[2]
+        x_38 = None
+        getitem_109 = x_39[0]
+        x_39 = None
+        getitem_110 = x_40[1]
+        x_40 = None
+        getitem_111 = x_41[2]
+        x_41 = None
+        cat_13 = torch.cat(
+            [
+                getitem_106,
+                getitem_107,
+                getitem_108,
+                getitem_109,
+                getitem_110,
+                getitem_111,
+            ],
+            dim=-1,
+        )
+        getitem_106 = (
+            getitem_107
+        ) = getitem_108 = getitem_109 = getitem_110 = getitem_111 = None
+        cos_6 = cat_13.unsqueeze(1)
+        cat_13 = None
+        split_7 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_42 = split_7[0]
+        x_43 = split_7[1]
+        x_44 = split_7[2]
+        x_45 = split_7[3]
+        x_46 = split_7[4]
+        x_47 = split_7[5]
+        split_7 = None
+        getitem_118 = x_42[0]
+        x_42 = None
+        getitem_119 = x_43[1]
+        x_43 = None
+        getitem_120 = x_44[2]
+        x_44 = None
+        getitem_121 = x_45[0]
+        x_45 = None
+        getitem_122 = x_46[1]
+        x_46 = None
+        getitem_123 = x_47[2]
+        x_47 = None
+        cat_14 = torch.cat(
+            [
+                getitem_118,
+                getitem_119,
+                getitem_120,
+                getitem_121,
+                getitem_122,
+                getitem_123,
+            ],
+            dim=-1,
+        )
+        getitem_118 = (
+            getitem_119
+        ) = getitem_120 = getitem_121 = getitem_122 = getitem_123 = None
+        sin_6 = cat_14.unsqueeze(1)
+        cat_14 = None
+        mul_31 = query_states_7 * cos_6
+        x1_6 = query_states_7[(Ellipsis, slice(None, 64, None))]
+        x2_6 = query_states_7[(Ellipsis, slice(64, None, None))]
+        query_states_7 = None
+        neg_6 = -x2_6
+        x2_6 = None
+        cat_15 = torch.cat((neg_6, x1_6), dim=-1)
+        neg_6 = x1_6 = None
+        mul_32 = cat_15 * sin_6
+        cat_15 = None
+        q_embed_3 = mul_31 + mul_32
+        mul_31 = mul_32 = None
+        mul_33 = key_states_7 * cos_6
+        cos_6 = None
+        x1_7 = key_states_7[(Ellipsis, slice(None, 64, None))]
+        x2_7 = key_states_7[(Ellipsis, slice(64, None, None))]
+        key_states_7 = None
+        neg_7 = -x2_7
+        x2_7 = None
+        cat_16 = torch.cat((neg_7, x1_7), dim=-1)
+        neg_7 = x1_7 = None
+        mul_34 = cat_16 * sin_6
+        cat_16 = sin_6 = None
+        k_embed_3 = mul_33 + mul_34
+        mul_33 = mul_34 = None
+        getitem_128 = k_embed_3[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_3 = None
+        hidden_states_33 = getitem_128.expand(1, 2, 6, 9, 128)
+        getitem_128 = None
+        key_6 = hidden_states_33.reshape(1, 12, 9, 128)
+        hidden_states_33 = None
+        getitem_129 = value_states_7[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_7 = None
+        hidden_states_34 = getitem_129.expand(1, 2, 6, 9, 128)
+        getitem_129 = None
+        value_6 = hidden_states_34.reshape(1, 12, 9, 128)
+        hidden_states_34 = None
+        attention_mask_4 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_3 = q_embed_3.contiguous()
+        q_embed_3 = None
+        key_7 = key_6.contiguous()
+        key_6 = None
+        value_7 = value_6.contiguous()
+        value_6 = None
+        attn_output_12 = torch._C._nn.scaled_dot_product_attention(
+            query_3,
+            key_7,
+            value_7,
+            attn_mask=attention_mask_4,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_3 = key_7 = value_7 = attention_mask_4 = None
+        transpose_16 = attn_output_12.transpose(1, 2)
+        attn_output_12 = None
+        attn_output_13 = transpose_16.contiguous()
+        transpose_16 = None
+        reshape_11 = attn_output_13.reshape(1, 9, -1)
+        attn_output_13 = None
+        attn_output_14 = reshape_11.contiguous()
+        reshape_11 = None
+        attn_output_15 = torch._C._nn.linear(
+            attn_output_14,
+            l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_14 = l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_35 = hidden_states_29 + attn_output_15
+        hidden_states_29 = attn_output_15 = None
+        hidden_states_36 = hidden_states_35.to(torch.float32)
+        pow_8 = hidden_states_36.pow(2)
+        variance_7 = pow_8.mean(-1, keepdim=True)
+        pow_8 = None
+        add_23 = variance_7 + 1e-06
+        variance_7 = None
+        rsqrt_7 = torch.rsqrt(add_23)
+        add_23 = None
+        hidden_states_37 = hidden_states_36 * rsqrt_7
+        hidden_states_36 = rsqrt_7 = None
+        to_19 = hidden_states_37.to(torch.bfloat16)
+        hidden_states_37 = None
+        hidden_states_38 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_
+            * to_19
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_ = (
+            to_19
+        ) = None
+        linear_25 = torch._C._nn.linear(
+            hidden_states_38,
+            l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_3 = torch.nn.functional.silu(linear_25, inplace=False)
+        linear_25 = None
+        linear_26 = torch._C._nn.linear(
+            hidden_states_38,
+            l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_38 = l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_37 = silu_3 * linear_26
+        silu_3 = linear_26 = None
+        down_proj_3 = torch._C._nn.linear(
+            mul_37,
+            l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_37 = l_self_modules_model_modules_language_model_modules_layers_modules_3_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_39 = hidden_states_35 + down_proj_3
+        hidden_states_35 = down_proj_3 = None
+        hidden_states_40 = hidden_states_39.to(torch.float32)
+        pow_9 = hidden_states_40.pow(2)
+        variance_8 = pow_9.mean(-1, keepdim=True)
+        pow_9 = None
+        add_25 = variance_8 + 1e-06
+        variance_8 = None
+        rsqrt_8 = torch.rsqrt(add_25)
+        add_25 = None
+        hidden_states_41 = hidden_states_40 * rsqrt_8
+        hidden_states_40 = rsqrt_8 = None
+        to_21 = hidden_states_41.to(torch.bfloat16)
+        hidden_states_41 = None
+        hidden_states_42 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_input_layernorm_parameters_weight_
+            * to_21
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_input_layernorm_parameters_weight_ = (
+            to_21
+        ) = None
+        query_states_8 = torch._C._nn.linear(
+            hidden_states_42,
+            l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_8 = torch._C._nn.linear(
+            hidden_states_42,
+            l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_8 = torch._C._nn.linear(
+            hidden_states_42,
+            l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_42 = l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_12 = query_states_8.view(1, 9, -1, 128)
+        query_states_8 = None
+        query_states_9 = view_12.transpose(1, 2)
+        view_12 = None
+        view_13 = key_states_8.view(1, 9, -1, 128)
+        key_states_8 = None
+        key_states_9 = view_13.transpose(1, 2)
+        view_13 = None
+        view_14 = value_states_8.view(1, 9, -1, 128)
+        value_states_8 = None
+        value_states_9 = view_14.transpose(1, 2)
+        view_14 = None
+        split_8 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_48 = split_8[0]
+        x_49 = split_8[1]
+        x_50 = split_8[2]
+        x_51 = split_8[3]
+        x_52 = split_8[4]
+        x_53 = split_8[5]
+        split_8 = None
+        getitem_137 = x_48[0]
+        x_48 = None
+        getitem_138 = x_49[1]
+        x_49 = None
+        getitem_139 = x_50[2]
+        x_50 = None
+        getitem_140 = x_51[0]
+        x_51 = None
+        getitem_141 = x_52[1]
+        x_52 = None
+        getitem_142 = x_53[2]
+        x_53 = None
+        cat_17 = torch.cat(
+            [
+                getitem_137,
+                getitem_138,
+                getitem_139,
+                getitem_140,
+                getitem_141,
+                getitem_142,
+            ],
+            dim=-1,
+        )
+        getitem_137 = (
+            getitem_138
+        ) = getitem_139 = getitem_140 = getitem_141 = getitem_142 = None
+        cos_7 = cat_17.unsqueeze(1)
+        cat_17 = None
+        split_9 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_54 = split_9[0]
+        x_55 = split_9[1]
+        x_56 = split_9[2]
+        x_57 = split_9[3]
+        x_58 = split_9[4]
+        x_59 = split_9[5]
+        split_9 = None
+        getitem_149 = x_54[0]
+        x_54 = None
+        getitem_150 = x_55[1]
+        x_55 = None
+        getitem_151 = x_56[2]
+        x_56 = None
+        getitem_152 = x_57[0]
+        x_57 = None
+        getitem_153 = x_58[1]
+        x_58 = None
+        getitem_154 = x_59[2]
+        x_59 = None
+        cat_18 = torch.cat(
+            [
+                getitem_149,
+                getitem_150,
+                getitem_151,
+                getitem_152,
+                getitem_153,
+                getitem_154,
+            ],
+            dim=-1,
+        )
+        getitem_149 = (
+            getitem_150
+        ) = getitem_151 = getitem_152 = getitem_153 = getitem_154 = None
+        sin_7 = cat_18.unsqueeze(1)
+        cat_18 = None
+        mul_40 = query_states_9 * cos_7
+        x1_8 = query_states_9[(Ellipsis, slice(None, 64, None))]
+        x2_8 = query_states_9[(Ellipsis, slice(64, None, None))]
+        query_states_9 = None
+        neg_8 = -x2_8
+        x2_8 = None
+        cat_19 = torch.cat((neg_8, x1_8), dim=-1)
+        neg_8 = x1_8 = None
+        mul_41 = cat_19 * sin_7
+        cat_19 = None
+        q_embed_4 = mul_40 + mul_41
+        mul_40 = mul_41 = None
+        mul_42 = key_states_9 * cos_7
+        cos_7 = None
+        x1_9 = key_states_9[(Ellipsis, slice(None, 64, None))]
+        x2_9 = key_states_9[(Ellipsis, slice(64, None, None))]
+        key_states_9 = None
+        neg_9 = -x2_9
+        x2_9 = None
+        cat_20 = torch.cat((neg_9, x1_9), dim=-1)
+        neg_9 = x1_9 = None
+        mul_43 = cat_20 * sin_7
+        cat_20 = sin_7 = None
+        k_embed_4 = mul_42 + mul_43
+        mul_42 = mul_43 = None
+        getitem_159 = k_embed_4[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_4 = None
+        hidden_states_43 = getitem_159.expand(1, 2, 6, 9, 128)
+        getitem_159 = None
+        key_8 = hidden_states_43.reshape(1, 12, 9, 128)
+        hidden_states_43 = None
+        getitem_160 = value_states_9[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_9 = None
+        hidden_states_44 = getitem_160.expand(1, 2, 6, 9, 128)
+        getitem_160 = None
+        value_8 = hidden_states_44.reshape(1, 12, 9, 128)
+        hidden_states_44 = None
+        attention_mask_5 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_4 = q_embed_4.contiguous()
+        q_embed_4 = None
+        key_9 = key_8.contiguous()
+        key_8 = None
+        value_9 = value_8.contiguous()
+        value_8 = None
+        attn_output_16 = torch._C._nn.scaled_dot_product_attention(
+            query_4,
+            key_9,
+            value_9,
+            attn_mask=attention_mask_5,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_4 = key_9 = value_9 = attention_mask_5 = None
+        transpose_20 = attn_output_16.transpose(1, 2)
+        attn_output_16 = None
+        attn_output_17 = transpose_20.contiguous()
+        transpose_20 = None
+        reshape_14 = attn_output_17.reshape(1, 9, -1)
+        attn_output_17 = None
+        attn_output_18 = reshape_14.contiguous()
+        reshape_14 = None
+        attn_output_19 = torch._C._nn.linear(
+            attn_output_18,
+            l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_18 = l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_45 = hidden_states_39 + attn_output_19
+        hidden_states_39 = attn_output_19 = None
+        hidden_states_46 = hidden_states_45.to(torch.float32)
+        pow_10 = hidden_states_46.pow(2)
+        variance_9 = pow_10.mean(-1, keepdim=True)
+        pow_10 = None
+        add_29 = variance_9 + 1e-06
+        variance_9 = None
+        rsqrt_9 = torch.rsqrt(add_29)
+        add_29 = None
+        hidden_states_47 = hidden_states_46 * rsqrt_9
+        hidden_states_46 = rsqrt_9 = None
+        to_23 = hidden_states_47.to(torch.bfloat16)
+        hidden_states_47 = None
+        hidden_states_48 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_
+            * to_23
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_ = (
+            to_23
+        ) = None
+        linear_32 = torch._C._nn.linear(
+            hidden_states_48,
+            l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_4 = torch.nn.functional.silu(linear_32, inplace=False)
+        linear_32 = None
+        linear_33 = torch._C._nn.linear(
+            hidden_states_48,
+            l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_48 = l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_46 = silu_4 * linear_33
+        silu_4 = linear_33 = None
+        down_proj_4 = torch._C._nn.linear(
+            mul_46,
+            l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_46 = l_self_modules_model_modules_language_model_modules_layers_modules_4_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_49 = hidden_states_45 + down_proj_4
+        hidden_states_45 = down_proj_4 = None
+        hidden_states_50 = hidden_states_49.to(torch.float32)
+        pow_11 = hidden_states_50.pow(2)
+        variance_10 = pow_11.mean(-1, keepdim=True)
+        pow_11 = None
+        add_31 = variance_10 + 1e-06
+        variance_10 = None
+        rsqrt_10 = torch.rsqrt(add_31)
+        add_31 = None
+        hidden_states_51 = hidden_states_50 * rsqrt_10
+        hidden_states_50 = rsqrt_10 = None
+        to_25 = hidden_states_51.to(torch.bfloat16)
+        hidden_states_51 = None
+        hidden_states_52 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_input_layernorm_parameters_weight_
+            * to_25
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_input_layernorm_parameters_weight_ = (
+            to_25
+        ) = None
+        query_states_10 = torch._C._nn.linear(
+            hidden_states_52,
+            l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_10 = torch._C._nn.linear(
+            hidden_states_52,
+            l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_10 = torch._C._nn.linear(
+            hidden_states_52,
+            l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_52 = l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_15 = query_states_10.view(1, 9, -1, 128)
+        query_states_10 = None
+        query_states_11 = view_15.transpose(1, 2)
+        view_15 = None
+        view_16 = key_states_10.view(1, 9, -1, 128)
+        key_states_10 = None
+        key_states_11 = view_16.transpose(1, 2)
+        view_16 = None
+        view_17 = value_states_10.view(1, 9, -1, 128)
+        value_states_10 = None
+        value_states_11 = view_17.transpose(1, 2)
+        view_17 = None
+        split_10 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_60 = split_10[0]
+        x_61 = split_10[1]
+        x_62 = split_10[2]
+        x_63 = split_10[3]
+        x_64 = split_10[4]
+        x_65 = split_10[5]
+        split_10 = None
+        getitem_168 = x_60[0]
+        x_60 = None
+        getitem_169 = x_61[1]
+        x_61 = None
+        getitem_170 = x_62[2]
+        x_62 = None
+        getitem_171 = x_63[0]
+        x_63 = None
+        getitem_172 = x_64[1]
+        x_64 = None
+        getitem_173 = x_65[2]
+        x_65 = None
+        cat_21 = torch.cat(
+            [
+                getitem_168,
+                getitem_169,
+                getitem_170,
+                getitem_171,
+                getitem_172,
+                getitem_173,
+            ],
+            dim=-1,
+        )
+        getitem_168 = (
+            getitem_169
+        ) = getitem_170 = getitem_171 = getitem_172 = getitem_173 = None
+        cos_8 = cat_21.unsqueeze(1)
+        cat_21 = None
+        split_11 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_66 = split_11[0]
+        x_67 = split_11[1]
+        x_68 = split_11[2]
+        x_69 = split_11[3]
+        x_70 = split_11[4]
+        x_71 = split_11[5]
+        split_11 = None
+        getitem_180 = x_66[0]
+        x_66 = None
+        getitem_181 = x_67[1]
+        x_67 = None
+        getitem_182 = x_68[2]
+        x_68 = None
+        getitem_183 = x_69[0]
+        x_69 = None
+        getitem_184 = x_70[1]
+        x_70 = None
+        getitem_185 = x_71[2]
+        x_71 = None
+        cat_22 = torch.cat(
+            [
+                getitem_180,
+                getitem_181,
+                getitem_182,
+                getitem_183,
+                getitem_184,
+                getitem_185,
+            ],
+            dim=-1,
+        )
+        getitem_180 = (
+            getitem_181
+        ) = getitem_182 = getitem_183 = getitem_184 = getitem_185 = None
+        sin_8 = cat_22.unsqueeze(1)
+        cat_22 = None
+        mul_49 = query_states_11 * cos_8
+        x1_10 = query_states_11[(Ellipsis, slice(None, 64, None))]
+        x2_10 = query_states_11[(Ellipsis, slice(64, None, None))]
+        query_states_11 = None
+        neg_10 = -x2_10
+        x2_10 = None
+        cat_23 = torch.cat((neg_10, x1_10), dim=-1)
+        neg_10 = x1_10 = None
+        mul_50 = cat_23 * sin_8
+        cat_23 = None
+        q_embed_5 = mul_49 + mul_50
+        mul_49 = mul_50 = None
+        mul_51 = key_states_11 * cos_8
+        cos_8 = None
+        x1_11 = key_states_11[(Ellipsis, slice(None, 64, None))]
+        x2_11 = key_states_11[(Ellipsis, slice(64, None, None))]
+        key_states_11 = None
+        neg_11 = -x2_11
+        x2_11 = None
+        cat_24 = torch.cat((neg_11, x1_11), dim=-1)
+        neg_11 = x1_11 = None
+        mul_52 = cat_24 * sin_8
+        cat_24 = sin_8 = None
+        k_embed_5 = mul_51 + mul_52
+        mul_51 = mul_52 = None
+        getitem_190 = k_embed_5[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_5 = None
+        hidden_states_53 = getitem_190.expand(1, 2, 6, 9, 128)
+        getitem_190 = None
+        key_10 = hidden_states_53.reshape(1, 12, 9, 128)
+        hidden_states_53 = None
+        getitem_191 = value_states_11[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_11 = None
+        hidden_states_54 = getitem_191.expand(1, 2, 6, 9, 128)
+        getitem_191 = None
+        value_10 = hidden_states_54.reshape(1, 12, 9, 128)
+        hidden_states_54 = None
+        attention_mask_6 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_5 = q_embed_5.contiguous()
+        q_embed_5 = None
+        key_11 = key_10.contiguous()
+        key_10 = None
+        value_11 = value_10.contiguous()
+        value_10 = None
+        attn_output_20 = torch._C._nn.scaled_dot_product_attention(
+            query_5,
+            key_11,
+            value_11,
+            attn_mask=attention_mask_6,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_5 = key_11 = value_11 = attention_mask_6 = None
+        transpose_24 = attn_output_20.transpose(1, 2)
+        attn_output_20 = None
+        attn_output_21 = transpose_24.contiguous()
+        transpose_24 = None
+        reshape_17 = attn_output_21.reshape(1, 9, -1)
+        attn_output_21 = None
+        attn_output_22 = reshape_17.contiguous()
+        reshape_17 = None
+        attn_output_23 = torch._C._nn.linear(
+            attn_output_22,
+            l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_22 = l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_55 = hidden_states_49 + attn_output_23
+        hidden_states_49 = attn_output_23 = None
+        hidden_states_56 = hidden_states_55.to(torch.float32)
+        pow_12 = hidden_states_56.pow(2)
+        variance_11 = pow_12.mean(-1, keepdim=True)
+        pow_12 = None
+        add_35 = variance_11 + 1e-06
+        variance_11 = None
+        rsqrt_11 = torch.rsqrt(add_35)
+        add_35 = None
+        hidden_states_57 = hidden_states_56 * rsqrt_11
+        hidden_states_56 = rsqrt_11 = None
+        to_27 = hidden_states_57.to(torch.bfloat16)
+        hidden_states_57 = None
+        hidden_states_58 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_
+            * to_27
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_ = (
+            to_27
+        ) = None
+        linear_39 = torch._C._nn.linear(
+            hidden_states_58,
+            l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_5 = torch.nn.functional.silu(linear_39, inplace=False)
+        linear_39 = None
+        linear_40 = torch._C._nn.linear(
+            hidden_states_58,
+            l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_58 = l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_55 = silu_5 * linear_40
+        silu_5 = linear_40 = None
+        down_proj_5 = torch._C._nn.linear(
+            mul_55,
+            l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_55 = l_self_modules_model_modules_language_model_modules_layers_modules_5_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_59 = hidden_states_55 + down_proj_5
+        hidden_states_55 = down_proj_5 = None
+        hidden_states_60 = hidden_states_59.to(torch.float32)
+        pow_13 = hidden_states_60.pow(2)
+        variance_12 = pow_13.mean(-1, keepdim=True)
+        pow_13 = None
+        add_37 = variance_12 + 1e-06
+        variance_12 = None
+        rsqrt_12 = torch.rsqrt(add_37)
+        add_37 = None
+        hidden_states_61 = hidden_states_60 * rsqrt_12
+        hidden_states_60 = rsqrt_12 = None
+        to_29 = hidden_states_61.to(torch.bfloat16)
+        hidden_states_61 = None
+        hidden_states_62 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_input_layernorm_parameters_weight_
+            * to_29
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_input_layernorm_parameters_weight_ = (
+            to_29
+        ) = None
+        query_states_12 = torch._C._nn.linear(
+            hidden_states_62,
+            l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_12 = torch._C._nn.linear(
+            hidden_states_62,
+            l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_12 = torch._C._nn.linear(
+            hidden_states_62,
+            l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_62 = l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_18 = query_states_12.view(1, 9, -1, 128)
+        query_states_12 = None
+        query_states_13 = view_18.transpose(1, 2)
+        view_18 = None
+        view_19 = key_states_12.view(1, 9, -1, 128)
+        key_states_12 = None
+        key_states_13 = view_19.transpose(1, 2)
+        view_19 = None
+        view_20 = value_states_12.view(1, 9, -1, 128)
+        value_states_12 = None
+        value_states_13 = view_20.transpose(1, 2)
+        view_20 = None
+        split_12 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_72 = split_12[0]
+        x_73 = split_12[1]
+        x_74 = split_12[2]
+        x_75 = split_12[3]
+        x_76 = split_12[4]
+        x_77 = split_12[5]
+        split_12 = None
+        getitem_199 = x_72[0]
+        x_72 = None
+        getitem_200 = x_73[1]
+        x_73 = None
+        getitem_201 = x_74[2]
+        x_74 = None
+        getitem_202 = x_75[0]
+        x_75 = None
+        getitem_203 = x_76[1]
+        x_76 = None
+        getitem_204 = x_77[2]
+        x_77 = None
+        cat_25 = torch.cat(
+            [
+                getitem_199,
+                getitem_200,
+                getitem_201,
+                getitem_202,
+                getitem_203,
+                getitem_204,
+            ],
+            dim=-1,
+        )
+        getitem_199 = (
+            getitem_200
+        ) = getitem_201 = getitem_202 = getitem_203 = getitem_204 = None
+        cos_9 = cat_25.unsqueeze(1)
+        cat_25 = None
+        split_13 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_78 = split_13[0]
+        x_79 = split_13[1]
+        x_80 = split_13[2]
+        x_81 = split_13[3]
+        x_82 = split_13[4]
+        x_83 = split_13[5]
+        split_13 = None
+        getitem_211 = x_78[0]
+        x_78 = None
+        getitem_212 = x_79[1]
+        x_79 = None
+        getitem_213 = x_80[2]
+        x_80 = None
+        getitem_214 = x_81[0]
+        x_81 = None
+        getitem_215 = x_82[1]
+        x_82 = None
+        getitem_216 = x_83[2]
+        x_83 = None
+        cat_26 = torch.cat(
+            [
+                getitem_211,
+                getitem_212,
+                getitem_213,
+                getitem_214,
+                getitem_215,
+                getitem_216,
+            ],
+            dim=-1,
+        )
+        getitem_211 = (
+            getitem_212
+        ) = getitem_213 = getitem_214 = getitem_215 = getitem_216 = None
+        sin_9 = cat_26.unsqueeze(1)
+        cat_26 = None
+        mul_58 = query_states_13 * cos_9
+        x1_12 = query_states_13[(Ellipsis, slice(None, 64, None))]
+        x2_12 = query_states_13[(Ellipsis, slice(64, None, None))]
+        query_states_13 = None
+        neg_12 = -x2_12
+        x2_12 = None
+        cat_27 = torch.cat((neg_12, x1_12), dim=-1)
+        neg_12 = x1_12 = None
+        mul_59 = cat_27 * sin_9
+        cat_27 = None
+        q_embed_6 = mul_58 + mul_59
+        mul_58 = mul_59 = None
+        mul_60 = key_states_13 * cos_9
+        cos_9 = None
+        x1_13 = key_states_13[(Ellipsis, slice(None, 64, None))]
+        x2_13 = key_states_13[(Ellipsis, slice(64, None, None))]
+        key_states_13 = None
+        neg_13 = -x2_13
+        x2_13 = None
+        cat_28 = torch.cat((neg_13, x1_13), dim=-1)
+        neg_13 = x1_13 = None
+        mul_61 = cat_28 * sin_9
+        cat_28 = sin_9 = None
+        k_embed_6 = mul_60 + mul_61
+        mul_60 = mul_61 = None
+        getitem_221 = k_embed_6[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_6 = None
+        hidden_states_63 = getitem_221.expand(1, 2, 6, 9, 128)
+        getitem_221 = None
+        key_12 = hidden_states_63.reshape(1, 12, 9, 128)
+        hidden_states_63 = None
+        getitem_222 = value_states_13[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_13 = None
+        hidden_states_64 = getitem_222.expand(1, 2, 6, 9, 128)
+        getitem_222 = None
+        value_12 = hidden_states_64.reshape(1, 12, 9, 128)
+        hidden_states_64 = None
+        attention_mask_7 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_6 = q_embed_6.contiguous()
+        q_embed_6 = None
+        key_13 = key_12.contiguous()
+        key_12 = None
+        value_13 = value_12.contiguous()
+        value_12 = None
+        attn_output_24 = torch._C._nn.scaled_dot_product_attention(
+            query_6,
+            key_13,
+            value_13,
+            attn_mask=attention_mask_7,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_6 = key_13 = value_13 = attention_mask_7 = None
+        transpose_28 = attn_output_24.transpose(1, 2)
+        attn_output_24 = None
+        attn_output_25 = transpose_28.contiguous()
+        transpose_28 = None
+        reshape_20 = attn_output_25.reshape(1, 9, -1)
+        attn_output_25 = None
+        attn_output_26 = reshape_20.contiguous()
+        reshape_20 = None
+        attn_output_27 = torch._C._nn.linear(
+            attn_output_26,
+            l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_26 = l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_65 = hidden_states_59 + attn_output_27
+        hidden_states_59 = attn_output_27 = None
+        hidden_states_66 = hidden_states_65.to(torch.float32)
+        pow_14 = hidden_states_66.pow(2)
+        variance_13 = pow_14.mean(-1, keepdim=True)
+        pow_14 = None
+        add_41 = variance_13 + 1e-06
+        variance_13 = None
+        rsqrt_13 = torch.rsqrt(add_41)
+        add_41 = None
+        hidden_states_67 = hidden_states_66 * rsqrt_13
+        hidden_states_66 = rsqrt_13 = None
+        to_31 = hidden_states_67.to(torch.bfloat16)
+        hidden_states_67 = None
+        hidden_states_68 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_post_attention_layernorm_parameters_weight_
+            * to_31
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_post_attention_layernorm_parameters_weight_ = (
+            to_31
+        ) = None
+        linear_46 = torch._C._nn.linear(
+            hidden_states_68,
+            l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_6 = torch.nn.functional.silu(linear_46, inplace=False)
+        linear_46 = None
+        linear_47 = torch._C._nn.linear(
+            hidden_states_68,
+            l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_68 = l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_64 = silu_6 * linear_47
+        silu_6 = linear_47 = None
+        down_proj_6 = torch._C._nn.linear(
+            mul_64,
+            l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_64 = l_self_modules_model_modules_language_model_modules_layers_modules_6_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_69 = hidden_states_65 + down_proj_6
+        hidden_states_65 = down_proj_6 = None
+        hidden_states_70 = hidden_states_69.to(torch.float32)
+        pow_15 = hidden_states_70.pow(2)
+        variance_14 = pow_15.mean(-1, keepdim=True)
+        pow_15 = None
+        add_43 = variance_14 + 1e-06
+        variance_14 = None
+        rsqrt_14 = torch.rsqrt(add_43)
+        add_43 = None
+        hidden_states_71 = hidden_states_70 * rsqrt_14
+        hidden_states_70 = rsqrt_14 = None
+        to_33 = hidden_states_71.to(torch.bfloat16)
+        hidden_states_71 = None
+        hidden_states_72 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_input_layernorm_parameters_weight_
+            * to_33
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_input_layernorm_parameters_weight_ = (
+            to_33
+        ) = None
+        query_states_14 = torch._C._nn.linear(
+            hidden_states_72,
+            l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_14 = torch._C._nn.linear(
+            hidden_states_72,
+            l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_14 = torch._C._nn.linear(
+            hidden_states_72,
+            l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_72 = l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_21 = query_states_14.view(1, 9, -1, 128)
+        query_states_14 = None
+        query_states_15 = view_21.transpose(1, 2)
+        view_21 = None
+        view_22 = key_states_14.view(1, 9, -1, 128)
+        key_states_14 = None
+        key_states_15 = view_22.transpose(1, 2)
+        view_22 = None
+        view_23 = value_states_14.view(1, 9, -1, 128)
+        value_states_14 = None
+        value_states_15 = view_23.transpose(1, 2)
+        view_23 = None
+        split_14 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_84 = split_14[0]
+        x_85 = split_14[1]
+        x_86 = split_14[2]
+        x_87 = split_14[3]
+        x_88 = split_14[4]
+        x_89 = split_14[5]
+        split_14 = None
+        getitem_230 = x_84[0]
+        x_84 = None
+        getitem_231 = x_85[1]
+        x_85 = None
+        getitem_232 = x_86[2]
+        x_86 = None
+        getitem_233 = x_87[0]
+        x_87 = None
+        getitem_234 = x_88[1]
+        x_88 = None
+        getitem_235 = x_89[2]
+        x_89 = None
+        cat_29 = torch.cat(
+            [
+                getitem_230,
+                getitem_231,
+                getitem_232,
+                getitem_233,
+                getitem_234,
+                getitem_235,
+            ],
+            dim=-1,
+        )
+        getitem_230 = (
+            getitem_231
+        ) = getitem_232 = getitem_233 = getitem_234 = getitem_235 = None
+        cos_10 = cat_29.unsqueeze(1)
+        cat_29 = None
+        split_15 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_90 = split_15[0]
+        x_91 = split_15[1]
+        x_92 = split_15[2]
+        x_93 = split_15[3]
+        x_94 = split_15[4]
+        x_95 = split_15[5]
+        split_15 = None
+        getitem_242 = x_90[0]
+        x_90 = None
+        getitem_243 = x_91[1]
+        x_91 = None
+        getitem_244 = x_92[2]
+        x_92 = None
+        getitem_245 = x_93[0]
+        x_93 = None
+        getitem_246 = x_94[1]
+        x_94 = None
+        getitem_247 = x_95[2]
+        x_95 = None
+        cat_30 = torch.cat(
+            [
+                getitem_242,
+                getitem_243,
+                getitem_244,
+                getitem_245,
+                getitem_246,
+                getitem_247,
+            ],
+            dim=-1,
+        )
+        getitem_242 = (
+            getitem_243
+        ) = getitem_244 = getitem_245 = getitem_246 = getitem_247 = None
+        sin_10 = cat_30.unsqueeze(1)
+        cat_30 = None
+        mul_67 = query_states_15 * cos_10
+        x1_14 = query_states_15[(Ellipsis, slice(None, 64, None))]
+        x2_14 = query_states_15[(Ellipsis, slice(64, None, None))]
+        query_states_15 = None
+        neg_14 = -x2_14
+        x2_14 = None
+        cat_31 = torch.cat((neg_14, x1_14), dim=-1)
+        neg_14 = x1_14 = None
+        mul_68 = cat_31 * sin_10
+        cat_31 = None
+        q_embed_7 = mul_67 + mul_68
+        mul_67 = mul_68 = None
+        mul_69 = key_states_15 * cos_10
+        cos_10 = None
+        x1_15 = key_states_15[(Ellipsis, slice(None, 64, None))]
+        x2_15 = key_states_15[(Ellipsis, slice(64, None, None))]
+        key_states_15 = None
+        neg_15 = -x2_15
+        x2_15 = None
+        cat_32 = torch.cat((neg_15, x1_15), dim=-1)
+        neg_15 = x1_15 = None
+        mul_70 = cat_32 * sin_10
+        cat_32 = sin_10 = None
+        k_embed_7 = mul_69 + mul_70
+        mul_69 = mul_70 = None
+        getitem_252 = k_embed_7[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_7 = None
+        hidden_states_73 = getitem_252.expand(1, 2, 6, 9, 128)
+        getitem_252 = None
+        key_14 = hidden_states_73.reshape(1, 12, 9, 128)
+        hidden_states_73 = None
+        getitem_253 = value_states_15[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_15 = None
+        hidden_states_74 = getitem_253.expand(1, 2, 6, 9, 128)
+        getitem_253 = None
+        value_14 = hidden_states_74.reshape(1, 12, 9, 128)
+        hidden_states_74 = None
+        attention_mask_8 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_7 = q_embed_7.contiguous()
+        q_embed_7 = None
+        key_15 = key_14.contiguous()
+        key_14 = None
+        value_15 = value_14.contiguous()
+        value_14 = None
+        attn_output_28 = torch._C._nn.scaled_dot_product_attention(
+            query_7,
+            key_15,
+            value_15,
+            attn_mask=attention_mask_8,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_7 = key_15 = value_15 = attention_mask_8 = None
+        transpose_32 = attn_output_28.transpose(1, 2)
+        attn_output_28 = None
+        attn_output_29 = transpose_32.contiguous()
+        transpose_32 = None
+        reshape_23 = attn_output_29.reshape(1, 9, -1)
+        attn_output_29 = None
+        attn_output_30 = reshape_23.contiguous()
+        reshape_23 = None
+        attn_output_31 = torch._C._nn.linear(
+            attn_output_30,
+            l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_30 = l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_75 = hidden_states_69 + attn_output_31
+        hidden_states_69 = attn_output_31 = None
+        hidden_states_76 = hidden_states_75.to(torch.float32)
+        pow_16 = hidden_states_76.pow(2)
+        variance_15 = pow_16.mean(-1, keepdim=True)
+        pow_16 = None
+        add_47 = variance_15 + 1e-06
+        variance_15 = None
+        rsqrt_15 = torch.rsqrt(add_47)
+        add_47 = None
+        hidden_states_77 = hidden_states_76 * rsqrt_15
+        hidden_states_76 = rsqrt_15 = None
+        to_35 = hidden_states_77.to(torch.bfloat16)
+        hidden_states_77 = None
+        hidden_states_78 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_post_attention_layernorm_parameters_weight_
+            * to_35
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_post_attention_layernorm_parameters_weight_ = (
+            to_35
+        ) = None
+        linear_53 = torch._C._nn.linear(
+            hidden_states_78,
+            l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_7 = torch.nn.functional.silu(linear_53, inplace=False)
+        linear_53 = None
+        linear_54 = torch._C._nn.linear(
+            hidden_states_78,
+            l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_78 = l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_73 = silu_7 * linear_54
+        silu_7 = linear_54 = None
+        down_proj_7 = torch._C._nn.linear(
+            mul_73,
+            l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_73 = l_self_modules_model_modules_language_model_modules_layers_modules_7_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_79 = hidden_states_75 + down_proj_7
+        hidden_states_75 = down_proj_7 = None
+        hidden_states_80 = hidden_states_79.to(torch.float32)
+        pow_17 = hidden_states_80.pow(2)
+        variance_16 = pow_17.mean(-1, keepdim=True)
+        pow_17 = None
+        add_49 = variance_16 + 1e-06
+        variance_16 = None
+        rsqrt_16 = torch.rsqrt(add_49)
+        add_49 = None
+        hidden_states_81 = hidden_states_80 * rsqrt_16
+        hidden_states_80 = rsqrt_16 = None
+        to_37 = hidden_states_81.to(torch.bfloat16)
+        hidden_states_81 = None
+        hidden_states_82 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_input_layernorm_parameters_weight_
+            * to_37
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_input_layernorm_parameters_weight_ = (
+            to_37
+        ) = None
+        query_states_16 = torch._C._nn.linear(
+            hidden_states_82,
+            l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_16 = torch._C._nn.linear(
+            hidden_states_82,
+            l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_16 = torch._C._nn.linear(
+            hidden_states_82,
+            l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_82 = l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_24 = query_states_16.view(1, 9, -1, 128)
+        query_states_16 = None
+        query_states_17 = view_24.transpose(1, 2)
+        view_24 = None
+        view_25 = key_states_16.view(1, 9, -1, 128)
+        key_states_16 = None
+        key_states_17 = view_25.transpose(1, 2)
+        view_25 = None
+        view_26 = value_states_16.view(1, 9, -1, 128)
+        value_states_16 = None
+        value_states_17 = view_26.transpose(1, 2)
+        view_26 = None
+        split_16 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_96 = split_16[0]
+        x_97 = split_16[1]
+        x_98 = split_16[2]
+        x_99 = split_16[3]
+        x_100 = split_16[4]
+        x_101 = split_16[5]
+        split_16 = None
+        getitem_261 = x_96[0]
+        x_96 = None
+        getitem_262 = x_97[1]
+        x_97 = None
+        getitem_263 = x_98[2]
+        x_98 = None
+        getitem_264 = x_99[0]
+        x_99 = None
+        getitem_265 = x_100[1]
+        x_100 = None
+        getitem_266 = x_101[2]
+        x_101 = None
+        cat_33 = torch.cat(
+            [
+                getitem_261,
+                getitem_262,
+                getitem_263,
+                getitem_264,
+                getitem_265,
+                getitem_266,
+            ],
+            dim=-1,
+        )
+        getitem_261 = (
+            getitem_262
+        ) = getitem_263 = getitem_264 = getitem_265 = getitem_266 = None
+        cos_11 = cat_33.unsqueeze(1)
+        cat_33 = None
+        split_17 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_102 = split_17[0]
+        x_103 = split_17[1]
+        x_104 = split_17[2]
+        x_105 = split_17[3]
+        x_106 = split_17[4]
+        x_107 = split_17[5]
+        split_17 = None
+        getitem_273 = x_102[0]
+        x_102 = None
+        getitem_274 = x_103[1]
+        x_103 = None
+        getitem_275 = x_104[2]
+        x_104 = None
+        getitem_276 = x_105[0]
+        x_105 = None
+        getitem_277 = x_106[1]
+        x_106 = None
+        getitem_278 = x_107[2]
+        x_107 = None
+        cat_34 = torch.cat(
+            [
+                getitem_273,
+                getitem_274,
+                getitem_275,
+                getitem_276,
+                getitem_277,
+                getitem_278,
+            ],
+            dim=-1,
+        )
+        getitem_273 = (
+            getitem_274
+        ) = getitem_275 = getitem_276 = getitem_277 = getitem_278 = None
+        sin_11 = cat_34.unsqueeze(1)
+        cat_34 = None
+        mul_76 = query_states_17 * cos_11
+        x1_16 = query_states_17[(Ellipsis, slice(None, 64, None))]
+        x2_16 = query_states_17[(Ellipsis, slice(64, None, None))]
+        query_states_17 = None
+        neg_16 = -x2_16
+        x2_16 = None
+        cat_35 = torch.cat((neg_16, x1_16), dim=-1)
+        neg_16 = x1_16 = None
+        mul_77 = cat_35 * sin_11
+        cat_35 = None
+        q_embed_8 = mul_76 + mul_77
+        mul_76 = mul_77 = None
+        mul_78 = key_states_17 * cos_11
+        cos_11 = None
+        x1_17 = key_states_17[(Ellipsis, slice(None, 64, None))]
+        x2_17 = key_states_17[(Ellipsis, slice(64, None, None))]
+        key_states_17 = None
+        neg_17 = -x2_17
+        x2_17 = None
+        cat_36 = torch.cat((neg_17, x1_17), dim=-1)
+        neg_17 = x1_17 = None
+        mul_79 = cat_36 * sin_11
+        cat_36 = sin_11 = None
+        k_embed_8 = mul_78 + mul_79
+        mul_78 = mul_79 = None
+        getitem_283 = k_embed_8[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_8 = None
+        hidden_states_83 = getitem_283.expand(1, 2, 6, 9, 128)
+        getitem_283 = None
+        key_16 = hidden_states_83.reshape(1, 12, 9, 128)
+        hidden_states_83 = None
+        getitem_284 = value_states_17[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_17 = None
+        hidden_states_84 = getitem_284.expand(1, 2, 6, 9, 128)
+        getitem_284 = None
+        value_16 = hidden_states_84.reshape(1, 12, 9, 128)
+        hidden_states_84 = None
+        attention_mask_9 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_8 = q_embed_8.contiguous()
+        q_embed_8 = None
+        key_17 = key_16.contiguous()
+        key_16 = None
+        value_17 = value_16.contiguous()
+        value_16 = None
+        attn_output_32 = torch._C._nn.scaled_dot_product_attention(
+            query_8,
+            key_17,
+            value_17,
+            attn_mask=attention_mask_9,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_8 = key_17 = value_17 = attention_mask_9 = None
+        transpose_36 = attn_output_32.transpose(1, 2)
+        attn_output_32 = None
+        attn_output_33 = transpose_36.contiguous()
+        transpose_36 = None
+        reshape_26 = attn_output_33.reshape(1, 9, -1)
+        attn_output_33 = None
+        attn_output_34 = reshape_26.contiguous()
+        reshape_26 = None
+        attn_output_35 = torch._C._nn.linear(
+            attn_output_34,
+            l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_34 = l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_85 = hidden_states_79 + attn_output_35
+        hidden_states_79 = attn_output_35 = None
+        hidden_states_86 = hidden_states_85.to(torch.float32)
+        pow_18 = hidden_states_86.pow(2)
+        variance_17 = pow_18.mean(-1, keepdim=True)
+        pow_18 = None
+        add_53 = variance_17 + 1e-06
+        variance_17 = None
+        rsqrt_17 = torch.rsqrt(add_53)
+        add_53 = None
+        hidden_states_87 = hidden_states_86 * rsqrt_17
+        hidden_states_86 = rsqrt_17 = None
+        to_39 = hidden_states_87.to(torch.bfloat16)
+        hidden_states_87 = None
+        hidden_states_88 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_post_attention_layernorm_parameters_weight_
+            * to_39
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_post_attention_layernorm_parameters_weight_ = (
+            to_39
+        ) = None
+        linear_60 = torch._C._nn.linear(
+            hidden_states_88,
+            l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_8 = torch.nn.functional.silu(linear_60, inplace=False)
+        linear_60 = None
+        linear_61 = torch._C._nn.linear(
+            hidden_states_88,
+            l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_88 = l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_82 = silu_8 * linear_61
+        silu_8 = linear_61 = None
+        down_proj_8 = torch._C._nn.linear(
+            mul_82,
+            l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_82 = l_self_modules_model_modules_language_model_modules_layers_modules_8_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_89 = hidden_states_85 + down_proj_8
+        hidden_states_85 = down_proj_8 = None
+        hidden_states_90 = hidden_states_89.to(torch.float32)
+        pow_19 = hidden_states_90.pow(2)
+        variance_18 = pow_19.mean(-1, keepdim=True)
+        pow_19 = None
+        add_55 = variance_18 + 1e-06
+        variance_18 = None
+        rsqrt_18 = torch.rsqrt(add_55)
+        add_55 = None
+        hidden_states_91 = hidden_states_90 * rsqrt_18
+        hidden_states_90 = rsqrt_18 = None
+        to_41 = hidden_states_91.to(torch.bfloat16)
+        hidden_states_91 = None
+        hidden_states_92 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_input_layernorm_parameters_weight_
+            * to_41
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_input_layernorm_parameters_weight_ = (
+            to_41
+        ) = None
+        query_states_18 = torch._C._nn.linear(
+            hidden_states_92,
+            l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_18 = torch._C._nn.linear(
+            hidden_states_92,
+            l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_18 = torch._C._nn.linear(
+            hidden_states_92,
+            l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_92 = l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_27 = query_states_18.view(1, 9, -1, 128)
+        query_states_18 = None
+        query_states_19 = view_27.transpose(1, 2)
+        view_27 = None
+        view_28 = key_states_18.view(1, 9, -1, 128)
+        key_states_18 = None
+        key_states_19 = view_28.transpose(1, 2)
+        view_28 = None
+        view_29 = value_states_18.view(1, 9, -1, 128)
+        value_states_18 = None
+        value_states_19 = view_29.transpose(1, 2)
+        view_29 = None
+        split_18 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_108 = split_18[0]
+        x_109 = split_18[1]
+        x_110 = split_18[2]
+        x_111 = split_18[3]
+        x_112 = split_18[4]
+        x_113 = split_18[5]
+        split_18 = None
+        getitem_292 = x_108[0]
+        x_108 = None
+        getitem_293 = x_109[1]
+        x_109 = None
+        getitem_294 = x_110[2]
+        x_110 = None
+        getitem_295 = x_111[0]
+        x_111 = None
+        getitem_296 = x_112[1]
+        x_112 = None
+        getitem_297 = x_113[2]
+        x_113 = None
+        cat_37 = torch.cat(
+            [
+                getitem_292,
+                getitem_293,
+                getitem_294,
+                getitem_295,
+                getitem_296,
+                getitem_297,
+            ],
+            dim=-1,
+        )
+        getitem_292 = (
+            getitem_293
+        ) = getitem_294 = getitem_295 = getitem_296 = getitem_297 = None
+        cos_12 = cat_37.unsqueeze(1)
+        cat_37 = None
+        split_19 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_114 = split_19[0]
+        x_115 = split_19[1]
+        x_116 = split_19[2]
+        x_117 = split_19[3]
+        x_118 = split_19[4]
+        x_119 = split_19[5]
+        split_19 = None
+        getitem_304 = x_114[0]
+        x_114 = None
+        getitem_305 = x_115[1]
+        x_115 = None
+        getitem_306 = x_116[2]
+        x_116 = None
+        getitem_307 = x_117[0]
+        x_117 = None
+        getitem_308 = x_118[1]
+        x_118 = None
+        getitem_309 = x_119[2]
+        x_119 = None
+        cat_38 = torch.cat(
+            [
+                getitem_304,
+                getitem_305,
+                getitem_306,
+                getitem_307,
+                getitem_308,
+                getitem_309,
+            ],
+            dim=-1,
+        )
+        getitem_304 = (
+            getitem_305
+        ) = getitem_306 = getitem_307 = getitem_308 = getitem_309 = None
+        sin_12 = cat_38.unsqueeze(1)
+        cat_38 = None
+        mul_85 = query_states_19 * cos_12
+        x1_18 = query_states_19[(Ellipsis, slice(None, 64, None))]
+        x2_18 = query_states_19[(Ellipsis, slice(64, None, None))]
+        query_states_19 = None
+        neg_18 = -x2_18
+        x2_18 = None
+        cat_39 = torch.cat((neg_18, x1_18), dim=-1)
+        neg_18 = x1_18 = None
+        mul_86 = cat_39 * sin_12
+        cat_39 = None
+        q_embed_9 = mul_85 + mul_86
+        mul_85 = mul_86 = None
+        mul_87 = key_states_19 * cos_12
+        cos_12 = None
+        x1_19 = key_states_19[(Ellipsis, slice(None, 64, None))]
+        x2_19 = key_states_19[(Ellipsis, slice(64, None, None))]
+        key_states_19 = None
+        neg_19 = -x2_19
+        x2_19 = None
+        cat_40 = torch.cat((neg_19, x1_19), dim=-1)
+        neg_19 = x1_19 = None
+        mul_88 = cat_40 * sin_12
+        cat_40 = sin_12 = None
+        k_embed_9 = mul_87 + mul_88
+        mul_87 = mul_88 = None
+        getitem_314 = k_embed_9[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_9 = None
+        hidden_states_93 = getitem_314.expand(1, 2, 6, 9, 128)
+        getitem_314 = None
+        key_18 = hidden_states_93.reshape(1, 12, 9, 128)
+        hidden_states_93 = None
+        getitem_315 = value_states_19[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_19 = None
+        hidden_states_94 = getitem_315.expand(1, 2, 6, 9, 128)
+        getitem_315 = None
+        value_18 = hidden_states_94.reshape(1, 12, 9, 128)
+        hidden_states_94 = None
+        attention_mask_10 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_9 = q_embed_9.contiguous()
+        q_embed_9 = None
+        key_19 = key_18.contiguous()
+        key_18 = None
+        value_19 = value_18.contiguous()
+        value_18 = None
+        attn_output_36 = torch._C._nn.scaled_dot_product_attention(
+            query_9,
+            key_19,
+            value_19,
+            attn_mask=attention_mask_10,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_9 = key_19 = value_19 = attention_mask_10 = None
+        transpose_40 = attn_output_36.transpose(1, 2)
+        attn_output_36 = None
+        attn_output_37 = transpose_40.contiguous()
+        transpose_40 = None
+        reshape_29 = attn_output_37.reshape(1, 9, -1)
+        attn_output_37 = None
+        attn_output_38 = reshape_29.contiguous()
+        reshape_29 = None
+        attn_output_39 = torch._C._nn.linear(
+            attn_output_38,
+            l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_38 = l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_95 = hidden_states_89 + attn_output_39
+        hidden_states_89 = attn_output_39 = None
+        hidden_states_96 = hidden_states_95.to(torch.float32)
+        pow_20 = hidden_states_96.pow(2)
+        variance_19 = pow_20.mean(-1, keepdim=True)
+        pow_20 = None
+        add_59 = variance_19 + 1e-06
+        variance_19 = None
+        rsqrt_19 = torch.rsqrt(add_59)
+        add_59 = None
+        hidden_states_97 = hidden_states_96 * rsqrt_19
+        hidden_states_96 = rsqrt_19 = None
+        to_43 = hidden_states_97.to(torch.bfloat16)
+        hidden_states_97 = None
+        hidden_states_98 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_post_attention_layernorm_parameters_weight_
+            * to_43
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_post_attention_layernorm_parameters_weight_ = (
+            to_43
+        ) = None
+        linear_67 = torch._C._nn.linear(
+            hidden_states_98,
+            l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_9 = torch.nn.functional.silu(linear_67, inplace=False)
+        linear_67 = None
+        linear_68 = torch._C._nn.linear(
+            hidden_states_98,
+            l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_98 = l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_91 = silu_9 * linear_68
+        silu_9 = linear_68 = None
+        down_proj_9 = torch._C._nn.linear(
+            mul_91,
+            l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_91 = l_self_modules_model_modules_language_model_modules_layers_modules_9_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_99 = hidden_states_95 + down_proj_9
+        hidden_states_95 = down_proj_9 = None
+        hidden_states_100 = hidden_states_99.to(torch.float32)
+        pow_21 = hidden_states_100.pow(2)
+        variance_20 = pow_21.mean(-1, keepdim=True)
+        pow_21 = None
+        add_61 = variance_20 + 1e-06
+        variance_20 = None
+        rsqrt_20 = torch.rsqrt(add_61)
+        add_61 = None
+        hidden_states_101 = hidden_states_100 * rsqrt_20
+        hidden_states_100 = rsqrt_20 = None
+        to_45 = hidden_states_101.to(torch.bfloat16)
+        hidden_states_101 = None
+        hidden_states_102 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_input_layernorm_parameters_weight_
+            * to_45
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_input_layernorm_parameters_weight_ = (
+            to_45
+        ) = None
+        query_states_20 = torch._C._nn.linear(
+            hidden_states_102,
+            l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_20 = torch._C._nn.linear(
+            hidden_states_102,
+            l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_20 = torch._C._nn.linear(
+            hidden_states_102,
+            l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_102 = l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_30 = query_states_20.view(1, 9, -1, 128)
+        query_states_20 = None
+        query_states_21 = view_30.transpose(1, 2)
+        view_30 = None
+        view_31 = key_states_20.view(1, 9, -1, 128)
+        key_states_20 = None
+        key_states_21 = view_31.transpose(1, 2)
+        view_31 = None
+        view_32 = value_states_20.view(1, 9, -1, 128)
+        value_states_20 = None
+        value_states_21 = view_32.transpose(1, 2)
+        view_32 = None
+        split_20 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_120 = split_20[0]
+        x_121 = split_20[1]
+        x_122 = split_20[2]
+        x_123 = split_20[3]
+        x_124 = split_20[4]
+        x_125 = split_20[5]
+        split_20 = None
+        getitem_323 = x_120[0]
+        x_120 = None
+        getitem_324 = x_121[1]
+        x_121 = None
+        getitem_325 = x_122[2]
+        x_122 = None
+        getitem_326 = x_123[0]
+        x_123 = None
+        getitem_327 = x_124[1]
+        x_124 = None
+        getitem_328 = x_125[2]
+        x_125 = None
+        cat_41 = torch.cat(
+            [
+                getitem_323,
+                getitem_324,
+                getitem_325,
+                getitem_326,
+                getitem_327,
+                getitem_328,
+            ],
+            dim=-1,
+        )
+        getitem_323 = (
+            getitem_324
+        ) = getitem_325 = getitem_326 = getitem_327 = getitem_328 = None
+        cos_13 = cat_41.unsqueeze(1)
+        cat_41 = None
+        split_21 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_126 = split_21[0]
+        x_127 = split_21[1]
+        x_128 = split_21[2]
+        x_129 = split_21[3]
+        x_130 = split_21[4]
+        x_131 = split_21[5]
+        split_21 = None
+        getitem_335 = x_126[0]
+        x_126 = None
+        getitem_336 = x_127[1]
+        x_127 = None
+        getitem_337 = x_128[2]
+        x_128 = None
+        getitem_338 = x_129[0]
+        x_129 = None
+        getitem_339 = x_130[1]
+        x_130 = None
+        getitem_340 = x_131[2]
+        x_131 = None
+        cat_42 = torch.cat(
+            [
+                getitem_335,
+                getitem_336,
+                getitem_337,
+                getitem_338,
+                getitem_339,
+                getitem_340,
+            ],
+            dim=-1,
+        )
+        getitem_335 = (
+            getitem_336
+        ) = getitem_337 = getitem_338 = getitem_339 = getitem_340 = None
+        sin_13 = cat_42.unsqueeze(1)
+        cat_42 = None
+        mul_94 = query_states_21 * cos_13
+        x1_20 = query_states_21[(Ellipsis, slice(None, 64, None))]
+        x2_20 = query_states_21[(Ellipsis, slice(64, None, None))]
+        query_states_21 = None
+        neg_20 = -x2_20
+        x2_20 = None
+        cat_43 = torch.cat((neg_20, x1_20), dim=-1)
+        neg_20 = x1_20 = None
+        mul_95 = cat_43 * sin_13
+        cat_43 = None
+        q_embed_10 = mul_94 + mul_95
+        mul_94 = mul_95 = None
+        mul_96 = key_states_21 * cos_13
+        cos_13 = None
+        x1_21 = key_states_21[(Ellipsis, slice(None, 64, None))]
+        x2_21 = key_states_21[(Ellipsis, slice(64, None, None))]
+        key_states_21 = None
+        neg_21 = -x2_21
+        x2_21 = None
+        cat_44 = torch.cat((neg_21, x1_21), dim=-1)
+        neg_21 = x1_21 = None
+        mul_97 = cat_44 * sin_13
+        cat_44 = sin_13 = None
+        k_embed_10 = mul_96 + mul_97
+        mul_96 = mul_97 = None
+        getitem_345 = k_embed_10[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_10 = None
+        hidden_states_103 = getitem_345.expand(1, 2, 6, 9, 128)
+        getitem_345 = None
+        key_20 = hidden_states_103.reshape(1, 12, 9, 128)
+        hidden_states_103 = None
+        getitem_346 = value_states_21[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_21 = None
+        hidden_states_104 = getitem_346.expand(1, 2, 6, 9, 128)
+        getitem_346 = None
+        value_20 = hidden_states_104.reshape(1, 12, 9, 128)
+        hidden_states_104 = None
+        attention_mask_11 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_10 = q_embed_10.contiguous()
+        q_embed_10 = None
+        key_21 = key_20.contiguous()
+        key_20 = None
+        value_21 = value_20.contiguous()
+        value_20 = None
+        attn_output_40 = torch._C._nn.scaled_dot_product_attention(
+            query_10,
+            key_21,
+            value_21,
+            attn_mask=attention_mask_11,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_10 = key_21 = value_21 = attention_mask_11 = None
+        transpose_44 = attn_output_40.transpose(1, 2)
+        attn_output_40 = None
+        attn_output_41 = transpose_44.contiguous()
+        transpose_44 = None
+        reshape_32 = attn_output_41.reshape(1, 9, -1)
+        attn_output_41 = None
+        attn_output_42 = reshape_32.contiguous()
+        reshape_32 = None
+        attn_output_43 = torch._C._nn.linear(
+            attn_output_42,
+            l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_42 = l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_105 = hidden_states_99 + attn_output_43
+        hidden_states_99 = attn_output_43 = None
+        hidden_states_106 = hidden_states_105.to(torch.float32)
+        pow_22 = hidden_states_106.pow(2)
+        variance_21 = pow_22.mean(-1, keepdim=True)
+        pow_22 = None
+        add_65 = variance_21 + 1e-06
+        variance_21 = None
+        rsqrt_21 = torch.rsqrt(add_65)
+        add_65 = None
+        hidden_states_107 = hidden_states_106 * rsqrt_21
+        hidden_states_106 = rsqrt_21 = None
+        to_47 = hidden_states_107.to(torch.bfloat16)
+        hidden_states_107 = None
+        hidden_states_108 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_post_attention_layernorm_parameters_weight_
+            * to_47
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_post_attention_layernorm_parameters_weight_ = (
+            to_47
+        ) = None
+        linear_74 = torch._C._nn.linear(
+            hidden_states_108,
+            l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_10 = torch.nn.functional.silu(linear_74, inplace=False)
+        linear_74 = None
+        linear_75 = torch._C._nn.linear(
+            hidden_states_108,
+            l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_108 = l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_100 = silu_10 * linear_75
+        silu_10 = linear_75 = None
+        down_proj_10 = torch._C._nn.linear(
+            mul_100,
+            l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_100 = l_self_modules_model_modules_language_model_modules_layers_modules_10_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_109 = hidden_states_105 + down_proj_10
+        hidden_states_105 = down_proj_10 = None
+        hidden_states_110 = hidden_states_109.to(torch.float32)
+        pow_23 = hidden_states_110.pow(2)
+        variance_22 = pow_23.mean(-1, keepdim=True)
+        pow_23 = None
+        add_67 = variance_22 + 1e-06
+        variance_22 = None
+        rsqrt_22 = torch.rsqrt(add_67)
+        add_67 = None
+        hidden_states_111 = hidden_states_110 * rsqrt_22
+        hidden_states_110 = rsqrt_22 = None
+        to_49 = hidden_states_111.to(torch.bfloat16)
+        hidden_states_111 = None
+        hidden_states_112 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_input_layernorm_parameters_weight_
+            * to_49
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_input_layernorm_parameters_weight_ = (
+            to_49
+        ) = None
+        query_states_22 = torch._C._nn.linear(
+            hidden_states_112,
+            l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_22 = torch._C._nn.linear(
+            hidden_states_112,
+            l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_22 = torch._C._nn.linear(
+            hidden_states_112,
+            l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_112 = l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_33 = query_states_22.view(1, 9, -1, 128)
+        query_states_22 = None
+        query_states_23 = view_33.transpose(1, 2)
+        view_33 = None
+        view_34 = key_states_22.view(1, 9, -1, 128)
+        key_states_22 = None
+        key_states_23 = view_34.transpose(1, 2)
+        view_34 = None
+        view_35 = value_states_22.view(1, 9, -1, 128)
+        value_states_22 = None
+        value_states_23 = view_35.transpose(1, 2)
+        view_35 = None
+        split_22 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_132 = split_22[0]
+        x_133 = split_22[1]
+        x_134 = split_22[2]
+        x_135 = split_22[3]
+        x_136 = split_22[4]
+        x_137 = split_22[5]
+        split_22 = None
+        getitem_354 = x_132[0]
+        x_132 = None
+        getitem_355 = x_133[1]
+        x_133 = None
+        getitem_356 = x_134[2]
+        x_134 = None
+        getitem_357 = x_135[0]
+        x_135 = None
+        getitem_358 = x_136[1]
+        x_136 = None
+        getitem_359 = x_137[2]
+        x_137 = None
+        cat_45 = torch.cat(
+            [
+                getitem_354,
+                getitem_355,
+                getitem_356,
+                getitem_357,
+                getitem_358,
+                getitem_359,
+            ],
+            dim=-1,
+        )
+        getitem_354 = (
+            getitem_355
+        ) = getitem_356 = getitem_357 = getitem_358 = getitem_359 = None
+        cos_14 = cat_45.unsqueeze(1)
+        cat_45 = None
+        split_23 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_138 = split_23[0]
+        x_139 = split_23[1]
+        x_140 = split_23[2]
+        x_141 = split_23[3]
+        x_142 = split_23[4]
+        x_143 = split_23[5]
+        split_23 = None
+        getitem_366 = x_138[0]
+        x_138 = None
+        getitem_367 = x_139[1]
+        x_139 = None
+        getitem_368 = x_140[2]
+        x_140 = None
+        getitem_369 = x_141[0]
+        x_141 = None
+        getitem_370 = x_142[1]
+        x_142 = None
+        getitem_371 = x_143[2]
+        x_143 = None
+        cat_46 = torch.cat(
+            [
+                getitem_366,
+                getitem_367,
+                getitem_368,
+                getitem_369,
+                getitem_370,
+                getitem_371,
+            ],
+            dim=-1,
+        )
+        getitem_366 = (
+            getitem_367
+        ) = getitem_368 = getitem_369 = getitem_370 = getitem_371 = None
+        sin_14 = cat_46.unsqueeze(1)
+        cat_46 = None
+        mul_103 = query_states_23 * cos_14
+        x1_22 = query_states_23[(Ellipsis, slice(None, 64, None))]
+        x2_22 = query_states_23[(Ellipsis, slice(64, None, None))]
+        query_states_23 = None
+        neg_22 = -x2_22
+        x2_22 = None
+        cat_47 = torch.cat((neg_22, x1_22), dim=-1)
+        neg_22 = x1_22 = None
+        mul_104 = cat_47 * sin_14
+        cat_47 = None
+        q_embed_11 = mul_103 + mul_104
+        mul_103 = mul_104 = None
+        mul_105 = key_states_23 * cos_14
+        cos_14 = None
+        x1_23 = key_states_23[(Ellipsis, slice(None, 64, None))]
+        x2_23 = key_states_23[(Ellipsis, slice(64, None, None))]
+        key_states_23 = None
+        neg_23 = -x2_23
+        x2_23 = None
+        cat_48 = torch.cat((neg_23, x1_23), dim=-1)
+        neg_23 = x1_23 = None
+        mul_106 = cat_48 * sin_14
+        cat_48 = sin_14 = None
+        k_embed_11 = mul_105 + mul_106
+        mul_105 = mul_106 = None
+        getitem_376 = k_embed_11[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_11 = None
+        hidden_states_113 = getitem_376.expand(1, 2, 6, 9, 128)
+        getitem_376 = None
+        key_22 = hidden_states_113.reshape(1, 12, 9, 128)
+        hidden_states_113 = None
+        getitem_377 = value_states_23[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_23 = None
+        hidden_states_114 = getitem_377.expand(1, 2, 6, 9, 128)
+        getitem_377 = None
+        value_22 = hidden_states_114.reshape(1, 12, 9, 128)
+        hidden_states_114 = None
+        attention_mask_12 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_11 = q_embed_11.contiguous()
+        q_embed_11 = None
+        key_23 = key_22.contiguous()
+        key_22 = None
+        value_23 = value_22.contiguous()
+        value_22 = None
+        attn_output_44 = torch._C._nn.scaled_dot_product_attention(
+            query_11,
+            key_23,
+            value_23,
+            attn_mask=attention_mask_12,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_11 = key_23 = value_23 = attention_mask_12 = None
+        transpose_48 = attn_output_44.transpose(1, 2)
+        attn_output_44 = None
+        attn_output_45 = transpose_48.contiguous()
+        transpose_48 = None
+        reshape_35 = attn_output_45.reshape(1, 9, -1)
+        attn_output_45 = None
+        attn_output_46 = reshape_35.contiguous()
+        reshape_35 = None
+        attn_output_47 = torch._C._nn.linear(
+            attn_output_46,
+            l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_46 = l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_115 = hidden_states_109 + attn_output_47
+        hidden_states_109 = attn_output_47 = None
+        hidden_states_116 = hidden_states_115.to(torch.float32)
+        pow_24 = hidden_states_116.pow(2)
+        variance_23 = pow_24.mean(-1, keepdim=True)
+        pow_24 = None
+        add_71 = variance_23 + 1e-06
+        variance_23 = None
+        rsqrt_23 = torch.rsqrt(add_71)
+        add_71 = None
+        hidden_states_117 = hidden_states_116 * rsqrt_23
+        hidden_states_116 = rsqrt_23 = None
+        to_51 = hidden_states_117.to(torch.bfloat16)
+        hidden_states_117 = None
+        hidden_states_118 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_post_attention_layernorm_parameters_weight_
+            * to_51
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_post_attention_layernorm_parameters_weight_ = (
+            to_51
+        ) = None
+        linear_81 = torch._C._nn.linear(
+            hidden_states_118,
+            l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_11 = torch.nn.functional.silu(linear_81, inplace=False)
+        linear_81 = None
+        linear_82 = torch._C._nn.linear(
+            hidden_states_118,
+            l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_118 = l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_109 = silu_11 * linear_82
+        silu_11 = linear_82 = None
+        down_proj_11 = torch._C._nn.linear(
+            mul_109,
+            l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_109 = l_self_modules_model_modules_language_model_modules_layers_modules_11_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_119 = hidden_states_115 + down_proj_11
+        hidden_states_115 = down_proj_11 = None
+        hidden_states_120 = hidden_states_119.to(torch.float32)
+        pow_25 = hidden_states_120.pow(2)
+        variance_24 = pow_25.mean(-1, keepdim=True)
+        pow_25 = None
+        add_73 = variance_24 + 1e-06
+        variance_24 = None
+        rsqrt_24 = torch.rsqrt(add_73)
+        add_73 = None
+        hidden_states_121 = hidden_states_120 * rsqrt_24
+        hidden_states_120 = rsqrt_24 = None
+        to_53 = hidden_states_121.to(torch.bfloat16)
+        hidden_states_121 = None
+        hidden_states_122 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_input_layernorm_parameters_weight_
+            * to_53
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_input_layernorm_parameters_weight_ = (
+            to_53
+        ) = None
+        query_states_24 = torch._C._nn.linear(
+            hidden_states_122,
+            l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_24 = torch._C._nn.linear(
+            hidden_states_122,
+            l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_24 = torch._C._nn.linear(
+            hidden_states_122,
+            l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_122 = l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_36 = query_states_24.view(1, 9, -1, 128)
+        query_states_24 = None
+        query_states_25 = view_36.transpose(1, 2)
+        view_36 = None
+        view_37 = key_states_24.view(1, 9, -1, 128)
+        key_states_24 = None
+        key_states_25 = view_37.transpose(1, 2)
+        view_37 = None
+        view_38 = value_states_24.view(1, 9, -1, 128)
+        value_states_24 = None
+        value_states_25 = view_38.transpose(1, 2)
+        view_38 = None
+        split_24 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_144 = split_24[0]
+        x_145 = split_24[1]
+        x_146 = split_24[2]
+        x_147 = split_24[3]
+        x_148 = split_24[4]
+        x_149 = split_24[5]
+        split_24 = None
+        getitem_385 = x_144[0]
+        x_144 = None
+        getitem_386 = x_145[1]
+        x_145 = None
+        getitem_387 = x_146[2]
+        x_146 = None
+        getitem_388 = x_147[0]
+        x_147 = None
+        getitem_389 = x_148[1]
+        x_148 = None
+        getitem_390 = x_149[2]
+        x_149 = None
+        cat_49 = torch.cat(
+            [
+                getitem_385,
+                getitem_386,
+                getitem_387,
+                getitem_388,
+                getitem_389,
+                getitem_390,
+            ],
+            dim=-1,
+        )
+        getitem_385 = (
+            getitem_386
+        ) = getitem_387 = getitem_388 = getitem_389 = getitem_390 = None
+        cos_15 = cat_49.unsqueeze(1)
+        cat_49 = None
+        split_25 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_150 = split_25[0]
+        x_151 = split_25[1]
+        x_152 = split_25[2]
+        x_153 = split_25[3]
+        x_154 = split_25[4]
+        x_155 = split_25[5]
+        split_25 = None
+        getitem_397 = x_150[0]
+        x_150 = None
+        getitem_398 = x_151[1]
+        x_151 = None
+        getitem_399 = x_152[2]
+        x_152 = None
+        getitem_400 = x_153[0]
+        x_153 = None
+        getitem_401 = x_154[1]
+        x_154 = None
+        getitem_402 = x_155[2]
+        x_155 = None
+        cat_50 = torch.cat(
+            [
+                getitem_397,
+                getitem_398,
+                getitem_399,
+                getitem_400,
+                getitem_401,
+                getitem_402,
+            ],
+            dim=-1,
+        )
+        getitem_397 = (
+            getitem_398
+        ) = getitem_399 = getitem_400 = getitem_401 = getitem_402 = None
+        sin_15 = cat_50.unsqueeze(1)
+        cat_50 = None
+        mul_112 = query_states_25 * cos_15
+        x1_24 = query_states_25[(Ellipsis, slice(None, 64, None))]
+        x2_24 = query_states_25[(Ellipsis, slice(64, None, None))]
+        query_states_25 = None
+        neg_24 = -x2_24
+        x2_24 = None
+        cat_51 = torch.cat((neg_24, x1_24), dim=-1)
+        neg_24 = x1_24 = None
+        mul_113 = cat_51 * sin_15
+        cat_51 = None
+        q_embed_12 = mul_112 + mul_113
+        mul_112 = mul_113 = None
+        mul_114 = key_states_25 * cos_15
+        cos_15 = None
+        x1_25 = key_states_25[(Ellipsis, slice(None, 64, None))]
+        x2_25 = key_states_25[(Ellipsis, slice(64, None, None))]
+        key_states_25 = None
+        neg_25 = -x2_25
+        x2_25 = None
+        cat_52 = torch.cat((neg_25, x1_25), dim=-1)
+        neg_25 = x1_25 = None
+        mul_115 = cat_52 * sin_15
+        cat_52 = sin_15 = None
+        k_embed_12 = mul_114 + mul_115
+        mul_114 = mul_115 = None
+        getitem_407 = k_embed_12[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_12 = None
+        hidden_states_123 = getitem_407.expand(1, 2, 6, 9, 128)
+        getitem_407 = None
+        key_24 = hidden_states_123.reshape(1, 12, 9, 128)
+        hidden_states_123 = None
+        getitem_408 = value_states_25[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_25 = None
+        hidden_states_124 = getitem_408.expand(1, 2, 6, 9, 128)
+        getitem_408 = None
+        value_24 = hidden_states_124.reshape(1, 12, 9, 128)
+        hidden_states_124 = None
+        attention_mask_13 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_12 = q_embed_12.contiguous()
+        q_embed_12 = None
+        key_25 = key_24.contiguous()
+        key_24 = None
+        value_25 = value_24.contiguous()
+        value_24 = None
+        attn_output_48 = torch._C._nn.scaled_dot_product_attention(
+            query_12,
+            key_25,
+            value_25,
+            attn_mask=attention_mask_13,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_12 = key_25 = value_25 = attention_mask_13 = None
+        transpose_52 = attn_output_48.transpose(1, 2)
+        attn_output_48 = None
+        attn_output_49 = transpose_52.contiguous()
+        transpose_52 = None
+        reshape_38 = attn_output_49.reshape(1, 9, -1)
+        attn_output_49 = None
+        attn_output_50 = reshape_38.contiguous()
+        reshape_38 = None
+        attn_output_51 = torch._C._nn.linear(
+            attn_output_50,
+            l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_50 = l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_125 = hidden_states_119 + attn_output_51
+        hidden_states_119 = attn_output_51 = None
+        hidden_states_126 = hidden_states_125.to(torch.float32)
+        pow_26 = hidden_states_126.pow(2)
+        variance_25 = pow_26.mean(-1, keepdim=True)
+        pow_26 = None
+        add_77 = variance_25 + 1e-06
+        variance_25 = None
+        rsqrt_25 = torch.rsqrt(add_77)
+        add_77 = None
+        hidden_states_127 = hidden_states_126 * rsqrt_25
+        hidden_states_126 = rsqrt_25 = None
+        to_55 = hidden_states_127.to(torch.bfloat16)
+        hidden_states_127 = None
+        hidden_states_128 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_post_attention_layernorm_parameters_weight_
+            * to_55
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_post_attention_layernorm_parameters_weight_ = (
+            to_55
+        ) = None
+        linear_88 = torch._C._nn.linear(
+            hidden_states_128,
+            l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_12 = torch.nn.functional.silu(linear_88, inplace=False)
+        linear_88 = None
+        linear_89 = torch._C._nn.linear(
+            hidden_states_128,
+            l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_128 = l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_118 = silu_12 * linear_89
+        silu_12 = linear_89 = None
+        down_proj_12 = torch._C._nn.linear(
+            mul_118,
+            l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_118 = l_self_modules_model_modules_language_model_modules_layers_modules_12_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_129 = hidden_states_125 + down_proj_12
+        hidden_states_125 = down_proj_12 = None
+        hidden_states_130 = hidden_states_129.to(torch.float32)
+        pow_27 = hidden_states_130.pow(2)
+        variance_26 = pow_27.mean(-1, keepdim=True)
+        pow_27 = None
+        add_79 = variance_26 + 1e-06
+        variance_26 = None
+        rsqrt_26 = torch.rsqrt(add_79)
+        add_79 = None
+        hidden_states_131 = hidden_states_130 * rsqrt_26
+        hidden_states_130 = rsqrt_26 = None
+        to_57 = hidden_states_131.to(torch.bfloat16)
+        hidden_states_131 = None
+        hidden_states_132 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_input_layernorm_parameters_weight_
+            * to_57
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_input_layernorm_parameters_weight_ = (
+            to_57
+        ) = None
+        query_states_26 = torch._C._nn.linear(
+            hidden_states_132,
+            l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_26 = torch._C._nn.linear(
+            hidden_states_132,
+            l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_26 = torch._C._nn.linear(
+            hidden_states_132,
+            l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_132 = l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_39 = query_states_26.view(1, 9, -1, 128)
+        query_states_26 = None
+        query_states_27 = view_39.transpose(1, 2)
+        view_39 = None
+        view_40 = key_states_26.view(1, 9, -1, 128)
+        key_states_26 = None
+        key_states_27 = view_40.transpose(1, 2)
+        view_40 = None
+        view_41 = value_states_26.view(1, 9, -1, 128)
+        value_states_26 = None
+        value_states_27 = view_41.transpose(1, 2)
+        view_41 = None
+        split_26 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_156 = split_26[0]
+        x_157 = split_26[1]
+        x_158 = split_26[2]
+        x_159 = split_26[3]
+        x_160 = split_26[4]
+        x_161 = split_26[5]
+        split_26 = None
+        getitem_416 = x_156[0]
+        x_156 = None
+        getitem_417 = x_157[1]
+        x_157 = None
+        getitem_418 = x_158[2]
+        x_158 = None
+        getitem_419 = x_159[0]
+        x_159 = None
+        getitem_420 = x_160[1]
+        x_160 = None
+        getitem_421 = x_161[2]
+        x_161 = None
+        cat_53 = torch.cat(
+            [
+                getitem_416,
+                getitem_417,
+                getitem_418,
+                getitem_419,
+                getitem_420,
+                getitem_421,
+            ],
+            dim=-1,
+        )
+        getitem_416 = (
+            getitem_417
+        ) = getitem_418 = getitem_419 = getitem_420 = getitem_421 = None
+        cos_16 = cat_53.unsqueeze(1)
+        cat_53 = None
+        split_27 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_162 = split_27[0]
+        x_163 = split_27[1]
+        x_164 = split_27[2]
+        x_165 = split_27[3]
+        x_166 = split_27[4]
+        x_167 = split_27[5]
+        split_27 = None
+        getitem_428 = x_162[0]
+        x_162 = None
+        getitem_429 = x_163[1]
+        x_163 = None
+        getitem_430 = x_164[2]
+        x_164 = None
+        getitem_431 = x_165[0]
+        x_165 = None
+        getitem_432 = x_166[1]
+        x_166 = None
+        getitem_433 = x_167[2]
+        x_167 = None
+        cat_54 = torch.cat(
+            [
+                getitem_428,
+                getitem_429,
+                getitem_430,
+                getitem_431,
+                getitem_432,
+                getitem_433,
+            ],
+            dim=-1,
+        )
+        getitem_428 = (
+            getitem_429
+        ) = getitem_430 = getitem_431 = getitem_432 = getitem_433 = None
+        sin_16 = cat_54.unsqueeze(1)
+        cat_54 = None
+        mul_121 = query_states_27 * cos_16
+        x1_26 = query_states_27[(Ellipsis, slice(None, 64, None))]
+        x2_26 = query_states_27[(Ellipsis, slice(64, None, None))]
+        query_states_27 = None
+        neg_26 = -x2_26
+        x2_26 = None
+        cat_55 = torch.cat((neg_26, x1_26), dim=-1)
+        neg_26 = x1_26 = None
+        mul_122 = cat_55 * sin_16
+        cat_55 = None
+        q_embed_13 = mul_121 + mul_122
+        mul_121 = mul_122 = None
+        mul_123 = key_states_27 * cos_16
+        cos_16 = None
+        x1_27 = key_states_27[(Ellipsis, slice(None, 64, None))]
+        x2_27 = key_states_27[(Ellipsis, slice(64, None, None))]
+        key_states_27 = None
+        neg_27 = -x2_27
+        x2_27 = None
+        cat_56 = torch.cat((neg_27, x1_27), dim=-1)
+        neg_27 = x1_27 = None
+        mul_124 = cat_56 * sin_16
+        cat_56 = sin_16 = None
+        k_embed_13 = mul_123 + mul_124
+        mul_123 = mul_124 = None
+        getitem_438 = k_embed_13[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_13 = None
+        hidden_states_133 = getitem_438.expand(1, 2, 6, 9, 128)
+        getitem_438 = None
+        key_26 = hidden_states_133.reshape(1, 12, 9, 128)
+        hidden_states_133 = None
+        getitem_439 = value_states_27[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_27 = None
+        hidden_states_134 = getitem_439.expand(1, 2, 6, 9, 128)
+        getitem_439 = None
+        value_26 = hidden_states_134.reshape(1, 12, 9, 128)
+        hidden_states_134 = None
+        attention_mask_14 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_13 = q_embed_13.contiguous()
+        q_embed_13 = None
+        key_27 = key_26.contiguous()
+        key_26 = None
+        value_27 = value_26.contiguous()
+        value_26 = None
+        attn_output_52 = torch._C._nn.scaled_dot_product_attention(
+            query_13,
+            key_27,
+            value_27,
+            attn_mask=attention_mask_14,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_13 = key_27 = value_27 = attention_mask_14 = None
+        transpose_56 = attn_output_52.transpose(1, 2)
+        attn_output_52 = None
+        attn_output_53 = transpose_56.contiguous()
+        transpose_56 = None
+        reshape_41 = attn_output_53.reshape(1, 9, -1)
+        attn_output_53 = None
+        attn_output_54 = reshape_41.contiguous()
+        reshape_41 = None
+        attn_output_55 = torch._C._nn.linear(
+            attn_output_54,
+            l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_54 = l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_135 = hidden_states_129 + attn_output_55
+        hidden_states_129 = attn_output_55 = None
+        hidden_states_136 = hidden_states_135.to(torch.float32)
+        pow_28 = hidden_states_136.pow(2)
+        variance_27 = pow_28.mean(-1, keepdim=True)
+        pow_28 = None
+        add_83 = variance_27 + 1e-06
+        variance_27 = None
+        rsqrt_27 = torch.rsqrt(add_83)
+        add_83 = None
+        hidden_states_137 = hidden_states_136 * rsqrt_27
+        hidden_states_136 = rsqrt_27 = None
+        to_59 = hidden_states_137.to(torch.bfloat16)
+        hidden_states_137 = None
+        hidden_states_138 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_post_attention_layernorm_parameters_weight_
+            * to_59
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_post_attention_layernorm_parameters_weight_ = (
+            to_59
+        ) = None
+        linear_95 = torch._C._nn.linear(
+            hidden_states_138,
+            l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_13 = torch.nn.functional.silu(linear_95, inplace=False)
+        linear_95 = None
+        linear_96 = torch._C._nn.linear(
+            hidden_states_138,
+            l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_138 = l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_127 = silu_13 * linear_96
+        silu_13 = linear_96 = None
+        down_proj_13 = torch._C._nn.linear(
+            mul_127,
+            l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_127 = l_self_modules_model_modules_language_model_modules_layers_modules_13_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_139 = hidden_states_135 + down_proj_13
+        hidden_states_135 = down_proj_13 = None
+        hidden_states_140 = hidden_states_139.to(torch.float32)
+        pow_29 = hidden_states_140.pow(2)
+        variance_28 = pow_29.mean(-1, keepdim=True)
+        pow_29 = None
+        add_85 = variance_28 + 1e-06
+        variance_28 = None
+        rsqrt_28 = torch.rsqrt(add_85)
+        add_85 = None
+        hidden_states_141 = hidden_states_140 * rsqrt_28
+        hidden_states_140 = rsqrt_28 = None
+        to_61 = hidden_states_141.to(torch.bfloat16)
+        hidden_states_141 = None
+        hidden_states_142 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_input_layernorm_parameters_weight_
+            * to_61
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_input_layernorm_parameters_weight_ = (
+            to_61
+        ) = None
+        query_states_28 = torch._C._nn.linear(
+            hidden_states_142,
+            l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_28 = torch._C._nn.linear(
+            hidden_states_142,
+            l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_28 = torch._C._nn.linear(
+            hidden_states_142,
+            l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_142 = l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_42 = query_states_28.view(1, 9, -1, 128)
+        query_states_28 = None
+        query_states_29 = view_42.transpose(1, 2)
+        view_42 = None
+        view_43 = key_states_28.view(1, 9, -1, 128)
+        key_states_28 = None
+        key_states_29 = view_43.transpose(1, 2)
+        view_43 = None
+        view_44 = value_states_28.view(1, 9, -1, 128)
+        value_states_28 = None
+        value_states_29 = view_44.transpose(1, 2)
+        view_44 = None
+        split_28 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_168 = split_28[0]
+        x_169 = split_28[1]
+        x_170 = split_28[2]
+        x_171 = split_28[3]
+        x_172 = split_28[4]
+        x_173 = split_28[5]
+        split_28 = None
+        getitem_447 = x_168[0]
+        x_168 = None
+        getitem_448 = x_169[1]
+        x_169 = None
+        getitem_449 = x_170[2]
+        x_170 = None
+        getitem_450 = x_171[0]
+        x_171 = None
+        getitem_451 = x_172[1]
+        x_172 = None
+        getitem_452 = x_173[2]
+        x_173 = None
+        cat_57 = torch.cat(
+            [
+                getitem_447,
+                getitem_448,
+                getitem_449,
+                getitem_450,
+                getitem_451,
+                getitem_452,
+            ],
+            dim=-1,
+        )
+        getitem_447 = (
+            getitem_448
+        ) = getitem_449 = getitem_450 = getitem_451 = getitem_452 = None
+        cos_17 = cat_57.unsqueeze(1)
+        cat_57 = None
+        split_29 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_174 = split_29[0]
+        x_175 = split_29[1]
+        x_176 = split_29[2]
+        x_177 = split_29[3]
+        x_178 = split_29[4]
+        x_179 = split_29[5]
+        split_29 = None
+        getitem_459 = x_174[0]
+        x_174 = None
+        getitem_460 = x_175[1]
+        x_175 = None
+        getitem_461 = x_176[2]
+        x_176 = None
+        getitem_462 = x_177[0]
+        x_177 = None
+        getitem_463 = x_178[1]
+        x_178 = None
+        getitem_464 = x_179[2]
+        x_179 = None
+        cat_58 = torch.cat(
+            [
+                getitem_459,
+                getitem_460,
+                getitem_461,
+                getitem_462,
+                getitem_463,
+                getitem_464,
+            ],
+            dim=-1,
+        )
+        getitem_459 = (
+            getitem_460
+        ) = getitem_461 = getitem_462 = getitem_463 = getitem_464 = None
+        sin_17 = cat_58.unsqueeze(1)
+        cat_58 = None
+        mul_130 = query_states_29 * cos_17
+        x1_28 = query_states_29[(Ellipsis, slice(None, 64, None))]
+        x2_28 = query_states_29[(Ellipsis, slice(64, None, None))]
+        query_states_29 = None
+        neg_28 = -x2_28
+        x2_28 = None
+        cat_59 = torch.cat((neg_28, x1_28), dim=-1)
+        neg_28 = x1_28 = None
+        mul_131 = cat_59 * sin_17
+        cat_59 = None
+        q_embed_14 = mul_130 + mul_131
+        mul_130 = mul_131 = None
+        mul_132 = key_states_29 * cos_17
+        cos_17 = None
+        x1_29 = key_states_29[(Ellipsis, slice(None, 64, None))]
+        x2_29 = key_states_29[(Ellipsis, slice(64, None, None))]
+        key_states_29 = None
+        neg_29 = -x2_29
+        x2_29 = None
+        cat_60 = torch.cat((neg_29, x1_29), dim=-1)
+        neg_29 = x1_29 = None
+        mul_133 = cat_60 * sin_17
+        cat_60 = sin_17 = None
+        k_embed_14 = mul_132 + mul_133
+        mul_132 = mul_133 = None
+        getitem_469 = k_embed_14[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_14 = None
+        hidden_states_143 = getitem_469.expand(1, 2, 6, 9, 128)
+        getitem_469 = None
+        key_28 = hidden_states_143.reshape(1, 12, 9, 128)
+        hidden_states_143 = None
+        getitem_470 = value_states_29[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_29 = None
+        hidden_states_144 = getitem_470.expand(1, 2, 6, 9, 128)
+        getitem_470 = None
+        value_28 = hidden_states_144.reshape(1, 12, 9, 128)
+        hidden_states_144 = None
+        attention_mask_15 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_14 = q_embed_14.contiguous()
+        q_embed_14 = None
+        key_29 = key_28.contiguous()
+        key_28 = None
+        value_29 = value_28.contiguous()
+        value_28 = None
+        attn_output_56 = torch._C._nn.scaled_dot_product_attention(
+            query_14,
+            key_29,
+            value_29,
+            attn_mask=attention_mask_15,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_14 = key_29 = value_29 = attention_mask_15 = None
+        transpose_60 = attn_output_56.transpose(1, 2)
+        attn_output_56 = None
+        attn_output_57 = transpose_60.contiguous()
+        transpose_60 = None
+        reshape_44 = attn_output_57.reshape(1, 9, -1)
+        attn_output_57 = None
+        attn_output_58 = reshape_44.contiguous()
+        reshape_44 = None
+        attn_output_59 = torch._C._nn.linear(
+            attn_output_58,
+            l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_58 = l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_145 = hidden_states_139 + attn_output_59
+        hidden_states_139 = attn_output_59 = None
+        hidden_states_146 = hidden_states_145.to(torch.float32)
+        pow_30 = hidden_states_146.pow(2)
+        variance_29 = pow_30.mean(-1, keepdim=True)
+        pow_30 = None
+        add_89 = variance_29 + 1e-06
+        variance_29 = None
+        rsqrt_29 = torch.rsqrt(add_89)
+        add_89 = None
+        hidden_states_147 = hidden_states_146 * rsqrt_29
+        hidden_states_146 = rsqrt_29 = None
+        to_63 = hidden_states_147.to(torch.bfloat16)
+        hidden_states_147 = None
+        hidden_states_148 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_post_attention_layernorm_parameters_weight_
+            * to_63
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_post_attention_layernorm_parameters_weight_ = (
+            to_63
+        ) = None
+        linear_102 = torch._C._nn.linear(
+            hidden_states_148,
+            l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_14 = torch.nn.functional.silu(linear_102, inplace=False)
+        linear_102 = None
+        linear_103 = torch._C._nn.linear(
+            hidden_states_148,
+            l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_148 = l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_136 = silu_14 * linear_103
+        silu_14 = linear_103 = None
+        down_proj_14 = torch._C._nn.linear(
+            mul_136,
+            l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_136 = l_self_modules_model_modules_language_model_modules_layers_modules_14_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_149 = hidden_states_145 + down_proj_14
+        hidden_states_145 = down_proj_14 = None
+        hidden_states_150 = hidden_states_149.to(torch.float32)
+        pow_31 = hidden_states_150.pow(2)
+        variance_30 = pow_31.mean(-1, keepdim=True)
+        pow_31 = None
+        add_91 = variance_30 + 1e-06
+        variance_30 = None
+        rsqrt_30 = torch.rsqrt(add_91)
+        add_91 = None
+        hidden_states_151 = hidden_states_150 * rsqrt_30
+        hidden_states_150 = rsqrt_30 = None
+        to_65 = hidden_states_151.to(torch.bfloat16)
+        hidden_states_151 = None
+        hidden_states_152 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_input_layernorm_parameters_weight_
+            * to_65
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_input_layernorm_parameters_weight_ = (
+            to_65
+        ) = None
+        query_states_30 = torch._C._nn.linear(
+            hidden_states_152,
+            l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_30 = torch._C._nn.linear(
+            hidden_states_152,
+            l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_30 = torch._C._nn.linear(
+            hidden_states_152,
+            l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_152 = l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_45 = query_states_30.view(1, 9, -1, 128)
+        query_states_30 = None
+        query_states_31 = view_45.transpose(1, 2)
+        view_45 = None
+        view_46 = key_states_30.view(1, 9, -1, 128)
+        key_states_30 = None
+        key_states_31 = view_46.transpose(1, 2)
+        view_46 = None
+        view_47 = value_states_30.view(1, 9, -1, 128)
+        value_states_30 = None
+        value_states_31 = view_47.transpose(1, 2)
+        view_47 = None
+        split_30 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_180 = split_30[0]
+        x_181 = split_30[1]
+        x_182 = split_30[2]
+        x_183 = split_30[3]
+        x_184 = split_30[4]
+        x_185 = split_30[5]
+        split_30 = None
+        getitem_478 = x_180[0]
+        x_180 = None
+        getitem_479 = x_181[1]
+        x_181 = None
+        getitem_480 = x_182[2]
+        x_182 = None
+        getitem_481 = x_183[0]
+        x_183 = None
+        getitem_482 = x_184[1]
+        x_184 = None
+        getitem_483 = x_185[2]
+        x_185 = None
+        cat_61 = torch.cat(
+            [
+                getitem_478,
+                getitem_479,
+                getitem_480,
+                getitem_481,
+                getitem_482,
+                getitem_483,
+            ],
+            dim=-1,
+        )
+        getitem_478 = (
+            getitem_479
+        ) = getitem_480 = getitem_481 = getitem_482 = getitem_483 = None
+        cos_18 = cat_61.unsqueeze(1)
+        cat_61 = None
+        split_31 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_186 = split_31[0]
+        x_187 = split_31[1]
+        x_188 = split_31[2]
+        x_189 = split_31[3]
+        x_190 = split_31[4]
+        x_191 = split_31[5]
+        split_31 = None
+        getitem_490 = x_186[0]
+        x_186 = None
+        getitem_491 = x_187[1]
+        x_187 = None
+        getitem_492 = x_188[2]
+        x_188 = None
+        getitem_493 = x_189[0]
+        x_189 = None
+        getitem_494 = x_190[1]
+        x_190 = None
+        getitem_495 = x_191[2]
+        x_191 = None
+        cat_62 = torch.cat(
+            [
+                getitem_490,
+                getitem_491,
+                getitem_492,
+                getitem_493,
+                getitem_494,
+                getitem_495,
+            ],
+            dim=-1,
+        )
+        getitem_490 = (
+            getitem_491
+        ) = getitem_492 = getitem_493 = getitem_494 = getitem_495 = None
+        sin_18 = cat_62.unsqueeze(1)
+        cat_62 = None
+        mul_139 = query_states_31 * cos_18
+        x1_30 = query_states_31[(Ellipsis, slice(None, 64, None))]
+        x2_30 = query_states_31[(Ellipsis, slice(64, None, None))]
+        query_states_31 = None
+        neg_30 = -x2_30
+        x2_30 = None
+        cat_63 = torch.cat((neg_30, x1_30), dim=-1)
+        neg_30 = x1_30 = None
+        mul_140 = cat_63 * sin_18
+        cat_63 = None
+        q_embed_15 = mul_139 + mul_140
+        mul_139 = mul_140 = None
+        mul_141 = key_states_31 * cos_18
+        cos_18 = None
+        x1_31 = key_states_31[(Ellipsis, slice(None, 64, None))]
+        x2_31 = key_states_31[(Ellipsis, slice(64, None, None))]
+        key_states_31 = None
+        neg_31 = -x2_31
+        x2_31 = None
+        cat_64 = torch.cat((neg_31, x1_31), dim=-1)
+        neg_31 = x1_31 = None
+        mul_142 = cat_64 * sin_18
+        cat_64 = sin_18 = None
+        k_embed_15 = mul_141 + mul_142
+        mul_141 = mul_142 = None
+        getitem_500 = k_embed_15[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_15 = None
+        hidden_states_153 = getitem_500.expand(1, 2, 6, 9, 128)
+        getitem_500 = None
+        key_30 = hidden_states_153.reshape(1, 12, 9, 128)
+        hidden_states_153 = None
+        getitem_501 = value_states_31[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_31 = None
+        hidden_states_154 = getitem_501.expand(1, 2, 6, 9, 128)
+        getitem_501 = None
+        value_30 = hidden_states_154.reshape(1, 12, 9, 128)
+        hidden_states_154 = None
+        attention_mask_16 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_15 = q_embed_15.contiguous()
+        q_embed_15 = None
+        key_31 = key_30.contiguous()
+        key_30 = None
+        value_31 = value_30.contiguous()
+        value_30 = None
+        attn_output_60 = torch._C._nn.scaled_dot_product_attention(
+            query_15,
+            key_31,
+            value_31,
+            attn_mask=attention_mask_16,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_15 = key_31 = value_31 = attention_mask_16 = None
+        transpose_64 = attn_output_60.transpose(1, 2)
+        attn_output_60 = None
+        attn_output_61 = transpose_64.contiguous()
+        transpose_64 = None
+        reshape_47 = attn_output_61.reshape(1, 9, -1)
+        attn_output_61 = None
+        attn_output_62 = reshape_47.contiguous()
+        reshape_47 = None
+        attn_output_63 = torch._C._nn.linear(
+            attn_output_62,
+            l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_62 = l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_155 = hidden_states_149 + attn_output_63
+        hidden_states_149 = attn_output_63 = None
+        hidden_states_156 = hidden_states_155.to(torch.float32)
+        pow_32 = hidden_states_156.pow(2)
+        variance_31 = pow_32.mean(-1, keepdim=True)
+        pow_32 = None
+        add_95 = variance_31 + 1e-06
+        variance_31 = None
+        rsqrt_31 = torch.rsqrt(add_95)
+        add_95 = None
+        hidden_states_157 = hidden_states_156 * rsqrt_31
+        hidden_states_156 = rsqrt_31 = None
+        to_67 = hidden_states_157.to(torch.bfloat16)
+        hidden_states_157 = None
+        hidden_states_158 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_post_attention_layernorm_parameters_weight_
+            * to_67
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_post_attention_layernorm_parameters_weight_ = (
+            to_67
+        ) = None
+        linear_109 = torch._C._nn.linear(
+            hidden_states_158,
+            l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_15 = torch.nn.functional.silu(linear_109, inplace=False)
+        linear_109 = None
+        linear_110 = torch._C._nn.linear(
+            hidden_states_158,
+            l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_158 = l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_145 = silu_15 * linear_110
+        silu_15 = linear_110 = None
+        down_proj_15 = torch._C._nn.linear(
+            mul_145,
+            l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_145 = l_self_modules_model_modules_language_model_modules_layers_modules_15_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_159 = hidden_states_155 + down_proj_15
+        hidden_states_155 = down_proj_15 = None
+        hidden_states_160 = hidden_states_159.to(torch.float32)
+        pow_33 = hidden_states_160.pow(2)
+        variance_32 = pow_33.mean(-1, keepdim=True)
+        pow_33 = None
+        add_97 = variance_32 + 1e-06
+        variance_32 = None
+        rsqrt_32 = torch.rsqrt(add_97)
+        add_97 = None
+        hidden_states_161 = hidden_states_160 * rsqrt_32
+        hidden_states_160 = rsqrt_32 = None
+        to_69 = hidden_states_161.to(torch.bfloat16)
+        hidden_states_161 = None
+        hidden_states_162 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_input_layernorm_parameters_weight_
+            * to_69
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_input_layernorm_parameters_weight_ = (
+            to_69
+        ) = None
+        query_states_32 = torch._C._nn.linear(
+            hidden_states_162,
+            l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_32 = torch._C._nn.linear(
+            hidden_states_162,
+            l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_32 = torch._C._nn.linear(
+            hidden_states_162,
+            l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_162 = l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_48 = query_states_32.view(1, 9, -1, 128)
+        query_states_32 = None
+        query_states_33 = view_48.transpose(1, 2)
+        view_48 = None
+        view_49 = key_states_32.view(1, 9, -1, 128)
+        key_states_32 = None
+        key_states_33 = view_49.transpose(1, 2)
+        view_49 = None
+        view_50 = value_states_32.view(1, 9, -1, 128)
+        value_states_32 = None
+        value_states_33 = view_50.transpose(1, 2)
+        view_50 = None
+        split_32 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_192 = split_32[0]
+        x_193 = split_32[1]
+        x_194 = split_32[2]
+        x_195 = split_32[3]
+        x_196 = split_32[4]
+        x_197 = split_32[5]
+        split_32 = None
+        getitem_509 = x_192[0]
+        x_192 = None
+        getitem_510 = x_193[1]
+        x_193 = None
+        getitem_511 = x_194[2]
+        x_194 = None
+        getitem_512 = x_195[0]
+        x_195 = None
+        getitem_513 = x_196[1]
+        x_196 = None
+        getitem_514 = x_197[2]
+        x_197 = None
+        cat_65 = torch.cat(
+            [
+                getitem_509,
+                getitem_510,
+                getitem_511,
+                getitem_512,
+                getitem_513,
+                getitem_514,
+            ],
+            dim=-1,
+        )
+        getitem_509 = (
+            getitem_510
+        ) = getitem_511 = getitem_512 = getitem_513 = getitem_514 = None
+        cos_19 = cat_65.unsqueeze(1)
+        cat_65 = None
+        split_33 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_198 = split_33[0]
+        x_199 = split_33[1]
+        x_200 = split_33[2]
+        x_201 = split_33[3]
+        x_202 = split_33[4]
+        x_203 = split_33[5]
+        split_33 = None
+        getitem_521 = x_198[0]
+        x_198 = None
+        getitem_522 = x_199[1]
+        x_199 = None
+        getitem_523 = x_200[2]
+        x_200 = None
+        getitem_524 = x_201[0]
+        x_201 = None
+        getitem_525 = x_202[1]
+        x_202 = None
+        getitem_526 = x_203[2]
+        x_203 = None
+        cat_66 = torch.cat(
+            [
+                getitem_521,
+                getitem_522,
+                getitem_523,
+                getitem_524,
+                getitem_525,
+                getitem_526,
+            ],
+            dim=-1,
+        )
+        getitem_521 = (
+            getitem_522
+        ) = getitem_523 = getitem_524 = getitem_525 = getitem_526 = None
+        sin_19 = cat_66.unsqueeze(1)
+        cat_66 = None
+        mul_148 = query_states_33 * cos_19
+        x1_32 = query_states_33[(Ellipsis, slice(None, 64, None))]
+        x2_32 = query_states_33[(Ellipsis, slice(64, None, None))]
+        query_states_33 = None
+        neg_32 = -x2_32
+        x2_32 = None
+        cat_67 = torch.cat((neg_32, x1_32), dim=-1)
+        neg_32 = x1_32 = None
+        mul_149 = cat_67 * sin_19
+        cat_67 = None
+        q_embed_16 = mul_148 + mul_149
+        mul_148 = mul_149 = None
+        mul_150 = key_states_33 * cos_19
+        cos_19 = None
+        x1_33 = key_states_33[(Ellipsis, slice(None, 64, None))]
+        x2_33 = key_states_33[(Ellipsis, slice(64, None, None))]
+        key_states_33 = None
+        neg_33 = -x2_33
+        x2_33 = None
+        cat_68 = torch.cat((neg_33, x1_33), dim=-1)
+        neg_33 = x1_33 = None
+        mul_151 = cat_68 * sin_19
+        cat_68 = sin_19 = None
+        k_embed_16 = mul_150 + mul_151
+        mul_150 = mul_151 = None
+        getitem_531 = k_embed_16[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_16 = None
+        hidden_states_163 = getitem_531.expand(1, 2, 6, 9, 128)
+        getitem_531 = None
+        key_32 = hidden_states_163.reshape(1, 12, 9, 128)
+        hidden_states_163 = None
+        getitem_532 = value_states_33[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_33 = None
+        hidden_states_164 = getitem_532.expand(1, 2, 6, 9, 128)
+        getitem_532 = None
+        value_32 = hidden_states_164.reshape(1, 12, 9, 128)
+        hidden_states_164 = None
+        attention_mask_17 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_16 = q_embed_16.contiguous()
+        q_embed_16 = None
+        key_33 = key_32.contiguous()
+        key_32 = None
+        value_33 = value_32.contiguous()
+        value_32 = None
+        attn_output_64 = torch._C._nn.scaled_dot_product_attention(
+            query_16,
+            key_33,
+            value_33,
+            attn_mask=attention_mask_17,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_16 = key_33 = value_33 = attention_mask_17 = None
+        transpose_68 = attn_output_64.transpose(1, 2)
+        attn_output_64 = None
+        attn_output_65 = transpose_68.contiguous()
+        transpose_68 = None
+        reshape_50 = attn_output_65.reshape(1, 9, -1)
+        attn_output_65 = None
+        attn_output_66 = reshape_50.contiguous()
+        reshape_50 = None
+        attn_output_67 = torch._C._nn.linear(
+            attn_output_66,
+            l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_66 = l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_165 = hidden_states_159 + attn_output_67
+        hidden_states_159 = attn_output_67 = None
+        hidden_states_166 = hidden_states_165.to(torch.float32)
+        pow_34 = hidden_states_166.pow(2)
+        variance_33 = pow_34.mean(-1, keepdim=True)
+        pow_34 = None
+        add_101 = variance_33 + 1e-06
+        variance_33 = None
+        rsqrt_33 = torch.rsqrt(add_101)
+        add_101 = None
+        hidden_states_167 = hidden_states_166 * rsqrt_33
+        hidden_states_166 = rsqrt_33 = None
+        to_71 = hidden_states_167.to(torch.bfloat16)
+        hidden_states_167 = None
+        hidden_states_168 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_post_attention_layernorm_parameters_weight_
+            * to_71
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_post_attention_layernorm_parameters_weight_ = (
+            to_71
+        ) = None
+        linear_116 = torch._C._nn.linear(
+            hidden_states_168,
+            l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_16 = torch.nn.functional.silu(linear_116, inplace=False)
+        linear_116 = None
+        linear_117 = torch._C._nn.linear(
+            hidden_states_168,
+            l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_168 = l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_154 = silu_16 * linear_117
+        silu_16 = linear_117 = None
+        down_proj_16 = torch._C._nn.linear(
+            mul_154,
+            l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_154 = l_self_modules_model_modules_language_model_modules_layers_modules_16_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_169 = hidden_states_165 + down_proj_16
+        hidden_states_165 = down_proj_16 = None
+        hidden_states_170 = hidden_states_169.to(torch.float32)
+        pow_35 = hidden_states_170.pow(2)
+        variance_34 = pow_35.mean(-1, keepdim=True)
+        pow_35 = None
+        add_103 = variance_34 + 1e-06
+        variance_34 = None
+        rsqrt_34 = torch.rsqrt(add_103)
+        add_103 = None
+        hidden_states_171 = hidden_states_170 * rsqrt_34
+        hidden_states_170 = rsqrt_34 = None
+        to_73 = hidden_states_171.to(torch.bfloat16)
+        hidden_states_171 = None
+        hidden_states_172 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_input_layernorm_parameters_weight_
+            * to_73
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_input_layernorm_parameters_weight_ = (
+            to_73
+        ) = None
+        query_states_34 = torch._C._nn.linear(
+            hidden_states_172,
+            l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_34 = torch._C._nn.linear(
+            hidden_states_172,
+            l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_34 = torch._C._nn.linear(
+            hidden_states_172,
+            l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_172 = l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_51 = query_states_34.view(1, 9, -1, 128)
+        query_states_34 = None
+        query_states_35 = view_51.transpose(1, 2)
+        view_51 = None
+        view_52 = key_states_34.view(1, 9, -1, 128)
+        key_states_34 = None
+        key_states_35 = view_52.transpose(1, 2)
+        view_52 = None
+        view_53 = value_states_34.view(1, 9, -1, 128)
+        value_states_34 = None
+        value_states_35 = view_53.transpose(1, 2)
+        view_53 = None
+        split_34 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_204 = split_34[0]
+        x_205 = split_34[1]
+        x_206 = split_34[2]
+        x_207 = split_34[3]
+        x_208 = split_34[4]
+        x_209 = split_34[5]
+        split_34 = None
+        getitem_540 = x_204[0]
+        x_204 = None
+        getitem_541 = x_205[1]
+        x_205 = None
+        getitem_542 = x_206[2]
+        x_206 = None
+        getitem_543 = x_207[0]
+        x_207 = None
+        getitem_544 = x_208[1]
+        x_208 = None
+        getitem_545 = x_209[2]
+        x_209 = None
+        cat_69 = torch.cat(
+            [
+                getitem_540,
+                getitem_541,
+                getitem_542,
+                getitem_543,
+                getitem_544,
+                getitem_545,
+            ],
+            dim=-1,
+        )
+        getitem_540 = (
+            getitem_541
+        ) = getitem_542 = getitem_543 = getitem_544 = getitem_545 = None
+        cos_20 = cat_69.unsqueeze(1)
+        cat_69 = None
+        split_35 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_210 = split_35[0]
+        x_211 = split_35[1]
+        x_212 = split_35[2]
+        x_213 = split_35[3]
+        x_214 = split_35[4]
+        x_215 = split_35[5]
+        split_35 = None
+        getitem_552 = x_210[0]
+        x_210 = None
+        getitem_553 = x_211[1]
+        x_211 = None
+        getitem_554 = x_212[2]
+        x_212 = None
+        getitem_555 = x_213[0]
+        x_213 = None
+        getitem_556 = x_214[1]
+        x_214 = None
+        getitem_557 = x_215[2]
+        x_215 = None
+        cat_70 = torch.cat(
+            [
+                getitem_552,
+                getitem_553,
+                getitem_554,
+                getitem_555,
+                getitem_556,
+                getitem_557,
+            ],
+            dim=-1,
+        )
+        getitem_552 = (
+            getitem_553
+        ) = getitem_554 = getitem_555 = getitem_556 = getitem_557 = None
+        sin_20 = cat_70.unsqueeze(1)
+        cat_70 = None
+        mul_157 = query_states_35 * cos_20
+        x1_34 = query_states_35[(Ellipsis, slice(None, 64, None))]
+        x2_34 = query_states_35[(Ellipsis, slice(64, None, None))]
+        query_states_35 = None
+        neg_34 = -x2_34
+        x2_34 = None
+        cat_71 = torch.cat((neg_34, x1_34), dim=-1)
+        neg_34 = x1_34 = None
+        mul_158 = cat_71 * sin_20
+        cat_71 = None
+        q_embed_17 = mul_157 + mul_158
+        mul_157 = mul_158 = None
+        mul_159 = key_states_35 * cos_20
+        cos_20 = None
+        x1_35 = key_states_35[(Ellipsis, slice(None, 64, None))]
+        x2_35 = key_states_35[(Ellipsis, slice(64, None, None))]
+        key_states_35 = None
+        neg_35 = -x2_35
+        x2_35 = None
+        cat_72 = torch.cat((neg_35, x1_35), dim=-1)
+        neg_35 = x1_35 = None
+        mul_160 = cat_72 * sin_20
+        cat_72 = sin_20 = None
+        k_embed_17 = mul_159 + mul_160
+        mul_159 = mul_160 = None
+        getitem_562 = k_embed_17[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_17 = None
+        hidden_states_173 = getitem_562.expand(1, 2, 6, 9, 128)
+        getitem_562 = None
+        key_34 = hidden_states_173.reshape(1, 12, 9, 128)
+        hidden_states_173 = None
+        getitem_563 = value_states_35[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_35 = None
+        hidden_states_174 = getitem_563.expand(1, 2, 6, 9, 128)
+        getitem_563 = None
+        value_34 = hidden_states_174.reshape(1, 12, 9, 128)
+        hidden_states_174 = None
+        attention_mask_18 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_17 = q_embed_17.contiguous()
+        q_embed_17 = None
+        key_35 = key_34.contiguous()
+        key_34 = None
+        value_35 = value_34.contiguous()
+        value_34 = None
+        attn_output_68 = torch._C._nn.scaled_dot_product_attention(
+            query_17,
+            key_35,
+            value_35,
+            attn_mask=attention_mask_18,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_17 = key_35 = value_35 = attention_mask_18 = None
+        transpose_72 = attn_output_68.transpose(1, 2)
+        attn_output_68 = None
+        attn_output_69 = transpose_72.contiguous()
+        transpose_72 = None
+        reshape_53 = attn_output_69.reshape(1, 9, -1)
+        attn_output_69 = None
+        attn_output_70 = reshape_53.contiguous()
+        reshape_53 = None
+        attn_output_71 = torch._C._nn.linear(
+            attn_output_70,
+            l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_70 = l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_175 = hidden_states_169 + attn_output_71
+        hidden_states_169 = attn_output_71 = None
+        hidden_states_176 = hidden_states_175.to(torch.float32)
+        pow_36 = hidden_states_176.pow(2)
+        variance_35 = pow_36.mean(-1, keepdim=True)
+        pow_36 = None
+        add_107 = variance_35 + 1e-06
+        variance_35 = None
+        rsqrt_35 = torch.rsqrt(add_107)
+        add_107 = None
+        hidden_states_177 = hidden_states_176 * rsqrt_35
+        hidden_states_176 = rsqrt_35 = None
+        to_75 = hidden_states_177.to(torch.bfloat16)
+        hidden_states_177 = None
+        hidden_states_178 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_post_attention_layernorm_parameters_weight_
+            * to_75
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_post_attention_layernorm_parameters_weight_ = (
+            to_75
+        ) = None
+        linear_123 = torch._C._nn.linear(
+            hidden_states_178,
+            l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_17 = torch.nn.functional.silu(linear_123, inplace=False)
+        linear_123 = None
+        linear_124 = torch._C._nn.linear(
+            hidden_states_178,
+            l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_178 = l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_163 = silu_17 * linear_124
+        silu_17 = linear_124 = None
+        down_proj_17 = torch._C._nn.linear(
+            mul_163,
+            l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_163 = l_self_modules_model_modules_language_model_modules_layers_modules_17_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_179 = hidden_states_175 + down_proj_17
+        hidden_states_175 = down_proj_17 = None
+        hidden_states_180 = hidden_states_179.to(torch.float32)
+        pow_37 = hidden_states_180.pow(2)
+        variance_36 = pow_37.mean(-1, keepdim=True)
+        pow_37 = None
+        add_109 = variance_36 + 1e-06
+        variance_36 = None
+        rsqrt_36 = torch.rsqrt(add_109)
+        add_109 = None
+        hidden_states_181 = hidden_states_180 * rsqrt_36
+        hidden_states_180 = rsqrt_36 = None
+        to_77 = hidden_states_181.to(torch.bfloat16)
+        hidden_states_181 = None
+        hidden_states_182 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_input_layernorm_parameters_weight_
+            * to_77
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_input_layernorm_parameters_weight_ = (
+            to_77
+        ) = None
+        query_states_36 = torch._C._nn.linear(
+            hidden_states_182,
+            l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_36 = torch._C._nn.linear(
+            hidden_states_182,
+            l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_36 = torch._C._nn.linear(
+            hidden_states_182,
+            l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_182 = l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_54 = query_states_36.view(1, 9, -1, 128)
+        query_states_36 = None
+        query_states_37 = view_54.transpose(1, 2)
+        view_54 = None
+        view_55 = key_states_36.view(1, 9, -1, 128)
+        key_states_36 = None
+        key_states_37 = view_55.transpose(1, 2)
+        view_55 = None
+        view_56 = value_states_36.view(1, 9, -1, 128)
+        value_states_36 = None
+        value_states_37 = view_56.transpose(1, 2)
+        view_56 = None
+        split_36 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_216 = split_36[0]
+        x_217 = split_36[1]
+        x_218 = split_36[2]
+        x_219 = split_36[3]
+        x_220 = split_36[4]
+        x_221 = split_36[5]
+        split_36 = None
+        getitem_571 = x_216[0]
+        x_216 = None
+        getitem_572 = x_217[1]
+        x_217 = None
+        getitem_573 = x_218[2]
+        x_218 = None
+        getitem_574 = x_219[0]
+        x_219 = None
+        getitem_575 = x_220[1]
+        x_220 = None
+        getitem_576 = x_221[2]
+        x_221 = None
+        cat_73 = torch.cat(
+            [
+                getitem_571,
+                getitem_572,
+                getitem_573,
+                getitem_574,
+                getitem_575,
+                getitem_576,
+            ],
+            dim=-1,
+        )
+        getitem_571 = (
+            getitem_572
+        ) = getitem_573 = getitem_574 = getitem_575 = getitem_576 = None
+        cos_21 = cat_73.unsqueeze(1)
+        cat_73 = None
+        split_37 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_222 = split_37[0]
+        x_223 = split_37[1]
+        x_224 = split_37[2]
+        x_225 = split_37[3]
+        x_226 = split_37[4]
+        x_227 = split_37[5]
+        split_37 = None
+        getitem_583 = x_222[0]
+        x_222 = None
+        getitem_584 = x_223[1]
+        x_223 = None
+        getitem_585 = x_224[2]
+        x_224 = None
+        getitem_586 = x_225[0]
+        x_225 = None
+        getitem_587 = x_226[1]
+        x_226 = None
+        getitem_588 = x_227[2]
+        x_227 = None
+        cat_74 = torch.cat(
+            [
+                getitem_583,
+                getitem_584,
+                getitem_585,
+                getitem_586,
+                getitem_587,
+                getitem_588,
+            ],
+            dim=-1,
+        )
+        getitem_583 = (
+            getitem_584
+        ) = getitem_585 = getitem_586 = getitem_587 = getitem_588 = None
+        sin_21 = cat_74.unsqueeze(1)
+        cat_74 = None
+        mul_166 = query_states_37 * cos_21
+        x1_36 = query_states_37[(Ellipsis, slice(None, 64, None))]
+        x2_36 = query_states_37[(Ellipsis, slice(64, None, None))]
+        query_states_37 = None
+        neg_36 = -x2_36
+        x2_36 = None
+        cat_75 = torch.cat((neg_36, x1_36), dim=-1)
+        neg_36 = x1_36 = None
+        mul_167 = cat_75 * sin_21
+        cat_75 = None
+        q_embed_18 = mul_166 + mul_167
+        mul_166 = mul_167 = None
+        mul_168 = key_states_37 * cos_21
+        cos_21 = None
+        x1_37 = key_states_37[(Ellipsis, slice(None, 64, None))]
+        x2_37 = key_states_37[(Ellipsis, slice(64, None, None))]
+        key_states_37 = None
+        neg_37 = -x2_37
+        x2_37 = None
+        cat_76 = torch.cat((neg_37, x1_37), dim=-1)
+        neg_37 = x1_37 = None
+        mul_169 = cat_76 * sin_21
+        cat_76 = sin_21 = None
+        k_embed_18 = mul_168 + mul_169
+        mul_168 = mul_169 = None
+        getitem_593 = k_embed_18[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_18 = None
+        hidden_states_183 = getitem_593.expand(1, 2, 6, 9, 128)
+        getitem_593 = None
+        key_36 = hidden_states_183.reshape(1, 12, 9, 128)
+        hidden_states_183 = None
+        getitem_594 = value_states_37[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_37 = None
+        hidden_states_184 = getitem_594.expand(1, 2, 6, 9, 128)
+        getitem_594 = None
+        value_36 = hidden_states_184.reshape(1, 12, 9, 128)
+        hidden_states_184 = None
+        attention_mask_19 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_18 = q_embed_18.contiguous()
+        q_embed_18 = None
+        key_37 = key_36.contiguous()
+        key_36 = None
+        value_37 = value_36.contiguous()
+        value_36 = None
+        attn_output_72 = torch._C._nn.scaled_dot_product_attention(
+            query_18,
+            key_37,
+            value_37,
+            attn_mask=attention_mask_19,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_18 = key_37 = value_37 = attention_mask_19 = None
+        transpose_76 = attn_output_72.transpose(1, 2)
+        attn_output_72 = None
+        attn_output_73 = transpose_76.contiguous()
+        transpose_76 = None
+        reshape_56 = attn_output_73.reshape(1, 9, -1)
+        attn_output_73 = None
+        attn_output_74 = reshape_56.contiguous()
+        reshape_56 = None
+        attn_output_75 = torch._C._nn.linear(
+            attn_output_74,
+            l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_74 = l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_185 = hidden_states_179 + attn_output_75
+        hidden_states_179 = attn_output_75 = None
+        hidden_states_186 = hidden_states_185.to(torch.float32)
+        pow_38 = hidden_states_186.pow(2)
+        variance_37 = pow_38.mean(-1, keepdim=True)
+        pow_38 = None
+        add_113 = variance_37 + 1e-06
+        variance_37 = None
+        rsqrt_37 = torch.rsqrt(add_113)
+        add_113 = None
+        hidden_states_187 = hidden_states_186 * rsqrt_37
+        hidden_states_186 = rsqrt_37 = None
+        to_79 = hidden_states_187.to(torch.bfloat16)
+        hidden_states_187 = None
+        hidden_states_188 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_post_attention_layernorm_parameters_weight_
+            * to_79
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_post_attention_layernorm_parameters_weight_ = (
+            to_79
+        ) = None
+        linear_130 = torch._C._nn.linear(
+            hidden_states_188,
+            l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_18 = torch.nn.functional.silu(linear_130, inplace=False)
+        linear_130 = None
+        linear_131 = torch._C._nn.linear(
+            hidden_states_188,
+            l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_188 = l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_172 = silu_18 * linear_131
+        silu_18 = linear_131 = None
+        down_proj_18 = torch._C._nn.linear(
+            mul_172,
+            l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_172 = l_self_modules_model_modules_language_model_modules_layers_modules_18_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_189 = hidden_states_185 + down_proj_18
+        hidden_states_185 = down_proj_18 = None
+        hidden_states_190 = hidden_states_189.to(torch.float32)
+        pow_39 = hidden_states_190.pow(2)
+        variance_38 = pow_39.mean(-1, keepdim=True)
+        pow_39 = None
+        add_115 = variance_38 + 1e-06
+        variance_38 = None
+        rsqrt_38 = torch.rsqrt(add_115)
+        add_115 = None
+        hidden_states_191 = hidden_states_190 * rsqrt_38
+        hidden_states_190 = rsqrt_38 = None
+        to_81 = hidden_states_191.to(torch.bfloat16)
+        hidden_states_191 = None
+        hidden_states_192 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_input_layernorm_parameters_weight_
+            * to_81
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_input_layernorm_parameters_weight_ = (
+            to_81
+        ) = None
+        query_states_38 = torch._C._nn.linear(
+            hidden_states_192,
+            l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_38 = torch._C._nn.linear(
+            hidden_states_192,
+            l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_38 = torch._C._nn.linear(
+            hidden_states_192,
+            l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_192 = l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_57 = query_states_38.view(1, 9, -1, 128)
+        query_states_38 = None
+        query_states_39 = view_57.transpose(1, 2)
+        view_57 = None
+        view_58 = key_states_38.view(1, 9, -1, 128)
+        key_states_38 = None
+        key_states_39 = view_58.transpose(1, 2)
+        view_58 = None
+        view_59 = value_states_38.view(1, 9, -1, 128)
+        value_states_38 = None
+        value_states_39 = view_59.transpose(1, 2)
+        view_59 = None
+        split_38 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_228 = split_38[0]
+        x_229 = split_38[1]
+        x_230 = split_38[2]
+        x_231 = split_38[3]
+        x_232 = split_38[4]
+        x_233 = split_38[5]
+        split_38 = None
+        getitem_602 = x_228[0]
+        x_228 = None
+        getitem_603 = x_229[1]
+        x_229 = None
+        getitem_604 = x_230[2]
+        x_230 = None
+        getitem_605 = x_231[0]
+        x_231 = None
+        getitem_606 = x_232[1]
+        x_232 = None
+        getitem_607 = x_233[2]
+        x_233 = None
+        cat_77 = torch.cat(
+            [
+                getitem_602,
+                getitem_603,
+                getitem_604,
+                getitem_605,
+                getitem_606,
+                getitem_607,
+            ],
+            dim=-1,
+        )
+        getitem_602 = (
+            getitem_603
+        ) = getitem_604 = getitem_605 = getitem_606 = getitem_607 = None
+        cos_22 = cat_77.unsqueeze(1)
+        cat_77 = None
+        split_39 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_234 = split_39[0]
+        x_235 = split_39[1]
+        x_236 = split_39[2]
+        x_237 = split_39[3]
+        x_238 = split_39[4]
+        x_239 = split_39[5]
+        split_39 = None
+        getitem_614 = x_234[0]
+        x_234 = None
+        getitem_615 = x_235[1]
+        x_235 = None
+        getitem_616 = x_236[2]
+        x_236 = None
+        getitem_617 = x_237[0]
+        x_237 = None
+        getitem_618 = x_238[1]
+        x_238 = None
+        getitem_619 = x_239[2]
+        x_239 = None
+        cat_78 = torch.cat(
+            [
+                getitem_614,
+                getitem_615,
+                getitem_616,
+                getitem_617,
+                getitem_618,
+                getitem_619,
+            ],
+            dim=-1,
+        )
+        getitem_614 = (
+            getitem_615
+        ) = getitem_616 = getitem_617 = getitem_618 = getitem_619 = None
+        sin_22 = cat_78.unsqueeze(1)
+        cat_78 = None
+        mul_175 = query_states_39 * cos_22
+        x1_38 = query_states_39[(Ellipsis, slice(None, 64, None))]
+        x2_38 = query_states_39[(Ellipsis, slice(64, None, None))]
+        query_states_39 = None
+        neg_38 = -x2_38
+        x2_38 = None
+        cat_79 = torch.cat((neg_38, x1_38), dim=-1)
+        neg_38 = x1_38 = None
+        mul_176 = cat_79 * sin_22
+        cat_79 = None
+        q_embed_19 = mul_175 + mul_176
+        mul_175 = mul_176 = None
+        mul_177 = key_states_39 * cos_22
+        cos_22 = None
+        x1_39 = key_states_39[(Ellipsis, slice(None, 64, None))]
+        x2_39 = key_states_39[(Ellipsis, slice(64, None, None))]
+        key_states_39 = None
+        neg_39 = -x2_39
+        x2_39 = None
+        cat_80 = torch.cat((neg_39, x1_39), dim=-1)
+        neg_39 = x1_39 = None
+        mul_178 = cat_80 * sin_22
+        cat_80 = sin_22 = None
+        k_embed_19 = mul_177 + mul_178
+        mul_177 = mul_178 = None
+        getitem_624 = k_embed_19[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_19 = None
+        hidden_states_193 = getitem_624.expand(1, 2, 6, 9, 128)
+        getitem_624 = None
+        key_38 = hidden_states_193.reshape(1, 12, 9, 128)
+        hidden_states_193 = None
+        getitem_625 = value_states_39[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_39 = None
+        hidden_states_194 = getitem_625.expand(1, 2, 6, 9, 128)
+        getitem_625 = None
+        value_38 = hidden_states_194.reshape(1, 12, 9, 128)
+        hidden_states_194 = None
+        attention_mask_20 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_19 = q_embed_19.contiguous()
+        q_embed_19 = None
+        key_39 = key_38.contiguous()
+        key_38 = None
+        value_39 = value_38.contiguous()
+        value_38 = None
+        attn_output_76 = torch._C._nn.scaled_dot_product_attention(
+            query_19,
+            key_39,
+            value_39,
+            attn_mask=attention_mask_20,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_19 = key_39 = value_39 = attention_mask_20 = None
+        transpose_80 = attn_output_76.transpose(1, 2)
+        attn_output_76 = None
+        attn_output_77 = transpose_80.contiguous()
+        transpose_80 = None
+        reshape_59 = attn_output_77.reshape(1, 9, -1)
+        attn_output_77 = None
+        attn_output_78 = reshape_59.contiguous()
+        reshape_59 = None
+        attn_output_79 = torch._C._nn.linear(
+            attn_output_78,
+            l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_78 = l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_195 = hidden_states_189 + attn_output_79
+        hidden_states_189 = attn_output_79 = None
+        hidden_states_196 = hidden_states_195.to(torch.float32)
+        pow_40 = hidden_states_196.pow(2)
+        variance_39 = pow_40.mean(-1, keepdim=True)
+        pow_40 = None
+        add_119 = variance_39 + 1e-06
+        variance_39 = None
+        rsqrt_39 = torch.rsqrt(add_119)
+        add_119 = None
+        hidden_states_197 = hidden_states_196 * rsqrt_39
+        hidden_states_196 = rsqrt_39 = None
+        to_83 = hidden_states_197.to(torch.bfloat16)
+        hidden_states_197 = None
+        hidden_states_198 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_post_attention_layernorm_parameters_weight_
+            * to_83
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_post_attention_layernorm_parameters_weight_ = (
+            to_83
+        ) = None
+        linear_137 = torch._C._nn.linear(
+            hidden_states_198,
+            l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_19 = torch.nn.functional.silu(linear_137, inplace=False)
+        linear_137 = None
+        linear_138 = torch._C._nn.linear(
+            hidden_states_198,
+            l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_198 = l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_181 = silu_19 * linear_138
+        silu_19 = linear_138 = None
+        down_proj_19 = torch._C._nn.linear(
+            mul_181,
+            l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_181 = l_self_modules_model_modules_language_model_modules_layers_modules_19_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_199 = hidden_states_195 + down_proj_19
+        hidden_states_195 = down_proj_19 = None
+        hidden_states_200 = hidden_states_199.to(torch.float32)
+        pow_41 = hidden_states_200.pow(2)
+        variance_40 = pow_41.mean(-1, keepdim=True)
+        pow_41 = None
+        add_121 = variance_40 + 1e-06
+        variance_40 = None
+        rsqrt_40 = torch.rsqrt(add_121)
+        add_121 = None
+        hidden_states_201 = hidden_states_200 * rsqrt_40
+        hidden_states_200 = rsqrt_40 = None
+        to_85 = hidden_states_201.to(torch.bfloat16)
+        hidden_states_201 = None
+        hidden_states_202 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_input_layernorm_parameters_weight_
+            * to_85
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_input_layernorm_parameters_weight_ = (
+            to_85
+        ) = None
+        query_states_40 = torch._C._nn.linear(
+            hidden_states_202,
+            l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_40 = torch._C._nn.linear(
+            hidden_states_202,
+            l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_40 = torch._C._nn.linear(
+            hidden_states_202,
+            l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_202 = l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_60 = query_states_40.view(1, 9, -1, 128)
+        query_states_40 = None
+        query_states_41 = view_60.transpose(1, 2)
+        view_60 = None
+        view_61 = key_states_40.view(1, 9, -1, 128)
+        key_states_40 = None
+        key_states_41 = view_61.transpose(1, 2)
+        view_61 = None
+        view_62 = value_states_40.view(1, 9, -1, 128)
+        value_states_40 = None
+        value_states_41 = view_62.transpose(1, 2)
+        view_62 = None
+        split_40 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_240 = split_40[0]
+        x_241 = split_40[1]
+        x_242 = split_40[2]
+        x_243 = split_40[3]
+        x_244 = split_40[4]
+        x_245 = split_40[5]
+        split_40 = None
+        getitem_633 = x_240[0]
+        x_240 = None
+        getitem_634 = x_241[1]
+        x_241 = None
+        getitem_635 = x_242[2]
+        x_242 = None
+        getitem_636 = x_243[0]
+        x_243 = None
+        getitem_637 = x_244[1]
+        x_244 = None
+        getitem_638 = x_245[2]
+        x_245 = None
+        cat_81 = torch.cat(
+            [
+                getitem_633,
+                getitem_634,
+                getitem_635,
+                getitem_636,
+                getitem_637,
+                getitem_638,
+            ],
+            dim=-1,
+        )
+        getitem_633 = (
+            getitem_634
+        ) = getitem_635 = getitem_636 = getitem_637 = getitem_638 = None
+        cos_23 = cat_81.unsqueeze(1)
+        cat_81 = None
+        split_41 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_246 = split_41[0]
+        x_247 = split_41[1]
+        x_248 = split_41[2]
+        x_249 = split_41[3]
+        x_250 = split_41[4]
+        x_251 = split_41[5]
+        split_41 = None
+        getitem_645 = x_246[0]
+        x_246 = None
+        getitem_646 = x_247[1]
+        x_247 = None
+        getitem_647 = x_248[2]
+        x_248 = None
+        getitem_648 = x_249[0]
+        x_249 = None
+        getitem_649 = x_250[1]
+        x_250 = None
+        getitem_650 = x_251[2]
+        x_251 = None
+        cat_82 = torch.cat(
+            [
+                getitem_645,
+                getitem_646,
+                getitem_647,
+                getitem_648,
+                getitem_649,
+                getitem_650,
+            ],
+            dim=-1,
+        )
+        getitem_645 = (
+            getitem_646
+        ) = getitem_647 = getitem_648 = getitem_649 = getitem_650 = None
+        sin_23 = cat_82.unsqueeze(1)
+        cat_82 = None
+        mul_184 = query_states_41 * cos_23
+        x1_40 = query_states_41[(Ellipsis, slice(None, 64, None))]
+        x2_40 = query_states_41[(Ellipsis, slice(64, None, None))]
+        query_states_41 = None
+        neg_40 = -x2_40
+        x2_40 = None
+        cat_83 = torch.cat((neg_40, x1_40), dim=-1)
+        neg_40 = x1_40 = None
+        mul_185 = cat_83 * sin_23
+        cat_83 = None
+        q_embed_20 = mul_184 + mul_185
+        mul_184 = mul_185 = None
+        mul_186 = key_states_41 * cos_23
+        cos_23 = None
+        x1_41 = key_states_41[(Ellipsis, slice(None, 64, None))]
+        x2_41 = key_states_41[(Ellipsis, slice(64, None, None))]
+        key_states_41 = None
+        neg_41 = -x2_41
+        x2_41 = None
+        cat_84 = torch.cat((neg_41, x1_41), dim=-1)
+        neg_41 = x1_41 = None
+        mul_187 = cat_84 * sin_23
+        cat_84 = sin_23 = None
+        k_embed_20 = mul_186 + mul_187
+        mul_186 = mul_187 = None
+        getitem_655 = k_embed_20[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_20 = None
+        hidden_states_203 = getitem_655.expand(1, 2, 6, 9, 128)
+        getitem_655 = None
+        key_40 = hidden_states_203.reshape(1, 12, 9, 128)
+        hidden_states_203 = None
+        getitem_656 = value_states_41[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_41 = None
+        hidden_states_204 = getitem_656.expand(1, 2, 6, 9, 128)
+        getitem_656 = None
+        value_40 = hidden_states_204.reshape(1, 12, 9, 128)
+        hidden_states_204 = None
+        attention_mask_21 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_20 = q_embed_20.contiguous()
+        q_embed_20 = None
+        key_41 = key_40.contiguous()
+        key_40 = None
+        value_41 = value_40.contiguous()
+        value_40 = None
+        attn_output_80 = torch._C._nn.scaled_dot_product_attention(
+            query_20,
+            key_41,
+            value_41,
+            attn_mask=attention_mask_21,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_20 = key_41 = value_41 = attention_mask_21 = None
+        transpose_84 = attn_output_80.transpose(1, 2)
+        attn_output_80 = None
+        attn_output_81 = transpose_84.contiguous()
+        transpose_84 = None
+        reshape_62 = attn_output_81.reshape(1, 9, -1)
+        attn_output_81 = None
+        attn_output_82 = reshape_62.contiguous()
+        reshape_62 = None
+        attn_output_83 = torch._C._nn.linear(
+            attn_output_82,
+            l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_82 = l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_205 = hidden_states_199 + attn_output_83
+        hidden_states_199 = attn_output_83 = None
+        hidden_states_206 = hidden_states_205.to(torch.float32)
+        pow_42 = hidden_states_206.pow(2)
+        variance_41 = pow_42.mean(-1, keepdim=True)
+        pow_42 = None
+        add_125 = variance_41 + 1e-06
+        variance_41 = None
+        rsqrt_41 = torch.rsqrt(add_125)
+        add_125 = None
+        hidden_states_207 = hidden_states_206 * rsqrt_41
+        hidden_states_206 = rsqrt_41 = None
+        to_87 = hidden_states_207.to(torch.bfloat16)
+        hidden_states_207 = None
+        hidden_states_208 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_post_attention_layernorm_parameters_weight_
+            * to_87
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_post_attention_layernorm_parameters_weight_ = (
+            to_87
+        ) = None
+        linear_144 = torch._C._nn.linear(
+            hidden_states_208,
+            l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_20 = torch.nn.functional.silu(linear_144, inplace=False)
+        linear_144 = None
+        linear_145 = torch._C._nn.linear(
+            hidden_states_208,
+            l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_208 = l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_190 = silu_20 * linear_145
+        silu_20 = linear_145 = None
+        down_proj_20 = torch._C._nn.linear(
+            mul_190,
+            l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_190 = l_self_modules_model_modules_language_model_modules_layers_modules_20_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_209 = hidden_states_205 + down_proj_20
+        hidden_states_205 = down_proj_20 = None
+        hidden_states_210 = hidden_states_209.to(torch.float32)
+        pow_43 = hidden_states_210.pow(2)
+        variance_42 = pow_43.mean(-1, keepdim=True)
+        pow_43 = None
+        add_127 = variance_42 + 1e-06
+        variance_42 = None
+        rsqrt_42 = torch.rsqrt(add_127)
+        add_127 = None
+        hidden_states_211 = hidden_states_210 * rsqrt_42
+        hidden_states_210 = rsqrt_42 = None
+        to_89 = hidden_states_211.to(torch.bfloat16)
+        hidden_states_211 = None
+        hidden_states_212 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_input_layernorm_parameters_weight_
+            * to_89
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_input_layernorm_parameters_weight_ = (
+            to_89
+        ) = None
+        query_states_42 = torch._C._nn.linear(
+            hidden_states_212,
+            l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_42 = torch._C._nn.linear(
+            hidden_states_212,
+            l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_42 = torch._C._nn.linear(
+            hidden_states_212,
+            l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_212 = l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_63 = query_states_42.view(1, 9, -1, 128)
+        query_states_42 = None
+        query_states_43 = view_63.transpose(1, 2)
+        view_63 = None
+        view_64 = key_states_42.view(1, 9, -1, 128)
+        key_states_42 = None
+        key_states_43 = view_64.transpose(1, 2)
+        view_64 = None
+        view_65 = value_states_42.view(1, 9, -1, 128)
+        value_states_42 = None
+        value_states_43 = view_65.transpose(1, 2)
+        view_65 = None
+        split_42 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_252 = split_42[0]
+        x_253 = split_42[1]
+        x_254 = split_42[2]
+        x_255 = split_42[3]
+        x_256 = split_42[4]
+        x_257 = split_42[5]
+        split_42 = None
+        getitem_664 = x_252[0]
+        x_252 = None
+        getitem_665 = x_253[1]
+        x_253 = None
+        getitem_666 = x_254[2]
+        x_254 = None
+        getitem_667 = x_255[0]
+        x_255 = None
+        getitem_668 = x_256[1]
+        x_256 = None
+        getitem_669 = x_257[2]
+        x_257 = None
+        cat_85 = torch.cat(
+            [
+                getitem_664,
+                getitem_665,
+                getitem_666,
+                getitem_667,
+                getitem_668,
+                getitem_669,
+            ],
+            dim=-1,
+        )
+        getitem_664 = (
+            getitem_665
+        ) = getitem_666 = getitem_667 = getitem_668 = getitem_669 = None
+        cos_24 = cat_85.unsqueeze(1)
+        cat_85 = None
+        split_43 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_258 = split_43[0]
+        x_259 = split_43[1]
+        x_260 = split_43[2]
+        x_261 = split_43[3]
+        x_262 = split_43[4]
+        x_263 = split_43[5]
+        split_43 = None
+        getitem_676 = x_258[0]
+        x_258 = None
+        getitem_677 = x_259[1]
+        x_259 = None
+        getitem_678 = x_260[2]
+        x_260 = None
+        getitem_679 = x_261[0]
+        x_261 = None
+        getitem_680 = x_262[1]
+        x_262 = None
+        getitem_681 = x_263[2]
+        x_263 = None
+        cat_86 = torch.cat(
+            [
+                getitem_676,
+                getitem_677,
+                getitem_678,
+                getitem_679,
+                getitem_680,
+                getitem_681,
+            ],
+            dim=-1,
+        )
+        getitem_676 = (
+            getitem_677
+        ) = getitem_678 = getitem_679 = getitem_680 = getitem_681 = None
+        sin_24 = cat_86.unsqueeze(1)
+        cat_86 = None
+        mul_193 = query_states_43 * cos_24
+        x1_42 = query_states_43[(Ellipsis, slice(None, 64, None))]
+        x2_42 = query_states_43[(Ellipsis, slice(64, None, None))]
+        query_states_43 = None
+        neg_42 = -x2_42
+        x2_42 = None
+        cat_87 = torch.cat((neg_42, x1_42), dim=-1)
+        neg_42 = x1_42 = None
+        mul_194 = cat_87 * sin_24
+        cat_87 = None
+        q_embed_21 = mul_193 + mul_194
+        mul_193 = mul_194 = None
+        mul_195 = key_states_43 * cos_24
+        cos_24 = None
+        x1_43 = key_states_43[(Ellipsis, slice(None, 64, None))]
+        x2_43 = key_states_43[(Ellipsis, slice(64, None, None))]
+        key_states_43 = None
+        neg_43 = -x2_43
+        x2_43 = None
+        cat_88 = torch.cat((neg_43, x1_43), dim=-1)
+        neg_43 = x1_43 = None
+        mul_196 = cat_88 * sin_24
+        cat_88 = sin_24 = None
+        k_embed_21 = mul_195 + mul_196
+        mul_195 = mul_196 = None
+        getitem_686 = k_embed_21[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_21 = None
+        hidden_states_213 = getitem_686.expand(1, 2, 6, 9, 128)
+        getitem_686 = None
+        key_42 = hidden_states_213.reshape(1, 12, 9, 128)
+        hidden_states_213 = None
+        getitem_687 = value_states_43[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_43 = None
+        hidden_states_214 = getitem_687.expand(1, 2, 6, 9, 128)
+        getitem_687 = None
+        value_42 = hidden_states_214.reshape(1, 12, 9, 128)
+        hidden_states_214 = None
+        attention_mask_22 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_21 = q_embed_21.contiguous()
+        q_embed_21 = None
+        key_43 = key_42.contiguous()
+        key_42 = None
+        value_43 = value_42.contiguous()
+        value_42 = None
+        attn_output_84 = torch._C._nn.scaled_dot_product_attention(
+            query_21,
+            key_43,
+            value_43,
+            attn_mask=attention_mask_22,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_21 = key_43 = value_43 = attention_mask_22 = None
+        transpose_88 = attn_output_84.transpose(1, 2)
+        attn_output_84 = None
+        attn_output_85 = transpose_88.contiguous()
+        transpose_88 = None
+        reshape_65 = attn_output_85.reshape(1, 9, -1)
+        attn_output_85 = None
+        attn_output_86 = reshape_65.contiguous()
+        reshape_65 = None
+        attn_output_87 = torch._C._nn.linear(
+            attn_output_86,
+            l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_86 = l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_215 = hidden_states_209 + attn_output_87
+        hidden_states_209 = attn_output_87 = None
+        hidden_states_216 = hidden_states_215.to(torch.float32)
+        pow_44 = hidden_states_216.pow(2)
+        variance_43 = pow_44.mean(-1, keepdim=True)
+        pow_44 = None
+        add_131 = variance_43 + 1e-06
+        variance_43 = None
+        rsqrt_43 = torch.rsqrt(add_131)
+        add_131 = None
+        hidden_states_217 = hidden_states_216 * rsqrt_43
+        hidden_states_216 = rsqrt_43 = None
+        to_91 = hidden_states_217.to(torch.bfloat16)
+        hidden_states_217 = None
+        hidden_states_218 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_post_attention_layernorm_parameters_weight_
+            * to_91
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_post_attention_layernorm_parameters_weight_ = (
+            to_91
+        ) = None
+        linear_151 = torch._C._nn.linear(
+            hidden_states_218,
+            l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_21 = torch.nn.functional.silu(linear_151, inplace=False)
+        linear_151 = None
+        linear_152 = torch._C._nn.linear(
+            hidden_states_218,
+            l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_218 = l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_199 = silu_21 * linear_152
+        silu_21 = linear_152 = None
+        down_proj_21 = torch._C._nn.linear(
+            mul_199,
+            l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_199 = l_self_modules_model_modules_language_model_modules_layers_modules_21_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_219 = hidden_states_215 + down_proj_21
+        hidden_states_215 = down_proj_21 = None
+        hidden_states_220 = hidden_states_219.to(torch.float32)
+        pow_45 = hidden_states_220.pow(2)
+        variance_44 = pow_45.mean(-1, keepdim=True)
+        pow_45 = None
+        add_133 = variance_44 + 1e-06
+        variance_44 = None
+        rsqrt_44 = torch.rsqrt(add_133)
+        add_133 = None
+        hidden_states_221 = hidden_states_220 * rsqrt_44
+        hidden_states_220 = rsqrt_44 = None
+        to_93 = hidden_states_221.to(torch.bfloat16)
+        hidden_states_221 = None
+        hidden_states_222 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_input_layernorm_parameters_weight_
+            * to_93
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_input_layernorm_parameters_weight_ = (
+            to_93
+        ) = None
+        query_states_44 = torch._C._nn.linear(
+            hidden_states_222,
+            l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_44 = torch._C._nn.linear(
+            hidden_states_222,
+            l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_44 = torch._C._nn.linear(
+            hidden_states_222,
+            l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_222 = l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_66 = query_states_44.view(1, 9, -1, 128)
+        query_states_44 = None
+        query_states_45 = view_66.transpose(1, 2)
+        view_66 = None
+        view_67 = key_states_44.view(1, 9, -1, 128)
+        key_states_44 = None
+        key_states_45 = view_67.transpose(1, 2)
+        view_67 = None
+        view_68 = value_states_44.view(1, 9, -1, 128)
+        value_states_44 = None
+        value_states_45 = view_68.transpose(1, 2)
+        view_68 = None
+        split_44 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_264 = split_44[0]
+        x_265 = split_44[1]
+        x_266 = split_44[2]
+        x_267 = split_44[3]
+        x_268 = split_44[4]
+        x_269 = split_44[5]
+        split_44 = None
+        getitem_695 = x_264[0]
+        x_264 = None
+        getitem_696 = x_265[1]
+        x_265 = None
+        getitem_697 = x_266[2]
+        x_266 = None
+        getitem_698 = x_267[0]
+        x_267 = None
+        getitem_699 = x_268[1]
+        x_268 = None
+        getitem_700 = x_269[2]
+        x_269 = None
+        cat_89 = torch.cat(
+            [
+                getitem_695,
+                getitem_696,
+                getitem_697,
+                getitem_698,
+                getitem_699,
+                getitem_700,
+            ],
+            dim=-1,
+        )
+        getitem_695 = (
+            getitem_696
+        ) = getitem_697 = getitem_698 = getitem_699 = getitem_700 = None
+        cos_25 = cat_89.unsqueeze(1)
+        cat_89 = None
+        split_45 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_270 = split_45[0]
+        x_271 = split_45[1]
+        x_272 = split_45[2]
+        x_273 = split_45[3]
+        x_274 = split_45[4]
+        x_275 = split_45[5]
+        split_45 = None
+        getitem_707 = x_270[0]
+        x_270 = None
+        getitem_708 = x_271[1]
+        x_271 = None
+        getitem_709 = x_272[2]
+        x_272 = None
+        getitem_710 = x_273[0]
+        x_273 = None
+        getitem_711 = x_274[1]
+        x_274 = None
+        getitem_712 = x_275[2]
+        x_275 = None
+        cat_90 = torch.cat(
+            [
+                getitem_707,
+                getitem_708,
+                getitem_709,
+                getitem_710,
+                getitem_711,
+                getitem_712,
+            ],
+            dim=-1,
+        )
+        getitem_707 = (
+            getitem_708
+        ) = getitem_709 = getitem_710 = getitem_711 = getitem_712 = None
+        sin_25 = cat_90.unsqueeze(1)
+        cat_90 = None
+        mul_202 = query_states_45 * cos_25
+        x1_44 = query_states_45[(Ellipsis, slice(None, 64, None))]
+        x2_44 = query_states_45[(Ellipsis, slice(64, None, None))]
+        query_states_45 = None
+        neg_44 = -x2_44
+        x2_44 = None
+        cat_91 = torch.cat((neg_44, x1_44), dim=-1)
+        neg_44 = x1_44 = None
+        mul_203 = cat_91 * sin_25
+        cat_91 = None
+        q_embed_22 = mul_202 + mul_203
+        mul_202 = mul_203 = None
+        mul_204 = key_states_45 * cos_25
+        cos_25 = None
+        x1_45 = key_states_45[(Ellipsis, slice(None, 64, None))]
+        x2_45 = key_states_45[(Ellipsis, slice(64, None, None))]
+        key_states_45 = None
+        neg_45 = -x2_45
+        x2_45 = None
+        cat_92 = torch.cat((neg_45, x1_45), dim=-1)
+        neg_45 = x1_45 = None
+        mul_205 = cat_92 * sin_25
+        cat_92 = sin_25 = None
+        k_embed_22 = mul_204 + mul_205
+        mul_204 = mul_205 = None
+        getitem_717 = k_embed_22[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_22 = None
+        hidden_states_223 = getitem_717.expand(1, 2, 6, 9, 128)
+        getitem_717 = None
+        key_44 = hidden_states_223.reshape(1, 12, 9, 128)
+        hidden_states_223 = None
+        getitem_718 = value_states_45[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_45 = None
+        hidden_states_224 = getitem_718.expand(1, 2, 6, 9, 128)
+        getitem_718 = None
+        value_44 = hidden_states_224.reshape(1, 12, 9, 128)
+        hidden_states_224 = None
+        attention_mask_23 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_22 = q_embed_22.contiguous()
+        q_embed_22 = None
+        key_45 = key_44.contiguous()
+        key_44 = None
+        value_45 = value_44.contiguous()
+        value_44 = None
+        attn_output_88 = torch._C._nn.scaled_dot_product_attention(
+            query_22,
+            key_45,
+            value_45,
+            attn_mask=attention_mask_23,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_22 = key_45 = value_45 = attention_mask_23 = None
+        transpose_92 = attn_output_88.transpose(1, 2)
+        attn_output_88 = None
+        attn_output_89 = transpose_92.contiguous()
+        transpose_92 = None
+        reshape_68 = attn_output_89.reshape(1, 9, -1)
+        attn_output_89 = None
+        attn_output_90 = reshape_68.contiguous()
+        reshape_68 = None
+        attn_output_91 = torch._C._nn.linear(
+            attn_output_90,
+            l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_90 = l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_225 = hidden_states_219 + attn_output_91
+        hidden_states_219 = attn_output_91 = None
+        hidden_states_226 = hidden_states_225.to(torch.float32)
+        pow_46 = hidden_states_226.pow(2)
+        variance_45 = pow_46.mean(-1, keepdim=True)
+        pow_46 = None
+        add_137 = variance_45 + 1e-06
+        variance_45 = None
+        rsqrt_45 = torch.rsqrt(add_137)
+        add_137 = None
+        hidden_states_227 = hidden_states_226 * rsqrt_45
+        hidden_states_226 = rsqrt_45 = None
+        to_95 = hidden_states_227.to(torch.bfloat16)
+        hidden_states_227 = None
+        hidden_states_228 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_post_attention_layernorm_parameters_weight_
+            * to_95
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_post_attention_layernorm_parameters_weight_ = (
+            to_95
+        ) = None
+        linear_158 = torch._C._nn.linear(
+            hidden_states_228,
+            l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_22 = torch.nn.functional.silu(linear_158, inplace=False)
+        linear_158 = None
+        linear_159 = torch._C._nn.linear(
+            hidden_states_228,
+            l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_228 = l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_208 = silu_22 * linear_159
+        silu_22 = linear_159 = None
+        down_proj_22 = torch._C._nn.linear(
+            mul_208,
+            l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_208 = l_self_modules_model_modules_language_model_modules_layers_modules_22_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_229 = hidden_states_225 + down_proj_22
+        hidden_states_225 = down_proj_22 = None
+        hidden_states_230 = hidden_states_229.to(torch.float32)
+        pow_47 = hidden_states_230.pow(2)
+        variance_46 = pow_47.mean(-1, keepdim=True)
+        pow_47 = None
+        add_139 = variance_46 + 1e-06
+        variance_46 = None
+        rsqrt_46 = torch.rsqrt(add_139)
+        add_139 = None
+        hidden_states_231 = hidden_states_230 * rsqrt_46
+        hidden_states_230 = rsqrt_46 = None
+        to_97 = hidden_states_231.to(torch.bfloat16)
+        hidden_states_231 = None
+        hidden_states_232 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_input_layernorm_parameters_weight_
+            * to_97
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_input_layernorm_parameters_weight_ = (
+            to_97
+        ) = None
+        query_states_46 = torch._C._nn.linear(
+            hidden_states_232,
+            l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_46 = torch._C._nn.linear(
+            hidden_states_232,
+            l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_46 = torch._C._nn.linear(
+            hidden_states_232,
+            l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_232 = l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_69 = query_states_46.view(1, 9, -1, 128)
+        query_states_46 = None
+        query_states_47 = view_69.transpose(1, 2)
+        view_69 = None
+        view_70 = key_states_46.view(1, 9, -1, 128)
+        key_states_46 = None
+        key_states_47 = view_70.transpose(1, 2)
+        view_70 = None
+        view_71 = value_states_46.view(1, 9, -1, 128)
+        value_states_46 = None
+        value_states_47 = view_71.transpose(1, 2)
+        view_71 = None
+        split_46 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_276 = split_46[0]
+        x_277 = split_46[1]
+        x_278 = split_46[2]
+        x_279 = split_46[3]
+        x_280 = split_46[4]
+        x_281 = split_46[5]
+        split_46 = None
+        getitem_726 = x_276[0]
+        x_276 = None
+        getitem_727 = x_277[1]
+        x_277 = None
+        getitem_728 = x_278[2]
+        x_278 = None
+        getitem_729 = x_279[0]
+        x_279 = None
+        getitem_730 = x_280[1]
+        x_280 = None
+        getitem_731 = x_281[2]
+        x_281 = None
+        cat_93 = torch.cat(
+            [
+                getitem_726,
+                getitem_727,
+                getitem_728,
+                getitem_729,
+                getitem_730,
+                getitem_731,
+            ],
+            dim=-1,
+        )
+        getitem_726 = (
+            getitem_727
+        ) = getitem_728 = getitem_729 = getitem_730 = getitem_731 = None
+        cos_26 = cat_93.unsqueeze(1)
+        cat_93 = None
+        split_47 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_282 = split_47[0]
+        x_283 = split_47[1]
+        x_284 = split_47[2]
+        x_285 = split_47[3]
+        x_286 = split_47[4]
+        x_287 = split_47[5]
+        split_47 = None
+        getitem_738 = x_282[0]
+        x_282 = None
+        getitem_739 = x_283[1]
+        x_283 = None
+        getitem_740 = x_284[2]
+        x_284 = None
+        getitem_741 = x_285[0]
+        x_285 = None
+        getitem_742 = x_286[1]
+        x_286 = None
+        getitem_743 = x_287[2]
+        x_287 = None
+        cat_94 = torch.cat(
+            [
+                getitem_738,
+                getitem_739,
+                getitem_740,
+                getitem_741,
+                getitem_742,
+                getitem_743,
+            ],
+            dim=-1,
+        )
+        getitem_738 = (
+            getitem_739
+        ) = getitem_740 = getitem_741 = getitem_742 = getitem_743 = None
+        sin_26 = cat_94.unsqueeze(1)
+        cat_94 = None
+        mul_211 = query_states_47 * cos_26
+        x1_46 = query_states_47[(Ellipsis, slice(None, 64, None))]
+        x2_46 = query_states_47[(Ellipsis, slice(64, None, None))]
+        query_states_47 = None
+        neg_46 = -x2_46
+        x2_46 = None
+        cat_95 = torch.cat((neg_46, x1_46), dim=-1)
+        neg_46 = x1_46 = None
+        mul_212 = cat_95 * sin_26
+        cat_95 = None
+        q_embed_23 = mul_211 + mul_212
+        mul_211 = mul_212 = None
+        mul_213 = key_states_47 * cos_26
+        cos_26 = None
+        x1_47 = key_states_47[(Ellipsis, slice(None, 64, None))]
+        x2_47 = key_states_47[(Ellipsis, slice(64, None, None))]
+        key_states_47 = None
+        neg_47 = -x2_47
+        x2_47 = None
+        cat_96 = torch.cat((neg_47, x1_47), dim=-1)
+        neg_47 = x1_47 = None
+        mul_214 = cat_96 * sin_26
+        cat_96 = sin_26 = None
+        k_embed_23 = mul_213 + mul_214
+        mul_213 = mul_214 = None
+        getitem_748 = k_embed_23[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_23 = None
+        hidden_states_233 = getitem_748.expand(1, 2, 6, 9, 128)
+        getitem_748 = None
+        key_46 = hidden_states_233.reshape(1, 12, 9, 128)
+        hidden_states_233 = None
+        getitem_749 = value_states_47[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_47 = None
+        hidden_states_234 = getitem_749.expand(1, 2, 6, 9, 128)
+        getitem_749 = None
+        value_46 = hidden_states_234.reshape(1, 12, 9, 128)
+        hidden_states_234 = None
+        attention_mask_24 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_23 = q_embed_23.contiguous()
+        q_embed_23 = None
+        key_47 = key_46.contiguous()
+        key_46 = None
+        value_47 = value_46.contiguous()
+        value_46 = None
+        attn_output_92 = torch._C._nn.scaled_dot_product_attention(
+            query_23,
+            key_47,
+            value_47,
+            attn_mask=attention_mask_24,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_23 = key_47 = value_47 = attention_mask_24 = None
+        transpose_96 = attn_output_92.transpose(1, 2)
+        attn_output_92 = None
+        attn_output_93 = transpose_96.contiguous()
+        transpose_96 = None
+        reshape_71 = attn_output_93.reshape(1, 9, -1)
+        attn_output_93 = None
+        attn_output_94 = reshape_71.contiguous()
+        reshape_71 = None
+        attn_output_95 = torch._C._nn.linear(
+            attn_output_94,
+            l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_94 = l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_235 = hidden_states_229 + attn_output_95
+        hidden_states_229 = attn_output_95 = None
+        hidden_states_236 = hidden_states_235.to(torch.float32)
+        pow_48 = hidden_states_236.pow(2)
+        variance_47 = pow_48.mean(-1, keepdim=True)
+        pow_48 = None
+        add_143 = variance_47 + 1e-06
+        variance_47 = None
+        rsqrt_47 = torch.rsqrt(add_143)
+        add_143 = None
+        hidden_states_237 = hidden_states_236 * rsqrt_47
+        hidden_states_236 = rsqrt_47 = None
+        to_99 = hidden_states_237.to(torch.bfloat16)
+        hidden_states_237 = None
+        hidden_states_238 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_post_attention_layernorm_parameters_weight_
+            * to_99
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_post_attention_layernorm_parameters_weight_ = (
+            to_99
+        ) = None
+        linear_165 = torch._C._nn.linear(
+            hidden_states_238,
+            l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_23 = torch.nn.functional.silu(linear_165, inplace=False)
+        linear_165 = None
+        linear_166 = torch._C._nn.linear(
+            hidden_states_238,
+            l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_238 = l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_217 = silu_23 * linear_166
+        silu_23 = linear_166 = None
+        down_proj_23 = torch._C._nn.linear(
+            mul_217,
+            l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_217 = l_self_modules_model_modules_language_model_modules_layers_modules_23_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_239 = hidden_states_235 + down_proj_23
+        hidden_states_235 = down_proj_23 = None
+        hidden_states_240 = hidden_states_239.to(torch.float32)
+        pow_49 = hidden_states_240.pow(2)
+        variance_48 = pow_49.mean(-1, keepdim=True)
+        pow_49 = None
+        add_145 = variance_48 + 1e-06
+        variance_48 = None
+        rsqrt_48 = torch.rsqrt(add_145)
+        add_145 = None
+        hidden_states_241 = hidden_states_240 * rsqrt_48
+        hidden_states_240 = rsqrt_48 = None
+        to_101 = hidden_states_241.to(torch.bfloat16)
+        hidden_states_241 = None
+        hidden_states_242 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_input_layernorm_parameters_weight_
+            * to_101
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_input_layernorm_parameters_weight_ = (
+            to_101
+        ) = None
+        query_states_48 = torch._C._nn.linear(
+            hidden_states_242,
+            l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_48 = torch._C._nn.linear(
+            hidden_states_242,
+            l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_48 = torch._C._nn.linear(
+            hidden_states_242,
+            l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_242 = l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_72 = query_states_48.view(1, 9, -1, 128)
+        query_states_48 = None
+        query_states_49 = view_72.transpose(1, 2)
+        view_72 = None
+        view_73 = key_states_48.view(1, 9, -1, 128)
+        key_states_48 = None
+        key_states_49 = view_73.transpose(1, 2)
+        view_73 = None
+        view_74 = value_states_48.view(1, 9, -1, 128)
+        value_states_48 = None
+        value_states_49 = view_74.transpose(1, 2)
+        view_74 = None
+        split_48 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_288 = split_48[0]
+        x_289 = split_48[1]
+        x_290 = split_48[2]
+        x_291 = split_48[3]
+        x_292 = split_48[4]
+        x_293 = split_48[5]
+        split_48 = None
+        getitem_757 = x_288[0]
+        x_288 = None
+        getitem_758 = x_289[1]
+        x_289 = None
+        getitem_759 = x_290[2]
+        x_290 = None
+        getitem_760 = x_291[0]
+        x_291 = None
+        getitem_761 = x_292[1]
+        x_292 = None
+        getitem_762 = x_293[2]
+        x_293 = None
+        cat_97 = torch.cat(
+            [
+                getitem_757,
+                getitem_758,
+                getitem_759,
+                getitem_760,
+                getitem_761,
+                getitem_762,
+            ],
+            dim=-1,
+        )
+        getitem_757 = (
+            getitem_758
+        ) = getitem_759 = getitem_760 = getitem_761 = getitem_762 = None
+        cos_27 = cat_97.unsqueeze(1)
+        cat_97 = None
+        split_49 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_294 = split_49[0]
+        x_295 = split_49[1]
+        x_296 = split_49[2]
+        x_297 = split_49[3]
+        x_298 = split_49[4]
+        x_299 = split_49[5]
+        split_49 = None
+        getitem_769 = x_294[0]
+        x_294 = None
+        getitem_770 = x_295[1]
+        x_295 = None
+        getitem_771 = x_296[2]
+        x_296 = None
+        getitem_772 = x_297[0]
+        x_297 = None
+        getitem_773 = x_298[1]
+        x_298 = None
+        getitem_774 = x_299[2]
+        x_299 = None
+        cat_98 = torch.cat(
+            [
+                getitem_769,
+                getitem_770,
+                getitem_771,
+                getitem_772,
+                getitem_773,
+                getitem_774,
+            ],
+            dim=-1,
+        )
+        getitem_769 = (
+            getitem_770
+        ) = getitem_771 = getitem_772 = getitem_773 = getitem_774 = None
+        sin_27 = cat_98.unsqueeze(1)
+        cat_98 = None
+        mul_220 = query_states_49 * cos_27
+        x1_48 = query_states_49[(Ellipsis, slice(None, 64, None))]
+        x2_48 = query_states_49[(Ellipsis, slice(64, None, None))]
+        query_states_49 = None
+        neg_48 = -x2_48
+        x2_48 = None
+        cat_99 = torch.cat((neg_48, x1_48), dim=-1)
+        neg_48 = x1_48 = None
+        mul_221 = cat_99 * sin_27
+        cat_99 = None
+        q_embed_24 = mul_220 + mul_221
+        mul_220 = mul_221 = None
+        mul_222 = key_states_49 * cos_27
+        cos_27 = None
+        x1_49 = key_states_49[(Ellipsis, slice(None, 64, None))]
+        x2_49 = key_states_49[(Ellipsis, slice(64, None, None))]
+        key_states_49 = None
+        neg_49 = -x2_49
+        x2_49 = None
+        cat_100 = torch.cat((neg_49, x1_49), dim=-1)
+        neg_49 = x1_49 = None
+        mul_223 = cat_100 * sin_27
+        cat_100 = sin_27 = None
+        k_embed_24 = mul_222 + mul_223
+        mul_222 = mul_223 = None
+        getitem_779 = k_embed_24[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_24 = None
+        hidden_states_243 = getitem_779.expand(1, 2, 6, 9, 128)
+        getitem_779 = None
+        key_48 = hidden_states_243.reshape(1, 12, 9, 128)
+        hidden_states_243 = None
+        getitem_780 = value_states_49[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_49 = None
+        hidden_states_244 = getitem_780.expand(1, 2, 6, 9, 128)
+        getitem_780 = None
+        value_48 = hidden_states_244.reshape(1, 12, 9, 128)
+        hidden_states_244 = None
+        attention_mask_25 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_24 = q_embed_24.contiguous()
+        q_embed_24 = None
+        key_49 = key_48.contiguous()
+        key_48 = None
+        value_49 = value_48.contiguous()
+        value_48 = None
+        attn_output_96 = torch._C._nn.scaled_dot_product_attention(
+            query_24,
+            key_49,
+            value_49,
+            attn_mask=attention_mask_25,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_24 = key_49 = value_49 = attention_mask_25 = None
+        transpose_100 = attn_output_96.transpose(1, 2)
+        attn_output_96 = None
+        attn_output_97 = transpose_100.contiguous()
+        transpose_100 = None
+        reshape_74 = attn_output_97.reshape(1, 9, -1)
+        attn_output_97 = None
+        attn_output_98 = reshape_74.contiguous()
+        reshape_74 = None
+        attn_output_99 = torch._C._nn.linear(
+            attn_output_98,
+            l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_98 = l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_245 = hidden_states_239 + attn_output_99
+        hidden_states_239 = attn_output_99 = None
+        hidden_states_246 = hidden_states_245.to(torch.float32)
+        pow_50 = hidden_states_246.pow(2)
+        variance_49 = pow_50.mean(-1, keepdim=True)
+        pow_50 = None
+        add_149 = variance_49 + 1e-06
+        variance_49 = None
+        rsqrt_49 = torch.rsqrt(add_149)
+        add_149 = None
+        hidden_states_247 = hidden_states_246 * rsqrt_49
+        hidden_states_246 = rsqrt_49 = None
+        to_103 = hidden_states_247.to(torch.bfloat16)
+        hidden_states_247 = None
+        hidden_states_248 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_post_attention_layernorm_parameters_weight_
+            * to_103
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_post_attention_layernorm_parameters_weight_ = (
+            to_103
+        ) = None
+        linear_172 = torch._C._nn.linear(
+            hidden_states_248,
+            l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_24 = torch.nn.functional.silu(linear_172, inplace=False)
+        linear_172 = None
+        linear_173 = torch._C._nn.linear(
+            hidden_states_248,
+            l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_248 = l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_226 = silu_24 * linear_173
+        silu_24 = linear_173 = None
+        down_proj_24 = torch._C._nn.linear(
+            mul_226,
+            l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_226 = l_self_modules_model_modules_language_model_modules_layers_modules_24_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_249 = hidden_states_245 + down_proj_24
+        hidden_states_245 = down_proj_24 = None
+        hidden_states_250 = hidden_states_249.to(torch.float32)
+        pow_51 = hidden_states_250.pow(2)
+        variance_50 = pow_51.mean(-1, keepdim=True)
+        pow_51 = None
+        add_151 = variance_50 + 1e-06
+        variance_50 = None
+        rsqrt_50 = torch.rsqrt(add_151)
+        add_151 = None
+        hidden_states_251 = hidden_states_250 * rsqrt_50
+        hidden_states_250 = rsqrt_50 = None
+        to_105 = hidden_states_251.to(torch.bfloat16)
+        hidden_states_251 = None
+        hidden_states_252 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_input_layernorm_parameters_weight_
+            * to_105
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_input_layernorm_parameters_weight_ = (
+            to_105
+        ) = None
+        query_states_50 = torch._C._nn.linear(
+            hidden_states_252,
+            l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_50 = torch._C._nn.linear(
+            hidden_states_252,
+            l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_50 = torch._C._nn.linear(
+            hidden_states_252,
+            l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_252 = l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_75 = query_states_50.view(1, 9, -1, 128)
+        query_states_50 = None
+        query_states_51 = view_75.transpose(1, 2)
+        view_75 = None
+        view_76 = key_states_50.view(1, 9, -1, 128)
+        key_states_50 = None
+        key_states_51 = view_76.transpose(1, 2)
+        view_76 = None
+        view_77 = value_states_50.view(1, 9, -1, 128)
+        value_states_50 = None
+        value_states_51 = view_77.transpose(1, 2)
+        view_77 = None
+        split_50 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_300 = split_50[0]
+        x_301 = split_50[1]
+        x_302 = split_50[2]
+        x_303 = split_50[3]
+        x_304 = split_50[4]
+        x_305 = split_50[5]
+        split_50 = None
+        getitem_788 = x_300[0]
+        x_300 = None
+        getitem_789 = x_301[1]
+        x_301 = None
+        getitem_790 = x_302[2]
+        x_302 = None
+        getitem_791 = x_303[0]
+        x_303 = None
+        getitem_792 = x_304[1]
+        x_304 = None
+        getitem_793 = x_305[2]
+        x_305 = None
+        cat_101 = torch.cat(
+            [
+                getitem_788,
+                getitem_789,
+                getitem_790,
+                getitem_791,
+                getitem_792,
+                getitem_793,
+            ],
+            dim=-1,
+        )
+        getitem_788 = (
+            getitem_789
+        ) = getitem_790 = getitem_791 = getitem_792 = getitem_793 = None
+        cos_28 = cat_101.unsqueeze(1)
+        cat_101 = None
+        split_51 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_306 = split_51[0]
+        x_307 = split_51[1]
+        x_308 = split_51[2]
+        x_309 = split_51[3]
+        x_310 = split_51[4]
+        x_311 = split_51[5]
+        split_51 = None
+        getitem_800 = x_306[0]
+        x_306 = None
+        getitem_801 = x_307[1]
+        x_307 = None
+        getitem_802 = x_308[2]
+        x_308 = None
+        getitem_803 = x_309[0]
+        x_309 = None
+        getitem_804 = x_310[1]
+        x_310 = None
+        getitem_805 = x_311[2]
+        x_311 = None
+        cat_102 = torch.cat(
+            [
+                getitem_800,
+                getitem_801,
+                getitem_802,
+                getitem_803,
+                getitem_804,
+                getitem_805,
+            ],
+            dim=-1,
+        )
+        getitem_800 = (
+            getitem_801
+        ) = getitem_802 = getitem_803 = getitem_804 = getitem_805 = None
+        sin_28 = cat_102.unsqueeze(1)
+        cat_102 = None
+        mul_229 = query_states_51 * cos_28
+        x1_50 = query_states_51[(Ellipsis, slice(None, 64, None))]
+        x2_50 = query_states_51[(Ellipsis, slice(64, None, None))]
+        query_states_51 = None
+        neg_50 = -x2_50
+        x2_50 = None
+        cat_103 = torch.cat((neg_50, x1_50), dim=-1)
+        neg_50 = x1_50 = None
+        mul_230 = cat_103 * sin_28
+        cat_103 = None
+        q_embed_25 = mul_229 + mul_230
+        mul_229 = mul_230 = None
+        mul_231 = key_states_51 * cos_28
+        cos_28 = None
+        x1_51 = key_states_51[(Ellipsis, slice(None, 64, None))]
+        x2_51 = key_states_51[(Ellipsis, slice(64, None, None))]
+        key_states_51 = None
+        neg_51 = -x2_51
+        x2_51 = None
+        cat_104 = torch.cat((neg_51, x1_51), dim=-1)
+        neg_51 = x1_51 = None
+        mul_232 = cat_104 * sin_28
+        cat_104 = sin_28 = None
+        k_embed_25 = mul_231 + mul_232
+        mul_231 = mul_232 = None
+        getitem_810 = k_embed_25[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_25 = None
+        hidden_states_253 = getitem_810.expand(1, 2, 6, 9, 128)
+        getitem_810 = None
+        key_50 = hidden_states_253.reshape(1, 12, 9, 128)
+        hidden_states_253 = None
+        getitem_811 = value_states_51[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_51 = None
+        hidden_states_254 = getitem_811.expand(1, 2, 6, 9, 128)
+        getitem_811 = None
+        value_50 = hidden_states_254.reshape(1, 12, 9, 128)
+        hidden_states_254 = None
+        attention_mask_26 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_25 = q_embed_25.contiguous()
+        q_embed_25 = None
+        key_51 = key_50.contiguous()
+        key_50 = None
+        value_51 = value_50.contiguous()
+        value_50 = None
+        attn_output_100 = torch._C._nn.scaled_dot_product_attention(
+            query_25,
+            key_51,
+            value_51,
+            attn_mask=attention_mask_26,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_25 = key_51 = value_51 = attention_mask_26 = None
+        transpose_104 = attn_output_100.transpose(1, 2)
+        attn_output_100 = None
+        attn_output_101 = transpose_104.contiguous()
+        transpose_104 = None
+        reshape_77 = attn_output_101.reshape(1, 9, -1)
+        attn_output_101 = None
+        attn_output_102 = reshape_77.contiguous()
+        reshape_77 = None
+        attn_output_103 = torch._C._nn.linear(
+            attn_output_102,
+            l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_102 = l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_255 = hidden_states_249 + attn_output_103
+        hidden_states_249 = attn_output_103 = None
+        hidden_states_256 = hidden_states_255.to(torch.float32)
+        pow_52 = hidden_states_256.pow(2)
+        variance_51 = pow_52.mean(-1, keepdim=True)
+        pow_52 = None
+        add_155 = variance_51 + 1e-06
+        variance_51 = None
+        rsqrt_51 = torch.rsqrt(add_155)
+        add_155 = None
+        hidden_states_257 = hidden_states_256 * rsqrt_51
+        hidden_states_256 = rsqrt_51 = None
+        to_107 = hidden_states_257.to(torch.bfloat16)
+        hidden_states_257 = None
+        hidden_states_258 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_post_attention_layernorm_parameters_weight_
+            * to_107
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_post_attention_layernorm_parameters_weight_ = (
+            to_107
+        ) = None
+        linear_179 = torch._C._nn.linear(
+            hidden_states_258,
+            l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_25 = torch.nn.functional.silu(linear_179, inplace=False)
+        linear_179 = None
+        linear_180 = torch._C._nn.linear(
+            hidden_states_258,
+            l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_258 = l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_235 = silu_25 * linear_180
+        silu_25 = linear_180 = None
+        down_proj_25 = torch._C._nn.linear(
+            mul_235,
+            l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_235 = l_self_modules_model_modules_language_model_modules_layers_modules_25_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_259 = hidden_states_255 + down_proj_25
+        hidden_states_255 = down_proj_25 = None
+        hidden_states_260 = hidden_states_259.to(torch.float32)
+        pow_53 = hidden_states_260.pow(2)
+        variance_52 = pow_53.mean(-1, keepdim=True)
+        pow_53 = None
+        add_157 = variance_52 + 1e-06
+        variance_52 = None
+        rsqrt_52 = torch.rsqrt(add_157)
+        add_157 = None
+        hidden_states_261 = hidden_states_260 * rsqrt_52
+        hidden_states_260 = rsqrt_52 = None
+        to_109 = hidden_states_261.to(torch.bfloat16)
+        hidden_states_261 = None
+        hidden_states_262 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_input_layernorm_parameters_weight_
+            * to_109
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_input_layernorm_parameters_weight_ = (
+            to_109
+        ) = None
+        query_states_52 = torch._C._nn.linear(
+            hidden_states_262,
+            l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_52 = torch._C._nn.linear(
+            hidden_states_262,
+            l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_52 = torch._C._nn.linear(
+            hidden_states_262,
+            l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_262 = l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_78 = query_states_52.view(1, 9, -1, 128)
+        query_states_52 = None
+        query_states_53 = view_78.transpose(1, 2)
+        view_78 = None
+        view_79 = key_states_52.view(1, 9, -1, 128)
+        key_states_52 = None
+        key_states_53 = view_79.transpose(1, 2)
+        view_79 = None
+        view_80 = value_states_52.view(1, 9, -1, 128)
+        value_states_52 = None
+        value_states_53 = view_80.transpose(1, 2)
+        view_80 = None
+        split_52 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_312 = split_52[0]
+        x_313 = split_52[1]
+        x_314 = split_52[2]
+        x_315 = split_52[3]
+        x_316 = split_52[4]
+        x_317 = split_52[5]
+        split_52 = None
+        getitem_819 = x_312[0]
+        x_312 = None
+        getitem_820 = x_313[1]
+        x_313 = None
+        getitem_821 = x_314[2]
+        x_314 = None
+        getitem_822 = x_315[0]
+        x_315 = None
+        getitem_823 = x_316[1]
+        x_316 = None
+        getitem_824 = x_317[2]
+        x_317 = None
+        cat_105 = torch.cat(
+            [
+                getitem_819,
+                getitem_820,
+                getitem_821,
+                getitem_822,
+                getitem_823,
+                getitem_824,
+            ],
+            dim=-1,
+        )
+        getitem_819 = (
+            getitem_820
+        ) = getitem_821 = getitem_822 = getitem_823 = getitem_824 = None
+        cos_29 = cat_105.unsqueeze(1)
+        cat_105 = None
+        split_53 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        x_318 = split_53[0]
+        x_319 = split_53[1]
+        x_320 = split_53[2]
+        x_321 = split_53[3]
+        x_322 = split_53[4]
+        x_323 = split_53[5]
+        split_53 = None
+        getitem_831 = x_318[0]
+        x_318 = None
+        getitem_832 = x_319[1]
+        x_319 = None
+        getitem_833 = x_320[2]
+        x_320 = None
+        getitem_834 = x_321[0]
+        x_321 = None
+        getitem_835 = x_322[1]
+        x_322 = None
+        getitem_836 = x_323[2]
+        x_323 = None
+        cat_106 = torch.cat(
+            [
+                getitem_831,
+                getitem_832,
+                getitem_833,
+                getitem_834,
+                getitem_835,
+                getitem_836,
+            ],
+            dim=-1,
+        )
+        getitem_831 = (
+            getitem_832
+        ) = getitem_833 = getitem_834 = getitem_835 = getitem_836 = None
+        sin_29 = cat_106.unsqueeze(1)
+        cat_106 = None
+        mul_238 = query_states_53 * cos_29
+        x1_52 = query_states_53[(Ellipsis, slice(None, 64, None))]
+        x2_52 = query_states_53[(Ellipsis, slice(64, None, None))]
+        query_states_53 = None
+        neg_52 = -x2_52
+        x2_52 = None
+        cat_107 = torch.cat((neg_52, x1_52), dim=-1)
+        neg_52 = x1_52 = None
+        mul_239 = cat_107 * sin_29
+        cat_107 = None
+        q_embed_26 = mul_238 + mul_239
+        mul_238 = mul_239 = None
+        mul_240 = key_states_53 * cos_29
+        cos_29 = None
+        x1_53 = key_states_53[(Ellipsis, slice(None, 64, None))]
+        x2_53 = key_states_53[(Ellipsis, slice(64, None, None))]
+        key_states_53 = None
+        neg_53 = -x2_53
+        x2_53 = None
+        cat_108 = torch.cat((neg_53, x1_53), dim=-1)
+        neg_53 = x1_53 = None
+        mul_241 = cat_108 * sin_29
+        cat_108 = sin_29 = None
+        k_embed_26 = mul_240 + mul_241
+        mul_240 = mul_241 = None
+        getitem_841 = k_embed_26[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_26 = None
+        hidden_states_263 = getitem_841.expand(1, 2, 6, 9, 128)
+        getitem_841 = None
+        key_52 = hidden_states_263.reshape(1, 12, 9, 128)
+        hidden_states_263 = None
+        getitem_842 = value_states_53[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_53 = None
+        hidden_states_264 = getitem_842.expand(1, 2, 6, 9, 128)
+        getitem_842 = None
+        value_52 = hidden_states_264.reshape(1, 12, 9, 128)
+        hidden_states_264 = None
+        attention_mask_27 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        query_26 = q_embed_26.contiguous()
+        q_embed_26 = None
+        key_53 = key_52.contiguous()
+        key_52 = None
+        value_53 = value_52.contiguous()
+        value_52 = None
+        attn_output_104 = torch._C._nn.scaled_dot_product_attention(
+            query_26,
+            key_53,
+            value_53,
+            attn_mask=attention_mask_27,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_26 = key_53 = value_53 = attention_mask_27 = None
+        transpose_108 = attn_output_104.transpose(1, 2)
+        attn_output_104 = None
+        attn_output_105 = transpose_108.contiguous()
+        transpose_108 = None
+        reshape_80 = attn_output_105.reshape(1, 9, -1)
+        attn_output_105 = None
+        attn_output_106 = reshape_80.contiguous()
+        reshape_80 = None
+        attn_output_107 = torch._C._nn.linear(
+            attn_output_106,
+            l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_106 = l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_265 = hidden_states_259 + attn_output_107
+        hidden_states_259 = attn_output_107 = None
+        hidden_states_266 = hidden_states_265.to(torch.float32)
+        pow_54 = hidden_states_266.pow(2)
+        variance_53 = pow_54.mean(-1, keepdim=True)
+        pow_54 = None
+        add_161 = variance_53 + 1e-06
+        variance_53 = None
+        rsqrt_53 = torch.rsqrt(add_161)
+        add_161 = None
+        hidden_states_267 = hidden_states_266 * rsqrt_53
+        hidden_states_266 = rsqrt_53 = None
+        to_111 = hidden_states_267.to(torch.bfloat16)
+        hidden_states_267 = None
+        hidden_states_268 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_post_attention_layernorm_parameters_weight_
+            * to_111
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_post_attention_layernorm_parameters_weight_ = (
+            to_111
+        ) = None
+        linear_186 = torch._C._nn.linear(
+            hidden_states_268,
+            l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_26 = torch.nn.functional.silu(linear_186, inplace=False)
+        linear_186 = None
+        linear_187 = torch._C._nn.linear(
+            hidden_states_268,
+            l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_268 = l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_244 = silu_26 * linear_187
+        silu_26 = linear_187 = None
+        down_proj_26 = torch._C._nn.linear(
+            mul_244,
+            l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_244 = l_self_modules_model_modules_language_model_modules_layers_modules_26_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_269 = hidden_states_265 + down_proj_26
+        hidden_states_265 = down_proj_26 = None
+        hidden_states_270 = hidden_states_269.to(torch.float32)
+        pow_55 = hidden_states_270.pow(2)
+        variance_54 = pow_55.mean(-1, keepdim=True)
+        pow_55 = None
+        add_163 = variance_54 + 1e-06
+        variance_54 = None
+        rsqrt_54 = torch.rsqrt(add_163)
+        add_163 = None
+        hidden_states_271 = hidden_states_270 * rsqrt_54
+        hidden_states_270 = rsqrt_54 = None
+        to_113 = hidden_states_271.to(torch.bfloat16)
+        hidden_states_271 = None
+        hidden_states_272 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_input_layernorm_parameters_weight_
+            * to_113
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_input_layernorm_parameters_weight_ = (
+            to_113
+        ) = None
+        query_states_54 = torch._C._nn.linear(
+            hidden_states_272,
+            l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_q_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_q_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_q_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_q_proj_parameters_bias_ = (None)
+        key_states_54 = torch._C._nn.linear(
+            hidden_states_272,
+            l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_k_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_k_proj_parameters_bias_,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_k_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_k_proj_parameters_bias_ = (None)
+        value_states_54 = torch._C._nn.linear(
+            hidden_states_272,
+            l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_v_proj_parameters_weight_,
+            l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_v_proj_parameters_bias_,
+        )
+        hidden_states_272 = l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_v_proj_parameters_weight_ = l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_v_proj_parameters_bias_ = (None)
+        view_81 = query_states_54.view(1, 9, -1, 128)
+        query_states_54 = None
+        query_states_55 = view_81.transpose(1, 2)
+        view_81 = None
+        view_82 = key_states_54.view(1, 9, -1, 128)
+        key_states_54 = None
+        key_states_55 = view_82.transpose(1, 2)
+        view_82 = None
+        view_83 = value_states_54.view(1, 9, -1, 128)
+        value_states_54 = None
+        value_states_55 = view_83.transpose(1, 2)
+        view_83 = None
+        split_54 = cos_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        cos_2 = None
+        x_324 = split_54[0]
+        x_325 = split_54[1]
+        x_326 = split_54[2]
+        x_327 = split_54[3]
+        x_328 = split_54[4]
+        x_329 = split_54[5]
+        split_54 = None
+        getitem_850 = x_324[0]
+        x_324 = None
+        getitem_851 = x_325[1]
+        x_325 = None
+        getitem_852 = x_326[2]
+        x_326 = None
+        getitem_853 = x_327[0]
+        x_327 = None
+        getitem_854 = x_328[1]
+        x_328 = None
+        getitem_855 = x_329[2]
+        x_329 = None
+        cat_109 = torch.cat(
+            [
+                getitem_850,
+                getitem_851,
+                getitem_852,
+                getitem_853,
+                getitem_854,
+                getitem_855,
+            ],
+            dim=-1,
+        )
+        getitem_850 = (
+            getitem_851
+        ) = getitem_852 = getitem_853 = getitem_854 = getitem_855 = None
+        cos_30 = cat_109.unsqueeze(1)
+        cat_109 = None
+        split_55 = sin_2.split([16, 24, 24, 16, 24, 24], dim=-1)
+        sin_2 = None
+        x_330 = split_55[0]
+        x_331 = split_55[1]
+        x_332 = split_55[2]
+        x_333 = split_55[3]
+        x_334 = split_55[4]
+        x_335 = split_55[5]
+        split_55 = None
+        getitem_862 = x_330[0]
+        x_330 = None
+        getitem_863 = x_331[1]
+        x_331 = None
+        getitem_864 = x_332[2]
+        x_332 = None
+        getitem_865 = x_333[0]
+        x_333 = None
+        getitem_866 = x_334[1]
+        x_334 = None
+        getitem_867 = x_335[2]
+        x_335 = None
+        cat_110 = torch.cat(
+            [
+                getitem_862,
+                getitem_863,
+                getitem_864,
+                getitem_865,
+                getitem_866,
+                getitem_867,
+            ],
+            dim=-1,
+        )
+        getitem_862 = (
+            getitem_863
+        ) = getitem_864 = getitem_865 = getitem_866 = getitem_867 = None
+        sin_30 = cat_110.unsqueeze(1)
+        cat_110 = None
+        mul_247 = query_states_55 * cos_30
+        x1_54 = query_states_55[(Ellipsis, slice(None, 64, None))]
+        x2_54 = query_states_55[(Ellipsis, slice(64, None, None))]
+        query_states_55 = None
+        neg_54 = -x2_54
+        x2_54 = None
+        cat_111 = torch.cat((neg_54, x1_54), dim=-1)
+        neg_54 = x1_54 = None
+        mul_248 = cat_111 * sin_30
+        cat_111 = None
+        q_embed_27 = mul_247 + mul_248
+        mul_247 = mul_248 = None
+        mul_249 = key_states_55 * cos_30
+        cos_30 = None
+        x1_55 = key_states_55[(Ellipsis, slice(None, 64, None))]
+        x2_55 = key_states_55[(Ellipsis, slice(64, None, None))]
+        key_states_55 = None
+        neg_55 = -x2_55
+        x2_55 = None
+        cat_112 = torch.cat((neg_55, x1_55), dim=-1)
+        neg_55 = x1_55 = None
+        mul_250 = cat_112 * sin_30
+        cat_112 = sin_30 = None
+        k_embed_27 = mul_249 + mul_250
+        mul_249 = mul_250 = None
+        getitem_872 = k_embed_27[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        k_embed_27 = None
+        hidden_states_273 = getitem_872.expand(1, 2, 6, 9, 128)
+        getitem_872 = None
+        key_54 = hidden_states_273.reshape(1, 12, 9, 128)
+        hidden_states_273 = None
+        getitem_873 = value_states_55[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                None,
+                slice(None, None, None),
+                slice(None, None, None),
+            )
+        ]
+        value_states_55 = None
+        hidden_states_274 = getitem_873.expand(1, 2, 6, 9, 128)
+        getitem_873 = None
+        value_54 = hidden_states_274.reshape(1, 12, 9, 128)
+        hidden_states_274 = None
+        attention_mask_28 = causal_mask[
+            (
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, None, None),
+                slice(None, 9, None),
+            )
+        ]
+        causal_mask = None
+        query_27 = q_embed_27.contiguous()
+        q_embed_27 = None
+        key_55 = key_54.contiguous()
+        key_54 = None
+        value_55 = value_54.contiguous()
+        value_54 = None
+        attn_output_108 = torch._C._nn.scaled_dot_product_attention(
+            query_27,
+            key_55,
+            value_55,
+            attn_mask=attention_mask_28,
+            dropout_p=0.0,
+            scale=0.08838834764831845,
+            is_causal=False,
+        )
+        query_27 = key_55 = value_55 = attention_mask_28 = None
+        transpose_112 = attn_output_108.transpose(1, 2)
+        attn_output_108 = None
+        attn_output_109 = transpose_112.contiguous()
+        transpose_112 = None
+        reshape_83 = attn_output_109.reshape(1, 9, -1)
+        attn_output_109 = None
+        attn_output_110 = reshape_83.contiguous()
+        reshape_83 = None
+        attn_output_111 = torch._C._nn.linear(
+            attn_output_110,
+            l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_o_proj_parameters_weight_,
+            None,
+        )
+        attn_output_110 = l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_self_attn_modules_o_proj_parameters_weight_ = (None)
+        hidden_states_275 = hidden_states_269 + attn_output_111
+        hidden_states_269 = attn_output_111 = None
+        hidden_states_276 = hidden_states_275.to(torch.float32)
+        pow_56 = hidden_states_276.pow(2)
+        variance_55 = pow_56.mean(-1, keepdim=True)
+        pow_56 = None
+        add_167 = variance_55 + 1e-06
+        variance_55 = None
+        rsqrt_55 = torch.rsqrt(add_167)
+        add_167 = None
+        hidden_states_277 = hidden_states_276 * rsqrt_55
+        hidden_states_276 = rsqrt_55 = None
+        to_115 = hidden_states_277.to(torch.bfloat16)
+        hidden_states_277 = None
+        hidden_states_278 = (
+            l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_post_attention_layernorm_parameters_weight_
+            * to_115
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_post_attention_layernorm_parameters_weight_ = (
+            to_115
+        ) = None
+        linear_193 = torch._C._nn.linear(
+            hidden_states_278,
+            l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_gate_proj_parameters_weight_,
+            None,
+        )
+        l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_gate_proj_parameters_weight_ = (
+            None
+        )
+        silu_27 = torch.nn.functional.silu(linear_193, inplace=False)
+        linear_193 = None
+        linear_194 = torch._C._nn.linear(
+            hidden_states_278,
+            l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_up_proj_parameters_weight_,
+            None,
+        )
+        hidden_states_278 = l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_up_proj_parameters_weight_ = (None)
+        mul_253 = silu_27 * linear_194
+        silu_27 = linear_194 = None
+        down_proj_27 = torch._C._nn.linear(
+            mul_253,
+            l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_down_proj_parameters_weight_,
+            None,
+        )
+        mul_253 = l_self_modules_model_modules_language_model_modules_layers_modules_27_modules_mlp_modules_down_proj_parameters_weight_ = (None)
+        hidden_states_279 = hidden_states_275 + down_proj_27
+        hidden_states_275 = down_proj_27 = None
+        hidden_states_280 = hidden_states_279.to(torch.float32)
+        hidden_states_279 = None
+        pow_57 = hidden_states_280.pow(2)
+        variance_56 = pow_57.mean(-1, keepdim=True)
+        pow_57 = None
+        add_169 = variance_56 + 1e-06
+        variance_56 = None
+        rsqrt_56 = torch.rsqrt(add_169)
+        add_169 = None
+        hidden_states_281 = hidden_states_280 * rsqrt_56
+        hidden_states_280 = rsqrt_56 = None
+        to_117 = hidden_states_281.to(torch.bfloat16)
+        hidden_states_281 = None
+        hidden_states_282 = (
+            l_self_modules_model_modules_language_model_modules_norm_parameters_weight_
+            * to_117
+        )
+        l_self_modules_model_modules_language_model_modules_norm_parameters_weight_ = (
+            to_117
+        ) = None
+        getitem_875 = hidden_states_282[(slice(None, None, None), -1)]
+        hidden_states_282 = None
+        input_1 = torch._C._nn.linear(
+            getitem_875,
+            l_self_modules_score_modules_0_parameters_weight_,
+            l_self_modules_score_modules_0_parameters_bias_,
+        )
+        getitem_875 = (
+            l_self_modules_score_modules_0_parameters_weight_
+        ) = l_self_modules_score_modules_0_parameters_bias_ = None
+        input_2 = torch.nn.functional.relu(input_1, inplace=False)
+        input_1 = None
+        input_3 = torch._C._nn.linear(
+            input_2,
+            l_self_modules_score_modules_2_parameters_weight_,
+            l_self_modules_score_modules_2_parameters_bias_,
+        )
+        input_2 = (
+            l_self_modules_score_modules_2_parameters_weight_
+        ) = l_self_modules_score_modules_2_parameters_bias_ = None
+        squeeze = input_3.squeeze(-1)
+        input_3 = None
+        return (squeeze, mrope_position_deltas)

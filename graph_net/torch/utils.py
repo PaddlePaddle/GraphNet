@@ -124,7 +124,9 @@ def save_converted_to_text(converted, file_path):
             return "None"
         elif isinstance(data, torch.Tensor):
             if data.dtype.is_floating_point:
-                return "[{}]".format(", ".join(f"{x:.6f}" for x in data.flatten().tolist()))
+                return "[{}]".format(
+                    ", ".join(f"{x:.6f}" for x in data.flatten().tolist())
+                )
             else:
                 return "[{}]".format(", ".join(f"{x}" for x in data.flatten().tolist()))
         else:
@@ -137,7 +139,7 @@ def save_converted_to_text(converted, file_path):
         sparse_values = None
 
         if is_sparse:
-            data_list = None # No dense data for sparse tensors
+            data_list = None  # No dense data for sparse tensors
             sparse_indices = tensor_info["data"]["indices"]
             sparse_values = tensor_info["data"]["values"]
         elif "input_" in tensor_info["name"]:
@@ -146,7 +148,7 @@ def save_converted_to_text(converted, file_path):
             else:
                 pass
         else:
-             if tensor_info["type"] == "small_int_tensor":
+            if tensor_info["type"] == "small_int_tensor":
                 data_list = tensor_info["data"].flatten()
 
         info = tensor_info.get("info", {})
@@ -156,7 +158,7 @@ def save_converted_to_text(converted, file_path):
         mean = info.get("mean", 0.0)
         std = info.get("std", 1.0)
         uid = f"{name_prefix}_tensor_meta_{tensor_info.get('name', '')}"
-        
+
         lines = [
             (f"class {uid}:"),
             (f"\tname = \"{tensor_info.get('name', '')}\""),
@@ -172,10 +174,9 @@ def save_converted_to_text(converted, file_path):
             lines.append(f"\tvalues = {format_data(sparse_values)}")
         else:
             lines.append(f"\tdata = {format_data(data_list)}")
-        
+
         lines.append("")
         return lines
-
 
     input_infos = converted["input_info"]
     if isinstance(input_infos, dict):
@@ -224,7 +225,7 @@ def convert_meta_classes_to_tensors(file_path):
         }
         data_value = None
         data_type = getattr(torch, attrs.get("dtype", "torch.float").split(".")[-1])
-        
+
         if attrs.get("is_sparse"):
             indices_shape = (len(attrs.get("shape")), -1)
             indices = torch.tensor(attrs["indices"]).reshape(indices_shape)

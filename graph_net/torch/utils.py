@@ -132,7 +132,6 @@ def save_converted_to_text(converted, file_path):
 
     def process_tensor_info(tensor_info, name_prefix="example_input"):
         data_list = None
-        # MODIFICATION: Handle sparse tensor serialization
         is_sparse = tensor_info.get("type") == "sparse_int_tensor"
         sparse_indices = None
         sparse_values = None
@@ -226,7 +225,6 @@ def convert_meta_classes_to_tensors(file_path):
         data_value = None
         data_type = getattr(torch, attrs.get("dtype", "torch.float").split(".")[-1])
         
-        # MODIFICATION: Reconstruct sparse tensors during loading
         if attrs.get("is_sparse"):
             indices_shape = (len(attrs.get("shape")), -1)
             indices = torch.tensor(attrs["indices"]).reshape(indices_shape)

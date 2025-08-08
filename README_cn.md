@@ -1,12 +1,14 @@
-# GraphNet
+# GraphNet ![](https://img.shields.io/badge/version-v0.1-brightgreen) ![](https://img.shields.io/github/issues/PaddlePaddle/GraphNet?label=open%20issues)    [![](https://img.shields.io/badge/开源活动-blue)](https://github.com/PaddlePaddle/GraphNet/issues/98)
 
-GraphNet —— 一个面向编译器开发的大规模数据集，旨在为研究者提供一个统一、开放的实验平台。其中包含大量来自真实模型的计算图，方便评估不同编译器Pass的优化效果。
+**GraphNet** 是一个面向AI 编译器开发的大规模**计算图数据集**，旨在为研究者提供统一、开放的实验平台。它收录了大量深度学习模型的计算图，方便评估不同编译器 Pass 的优化效果，支持跨框架、跨平台的性能比较。
 
 通过 GraphNet，用户可以：
 
 1. 快速测试不同编译器策略的通用优化效果
 2. 方便已有编译器做回归测试
 3. 训练AI-for-system模型以自动生成编译器优化Pass
+
+**目标**：我们致力于实现编译优化策略在不同硬件间的可移植性，使大模型能够学习并迁移这些策略，从而大幅降低高效算子开发的成本。
 
 ### 数据集构建约束：
 
@@ -19,7 +21,10 @@ GraphNet —— 一个面向编译器开发的大规模数据集，旨在为研�
 7. 若存在自定义算子，则自定义算子的代码必须能被完整访问
 8. 可通过统一方式配置计算图在不同芯片上运行
 
+
+
 ## 快速开始
+详细的实现细节请参见 [共创者指引](https://github.com/PaddlePaddle/GraphNet/blob/develop/CONTRIBUTE_TUTORIAL_cn.md#共创者指引)
 ### 测试编译器性能
 **graph_net.torch.test_compiler** 
 ```

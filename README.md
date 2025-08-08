@@ -1,14 +1,16 @@
 # GraphNet  ![](https://img.shields.io/badge/version-v0.1-brightgreen) ![](https://img.shields.io/github/issues/PaddlePaddle/GraphNet?label=open%20issues)    [![](https://img.shields.io/badge/Contribute%20to%20GraphNet-blue)](https://github.com/PaddlePaddle/GraphNet/issues/98)
 
 
-**GraphNet** is a large-scale dataset of deep learning **computation graphs**, designed to serve as a standard benchmark and training corpus for **AI-driven tensor compiler optimization**. It contains massive, diverse graphs extracted from state-of-the-art models, enabling consistent comparison of optimization effectiveness across compiler passes, frameworks, and hardware platforms. 
+**GraphNet** is a large-scale dataset of deep learning **computation graphs**, designed to serve as a standard benchmark and training corpus for **AI-driven tensor compiler optimization**. It contains diverse graphs extracted from state-of-the-art models, enabling effective evaluation of compiler pass optimizations across frameworks and hardware platforms.
+
 
 With GraphNet, users can:
 1. Quickly benchmark the optimization performance of various compiler strategies.
 2. Easily conduct regression tests on existing compilers.
 3. Train AI‑for‑Systems models to automatically generate compiler optimization passes.
 
-**Vision**: We aim to enable cross-hardware portability of compiler optimizations by allowing models to learn and transfer optimization strategies. It will greatly reduce the manual effort required to develop efficient operator implementations.
+**Vision**: We aim to achieve cross-hardware portability of compiler optimizations by allowing models to learn and transfer optimization strategies. It will significantly  reduce the manual effort required to develop efficient operator implementations.
+
 
 
 
@@ -24,7 +26,7 @@ With GraphNet, users can:
 
 
 ## ⚡ Quick Start
-
+For full implementation details, please refer to the [Co-Creation Tutorial](https://github.com/PaddlePaddle/GraphNet/blob/develop/CONTRIBUTE_TUTORIAL.md#co-creation-tutorial).
 ### Benchmark your compiler on the model:
 
 **graph_net.torch.test_compiler** 
@@ -89,7 +91,8 @@ python -m graph_net.config --global \
   --username "your-name" \
   --email "your-email"
 ```
-Once you have packaged these extracted computation graphs, submit them to the GraphNet community via the following group chats.
+Once you have packaged these extracted computation graphs, submit them to the GraphNet community via the following group chats. [Discord](https://discord.gg/Pp5FKW92) is also available.
+
 
 <div align="center">
 <table>
@@ -103,6 +106,7 @@ Once you have packaged these extracted computation graphs, submit them to the Gr
 </tr>
 </table>
 </div>
+
 
 ##  License
 This project is released under the [MIT License](LICENSE).

@@ -1,10 +1,9 @@
 import argparse
 import os
-import json
+
 import torch
 import torchvision
 from torchvision import transforms
-import os
 import graph_net
 
 if __name__ == "__main__":

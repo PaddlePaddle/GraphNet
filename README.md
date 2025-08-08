@@ -1,11 +1,15 @@
-# GraphNet  ![](https://img.shields.io/badge/version-v0.0-brightgreen)
+# GraphNet  ![](https://img.shields.io/badge/version-v0.1-brightgreen) ![](https://img.shields.io/github/issues/PaddlePaddle/GraphNet?label=open%20issues)    [![](https://img.shields.io/badge/Contribute%20to%20GraphNet-blue)](https://github.com/PaddlePaddle/GraphNet/issues/98)
 
-GraphNet is a large‑scale dataset for compiler development, providing researchers with a standardized, open‑access experimental environment. It includes numerous computation graphs extracted from deep learning models, making it easy to compare the optimization effectiveness of different compiler passes.
+
+**GraphNet** is a large-scale dataset of deep learning **computation graphs**, designed to serve as a standard benchmark and training corpus for **AI-driven tensor compiler optimization**. It contains massive, diverse graphs extracted from state-of-the-art models, enabling consistent comparison of optimization effectiveness across compiler passes, frameworks, and hardware platforms. 
 
 With GraphNet, users can:
 1. Quickly benchmark the optimization performance of various compiler strategies.
 2. Easily conduct regression tests on existing compilers.
 3. Train AI‑for‑Systems models to automatically generate compiler optimization passes.
+
+**Vision**: We aim to enable cross-hardware portability of compiler optimizations by allowing models to learn and transfer optimization strategies. It will greatly reduce the manual effort required to develop efficient operator implementations.
+
 
 
 ### Dataset Construction Constraints：

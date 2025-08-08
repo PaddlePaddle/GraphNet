@@ -57,7 +57,13 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
                     "info": info,
                 }
             else:
-                return {"type": "big_int_tensor", "data": tensor.clone(), "info": info}
+                sparse_tensor = tensor.to_sparse_coo()
+                return {
+                    "type": "sparse_int_tensor",
+                    "indices": sparse_tensor.indices().clone(),
+                    "values": sparse_tensor.values().clone(),
+                    "info": info,
+                }
         elif tensor.numel() < 1024:
             return {"type": "small_tensor", "data": tensor.clone(), "info": info}
         else:
@@ -78,7 +84,13 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
                 data_type = "small_int_tensor"
                 data_value = tensor.clone()
             else:
-                data_type = "big_int_tensor"
+                data_type = "sparse_int_tensor"
+                sparse_tensor = tensor.to_sparse_coo()
+                data_value = {
+                    "indices": sparse_tensor.indices().clone(),
+                    "values": sparse_tensor.values().clone(),
+                }
+
         info = tensor_info(tensor)
         return {"info": info, "data": data_value, "type": data_type}
 
@@ -86,7 +98,6 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
         key: handle_named_tensors(tensor) for key, tensor in state_dict.items()
     }
 
-    # dynamic_shapes = extract_dynamic_shapes(example_inputs)
     return {
         "input_info": processed_inputs,
         "weight_info": processed_weights,
@@ -112,28 +123,32 @@ def save_converted_to_text(converted, file_path):
             return "None"
         elif isinstance(data, torch.Tensor):
             if data.dtype.is_floating_point:
-                return "[{}]".format(", ".join(f"{x:.6f}" for x in data.tolist()))
+                return "[{}]".format(", ".join(f"{x:.6f}" for x in data.flatten().tolist()))
             else:
-                return "[{}]".format(", ".join(f"{x}" for x in data.tolist()))
+                return "[{}]".format(", ".join(f"{x}" for x in data.flatten().tolist()))
         else:
             return repr(data)
 
     def process_tensor_info(tensor_info, name_prefix="example_input"):
         data_list = None
-        if "input_" in tensor_info["name"]:
+        # MODIFICATION: Handle sparse tensor serialization
+        is_sparse = tensor_info.get("type") == "sparse_int_tensor"
+        sparse_indices = None
+        sparse_values = None
+
+        if is_sparse:
+            data_list = None # No dense data for sparse tensors
+            sparse_indices = tensor_info["data"]["indices"]
+            sparse_values = tensor_info["data"]["values"]
+        elif "input_" in tensor_info["name"]:
             if tensor_info["type"] in ["small_tensor", "small_int_tensor"]:
                 data_list = tensor_info["data"].flatten()
-            elif tensor_info["type"] == "big_int_tensor":
-                data_list = f"pt-filename:xxx-key"
             else:
                 pass
         else:
-            if tensor_info["type"] == "small_int_tensor":
+             if tensor_info["type"] == "small_int_tensor":
                 data_list = tensor_info["data"].flatten()
-            if tensor_info["type"] == "big_int_tensor":
-                raise ValueError(
-                    "Unexpected cases: there are weights in big tensor of int type "
-                )
+
         info = tensor_info.get("info", {})
         dtype = info.get("dtype", "torch.float")
         shape = info.get("shape", [])
@@ -141,7 +156,8 @@ def save_converted_to_text(converted, file_path):
         mean = info.get("mean", 0.0)
         std = info.get("std", 1.0)
         uid = f"{name_prefix}_tensor_meta_{tensor_info.get('name', '')}"
-        return [
+        
+        lines = [
             (f"class {uid}:"),
             (f"\tname = \"{tensor_info.get('name', '')}\""),
             (f"\tshape = {shape}"),
@@ -149,9 +165,17 @@ def save_converted_to_text(converted, file_path):
             (f'\tdevice = "{device}"'),
             (f"\tmean = {get_limited_precision_float_str(mean)}"),
             (f"\tstd = {get_limited_precision_float_str(std)}"),
-            (f"\tdata = {format_data(data_list)}"),
-            (""),
         ]
+        if is_sparse:
+            lines.append(f"\tis_sparse = True")
+            lines.append(f"\tindices = {format_data(sparse_indices)}")
+            lines.append(f"\tvalues = {format_data(sparse_values)}")
+        else:
+            lines.append(f"\tdata = {format_data(data_list)}")
+        
+        lines.append("")
+        return lines
+
 
     input_infos = converted["input_info"]
     if isinstance(input_infos, dict):
@@ -200,13 +224,22 @@ def convert_meta_classes_to_tensors(file_path):
         }
         data_value = None
         data_type = getattr(torch, attrs.get("dtype", "torch.float").split(".")[-1])
-        if attrs.get("data") is not None:
+        
+        # MODIFICATION: Reconstruct sparse tensors during loading
+        if attrs.get("is_sparse"):
+            indices_shape = (len(attrs.get("shape")), -1)
+            indices = torch.tensor(attrs["indices"]).reshape(indices_shape)
+            values = torch.tensor(attrs["values"], dtype=data_type)
+            shape = attrs.get("shape")
+            data_value = torch.sparse_coo_tensor(indices, values, shape).to_dense()
+        elif attrs.get("data") is not None:
             if isinstance(attrs.get("data"), str):
                 raise ValueError("Unimplemented")
             else:
                 data_value = torch.tensor(attrs["data"], dtype=data_type).reshape(
-                    attrs.get("shape"), []
+                    attrs.get("shape", [])
                 )
+
         yield {
             "info": {
                 "shape": attrs.get("shape", []),

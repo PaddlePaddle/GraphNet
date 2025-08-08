@@ -98,6 +98,7 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
         key: handle_named_tensors(tensor) for key, tensor in state_dict.items()
     }
 
+    # dynamic_shapes = extract_dynamic_shapes(example_inputs)
     return {
         "input_info": processed_inputs,
         "weight_info": processed_weights,

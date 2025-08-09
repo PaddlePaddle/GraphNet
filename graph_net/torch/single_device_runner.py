@@ -3,6 +3,7 @@ import argparse
 import importlib.util
 import inspect
 import torch
+import logging
 from pathlib import Path
 from typing import Type, Any
 import sys
@@ -64,6 +65,16 @@ def main(args):
         inputs_params = utils.load_converted_from_text(f"{model_path}")
         params = inputs_params["weight_info"]
         state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
+
+        explain = torch._dynamo.explain(model)(**state_dict)
+        if explain.graph_count != 1 or len(explain.break_reasons) != 0:
+            logging.error(
+                f"Failed to generate a complete graph. The extraction process resulted in an incomplete graph, which was broken into {explain.graph_count} subgraphs."
+            )
+            logging.error(f"Reason(s): {explain.break_reasons}.")
+            raise ValueError(
+                f"Graph extraction failed. The resulting graph is incomplete, broken into {explain.graph_count} subgraphs."
+            )
 
         y = model(**state_dict)[0]
 

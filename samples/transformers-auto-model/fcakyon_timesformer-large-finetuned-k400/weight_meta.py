@@ -3,7 +3,7 @@ class Program_weight_tensor_meta_L_pixel_values_:
     shape = [1, 96, 3, 224, 224]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.222
+    mean = 0.223
     std = 1.288
     data = None
 
@@ -34,7 +34,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_embeddings_p
     dtype = "torch.float32"
     device = "cuda:0"
     mean = -0.001
-    std = 0.021
+    std = 0.019
     data = None
 
 
@@ -45,7 +45,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_embeddings_p
     shape = [1, 197, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -85,7 +85,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [2304, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -105,7 +105,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -185,7 +185,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -305,7 +305,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -325,7 +325,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -425,7 +425,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [3072, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -445,7 +445,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 3072]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -485,7 +485,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [2304, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -565,7 +565,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [2304, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -645,7 +645,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 3072]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -685,7 +685,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [2304, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -725,7 +725,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -885,7 +885,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [2304, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -965,7 +965,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [2304, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1105,7 +1105,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1125,7 +1125,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1245,7 +1245,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 3072]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1285,7 +1285,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [2304, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1305,7 +1305,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1325,7 +1325,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1385,7 +1385,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1525,7 +1525,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1625,7 +1625,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [3072, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1645,7 +1645,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 3072]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1685,7 +1685,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [2304, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1725,7 +1725,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1765,7 +1765,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [2304, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1885,7 +1885,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [2304, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1905,7 +1905,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1985,7 +1985,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -2045,7 +2045,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 3072]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -2125,7 +2125,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -2165,7 +2165,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [2304, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -2185,7 +2185,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -2225,7 +2225,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [3072, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -2245,7 +2245,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 3072]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -2305,7 +2305,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -2325,7 +2325,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -2385,7 +2385,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -2425,7 +2425,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [3072, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -2445,7 +2445,7 @@ class Program_weight_tensor_meta_L_self_modules_timesformer_modules_encoder_modu
     shape = [768, 3072]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -2485,7 +2485,7 @@ class Program_weight_tensor_meta_L_self_modules_classifier_parameters_weight_:
     shape = [400, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 

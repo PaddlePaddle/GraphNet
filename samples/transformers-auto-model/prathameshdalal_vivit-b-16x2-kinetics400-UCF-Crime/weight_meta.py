@@ -3,7 +3,7 @@ class Program_weight_tensor_meta_L_pixel_values_:
     shape = [1, 32, 3, 224, 224]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -1.000
+    mean = -0.999
     std = 1.159
     data = None
 
@@ -13,7 +13,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_embeddings_modules
     shape = [768, 3, 2, 16, 16]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -113,7 +113,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -133,7 +133,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -173,7 +173,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [3072, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -393,7 +393,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -413,7 +413,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -493,7 +493,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [3072, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -553,7 +553,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -573,7 +573,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -613,7 +613,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -713,7 +713,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -733,7 +733,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -773,7 +773,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -813,7 +813,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [3072, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -833,7 +833,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 3072]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -893,7 +893,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -913,7 +913,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -993,7 +993,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 3072]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1033,7 +1033,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1053,7 +1053,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1073,7 +1073,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1093,7 +1093,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1153,7 +1153,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 3072]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1233,7 +1233,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1353,7 +1353,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1373,7 +1373,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1413,7 +1413,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1453,7 +1453,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [3072, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1473,7 +1473,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 3072]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1533,7 +1533,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1553,7 +1553,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1573,7 +1573,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1673,7 +1673,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1693,7 +1693,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1773,7 +1773,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [3072, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1793,7 +1793,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 3072]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1853,7 +1853,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1893,7 +1893,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [768, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -1933,7 +1933,7 @@ class Program_weight_tensor_meta_L_self_modules_vivit_modules_encoder_modules_la
     shape = [3072, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1993,7 +1993,7 @@ class Program_weight_tensor_meta_L_self_modules_classifier_parameters_weight_:
     shape = [14, 768]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 

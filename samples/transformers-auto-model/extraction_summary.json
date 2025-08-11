@@ -1,0 +1,18 @@
+{
+    "total_processed": 10,
+    "successful_count": 0,
+    "failed_count": 10,
+    "successful_models": [],
+    "failed_models": {
+        "facebook/esm2_t33_650M_UR50D": "Extraction Fail",
+        "facebook/esm2_t12_35M_UR50D": "Extraction Fail",
+        "facebook/esm1b_t33_650M_UR50S": "Extraction Fail",
+        "facebook/esm1v_t33_650M_UR90S_2": "Extraction Fail",
+        "facebook/esm1v_t33_650M_UR90S_4": "Extraction Fail",
+        "facebook/esm2_t6_8M_UR50D": "Extraction Fail",
+        "facebook/esm2_t30_150M_UR50D": "Extraction Fail",
+        "facebook/esm1v_t33_650M_UR90S_1": "Extraction Fail",
+        "facebook/esm1v_t33_650M_UR90S_3": "Extraction Fail",
+        "facebook/esm1v_t33_650M_UR90S_5": "Extraction Fail"
+    }
+}

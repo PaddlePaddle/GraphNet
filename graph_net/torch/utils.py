@@ -136,7 +136,6 @@ def save_converted_to_text(converted, file_path):
 
     def process_tensor_info(tensor_info, name_prefix="example_input"):
         tensor_type = tensor_info.get("type")
-
         info = tensor_info.get("info", {})
         dtype = info.get("dtype", "torch.float")
         shape = info.get("shape", [])

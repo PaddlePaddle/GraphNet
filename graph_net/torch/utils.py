@@ -228,11 +228,13 @@ def convert_meta_classes_to_tensors(file_path):
             if isinstance(attrs.get("data"), str):
                 raise ValueError("Unimplemented")
             else:
-                data_value = torch.tensor(attrs["data"], dtype=data_type).reshape(shape)
+                data_value = torch.tensor(attrs["data"], dtype=data_type).reshape(
+                    attrs.get("shape"), []
+                )
 
         yield {
             "info": {
-                "shape": shape,
+                "shape": attrs.get("shape", []),
                 "dtype": data_type,
                 "device": attrs.get("device", "cpu"),
                 "mean": attrs.get("mean", 0.0),

@@ -4,6 +4,8 @@ import json
 from typing import Union, Callable
 from . import utils
 
+torch._dynamo.config.capture_scalar_outputs = True
+
 
 def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=False):
     """

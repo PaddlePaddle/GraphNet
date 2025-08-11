@@ -1,11 +1,17 @@
-# GraphNet  ![](https://img.shields.io/badge/version-v0.0-brightgreen)
+# GraphNet  ![](https://img.shields.io/badge/version-v0.1-brightgreen) ![](https://img.shields.io/github/issues/PaddlePaddle/GraphNet?label=open%20issues)    [![](https://img.shields.io/badge/Contribute%20to%20GraphNet-blue)](https://github.com/PaddlePaddle/GraphNet/issues/98)
 
-GraphNet is a large‑scale dataset for compiler development, providing researchers with a standardized, open‑access experimental environment. It includes numerous computation graphs extracted from deep learning models, making it easy to compare the optimization effectiveness of different compiler passes.
+
+**GraphNet** is a large-scale dataset of deep learning **computation graphs**, designed to serve as a standard benchmark and training corpus for **AI-driven tensor compiler optimization**. It contains diverse graphs extracted from state-of-the-art models, enabling effective evaluation of compiler pass optimizations across frameworks and hardware platforms.
+
 
 With GraphNet, users can:
 1. Quickly benchmark the optimization performance of various compiler strategies.
 2. Easily conduct regression tests on existing compilers.
 3. Train AI‑for‑Systems models to automatically generate compiler optimization passes.
+
+**Vision**: We aim to achieve cross-hardware portability of compiler optimizations by allowing models to learn and transfer optimization strategies. It will significantly  reduce the manual effort required to develop efficient operator implementations.
+
+
 
 
 ### Dataset Construction Constraints：
@@ -20,7 +26,7 @@ With GraphNet, users can:
 
 
 ## ⚡ Quick Start
-
+For full implementation details, please refer to the [Co-Creation Tutorial](https://github.com/PaddlePaddle/GraphNet/blob/develop/CONTRIBUTE_TUTORIAL.md#co-creation-tutorial).
 ### Benchmark your compiler on the model:
 
 **graph_net.torch.test_compiler** 
@@ -85,13 +91,14 @@ python -m graph_net.config --global \
   --username "your-name" \
   --email "your-email"
 ```
-Once you have packaged these extracted computation graphs, submit them to the GraphNet community via the following group chats.
+Once you have packaged these extracted computation graphs, submit them to the GraphNet community via the following group chats. [Discord](https://discord.gg/Pp5FKW92) is also available.
+
 
 <div align="center">
 <table>
 <tr>
 <td align="center">
-    <img width="200" src="https://github.com/user-attachments/assets/30f034dd-f7d9-49f5-bae8-30ba2ac9c6b4" />
+    <img width="200" src="https://github.com/user-attachments/assets/1dc910dd-f5d8-4661-b6b8-d1ae23bb6ddb" />
 </td>
 <td align="center">
     <img width="200" src="https://github.com/user-attachments/assets/140fa03e-36ef-44bf-8d9a-ca65c83b0139" />
@@ -99,6 +106,7 @@ Once you have packaged these extracted computation graphs, submit them to the Gr
 </tr>
 </table>
 </div>
+
 
 ##  License
 This project is released under the [MIT License](LICENSE).

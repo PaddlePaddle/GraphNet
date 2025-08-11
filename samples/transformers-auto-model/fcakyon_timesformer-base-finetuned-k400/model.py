@@ -1,0 +1,2893 @@
+import torch
+
+
+class GraphModule(torch.nn.Module):
+    def forward(
+        self,
+        L_pixel_values_: torch.Tensor,
+        L_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_embeddings_parameters_cls_token_: torch.nn.parameter.Parameter,
+        L_self_modules_embeddings_parameters_position_embeddings_: torch.nn.parameter.Parameter,
+        L_self_modules_embeddings_parameters_time_embeddings_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_temporal_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_temporal_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_temporal_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_temporal_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_temporal_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_temporal_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_temporal_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_temporal_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_temporal_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_temporal_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_temporal_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_temporal_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_temporal_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_temporal_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_temporal_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_temporal_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_temporal_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_temporal_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_temporal_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_temporal_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_temporal_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_temporal_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_temporal_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_temporal_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_temporal_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_temporal_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_temporal_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_temporal_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_temporal_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_temporal_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_temporal_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_temporal_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_temporal_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_temporal_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_temporal_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_temporal_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_temporal_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_temporal_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_temporal_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_temporal_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_temporal_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_temporal_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_temporal_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_temporal_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_temporal_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_temporal_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_temporal_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_temporal_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+    ):
+        l_pixel_values_ = L_pixel_values_
+        l_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_weight_ = L_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_weight_
+        l_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_ = L_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_
+        l_self_modules_embeddings_parameters_cls_token_ = (
+            L_self_modules_embeddings_parameters_cls_token_
+        )
+        l_self_modules_embeddings_parameters_position_embeddings_ = (
+            L_self_modules_embeddings_parameters_position_embeddings_
+        )
+        l_self_modules_embeddings_parameters_time_embeddings_ = (
+            L_self_modules_embeddings_parameters_time_embeddings_
+        )
+        l_self_modules_encoder_modules_layer_modules_0_modules_temporal_layernorm_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_0_modules_temporal_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_0_modules_temporal_layernorm_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_0_modules_temporal_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_0_modules_temporal_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_0_modules_temporal_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_0_modules_temporal_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_0_modules_temporal_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_1_modules_temporal_layernorm_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_1_modules_temporal_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_1_modules_temporal_layernorm_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_1_modules_temporal_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_1_modules_temporal_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_1_modules_temporal_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_1_modules_temporal_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_1_modules_temporal_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_2_modules_temporal_layernorm_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_2_modules_temporal_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_2_modules_temporal_layernorm_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_2_modules_temporal_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_2_modules_temporal_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_2_modules_temporal_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_2_modules_temporal_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_2_modules_temporal_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_3_modules_temporal_layernorm_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_3_modules_temporal_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_3_modules_temporal_layernorm_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_3_modules_temporal_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_3_modules_temporal_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_3_modules_temporal_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_3_modules_temporal_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_3_modules_temporal_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_4_modules_temporal_layernorm_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_4_modules_temporal_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_4_modules_temporal_layernorm_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_4_modules_temporal_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_4_modules_temporal_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_4_modules_temporal_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_4_modules_temporal_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_4_modules_temporal_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_5_modules_temporal_layernorm_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_5_modules_temporal_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_5_modules_temporal_layernorm_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_5_modules_temporal_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_5_modules_temporal_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_5_modules_temporal_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_5_modules_temporal_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_5_modules_temporal_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_6_modules_temporal_layernorm_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_6_modules_temporal_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_6_modules_temporal_layernorm_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_6_modules_temporal_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_6_modules_temporal_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_6_modules_temporal_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_6_modules_temporal_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_6_modules_temporal_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_7_modules_temporal_layernorm_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_7_modules_temporal_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_7_modules_temporal_layernorm_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_7_modules_temporal_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_7_modules_temporal_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_7_modules_temporal_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_7_modules_temporal_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_7_modules_temporal_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_8_modules_temporal_layernorm_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_8_modules_temporal_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_8_modules_temporal_layernorm_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_8_modules_temporal_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_8_modules_temporal_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_8_modules_temporal_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_8_modules_temporal_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_8_modules_temporal_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_9_modules_temporal_layernorm_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_9_modules_temporal_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_9_modules_temporal_layernorm_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_9_modules_temporal_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_9_modules_temporal_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_9_modules_temporal_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_9_modules_temporal_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_9_modules_temporal_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_10_modules_temporal_layernorm_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_10_modules_temporal_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_10_modules_temporal_layernorm_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_10_modules_temporal_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_10_modules_temporal_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_10_modules_temporal_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_10_modules_temporal_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_10_modules_temporal_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_11_modules_temporal_layernorm_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_11_modules_temporal_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_11_modules_temporal_layernorm_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_11_modules_temporal_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_11_modules_temporal_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_11_modules_temporal_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_11_modules_temporal_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_11_modules_temporal_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_qkv_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_qkv_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_qkv_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_qkv_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_weight_ = L_self_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_weight_
+        l_self_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_bias_ = L_self_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_bias_
+        l_self_modules_layernorm_parameters_weight_ = (
+            L_self_modules_layernorm_parameters_weight_
+        )
+        l_self_modules_layernorm_parameters_bias_ = (
+            L_self_modules_layernorm_parameters_bias_
+        )
+        pixel_values = l_pixel_values_.reshape(16, 3, 224, 224)
+        l_pixel_values_ = None
+        embeddings = torch.conv2d(
+            pixel_values,
+            l_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_weight_,
+            l_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_,
+            (16, 16),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        pixel_values = l_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_weight_ = l_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_ = (None)
+        flatten = embeddings.flatten(2)
+        embeddings = None
+        embeddings_1 = flatten.transpose(1, 2)
+        flatten = None
+        cls_tokens = l_self_modules_embeddings_parameters_cls_token_.expand(16, -1, -1)
+        l_self_modules_embeddings_parameters_cls_token_ = None
+        embeddings_2 = torch.cat((cls_tokens, embeddings_1), dim=1)
+        cls_tokens = embeddings_1 = None
+        embeddings_3 = (
+            embeddings_2 + l_self_modules_embeddings_parameters_position_embeddings_
+        )
+        embeddings_2 = l_self_modules_embeddings_parameters_position_embeddings_ = None
+        embeddings_4 = torch.nn.functional.dropout(embeddings_3, 0.0, False, False)
+        embeddings_3 = None
+        getitem = embeddings_4[(slice(None, 1, None), 0, slice(None, None, None))]
+        cls_tokens_1 = getitem.unsqueeze(1)
+        getitem = None
+        embeddings_5 = embeddings_4[(slice(None, None, None), slice(1, None, None))]
+        embeddings_4 = None
+        reshape_1 = embeddings_5.reshape(1, 16, 196, 768)
+        embeddings_5 = None
+        permute = reshape_1.permute(0, 2, 1, 3)
+        reshape_1 = None
+        embeddings_6 = permute.reshape(196, 16, 768)
+        permute = None
+        time_embeddings = (
+            l_self_modules_embeddings_parameters_time_embeddings_.transpose(1, 2)
+        )
+        l_self_modules_embeddings_parameters_time_embeddings_ = None
+        new_time_embeddings = torch.nn.functional.interpolate(
+            time_embeddings, size=16, mode="nearest"
+        )
+        time_embeddings = None
+        new_time_embeddings_1 = new_time_embeddings.transpose(1, 2)
+        new_time_embeddings = None
+        embeddings_7 = embeddings_6 + new_time_embeddings_1
+        embeddings_6 = new_time_embeddings_1 = None
+        embeddings_8 = torch.nn.functional.dropout(embeddings_7, 0.0, False, False)
+        embeddings_7 = None
+        view = embeddings_8.view(1, 196, 16, 768)
+        embeddings_8 = None
+        embeddings_9 = view.reshape(1, 3136, 768)
+        view = None
+        embeddings_10 = torch.cat((cls_tokens_1, embeddings_9), dim=1)
+        cls_tokens_1 = embeddings_9 = None
+        temporal_embedding = embeddings_10[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        reshape_4 = temporal_embedding.reshape(1, 28, 14, 8, 768)
+        temporal_embedding = None
+        temporal_embedding_1 = reshape_4.reshape(392, 8, 768)
+        reshape_4 = None
+        layer_norm = torch.nn.functional.layer_norm(
+            temporal_embedding_1,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_0_modules_temporal_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_0_modules_temporal_layernorm_parameters_bias_,
+            1e-06,
+        )
+        temporal_embedding_1 = l_self_modules_encoder_modules_layer_modules_0_modules_temporal_layernorm_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_0_modules_temporal_layernorm_parameters_bias_ = (None)
+        linear = torch._C._nn.linear(
+            layer_norm,
+            l_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm = l_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_6 = linear.reshape(392, 8, 3, 12, 64)
+        linear = None
+        qkv = reshape_6.permute(2, 0, 3, 1, 4)
+        reshape_6 = None
+        query = qkv[0]
+        key = qkv[1]
+        value = qkv[2]
+        qkv = None
+        transpose_3 = key.transpose(-2, -1)
+        key = None
+        matmul = query @ transpose_3
+        query = transpose_3 = None
+        attention_probs = matmul * 0.125
+        matmul = None
+        attention_probs_1 = attention_probs.softmax(dim=-1)
+        attention_probs = None
+        attention_probs_2 = torch.nn.functional.dropout(
+            attention_probs_1, 0.0, False, False
+        )
+        attention_probs_1 = None
+        matmul_1 = attention_probs_2 @ value
+        attention_probs_2 = value = None
+        transpose_4 = matmul_1.transpose(1, 2)
+        matmul_1 = None
+        context_layer = transpose_4.reshape(392, 8, 768)
+        transpose_4 = None
+        hidden_states = torch._C._nn.linear(
+            context_layer,
+            l_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer = l_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_0_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_1 = torch.nn.functional.dropout(hidden_states, 0.0, False, False)
+        hidden_states = None
+        reshape_8 = hidden_states_1.reshape(1, 28, 14, 8, 768)
+        hidden_states_1 = None
+        residual_temporal = reshape_8.reshape(1, 3136, 768)
+        reshape_8 = None
+        residual_temporal_1 = torch._C._nn.linear(
+            residual_temporal,
+            l_self_modules_encoder_modules_layer_modules_0_modules_temporal_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_0_modules_temporal_dense_parameters_bias_,
+        )
+        residual_temporal = l_self_modules_encoder_modules_layer_modules_0_modules_temporal_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_0_modules_temporal_dense_parameters_bias_ = (None)
+        getitem_6 = embeddings_10[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        temporal_embedding_2 = getitem_6 + residual_temporal_1
+        getitem_6 = residual_temporal_1 = None
+        getitem_7 = embeddings_10[(slice(None, None, None), 0, slice(None, None, None))]
+        embeddings_10 = None
+        init_cls_token = getitem_7.unsqueeze(1)
+        getitem_7 = None
+        cls_token = init_cls_token.repeat(1, 8, 1)
+        cls_token_1 = cls_token.reshape(8, 1, 768)
+        cls_token = None
+        reshape_11 = temporal_embedding_2.reshape(1, 28, 14, 8, 768)
+        permute_2 = reshape_11.permute(0, 3, 1, 2, 4)
+        reshape_11 = None
+        spatial_embedding = permute_2.reshape(8, 392, 768)
+        permute_2 = None
+        spatial_embedding_1 = torch.cat((cls_token_1, spatial_embedding), 1)
+        cls_token_1 = spatial_embedding = None
+        layer_norm_1 = torch.nn.functional.layer_norm(
+            spatial_embedding_1,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_bias_,
+            1e-06,
+        )
+        spatial_embedding_1 = l_self_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_bias_ = (None)
+        linear_3 = torch._C._nn.linear(
+            layer_norm_1,
+            l_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_1 = l_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_13 = linear_3.reshape(8, 393, 3, 12, 64)
+        linear_3 = None
+        qkv_1 = reshape_13.permute(2, 0, 3, 1, 4)
+        reshape_13 = None
+        query_1 = qkv_1[0]
+        key_1 = qkv_1[1]
+        value_1 = qkv_1[2]
+        qkv_1 = None
+        transpose_5 = key_1.transpose(-2, -1)
+        key_1 = None
+        matmul_2 = query_1 @ transpose_5
+        query_1 = transpose_5 = None
+        attention_probs_3 = matmul_2 * 0.125
+        matmul_2 = None
+        attention_probs_4 = attention_probs_3.softmax(dim=-1)
+        attention_probs_3 = None
+        attention_probs_5 = torch.nn.functional.dropout(
+            attention_probs_4, 0.0, False, False
+        )
+        attention_probs_4 = None
+        matmul_3 = attention_probs_5 @ value_1
+        attention_probs_5 = value_1 = None
+        transpose_6 = matmul_3.transpose(1, 2)
+        matmul_3 = None
+        context_layer_1 = transpose_6.reshape(8, 393, 768)
+        transpose_6 = None
+        hidden_states_2 = torch._C._nn.linear(
+            context_layer_1,
+            l_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_1 = l_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_3 = torch.nn.functional.dropout(
+            hidden_states_2, 0.0, False, False
+        )
+        hidden_states_2 = None
+        cls_token_2 = hidden_states_3[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        cls_token_3 = cls_token_2.reshape(1, 8, 768)
+        cls_token_2 = None
+        cls_token_4 = torch.mean(cls_token_3, 1, True)
+        cls_token_3 = None
+        residual_spatial = hidden_states_3[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        hidden_states_3 = None
+        reshape_16 = residual_spatial.reshape(1, 8, 28, 14, 768)
+        residual_spatial = None
+        permute_4 = reshape_16.permute(0, 2, 3, 1, 4)
+        reshape_16 = None
+        residual_spatial_1 = permute_4.reshape(1, 3136, 768)
+        permute_4 = None
+        cat_3 = torch.cat((init_cls_token, temporal_embedding_2), 1)
+        init_cls_token = temporal_embedding_2 = None
+        cat_4 = torch.cat((cls_token_4, residual_spatial_1), 1)
+        cls_token_4 = residual_spatial_1 = None
+        hidden_states_4 = cat_3 + cat_4
+        cat_3 = cat_4 = None
+        layer_output = torch.nn.functional.layer_norm(
+            hidden_states_4,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_bias_,
+            1e-06,
+        )
+        l_self_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_5 = torch._C._nn.linear(
+            layer_output,
+            l_self_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output = l_self_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_6 = torch._C._nn.gelu(hidden_states_5)
+        hidden_states_5 = None
+        hidden_states_7 = torch.nn.functional.dropout(
+            hidden_states_6, 0.0, False, False
+        )
+        hidden_states_6 = None
+        hidden_states_8 = torch._C._nn.linear(
+            hidden_states_7,
+            l_self_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_7 = l_self_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_9 = torch.nn.functional.dropout(
+            hidden_states_8, 0.0, False, False
+        )
+        hidden_states_8 = None
+        layer_output_1 = hidden_states_4 + hidden_states_9
+        hidden_states_4 = hidden_states_9 = None
+        temporal_embedding_3 = layer_output_1[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        reshape_18 = temporal_embedding_3.reshape(1, 28, 14, 8, 768)
+        temporal_embedding_3 = None
+        temporal_embedding_4 = reshape_18.reshape(392, 8, 768)
+        reshape_18 = None
+        layer_norm_3 = torch.nn.functional.layer_norm(
+            temporal_embedding_4,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_1_modules_temporal_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_1_modules_temporal_layernorm_parameters_bias_,
+            1e-06,
+        )
+        temporal_embedding_4 = l_self_modules_encoder_modules_layer_modules_1_modules_temporal_layernorm_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_1_modules_temporal_layernorm_parameters_bias_ = (None)
+        linear_7 = torch._C._nn.linear(
+            layer_norm_3,
+            l_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_3 = l_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_20 = linear_7.reshape(392, 8, 3, 12, 64)
+        linear_7 = None
+        qkv_2 = reshape_20.permute(2, 0, 3, 1, 4)
+        reshape_20 = None
+        query_2 = qkv_2[0]
+        key_2 = qkv_2[1]
+        value_2 = qkv_2[2]
+        qkv_2 = None
+        transpose_7 = key_2.transpose(-2, -1)
+        key_2 = None
+        matmul_4 = query_2 @ transpose_7
+        query_2 = transpose_7 = None
+        attention_probs_6 = matmul_4 * 0.125
+        matmul_4 = None
+        attention_probs_7 = attention_probs_6.softmax(dim=-1)
+        attention_probs_6 = None
+        attention_probs_8 = torch.nn.functional.dropout(
+            attention_probs_7, 0.0, False, False
+        )
+        attention_probs_7 = None
+        matmul_5 = attention_probs_8 @ value_2
+        attention_probs_8 = value_2 = None
+        transpose_8 = matmul_5.transpose(1, 2)
+        matmul_5 = None
+        context_layer_2 = transpose_8.reshape(392, 8, 768)
+        transpose_8 = None
+        hidden_states_10 = torch._C._nn.linear(
+            context_layer_2,
+            l_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_2 = l_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_1_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_11 = torch.nn.functional.dropout(
+            hidden_states_10, 0.0, False, False
+        )
+        hidden_states_10 = None
+        reshape_22 = hidden_states_11.reshape(1, 28, 14, 8, 768)
+        hidden_states_11 = None
+        residual_temporal_2 = reshape_22.reshape(1, 3136, 768)
+        reshape_22 = None
+        residual_temporal_3 = torch._C._nn.linear(
+            residual_temporal_2,
+            l_self_modules_encoder_modules_layer_modules_1_modules_temporal_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_1_modules_temporal_dense_parameters_bias_,
+        )
+        residual_temporal_2 = l_self_modules_encoder_modules_layer_modules_1_modules_temporal_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_1_modules_temporal_dense_parameters_bias_ = (None)
+        getitem_17 = layer_output_1[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        temporal_embedding_5 = getitem_17 + residual_temporal_3
+        getitem_17 = residual_temporal_3 = None
+        getitem_18 = layer_output_1[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        layer_output_1 = None
+        init_cls_token_1 = getitem_18.unsqueeze(1)
+        getitem_18 = None
+        cls_token_5 = init_cls_token_1.repeat(1, 8, 1)
+        cls_token_6 = cls_token_5.reshape(8, 1, 768)
+        cls_token_5 = None
+        reshape_25 = temporal_embedding_5.reshape(1, 28, 14, 8, 768)
+        permute_6 = reshape_25.permute(0, 3, 1, 2, 4)
+        reshape_25 = None
+        spatial_embedding_2 = permute_6.reshape(8, 392, 768)
+        permute_6 = None
+        spatial_embedding_3 = torch.cat((cls_token_6, spatial_embedding_2), 1)
+        cls_token_6 = spatial_embedding_2 = None
+        layer_norm_4 = torch.nn.functional.layer_norm(
+            spatial_embedding_3,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_bias_,
+            1e-06,
+        )
+        spatial_embedding_3 = l_self_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_bias_ = (None)
+        linear_10 = torch._C._nn.linear(
+            layer_norm_4,
+            l_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_4 = l_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_27 = linear_10.reshape(8, 393, 3, 12, 64)
+        linear_10 = None
+        qkv_3 = reshape_27.permute(2, 0, 3, 1, 4)
+        reshape_27 = None
+        query_3 = qkv_3[0]
+        key_3 = qkv_3[1]
+        value_3 = qkv_3[2]
+        qkv_3 = None
+        transpose_9 = key_3.transpose(-2, -1)
+        key_3 = None
+        matmul_6 = query_3 @ transpose_9
+        query_3 = transpose_9 = None
+        attention_probs_9 = matmul_6 * 0.125
+        matmul_6 = None
+        attention_probs_10 = attention_probs_9.softmax(dim=-1)
+        attention_probs_9 = None
+        attention_probs_11 = torch.nn.functional.dropout(
+            attention_probs_10, 0.0, False, False
+        )
+        attention_probs_10 = None
+        matmul_7 = attention_probs_11 @ value_3
+        attention_probs_11 = value_3 = None
+        transpose_10 = matmul_7.transpose(1, 2)
+        matmul_7 = None
+        context_layer_3 = transpose_10.reshape(8, 393, 768)
+        transpose_10 = None
+        hidden_states_12 = torch._C._nn.linear(
+            context_layer_3,
+            l_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_3 = l_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_13 = torch.nn.functional.dropout(
+            hidden_states_12, 0.0, False, False
+        )
+        hidden_states_12 = None
+        cls_token_7 = hidden_states_13[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        cls_token_8 = cls_token_7.reshape(1, 8, 768)
+        cls_token_7 = None
+        cls_token_9 = torch.mean(cls_token_8, 1, True)
+        cls_token_8 = None
+        residual_spatial_2 = hidden_states_13[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        hidden_states_13 = None
+        reshape_30 = residual_spatial_2.reshape(1, 8, 28, 14, 768)
+        residual_spatial_2 = None
+        permute_8 = reshape_30.permute(0, 2, 3, 1, 4)
+        reshape_30 = None
+        residual_spatial_3 = permute_8.reshape(1, 3136, 768)
+        permute_8 = None
+        cat_6 = torch.cat((init_cls_token_1, temporal_embedding_5), 1)
+        init_cls_token_1 = temporal_embedding_5 = None
+        cat_7 = torch.cat((cls_token_9, residual_spatial_3), 1)
+        cls_token_9 = residual_spatial_3 = None
+        hidden_states_14 = cat_6 + cat_7
+        cat_6 = cat_7 = None
+        layer_output_2 = torch.nn.functional.layer_norm(
+            hidden_states_14,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_bias_,
+            1e-06,
+        )
+        l_self_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_15 = torch._C._nn.linear(
+            layer_output_2,
+            l_self_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_2 = l_self_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_16 = torch._C._nn.gelu(hidden_states_15)
+        hidden_states_15 = None
+        hidden_states_17 = torch.nn.functional.dropout(
+            hidden_states_16, 0.0, False, False
+        )
+        hidden_states_16 = None
+        hidden_states_18 = torch._C._nn.linear(
+            hidden_states_17,
+            l_self_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_17 = l_self_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_19 = torch.nn.functional.dropout(
+            hidden_states_18, 0.0, False, False
+        )
+        hidden_states_18 = None
+        layer_output_3 = hidden_states_14 + hidden_states_19
+        hidden_states_14 = hidden_states_19 = None
+        temporal_embedding_6 = layer_output_3[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        reshape_32 = temporal_embedding_6.reshape(1, 28, 14, 8, 768)
+        temporal_embedding_6 = None
+        temporal_embedding_7 = reshape_32.reshape(392, 8, 768)
+        reshape_32 = None
+        layer_norm_6 = torch.nn.functional.layer_norm(
+            temporal_embedding_7,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_2_modules_temporal_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_2_modules_temporal_layernorm_parameters_bias_,
+            1e-06,
+        )
+        temporal_embedding_7 = l_self_modules_encoder_modules_layer_modules_2_modules_temporal_layernorm_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_2_modules_temporal_layernorm_parameters_bias_ = (None)
+        linear_14 = torch._C._nn.linear(
+            layer_norm_6,
+            l_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_6 = l_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_34 = linear_14.reshape(392, 8, 3, 12, 64)
+        linear_14 = None
+        qkv_4 = reshape_34.permute(2, 0, 3, 1, 4)
+        reshape_34 = None
+        query_4 = qkv_4[0]
+        key_4 = qkv_4[1]
+        value_4 = qkv_4[2]
+        qkv_4 = None
+        transpose_11 = key_4.transpose(-2, -1)
+        key_4 = None
+        matmul_8 = query_4 @ transpose_11
+        query_4 = transpose_11 = None
+        attention_probs_12 = matmul_8 * 0.125
+        matmul_8 = None
+        attention_probs_13 = attention_probs_12.softmax(dim=-1)
+        attention_probs_12 = None
+        attention_probs_14 = torch.nn.functional.dropout(
+            attention_probs_13, 0.0, False, False
+        )
+        attention_probs_13 = None
+        matmul_9 = attention_probs_14 @ value_4
+        attention_probs_14 = value_4 = None
+        transpose_12 = matmul_9.transpose(1, 2)
+        matmul_9 = None
+        context_layer_4 = transpose_12.reshape(392, 8, 768)
+        transpose_12 = None
+        hidden_states_20 = torch._C._nn.linear(
+            context_layer_4,
+            l_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_4 = l_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_2_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_21 = torch.nn.functional.dropout(
+            hidden_states_20, 0.0, False, False
+        )
+        hidden_states_20 = None
+        reshape_36 = hidden_states_21.reshape(1, 28, 14, 8, 768)
+        hidden_states_21 = None
+        residual_temporal_4 = reshape_36.reshape(1, 3136, 768)
+        reshape_36 = None
+        residual_temporal_5 = torch._C._nn.linear(
+            residual_temporal_4,
+            l_self_modules_encoder_modules_layer_modules_2_modules_temporal_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_2_modules_temporal_dense_parameters_bias_,
+        )
+        residual_temporal_4 = l_self_modules_encoder_modules_layer_modules_2_modules_temporal_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_2_modules_temporal_dense_parameters_bias_ = (None)
+        getitem_28 = layer_output_3[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        temporal_embedding_8 = getitem_28 + residual_temporal_5
+        getitem_28 = residual_temporal_5 = None
+        getitem_29 = layer_output_3[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        layer_output_3 = None
+        init_cls_token_2 = getitem_29.unsqueeze(1)
+        getitem_29 = None
+        cls_token_10 = init_cls_token_2.repeat(1, 8, 1)
+        cls_token_11 = cls_token_10.reshape(8, 1, 768)
+        cls_token_10 = None
+        reshape_39 = temporal_embedding_8.reshape(1, 28, 14, 8, 768)
+        permute_10 = reshape_39.permute(0, 3, 1, 2, 4)
+        reshape_39 = None
+        spatial_embedding_4 = permute_10.reshape(8, 392, 768)
+        permute_10 = None
+        spatial_embedding_5 = torch.cat((cls_token_11, spatial_embedding_4), 1)
+        cls_token_11 = spatial_embedding_4 = None
+        layer_norm_7 = torch.nn.functional.layer_norm(
+            spatial_embedding_5,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_bias_,
+            1e-06,
+        )
+        spatial_embedding_5 = l_self_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_bias_ = (None)
+        linear_17 = torch._C._nn.linear(
+            layer_norm_7,
+            l_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_7 = l_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_41 = linear_17.reshape(8, 393, 3, 12, 64)
+        linear_17 = None
+        qkv_5 = reshape_41.permute(2, 0, 3, 1, 4)
+        reshape_41 = None
+        query_5 = qkv_5[0]
+        key_5 = qkv_5[1]
+        value_5 = qkv_5[2]
+        qkv_5 = None
+        transpose_13 = key_5.transpose(-2, -1)
+        key_5 = None
+        matmul_10 = query_5 @ transpose_13
+        query_5 = transpose_13 = None
+        attention_probs_15 = matmul_10 * 0.125
+        matmul_10 = None
+        attention_probs_16 = attention_probs_15.softmax(dim=-1)
+        attention_probs_15 = None
+        attention_probs_17 = torch.nn.functional.dropout(
+            attention_probs_16, 0.0, False, False
+        )
+        attention_probs_16 = None
+        matmul_11 = attention_probs_17 @ value_5
+        attention_probs_17 = value_5 = None
+        transpose_14 = matmul_11.transpose(1, 2)
+        matmul_11 = None
+        context_layer_5 = transpose_14.reshape(8, 393, 768)
+        transpose_14 = None
+        hidden_states_22 = torch._C._nn.linear(
+            context_layer_5,
+            l_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_5 = l_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_23 = torch.nn.functional.dropout(
+            hidden_states_22, 0.0, False, False
+        )
+        hidden_states_22 = None
+        cls_token_12 = hidden_states_23[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        cls_token_13 = cls_token_12.reshape(1, 8, 768)
+        cls_token_12 = None
+        cls_token_14 = torch.mean(cls_token_13, 1, True)
+        cls_token_13 = None
+        residual_spatial_4 = hidden_states_23[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        hidden_states_23 = None
+        reshape_44 = residual_spatial_4.reshape(1, 8, 28, 14, 768)
+        residual_spatial_4 = None
+        permute_12 = reshape_44.permute(0, 2, 3, 1, 4)
+        reshape_44 = None
+        residual_spatial_5 = permute_12.reshape(1, 3136, 768)
+        permute_12 = None
+        cat_9 = torch.cat((init_cls_token_2, temporal_embedding_8), 1)
+        init_cls_token_2 = temporal_embedding_8 = None
+        cat_10 = torch.cat((cls_token_14, residual_spatial_5), 1)
+        cls_token_14 = residual_spatial_5 = None
+        hidden_states_24 = cat_9 + cat_10
+        cat_9 = cat_10 = None
+        layer_output_4 = torch.nn.functional.layer_norm(
+            hidden_states_24,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_bias_,
+            1e-06,
+        )
+        l_self_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_25 = torch._C._nn.linear(
+            layer_output_4,
+            l_self_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_4 = l_self_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_26 = torch._C._nn.gelu(hidden_states_25)
+        hidden_states_25 = None
+        hidden_states_27 = torch.nn.functional.dropout(
+            hidden_states_26, 0.0, False, False
+        )
+        hidden_states_26 = None
+        hidden_states_28 = torch._C._nn.linear(
+            hidden_states_27,
+            l_self_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_27 = l_self_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_29 = torch.nn.functional.dropout(
+            hidden_states_28, 0.0, False, False
+        )
+        hidden_states_28 = None
+        layer_output_5 = hidden_states_24 + hidden_states_29
+        hidden_states_24 = hidden_states_29 = None
+        temporal_embedding_9 = layer_output_5[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        reshape_46 = temporal_embedding_9.reshape(1, 28, 14, 8, 768)
+        temporal_embedding_9 = None
+        temporal_embedding_10 = reshape_46.reshape(392, 8, 768)
+        reshape_46 = None
+        layer_norm_9 = torch.nn.functional.layer_norm(
+            temporal_embedding_10,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_3_modules_temporal_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_3_modules_temporal_layernorm_parameters_bias_,
+            1e-06,
+        )
+        temporal_embedding_10 = l_self_modules_encoder_modules_layer_modules_3_modules_temporal_layernorm_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_3_modules_temporal_layernorm_parameters_bias_ = (None)
+        linear_21 = torch._C._nn.linear(
+            layer_norm_9,
+            l_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_9 = l_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_48 = linear_21.reshape(392, 8, 3, 12, 64)
+        linear_21 = None
+        qkv_6 = reshape_48.permute(2, 0, 3, 1, 4)
+        reshape_48 = None
+        query_6 = qkv_6[0]
+        key_6 = qkv_6[1]
+        value_6 = qkv_6[2]
+        qkv_6 = None
+        transpose_15 = key_6.transpose(-2, -1)
+        key_6 = None
+        matmul_12 = query_6 @ transpose_15
+        query_6 = transpose_15 = None
+        attention_probs_18 = matmul_12 * 0.125
+        matmul_12 = None
+        attention_probs_19 = attention_probs_18.softmax(dim=-1)
+        attention_probs_18 = None
+        attention_probs_20 = torch.nn.functional.dropout(
+            attention_probs_19, 0.0, False, False
+        )
+        attention_probs_19 = None
+        matmul_13 = attention_probs_20 @ value_6
+        attention_probs_20 = value_6 = None
+        transpose_16 = matmul_13.transpose(1, 2)
+        matmul_13 = None
+        context_layer_6 = transpose_16.reshape(392, 8, 768)
+        transpose_16 = None
+        hidden_states_30 = torch._C._nn.linear(
+            context_layer_6,
+            l_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_6 = l_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_3_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_31 = torch.nn.functional.dropout(
+            hidden_states_30, 0.0, False, False
+        )
+        hidden_states_30 = None
+        reshape_50 = hidden_states_31.reshape(1, 28, 14, 8, 768)
+        hidden_states_31 = None
+        residual_temporal_6 = reshape_50.reshape(1, 3136, 768)
+        reshape_50 = None
+        residual_temporal_7 = torch._C._nn.linear(
+            residual_temporal_6,
+            l_self_modules_encoder_modules_layer_modules_3_modules_temporal_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_3_modules_temporal_dense_parameters_bias_,
+        )
+        residual_temporal_6 = l_self_modules_encoder_modules_layer_modules_3_modules_temporal_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_3_modules_temporal_dense_parameters_bias_ = (None)
+        getitem_39 = layer_output_5[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        temporal_embedding_11 = getitem_39 + residual_temporal_7
+        getitem_39 = residual_temporal_7 = None
+        getitem_40 = layer_output_5[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        layer_output_5 = None
+        init_cls_token_3 = getitem_40.unsqueeze(1)
+        getitem_40 = None
+        cls_token_15 = init_cls_token_3.repeat(1, 8, 1)
+        cls_token_16 = cls_token_15.reshape(8, 1, 768)
+        cls_token_15 = None
+        reshape_53 = temporal_embedding_11.reshape(1, 28, 14, 8, 768)
+        permute_14 = reshape_53.permute(0, 3, 1, 2, 4)
+        reshape_53 = None
+        spatial_embedding_6 = permute_14.reshape(8, 392, 768)
+        permute_14 = None
+        spatial_embedding_7 = torch.cat((cls_token_16, spatial_embedding_6), 1)
+        cls_token_16 = spatial_embedding_6 = None
+        layer_norm_10 = torch.nn.functional.layer_norm(
+            spatial_embedding_7,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_bias_,
+            1e-06,
+        )
+        spatial_embedding_7 = l_self_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_bias_ = (None)
+        linear_24 = torch._C._nn.linear(
+            layer_norm_10,
+            l_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_10 = l_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_55 = linear_24.reshape(8, 393, 3, 12, 64)
+        linear_24 = None
+        qkv_7 = reshape_55.permute(2, 0, 3, 1, 4)
+        reshape_55 = None
+        query_7 = qkv_7[0]
+        key_7 = qkv_7[1]
+        value_7 = qkv_7[2]
+        qkv_7 = None
+        transpose_17 = key_7.transpose(-2, -1)
+        key_7 = None
+        matmul_14 = query_7 @ transpose_17
+        query_7 = transpose_17 = None
+        attention_probs_21 = matmul_14 * 0.125
+        matmul_14 = None
+        attention_probs_22 = attention_probs_21.softmax(dim=-1)
+        attention_probs_21 = None
+        attention_probs_23 = torch.nn.functional.dropout(
+            attention_probs_22, 0.0, False, False
+        )
+        attention_probs_22 = None
+        matmul_15 = attention_probs_23 @ value_7
+        attention_probs_23 = value_7 = None
+        transpose_18 = matmul_15.transpose(1, 2)
+        matmul_15 = None
+        context_layer_7 = transpose_18.reshape(8, 393, 768)
+        transpose_18 = None
+        hidden_states_32 = torch._C._nn.linear(
+            context_layer_7,
+            l_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_7 = l_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_33 = torch.nn.functional.dropout(
+            hidden_states_32, 0.0, False, False
+        )
+        hidden_states_32 = None
+        cls_token_17 = hidden_states_33[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        cls_token_18 = cls_token_17.reshape(1, 8, 768)
+        cls_token_17 = None
+        cls_token_19 = torch.mean(cls_token_18, 1, True)
+        cls_token_18 = None
+        residual_spatial_6 = hidden_states_33[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        hidden_states_33 = None
+        reshape_58 = residual_spatial_6.reshape(1, 8, 28, 14, 768)
+        residual_spatial_6 = None
+        permute_16 = reshape_58.permute(0, 2, 3, 1, 4)
+        reshape_58 = None
+        residual_spatial_7 = permute_16.reshape(1, 3136, 768)
+        permute_16 = None
+        cat_12 = torch.cat((init_cls_token_3, temporal_embedding_11), 1)
+        init_cls_token_3 = temporal_embedding_11 = None
+        cat_13 = torch.cat((cls_token_19, residual_spatial_7), 1)
+        cls_token_19 = residual_spatial_7 = None
+        hidden_states_34 = cat_12 + cat_13
+        cat_12 = cat_13 = None
+        layer_output_6 = torch.nn.functional.layer_norm(
+            hidden_states_34,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_bias_,
+            1e-06,
+        )
+        l_self_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_35 = torch._C._nn.linear(
+            layer_output_6,
+            l_self_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_6 = l_self_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_36 = torch._C._nn.gelu(hidden_states_35)
+        hidden_states_35 = None
+        hidden_states_37 = torch.nn.functional.dropout(
+            hidden_states_36, 0.0, False, False
+        )
+        hidden_states_36 = None
+        hidden_states_38 = torch._C._nn.linear(
+            hidden_states_37,
+            l_self_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_37 = l_self_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_39 = torch.nn.functional.dropout(
+            hidden_states_38, 0.0, False, False
+        )
+        hidden_states_38 = None
+        layer_output_7 = hidden_states_34 + hidden_states_39
+        hidden_states_34 = hidden_states_39 = None
+        temporal_embedding_12 = layer_output_7[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        reshape_60 = temporal_embedding_12.reshape(1, 28, 14, 8, 768)
+        temporal_embedding_12 = None
+        temporal_embedding_13 = reshape_60.reshape(392, 8, 768)
+        reshape_60 = None
+        layer_norm_12 = torch.nn.functional.layer_norm(
+            temporal_embedding_13,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_4_modules_temporal_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_4_modules_temporal_layernorm_parameters_bias_,
+            1e-06,
+        )
+        temporal_embedding_13 = l_self_modules_encoder_modules_layer_modules_4_modules_temporal_layernorm_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_4_modules_temporal_layernorm_parameters_bias_ = (None)
+        linear_28 = torch._C._nn.linear(
+            layer_norm_12,
+            l_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_12 = l_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_62 = linear_28.reshape(392, 8, 3, 12, 64)
+        linear_28 = None
+        qkv_8 = reshape_62.permute(2, 0, 3, 1, 4)
+        reshape_62 = None
+        query_8 = qkv_8[0]
+        key_8 = qkv_8[1]
+        value_8 = qkv_8[2]
+        qkv_8 = None
+        transpose_19 = key_8.transpose(-2, -1)
+        key_8 = None
+        matmul_16 = query_8 @ transpose_19
+        query_8 = transpose_19 = None
+        attention_probs_24 = matmul_16 * 0.125
+        matmul_16 = None
+        attention_probs_25 = attention_probs_24.softmax(dim=-1)
+        attention_probs_24 = None
+        attention_probs_26 = torch.nn.functional.dropout(
+            attention_probs_25, 0.0, False, False
+        )
+        attention_probs_25 = None
+        matmul_17 = attention_probs_26 @ value_8
+        attention_probs_26 = value_8 = None
+        transpose_20 = matmul_17.transpose(1, 2)
+        matmul_17 = None
+        context_layer_8 = transpose_20.reshape(392, 8, 768)
+        transpose_20 = None
+        hidden_states_40 = torch._C._nn.linear(
+            context_layer_8,
+            l_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_8 = l_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_4_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_41 = torch.nn.functional.dropout(
+            hidden_states_40, 0.0, False, False
+        )
+        hidden_states_40 = None
+        reshape_64 = hidden_states_41.reshape(1, 28, 14, 8, 768)
+        hidden_states_41 = None
+        residual_temporal_8 = reshape_64.reshape(1, 3136, 768)
+        reshape_64 = None
+        residual_temporal_9 = torch._C._nn.linear(
+            residual_temporal_8,
+            l_self_modules_encoder_modules_layer_modules_4_modules_temporal_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_4_modules_temporal_dense_parameters_bias_,
+        )
+        residual_temporal_8 = l_self_modules_encoder_modules_layer_modules_4_modules_temporal_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_4_modules_temporal_dense_parameters_bias_ = (None)
+        getitem_50 = layer_output_7[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        temporal_embedding_14 = getitem_50 + residual_temporal_9
+        getitem_50 = residual_temporal_9 = None
+        getitem_51 = layer_output_7[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        layer_output_7 = None
+        init_cls_token_4 = getitem_51.unsqueeze(1)
+        getitem_51 = None
+        cls_token_20 = init_cls_token_4.repeat(1, 8, 1)
+        cls_token_21 = cls_token_20.reshape(8, 1, 768)
+        cls_token_20 = None
+        reshape_67 = temporal_embedding_14.reshape(1, 28, 14, 8, 768)
+        permute_18 = reshape_67.permute(0, 3, 1, 2, 4)
+        reshape_67 = None
+        spatial_embedding_8 = permute_18.reshape(8, 392, 768)
+        permute_18 = None
+        spatial_embedding_9 = torch.cat((cls_token_21, spatial_embedding_8), 1)
+        cls_token_21 = spatial_embedding_8 = None
+        layer_norm_13 = torch.nn.functional.layer_norm(
+            spatial_embedding_9,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_bias_,
+            1e-06,
+        )
+        spatial_embedding_9 = l_self_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_bias_ = (None)
+        linear_31 = torch._C._nn.linear(
+            layer_norm_13,
+            l_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_13 = l_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_69 = linear_31.reshape(8, 393, 3, 12, 64)
+        linear_31 = None
+        qkv_9 = reshape_69.permute(2, 0, 3, 1, 4)
+        reshape_69 = None
+        query_9 = qkv_9[0]
+        key_9 = qkv_9[1]
+        value_9 = qkv_9[2]
+        qkv_9 = None
+        transpose_21 = key_9.transpose(-2, -1)
+        key_9 = None
+        matmul_18 = query_9 @ transpose_21
+        query_9 = transpose_21 = None
+        attention_probs_27 = matmul_18 * 0.125
+        matmul_18 = None
+        attention_probs_28 = attention_probs_27.softmax(dim=-1)
+        attention_probs_27 = None
+        attention_probs_29 = torch.nn.functional.dropout(
+            attention_probs_28, 0.0, False, False
+        )
+        attention_probs_28 = None
+        matmul_19 = attention_probs_29 @ value_9
+        attention_probs_29 = value_9 = None
+        transpose_22 = matmul_19.transpose(1, 2)
+        matmul_19 = None
+        context_layer_9 = transpose_22.reshape(8, 393, 768)
+        transpose_22 = None
+        hidden_states_42 = torch._C._nn.linear(
+            context_layer_9,
+            l_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_9 = l_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_43 = torch.nn.functional.dropout(
+            hidden_states_42, 0.0, False, False
+        )
+        hidden_states_42 = None
+        cls_token_22 = hidden_states_43[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        cls_token_23 = cls_token_22.reshape(1, 8, 768)
+        cls_token_22 = None
+        cls_token_24 = torch.mean(cls_token_23, 1, True)
+        cls_token_23 = None
+        residual_spatial_8 = hidden_states_43[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        hidden_states_43 = None
+        reshape_72 = residual_spatial_8.reshape(1, 8, 28, 14, 768)
+        residual_spatial_8 = None
+        permute_20 = reshape_72.permute(0, 2, 3, 1, 4)
+        reshape_72 = None
+        residual_spatial_9 = permute_20.reshape(1, 3136, 768)
+        permute_20 = None
+        cat_15 = torch.cat((init_cls_token_4, temporal_embedding_14), 1)
+        init_cls_token_4 = temporal_embedding_14 = None
+        cat_16 = torch.cat((cls_token_24, residual_spatial_9), 1)
+        cls_token_24 = residual_spatial_9 = None
+        hidden_states_44 = cat_15 + cat_16
+        cat_15 = cat_16 = None
+        layer_output_8 = torch.nn.functional.layer_norm(
+            hidden_states_44,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_bias_,
+            1e-06,
+        )
+        l_self_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_45 = torch._C._nn.linear(
+            layer_output_8,
+            l_self_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_8 = l_self_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_46 = torch._C._nn.gelu(hidden_states_45)
+        hidden_states_45 = None
+        hidden_states_47 = torch.nn.functional.dropout(
+            hidden_states_46, 0.0, False, False
+        )
+        hidden_states_46 = None
+        hidden_states_48 = torch._C._nn.linear(
+            hidden_states_47,
+            l_self_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_47 = l_self_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_49 = torch.nn.functional.dropout(
+            hidden_states_48, 0.0, False, False
+        )
+        hidden_states_48 = None
+        layer_output_9 = hidden_states_44 + hidden_states_49
+        hidden_states_44 = hidden_states_49 = None
+        temporal_embedding_15 = layer_output_9[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        reshape_74 = temporal_embedding_15.reshape(1, 28, 14, 8, 768)
+        temporal_embedding_15 = None
+        temporal_embedding_16 = reshape_74.reshape(392, 8, 768)
+        reshape_74 = None
+        layer_norm_15 = torch.nn.functional.layer_norm(
+            temporal_embedding_16,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_5_modules_temporal_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_5_modules_temporal_layernorm_parameters_bias_,
+            1e-06,
+        )
+        temporal_embedding_16 = l_self_modules_encoder_modules_layer_modules_5_modules_temporal_layernorm_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_5_modules_temporal_layernorm_parameters_bias_ = (None)
+        linear_35 = torch._C._nn.linear(
+            layer_norm_15,
+            l_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_15 = l_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_76 = linear_35.reshape(392, 8, 3, 12, 64)
+        linear_35 = None
+        qkv_10 = reshape_76.permute(2, 0, 3, 1, 4)
+        reshape_76 = None
+        query_10 = qkv_10[0]
+        key_10 = qkv_10[1]
+        value_10 = qkv_10[2]
+        qkv_10 = None
+        transpose_23 = key_10.transpose(-2, -1)
+        key_10 = None
+        matmul_20 = query_10 @ transpose_23
+        query_10 = transpose_23 = None
+        attention_probs_30 = matmul_20 * 0.125
+        matmul_20 = None
+        attention_probs_31 = attention_probs_30.softmax(dim=-1)
+        attention_probs_30 = None
+        attention_probs_32 = torch.nn.functional.dropout(
+            attention_probs_31, 0.0, False, False
+        )
+        attention_probs_31 = None
+        matmul_21 = attention_probs_32 @ value_10
+        attention_probs_32 = value_10 = None
+        transpose_24 = matmul_21.transpose(1, 2)
+        matmul_21 = None
+        context_layer_10 = transpose_24.reshape(392, 8, 768)
+        transpose_24 = None
+        hidden_states_50 = torch._C._nn.linear(
+            context_layer_10,
+            l_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_10 = l_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_5_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_51 = torch.nn.functional.dropout(
+            hidden_states_50, 0.0, False, False
+        )
+        hidden_states_50 = None
+        reshape_78 = hidden_states_51.reshape(1, 28, 14, 8, 768)
+        hidden_states_51 = None
+        residual_temporal_10 = reshape_78.reshape(1, 3136, 768)
+        reshape_78 = None
+        residual_temporal_11 = torch._C._nn.linear(
+            residual_temporal_10,
+            l_self_modules_encoder_modules_layer_modules_5_modules_temporal_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_5_modules_temporal_dense_parameters_bias_,
+        )
+        residual_temporal_10 = l_self_modules_encoder_modules_layer_modules_5_modules_temporal_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_5_modules_temporal_dense_parameters_bias_ = (None)
+        getitem_61 = layer_output_9[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        temporal_embedding_17 = getitem_61 + residual_temporal_11
+        getitem_61 = residual_temporal_11 = None
+        getitem_62 = layer_output_9[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        layer_output_9 = None
+        init_cls_token_5 = getitem_62.unsqueeze(1)
+        getitem_62 = None
+        cls_token_25 = init_cls_token_5.repeat(1, 8, 1)
+        cls_token_26 = cls_token_25.reshape(8, 1, 768)
+        cls_token_25 = None
+        reshape_81 = temporal_embedding_17.reshape(1, 28, 14, 8, 768)
+        permute_22 = reshape_81.permute(0, 3, 1, 2, 4)
+        reshape_81 = None
+        spatial_embedding_10 = permute_22.reshape(8, 392, 768)
+        permute_22 = None
+        spatial_embedding_11 = torch.cat((cls_token_26, spatial_embedding_10), 1)
+        cls_token_26 = spatial_embedding_10 = None
+        layer_norm_16 = torch.nn.functional.layer_norm(
+            spatial_embedding_11,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_bias_,
+            1e-06,
+        )
+        spatial_embedding_11 = l_self_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_bias_ = (None)
+        linear_38 = torch._C._nn.linear(
+            layer_norm_16,
+            l_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_16 = l_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_83 = linear_38.reshape(8, 393, 3, 12, 64)
+        linear_38 = None
+        qkv_11 = reshape_83.permute(2, 0, 3, 1, 4)
+        reshape_83 = None
+        query_11 = qkv_11[0]
+        key_11 = qkv_11[1]
+        value_11 = qkv_11[2]
+        qkv_11 = None
+        transpose_25 = key_11.transpose(-2, -1)
+        key_11 = None
+        matmul_22 = query_11 @ transpose_25
+        query_11 = transpose_25 = None
+        attention_probs_33 = matmul_22 * 0.125
+        matmul_22 = None
+        attention_probs_34 = attention_probs_33.softmax(dim=-1)
+        attention_probs_33 = None
+        attention_probs_35 = torch.nn.functional.dropout(
+            attention_probs_34, 0.0, False, False
+        )
+        attention_probs_34 = None
+        matmul_23 = attention_probs_35 @ value_11
+        attention_probs_35 = value_11 = None
+        transpose_26 = matmul_23.transpose(1, 2)
+        matmul_23 = None
+        context_layer_11 = transpose_26.reshape(8, 393, 768)
+        transpose_26 = None
+        hidden_states_52 = torch._C._nn.linear(
+            context_layer_11,
+            l_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_11 = l_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_53 = torch.nn.functional.dropout(
+            hidden_states_52, 0.0, False, False
+        )
+        hidden_states_52 = None
+        cls_token_27 = hidden_states_53[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        cls_token_28 = cls_token_27.reshape(1, 8, 768)
+        cls_token_27 = None
+        cls_token_29 = torch.mean(cls_token_28, 1, True)
+        cls_token_28 = None
+        residual_spatial_10 = hidden_states_53[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        hidden_states_53 = None
+        reshape_86 = residual_spatial_10.reshape(1, 8, 28, 14, 768)
+        residual_spatial_10 = None
+        permute_24 = reshape_86.permute(0, 2, 3, 1, 4)
+        reshape_86 = None
+        residual_spatial_11 = permute_24.reshape(1, 3136, 768)
+        permute_24 = None
+        cat_18 = torch.cat((init_cls_token_5, temporal_embedding_17), 1)
+        init_cls_token_5 = temporal_embedding_17 = None
+        cat_19 = torch.cat((cls_token_29, residual_spatial_11), 1)
+        cls_token_29 = residual_spatial_11 = None
+        hidden_states_54 = cat_18 + cat_19
+        cat_18 = cat_19 = None
+        layer_output_10 = torch.nn.functional.layer_norm(
+            hidden_states_54,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_bias_,
+            1e-06,
+        )
+        l_self_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_55 = torch._C._nn.linear(
+            layer_output_10,
+            l_self_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_10 = l_self_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_56 = torch._C._nn.gelu(hidden_states_55)
+        hidden_states_55 = None
+        hidden_states_57 = torch.nn.functional.dropout(
+            hidden_states_56, 0.0, False, False
+        )
+        hidden_states_56 = None
+        hidden_states_58 = torch._C._nn.linear(
+            hidden_states_57,
+            l_self_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_57 = l_self_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_59 = torch.nn.functional.dropout(
+            hidden_states_58, 0.0, False, False
+        )
+        hidden_states_58 = None
+        layer_output_11 = hidden_states_54 + hidden_states_59
+        hidden_states_54 = hidden_states_59 = None
+        temporal_embedding_18 = layer_output_11[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        reshape_88 = temporal_embedding_18.reshape(1, 28, 14, 8, 768)
+        temporal_embedding_18 = None
+        temporal_embedding_19 = reshape_88.reshape(392, 8, 768)
+        reshape_88 = None
+        layer_norm_18 = torch.nn.functional.layer_norm(
+            temporal_embedding_19,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_6_modules_temporal_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_6_modules_temporal_layernorm_parameters_bias_,
+            1e-06,
+        )
+        temporal_embedding_19 = l_self_modules_encoder_modules_layer_modules_6_modules_temporal_layernorm_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_6_modules_temporal_layernorm_parameters_bias_ = (None)
+        linear_42 = torch._C._nn.linear(
+            layer_norm_18,
+            l_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_18 = l_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_90 = linear_42.reshape(392, 8, 3, 12, 64)
+        linear_42 = None
+        qkv_12 = reshape_90.permute(2, 0, 3, 1, 4)
+        reshape_90 = None
+        query_12 = qkv_12[0]
+        key_12 = qkv_12[1]
+        value_12 = qkv_12[2]
+        qkv_12 = None
+        transpose_27 = key_12.transpose(-2, -1)
+        key_12 = None
+        matmul_24 = query_12 @ transpose_27
+        query_12 = transpose_27 = None
+        attention_probs_36 = matmul_24 * 0.125
+        matmul_24 = None
+        attention_probs_37 = attention_probs_36.softmax(dim=-1)
+        attention_probs_36 = None
+        attention_probs_38 = torch.nn.functional.dropout(
+            attention_probs_37, 0.0, False, False
+        )
+        attention_probs_37 = None
+        matmul_25 = attention_probs_38 @ value_12
+        attention_probs_38 = value_12 = None
+        transpose_28 = matmul_25.transpose(1, 2)
+        matmul_25 = None
+        context_layer_12 = transpose_28.reshape(392, 8, 768)
+        transpose_28 = None
+        hidden_states_60 = torch._C._nn.linear(
+            context_layer_12,
+            l_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_12 = l_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_6_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_61 = torch.nn.functional.dropout(
+            hidden_states_60, 0.0, False, False
+        )
+        hidden_states_60 = None
+        reshape_92 = hidden_states_61.reshape(1, 28, 14, 8, 768)
+        hidden_states_61 = None
+        residual_temporal_12 = reshape_92.reshape(1, 3136, 768)
+        reshape_92 = None
+        residual_temporal_13 = torch._C._nn.linear(
+            residual_temporal_12,
+            l_self_modules_encoder_modules_layer_modules_6_modules_temporal_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_6_modules_temporal_dense_parameters_bias_,
+        )
+        residual_temporal_12 = l_self_modules_encoder_modules_layer_modules_6_modules_temporal_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_6_modules_temporal_dense_parameters_bias_ = (None)
+        getitem_72 = layer_output_11[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        temporal_embedding_20 = getitem_72 + residual_temporal_13
+        getitem_72 = residual_temporal_13 = None
+        getitem_73 = layer_output_11[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        layer_output_11 = None
+        init_cls_token_6 = getitem_73.unsqueeze(1)
+        getitem_73 = None
+        cls_token_30 = init_cls_token_6.repeat(1, 8, 1)
+        cls_token_31 = cls_token_30.reshape(8, 1, 768)
+        cls_token_30 = None
+        reshape_95 = temporal_embedding_20.reshape(1, 28, 14, 8, 768)
+        permute_26 = reshape_95.permute(0, 3, 1, 2, 4)
+        reshape_95 = None
+        spatial_embedding_12 = permute_26.reshape(8, 392, 768)
+        permute_26 = None
+        spatial_embedding_13 = torch.cat((cls_token_31, spatial_embedding_12), 1)
+        cls_token_31 = spatial_embedding_12 = None
+        layer_norm_19 = torch.nn.functional.layer_norm(
+            spatial_embedding_13,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_bias_,
+            1e-06,
+        )
+        spatial_embedding_13 = l_self_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_bias_ = (None)
+        linear_45 = torch._C._nn.linear(
+            layer_norm_19,
+            l_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_19 = l_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_97 = linear_45.reshape(8, 393, 3, 12, 64)
+        linear_45 = None
+        qkv_13 = reshape_97.permute(2, 0, 3, 1, 4)
+        reshape_97 = None
+        query_13 = qkv_13[0]
+        key_13 = qkv_13[1]
+        value_13 = qkv_13[2]
+        qkv_13 = None
+        transpose_29 = key_13.transpose(-2, -1)
+        key_13 = None
+        matmul_26 = query_13 @ transpose_29
+        query_13 = transpose_29 = None
+        attention_probs_39 = matmul_26 * 0.125
+        matmul_26 = None
+        attention_probs_40 = attention_probs_39.softmax(dim=-1)
+        attention_probs_39 = None
+        attention_probs_41 = torch.nn.functional.dropout(
+            attention_probs_40, 0.0, False, False
+        )
+        attention_probs_40 = None
+        matmul_27 = attention_probs_41 @ value_13
+        attention_probs_41 = value_13 = None
+        transpose_30 = matmul_27.transpose(1, 2)
+        matmul_27 = None
+        context_layer_13 = transpose_30.reshape(8, 393, 768)
+        transpose_30 = None
+        hidden_states_62 = torch._C._nn.linear(
+            context_layer_13,
+            l_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_13 = l_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_63 = torch.nn.functional.dropout(
+            hidden_states_62, 0.0, False, False
+        )
+        hidden_states_62 = None
+        cls_token_32 = hidden_states_63[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        cls_token_33 = cls_token_32.reshape(1, 8, 768)
+        cls_token_32 = None
+        cls_token_34 = torch.mean(cls_token_33, 1, True)
+        cls_token_33 = None
+        residual_spatial_12 = hidden_states_63[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        hidden_states_63 = None
+        reshape_100 = residual_spatial_12.reshape(1, 8, 28, 14, 768)
+        residual_spatial_12 = None
+        permute_28 = reshape_100.permute(0, 2, 3, 1, 4)
+        reshape_100 = None
+        residual_spatial_13 = permute_28.reshape(1, 3136, 768)
+        permute_28 = None
+        cat_21 = torch.cat((init_cls_token_6, temporal_embedding_20), 1)
+        init_cls_token_6 = temporal_embedding_20 = None
+        cat_22 = torch.cat((cls_token_34, residual_spatial_13), 1)
+        cls_token_34 = residual_spatial_13 = None
+        hidden_states_64 = cat_21 + cat_22
+        cat_21 = cat_22 = None
+        layer_output_12 = torch.nn.functional.layer_norm(
+            hidden_states_64,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_bias_,
+            1e-06,
+        )
+        l_self_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_65 = torch._C._nn.linear(
+            layer_output_12,
+            l_self_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_12 = l_self_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_66 = torch._C._nn.gelu(hidden_states_65)
+        hidden_states_65 = None
+        hidden_states_67 = torch.nn.functional.dropout(
+            hidden_states_66, 0.0, False, False
+        )
+        hidden_states_66 = None
+        hidden_states_68 = torch._C._nn.linear(
+            hidden_states_67,
+            l_self_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_67 = l_self_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_69 = torch.nn.functional.dropout(
+            hidden_states_68, 0.0, False, False
+        )
+        hidden_states_68 = None
+        layer_output_13 = hidden_states_64 + hidden_states_69
+        hidden_states_64 = hidden_states_69 = None
+        temporal_embedding_21 = layer_output_13[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        reshape_102 = temporal_embedding_21.reshape(1, 28, 14, 8, 768)
+        temporal_embedding_21 = None
+        temporal_embedding_22 = reshape_102.reshape(392, 8, 768)
+        reshape_102 = None
+        layer_norm_21 = torch.nn.functional.layer_norm(
+            temporal_embedding_22,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_7_modules_temporal_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_7_modules_temporal_layernorm_parameters_bias_,
+            1e-06,
+        )
+        temporal_embedding_22 = l_self_modules_encoder_modules_layer_modules_7_modules_temporal_layernorm_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_7_modules_temporal_layernorm_parameters_bias_ = (None)
+        linear_49 = torch._C._nn.linear(
+            layer_norm_21,
+            l_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_21 = l_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_104 = linear_49.reshape(392, 8, 3, 12, 64)
+        linear_49 = None
+        qkv_14 = reshape_104.permute(2, 0, 3, 1, 4)
+        reshape_104 = None
+        query_14 = qkv_14[0]
+        key_14 = qkv_14[1]
+        value_14 = qkv_14[2]
+        qkv_14 = None
+        transpose_31 = key_14.transpose(-2, -1)
+        key_14 = None
+        matmul_28 = query_14 @ transpose_31
+        query_14 = transpose_31 = None
+        attention_probs_42 = matmul_28 * 0.125
+        matmul_28 = None
+        attention_probs_43 = attention_probs_42.softmax(dim=-1)
+        attention_probs_42 = None
+        attention_probs_44 = torch.nn.functional.dropout(
+            attention_probs_43, 0.0, False, False
+        )
+        attention_probs_43 = None
+        matmul_29 = attention_probs_44 @ value_14
+        attention_probs_44 = value_14 = None
+        transpose_32 = matmul_29.transpose(1, 2)
+        matmul_29 = None
+        context_layer_14 = transpose_32.reshape(392, 8, 768)
+        transpose_32 = None
+        hidden_states_70 = torch._C._nn.linear(
+            context_layer_14,
+            l_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_14 = l_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_7_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_71 = torch.nn.functional.dropout(
+            hidden_states_70, 0.0, False, False
+        )
+        hidden_states_70 = None
+        reshape_106 = hidden_states_71.reshape(1, 28, 14, 8, 768)
+        hidden_states_71 = None
+        residual_temporal_14 = reshape_106.reshape(1, 3136, 768)
+        reshape_106 = None
+        residual_temporal_15 = torch._C._nn.linear(
+            residual_temporal_14,
+            l_self_modules_encoder_modules_layer_modules_7_modules_temporal_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_7_modules_temporal_dense_parameters_bias_,
+        )
+        residual_temporal_14 = l_self_modules_encoder_modules_layer_modules_7_modules_temporal_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_7_modules_temporal_dense_parameters_bias_ = (None)
+        getitem_83 = layer_output_13[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        temporal_embedding_23 = getitem_83 + residual_temporal_15
+        getitem_83 = residual_temporal_15 = None
+        getitem_84 = layer_output_13[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        layer_output_13 = None
+        init_cls_token_7 = getitem_84.unsqueeze(1)
+        getitem_84 = None
+        cls_token_35 = init_cls_token_7.repeat(1, 8, 1)
+        cls_token_36 = cls_token_35.reshape(8, 1, 768)
+        cls_token_35 = None
+        reshape_109 = temporal_embedding_23.reshape(1, 28, 14, 8, 768)
+        permute_30 = reshape_109.permute(0, 3, 1, 2, 4)
+        reshape_109 = None
+        spatial_embedding_14 = permute_30.reshape(8, 392, 768)
+        permute_30 = None
+        spatial_embedding_15 = torch.cat((cls_token_36, spatial_embedding_14), 1)
+        cls_token_36 = spatial_embedding_14 = None
+        layer_norm_22 = torch.nn.functional.layer_norm(
+            spatial_embedding_15,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_bias_,
+            1e-06,
+        )
+        spatial_embedding_15 = l_self_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_bias_ = (None)
+        linear_52 = torch._C._nn.linear(
+            layer_norm_22,
+            l_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_22 = l_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_111 = linear_52.reshape(8, 393, 3, 12, 64)
+        linear_52 = None
+        qkv_15 = reshape_111.permute(2, 0, 3, 1, 4)
+        reshape_111 = None
+        query_15 = qkv_15[0]
+        key_15 = qkv_15[1]
+        value_15 = qkv_15[2]
+        qkv_15 = None
+        transpose_33 = key_15.transpose(-2, -1)
+        key_15 = None
+        matmul_30 = query_15 @ transpose_33
+        query_15 = transpose_33 = None
+        attention_probs_45 = matmul_30 * 0.125
+        matmul_30 = None
+        attention_probs_46 = attention_probs_45.softmax(dim=-1)
+        attention_probs_45 = None
+        attention_probs_47 = torch.nn.functional.dropout(
+            attention_probs_46, 0.0, False, False
+        )
+        attention_probs_46 = None
+        matmul_31 = attention_probs_47 @ value_15
+        attention_probs_47 = value_15 = None
+        transpose_34 = matmul_31.transpose(1, 2)
+        matmul_31 = None
+        context_layer_15 = transpose_34.reshape(8, 393, 768)
+        transpose_34 = None
+        hidden_states_72 = torch._C._nn.linear(
+            context_layer_15,
+            l_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_15 = l_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_73 = torch.nn.functional.dropout(
+            hidden_states_72, 0.0, False, False
+        )
+        hidden_states_72 = None
+        cls_token_37 = hidden_states_73[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        cls_token_38 = cls_token_37.reshape(1, 8, 768)
+        cls_token_37 = None
+        cls_token_39 = torch.mean(cls_token_38, 1, True)
+        cls_token_38 = None
+        residual_spatial_14 = hidden_states_73[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        hidden_states_73 = None
+        reshape_114 = residual_spatial_14.reshape(1, 8, 28, 14, 768)
+        residual_spatial_14 = None
+        permute_32 = reshape_114.permute(0, 2, 3, 1, 4)
+        reshape_114 = None
+        residual_spatial_15 = permute_32.reshape(1, 3136, 768)
+        permute_32 = None
+        cat_24 = torch.cat((init_cls_token_7, temporal_embedding_23), 1)
+        init_cls_token_7 = temporal_embedding_23 = None
+        cat_25 = torch.cat((cls_token_39, residual_spatial_15), 1)
+        cls_token_39 = residual_spatial_15 = None
+        hidden_states_74 = cat_24 + cat_25
+        cat_24 = cat_25 = None
+        layer_output_14 = torch.nn.functional.layer_norm(
+            hidden_states_74,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_bias_,
+            1e-06,
+        )
+        l_self_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_75 = torch._C._nn.linear(
+            layer_output_14,
+            l_self_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_14 = l_self_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_76 = torch._C._nn.gelu(hidden_states_75)
+        hidden_states_75 = None
+        hidden_states_77 = torch.nn.functional.dropout(
+            hidden_states_76, 0.0, False, False
+        )
+        hidden_states_76 = None
+        hidden_states_78 = torch._C._nn.linear(
+            hidden_states_77,
+            l_self_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_77 = l_self_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_79 = torch.nn.functional.dropout(
+            hidden_states_78, 0.0, False, False
+        )
+        hidden_states_78 = None
+        layer_output_15 = hidden_states_74 + hidden_states_79
+        hidden_states_74 = hidden_states_79 = None
+        temporal_embedding_24 = layer_output_15[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        reshape_116 = temporal_embedding_24.reshape(1, 28, 14, 8, 768)
+        temporal_embedding_24 = None
+        temporal_embedding_25 = reshape_116.reshape(392, 8, 768)
+        reshape_116 = None
+        layer_norm_24 = torch.nn.functional.layer_norm(
+            temporal_embedding_25,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_8_modules_temporal_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_8_modules_temporal_layernorm_parameters_bias_,
+            1e-06,
+        )
+        temporal_embedding_25 = l_self_modules_encoder_modules_layer_modules_8_modules_temporal_layernorm_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_8_modules_temporal_layernorm_parameters_bias_ = (None)
+        linear_56 = torch._C._nn.linear(
+            layer_norm_24,
+            l_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_24 = l_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_118 = linear_56.reshape(392, 8, 3, 12, 64)
+        linear_56 = None
+        qkv_16 = reshape_118.permute(2, 0, 3, 1, 4)
+        reshape_118 = None
+        query_16 = qkv_16[0]
+        key_16 = qkv_16[1]
+        value_16 = qkv_16[2]
+        qkv_16 = None
+        transpose_35 = key_16.transpose(-2, -1)
+        key_16 = None
+        matmul_32 = query_16 @ transpose_35
+        query_16 = transpose_35 = None
+        attention_probs_48 = matmul_32 * 0.125
+        matmul_32 = None
+        attention_probs_49 = attention_probs_48.softmax(dim=-1)
+        attention_probs_48 = None
+        attention_probs_50 = torch.nn.functional.dropout(
+            attention_probs_49, 0.0, False, False
+        )
+        attention_probs_49 = None
+        matmul_33 = attention_probs_50 @ value_16
+        attention_probs_50 = value_16 = None
+        transpose_36 = matmul_33.transpose(1, 2)
+        matmul_33 = None
+        context_layer_16 = transpose_36.reshape(392, 8, 768)
+        transpose_36 = None
+        hidden_states_80 = torch._C._nn.linear(
+            context_layer_16,
+            l_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_16 = l_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_8_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_81 = torch.nn.functional.dropout(
+            hidden_states_80, 0.0, False, False
+        )
+        hidden_states_80 = None
+        reshape_120 = hidden_states_81.reshape(1, 28, 14, 8, 768)
+        hidden_states_81 = None
+        residual_temporal_16 = reshape_120.reshape(1, 3136, 768)
+        reshape_120 = None
+        residual_temporal_17 = torch._C._nn.linear(
+            residual_temporal_16,
+            l_self_modules_encoder_modules_layer_modules_8_modules_temporal_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_8_modules_temporal_dense_parameters_bias_,
+        )
+        residual_temporal_16 = l_self_modules_encoder_modules_layer_modules_8_modules_temporal_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_8_modules_temporal_dense_parameters_bias_ = (None)
+        getitem_94 = layer_output_15[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        temporal_embedding_26 = getitem_94 + residual_temporal_17
+        getitem_94 = residual_temporal_17 = None
+        getitem_95 = layer_output_15[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        layer_output_15 = None
+        init_cls_token_8 = getitem_95.unsqueeze(1)
+        getitem_95 = None
+        cls_token_40 = init_cls_token_8.repeat(1, 8, 1)
+        cls_token_41 = cls_token_40.reshape(8, 1, 768)
+        cls_token_40 = None
+        reshape_123 = temporal_embedding_26.reshape(1, 28, 14, 8, 768)
+        permute_34 = reshape_123.permute(0, 3, 1, 2, 4)
+        reshape_123 = None
+        spatial_embedding_16 = permute_34.reshape(8, 392, 768)
+        permute_34 = None
+        spatial_embedding_17 = torch.cat((cls_token_41, spatial_embedding_16), 1)
+        cls_token_41 = spatial_embedding_16 = None
+        layer_norm_25 = torch.nn.functional.layer_norm(
+            spatial_embedding_17,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_bias_,
+            1e-06,
+        )
+        spatial_embedding_17 = l_self_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_bias_ = (None)
+        linear_59 = torch._C._nn.linear(
+            layer_norm_25,
+            l_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_25 = l_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_125 = linear_59.reshape(8, 393, 3, 12, 64)
+        linear_59 = None
+        qkv_17 = reshape_125.permute(2, 0, 3, 1, 4)
+        reshape_125 = None
+        query_17 = qkv_17[0]
+        key_17 = qkv_17[1]
+        value_17 = qkv_17[2]
+        qkv_17 = None
+        transpose_37 = key_17.transpose(-2, -1)
+        key_17 = None
+        matmul_34 = query_17 @ transpose_37
+        query_17 = transpose_37 = None
+        attention_probs_51 = matmul_34 * 0.125
+        matmul_34 = None
+        attention_probs_52 = attention_probs_51.softmax(dim=-1)
+        attention_probs_51 = None
+        attention_probs_53 = torch.nn.functional.dropout(
+            attention_probs_52, 0.0, False, False
+        )
+        attention_probs_52 = None
+        matmul_35 = attention_probs_53 @ value_17
+        attention_probs_53 = value_17 = None
+        transpose_38 = matmul_35.transpose(1, 2)
+        matmul_35 = None
+        context_layer_17 = transpose_38.reshape(8, 393, 768)
+        transpose_38 = None
+        hidden_states_82 = torch._C._nn.linear(
+            context_layer_17,
+            l_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_17 = l_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_83 = torch.nn.functional.dropout(
+            hidden_states_82, 0.0, False, False
+        )
+        hidden_states_82 = None
+        cls_token_42 = hidden_states_83[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        cls_token_43 = cls_token_42.reshape(1, 8, 768)
+        cls_token_42 = None
+        cls_token_44 = torch.mean(cls_token_43, 1, True)
+        cls_token_43 = None
+        residual_spatial_16 = hidden_states_83[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        hidden_states_83 = None
+        reshape_128 = residual_spatial_16.reshape(1, 8, 28, 14, 768)
+        residual_spatial_16 = None
+        permute_36 = reshape_128.permute(0, 2, 3, 1, 4)
+        reshape_128 = None
+        residual_spatial_17 = permute_36.reshape(1, 3136, 768)
+        permute_36 = None
+        cat_27 = torch.cat((init_cls_token_8, temporal_embedding_26), 1)
+        init_cls_token_8 = temporal_embedding_26 = None
+        cat_28 = torch.cat((cls_token_44, residual_spatial_17), 1)
+        cls_token_44 = residual_spatial_17 = None
+        hidden_states_84 = cat_27 + cat_28
+        cat_27 = cat_28 = None
+        layer_output_16 = torch.nn.functional.layer_norm(
+            hidden_states_84,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_bias_,
+            1e-06,
+        )
+        l_self_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_85 = torch._C._nn.linear(
+            layer_output_16,
+            l_self_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_16 = l_self_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_86 = torch._C._nn.gelu(hidden_states_85)
+        hidden_states_85 = None
+        hidden_states_87 = torch.nn.functional.dropout(
+            hidden_states_86, 0.0, False, False
+        )
+        hidden_states_86 = None
+        hidden_states_88 = torch._C._nn.linear(
+            hidden_states_87,
+            l_self_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_87 = l_self_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_89 = torch.nn.functional.dropout(
+            hidden_states_88, 0.0, False, False
+        )
+        hidden_states_88 = None
+        layer_output_17 = hidden_states_84 + hidden_states_89
+        hidden_states_84 = hidden_states_89 = None
+        temporal_embedding_27 = layer_output_17[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        reshape_130 = temporal_embedding_27.reshape(1, 28, 14, 8, 768)
+        temporal_embedding_27 = None
+        temporal_embedding_28 = reshape_130.reshape(392, 8, 768)
+        reshape_130 = None
+        layer_norm_27 = torch.nn.functional.layer_norm(
+            temporal_embedding_28,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_9_modules_temporal_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_9_modules_temporal_layernorm_parameters_bias_,
+            1e-06,
+        )
+        temporal_embedding_28 = l_self_modules_encoder_modules_layer_modules_9_modules_temporal_layernorm_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_9_modules_temporal_layernorm_parameters_bias_ = (None)
+        linear_63 = torch._C._nn.linear(
+            layer_norm_27,
+            l_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_27 = l_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_132 = linear_63.reshape(392, 8, 3, 12, 64)
+        linear_63 = None
+        qkv_18 = reshape_132.permute(2, 0, 3, 1, 4)
+        reshape_132 = None
+        query_18 = qkv_18[0]
+        key_18 = qkv_18[1]
+        value_18 = qkv_18[2]
+        qkv_18 = None
+        transpose_39 = key_18.transpose(-2, -1)
+        key_18 = None
+        matmul_36 = query_18 @ transpose_39
+        query_18 = transpose_39 = None
+        attention_probs_54 = matmul_36 * 0.125
+        matmul_36 = None
+        attention_probs_55 = attention_probs_54.softmax(dim=-1)
+        attention_probs_54 = None
+        attention_probs_56 = torch.nn.functional.dropout(
+            attention_probs_55, 0.0, False, False
+        )
+        attention_probs_55 = None
+        matmul_37 = attention_probs_56 @ value_18
+        attention_probs_56 = value_18 = None
+        transpose_40 = matmul_37.transpose(1, 2)
+        matmul_37 = None
+        context_layer_18 = transpose_40.reshape(392, 8, 768)
+        transpose_40 = None
+        hidden_states_90 = torch._C._nn.linear(
+            context_layer_18,
+            l_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_18 = l_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_9_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_91 = torch.nn.functional.dropout(
+            hidden_states_90, 0.0, False, False
+        )
+        hidden_states_90 = None
+        reshape_134 = hidden_states_91.reshape(1, 28, 14, 8, 768)
+        hidden_states_91 = None
+        residual_temporal_18 = reshape_134.reshape(1, 3136, 768)
+        reshape_134 = None
+        residual_temporal_19 = torch._C._nn.linear(
+            residual_temporal_18,
+            l_self_modules_encoder_modules_layer_modules_9_modules_temporal_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_9_modules_temporal_dense_parameters_bias_,
+        )
+        residual_temporal_18 = l_self_modules_encoder_modules_layer_modules_9_modules_temporal_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_9_modules_temporal_dense_parameters_bias_ = (None)
+        getitem_105 = layer_output_17[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        temporal_embedding_29 = getitem_105 + residual_temporal_19
+        getitem_105 = residual_temporal_19 = None
+        getitem_106 = layer_output_17[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        layer_output_17 = None
+        init_cls_token_9 = getitem_106.unsqueeze(1)
+        getitem_106 = None
+        cls_token_45 = init_cls_token_9.repeat(1, 8, 1)
+        cls_token_46 = cls_token_45.reshape(8, 1, 768)
+        cls_token_45 = None
+        reshape_137 = temporal_embedding_29.reshape(1, 28, 14, 8, 768)
+        permute_38 = reshape_137.permute(0, 3, 1, 2, 4)
+        reshape_137 = None
+        spatial_embedding_18 = permute_38.reshape(8, 392, 768)
+        permute_38 = None
+        spatial_embedding_19 = torch.cat((cls_token_46, spatial_embedding_18), 1)
+        cls_token_46 = spatial_embedding_18 = None
+        layer_norm_28 = torch.nn.functional.layer_norm(
+            spatial_embedding_19,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_bias_,
+            1e-06,
+        )
+        spatial_embedding_19 = l_self_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_bias_ = (None)
+        linear_66 = torch._C._nn.linear(
+            layer_norm_28,
+            l_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_28 = l_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_139 = linear_66.reshape(8, 393, 3, 12, 64)
+        linear_66 = None
+        qkv_19 = reshape_139.permute(2, 0, 3, 1, 4)
+        reshape_139 = None
+        query_19 = qkv_19[0]
+        key_19 = qkv_19[1]
+        value_19 = qkv_19[2]
+        qkv_19 = None
+        transpose_41 = key_19.transpose(-2, -1)
+        key_19 = None
+        matmul_38 = query_19 @ transpose_41
+        query_19 = transpose_41 = None
+        attention_probs_57 = matmul_38 * 0.125
+        matmul_38 = None
+        attention_probs_58 = attention_probs_57.softmax(dim=-1)
+        attention_probs_57 = None
+        attention_probs_59 = torch.nn.functional.dropout(
+            attention_probs_58, 0.0, False, False
+        )
+        attention_probs_58 = None
+        matmul_39 = attention_probs_59 @ value_19
+        attention_probs_59 = value_19 = None
+        transpose_42 = matmul_39.transpose(1, 2)
+        matmul_39 = None
+        context_layer_19 = transpose_42.reshape(8, 393, 768)
+        transpose_42 = None
+        hidden_states_92 = torch._C._nn.linear(
+            context_layer_19,
+            l_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_19 = l_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_93 = torch.nn.functional.dropout(
+            hidden_states_92, 0.0, False, False
+        )
+        hidden_states_92 = None
+        cls_token_47 = hidden_states_93[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        cls_token_48 = cls_token_47.reshape(1, 8, 768)
+        cls_token_47 = None
+        cls_token_49 = torch.mean(cls_token_48, 1, True)
+        cls_token_48 = None
+        residual_spatial_18 = hidden_states_93[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        hidden_states_93 = None
+        reshape_142 = residual_spatial_18.reshape(1, 8, 28, 14, 768)
+        residual_spatial_18 = None
+        permute_40 = reshape_142.permute(0, 2, 3, 1, 4)
+        reshape_142 = None
+        residual_spatial_19 = permute_40.reshape(1, 3136, 768)
+        permute_40 = None
+        cat_30 = torch.cat((init_cls_token_9, temporal_embedding_29), 1)
+        init_cls_token_9 = temporal_embedding_29 = None
+        cat_31 = torch.cat((cls_token_49, residual_spatial_19), 1)
+        cls_token_49 = residual_spatial_19 = None
+        hidden_states_94 = cat_30 + cat_31
+        cat_30 = cat_31 = None
+        layer_output_18 = torch.nn.functional.layer_norm(
+            hidden_states_94,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_bias_,
+            1e-06,
+        )
+        l_self_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_95 = torch._C._nn.linear(
+            layer_output_18,
+            l_self_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_18 = l_self_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_96 = torch._C._nn.gelu(hidden_states_95)
+        hidden_states_95 = None
+        hidden_states_97 = torch.nn.functional.dropout(
+            hidden_states_96, 0.0, False, False
+        )
+        hidden_states_96 = None
+        hidden_states_98 = torch._C._nn.linear(
+            hidden_states_97,
+            l_self_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_97 = l_self_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_99 = torch.nn.functional.dropout(
+            hidden_states_98, 0.0, False, False
+        )
+        hidden_states_98 = None
+        layer_output_19 = hidden_states_94 + hidden_states_99
+        hidden_states_94 = hidden_states_99 = None
+        temporal_embedding_30 = layer_output_19[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        reshape_144 = temporal_embedding_30.reshape(1, 28, 14, 8, 768)
+        temporal_embedding_30 = None
+        temporal_embedding_31 = reshape_144.reshape(392, 8, 768)
+        reshape_144 = None
+        layer_norm_30 = torch.nn.functional.layer_norm(
+            temporal_embedding_31,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_10_modules_temporal_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_10_modules_temporal_layernorm_parameters_bias_,
+            1e-06,
+        )
+        temporal_embedding_31 = l_self_modules_encoder_modules_layer_modules_10_modules_temporal_layernorm_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_10_modules_temporal_layernorm_parameters_bias_ = (None)
+        linear_70 = torch._C._nn.linear(
+            layer_norm_30,
+            l_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_30 = l_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_146 = linear_70.reshape(392, 8, 3, 12, 64)
+        linear_70 = None
+        qkv_20 = reshape_146.permute(2, 0, 3, 1, 4)
+        reshape_146 = None
+        query_20 = qkv_20[0]
+        key_20 = qkv_20[1]
+        value_20 = qkv_20[2]
+        qkv_20 = None
+        transpose_43 = key_20.transpose(-2, -1)
+        key_20 = None
+        matmul_40 = query_20 @ transpose_43
+        query_20 = transpose_43 = None
+        attention_probs_60 = matmul_40 * 0.125
+        matmul_40 = None
+        attention_probs_61 = attention_probs_60.softmax(dim=-1)
+        attention_probs_60 = None
+        attention_probs_62 = torch.nn.functional.dropout(
+            attention_probs_61, 0.0, False, False
+        )
+        attention_probs_61 = None
+        matmul_41 = attention_probs_62 @ value_20
+        attention_probs_62 = value_20 = None
+        transpose_44 = matmul_41.transpose(1, 2)
+        matmul_41 = None
+        context_layer_20 = transpose_44.reshape(392, 8, 768)
+        transpose_44 = None
+        hidden_states_100 = torch._C._nn.linear(
+            context_layer_20,
+            l_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_20 = l_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_10_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_101 = torch.nn.functional.dropout(
+            hidden_states_100, 0.0, False, False
+        )
+        hidden_states_100 = None
+        reshape_148 = hidden_states_101.reshape(1, 28, 14, 8, 768)
+        hidden_states_101 = None
+        residual_temporal_20 = reshape_148.reshape(1, 3136, 768)
+        reshape_148 = None
+        residual_temporal_21 = torch._C._nn.linear(
+            residual_temporal_20,
+            l_self_modules_encoder_modules_layer_modules_10_modules_temporal_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_10_modules_temporal_dense_parameters_bias_,
+        )
+        residual_temporal_20 = l_self_modules_encoder_modules_layer_modules_10_modules_temporal_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_10_modules_temporal_dense_parameters_bias_ = (None)
+        getitem_116 = layer_output_19[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        temporal_embedding_32 = getitem_116 + residual_temporal_21
+        getitem_116 = residual_temporal_21 = None
+        getitem_117 = layer_output_19[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        layer_output_19 = None
+        init_cls_token_10 = getitem_117.unsqueeze(1)
+        getitem_117 = None
+        cls_token_50 = init_cls_token_10.repeat(1, 8, 1)
+        cls_token_51 = cls_token_50.reshape(8, 1, 768)
+        cls_token_50 = None
+        reshape_151 = temporal_embedding_32.reshape(1, 28, 14, 8, 768)
+        permute_42 = reshape_151.permute(0, 3, 1, 2, 4)
+        reshape_151 = None
+        spatial_embedding_20 = permute_42.reshape(8, 392, 768)
+        permute_42 = None
+        spatial_embedding_21 = torch.cat((cls_token_51, spatial_embedding_20), 1)
+        cls_token_51 = spatial_embedding_20 = None
+        layer_norm_31 = torch.nn.functional.layer_norm(
+            spatial_embedding_21,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_bias_,
+            1e-06,
+        )
+        spatial_embedding_21 = l_self_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_bias_ = (None)
+        linear_73 = torch._C._nn.linear(
+            layer_norm_31,
+            l_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_31 = l_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_153 = linear_73.reshape(8, 393, 3, 12, 64)
+        linear_73 = None
+        qkv_21 = reshape_153.permute(2, 0, 3, 1, 4)
+        reshape_153 = None
+        query_21 = qkv_21[0]
+        key_21 = qkv_21[1]
+        value_21 = qkv_21[2]
+        qkv_21 = None
+        transpose_45 = key_21.transpose(-2, -1)
+        key_21 = None
+        matmul_42 = query_21 @ transpose_45
+        query_21 = transpose_45 = None
+        attention_probs_63 = matmul_42 * 0.125
+        matmul_42 = None
+        attention_probs_64 = attention_probs_63.softmax(dim=-1)
+        attention_probs_63 = None
+        attention_probs_65 = torch.nn.functional.dropout(
+            attention_probs_64, 0.0, False, False
+        )
+        attention_probs_64 = None
+        matmul_43 = attention_probs_65 @ value_21
+        attention_probs_65 = value_21 = None
+        transpose_46 = matmul_43.transpose(1, 2)
+        matmul_43 = None
+        context_layer_21 = transpose_46.reshape(8, 393, 768)
+        transpose_46 = None
+        hidden_states_102 = torch._C._nn.linear(
+            context_layer_21,
+            l_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_21 = l_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_103 = torch.nn.functional.dropout(
+            hidden_states_102, 0.0, False, False
+        )
+        hidden_states_102 = None
+        cls_token_52 = hidden_states_103[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        cls_token_53 = cls_token_52.reshape(1, 8, 768)
+        cls_token_52 = None
+        cls_token_54 = torch.mean(cls_token_53, 1, True)
+        cls_token_53 = None
+        residual_spatial_20 = hidden_states_103[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        hidden_states_103 = None
+        reshape_156 = residual_spatial_20.reshape(1, 8, 28, 14, 768)
+        residual_spatial_20 = None
+        permute_44 = reshape_156.permute(0, 2, 3, 1, 4)
+        reshape_156 = None
+        residual_spatial_21 = permute_44.reshape(1, 3136, 768)
+        permute_44 = None
+        cat_33 = torch.cat((init_cls_token_10, temporal_embedding_32), 1)
+        init_cls_token_10 = temporal_embedding_32 = None
+        cat_34 = torch.cat((cls_token_54, residual_spatial_21), 1)
+        cls_token_54 = residual_spatial_21 = None
+        hidden_states_104 = cat_33 + cat_34
+        cat_33 = cat_34 = None
+        layer_output_20 = torch.nn.functional.layer_norm(
+            hidden_states_104,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_bias_,
+            1e-06,
+        )
+        l_self_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_105 = torch._C._nn.linear(
+            layer_output_20,
+            l_self_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_20 = l_self_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_106 = torch._C._nn.gelu(hidden_states_105)
+        hidden_states_105 = None
+        hidden_states_107 = torch.nn.functional.dropout(
+            hidden_states_106, 0.0, False, False
+        )
+        hidden_states_106 = None
+        hidden_states_108 = torch._C._nn.linear(
+            hidden_states_107,
+            l_self_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_107 = l_self_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_109 = torch.nn.functional.dropout(
+            hidden_states_108, 0.0, False, False
+        )
+        hidden_states_108 = None
+        layer_output_21 = hidden_states_104 + hidden_states_109
+        hidden_states_104 = hidden_states_109 = None
+        temporal_embedding_33 = layer_output_21[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        reshape_158 = temporal_embedding_33.reshape(1, 28, 14, 8, 768)
+        temporal_embedding_33 = None
+        temporal_embedding_34 = reshape_158.reshape(392, 8, 768)
+        reshape_158 = None
+        layer_norm_33 = torch.nn.functional.layer_norm(
+            temporal_embedding_34,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_11_modules_temporal_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_11_modules_temporal_layernorm_parameters_bias_,
+            1e-06,
+        )
+        temporal_embedding_34 = l_self_modules_encoder_modules_layer_modules_11_modules_temporal_layernorm_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_11_modules_temporal_layernorm_parameters_bias_ = (None)
+        linear_77 = torch._C._nn.linear(
+            layer_norm_33,
+            l_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_33 = l_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_160 = linear_77.reshape(392, 8, 3, 12, 64)
+        linear_77 = None
+        qkv_22 = reshape_160.permute(2, 0, 3, 1, 4)
+        reshape_160 = None
+        query_22 = qkv_22[0]
+        key_22 = qkv_22[1]
+        value_22 = qkv_22[2]
+        qkv_22 = None
+        transpose_47 = key_22.transpose(-2, -1)
+        key_22 = None
+        matmul_44 = query_22 @ transpose_47
+        query_22 = transpose_47 = None
+        attention_probs_66 = matmul_44 * 0.125
+        matmul_44 = None
+        attention_probs_67 = attention_probs_66.softmax(dim=-1)
+        attention_probs_66 = None
+        attention_probs_68 = torch.nn.functional.dropout(
+            attention_probs_67, 0.0, False, False
+        )
+        attention_probs_67 = None
+        matmul_45 = attention_probs_68 @ value_22
+        attention_probs_68 = value_22 = None
+        transpose_48 = matmul_45.transpose(1, 2)
+        matmul_45 = None
+        context_layer_22 = transpose_48.reshape(392, 8, 768)
+        transpose_48 = None
+        hidden_states_110 = torch._C._nn.linear(
+            context_layer_22,
+            l_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_22 = l_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_11_modules_temporal_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_111 = torch.nn.functional.dropout(
+            hidden_states_110, 0.0, False, False
+        )
+        hidden_states_110 = None
+        reshape_162 = hidden_states_111.reshape(1, 28, 14, 8, 768)
+        hidden_states_111 = None
+        residual_temporal_22 = reshape_162.reshape(1, 3136, 768)
+        reshape_162 = None
+        residual_temporal_23 = torch._C._nn.linear(
+            residual_temporal_22,
+            l_self_modules_encoder_modules_layer_modules_11_modules_temporal_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_11_modules_temporal_dense_parameters_bias_,
+        )
+        residual_temporal_22 = l_self_modules_encoder_modules_layer_modules_11_modules_temporal_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_11_modules_temporal_dense_parameters_bias_ = (None)
+        getitem_127 = layer_output_21[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        temporal_embedding_35 = getitem_127 + residual_temporal_23
+        getitem_127 = residual_temporal_23 = None
+        getitem_128 = layer_output_21[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        layer_output_21 = None
+        init_cls_token_11 = getitem_128.unsqueeze(1)
+        getitem_128 = None
+        cls_token_55 = init_cls_token_11.repeat(1, 8, 1)
+        cls_token_56 = cls_token_55.reshape(8, 1, 768)
+        cls_token_55 = None
+        reshape_165 = temporal_embedding_35.reshape(1, 28, 14, 8, 768)
+        permute_46 = reshape_165.permute(0, 3, 1, 2, 4)
+        reshape_165 = None
+        spatial_embedding_22 = permute_46.reshape(8, 392, 768)
+        permute_46 = None
+        spatial_embedding_23 = torch.cat((cls_token_56, spatial_embedding_22), 1)
+        cls_token_56 = spatial_embedding_22 = None
+        layer_norm_34 = torch.nn.functional.layer_norm(
+            spatial_embedding_23,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_bias_,
+            1e-06,
+        )
+        spatial_embedding_23 = l_self_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_bias_ = (None)
+        linear_80 = torch._C._nn.linear(
+            layer_norm_34,
+            l_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_qkv_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_qkv_parameters_bias_,
+        )
+        layer_norm_34 = l_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_qkv_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_qkv_parameters_bias_ = (None)
+        reshape_167 = linear_80.reshape(8, 393, 3, 12, 64)
+        linear_80 = None
+        qkv_23 = reshape_167.permute(2, 0, 3, 1, 4)
+        reshape_167 = None
+        query_23 = qkv_23[0]
+        key_23 = qkv_23[1]
+        value_23 = qkv_23[2]
+        qkv_23 = None
+        transpose_49 = key_23.transpose(-2, -1)
+        key_23 = None
+        matmul_46 = query_23 @ transpose_49
+        query_23 = transpose_49 = None
+        attention_probs_69 = matmul_46 * 0.125
+        matmul_46 = None
+        attention_probs_70 = attention_probs_69.softmax(dim=-1)
+        attention_probs_69 = None
+        attention_probs_71 = torch.nn.functional.dropout(
+            attention_probs_70, 0.0, False, False
+        )
+        attention_probs_70 = None
+        matmul_47 = attention_probs_71 @ value_23
+        attention_probs_71 = value_23 = None
+        transpose_50 = matmul_47.transpose(1, 2)
+        matmul_47 = None
+        context_layer_23 = transpose_50.reshape(8, 393, 768)
+        transpose_50 = None
+        hidden_states_112 = torch._C._nn.linear(
+            context_layer_23,
+            l_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_23 = l_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_113 = torch.nn.functional.dropout(
+            hidden_states_112, 0.0, False, False
+        )
+        hidden_states_112 = None
+        cls_token_57 = hidden_states_113[
+            (slice(None, None, None), 0, slice(None, None, None))
+        ]
+        cls_token_58 = cls_token_57.reshape(1, 8, 768)
+        cls_token_57 = None
+        cls_token_59 = torch.mean(cls_token_58, 1, True)
+        cls_token_58 = None
+        residual_spatial_22 = hidden_states_113[
+            (slice(None, None, None), slice(1, None, None), slice(None, None, None))
+        ]
+        hidden_states_113 = None
+        reshape_170 = residual_spatial_22.reshape(1, 8, 28, 14, 768)
+        residual_spatial_22 = None
+        permute_48 = reshape_170.permute(0, 2, 3, 1, 4)
+        reshape_170 = None
+        residual_spatial_23 = permute_48.reshape(1, 3136, 768)
+        permute_48 = None
+        cat_36 = torch.cat((init_cls_token_11, temporal_embedding_35), 1)
+        init_cls_token_11 = temporal_embedding_35 = None
+        cat_37 = torch.cat((cls_token_59, residual_spatial_23), 1)
+        cls_token_59 = residual_spatial_23 = None
+        hidden_states_114 = cat_36 + cat_37
+        cat_36 = cat_37 = None
+        layer_output_22 = torch.nn.functional.layer_norm(
+            hidden_states_114,
+            (768,),
+            l_self_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_bias_,
+            1e-06,
+        )
+        l_self_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_115 = torch._C._nn.linear(
+            layer_output_22,
+            l_self_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_22 = l_self_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_116 = torch._C._nn.gelu(hidden_states_115)
+        hidden_states_115 = None
+        hidden_states_117 = torch.nn.functional.dropout(
+            hidden_states_116, 0.0, False, False
+        )
+        hidden_states_116 = None
+        hidden_states_118 = torch._C._nn.linear(
+            hidden_states_117,
+            l_self_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_117 = l_self_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_weight_ = l_self_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_119 = torch.nn.functional.dropout(
+            hidden_states_118, 0.0, False, False
+        )
+        hidden_states_118 = None
+        layer_output_23 = hidden_states_114 + hidden_states_119
+        hidden_states_114 = hidden_states_119 = None
+        sequence_output = torch.nn.functional.layer_norm(
+            layer_output_23,
+            (768,),
+            l_self_modules_layernorm_parameters_weight_,
+            l_self_modules_layernorm_parameters_bias_,
+            1e-06,
+        )
+        layer_output_23 = (
+            l_self_modules_layernorm_parameters_weight_
+        ) = l_self_modules_layernorm_parameters_bias_ = None
+        return (sequence_output,)

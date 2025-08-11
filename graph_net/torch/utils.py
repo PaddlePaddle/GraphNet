@@ -231,7 +231,6 @@ def convert_meta_classes_to_tensors(file_path):
                 data_value = torch.tensor(attrs["data"], dtype=data_type).reshape(
                     attrs.get("shape"), []
                 )
-
         yield {
             "info": {
                 "shape": attrs.get("shape", []),

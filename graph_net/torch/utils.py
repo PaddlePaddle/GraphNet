@@ -214,8 +214,7 @@ def convert_meta_classes_to_tensors(file_path):
             if not k.startswith("__") and not callable(v)
         }
         data_value = None
-        data_type_str = attrs.get("dtype", "torch.float").split(".")[-1]
-        data_type = getattr(torch, data_type_str)
+        data_type = getattr(torch, attrs.get("dtype", "torch.float").split(".")[-1])
         shape = attrs.get("shape", [])
 
         if "min_val" in attrs and "max_val" in attrs:

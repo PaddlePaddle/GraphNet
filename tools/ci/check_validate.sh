@@ -38,7 +38,7 @@ function check_validation() {
   for file in $(git diff --name-only develop | grep -E "samples/(.*\.py|.*\.json)")
   do
     LOG "[INFO] Found ${file} modified."
-    model_path=$(dirname ${file})
+    model_path=$(echo "${file}" | sed 's|^samples/||')
     MODIFIED_MODEL_PATHS[${#MODIFIED_MODEL_PATHS[@]}]=$model_path
   done
   MODIFIED_MODEL_PATHS=($(echo ${MODIFIED_MODEL_PATHS[@]} | tr ' ' '\n' | sort | uniq))

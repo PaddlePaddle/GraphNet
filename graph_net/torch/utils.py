@@ -59,7 +59,12 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
                     "info": info,
                 }
             else:
-                return {"type": "big_int_tensor", "data": tensor.clone(), "info": info}
+                return {
+                    "type": "big_int_tensor_by_range",
+                    "min_val": tensor.min().item(),
+                    "max_val": tensor.max().item(),
+                    "info": info,
+                }
         elif tensor.numel() < 1024:
             return {"type": "small_tensor", "data": tensor.clone(), "info": info}
         else:
@@ -73,16 +78,25 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
         processed_inputs = {"type": "unknown", "value": example_inputs}
 
     def handle_named_tensors(tensor):
-        data_value = None
-        data_type = "random_tensor"
+        info = tensor_info(tensor)
         if tensor.dtype in [torch.int8, torch.int16, torch.int32, torch.int64]:
             if tensor.numel() < 1024:
-                data_type = "small_int_tensor"
-                data_value = tensor.clone()
+                return {
+                    "info": info,
+                    "data": tensor.clone(),
+                    "type": "small_int_tensor",
+                }
             else:
-                data_type = "big_int_tensor"
-        info = tensor_info(tensor)
-        return {"info": info, "data": data_value, "type": data_type}
+                return {
+                    "info": info,
+                    "min_val": tensor.min().item(),
+                    "max_val": tensor.max().item(),
+                    "type": "big_int_tensor_by_range",
+                }
+        if tensor.numel() < 1024:
+            return {"info": info, "data": tensor.clone(), "type": "small_tensor"}
+        else:
+            return {"info": info, "data": None, "type": "random_tensor"}
 
     processed_weights = {
         key: handle_named_tensors(tensor) for key, tensor in state_dict.items()
@@ -114,28 +128,16 @@ def save_converted_to_text(converted, file_path):
             return "None"
         elif isinstance(data, torch.Tensor):
             if data.dtype.is_floating_point:
-                return "[{}]".format(", ".join(f"{x:.6f}" for x in data.tolist()))
+                return "[{}]".format(
+                    ", ".join(f"{x:.6f}" for x in data.flatten().tolist())
+                )
             else:
-                return "[{}]".format(", ".join(f"{x}" for x in data.tolist()))
+                return "[{}]".format(", ".join(f"{x}" for x in data.flatten().tolist()))
         else:
             return repr(data)
 
     def process_tensor_info(tensor_info, name_prefix="example_input"):
-        data_list = None
-        if "input_" in tensor_info["name"]:
-            if tensor_info["type"] in ["small_tensor", "small_int_tensor"]:
-                data_list = tensor_info["data"].flatten()
-            elif tensor_info["type"] == "big_int_tensor":
-                data_list = f"pt-filename:xxx-key"
-            else:
-                pass
-        else:
-            if tensor_info["type"] == "small_int_tensor":
-                data_list = tensor_info["data"].flatten()
-            if tensor_info["type"] == "big_int_tensor":
-                raise ValueError(
-                    "Unexpected cases: there are weights in big tensor of int type "
-                )
+        tensor_type = tensor_info.get("type")
         info = tensor_info.get("info", {})
         dtype = info.get("dtype", "torch.float")
         shape = info.get("shape", [])
@@ -143,7 +145,8 @@ def save_converted_to_text(converted, file_path):
         mean = info.get("mean", 0.0)
         std = info.get("std", 1.0)
         uid = f"{name_prefix}_tensor_meta_{tensor_info.get('name', '')}"
-        return [
+
+        lines = [
             (f"class {uid}:"),
             (f"\tname = \"{tensor_info.get('name', '')}\""),
             (f"\tshape = {shape}"),
@@ -151,9 +154,20 @@ def save_converted_to_text(converted, file_path):
             (f'\tdevice = "{device}"'),
             (f"\tmean = {get_limited_precision_float_str(mean)}"),
             (f"\tstd = {get_limited_precision_float_str(std)}"),
-            (f"\tdata = {format_data(data_list)}"),
-            (""),
         ]
+        if tensor_type == "big_int_tensor_by_range":
+            lines.append(f"\tmin_val = {tensor_info['min_val']}")
+            lines.append(f"\tmax_val = {tensor_info['max_val']}")
+        elif "data" in tensor_info:
+            data_list = (
+                tensor_info["data"].flatten()
+                if isinstance(tensor_info["data"], torch.Tensor)
+                else tensor_info["data"]
+            )
+            lines.append(f"\tdata = {format_data(data_list)}")
+
+        lines.append("")
+        return lines
 
     input_infos = converted["input_info"]
     if isinstance(input_infos, dict):
@@ -202,7 +216,16 @@ def convert_meta_classes_to_tensors(file_path):
         }
         data_value = None
         data_type = getattr(torch, attrs.get("dtype", "torch.float").split(".")[-1])
-        if attrs.get("data") is not None:
+        shape = attrs.get("shape", [])
+
+        if "min_val" in attrs and "max_val" in attrs:
+            min_val = attrs["min_val"]
+            max_val = attrs["max_val"]
+            # torch.randint's upper bound is exclusive, so add 1
+            data_value = torch.randint(
+                min_val, max_val + 1, size=shape, dtype=data_type
+            )
+        elif attrs.get("data") is not None:
             if isinstance(attrs.get("data"), str):
                 raise ValueError("Unimplemented")
             else:

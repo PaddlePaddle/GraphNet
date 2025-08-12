@@ -8,8 +8,7 @@ function LOG {
 
 LOG "[INFO] Start validate samples changed by pull request ..."
 
-export GRAPH_NET_ROOT=$(cd $(dirname $0)/../.. && pwd)
-export GRAPH_NET_EXTRACT_WORKSPACE="${GRAPH_NET_ROOT}/samples"
+export GRAPH_NET_EXTRACT_WORKSPACE=$(cd $(dirname $0)/../.. && pwd)
 export PYTHONPATH=${GRAPH_NET_EXTRACT_WORKSPACE}:$PYTHONPATH
 
 [ -z "$CUDA_VISIBLE_DEVICES" ] && CUDA_VISIBLE_DEVICES="0"
@@ -18,7 +17,7 @@ function prepare_env() {
   git config --global --add safe.directory "*"
   num_changed_samples=$(git diff --name-only develop | grep -E "samples/(.*\.py|.*\.json)" | wc -l)
   if [ ${num_changed_samples} -eq 0 ]; then
-    python ${GRAPH_NET_ROOT}/tools/count_sample.py
+    python ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
     LOG "[INFO] This pull request doesn't change any samples, skip the CI."
     exit 0
   fi
@@ -75,7 +74,7 @@ function main() {
   check_validation_info=$(check_validation)
   check_validation_code=$?
   summary_problems $check_validation_code "$check_validation_info"
-  python ${GRAPH_NET_ROOT}/tools/count_sample.py
+  python ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
   LOG "[INFO] check_validation run success and no error!"
 }
 

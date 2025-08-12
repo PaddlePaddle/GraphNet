@@ -17,6 +17,8 @@ def apply_templates(forward_code: str) -> str:
     imports = "import torch"
     if "device" in forward_code:
         imports += "\n\nfrom torch import device"
+    if "inf" in forward_code:
+        imports += "\n\nfrom torch import inf"
     return f"{imports}\n\nclass GraphModule(torch.nn.Module):\n{tab}{forward_code}"
 
 

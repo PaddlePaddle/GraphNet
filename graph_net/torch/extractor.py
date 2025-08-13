@@ -5,6 +5,7 @@ from typing import Union, Callable
 from . import utils
 
 torch._dynamo.config.capture_scalar_outputs = True
+torch._dynamo.config.capture_dynamic_output_shape_ops = True
 
 
 def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=False):

@@ -66,5 +66,12 @@ if __name__ == "__main__":
         action="store_true",
         help="whether check model graph redundancy",
     )
+    parser.add_argument(
+        "--workspace",
+        default=os.environ.get("GRAPH_NET_EXTRACT_WORKSPACE", "./workspace"),
+        help="whether check model graph redundancy",
+    )
     args = parser.parse_args()
+    os.environ["GRAPH_NET_EXTRACT_WORKSPACE"] = args.workspace
+
     main(args=args)

@@ -1,0 +1,4622 @@
+import torch
+
+from torch import device
+
+
+class GraphModule(torch.nn.Module):
+    def forward(
+        self,
+        L_pixel_values_: torch.Tensor,
+        L_self_modules_videomae_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_embeddings_position_embeddings: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_scaling: torch.Tensor,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_before_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_before_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_parameters_q_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_parameters_v_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_key_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_query_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_after_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_after_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_intermediate_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_intermediate_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_output_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_output_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_fc_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_fc_norm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_classifier_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_classifier_parameters_bias_: torch.nn.parameter.Parameter,
+    ):
+        l_pixel_values_ = L_pixel_values_
+        l_self_modules_videomae_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_weight_ = L_self_modules_videomae_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_weight_
+        l_self_modules_videomae_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_ = L_self_modules_videomae_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_
+        l_self_modules_videomae_modules_embeddings_position_embeddings = (
+            L_self_modules_videomae_modules_embeddings_position_embeddings
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_scaling = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_scaling
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_before_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_before_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_before_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_before_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_parameters_q_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_parameters_q_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_parameters_v_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_parameters_v_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_key_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_key_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_value_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_value_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_query_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_query_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_output_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_after_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_after_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_after_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_after_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_intermediate_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_intermediate_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_intermediate_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_intermediate_modules_dense_parameters_bias_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_output_modules_dense_parameters_weight_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_output_modules_dense_parameters_weight_
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_output_modules_dense_parameters_bias_ = L_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_output_modules_dense_parameters_bias_
+        l_self_modules_fc_norm_parameters_weight_ = (
+            L_self_modules_fc_norm_parameters_weight_
+        )
+        l_self_modules_fc_norm_parameters_bias_ = (
+            L_self_modules_fc_norm_parameters_bias_
+        )
+        l_self_modules_classifier_parameters_weight_ = (
+            L_self_modules_classifier_parameters_weight_
+        )
+        l_self_modules_classifier_parameters_bias_ = (
+            L_self_modules_classifier_parameters_bias_
+        )
+        pixel_values = l_pixel_values_.permute(0, 2, 1, 3, 4)
+        l_pixel_values_ = None
+        conv3d = torch.conv3d(
+            pixel_values,
+            l_self_modules_videomae_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_weight_,
+            l_self_modules_videomae_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_,
+            (2, 32, 32),
+            (0, 0, 0),
+            (1, 1, 1),
+            1,
+        )
+        pixel_values = l_self_modules_videomae_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_weight_ = l_self_modules_videomae_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_ = (None)
+        flatten = conv3d.flatten(2)
+        conv3d = None
+        embeddings = flatten.transpose(1, 2)
+        flatten = None
+        detach = l_self_modules_videomae_modules_embeddings_position_embeddings.detach()
+        l_self_modules_videomae_modules_embeddings_position_embeddings = None
+        type_as = detach.type_as(embeddings)
+        detach = None
+        to = type_as.to(device=device(type="cuda", index=0), copy=True)
+        type_as = None
+        embeddings_1 = embeddings + to
+        embeddings = to = None
+        layer_norm = torch.nn.functional.layer_norm(
+            embeddings_1,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys = torch._C._nn.linear(
+            input=layer_norm,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias
+        ) = None
+        values = torch._C._nn.linear(
+            input=layer_norm,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries = torch._C._nn.linear(
+            input=layer_norm,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm = l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view = keys.view(1, -1, 16, 80)
+        keys = None
+        key_layer = view.transpose(1, 2)
+        view = None
+        view_1 = values.view(1, -1, 16, 80)
+        values = None
+        value_layer = view_1.transpose(1, 2)
+        view_1 = None
+        view_2 = queries.view(1, -1, 16, 80)
+        queries = None
+        query_layer = view_2.transpose(1, 2)
+        view_2 = None
+        query = query_layer.contiguous()
+        query_layer = None
+        key = key_layer.contiguous()
+        key_layer = None
+        value = value_layer.contiguous()
+        value_layer = None
+        item = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output = torch._C._nn.scaled_dot_product_attention(
+            query,
+            key,
+            value,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item,
+            is_causal=False,
+        )
+        query = key = value = item = None
+        transpose_4 = attn_output.transpose(1, 2)
+        attn_output = None
+        attn_output_1 = transpose_4.contiguous()
+        transpose_4 = None
+        context_layer = attn_output_1.reshape((1, 784, 1280))
+        attn_output_1 = None
+        hidden_states = torch._C._nn.linear(
+            context_layer,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer = l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_1 = torch.nn.functional.dropout(hidden_states, 0.0, False, False)
+        hidden_states = None
+        hidden_states_2 = hidden_states_1 + embeddings_1
+        hidden_states_1 = embeddings_1 = None
+        layer_output = torch.nn.functional.layer_norm(
+            hidden_states_2,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_3 = torch._C._nn.linear(
+            layer_output,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output = l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_4 = torch._C._nn.gelu(hidden_states_3)
+        hidden_states_3 = None
+        hidden_states_5 = torch._C._nn.linear(
+            hidden_states_4,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_4 = l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_6 = torch.nn.functional.dropout(
+            hidden_states_5, 0.0, False, False
+        )
+        hidden_states_5 = None
+        hidden_states_7 = hidden_states_6 + hidden_states_2
+        hidden_states_6 = hidden_states_2 = None
+        layer_norm_2 = torch.nn.functional.layer_norm(
+            hidden_states_7,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_1 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_1 = torch._C._nn.linear(
+            input=layer_norm_2,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_1,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_1
+        ) = None
+        values_1 = torch._C._nn.linear(
+            input=layer_norm_2,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_1 = torch._C._nn.linear(
+            input=layer_norm_2,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_2 = l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_3 = keys_1.view(1, -1, 16, 80)
+        keys_1 = None
+        key_layer_1 = view_3.transpose(1, 2)
+        view_3 = None
+        view_4 = values_1.view(1, -1, 16, 80)
+        values_1 = None
+        value_layer_1 = view_4.transpose(1, 2)
+        view_4 = None
+        view_5 = queries_1.view(1, -1, 16, 80)
+        queries_1 = None
+        query_layer_1 = view_5.transpose(1, 2)
+        view_5 = None
+        query_1 = query_layer_1.contiguous()
+        query_layer_1 = None
+        key_1 = key_layer_1.contiguous()
+        key_layer_1 = None
+        value_1 = value_layer_1.contiguous()
+        value_layer_1 = None
+        item_1 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_2 = torch._C._nn.scaled_dot_product_attention(
+            query_1,
+            key_1,
+            value_1,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_1,
+            is_causal=False,
+        )
+        query_1 = key_1 = value_1 = item_1 = None
+        transpose_8 = attn_output_2.transpose(1, 2)
+        attn_output_2 = None
+        attn_output_3 = transpose_8.contiguous()
+        transpose_8 = None
+        context_layer_1 = attn_output_3.reshape((1, 784, 1280))
+        attn_output_3 = None
+        hidden_states_8 = torch._C._nn.linear(
+            context_layer_1,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_1 = l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_9 = torch.nn.functional.dropout(
+            hidden_states_8, 0.0, False, False
+        )
+        hidden_states_8 = None
+        hidden_states_10 = hidden_states_9 + hidden_states_7
+        hidden_states_9 = hidden_states_7 = None
+        layer_output_1 = torch.nn.functional.layer_norm(
+            hidden_states_10,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_11 = torch._C._nn.linear(
+            layer_output_1,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_1 = l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_12 = torch._C._nn.gelu(hidden_states_11)
+        hidden_states_11 = None
+        hidden_states_13 = torch._C._nn.linear(
+            hidden_states_12,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_12 = l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_14 = torch.nn.functional.dropout(
+            hidden_states_13, 0.0, False, False
+        )
+        hidden_states_13 = None
+        hidden_states_15 = hidden_states_14 + hidden_states_10
+        hidden_states_14 = hidden_states_10 = None
+        layer_norm_4 = torch.nn.functional.layer_norm(
+            hidden_states_15,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_2 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_2 = torch._C._nn.linear(
+            input=layer_norm_4,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_2,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_2
+        ) = None
+        values_2 = torch._C._nn.linear(
+            input=layer_norm_4,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_2 = torch._C._nn.linear(
+            input=layer_norm_4,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_4 = l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_6 = keys_2.view(1, -1, 16, 80)
+        keys_2 = None
+        key_layer_2 = view_6.transpose(1, 2)
+        view_6 = None
+        view_7 = values_2.view(1, -1, 16, 80)
+        values_2 = None
+        value_layer_2 = view_7.transpose(1, 2)
+        view_7 = None
+        view_8 = queries_2.view(1, -1, 16, 80)
+        queries_2 = None
+        query_layer_2 = view_8.transpose(1, 2)
+        view_8 = None
+        query_2 = query_layer_2.contiguous()
+        query_layer_2 = None
+        key_2 = key_layer_2.contiguous()
+        key_layer_2 = None
+        value_2 = value_layer_2.contiguous()
+        value_layer_2 = None
+        item_2 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_4 = torch._C._nn.scaled_dot_product_attention(
+            query_2,
+            key_2,
+            value_2,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_2,
+            is_causal=False,
+        )
+        query_2 = key_2 = value_2 = item_2 = None
+        transpose_12 = attn_output_4.transpose(1, 2)
+        attn_output_4 = None
+        attn_output_5 = transpose_12.contiguous()
+        transpose_12 = None
+        context_layer_2 = attn_output_5.reshape((1, 784, 1280))
+        attn_output_5 = None
+        hidden_states_16 = torch._C._nn.linear(
+            context_layer_2,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_2 = l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_17 = torch.nn.functional.dropout(
+            hidden_states_16, 0.0, False, False
+        )
+        hidden_states_16 = None
+        hidden_states_18 = hidden_states_17 + hidden_states_15
+        hidden_states_17 = hidden_states_15 = None
+        layer_output_2 = torch.nn.functional.layer_norm(
+            hidden_states_18,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_19 = torch._C._nn.linear(
+            layer_output_2,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_2 = l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_20 = torch._C._nn.gelu(hidden_states_19)
+        hidden_states_19 = None
+        hidden_states_21 = torch._C._nn.linear(
+            hidden_states_20,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_20 = l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_22 = torch.nn.functional.dropout(
+            hidden_states_21, 0.0, False, False
+        )
+        hidden_states_21 = None
+        hidden_states_23 = hidden_states_22 + hidden_states_18
+        hidden_states_22 = hidden_states_18 = None
+        layer_norm_6 = torch.nn.functional.layer_norm(
+            hidden_states_23,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_3 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_3 = torch._C._nn.linear(
+            input=layer_norm_6,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_3,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_3
+        ) = None
+        values_3 = torch._C._nn.linear(
+            input=layer_norm_6,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_3 = torch._C._nn.linear(
+            input=layer_norm_6,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_6 = l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_9 = keys_3.view(1, -1, 16, 80)
+        keys_3 = None
+        key_layer_3 = view_9.transpose(1, 2)
+        view_9 = None
+        view_10 = values_3.view(1, -1, 16, 80)
+        values_3 = None
+        value_layer_3 = view_10.transpose(1, 2)
+        view_10 = None
+        view_11 = queries_3.view(1, -1, 16, 80)
+        queries_3 = None
+        query_layer_3 = view_11.transpose(1, 2)
+        view_11 = None
+        query_3 = query_layer_3.contiguous()
+        query_layer_3 = None
+        key_3 = key_layer_3.contiguous()
+        key_layer_3 = None
+        value_3 = value_layer_3.contiguous()
+        value_layer_3 = None
+        item_3 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_6 = torch._C._nn.scaled_dot_product_attention(
+            query_3,
+            key_3,
+            value_3,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_3,
+            is_causal=False,
+        )
+        query_3 = key_3 = value_3 = item_3 = None
+        transpose_16 = attn_output_6.transpose(1, 2)
+        attn_output_6 = None
+        attn_output_7 = transpose_16.contiguous()
+        transpose_16 = None
+        context_layer_3 = attn_output_7.reshape((1, 784, 1280))
+        attn_output_7 = None
+        hidden_states_24 = torch._C._nn.linear(
+            context_layer_3,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_3 = l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_25 = torch.nn.functional.dropout(
+            hidden_states_24, 0.0, False, False
+        )
+        hidden_states_24 = None
+        hidden_states_26 = hidden_states_25 + hidden_states_23
+        hidden_states_25 = hidden_states_23 = None
+        layer_output_3 = torch.nn.functional.layer_norm(
+            hidden_states_26,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_27 = torch._C._nn.linear(
+            layer_output_3,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_3 = l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_28 = torch._C._nn.gelu(hidden_states_27)
+        hidden_states_27 = None
+        hidden_states_29 = torch._C._nn.linear(
+            hidden_states_28,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_28 = l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_30 = torch.nn.functional.dropout(
+            hidden_states_29, 0.0, False, False
+        )
+        hidden_states_29 = None
+        hidden_states_31 = hidden_states_30 + hidden_states_26
+        hidden_states_30 = hidden_states_26 = None
+        layer_norm_8 = torch.nn.functional.layer_norm(
+            hidden_states_31,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_4 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_4 = torch._C._nn.linear(
+            input=layer_norm_8,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_4,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_4
+        ) = None
+        values_4 = torch._C._nn.linear(
+            input=layer_norm_8,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_4 = torch._C._nn.linear(
+            input=layer_norm_8,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_8 = l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_12 = keys_4.view(1, -1, 16, 80)
+        keys_4 = None
+        key_layer_4 = view_12.transpose(1, 2)
+        view_12 = None
+        view_13 = values_4.view(1, -1, 16, 80)
+        values_4 = None
+        value_layer_4 = view_13.transpose(1, 2)
+        view_13 = None
+        view_14 = queries_4.view(1, -1, 16, 80)
+        queries_4 = None
+        query_layer_4 = view_14.transpose(1, 2)
+        view_14 = None
+        query_4 = query_layer_4.contiguous()
+        query_layer_4 = None
+        key_4 = key_layer_4.contiguous()
+        key_layer_4 = None
+        value_4 = value_layer_4.contiguous()
+        value_layer_4 = None
+        item_4 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_8 = torch._C._nn.scaled_dot_product_attention(
+            query_4,
+            key_4,
+            value_4,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_4,
+            is_causal=False,
+        )
+        query_4 = key_4 = value_4 = item_4 = None
+        transpose_20 = attn_output_8.transpose(1, 2)
+        attn_output_8 = None
+        attn_output_9 = transpose_20.contiguous()
+        transpose_20 = None
+        context_layer_4 = attn_output_9.reshape((1, 784, 1280))
+        attn_output_9 = None
+        hidden_states_32 = torch._C._nn.linear(
+            context_layer_4,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_4 = l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_33 = torch.nn.functional.dropout(
+            hidden_states_32, 0.0, False, False
+        )
+        hidden_states_32 = None
+        hidden_states_34 = hidden_states_33 + hidden_states_31
+        hidden_states_33 = hidden_states_31 = None
+        layer_output_4 = torch.nn.functional.layer_norm(
+            hidden_states_34,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_35 = torch._C._nn.linear(
+            layer_output_4,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_4 = l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_36 = torch._C._nn.gelu(hidden_states_35)
+        hidden_states_35 = None
+        hidden_states_37 = torch._C._nn.linear(
+            hidden_states_36,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_36 = l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_38 = torch.nn.functional.dropout(
+            hidden_states_37, 0.0, False, False
+        )
+        hidden_states_37 = None
+        hidden_states_39 = hidden_states_38 + hidden_states_34
+        hidden_states_38 = hidden_states_34 = None
+        layer_norm_10 = torch.nn.functional.layer_norm(
+            hidden_states_39,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_5 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_5 = torch._C._nn.linear(
+            input=layer_norm_10,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_5,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_5
+        ) = None
+        values_5 = torch._C._nn.linear(
+            input=layer_norm_10,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_5 = torch._C._nn.linear(
+            input=layer_norm_10,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_10 = l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_15 = keys_5.view(1, -1, 16, 80)
+        keys_5 = None
+        key_layer_5 = view_15.transpose(1, 2)
+        view_15 = None
+        view_16 = values_5.view(1, -1, 16, 80)
+        values_5 = None
+        value_layer_5 = view_16.transpose(1, 2)
+        view_16 = None
+        view_17 = queries_5.view(1, -1, 16, 80)
+        queries_5 = None
+        query_layer_5 = view_17.transpose(1, 2)
+        view_17 = None
+        query_5 = query_layer_5.contiguous()
+        query_layer_5 = None
+        key_5 = key_layer_5.contiguous()
+        key_layer_5 = None
+        value_5 = value_layer_5.contiguous()
+        value_layer_5 = None
+        item_5 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_10 = torch._C._nn.scaled_dot_product_attention(
+            query_5,
+            key_5,
+            value_5,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_5,
+            is_causal=False,
+        )
+        query_5 = key_5 = value_5 = item_5 = None
+        transpose_24 = attn_output_10.transpose(1, 2)
+        attn_output_10 = None
+        attn_output_11 = transpose_24.contiguous()
+        transpose_24 = None
+        context_layer_5 = attn_output_11.reshape((1, 784, 1280))
+        attn_output_11 = None
+        hidden_states_40 = torch._C._nn.linear(
+            context_layer_5,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_5 = l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_41 = torch.nn.functional.dropout(
+            hidden_states_40, 0.0, False, False
+        )
+        hidden_states_40 = None
+        hidden_states_42 = hidden_states_41 + hidden_states_39
+        hidden_states_41 = hidden_states_39 = None
+        layer_output_5 = torch.nn.functional.layer_norm(
+            hidden_states_42,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_43 = torch._C._nn.linear(
+            layer_output_5,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_5 = l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_44 = torch._C._nn.gelu(hidden_states_43)
+        hidden_states_43 = None
+        hidden_states_45 = torch._C._nn.linear(
+            hidden_states_44,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_44 = l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_46 = torch.nn.functional.dropout(
+            hidden_states_45, 0.0, False, False
+        )
+        hidden_states_45 = None
+        hidden_states_47 = hidden_states_46 + hidden_states_42
+        hidden_states_46 = hidden_states_42 = None
+        layer_norm_12 = torch.nn.functional.layer_norm(
+            hidden_states_47,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_6 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_6 = torch._C._nn.linear(
+            input=layer_norm_12,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_6,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_6
+        ) = None
+        values_6 = torch._C._nn.linear(
+            input=layer_norm_12,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_6 = torch._C._nn.linear(
+            input=layer_norm_12,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_12 = l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_18 = keys_6.view(1, -1, 16, 80)
+        keys_6 = None
+        key_layer_6 = view_18.transpose(1, 2)
+        view_18 = None
+        view_19 = values_6.view(1, -1, 16, 80)
+        values_6 = None
+        value_layer_6 = view_19.transpose(1, 2)
+        view_19 = None
+        view_20 = queries_6.view(1, -1, 16, 80)
+        queries_6 = None
+        query_layer_6 = view_20.transpose(1, 2)
+        view_20 = None
+        query_6 = query_layer_6.contiguous()
+        query_layer_6 = None
+        key_6 = key_layer_6.contiguous()
+        key_layer_6 = None
+        value_6 = value_layer_6.contiguous()
+        value_layer_6 = None
+        item_6 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_12 = torch._C._nn.scaled_dot_product_attention(
+            query_6,
+            key_6,
+            value_6,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_6,
+            is_causal=False,
+        )
+        query_6 = key_6 = value_6 = item_6 = None
+        transpose_28 = attn_output_12.transpose(1, 2)
+        attn_output_12 = None
+        attn_output_13 = transpose_28.contiguous()
+        transpose_28 = None
+        context_layer_6 = attn_output_13.reshape((1, 784, 1280))
+        attn_output_13 = None
+        hidden_states_48 = torch._C._nn.linear(
+            context_layer_6,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_6 = l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_49 = torch.nn.functional.dropout(
+            hidden_states_48, 0.0, False, False
+        )
+        hidden_states_48 = None
+        hidden_states_50 = hidden_states_49 + hidden_states_47
+        hidden_states_49 = hidden_states_47 = None
+        layer_output_6 = torch.nn.functional.layer_norm(
+            hidden_states_50,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_51 = torch._C._nn.linear(
+            layer_output_6,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_6 = l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_52 = torch._C._nn.gelu(hidden_states_51)
+        hidden_states_51 = None
+        hidden_states_53 = torch._C._nn.linear(
+            hidden_states_52,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_52 = l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_6_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_54 = torch.nn.functional.dropout(
+            hidden_states_53, 0.0, False, False
+        )
+        hidden_states_53 = None
+        hidden_states_55 = hidden_states_54 + hidden_states_50
+        hidden_states_54 = hidden_states_50 = None
+        layer_norm_14 = torch.nn.functional.layer_norm(
+            hidden_states_55,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_7 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_7 = torch._C._nn.linear(
+            input=layer_norm_14,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_7,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_7
+        ) = None
+        values_7 = torch._C._nn.linear(
+            input=layer_norm_14,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_7 = torch._C._nn.linear(
+            input=layer_norm_14,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_14 = l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_21 = keys_7.view(1, -1, 16, 80)
+        keys_7 = None
+        key_layer_7 = view_21.transpose(1, 2)
+        view_21 = None
+        view_22 = values_7.view(1, -1, 16, 80)
+        values_7 = None
+        value_layer_7 = view_22.transpose(1, 2)
+        view_22 = None
+        view_23 = queries_7.view(1, -1, 16, 80)
+        queries_7 = None
+        query_layer_7 = view_23.transpose(1, 2)
+        view_23 = None
+        query_7 = query_layer_7.contiguous()
+        query_layer_7 = None
+        key_7 = key_layer_7.contiguous()
+        key_layer_7 = None
+        value_7 = value_layer_7.contiguous()
+        value_layer_7 = None
+        item_7 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_14 = torch._C._nn.scaled_dot_product_attention(
+            query_7,
+            key_7,
+            value_7,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_7,
+            is_causal=False,
+        )
+        query_7 = key_7 = value_7 = item_7 = None
+        transpose_32 = attn_output_14.transpose(1, 2)
+        attn_output_14 = None
+        attn_output_15 = transpose_32.contiguous()
+        transpose_32 = None
+        context_layer_7 = attn_output_15.reshape((1, 784, 1280))
+        attn_output_15 = None
+        hidden_states_56 = torch._C._nn.linear(
+            context_layer_7,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_7 = l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_57 = torch.nn.functional.dropout(
+            hidden_states_56, 0.0, False, False
+        )
+        hidden_states_56 = None
+        hidden_states_58 = hidden_states_57 + hidden_states_55
+        hidden_states_57 = hidden_states_55 = None
+        layer_output_7 = torch.nn.functional.layer_norm(
+            hidden_states_58,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_59 = torch._C._nn.linear(
+            layer_output_7,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_7 = l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_60 = torch._C._nn.gelu(hidden_states_59)
+        hidden_states_59 = None
+        hidden_states_61 = torch._C._nn.linear(
+            hidden_states_60,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_60 = l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_7_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_62 = torch.nn.functional.dropout(
+            hidden_states_61, 0.0, False, False
+        )
+        hidden_states_61 = None
+        hidden_states_63 = hidden_states_62 + hidden_states_58
+        hidden_states_62 = hidden_states_58 = None
+        layer_norm_16 = torch.nn.functional.layer_norm(
+            hidden_states_63,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_8 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_8 = torch._C._nn.linear(
+            input=layer_norm_16,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_8,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_8
+        ) = None
+        values_8 = torch._C._nn.linear(
+            input=layer_norm_16,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_8 = torch._C._nn.linear(
+            input=layer_norm_16,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_16 = l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_24 = keys_8.view(1, -1, 16, 80)
+        keys_8 = None
+        key_layer_8 = view_24.transpose(1, 2)
+        view_24 = None
+        view_25 = values_8.view(1, -1, 16, 80)
+        values_8 = None
+        value_layer_8 = view_25.transpose(1, 2)
+        view_25 = None
+        view_26 = queries_8.view(1, -1, 16, 80)
+        queries_8 = None
+        query_layer_8 = view_26.transpose(1, 2)
+        view_26 = None
+        query_8 = query_layer_8.contiguous()
+        query_layer_8 = None
+        key_8 = key_layer_8.contiguous()
+        key_layer_8 = None
+        value_8 = value_layer_8.contiguous()
+        value_layer_8 = None
+        item_8 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_16 = torch._C._nn.scaled_dot_product_attention(
+            query_8,
+            key_8,
+            value_8,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_8,
+            is_causal=False,
+        )
+        query_8 = key_8 = value_8 = item_8 = None
+        transpose_36 = attn_output_16.transpose(1, 2)
+        attn_output_16 = None
+        attn_output_17 = transpose_36.contiguous()
+        transpose_36 = None
+        context_layer_8 = attn_output_17.reshape((1, 784, 1280))
+        attn_output_17 = None
+        hidden_states_64 = torch._C._nn.linear(
+            context_layer_8,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_8 = l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_65 = torch.nn.functional.dropout(
+            hidden_states_64, 0.0, False, False
+        )
+        hidden_states_64 = None
+        hidden_states_66 = hidden_states_65 + hidden_states_63
+        hidden_states_65 = hidden_states_63 = None
+        layer_output_8 = torch.nn.functional.layer_norm(
+            hidden_states_66,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_67 = torch._C._nn.linear(
+            layer_output_8,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_8 = l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_68 = torch._C._nn.gelu(hidden_states_67)
+        hidden_states_67 = None
+        hidden_states_69 = torch._C._nn.linear(
+            hidden_states_68,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_68 = l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_8_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_70 = torch.nn.functional.dropout(
+            hidden_states_69, 0.0, False, False
+        )
+        hidden_states_69 = None
+        hidden_states_71 = hidden_states_70 + hidden_states_66
+        hidden_states_70 = hidden_states_66 = None
+        layer_norm_18 = torch.nn.functional.layer_norm(
+            hidden_states_71,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_9 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_9 = torch._C._nn.linear(
+            input=layer_norm_18,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_9,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_9
+        ) = None
+        values_9 = torch._C._nn.linear(
+            input=layer_norm_18,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_9 = torch._C._nn.linear(
+            input=layer_norm_18,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_18 = l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_27 = keys_9.view(1, -1, 16, 80)
+        keys_9 = None
+        key_layer_9 = view_27.transpose(1, 2)
+        view_27 = None
+        view_28 = values_9.view(1, -1, 16, 80)
+        values_9 = None
+        value_layer_9 = view_28.transpose(1, 2)
+        view_28 = None
+        view_29 = queries_9.view(1, -1, 16, 80)
+        queries_9 = None
+        query_layer_9 = view_29.transpose(1, 2)
+        view_29 = None
+        query_9 = query_layer_9.contiguous()
+        query_layer_9 = None
+        key_9 = key_layer_9.contiguous()
+        key_layer_9 = None
+        value_9 = value_layer_9.contiguous()
+        value_layer_9 = None
+        item_9 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_18 = torch._C._nn.scaled_dot_product_attention(
+            query_9,
+            key_9,
+            value_9,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_9,
+            is_causal=False,
+        )
+        query_9 = key_9 = value_9 = item_9 = None
+        transpose_40 = attn_output_18.transpose(1, 2)
+        attn_output_18 = None
+        attn_output_19 = transpose_40.contiguous()
+        transpose_40 = None
+        context_layer_9 = attn_output_19.reshape((1, 784, 1280))
+        attn_output_19 = None
+        hidden_states_72 = torch._C._nn.linear(
+            context_layer_9,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_9 = l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_73 = torch.nn.functional.dropout(
+            hidden_states_72, 0.0, False, False
+        )
+        hidden_states_72 = None
+        hidden_states_74 = hidden_states_73 + hidden_states_71
+        hidden_states_73 = hidden_states_71 = None
+        layer_output_9 = torch.nn.functional.layer_norm(
+            hidden_states_74,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_75 = torch._C._nn.linear(
+            layer_output_9,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_9 = l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_76 = torch._C._nn.gelu(hidden_states_75)
+        hidden_states_75 = None
+        hidden_states_77 = torch._C._nn.linear(
+            hidden_states_76,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_76 = l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_9_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_78 = torch.nn.functional.dropout(
+            hidden_states_77, 0.0, False, False
+        )
+        hidden_states_77 = None
+        hidden_states_79 = hidden_states_78 + hidden_states_74
+        hidden_states_78 = hidden_states_74 = None
+        layer_norm_20 = torch.nn.functional.layer_norm(
+            hidden_states_79,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_10 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_10 = torch._C._nn.linear(
+            input=layer_norm_20,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_10,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_10
+        ) = None
+        values_10 = torch._C._nn.linear(
+            input=layer_norm_20,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_10 = torch._C._nn.linear(
+            input=layer_norm_20,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_20 = l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_30 = keys_10.view(1, -1, 16, 80)
+        keys_10 = None
+        key_layer_10 = view_30.transpose(1, 2)
+        view_30 = None
+        view_31 = values_10.view(1, -1, 16, 80)
+        values_10 = None
+        value_layer_10 = view_31.transpose(1, 2)
+        view_31 = None
+        view_32 = queries_10.view(1, -1, 16, 80)
+        queries_10 = None
+        query_layer_10 = view_32.transpose(1, 2)
+        view_32 = None
+        query_10 = query_layer_10.contiguous()
+        query_layer_10 = None
+        key_10 = key_layer_10.contiguous()
+        key_layer_10 = None
+        value_10 = value_layer_10.contiguous()
+        value_layer_10 = None
+        item_10 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_20 = torch._C._nn.scaled_dot_product_attention(
+            query_10,
+            key_10,
+            value_10,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_10,
+            is_causal=False,
+        )
+        query_10 = key_10 = value_10 = item_10 = None
+        transpose_44 = attn_output_20.transpose(1, 2)
+        attn_output_20 = None
+        attn_output_21 = transpose_44.contiguous()
+        transpose_44 = None
+        context_layer_10 = attn_output_21.reshape((1, 784, 1280))
+        attn_output_21 = None
+        hidden_states_80 = torch._C._nn.linear(
+            context_layer_10,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_10 = l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_81 = torch.nn.functional.dropout(
+            hidden_states_80, 0.0, False, False
+        )
+        hidden_states_80 = None
+        hidden_states_82 = hidden_states_81 + hidden_states_79
+        hidden_states_81 = hidden_states_79 = None
+        layer_output_10 = torch.nn.functional.layer_norm(
+            hidden_states_82,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_83 = torch._C._nn.linear(
+            layer_output_10,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_10 = l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_84 = torch._C._nn.gelu(hidden_states_83)
+        hidden_states_83 = None
+        hidden_states_85 = torch._C._nn.linear(
+            hidden_states_84,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_84 = l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_10_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_86 = torch.nn.functional.dropout(
+            hidden_states_85, 0.0, False, False
+        )
+        hidden_states_85 = None
+        hidden_states_87 = hidden_states_86 + hidden_states_82
+        hidden_states_86 = hidden_states_82 = None
+        layer_norm_22 = torch.nn.functional.layer_norm(
+            hidden_states_87,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_11 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_11 = torch._C._nn.linear(
+            input=layer_norm_22,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_11,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_11
+        ) = None
+        values_11 = torch._C._nn.linear(
+            input=layer_norm_22,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_11 = torch._C._nn.linear(
+            input=layer_norm_22,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_22 = l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_33 = keys_11.view(1, -1, 16, 80)
+        keys_11 = None
+        key_layer_11 = view_33.transpose(1, 2)
+        view_33 = None
+        view_34 = values_11.view(1, -1, 16, 80)
+        values_11 = None
+        value_layer_11 = view_34.transpose(1, 2)
+        view_34 = None
+        view_35 = queries_11.view(1, -1, 16, 80)
+        queries_11 = None
+        query_layer_11 = view_35.transpose(1, 2)
+        view_35 = None
+        query_11 = query_layer_11.contiguous()
+        query_layer_11 = None
+        key_11 = key_layer_11.contiguous()
+        key_layer_11 = None
+        value_11 = value_layer_11.contiguous()
+        value_layer_11 = None
+        item_11 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_22 = torch._C._nn.scaled_dot_product_attention(
+            query_11,
+            key_11,
+            value_11,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_11,
+            is_causal=False,
+        )
+        query_11 = key_11 = value_11 = item_11 = None
+        transpose_48 = attn_output_22.transpose(1, 2)
+        attn_output_22 = None
+        attn_output_23 = transpose_48.contiguous()
+        transpose_48 = None
+        context_layer_11 = attn_output_23.reshape((1, 784, 1280))
+        attn_output_23 = None
+        hidden_states_88 = torch._C._nn.linear(
+            context_layer_11,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_11 = l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_89 = torch.nn.functional.dropout(
+            hidden_states_88, 0.0, False, False
+        )
+        hidden_states_88 = None
+        hidden_states_90 = hidden_states_89 + hidden_states_87
+        hidden_states_89 = hidden_states_87 = None
+        layer_output_11 = torch.nn.functional.layer_norm(
+            hidden_states_90,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_91 = torch._C._nn.linear(
+            layer_output_11,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_11 = l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_92 = torch._C._nn.gelu(hidden_states_91)
+        hidden_states_91 = None
+        hidden_states_93 = torch._C._nn.linear(
+            hidden_states_92,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_92 = l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_11_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_94 = torch.nn.functional.dropout(
+            hidden_states_93, 0.0, False, False
+        )
+        hidden_states_93 = None
+        hidden_states_95 = hidden_states_94 + hidden_states_90
+        hidden_states_94 = hidden_states_90 = None
+        layer_norm_24 = torch.nn.functional.layer_norm(
+            hidden_states_95,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_12 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_12 = torch._C._nn.linear(
+            input=layer_norm_24,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_12
+        ) = None
+        values_12 = torch._C._nn.linear(
+            input=layer_norm_24,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_12 = torch._C._nn.linear(
+            input=layer_norm_24,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_24 = l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_36 = keys_12.view(1, -1, 16, 80)
+        keys_12 = None
+        key_layer_12 = view_36.transpose(1, 2)
+        view_36 = None
+        view_37 = values_12.view(1, -1, 16, 80)
+        values_12 = None
+        value_layer_12 = view_37.transpose(1, 2)
+        view_37 = None
+        view_38 = queries_12.view(1, -1, 16, 80)
+        queries_12 = None
+        query_layer_12 = view_38.transpose(1, 2)
+        view_38 = None
+        query_12 = query_layer_12.contiguous()
+        query_layer_12 = None
+        key_12 = key_layer_12.contiguous()
+        key_layer_12 = None
+        value_12 = value_layer_12.contiguous()
+        value_layer_12 = None
+        item_12 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_24 = torch._C._nn.scaled_dot_product_attention(
+            query_12,
+            key_12,
+            value_12,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_12,
+            is_causal=False,
+        )
+        query_12 = key_12 = value_12 = item_12 = None
+        transpose_52 = attn_output_24.transpose(1, 2)
+        attn_output_24 = None
+        attn_output_25 = transpose_52.contiguous()
+        transpose_52 = None
+        context_layer_12 = attn_output_25.reshape((1, 784, 1280))
+        attn_output_25 = None
+        hidden_states_96 = torch._C._nn.linear(
+            context_layer_12,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_12 = l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_97 = torch.nn.functional.dropout(
+            hidden_states_96, 0.0, False, False
+        )
+        hidden_states_96 = None
+        hidden_states_98 = hidden_states_97 + hidden_states_95
+        hidden_states_97 = hidden_states_95 = None
+        layer_output_12 = torch.nn.functional.layer_norm(
+            hidden_states_98,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_99 = torch._C._nn.linear(
+            layer_output_12,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_12 = l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_100 = torch._C._nn.gelu(hidden_states_99)
+        hidden_states_99 = None
+        hidden_states_101 = torch._C._nn.linear(
+            hidden_states_100,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_100 = l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_12_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_102 = torch.nn.functional.dropout(
+            hidden_states_101, 0.0, False, False
+        )
+        hidden_states_101 = None
+        hidden_states_103 = hidden_states_102 + hidden_states_98
+        hidden_states_102 = hidden_states_98 = None
+        layer_norm_26 = torch.nn.functional.layer_norm(
+            hidden_states_103,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_13 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_13 = torch._C._nn.linear(
+            input=layer_norm_26,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_13,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_13
+        ) = None
+        values_13 = torch._C._nn.linear(
+            input=layer_norm_26,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_13 = torch._C._nn.linear(
+            input=layer_norm_26,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_26 = l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_39 = keys_13.view(1, -1, 16, 80)
+        keys_13 = None
+        key_layer_13 = view_39.transpose(1, 2)
+        view_39 = None
+        view_40 = values_13.view(1, -1, 16, 80)
+        values_13 = None
+        value_layer_13 = view_40.transpose(1, 2)
+        view_40 = None
+        view_41 = queries_13.view(1, -1, 16, 80)
+        queries_13 = None
+        query_layer_13 = view_41.transpose(1, 2)
+        view_41 = None
+        query_13 = query_layer_13.contiguous()
+        query_layer_13 = None
+        key_13 = key_layer_13.contiguous()
+        key_layer_13 = None
+        value_13 = value_layer_13.contiguous()
+        value_layer_13 = None
+        item_13 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_26 = torch._C._nn.scaled_dot_product_attention(
+            query_13,
+            key_13,
+            value_13,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_13,
+            is_causal=False,
+        )
+        query_13 = key_13 = value_13 = item_13 = None
+        transpose_56 = attn_output_26.transpose(1, 2)
+        attn_output_26 = None
+        attn_output_27 = transpose_56.contiguous()
+        transpose_56 = None
+        context_layer_13 = attn_output_27.reshape((1, 784, 1280))
+        attn_output_27 = None
+        hidden_states_104 = torch._C._nn.linear(
+            context_layer_13,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_13 = l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_105 = torch.nn.functional.dropout(
+            hidden_states_104, 0.0, False, False
+        )
+        hidden_states_104 = None
+        hidden_states_106 = hidden_states_105 + hidden_states_103
+        hidden_states_105 = hidden_states_103 = None
+        layer_output_13 = torch.nn.functional.layer_norm(
+            hidden_states_106,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_107 = torch._C._nn.linear(
+            layer_output_13,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_13 = l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_108 = torch._C._nn.gelu(hidden_states_107)
+        hidden_states_107 = None
+        hidden_states_109 = torch._C._nn.linear(
+            hidden_states_108,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_108 = l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_13_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_110 = torch.nn.functional.dropout(
+            hidden_states_109, 0.0, False, False
+        )
+        hidden_states_109 = None
+        hidden_states_111 = hidden_states_110 + hidden_states_106
+        hidden_states_110 = hidden_states_106 = None
+        layer_norm_28 = torch.nn.functional.layer_norm(
+            hidden_states_111,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_14 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_14 = torch._C._nn.linear(
+            input=layer_norm_28,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_14,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_14
+        ) = None
+        values_14 = torch._C._nn.linear(
+            input=layer_norm_28,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_14 = torch._C._nn.linear(
+            input=layer_norm_28,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_28 = l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_42 = keys_14.view(1, -1, 16, 80)
+        keys_14 = None
+        key_layer_14 = view_42.transpose(1, 2)
+        view_42 = None
+        view_43 = values_14.view(1, -1, 16, 80)
+        values_14 = None
+        value_layer_14 = view_43.transpose(1, 2)
+        view_43 = None
+        view_44 = queries_14.view(1, -1, 16, 80)
+        queries_14 = None
+        query_layer_14 = view_44.transpose(1, 2)
+        view_44 = None
+        query_14 = query_layer_14.contiguous()
+        query_layer_14 = None
+        key_14 = key_layer_14.contiguous()
+        key_layer_14 = None
+        value_14 = value_layer_14.contiguous()
+        value_layer_14 = None
+        item_14 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_28 = torch._C._nn.scaled_dot_product_attention(
+            query_14,
+            key_14,
+            value_14,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_14,
+            is_causal=False,
+        )
+        query_14 = key_14 = value_14 = item_14 = None
+        transpose_60 = attn_output_28.transpose(1, 2)
+        attn_output_28 = None
+        attn_output_29 = transpose_60.contiguous()
+        transpose_60 = None
+        context_layer_14 = attn_output_29.reshape((1, 784, 1280))
+        attn_output_29 = None
+        hidden_states_112 = torch._C._nn.linear(
+            context_layer_14,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_14 = l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_113 = torch.nn.functional.dropout(
+            hidden_states_112, 0.0, False, False
+        )
+        hidden_states_112 = None
+        hidden_states_114 = hidden_states_113 + hidden_states_111
+        hidden_states_113 = hidden_states_111 = None
+        layer_output_14 = torch.nn.functional.layer_norm(
+            hidden_states_114,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_115 = torch._C._nn.linear(
+            layer_output_14,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_14 = l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_116 = torch._C._nn.gelu(hidden_states_115)
+        hidden_states_115 = None
+        hidden_states_117 = torch._C._nn.linear(
+            hidden_states_116,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_116 = l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_14_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_118 = torch.nn.functional.dropout(
+            hidden_states_117, 0.0, False, False
+        )
+        hidden_states_117 = None
+        hidden_states_119 = hidden_states_118 + hidden_states_114
+        hidden_states_118 = hidden_states_114 = None
+        layer_norm_30 = torch.nn.functional.layer_norm(
+            hidden_states_119,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_15 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_15 = torch._C._nn.linear(
+            input=layer_norm_30,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_15,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_15
+        ) = None
+        values_15 = torch._C._nn.linear(
+            input=layer_norm_30,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_15 = torch._C._nn.linear(
+            input=layer_norm_30,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_30 = l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_45 = keys_15.view(1, -1, 16, 80)
+        keys_15 = None
+        key_layer_15 = view_45.transpose(1, 2)
+        view_45 = None
+        view_46 = values_15.view(1, -1, 16, 80)
+        values_15 = None
+        value_layer_15 = view_46.transpose(1, 2)
+        view_46 = None
+        view_47 = queries_15.view(1, -1, 16, 80)
+        queries_15 = None
+        query_layer_15 = view_47.transpose(1, 2)
+        view_47 = None
+        query_15 = query_layer_15.contiguous()
+        query_layer_15 = None
+        key_15 = key_layer_15.contiguous()
+        key_layer_15 = None
+        value_15 = value_layer_15.contiguous()
+        value_layer_15 = None
+        item_15 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_30 = torch._C._nn.scaled_dot_product_attention(
+            query_15,
+            key_15,
+            value_15,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_15,
+            is_causal=False,
+        )
+        query_15 = key_15 = value_15 = item_15 = None
+        transpose_64 = attn_output_30.transpose(1, 2)
+        attn_output_30 = None
+        attn_output_31 = transpose_64.contiguous()
+        transpose_64 = None
+        context_layer_15 = attn_output_31.reshape((1, 784, 1280))
+        attn_output_31 = None
+        hidden_states_120 = torch._C._nn.linear(
+            context_layer_15,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_15 = l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_121 = torch.nn.functional.dropout(
+            hidden_states_120, 0.0, False, False
+        )
+        hidden_states_120 = None
+        hidden_states_122 = hidden_states_121 + hidden_states_119
+        hidden_states_121 = hidden_states_119 = None
+        layer_output_15 = torch.nn.functional.layer_norm(
+            hidden_states_122,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_123 = torch._C._nn.linear(
+            layer_output_15,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_15 = l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_124 = torch._C._nn.gelu(hidden_states_123)
+        hidden_states_123 = None
+        hidden_states_125 = torch._C._nn.linear(
+            hidden_states_124,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_124 = l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_15_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_126 = torch.nn.functional.dropout(
+            hidden_states_125, 0.0, False, False
+        )
+        hidden_states_125 = None
+        hidden_states_127 = hidden_states_126 + hidden_states_122
+        hidden_states_126 = hidden_states_122 = None
+        layer_norm_32 = torch.nn.functional.layer_norm(
+            hidden_states_127,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_16 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_16 = torch._C._nn.linear(
+            input=layer_norm_32,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_16,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_16
+        ) = None
+        values_16 = torch._C._nn.linear(
+            input=layer_norm_32,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_16 = torch._C._nn.linear(
+            input=layer_norm_32,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_32 = l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_48 = keys_16.view(1, -1, 16, 80)
+        keys_16 = None
+        key_layer_16 = view_48.transpose(1, 2)
+        view_48 = None
+        view_49 = values_16.view(1, -1, 16, 80)
+        values_16 = None
+        value_layer_16 = view_49.transpose(1, 2)
+        view_49 = None
+        view_50 = queries_16.view(1, -1, 16, 80)
+        queries_16 = None
+        query_layer_16 = view_50.transpose(1, 2)
+        view_50 = None
+        query_16 = query_layer_16.contiguous()
+        query_layer_16 = None
+        key_16 = key_layer_16.contiguous()
+        key_layer_16 = None
+        value_16 = value_layer_16.contiguous()
+        value_layer_16 = None
+        item_16 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_32 = torch._C._nn.scaled_dot_product_attention(
+            query_16,
+            key_16,
+            value_16,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_16,
+            is_causal=False,
+        )
+        query_16 = key_16 = value_16 = item_16 = None
+        transpose_68 = attn_output_32.transpose(1, 2)
+        attn_output_32 = None
+        attn_output_33 = transpose_68.contiguous()
+        transpose_68 = None
+        context_layer_16 = attn_output_33.reshape((1, 784, 1280))
+        attn_output_33 = None
+        hidden_states_128 = torch._C._nn.linear(
+            context_layer_16,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_16 = l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_129 = torch.nn.functional.dropout(
+            hidden_states_128, 0.0, False, False
+        )
+        hidden_states_128 = None
+        hidden_states_130 = hidden_states_129 + hidden_states_127
+        hidden_states_129 = hidden_states_127 = None
+        layer_output_16 = torch.nn.functional.layer_norm(
+            hidden_states_130,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_131 = torch._C._nn.linear(
+            layer_output_16,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_16 = l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_132 = torch._C._nn.gelu(hidden_states_131)
+        hidden_states_131 = None
+        hidden_states_133 = torch._C._nn.linear(
+            hidden_states_132,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_132 = l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_16_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_134 = torch.nn.functional.dropout(
+            hidden_states_133, 0.0, False, False
+        )
+        hidden_states_133 = None
+        hidden_states_135 = hidden_states_134 + hidden_states_130
+        hidden_states_134 = hidden_states_130 = None
+        layer_norm_34 = torch.nn.functional.layer_norm(
+            hidden_states_135,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_17 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_17 = torch._C._nn.linear(
+            input=layer_norm_34,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_17,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_17
+        ) = None
+        values_17 = torch._C._nn.linear(
+            input=layer_norm_34,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_17 = torch._C._nn.linear(
+            input=layer_norm_34,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_34 = l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_51 = keys_17.view(1, -1, 16, 80)
+        keys_17 = None
+        key_layer_17 = view_51.transpose(1, 2)
+        view_51 = None
+        view_52 = values_17.view(1, -1, 16, 80)
+        values_17 = None
+        value_layer_17 = view_52.transpose(1, 2)
+        view_52 = None
+        view_53 = queries_17.view(1, -1, 16, 80)
+        queries_17 = None
+        query_layer_17 = view_53.transpose(1, 2)
+        view_53 = None
+        query_17 = query_layer_17.contiguous()
+        query_layer_17 = None
+        key_17 = key_layer_17.contiguous()
+        key_layer_17 = None
+        value_17 = value_layer_17.contiguous()
+        value_layer_17 = None
+        item_17 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_34 = torch._C._nn.scaled_dot_product_attention(
+            query_17,
+            key_17,
+            value_17,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_17,
+            is_causal=False,
+        )
+        query_17 = key_17 = value_17 = item_17 = None
+        transpose_72 = attn_output_34.transpose(1, 2)
+        attn_output_34 = None
+        attn_output_35 = transpose_72.contiguous()
+        transpose_72 = None
+        context_layer_17 = attn_output_35.reshape((1, 784, 1280))
+        attn_output_35 = None
+        hidden_states_136 = torch._C._nn.linear(
+            context_layer_17,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_17 = l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_137 = torch.nn.functional.dropout(
+            hidden_states_136, 0.0, False, False
+        )
+        hidden_states_136 = None
+        hidden_states_138 = hidden_states_137 + hidden_states_135
+        hidden_states_137 = hidden_states_135 = None
+        layer_output_17 = torch.nn.functional.layer_norm(
+            hidden_states_138,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_139 = torch._C._nn.linear(
+            layer_output_17,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_17 = l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_140 = torch._C._nn.gelu(hidden_states_139)
+        hidden_states_139 = None
+        hidden_states_141 = torch._C._nn.linear(
+            hidden_states_140,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_140 = l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_17_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_142 = torch.nn.functional.dropout(
+            hidden_states_141, 0.0, False, False
+        )
+        hidden_states_141 = None
+        hidden_states_143 = hidden_states_142 + hidden_states_138
+        hidden_states_142 = hidden_states_138 = None
+        layer_norm_36 = torch.nn.functional.layer_norm(
+            hidden_states_143,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_18 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_18 = torch._C._nn.linear(
+            input=layer_norm_36,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_18,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_18
+        ) = None
+        values_18 = torch._C._nn.linear(
+            input=layer_norm_36,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_18 = torch._C._nn.linear(
+            input=layer_norm_36,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_36 = l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_54 = keys_18.view(1, -1, 16, 80)
+        keys_18 = None
+        key_layer_18 = view_54.transpose(1, 2)
+        view_54 = None
+        view_55 = values_18.view(1, -1, 16, 80)
+        values_18 = None
+        value_layer_18 = view_55.transpose(1, 2)
+        view_55 = None
+        view_56 = queries_18.view(1, -1, 16, 80)
+        queries_18 = None
+        query_layer_18 = view_56.transpose(1, 2)
+        view_56 = None
+        query_18 = query_layer_18.contiguous()
+        query_layer_18 = None
+        key_18 = key_layer_18.contiguous()
+        key_layer_18 = None
+        value_18 = value_layer_18.contiguous()
+        value_layer_18 = None
+        item_18 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_36 = torch._C._nn.scaled_dot_product_attention(
+            query_18,
+            key_18,
+            value_18,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_18,
+            is_causal=False,
+        )
+        query_18 = key_18 = value_18 = item_18 = None
+        transpose_76 = attn_output_36.transpose(1, 2)
+        attn_output_36 = None
+        attn_output_37 = transpose_76.contiguous()
+        transpose_76 = None
+        context_layer_18 = attn_output_37.reshape((1, 784, 1280))
+        attn_output_37 = None
+        hidden_states_144 = torch._C._nn.linear(
+            context_layer_18,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_18 = l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_145 = torch.nn.functional.dropout(
+            hidden_states_144, 0.0, False, False
+        )
+        hidden_states_144 = None
+        hidden_states_146 = hidden_states_145 + hidden_states_143
+        hidden_states_145 = hidden_states_143 = None
+        layer_output_18 = torch.nn.functional.layer_norm(
+            hidden_states_146,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_147 = torch._C._nn.linear(
+            layer_output_18,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_18 = l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_148 = torch._C._nn.gelu(hidden_states_147)
+        hidden_states_147 = None
+        hidden_states_149 = torch._C._nn.linear(
+            hidden_states_148,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_148 = l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_18_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_150 = torch.nn.functional.dropout(
+            hidden_states_149, 0.0, False, False
+        )
+        hidden_states_149 = None
+        hidden_states_151 = hidden_states_150 + hidden_states_146
+        hidden_states_150 = hidden_states_146 = None
+        layer_norm_38 = torch.nn.functional.layer_norm(
+            hidden_states_151,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_19 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_19 = torch._C._nn.linear(
+            input=layer_norm_38,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_19,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_19
+        ) = None
+        values_19 = torch._C._nn.linear(
+            input=layer_norm_38,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_19 = torch._C._nn.linear(
+            input=layer_norm_38,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_38 = l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_57 = keys_19.view(1, -1, 16, 80)
+        keys_19 = None
+        key_layer_19 = view_57.transpose(1, 2)
+        view_57 = None
+        view_58 = values_19.view(1, -1, 16, 80)
+        values_19 = None
+        value_layer_19 = view_58.transpose(1, 2)
+        view_58 = None
+        view_59 = queries_19.view(1, -1, 16, 80)
+        queries_19 = None
+        query_layer_19 = view_59.transpose(1, 2)
+        view_59 = None
+        query_19 = query_layer_19.contiguous()
+        query_layer_19 = None
+        key_19 = key_layer_19.contiguous()
+        key_layer_19 = None
+        value_19 = value_layer_19.contiguous()
+        value_layer_19 = None
+        item_19 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_38 = torch._C._nn.scaled_dot_product_attention(
+            query_19,
+            key_19,
+            value_19,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_19,
+            is_causal=False,
+        )
+        query_19 = key_19 = value_19 = item_19 = None
+        transpose_80 = attn_output_38.transpose(1, 2)
+        attn_output_38 = None
+        attn_output_39 = transpose_80.contiguous()
+        transpose_80 = None
+        context_layer_19 = attn_output_39.reshape((1, 784, 1280))
+        attn_output_39 = None
+        hidden_states_152 = torch._C._nn.linear(
+            context_layer_19,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_19 = l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_153 = torch.nn.functional.dropout(
+            hidden_states_152, 0.0, False, False
+        )
+        hidden_states_152 = None
+        hidden_states_154 = hidden_states_153 + hidden_states_151
+        hidden_states_153 = hidden_states_151 = None
+        layer_output_19 = torch.nn.functional.layer_norm(
+            hidden_states_154,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_155 = torch._C._nn.linear(
+            layer_output_19,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_19 = l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_156 = torch._C._nn.gelu(hidden_states_155)
+        hidden_states_155 = None
+        hidden_states_157 = torch._C._nn.linear(
+            hidden_states_156,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_156 = l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_19_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_158 = torch.nn.functional.dropout(
+            hidden_states_157, 0.0, False, False
+        )
+        hidden_states_157 = None
+        hidden_states_159 = hidden_states_158 + hidden_states_154
+        hidden_states_158 = hidden_states_154 = None
+        layer_norm_40 = torch.nn.functional.layer_norm(
+            hidden_states_159,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_20 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_20 = torch._C._nn.linear(
+            input=layer_norm_40,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_20,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_20
+        ) = None
+        values_20 = torch._C._nn.linear(
+            input=layer_norm_40,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_20 = torch._C._nn.linear(
+            input=layer_norm_40,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_40 = l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_60 = keys_20.view(1, -1, 16, 80)
+        keys_20 = None
+        key_layer_20 = view_60.transpose(1, 2)
+        view_60 = None
+        view_61 = values_20.view(1, -1, 16, 80)
+        values_20 = None
+        value_layer_20 = view_61.transpose(1, 2)
+        view_61 = None
+        view_62 = queries_20.view(1, -1, 16, 80)
+        queries_20 = None
+        query_layer_20 = view_62.transpose(1, 2)
+        view_62 = None
+        query_20 = query_layer_20.contiguous()
+        query_layer_20 = None
+        key_20 = key_layer_20.contiguous()
+        key_layer_20 = None
+        value_20 = value_layer_20.contiguous()
+        value_layer_20 = None
+        item_20 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_40 = torch._C._nn.scaled_dot_product_attention(
+            query_20,
+            key_20,
+            value_20,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_20,
+            is_causal=False,
+        )
+        query_20 = key_20 = value_20 = item_20 = None
+        transpose_84 = attn_output_40.transpose(1, 2)
+        attn_output_40 = None
+        attn_output_41 = transpose_84.contiguous()
+        transpose_84 = None
+        context_layer_20 = attn_output_41.reshape((1, 784, 1280))
+        attn_output_41 = None
+        hidden_states_160 = torch._C._nn.linear(
+            context_layer_20,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_20 = l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_161 = torch.nn.functional.dropout(
+            hidden_states_160, 0.0, False, False
+        )
+        hidden_states_160 = None
+        hidden_states_162 = hidden_states_161 + hidden_states_159
+        hidden_states_161 = hidden_states_159 = None
+        layer_output_20 = torch.nn.functional.layer_norm(
+            hidden_states_162,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_163 = torch._C._nn.linear(
+            layer_output_20,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_20 = l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_164 = torch._C._nn.gelu(hidden_states_163)
+        hidden_states_163 = None
+        hidden_states_165 = torch._C._nn.linear(
+            hidden_states_164,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_164 = l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_20_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_166 = torch.nn.functional.dropout(
+            hidden_states_165, 0.0, False, False
+        )
+        hidden_states_165 = None
+        hidden_states_167 = hidden_states_166 + hidden_states_162
+        hidden_states_166 = hidden_states_162 = None
+        layer_norm_42 = torch.nn.functional.layer_norm(
+            hidden_states_167,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_21 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_21 = torch._C._nn.linear(
+            input=layer_norm_42,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_21,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_21
+        ) = None
+        values_21 = torch._C._nn.linear(
+            input=layer_norm_42,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_21 = torch._C._nn.linear(
+            input=layer_norm_42,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_42 = l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_63 = keys_21.view(1, -1, 16, 80)
+        keys_21 = None
+        key_layer_21 = view_63.transpose(1, 2)
+        view_63 = None
+        view_64 = values_21.view(1, -1, 16, 80)
+        values_21 = None
+        value_layer_21 = view_64.transpose(1, 2)
+        view_64 = None
+        view_65 = queries_21.view(1, -1, 16, 80)
+        queries_21 = None
+        query_layer_21 = view_65.transpose(1, 2)
+        view_65 = None
+        query_21 = query_layer_21.contiguous()
+        query_layer_21 = None
+        key_21 = key_layer_21.contiguous()
+        key_layer_21 = None
+        value_21 = value_layer_21.contiguous()
+        value_layer_21 = None
+        item_21 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_42 = torch._C._nn.scaled_dot_product_attention(
+            query_21,
+            key_21,
+            value_21,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_21,
+            is_causal=False,
+        )
+        query_21 = key_21 = value_21 = item_21 = None
+        transpose_88 = attn_output_42.transpose(1, 2)
+        attn_output_42 = None
+        attn_output_43 = transpose_88.contiguous()
+        transpose_88 = None
+        context_layer_21 = attn_output_43.reshape((1, 784, 1280))
+        attn_output_43 = None
+        hidden_states_168 = torch._C._nn.linear(
+            context_layer_21,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_21 = l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_169 = torch.nn.functional.dropout(
+            hidden_states_168, 0.0, False, False
+        )
+        hidden_states_168 = None
+        hidden_states_170 = hidden_states_169 + hidden_states_167
+        hidden_states_169 = hidden_states_167 = None
+        layer_output_21 = torch.nn.functional.layer_norm(
+            hidden_states_170,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_171 = torch._C._nn.linear(
+            layer_output_21,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_21 = l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_172 = torch._C._nn.gelu(hidden_states_171)
+        hidden_states_171 = None
+        hidden_states_173 = torch._C._nn.linear(
+            hidden_states_172,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_172 = l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_21_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_174 = torch.nn.functional.dropout(
+            hidden_states_173, 0.0, False, False
+        )
+        hidden_states_173 = None
+        hidden_states_175 = hidden_states_174 + hidden_states_170
+        hidden_states_174 = hidden_states_170 = None
+        layer_norm_44 = torch.nn.functional.layer_norm(
+            hidden_states_175,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_22 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_22 = torch._C._nn.linear(
+            input=layer_norm_44,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_22,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_22
+        ) = None
+        values_22 = torch._C._nn.linear(
+            input=layer_norm_44,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_22 = torch._C._nn.linear(
+            input=layer_norm_44,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_44 = l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_66 = keys_22.view(1, -1, 16, 80)
+        keys_22 = None
+        key_layer_22 = view_66.transpose(1, 2)
+        view_66 = None
+        view_67 = values_22.view(1, -1, 16, 80)
+        values_22 = None
+        value_layer_22 = view_67.transpose(1, 2)
+        view_67 = None
+        view_68 = queries_22.view(1, -1, 16, 80)
+        queries_22 = None
+        query_layer_22 = view_68.transpose(1, 2)
+        view_68 = None
+        query_22 = query_layer_22.contiguous()
+        query_layer_22 = None
+        key_22 = key_layer_22.contiguous()
+        key_layer_22 = None
+        value_22 = value_layer_22.contiguous()
+        value_layer_22 = None
+        item_22 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_44 = torch._C._nn.scaled_dot_product_attention(
+            query_22,
+            key_22,
+            value_22,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_22,
+            is_causal=False,
+        )
+        query_22 = key_22 = value_22 = item_22 = None
+        transpose_92 = attn_output_44.transpose(1, 2)
+        attn_output_44 = None
+        attn_output_45 = transpose_92.contiguous()
+        transpose_92 = None
+        context_layer_22 = attn_output_45.reshape((1, 784, 1280))
+        attn_output_45 = None
+        hidden_states_176 = torch._C._nn.linear(
+            context_layer_22,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_22 = l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_177 = torch.nn.functional.dropout(
+            hidden_states_176, 0.0, False, False
+        )
+        hidden_states_176 = None
+        hidden_states_178 = hidden_states_177 + hidden_states_175
+        hidden_states_177 = hidden_states_175 = None
+        layer_output_22 = torch.nn.functional.layer_norm(
+            hidden_states_178,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_179 = torch._C._nn.linear(
+            layer_output_22,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_22 = l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_180 = torch._C._nn.gelu(hidden_states_179)
+        hidden_states_179 = None
+        hidden_states_181 = torch._C._nn.linear(
+            hidden_states_180,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_180 = l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_22_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_182 = torch.nn.functional.dropout(
+            hidden_states_181, 0.0, False, False
+        )
+        hidden_states_181 = None
+        hidden_states_183 = hidden_states_182 + hidden_states_178
+        hidden_states_182 = hidden_states_178 = None
+        layer_norm_46 = torch.nn.functional.layer_norm(
+            hidden_states_183,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_23 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_23 = torch._C._nn.linear(
+            input=layer_norm_46,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_23,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_23
+        ) = None
+        values_23 = torch._C._nn.linear(
+            input=layer_norm_46,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_23 = torch._C._nn.linear(
+            input=layer_norm_46,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_46 = l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_69 = keys_23.view(1, -1, 16, 80)
+        keys_23 = None
+        key_layer_23 = view_69.transpose(1, 2)
+        view_69 = None
+        view_70 = values_23.view(1, -1, 16, 80)
+        values_23 = None
+        value_layer_23 = view_70.transpose(1, 2)
+        view_70 = None
+        view_71 = queries_23.view(1, -1, 16, 80)
+        queries_23 = None
+        query_layer_23 = view_71.transpose(1, 2)
+        view_71 = None
+        query_23 = query_layer_23.contiguous()
+        query_layer_23 = None
+        key_23 = key_layer_23.contiguous()
+        key_layer_23 = None
+        value_23 = value_layer_23.contiguous()
+        value_layer_23 = None
+        item_23 = (
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_scaling.item()
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_attention_scaling = (
+            None
+        )
+        attn_output_46 = torch._C._nn.scaled_dot_product_attention(
+            query_23,
+            key_23,
+            value_23,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=item_23,
+            is_causal=False,
+        )
+        query_23 = key_23 = value_23 = item_23 = None
+        transpose_96 = attn_output_46.transpose(1, 2)
+        attn_output_46 = None
+        attn_output_47 = transpose_96.contiguous()
+        transpose_96 = None
+        context_layer_23 = attn_output_47.reshape((1, 784, 1280))
+        attn_output_47 = None
+        hidden_states_184 = torch._C._nn.linear(
+            context_layer_23,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_23 = l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_185 = torch.nn.functional.dropout(
+            hidden_states_184, 0.0, False, False
+        )
+        hidden_states_184 = None
+        hidden_states_186 = hidden_states_185 + hidden_states_183
+        hidden_states_185 = hidden_states_183 = None
+        layer_output_23 = torch.nn.functional.layer_norm(
+            hidden_states_186,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_187 = torch._C._nn.linear(
+            layer_output_23,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_23 = l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_188 = torch._C._nn.gelu(hidden_states_187)
+        hidden_states_187 = None
+        hidden_states_189 = torch._C._nn.linear(
+            hidden_states_188,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_188 = l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_23_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_190 = torch.nn.functional.dropout(
+            hidden_states_189, 0.0, False, False
+        )
+        hidden_states_189 = None
+        hidden_states_191 = hidden_states_190 + hidden_states_186
+        hidden_states_190 = hidden_states_186 = None
+        layer_norm_48 = torch.nn.functional.layer_norm(
+            hidden_states_191,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_24 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_24 = torch._C._nn.linear(
+            input=layer_norm_48,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_24,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_24
+        ) = None
+        values_24 = torch._C._nn.linear(
+            input=layer_norm_48,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_24 = torch._C._nn.linear(
+            input=layer_norm_48,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_48 = l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_72 = keys_24.view(1, -1, 16, 80)
+        keys_24 = None
+        key_layer_24 = view_72.transpose(1, 2)
+        view_72 = None
+        view_73 = values_24.view(1, -1, 16, 80)
+        values_24 = None
+        value_layer_24 = view_73.transpose(1, 2)
+        view_73 = None
+        view_74 = queries_24.view(1, -1, 16, 80)
+        queries_24 = None
+        query_layer_24 = view_74.transpose(1, 2)
+        view_74 = None
+        query_24 = query_layer_24.contiguous()
+        query_layer_24 = None
+        key_24 = key_layer_24.contiguous()
+        key_layer_24 = None
+        value_24 = value_layer_24.contiguous()
+        value_layer_24 = None
+        attn_output_48 = torch._C._nn.scaled_dot_product_attention(
+            query_24,
+            key_24,
+            value_24,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=0.11180339887498948,
+            is_causal=False,
+        )
+        query_24 = key_24 = value_24 = None
+        transpose_100 = attn_output_48.transpose(1, 2)
+        attn_output_48 = None
+        attn_output_49 = transpose_100.contiguous()
+        transpose_100 = None
+        context_layer_24 = attn_output_49.reshape((1, 784, 1280))
+        attn_output_49 = None
+        hidden_states_192 = torch._C._nn.linear(
+            context_layer_24,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_24 = l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_193 = torch.nn.functional.dropout(
+            hidden_states_192, 0.0, False, False
+        )
+        hidden_states_192 = None
+        hidden_states_194 = hidden_states_193 + hidden_states_191
+        hidden_states_193 = hidden_states_191 = None
+        layer_output_24 = torch.nn.functional.layer_norm(
+            hidden_states_194,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_195 = torch._C._nn.linear(
+            layer_output_24,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_24 = l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_196 = torch._C._nn.gelu(hidden_states_195)
+        hidden_states_195 = None
+        hidden_states_197 = torch._C._nn.linear(
+            hidden_states_196,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_196 = l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_24_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_198 = torch.nn.functional.dropout(
+            hidden_states_197, 0.0, False, False
+        )
+        hidden_states_197 = None
+        hidden_states_199 = hidden_states_198 + hidden_states_194
+        hidden_states_198 = hidden_states_194 = None
+        layer_norm_50 = torch.nn.functional.layer_norm(
+            hidden_states_199,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_25 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_25 = torch._C._nn.linear(
+            input=layer_norm_50,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_25,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_25
+        ) = None
+        values_25 = torch._C._nn.linear(
+            input=layer_norm_50,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_25 = torch._C._nn.linear(
+            input=layer_norm_50,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_50 = l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_75 = keys_25.view(1, -1, 16, 80)
+        keys_25 = None
+        key_layer_25 = view_75.transpose(1, 2)
+        view_75 = None
+        view_76 = values_25.view(1, -1, 16, 80)
+        values_25 = None
+        value_layer_25 = view_76.transpose(1, 2)
+        view_76 = None
+        view_77 = queries_25.view(1, -1, 16, 80)
+        queries_25 = None
+        query_layer_25 = view_77.transpose(1, 2)
+        view_77 = None
+        query_25 = query_layer_25.contiguous()
+        query_layer_25 = None
+        key_25 = key_layer_25.contiguous()
+        key_layer_25 = None
+        value_25 = value_layer_25.contiguous()
+        value_layer_25 = None
+        attn_output_50 = torch._C._nn.scaled_dot_product_attention(
+            query_25,
+            key_25,
+            value_25,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=0.11180339887498948,
+            is_causal=False,
+        )
+        query_25 = key_25 = value_25 = None
+        transpose_104 = attn_output_50.transpose(1, 2)
+        attn_output_50 = None
+        attn_output_51 = transpose_104.contiguous()
+        transpose_104 = None
+        context_layer_25 = attn_output_51.reshape((1, 784, 1280))
+        attn_output_51 = None
+        hidden_states_200 = torch._C._nn.linear(
+            context_layer_25,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_25 = l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_201 = torch.nn.functional.dropout(
+            hidden_states_200, 0.0, False, False
+        )
+        hidden_states_200 = None
+        hidden_states_202 = hidden_states_201 + hidden_states_199
+        hidden_states_201 = hidden_states_199 = None
+        layer_output_25 = torch.nn.functional.layer_norm(
+            hidden_states_202,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_203 = torch._C._nn.linear(
+            layer_output_25,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_25 = l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_204 = torch._C._nn.gelu(hidden_states_203)
+        hidden_states_203 = None
+        hidden_states_205 = torch._C._nn.linear(
+            hidden_states_204,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_204 = l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_25_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_206 = torch.nn.functional.dropout(
+            hidden_states_205, 0.0, False, False
+        )
+        hidden_states_205 = None
+        hidden_states_207 = hidden_states_206 + hidden_states_202
+        hidden_states_206 = hidden_states_202 = None
+        layer_norm_52 = torch.nn.functional.layer_norm(
+            hidden_states_207,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_26 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_26 = torch._C._nn.linear(
+            input=layer_norm_52,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_26,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_26
+        ) = None
+        values_26 = torch._C._nn.linear(
+            input=layer_norm_52,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_26 = torch._C._nn.linear(
+            input=layer_norm_52,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_52 = l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_78 = keys_26.view(1, -1, 16, 80)
+        keys_26 = None
+        key_layer_26 = view_78.transpose(1, 2)
+        view_78 = None
+        view_79 = values_26.view(1, -1, 16, 80)
+        values_26 = None
+        value_layer_26 = view_79.transpose(1, 2)
+        view_79 = None
+        view_80 = queries_26.view(1, -1, 16, 80)
+        queries_26 = None
+        query_layer_26 = view_80.transpose(1, 2)
+        view_80 = None
+        query_26 = query_layer_26.contiguous()
+        query_layer_26 = None
+        key_26 = key_layer_26.contiguous()
+        key_layer_26 = None
+        value_26 = value_layer_26.contiguous()
+        value_layer_26 = None
+        attn_output_52 = torch._C._nn.scaled_dot_product_attention(
+            query_26,
+            key_26,
+            value_26,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=0.11180339887498948,
+            is_causal=False,
+        )
+        query_26 = key_26 = value_26 = None
+        transpose_108 = attn_output_52.transpose(1, 2)
+        attn_output_52 = None
+        attn_output_53 = transpose_108.contiguous()
+        transpose_108 = None
+        context_layer_26 = attn_output_53.reshape((1, 784, 1280))
+        attn_output_53 = None
+        hidden_states_208 = torch._C._nn.linear(
+            context_layer_26,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_26 = l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_209 = torch.nn.functional.dropout(
+            hidden_states_208, 0.0, False, False
+        )
+        hidden_states_208 = None
+        hidden_states_210 = hidden_states_209 + hidden_states_207
+        hidden_states_209 = hidden_states_207 = None
+        layer_output_26 = torch.nn.functional.layer_norm(
+            hidden_states_210,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_211 = torch._C._nn.linear(
+            layer_output_26,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_26 = l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_212 = torch._C._nn.gelu(hidden_states_211)
+        hidden_states_211 = None
+        hidden_states_213 = torch._C._nn.linear(
+            hidden_states_212,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_212 = l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_26_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_214 = torch.nn.functional.dropout(
+            hidden_states_213, 0.0, False, False
+        )
+        hidden_states_213 = None
+        hidden_states_215 = hidden_states_214 + hidden_states_210
+        hidden_states_214 = hidden_states_210 = None
+        layer_norm_54 = torch.nn.functional.layer_norm(
+            hidden_states_215,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_27 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_27 = torch._C._nn.linear(
+            input=layer_norm_54,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_27,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_27
+        ) = None
+        values_27 = torch._C._nn.linear(
+            input=layer_norm_54,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_27 = torch._C._nn.linear(
+            input=layer_norm_54,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_54 = l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_81 = keys_27.view(1, -1, 16, 80)
+        keys_27 = None
+        key_layer_27 = view_81.transpose(1, 2)
+        view_81 = None
+        view_82 = values_27.view(1, -1, 16, 80)
+        values_27 = None
+        value_layer_27 = view_82.transpose(1, 2)
+        view_82 = None
+        view_83 = queries_27.view(1, -1, 16, 80)
+        queries_27 = None
+        query_layer_27 = view_83.transpose(1, 2)
+        view_83 = None
+        query_27 = query_layer_27.contiguous()
+        query_layer_27 = None
+        key_27 = key_layer_27.contiguous()
+        key_layer_27 = None
+        value_27 = value_layer_27.contiguous()
+        value_layer_27 = None
+        attn_output_54 = torch._C._nn.scaled_dot_product_attention(
+            query_27,
+            key_27,
+            value_27,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=0.11180339887498948,
+            is_causal=False,
+        )
+        query_27 = key_27 = value_27 = None
+        transpose_112 = attn_output_54.transpose(1, 2)
+        attn_output_54 = None
+        attn_output_55 = transpose_112.contiguous()
+        transpose_112 = None
+        context_layer_27 = attn_output_55.reshape((1, 784, 1280))
+        attn_output_55 = None
+        hidden_states_216 = torch._C._nn.linear(
+            context_layer_27,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_27 = l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_217 = torch.nn.functional.dropout(
+            hidden_states_216, 0.0, False, False
+        )
+        hidden_states_216 = None
+        hidden_states_218 = hidden_states_217 + hidden_states_215
+        hidden_states_217 = hidden_states_215 = None
+        layer_output_27 = torch.nn.functional.layer_norm(
+            hidden_states_218,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_219 = torch._C._nn.linear(
+            layer_output_27,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_27 = l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_220 = torch._C._nn.gelu(hidden_states_219)
+        hidden_states_219 = None
+        hidden_states_221 = torch._C._nn.linear(
+            hidden_states_220,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_220 = l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_27_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_222 = torch.nn.functional.dropout(
+            hidden_states_221, 0.0, False, False
+        )
+        hidden_states_221 = None
+        hidden_states_223 = hidden_states_222 + hidden_states_218
+        hidden_states_222 = hidden_states_218 = None
+        layer_norm_56 = torch.nn.functional.layer_norm(
+            hidden_states_223,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_28 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_28 = torch._C._nn.linear(
+            input=layer_norm_56,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_28,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_28
+        ) = None
+        values_28 = torch._C._nn.linear(
+            input=layer_norm_56,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_28 = torch._C._nn.linear(
+            input=layer_norm_56,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_56 = l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_84 = keys_28.view(1, -1, 16, 80)
+        keys_28 = None
+        key_layer_28 = view_84.transpose(1, 2)
+        view_84 = None
+        view_85 = values_28.view(1, -1, 16, 80)
+        values_28 = None
+        value_layer_28 = view_85.transpose(1, 2)
+        view_85 = None
+        view_86 = queries_28.view(1, -1, 16, 80)
+        queries_28 = None
+        query_layer_28 = view_86.transpose(1, 2)
+        view_86 = None
+        query_28 = query_layer_28.contiguous()
+        query_layer_28 = None
+        key_28 = key_layer_28.contiguous()
+        key_layer_28 = None
+        value_28 = value_layer_28.contiguous()
+        value_layer_28 = None
+        attn_output_56 = torch._C._nn.scaled_dot_product_attention(
+            query_28,
+            key_28,
+            value_28,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=0.11180339887498948,
+            is_causal=False,
+        )
+        query_28 = key_28 = value_28 = None
+        transpose_116 = attn_output_56.transpose(1, 2)
+        attn_output_56 = None
+        attn_output_57 = transpose_116.contiguous()
+        transpose_116 = None
+        context_layer_28 = attn_output_57.reshape((1, 784, 1280))
+        attn_output_57 = None
+        hidden_states_224 = torch._C._nn.linear(
+            context_layer_28,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_28 = l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_225 = torch.nn.functional.dropout(
+            hidden_states_224, 0.0, False, False
+        )
+        hidden_states_224 = None
+        hidden_states_226 = hidden_states_225 + hidden_states_223
+        hidden_states_225 = hidden_states_223 = None
+        layer_output_28 = torch.nn.functional.layer_norm(
+            hidden_states_226,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_227 = torch._C._nn.linear(
+            layer_output_28,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_28 = l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_228 = torch._C._nn.gelu(hidden_states_227)
+        hidden_states_227 = None
+        hidden_states_229 = torch._C._nn.linear(
+            hidden_states_228,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_228 = l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_28_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_230 = torch.nn.functional.dropout(
+            hidden_states_229, 0.0, False, False
+        )
+        hidden_states_229 = None
+        hidden_states_231 = hidden_states_230 + hidden_states_226
+        hidden_states_230 = hidden_states_226 = None
+        layer_norm_58 = torch.nn.functional.layer_norm(
+            hidden_states_231,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_29 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_29 = torch._C._nn.linear(
+            input=layer_norm_58,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_29,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_29
+        ) = None
+        values_29 = torch._C._nn.linear(
+            input=layer_norm_58,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_29 = torch._C._nn.linear(
+            input=layer_norm_58,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_58 = l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_87 = keys_29.view(1, -1, 16, 80)
+        keys_29 = None
+        key_layer_29 = view_87.transpose(1, 2)
+        view_87 = None
+        view_88 = values_29.view(1, -1, 16, 80)
+        values_29 = None
+        value_layer_29 = view_88.transpose(1, 2)
+        view_88 = None
+        view_89 = queries_29.view(1, -1, 16, 80)
+        queries_29 = None
+        query_layer_29 = view_89.transpose(1, 2)
+        view_89 = None
+        query_29 = query_layer_29.contiguous()
+        query_layer_29 = None
+        key_29 = key_layer_29.contiguous()
+        key_layer_29 = None
+        value_29 = value_layer_29.contiguous()
+        value_layer_29 = None
+        attn_output_58 = torch._C._nn.scaled_dot_product_attention(
+            query_29,
+            key_29,
+            value_29,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=0.11180339887498948,
+            is_causal=False,
+        )
+        query_29 = key_29 = value_29 = None
+        transpose_120 = attn_output_58.transpose(1, 2)
+        attn_output_58 = None
+        attn_output_59 = transpose_120.contiguous()
+        transpose_120 = None
+        context_layer_29 = attn_output_59.reshape((1, 784, 1280))
+        attn_output_59 = None
+        hidden_states_232 = torch._C._nn.linear(
+            context_layer_29,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_29 = l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_233 = torch.nn.functional.dropout(
+            hidden_states_232, 0.0, False, False
+        )
+        hidden_states_232 = None
+        hidden_states_234 = hidden_states_233 + hidden_states_231
+        hidden_states_233 = hidden_states_231 = None
+        layer_output_29 = torch.nn.functional.layer_norm(
+            hidden_states_234,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_235 = torch._C._nn.linear(
+            layer_output_29,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_29 = l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_236 = torch._C._nn.gelu(hidden_states_235)
+        hidden_states_235 = None
+        hidden_states_237 = torch._C._nn.linear(
+            hidden_states_236,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_236 = l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_29_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_238 = torch.nn.functional.dropout(
+            hidden_states_237, 0.0, False, False
+        )
+        hidden_states_237 = None
+        hidden_states_239 = hidden_states_238 + hidden_states_234
+        hidden_states_238 = hidden_states_234 = None
+        layer_norm_60 = torch.nn.functional.layer_norm(
+            hidden_states_239,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_30 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_30 = torch._C._nn.linear(
+            input=layer_norm_60,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_30,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_30
+        ) = None
+        values_30 = torch._C._nn.linear(
+            input=layer_norm_60,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_30 = torch._C._nn.linear(
+            input=layer_norm_60,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_60 = l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_90 = keys_30.view(1, -1, 16, 80)
+        keys_30 = None
+        key_layer_30 = view_90.transpose(1, 2)
+        view_90 = None
+        view_91 = values_30.view(1, -1, 16, 80)
+        values_30 = None
+        value_layer_30 = view_91.transpose(1, 2)
+        view_91 = None
+        view_92 = queries_30.view(1, -1, 16, 80)
+        queries_30 = None
+        query_layer_30 = view_92.transpose(1, 2)
+        view_92 = None
+        query_30 = query_layer_30.contiguous()
+        query_layer_30 = None
+        key_30 = key_layer_30.contiguous()
+        key_layer_30 = None
+        value_30 = value_layer_30.contiguous()
+        value_layer_30 = None
+        attn_output_60 = torch._C._nn.scaled_dot_product_attention(
+            query_30,
+            key_30,
+            value_30,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=0.11180339887498948,
+            is_causal=False,
+        )
+        query_30 = key_30 = value_30 = None
+        transpose_124 = attn_output_60.transpose(1, 2)
+        attn_output_60 = None
+        attn_output_61 = transpose_124.contiguous()
+        transpose_124 = None
+        context_layer_30 = attn_output_61.reshape((1, 784, 1280))
+        attn_output_61 = None
+        hidden_states_240 = torch._C._nn.linear(
+            context_layer_30,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_30 = l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_241 = torch.nn.functional.dropout(
+            hidden_states_240, 0.0, False, False
+        )
+        hidden_states_240 = None
+        hidden_states_242 = hidden_states_241 + hidden_states_239
+        hidden_states_241 = hidden_states_239 = None
+        layer_output_30 = torch.nn.functional.layer_norm(
+            hidden_states_242,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_243 = torch._C._nn.linear(
+            layer_output_30,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_30 = l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_244 = torch._C._nn.gelu(hidden_states_243)
+        hidden_states_243 = None
+        hidden_states_245 = torch._C._nn.linear(
+            hidden_states_244,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_244 = l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_30_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_246 = torch.nn.functional.dropout(
+            hidden_states_245, 0.0, False, False
+        )
+        hidden_states_245 = None
+        hidden_states_247 = hidden_states_246 + hidden_states_242
+        hidden_states_246 = hidden_states_242 = None
+        layer_norm_62 = torch.nn.functional.layer_norm(
+            hidden_states_247,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_before_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_before_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_before_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_before_parameters_bias_ = (None)
+        k_bias_31 = torch.zeros_like(
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_parameters_v_bias_,
+            requires_grad=False,
+        )
+        keys_31 = torch._C._nn.linear(
+            input=layer_norm_62,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_key_parameters_weight_,
+            bias=k_bias_31,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_key_parameters_weight_ = (
+            k_bias_31
+        ) = None
+        values_31 = torch._C._nn.linear(
+            input=layer_norm_62,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_value_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_parameters_v_bias_,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_value_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_parameters_v_bias_ = (None)
+        queries_31 = torch._C._nn.linear(
+            input=layer_norm_62,
+            weight=l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_query_parameters_weight_,
+            bias=l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_parameters_q_bias_,
+        )
+        layer_norm_62 = l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_modules_query_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_attention_parameters_q_bias_ = (None)
+        view_93 = keys_31.view(1, -1, 16, 80)
+        keys_31 = None
+        key_layer_31 = view_93.transpose(1, 2)
+        view_93 = None
+        view_94 = values_31.view(1, -1, 16, 80)
+        values_31 = None
+        value_layer_31 = view_94.transpose(1, 2)
+        view_94 = None
+        view_95 = queries_31.view(1, -1, 16, 80)
+        queries_31 = None
+        query_layer_31 = view_95.transpose(1, 2)
+        view_95 = None
+        query_31 = query_layer_31.contiguous()
+        query_layer_31 = None
+        key_31 = key_layer_31.contiguous()
+        key_layer_31 = None
+        value_31 = value_layer_31.contiguous()
+        value_layer_31 = None
+        attn_output_62 = torch._C._nn.scaled_dot_product_attention(
+            query_31,
+            key_31,
+            value_31,
+            attn_mask=None,
+            dropout_p=0.0,
+            scale=0.11180339887498948,
+            is_causal=False,
+        )
+        query_31 = key_31 = value_31 = None
+        transpose_128 = attn_output_62.transpose(1, 2)
+        attn_output_62 = None
+        attn_output_63 = transpose_128.contiguous()
+        transpose_128 = None
+        context_layer_31 = attn_output_63.reshape((1, 784, 1280))
+        attn_output_63 = None
+        hidden_states_248 = torch._C._nn.linear(
+            context_layer_31,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_output_modules_dense_parameters_bias_,
+        )
+        context_layer_31 = l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_attention_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_249 = torch.nn.functional.dropout(
+            hidden_states_248, 0.0, False, False
+        )
+        hidden_states_248 = None
+        hidden_states_250 = hidden_states_249 + hidden_states_247
+        hidden_states_249 = hidden_states_247 = None
+        layer_output_31 = torch.nn.functional.layer_norm(
+            hidden_states_250,
+            (1280,),
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_after_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_after_parameters_bias_,
+            1e-12,
+        )
+        l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_after_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_layernorm_after_parameters_bias_ = (None)
+        hidden_states_251 = torch._C._nn.linear(
+            layer_output_31,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_intermediate_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_intermediate_modules_dense_parameters_bias_,
+        )
+        layer_output_31 = l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_intermediate_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_intermediate_modules_dense_parameters_bias_ = (None)
+        hidden_states_252 = torch._C._nn.gelu(hidden_states_251)
+        hidden_states_251 = None
+        hidden_states_253 = torch._C._nn.linear(
+            hidden_states_252,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_output_modules_dense_parameters_weight_,
+            l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_output_modules_dense_parameters_bias_,
+        )
+        hidden_states_252 = l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_output_modules_dense_parameters_weight_ = l_self_modules_videomae_modules_encoder_modules_layer_modules_31_modules_output_modules_dense_parameters_bias_ = (None)
+        hidden_states_254 = torch.nn.functional.dropout(
+            hidden_states_253, 0.0, False, False
+        )
+        hidden_states_253 = None
+        hidden_states_255 = hidden_states_254 + hidden_states_250
+        hidden_states_254 = hidden_states_250 = None
+        mean = hidden_states_255.mean(1)
+        hidden_states_255 = None
+        sequence_output = torch.nn.functional.layer_norm(
+            mean,
+            (1280,),
+            l_self_modules_fc_norm_parameters_weight_,
+            l_self_modules_fc_norm_parameters_bias_,
+            1e-05,
+        )
+        mean = (
+            l_self_modules_fc_norm_parameters_weight_
+        ) = l_self_modules_fc_norm_parameters_bias_ = None
+        logits = torch._C._nn.linear(
+            sequence_output,
+            l_self_modules_classifier_parameters_weight_,
+            l_self_modules_classifier_parameters_bias_,
+        )
+        sequence_output = (
+            l_self_modules_classifier_parameters_weight_
+        ) = l_self_modules_classifier_parameters_bias_ = None
+        return (logits,)

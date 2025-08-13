@@ -17,6 +17,8 @@ def apply_templates(forward_code: str) -> str:
     imports = "import torch"
     if "device" in forward_code:
         imports += "\n\nfrom torch import device"
+    if "inf" in forward_code:
+        imports += "\n\nfrom torch import inf"
     return f"{imports}\n\nclass GraphModule(torch.nn.Module):\n{tab}{forward_code}"
 
 
@@ -57,11 +59,10 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
                     "info": info,
                 }
             else:
-                sparse_tensor = tensor.to_sparse_coo()
                 return {
-                    "type": "sparse_int_tensor",
-                    "indices": sparse_tensor.indices().clone(),
-                    "values": sparse_tensor.values().clone(),
+                    "type": "big_int_tensor_by_range",
+                    "min_val": tensor.min().item(),
+                    "max_val": tensor.max().item(),
                     "info": info,
                 }
         elif tensor.numel() < 1024:
@@ -77,22 +78,25 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
         processed_inputs = {"type": "unknown", "value": example_inputs}
 
     def handle_named_tensors(tensor):
-        data_value = None
-        data_type = "random_tensor"
+        info = tensor_info(tensor)
         if tensor.dtype in [torch.int8, torch.int16, torch.int32, torch.int64]:
             if tensor.numel() < 1024:
-                data_type = "small_int_tensor"
-                data_value = tensor.clone()
-            else:
-                data_type = "sparse_int_tensor"
-                sparse_tensor = tensor.to_sparse_coo()
-                data_value = {
-                    "indices": sparse_tensor.indices().clone(),
-                    "values": sparse_tensor.values().clone(),
+                return {
+                    "info": info,
+                    "data": tensor.clone(),
+                    "type": "small_int_tensor",
                 }
-
-        info = tensor_info(tensor)
-        return {"info": info, "data": data_value, "type": data_type}
+            else:
+                return {
+                    "info": info,
+                    "min_val": tensor.min().item(),
+                    "max_val": tensor.max().item(),
+                    "type": "big_int_tensor_by_range",
+                }
+        if tensor.numel() < 1024:
+            return {"info": info, "data": tensor.clone(), "type": "small_tensor"}
+        else:
+            return {"info": info, "data": None, "type": "random_tensor"}
 
     processed_weights = {
         key: handle_named_tensors(tensor) for key, tensor in state_dict.items()
@@ -133,24 +137,7 @@ def save_converted_to_text(converted, file_path):
             return repr(data)
 
     def process_tensor_info(tensor_info, name_prefix="example_input"):
-        data_list = None
-        is_sparse = tensor_info.get("type") == "sparse_int_tensor"
-        sparse_indices = None
-        sparse_values = None
-
-        if is_sparse:
-            data_list = None  # No dense data for sparse tensors
-            sparse_indices = tensor_info["data"]["indices"]
-            sparse_values = tensor_info["data"]["values"]
-        elif "input_" in tensor_info["name"]:
-            if tensor_info["type"] in ["small_tensor", "small_int_tensor"]:
-                data_list = tensor_info["data"].flatten()
-            else:
-                pass
-        else:
-            if tensor_info["type"] == "small_int_tensor":
-                data_list = tensor_info["data"].flatten()
-
+        tensor_type = tensor_info.get("type")
         info = tensor_info.get("info", {})
         dtype = info.get("dtype", "torch.float")
         shape = info.get("shape", [])
@@ -168,11 +155,15 @@ def save_converted_to_text(converted, file_path):
             (f"\tmean = {get_limited_precision_float_str(mean)}"),
             (f"\tstd = {get_limited_precision_float_str(std)}"),
         ]
-        if is_sparse:
-            lines.append(f"\tis_sparse = True")
-            lines.append(f"\tindices = {format_data(sparse_indices)}")
-            lines.append(f"\tvalues = {format_data(sparse_values)}")
-        else:
+        if tensor_type == "big_int_tensor_by_range":
+            lines.append(f"\tmin_val = {tensor_info['min_val']}")
+            lines.append(f"\tmax_val = {tensor_info['max_val']}")
+        elif "data" in tensor_info:
+            data_list = (
+                tensor_info["data"].flatten()
+                if isinstance(tensor_info["data"], torch.Tensor)
+                else tensor_info["data"]
+            )
             lines.append(f"\tdata = {format_data(data_list)}")
 
         lines.append("")
@@ -225,21 +216,22 @@ def convert_meta_classes_to_tensors(file_path):
         }
         data_value = None
         data_type = getattr(torch, attrs.get("dtype", "torch.float").split(".")[-1])
+        shape = attrs.get("shape", [])
 
-        if attrs.get("is_sparse"):
-            indices_shape = (len(attrs.get("shape")), -1)
-            indices = torch.tensor(attrs["indices"]).reshape(indices_shape)
-            values = torch.tensor(attrs["values"], dtype=data_type)
-            shape = attrs.get("shape")
-            data_value = torch.sparse_coo_tensor(indices, values, shape).to_dense()
+        if "min_val" in attrs and "max_val" in attrs:
+            min_val = attrs["min_val"]
+            max_val = attrs["max_val"]
+            # torch.randint's upper bound is exclusive, so add 1
+            data_value = torch.randint(
+                min_val, max_val + 1, size=shape, dtype=data_type
+            )
         elif attrs.get("data") is not None:
             if isinstance(attrs.get("data"), str):
                 raise ValueError("Unimplemented")
             else:
                 data_value = torch.tensor(attrs["data"], dtype=data_type).reshape(
-                    attrs.get("shape", [])
+                    attrs.get("shape"), []
                 )
-
         yield {
             "info": {
                 "shape": attrs.get("shape", []),

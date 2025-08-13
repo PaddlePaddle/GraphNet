@@ -91,17 +91,18 @@ python -m graph_net.config --global \
   --username "your-name" \
   --email "your-email"
 ```
-Once you have packaged these extracted computation graphs, submit them to the GraphNet community via the following group chats. [Discord](https://discord.gg/Pp5FKW92) is also available.
+Once you have packaged these extracted computation graphs, submit them to the GraphNet community via the following group chats.
 
 
 <div align="center">
 <table>
 <tr>
 <td align="center">
-    <img width="200" src="https://github.com/user-attachments/assets/1dc910dd-f5d8-4661-b6b8-d1ae23bb6ddb" />
+    <img width="200" src="https://github.com/user-attachments/assets/eef90a3e-ce83-4757-94ea-b0c0757785f0" />
 </td>
 <td align="center">
-    <img width="200" src="https://github.com/user-attachments/assets/140fa03e-36ef-44bf-8d9a-ca65c83b0139" />
+    <img width="150" src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/67d00cf7266d2c75571aebde_Example.svg" />
+    <p><a href="https://discord.gg/43XQ3tf7">Channel</a> is also available.</p>
 </td>
 </tr>
 </table>

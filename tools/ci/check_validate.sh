@@ -19,7 +19,7 @@ function prepare_env() {
   if [ ${num_changed_samples} -eq 0 ]; then
     python ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
     LOG "[INFO] This pull request doesn't change any samples, skip the CI."
-    exit 0
+    #exit 0
   fi
 
   LOG "[INFO] Device Id: ${CUDA_VISIBLE_DEVICES}"

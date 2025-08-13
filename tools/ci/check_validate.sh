@@ -28,7 +28,15 @@ function prepare_env() {
   env http_proxy="" https_proxy="" pip install -U pip > /dev/null
   [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
   # install torch 
-  pip install torch==2.7.0 --index-url https://download.pytorch.org/whl/cu118
+  LOG "[INFO] Install torch==2.7.0 ..."
+  pip install torch==2.7.0 --index-url https://download.pytorch.org/whl/cu118 > /dev/null
+  [ $? -ne 0 ] && LOG "[FATAL] Install torch2.7.0 failed!" && exit -1
+  python -c "import torch; print('[PyTorch Version]', torch.__version__)"
+  # install paddlepaddle of develop
+  LOG "[INFO] Install paddlepaddle-develop ..."
+  python -m pip install --pre paddlepaddle-gpu -i https://www.paddlepaddle.org.cn/packages/nightly/cu118/ > /dev/null
+  [ $? -ne 0 ] && LOG "[FATAL] Install paddlepaddle-develop failed!" && exit -1
+  python -c "import paddle; print('[PaddlePaddle Commit]', paddle.version.commit)"
 }
 
 function check_validation() {
@@ -50,7 +58,7 @@ function check_validation() {
   done
   if [ ${#fail_name[@]} -ne 0 ]
   then
-    LOG "[FATAL] Failed tests: ${fail_name[@]}"
+    LOG "[FATAL] Failed samples: ${fail_name[@]}"
     echo ${fail_name[@]}
     exit -1
   fi
@@ -63,7 +71,7 @@ function summary_problems() {
   then
     LOG "[FATAL] ============================================"
     LOG "[FATAL] Summary problems:"
-    LOG "[FATAL] === API test error - Please fix the failed API tests accroding to fatal log:"
+    LOG "[FATAL] === Sample validate error - Please fix the failed samples according to fatal log:"
     LOG "[FATAL] $check_validation_info"
     exit $check_validation_code
   fi

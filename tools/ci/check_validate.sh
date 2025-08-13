@@ -19,7 +19,7 @@ function prepare_env() {
   if [ ${num_changed_samples} -eq 0 ]; then
     python ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
     LOG "[INFO] This pull request doesn't change any samples, skip the CI."
-    #exit 0
+    exit 0
   fi
 
   LOG "[INFO] Device Id: ${CUDA_VISIBLE_DEVICES}"
@@ -28,10 +28,12 @@ function prepare_env() {
   env http_proxy="" https_proxy="" pip install -U pip > /dev/null
   [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
   # install torch 
+  LOG "[INFO] Install torch==2.7.0 ..."
   pip install torch==2.7.0 --index-url https://download.pytorch.org/whl/cu118 > /dev/null
   [ $? -ne 0 ] && LOG "[FATAL] Install torch2.7.0 failed!" && exit -1
   python -c "import torch; print('[PyTorch Version]', torch.__version__)"
   # install paddlepaddle of develop
+  LOG "[INFO] Install paddlepaddle-develop ..."
   python -m pip install --pre paddlepaddle-gpu -i https://www.paddlepaddle.org.cn/packages/nightly/cu118/ > /dev/null
   [ $? -ne 0 ] && LOG "[FATAL] Install paddlepaddle-develop failed!" && exit -1
   python -c "import paddle; print('[PaddlePaddle Commit]', paddle.version.commit)"

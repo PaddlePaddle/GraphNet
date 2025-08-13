@@ -29,6 +29,8 @@ function prepare_env() {
   [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
   # install torch 
   pip install torch==2.7.0 --index-url https://download.pytorch.org/whl/cu118
+  # install paddlepaddle of develop
+  python -m pip install --pre paddlepaddle-gpu -i https://www.paddlepaddle.org.cn/packages/nightly/cu118/
 }
 
 function check_validation() {

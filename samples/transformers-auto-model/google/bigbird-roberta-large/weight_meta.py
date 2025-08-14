@@ -13,7 +13,7 @@ class Program_weight_tensor_meta_L_self_modules_qa_classifier_modules_intermedia
     shape = [4096, 1024]
     dtype = "torch.float32"
     device = "cpu"
-    mean = 0.000
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -77,7 +77,7 @@ class Program_weight_tensor_meta_L_self_modules_qa_classifier_modules_qa_outputs
     shape = [2, 1024]
     dtype = "torch.float32"
     device = "cpu"
-    mean = -0.000
+    mean = 0.000
     std = 0.020
     data = None
 

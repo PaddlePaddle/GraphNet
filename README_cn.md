@@ -22,7 +22,6 @@
 8. 可通过统一方式配置计算图在不同芯片上运行
 
 
-
 ## 快速开始
 详细的实现细节请参见 [共创者指引](https://github.com/PaddlePaddle/GraphNet/blob/develop/CONTRIBUTE_TUTORIAL_cn.md#共创者指引)
 ### 测试编译器性能

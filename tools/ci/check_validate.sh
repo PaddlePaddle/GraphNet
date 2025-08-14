@@ -15,7 +15,7 @@ export PYTHONPATH=${GRAPH_NET_EXTRACT_WORKSPACE}:$PYTHONPATH
 
 function prepare_torch_env() {
   git config --global --add safe.directory "*"
-  num_changed_samples=$(git diff --name-only develop | grep -E "samples/(.*\.py|.*\.json)" | wc -l)
+  num_changed_samples=$(git diff --name-only develop | grep -E "\bsamples\b/(.*\.py|.*\.json)" | wc -l)
   if [ ${num_changed_samples} -ne 0 ]; then
     LOG "[INFO] Device Id: ${CUDA_VISIBLE_DEVICES}"
     # Update pip
@@ -33,7 +33,7 @@ function prepare_torch_env() {
 
 function prepare_paddle_env() {
   git config --global --add safe.directory "*"
-  num_changed_paddle_samples=$(git diff --name-only develop | grep -E "paddle_samples/(.*\.py|.*\.json)" | wc -l)
+  num_changed_paddle_samples=$(git diff --name-only develop | grep -E "\bpaddle_samples\b/(.*\.py|.*\.json)" | wc -l)
   if [ ${num_changed_paddle_samples} -ne 0 ]; then
     LOG "[INFO] Device Id: ${CUDA_VISIBLE_DEVICES}"
     # Update pip
@@ -55,7 +55,7 @@ function prepare_paddle_env() {
 function check_torch_validation() {
   LOG "[INFO] Start run validate for changed torch samples ..."
   MODIFIED_MODEL_PATHS=()
-  for file in $(git diff --name-only develop | grep -E "samples/(.*\.py|.*\.json)")
+  for file in $(git diff --name-only develop | grep -E "\bsamples\b/(.*\.py|.*\.json)")
   do
     LOG "[INFO] Found ${file} modified."
     model_path=$(dirname ${file})
@@ -80,7 +80,7 @@ function check_torch_validation() {
 function check_paddle_validation() {
   LOG "[INFO] Start run validate for changed paddle samples ..."
   MODIFIED_MODEL_PATHS=()
-  for file in $(git diff --name-only develop | grep -E "paddle_samples/(.*\.py|.*\.json)")
+  for file in $(git diff --name-only develop | grep -E "\bpaddle_samples\b/(.*\.py|.*\.json)")
   do
     LOG "[INFO] Found ${file} modified."
     model_path=$(dirname ${file})

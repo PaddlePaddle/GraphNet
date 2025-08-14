@@ -52,7 +52,7 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
 
         info = tensor_info(tensor)
         if tensor.dtype in [torch.int8, torch.int16, torch.int32, torch.int64]:
-            if tensor.numel() < 1024:
+            if tensor.numel() < 64:
                 return {
                     "type": "small_int_tensor",
                     "data": tensor.clone(),
@@ -65,7 +65,7 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
                     "max_val": tensor.max().item(),
                     "info": info,
                 }
-        elif tensor.numel() < 1024:
+        elif tensor.numel() < 64:
             return {"type": "small_tensor", "data": tensor.clone(), "info": info}
         else:
             return {"type": "random_tensor", "info": info}
@@ -80,7 +80,7 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
     def handle_named_tensors(tensor):
         info = tensor_info(tensor)
         if tensor.dtype in [torch.int8, torch.int16, torch.int32, torch.int64]:
-            if tensor.numel() < 1024:
+            if tensor.numel() < 64:
                 return {
                     "info": info,
                     "data": tensor.clone(),
@@ -93,7 +93,7 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
                     "max_val": tensor.max().item(),
                     "type": "big_int_tensor_by_range",
                 }
-        if tensor.numel() < 1024:
+        if tensor.numel() < 64:
             return {"info": info, "data": tensor.clone(), "type": "small_tensor"}
         else:
             return {"info": info, "data": None, "type": "random_tensor"}

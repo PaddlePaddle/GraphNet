@@ -3,4 +3,4 @@ import os
 
 
 def get_default_samples_directory():
-    return f"{os.path.dirname(graph_net.__file__)}/../samples"
+    return f"{os.path.dirname(graph_net.__file__)}/../paddle_samples"

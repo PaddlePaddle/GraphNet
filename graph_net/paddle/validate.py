@@ -74,6 +74,8 @@ def main(args):
         print("Check redundancy ...")
         graph_net_samples_path = (
             graph_net.paddle.samples_util.get_default_samples_directory()
+            if args.graph_net_samples_path is None
+            else args.graph_net_samples_path
         )
         cmd = f"{sys.executable} -m graph_net.paddle.check_redundant_incrementally --model-path {args.model_path} --graph-net-samples-path {graph_net_samples_path}"
         cmd_ret = os.system(cmd)

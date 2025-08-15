@@ -114,11 +114,19 @@ def test_single_model(args):
     compiled_duration_box = DurationBox(-1)
     with naive_timer(compiled_duration_box, synchronizer_func):
         compiled_out = compiled_model(**input_dict)
-    expected_out = expected_out.numpy()
-    compiled_out = compiled_out.numpy()
+
+    expected_out_list = (
+        expected_out if isinstance(expected_out, (list, tuple)) else [expected_out]
+    )
+    compiled_out_list = (
+        compiled_out if isinstance(compiled_out, (list, tuple)) else [compiled_out]
+    )
+
+    processed_expected_out = [t.numpy() for t in expected_out_list]
+    processed_compiled_out = [t.numpy() for t in compiled_out_list]
 
     def print_cmp(key, func, **kwargs):
-        cmp_ret = func(expected_out, compiled_out, **kwargs)
+        cmp_ret = func(processed_expected_out, processed_compiled_out, **kwargs)
         print(
             f"{args.log_prompt} {key} model_path:{args.model_path} {cmp_ret}",
             file=sys.stderr,

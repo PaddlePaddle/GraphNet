@@ -1,0 +1,1592 @@
+import torch
+
+
+class GraphModule(torch.nn.Module):
+    def forward(
+        self,
+        s99: torch.SymInt,
+        L_pixel_values_: torch.Tensor,
+        L_self_modules_embeddings_modules_patch_embeddings_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_embeddings_modules_patch_embeddings_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_embeddings_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_embeddings_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_embeddings_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_dwconv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_dwconv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_eps: torch.Tensor,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_parameters_layer_scale_parameter_: torch.nn.parameter.Parameter,
+        L_self_modules_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_layernorm_eps: torch.Tensor,
+    ):
+        l_pixel_values_ = L_pixel_values_
+        l_self_modules_embeddings_modules_patch_embeddings_parameters_weight_ = (
+            L_self_modules_embeddings_modules_patch_embeddings_parameters_weight_
+        )
+        l_self_modules_embeddings_modules_patch_embeddings_parameters_bias_ = (
+            L_self_modules_embeddings_modules_patch_embeddings_parameters_bias_
+        )
+        l_self_modules_embeddings_modules_layernorm_eps = (
+            L_self_modules_embeddings_modules_layernorm_eps
+        )
+        l_self_modules_embeddings_modules_layernorm_parameters_weight_ = (
+            L_self_modules_embeddings_modules_layernorm_parameters_weight_
+        )
+        l_self_modules_embeddings_modules_layernorm_parameters_bias_ = (
+            L_self_modules_embeddings_modules_layernorm_parameters_bias_
+        )
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_eps = L_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_eps
+        l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_eps = L_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_eps
+        l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_eps = L_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_eps
+        l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_parameters_layer_scale_parameter_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_dwconv_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_dwconv_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_dwconv_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_dwconv_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_eps = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_eps
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv1_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv1_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv1_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv1_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv2_parameters_weight_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv2_parameters_weight_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv2_parameters_bias_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv2_parameters_bias_
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_parameters_layer_scale_parameter_ = L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_parameters_layer_scale_parameter_
+        l_self_modules_layernorm_parameters_weight_ = (
+            L_self_modules_layernorm_parameters_weight_
+        )
+        l_self_modules_layernorm_parameters_bias_ = (
+            L_self_modules_layernorm_parameters_bias_
+        )
+        l_self_modules_layernorm_eps = L_self_modules_layernorm_eps
+        embeddings = torch.conv2d(
+            l_pixel_values_,
+            l_self_modules_embeddings_modules_patch_embeddings_parameters_weight_,
+            l_self_modules_embeddings_modules_patch_embeddings_parameters_bias_,
+            (4, 4),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_pixel_values_ = (
+            l_self_modules_embeddings_modules_patch_embeddings_parameters_weight_
+        ) = l_self_modules_embeddings_modules_patch_embeddings_parameters_bias_ = None
+        x = embeddings.float()
+        embeddings = None
+        u = x.mean(1, keepdim=True)
+        sub = x - u
+        pow_1 = sub.pow(2)
+        sub = None
+        s = pow_1.mean(1, keepdim=True)
+        pow_1 = None
+        sub_1 = x - u
+        x = u = None
+        item = l_self_modules_embeddings_modules_layernorm_eps.item()
+        l_self_modules_embeddings_modules_layernorm_eps = None
+        add = s + item
+        s = item = None
+        sqrt = torch.sqrt(add)
+        add = None
+        x_1 = sub_1 / sqrt
+        sub_1 = sqrt = None
+        x_2 = x_1.to(dtype=torch.float32)
+        x_1 = None
+        getitem_4 = l_self_modules_embeddings_modules_layernorm_parameters_weight_[
+            (slice(None, None, None), None, None)
+        ]
+        l_self_modules_embeddings_modules_layernorm_parameters_weight_ = None
+        mul = getitem_4 * x_2
+        getitem_4 = x_2 = None
+        getitem_5 = l_self_modules_embeddings_modules_layernorm_parameters_bias_[
+            (slice(None, None, None), None, None)
+        ]
+        l_self_modules_embeddings_modules_layernorm_parameters_bias_ = None
+        x_3 = mul + getitem_5
+        mul = getitem_5 = None
+        x_4 = torch.conv2d(
+            x_3,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            96,
+        )
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_dwconv_parameters_bias_ = (None)
+        x_5 = x_4.permute(0, 2, 3, 1)
+        x_4 = None
+        item_1 = (
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_eps = (
+            None
+        )
+        x_6 = torch.nn.functional.layer_norm(
+            x_5,
+            (96,),
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_parameters_bias_,
+            item_1,
+        )
+        x_5 = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_layernorm_parameters_bias_ = (item_1) = (
+            None
+        )
+        x_7 = torch._C._nn.linear(
+            x_6,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv1_parameters_bias_,
+        )
+        x_6 = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv1_parameters_bias_ = (None)
+        x_8 = torch._C._nn.gelu(x_7)
+        x_7 = None
+        x_9 = torch._C._nn.linear(
+            x_8,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv2_parameters_bias_,
+        )
+        x_8 = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pwconv2_parameters_bias_ = (None)
+        x_10 = (
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_parameters_layer_scale_parameter_
+            * x_9
+        )
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_parameters_layer_scale_parameter_ = (
+            x_9
+        ) = None
+        x_11 = x_10.permute(0, 3, 1, 2)
+        x_10 = None
+        x_12 = x_3 + x_11
+        x_3 = x_11 = None
+        x_13 = torch.conv2d(
+            x_12,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            96,
+        )
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_dwconv_parameters_bias_ = (None)
+        x_14 = x_13.permute(0, 2, 3, 1)
+        x_13 = None
+        item_2 = (
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_eps = (
+            None
+        )
+        x_15 = torch.nn.functional.layer_norm(
+            x_14,
+            (96,),
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_parameters_bias_,
+            item_2,
+        )
+        x_14 = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_layernorm_parameters_bias_ = (item_2) = (
+            None
+        )
+        x_16 = torch._C._nn.linear(
+            x_15,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv1_parameters_bias_,
+        )
+        x_15 = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv1_parameters_bias_ = (None)
+        x_17 = torch._C._nn.gelu(x_16)
+        x_16 = None
+        x_18 = torch._C._nn.linear(
+            x_17,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv2_parameters_bias_,
+        )
+        x_17 = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pwconv2_parameters_bias_ = (None)
+        x_19 = (
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_parameters_layer_scale_parameter_
+            * x_18
+        )
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_parameters_layer_scale_parameter_ = (
+            x_18
+        ) = None
+        x_20 = x_19.permute(0, 3, 1, 2)
+        x_19 = None
+        x_21 = x_12 + x_20
+        x_12 = x_20 = None
+        x_22 = torch.conv2d(
+            x_21,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            96,
+        )
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_dwconv_parameters_bias_ = (None)
+        x_23 = x_22.permute(0, 2, 3, 1)
+        x_22 = None
+        item_3 = (
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_eps = (
+            None
+        )
+        x_24 = torch.nn.functional.layer_norm(
+            x_23,
+            (96,),
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_parameters_bias_,
+            item_3,
+        )
+        x_23 = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_layernorm_parameters_bias_ = (item_3) = (
+            None
+        )
+        x_25 = torch._C._nn.linear(
+            x_24,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv1_parameters_bias_,
+        )
+        x_24 = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv1_parameters_bias_ = (None)
+        x_26 = torch._C._nn.gelu(x_25)
+        x_25 = None
+        x_27 = torch._C._nn.linear(
+            x_26,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv2_parameters_bias_,
+        )
+        x_26 = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pwconv2_parameters_bias_ = (None)
+        x_28 = (
+            l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_parameters_layer_scale_parameter_
+            * x_27
+        )
+        l_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_parameters_layer_scale_parameter_ = (
+            x_27
+        ) = None
+        x_29 = x_28.permute(0, 3, 1, 2)
+        x_28 = None
+        x_30 = x_21 + x_29
+        x_21 = x_29 = None
+        x_31 = x_30.float()
+        x_30 = None
+        u_1 = x_31.mean(1, keepdim=True)
+        sub_2 = x_31 - u_1
+        pow_2 = sub_2.pow(2)
+        sub_2 = None
+        s_1 = pow_2.mean(1, keepdim=True)
+        pow_2 = None
+        sub_3 = x_31 - u_1
+        x_31 = u_1 = None
+        item_4 = (
+            l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_eps = (
+            None
+        )
+        add_5 = s_1 + item_4
+        s_1 = item_4 = None
+        sqrt_1 = torch.sqrt(add_5)
+        add_5 = None
+        x_32 = sub_3 / sqrt_1
+        sub_3 = sqrt_1 = None
+        x_33 = x_32.to(dtype=torch.float32)
+        x_32 = None
+        getitem_6 = l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_parameters_weight_[
+            (slice(None, None, None), None, None)
+        ]
+        l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_parameters_weight_ = (
+            None
+        )
+        mul_4 = getitem_6 * x_33
+        getitem_6 = x_33 = None
+        getitem_7 = l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_parameters_bias_[
+            (slice(None, None, None), None, None)
+        ]
+        l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_0_parameters_bias_ = (
+            None
+        )
+        x_34 = mul_4 + getitem_7
+        mul_4 = getitem_7 = None
+        input_1 = torch.conv2d(
+            x_34,
+            l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_1_parameters_bias_,
+            (2, 2),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_34 = l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_1_modules_downsampling_layer_modules_1_parameters_bias_ = (None)
+        x_35 = torch.conv2d(
+            input_1,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            192,
+        )
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_dwconv_parameters_bias_ = (None)
+        x_36 = x_35.permute(0, 2, 3, 1)
+        x_35 = None
+        item_5 = (
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_eps = (
+            None
+        )
+        x_37 = torch.nn.functional.layer_norm(
+            x_36,
+            (192,),
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_parameters_bias_,
+            item_5,
+        )
+        x_36 = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_layernorm_parameters_bias_ = (item_5) = (
+            None
+        )
+        x_38 = torch._C._nn.linear(
+            x_37,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv1_parameters_bias_,
+        )
+        x_37 = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv1_parameters_bias_ = (None)
+        x_39 = torch._C._nn.gelu(x_38)
+        x_38 = None
+        x_40 = torch._C._nn.linear(
+            x_39,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv2_parameters_bias_,
+        )
+        x_39 = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pwconv2_parameters_bias_ = (None)
+        x_41 = (
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_parameters_layer_scale_parameter_
+            * x_40
+        )
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_parameters_layer_scale_parameter_ = (
+            x_40
+        ) = None
+        x_42 = x_41.permute(0, 3, 1, 2)
+        x_41 = None
+        x_43 = input_1 + x_42
+        input_1 = x_42 = None
+        x_44 = torch.conv2d(
+            x_43,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            192,
+        )
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_dwconv_parameters_bias_ = (None)
+        x_45 = x_44.permute(0, 2, 3, 1)
+        x_44 = None
+        item_6 = (
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_eps = (
+            None
+        )
+        x_46 = torch.nn.functional.layer_norm(
+            x_45,
+            (192,),
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_parameters_bias_,
+            item_6,
+        )
+        x_45 = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_layernorm_parameters_bias_ = (item_6) = (
+            None
+        )
+        x_47 = torch._C._nn.linear(
+            x_46,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv1_parameters_bias_,
+        )
+        x_46 = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv1_parameters_bias_ = (None)
+        x_48 = torch._C._nn.gelu(x_47)
+        x_47 = None
+        x_49 = torch._C._nn.linear(
+            x_48,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv2_parameters_bias_,
+        )
+        x_48 = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pwconv2_parameters_bias_ = (None)
+        x_50 = (
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_parameters_layer_scale_parameter_
+            * x_49
+        )
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_parameters_layer_scale_parameter_ = (
+            x_49
+        ) = None
+        x_51 = x_50.permute(0, 3, 1, 2)
+        x_50 = None
+        x_52 = x_43 + x_51
+        x_43 = x_51 = None
+        x_53 = torch.conv2d(
+            x_52,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            192,
+        )
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_dwconv_parameters_bias_ = (None)
+        x_54 = x_53.permute(0, 2, 3, 1)
+        x_53 = None
+        item_7 = (
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_eps = (
+            None
+        )
+        x_55 = torch.nn.functional.layer_norm(
+            x_54,
+            (192,),
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_parameters_bias_,
+            item_7,
+        )
+        x_54 = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_layernorm_parameters_bias_ = (item_7) = (
+            None
+        )
+        x_56 = torch._C._nn.linear(
+            x_55,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv1_parameters_bias_,
+        )
+        x_55 = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv1_parameters_bias_ = (None)
+        x_57 = torch._C._nn.gelu(x_56)
+        x_56 = None
+        x_58 = torch._C._nn.linear(
+            x_57,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv2_parameters_bias_,
+        )
+        x_57 = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pwconv2_parameters_bias_ = (None)
+        x_59 = (
+            l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_parameters_layer_scale_parameter_
+            * x_58
+        )
+        l_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_parameters_layer_scale_parameter_ = (
+            x_58
+        ) = None
+        x_60 = x_59.permute(0, 3, 1, 2)
+        x_59 = None
+        x_61 = x_52 + x_60
+        x_52 = x_60 = None
+        x_62 = x_61.float()
+        x_61 = None
+        u_2 = x_62.mean(1, keepdim=True)
+        sub_4 = x_62 - u_2
+        pow_3 = sub_4.pow(2)
+        sub_4 = None
+        s_2 = pow_3.mean(1, keepdim=True)
+        pow_3 = None
+        sub_5 = x_62 - u_2
+        x_62 = u_2 = None
+        item_8 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_eps = (
+            None
+        )
+        add_10 = s_2 + item_8
+        s_2 = item_8 = None
+        sqrt_2 = torch.sqrt(add_10)
+        add_10 = None
+        x_63 = sub_5 / sqrt_2
+        sub_5 = sqrt_2 = None
+        x_64 = x_63.to(dtype=torch.float32)
+        x_63 = None
+        getitem_8 = l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_parameters_weight_[
+            (slice(None, None, None), None, None)
+        ]
+        l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_parameters_weight_ = (
+            None
+        )
+        mul_8 = getitem_8 * x_64
+        getitem_8 = x_64 = None
+        getitem_9 = l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_parameters_bias_[
+            (slice(None, None, None), None, None)
+        ]
+        l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_0_parameters_bias_ = (
+            None
+        )
+        x_65 = mul_8 + getitem_9
+        mul_8 = getitem_9 = None
+        input_2 = torch.conv2d(
+            x_65,
+            l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_1_parameters_bias_,
+            (2, 2),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_65 = l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_downsampling_layer_modules_1_parameters_bias_ = (None)
+        x_66 = torch.conv2d(
+            input_2,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            384,
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_dwconv_parameters_bias_ = (None)
+        x_67 = x_66.permute(0, 2, 3, 1)
+        x_66 = None
+        item_9 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_eps = (
+            None
+        )
+        x_68 = torch.nn.functional.layer_norm(
+            x_67,
+            (384,),
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_parameters_bias_,
+            item_9,
+        )
+        x_67 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_layernorm_parameters_bias_ = (item_9) = (
+            None
+        )
+        x_69 = torch._C._nn.linear(
+            x_68,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv1_parameters_bias_,
+        )
+        x_68 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv1_parameters_bias_ = (None)
+        x_70 = torch._C._nn.gelu(x_69)
+        x_69 = None
+        x_71 = torch._C._nn.linear(
+            x_70,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv2_parameters_bias_,
+        )
+        x_70 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pwconv2_parameters_bias_ = (None)
+        x_72 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_parameters_layer_scale_parameter_
+            * x_71
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_parameters_layer_scale_parameter_ = (
+            x_71
+        ) = None
+        x_73 = x_72.permute(0, 3, 1, 2)
+        x_72 = None
+        x_74 = input_2 + x_73
+        input_2 = x_73 = None
+        x_75 = torch.conv2d(
+            x_74,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            384,
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_dwconv_parameters_bias_ = (None)
+        x_76 = x_75.permute(0, 2, 3, 1)
+        x_75 = None
+        item_10 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_eps = (
+            None
+        )
+        x_77 = torch.nn.functional.layer_norm(
+            x_76,
+            (384,),
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_parameters_bias_,
+            item_10,
+        )
+        x_76 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_layernorm_parameters_bias_ = (item_10) = (
+            None
+        )
+        x_78 = torch._C._nn.linear(
+            x_77,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv1_parameters_bias_,
+        )
+        x_77 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv1_parameters_bias_ = (None)
+        x_79 = torch._C._nn.gelu(x_78)
+        x_78 = None
+        x_80 = torch._C._nn.linear(
+            x_79,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv2_parameters_bias_,
+        )
+        x_79 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pwconv2_parameters_bias_ = (None)
+        x_81 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_parameters_layer_scale_parameter_
+            * x_80
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_parameters_layer_scale_parameter_ = (
+            x_80
+        ) = None
+        x_82 = x_81.permute(0, 3, 1, 2)
+        x_81 = None
+        x_83 = x_74 + x_82
+        x_74 = x_82 = None
+        x_84 = torch.conv2d(
+            x_83,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            384,
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_dwconv_parameters_bias_ = (None)
+        x_85 = x_84.permute(0, 2, 3, 1)
+        x_84 = None
+        item_11 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_eps = (
+            None
+        )
+        x_86 = torch.nn.functional.layer_norm(
+            x_85,
+            (384,),
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_parameters_bias_,
+            item_11,
+        )
+        x_85 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_layernorm_parameters_bias_ = (item_11) = (
+            None
+        )
+        x_87 = torch._C._nn.linear(
+            x_86,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv1_parameters_bias_,
+        )
+        x_86 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv1_parameters_bias_ = (None)
+        x_88 = torch._C._nn.gelu(x_87)
+        x_87 = None
+        x_89 = torch._C._nn.linear(
+            x_88,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv2_parameters_bias_,
+        )
+        x_88 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pwconv2_parameters_bias_ = (None)
+        x_90 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_parameters_layer_scale_parameter_
+            * x_89
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_parameters_layer_scale_parameter_ = (
+            x_89
+        ) = None
+        x_91 = x_90.permute(0, 3, 1, 2)
+        x_90 = None
+        x_92 = x_83 + x_91
+        x_83 = x_91 = None
+        x_93 = torch.conv2d(
+            x_92,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            384,
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_dwconv_parameters_bias_ = (None)
+        x_94 = x_93.permute(0, 2, 3, 1)
+        x_93 = None
+        item_12 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_eps = (
+            None
+        )
+        x_95 = torch.nn.functional.layer_norm(
+            x_94,
+            (384,),
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_parameters_bias_,
+            item_12,
+        )
+        x_94 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_layernorm_parameters_bias_ = (item_12) = (
+            None
+        )
+        x_96 = torch._C._nn.linear(
+            x_95,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv1_parameters_bias_,
+        )
+        x_95 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv1_parameters_bias_ = (None)
+        x_97 = torch._C._nn.gelu(x_96)
+        x_96 = None
+        x_98 = torch._C._nn.linear(
+            x_97,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv2_parameters_bias_,
+        )
+        x_97 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pwconv2_parameters_bias_ = (None)
+        x_99 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_parameters_layer_scale_parameter_
+            * x_98
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_parameters_layer_scale_parameter_ = (
+            x_98
+        ) = None
+        x_100 = x_99.permute(0, 3, 1, 2)
+        x_99 = None
+        x_101 = x_92 + x_100
+        x_92 = x_100 = None
+        x_102 = torch.conv2d(
+            x_101,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            384,
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_dwconv_parameters_bias_ = (None)
+        x_103 = x_102.permute(0, 2, 3, 1)
+        x_102 = None
+        item_13 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_eps = (
+            None
+        )
+        x_104 = torch.nn.functional.layer_norm(
+            x_103,
+            (384,),
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_parameters_bias_,
+            item_13,
+        )
+        x_103 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_layernorm_parameters_bias_ = (item_13) = (
+            None
+        )
+        x_105 = torch._C._nn.linear(
+            x_104,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv1_parameters_bias_,
+        )
+        x_104 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv1_parameters_bias_ = (None)
+        x_106 = torch._C._nn.gelu(x_105)
+        x_105 = None
+        x_107 = torch._C._nn.linear(
+            x_106,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv2_parameters_bias_,
+        )
+        x_106 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pwconv2_parameters_bias_ = (None)
+        x_108 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_parameters_layer_scale_parameter_
+            * x_107
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_parameters_layer_scale_parameter_ = (
+            x_107
+        ) = None
+        x_109 = x_108.permute(0, 3, 1, 2)
+        x_108 = None
+        x_110 = x_101 + x_109
+        x_101 = x_109 = None
+        x_111 = torch.conv2d(
+            x_110,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            384,
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_dwconv_parameters_bias_ = (None)
+        x_112 = x_111.permute(0, 2, 3, 1)
+        x_111 = None
+        item_14 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_eps = (
+            None
+        )
+        x_113 = torch.nn.functional.layer_norm(
+            x_112,
+            (384,),
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_parameters_bias_,
+            item_14,
+        )
+        x_112 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_layernorm_parameters_bias_ = (item_14) = (
+            None
+        )
+        x_114 = torch._C._nn.linear(
+            x_113,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv1_parameters_bias_,
+        )
+        x_113 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv1_parameters_bias_ = (None)
+        x_115 = torch._C._nn.gelu(x_114)
+        x_114 = None
+        x_116 = torch._C._nn.linear(
+            x_115,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv2_parameters_bias_,
+        )
+        x_115 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pwconv2_parameters_bias_ = (None)
+        x_117 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_parameters_layer_scale_parameter_
+            * x_116
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_parameters_layer_scale_parameter_ = (
+            x_116
+        ) = None
+        x_118 = x_117.permute(0, 3, 1, 2)
+        x_117 = None
+        x_119 = x_110 + x_118
+        x_110 = x_118 = None
+        x_120 = torch.conv2d(
+            x_119,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            384,
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_dwconv_parameters_bias_ = (None)
+        x_121 = x_120.permute(0, 2, 3, 1)
+        x_120 = None
+        item_15 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_eps = (
+            None
+        )
+        x_122 = torch.nn.functional.layer_norm(
+            x_121,
+            (384,),
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_parameters_bias_,
+            item_15,
+        )
+        x_121 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_layernorm_parameters_bias_ = (item_15) = (
+            None
+        )
+        x_123 = torch._C._nn.linear(
+            x_122,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv1_parameters_bias_,
+        )
+        x_122 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv1_parameters_bias_ = (None)
+        x_124 = torch._C._nn.gelu(x_123)
+        x_123 = None
+        x_125 = torch._C._nn.linear(
+            x_124,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv2_parameters_bias_,
+        )
+        x_124 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pwconv2_parameters_bias_ = (None)
+        x_126 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_parameters_layer_scale_parameter_
+            * x_125
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_parameters_layer_scale_parameter_ = (
+            x_125
+        ) = None
+        x_127 = x_126.permute(0, 3, 1, 2)
+        x_126 = None
+        x_128 = x_119 + x_127
+        x_119 = x_127 = None
+        x_129 = torch.conv2d(
+            x_128,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            384,
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_dwconv_parameters_bias_ = (None)
+        x_130 = x_129.permute(0, 2, 3, 1)
+        x_129 = None
+        item_16 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_eps = (
+            None
+        )
+        x_131 = torch.nn.functional.layer_norm(
+            x_130,
+            (384,),
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_parameters_bias_,
+            item_16,
+        )
+        x_130 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_layernorm_parameters_bias_ = (item_16) = (
+            None
+        )
+        x_132 = torch._C._nn.linear(
+            x_131,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv1_parameters_bias_,
+        )
+        x_131 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv1_parameters_bias_ = (None)
+        x_133 = torch._C._nn.gelu(x_132)
+        x_132 = None
+        x_134 = torch._C._nn.linear(
+            x_133,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv2_parameters_bias_,
+        )
+        x_133 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pwconv2_parameters_bias_ = (None)
+        x_135 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_parameters_layer_scale_parameter_
+            * x_134
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_parameters_layer_scale_parameter_ = (
+            x_134
+        ) = None
+        x_136 = x_135.permute(0, 3, 1, 2)
+        x_135 = None
+        x_137 = x_128 + x_136
+        x_128 = x_136 = None
+        x_138 = torch.conv2d(
+            x_137,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            384,
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_dwconv_parameters_bias_ = (None)
+        x_139 = x_138.permute(0, 2, 3, 1)
+        x_138 = None
+        item_17 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_eps = (
+            None
+        )
+        x_140 = torch.nn.functional.layer_norm(
+            x_139,
+            (384,),
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_parameters_bias_,
+            item_17,
+        )
+        x_139 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_layernorm_parameters_bias_ = (item_17) = (
+            None
+        )
+        x_141 = torch._C._nn.linear(
+            x_140,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv1_parameters_bias_,
+        )
+        x_140 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv1_parameters_bias_ = (None)
+        x_142 = torch._C._nn.gelu(x_141)
+        x_141 = None
+        x_143 = torch._C._nn.linear(
+            x_142,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv2_parameters_bias_,
+        )
+        x_142 = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pwconv2_parameters_bias_ = (None)
+        x_144 = (
+            l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_parameters_layer_scale_parameter_
+            * x_143
+        )
+        l_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_parameters_layer_scale_parameter_ = (
+            x_143
+        ) = None
+        x_145 = x_144.permute(0, 3, 1, 2)
+        x_144 = None
+        x_146 = x_137 + x_145
+        x_137 = x_145 = None
+        x_147 = x_146.float()
+        x_146 = None
+        u_3 = x_147.mean(1, keepdim=True)
+        sub_6 = x_147 - u_3
+        pow_4 = sub_6.pow(2)
+        sub_6 = None
+        s_3 = pow_4.mean(1, keepdim=True)
+        pow_4 = None
+        sub_7 = x_147 - u_3
+        x_147 = u_3 = None
+        item_18 = (
+            l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_eps = (
+            None
+        )
+        add_21 = s_3 + item_18
+        s_3 = item_18 = None
+        sqrt_3 = torch.sqrt(add_21)
+        add_21 = None
+        x_148 = sub_7 / sqrt_3
+        sub_7 = sqrt_3 = None
+        x_149 = x_148.to(dtype=torch.float32)
+        x_148 = None
+        getitem_10 = l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_parameters_weight_[
+            (slice(None, None, None), None, None)
+        ]
+        l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_parameters_weight_ = (
+            None
+        )
+        mul_18 = getitem_10 * x_149
+        getitem_10 = x_149 = None
+        getitem_11 = l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_parameters_bias_[
+            (slice(None, None, None), None, None)
+        ]
+        l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_0_parameters_bias_ = (
+            None
+        )
+        x_150 = mul_18 + getitem_11
+        mul_18 = getitem_11 = None
+        input_3 = torch.conv2d(
+            x_150,
+            l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_1_parameters_bias_,
+            (2, 2),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_150 = l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_3_modules_downsampling_layer_modules_1_parameters_bias_ = (None)
+        x_151 = torch.conv2d(
+            input_3,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            768,
+        )
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_dwconv_parameters_bias_ = (None)
+        x_152 = x_151.permute(0, 2, 3, 1)
+        x_151 = None
+        item_19 = (
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_eps = (
+            None
+        )
+        x_153 = torch.nn.functional.layer_norm(
+            x_152,
+            (768,),
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_parameters_bias_,
+            item_19,
+        )
+        x_152 = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_layernorm_parameters_bias_ = (item_19) = (
+            None
+        )
+        x_154 = torch._C._nn.linear(
+            x_153,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv1_parameters_bias_,
+        )
+        x_153 = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv1_parameters_bias_ = (None)
+        x_155 = torch._C._nn.gelu(x_154)
+        x_154 = None
+        x_156 = torch._C._nn.linear(
+            x_155,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv2_parameters_bias_,
+        )
+        x_155 = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pwconv2_parameters_bias_ = (None)
+        x_157 = (
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_parameters_layer_scale_parameter_
+            * x_156
+        )
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_parameters_layer_scale_parameter_ = (
+            x_156
+        ) = None
+        x_158 = x_157.permute(0, 3, 1, 2)
+        x_157 = None
+        x_159 = input_3 + x_158
+        input_3 = x_158 = None
+        x_160 = torch.conv2d(
+            x_159,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            768,
+        )
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_dwconv_parameters_bias_ = (None)
+        x_161 = x_160.permute(0, 2, 3, 1)
+        x_160 = None
+        item_20 = (
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_eps = (
+            None
+        )
+        x_162 = torch.nn.functional.layer_norm(
+            x_161,
+            (768,),
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_parameters_bias_,
+            item_20,
+        )
+        x_161 = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_layernorm_parameters_bias_ = (item_20) = (
+            None
+        )
+        x_163 = torch._C._nn.linear(
+            x_162,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv1_parameters_bias_,
+        )
+        x_162 = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv1_parameters_bias_ = (None)
+        x_164 = torch._C._nn.gelu(x_163)
+        x_163 = None
+        x_165 = torch._C._nn.linear(
+            x_164,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv2_parameters_bias_,
+        )
+        x_164 = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pwconv2_parameters_bias_ = (None)
+        x_166 = (
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_parameters_layer_scale_parameter_
+            * x_165
+        )
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_parameters_layer_scale_parameter_ = (
+            x_165
+        ) = None
+        x_167 = x_166.permute(0, 3, 1, 2)
+        x_166 = None
+        x_168 = x_159 + x_167
+        x_159 = x_167 = None
+        x_169 = torch.conv2d(
+            x_168,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_dwconv_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_dwconv_parameters_bias_,
+            (1, 1),
+            (3, 3),
+            (1, 1),
+            768,
+        )
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_dwconv_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_dwconv_parameters_bias_ = (None)
+        x_170 = x_169.permute(0, 2, 3, 1)
+        x_169 = None
+        item_21 = (
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_eps.item()
+        )
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_eps = (
+            None
+        )
+        x_171 = torch.nn.functional.layer_norm(
+            x_170,
+            (768,),
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_parameters_bias_,
+            item_21,
+        )
+        x_170 = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_layernorm_parameters_bias_ = (item_21) = (
+            None
+        )
+        x_172 = torch._C._nn.linear(
+            x_171,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv1_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv1_parameters_bias_,
+        )
+        x_171 = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv1_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv1_parameters_bias_ = (None)
+        x_173 = torch._C._nn.gelu(x_172)
+        x_172 = None
+        x_174 = torch._C._nn.linear(
+            x_173,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv2_parameters_weight_,
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv2_parameters_bias_,
+        )
+        x_173 = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv2_parameters_weight_ = l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pwconv2_parameters_bias_ = (None)
+        x_175 = (
+            l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_parameters_layer_scale_parameter_
+            * x_174
+        )
+        l_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_parameters_layer_scale_parameter_ = (
+            x_174
+        ) = None
+        x_176 = x_175.permute(0, 3, 1, 2)
+        x_175 = None
+        x_177 = x_168 + x_176
+        x_168 = x_176 = None
+        mean_8 = x_177.mean([-2, -1])
+        item_22 = l_self_modules_layernorm_eps.item()
+        l_self_modules_layernorm_eps = None
+        pooled_output = torch.nn.functional.layer_norm(
+            mean_8,
+            (768,),
+            l_self_modules_layernorm_parameters_weight_,
+            l_self_modules_layernorm_parameters_bias_,
+            item_22,
+        )
+        mean_8 = (
+            l_self_modules_layernorm_parameters_weight_
+        ) = l_self_modules_layernorm_parameters_bias_ = item_22 = None
+        return (x_177, pooled_output)

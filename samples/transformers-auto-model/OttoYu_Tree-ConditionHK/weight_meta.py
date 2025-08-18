@@ -1,0 +1,4502 @@
+class Program_weight_tensor_meta_L_pixel_values_:
+    name = "L_pixel_values_"
+    shape = [1, 3, 224, 224]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -1.986
+    std = 0.133
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_weight_:
+    name = "L_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_weight_"
+    shape = [128, 3, 4, 4]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_:
+    name = "L_self_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_embeddings_modules_norm_parameters_weight_:
+    name = "L_self_modules_embeddings_modules_norm_parameters_weight_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_embeddings_modules_norm_parameters_bias_:
+    name = "L_self_modules_embeddings_modules_norm_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_layernorm_before_parameters_weight_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_layernorm_before_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [128, 128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [128, 128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [128, 128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 4]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [128, 128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_layernorm_after_parameters_weight_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_layernorm_after_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [512, 128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_output_modules_dense_parameters_weight_"
+    shape = [128, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_0_modules_output_modules_dense_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_layernorm_before_parameters_weight_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_layernorm_before_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [128, 128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [128, 128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [128, 128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 4]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [128, 128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_layernorm_after_parameters_weight_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_layernorm_after_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [512, 128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_output_modules_dense_parameters_weight_"
+    shape = [128, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_blocks_modules_1_modules_output_modules_dense_parameters_bias_"
+    shape = [128]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_downsample_modules_norm_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_downsample_modules_norm_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_downsample_modules_norm_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_downsample_modules_norm_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_0_modules_downsample_modules_reduction_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_0_modules_downsample_modules_reduction_parameters_weight_"
+    shape = [256, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_layernorm_before_parameters_weight_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_layernorm_before_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [256, 256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [256, 256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [256, 256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 8]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [256, 256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_layernorm_after_parameters_weight_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_layernorm_after_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [1024, 256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_output_modules_dense_parameters_weight_"
+    shape = [256, 1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_0_modules_output_modules_dense_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_layernorm_before_parameters_weight_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_layernorm_before_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [256, 256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [256, 256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [256, 256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 8]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [256, 256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_layernorm_after_parameters_weight_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_layernorm_after_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [1024, 256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_output_modules_dense_parameters_weight_"
+    shape = [256, 1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_blocks_modules_1_modules_output_modules_dense_parameters_bias_"
+    shape = [256]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_downsample_modules_norm_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_downsample_modules_norm_parameters_weight_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_downsample_modules_norm_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_downsample_modules_norm_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_1_modules_downsample_modules_reduction_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_1_modules_downsample_modules_reduction_parameters_weight_"
+    shape = [512, 1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_0_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_1_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_2_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_3_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_4_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_5_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_6_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_7_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_8_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_9_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_10_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_11_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_12_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_13_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_14_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_15_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_16_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_layernorm_before_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_layernorm_before_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 16]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_layernorm_after_parameters_weight_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_layernorm_after_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [2048, 512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_output_modules_dense_parameters_weight_"
+    shape = [512, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_blocks_modules_17_modules_output_modules_dense_parameters_bias_"
+    shape = [512]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_downsample_modules_norm_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_downsample_modules_norm_parameters_weight_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_downsample_modules_norm_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_downsample_modules_norm_parameters_bias_"
+    shape = [2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_2_modules_downsample_modules_reduction_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_2_modules_downsample_modules_reduction_parameters_weight_"
+    shape = [1024, 2048]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_layernorm_before_parameters_weight_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_layernorm_before_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [1024, 1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [1024, 1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [1024, 1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 32]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [1024, 1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_layernorm_after_parameters_weight_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_layernorm_after_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [4096, 1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [4096]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_output_modules_dense_parameters_weight_"
+    shape = [1024, 4096]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_0_modules_output_modules_dense_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_layernorm_before_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_layernorm_before_parameters_weight_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_layernorm_before_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_layernorm_before_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_weight_"
+    shape = [1024, 1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_modules_query_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_weight_"
+    shape = [1024, 1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_modules_key_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_weight_"
+    shape = [1024, 1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_modules_value_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_parameters_relative_position_bias_table_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_parameters_relative_position_bias_table_"
+    shape = [169, 32]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_buffers_relative_position_index_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_self_buffers_relative_position_index_"
+    shape = [49, 49]
+    dtype = "torch.int64"
+    device = "cuda:0"
+    mean = None
+    std = None
+    min_val = 0
+    max_val = 168
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_"
+    shape = [1024, 1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_layernorm_after_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_layernorm_after_parameters_weight_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_layernorm_after_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_layernorm_after_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_weight_"
+    shape = [4096, 1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_intermediate_modules_dense_parameters_bias_"
+    shape = [4096]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_output_modules_dense_parameters_weight_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_output_modules_dense_parameters_weight_"
+    shape = [1024, 4096]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_output_modules_dense_parameters_bias_:
+    name = "L_self_modules_encoder_modules_layers_modules_3_modules_blocks_modules_1_modules_output_modules_dense_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_layernorm_parameters_weight_:
+    name = "L_self_modules_layernorm_parameters_weight_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
+    data = None
+
+
+class Program_weight_tensor_meta_L_self_modules_layernorm_parameters_bias_:
+    name = "L_self_modules_layernorm_parameters_bias_"
+    shape = [1024]
+    dtype = "torch.float32"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
+    data = None

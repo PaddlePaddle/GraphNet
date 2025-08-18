@@ -132,9 +132,9 @@ def convert_meta_classes_to_tensors(file_path):
             if isinstance(attrs.get("data"), str):
                 raise ValueError("Unimplemented")
             else:
-                data_value = paddle.tensor(attrs["data"], dtype=data_type).reshape(
-                    attrs.get("shape"), []
-                )
+                data_value = paddle.to_tensor(
+                    attrs.get("data"), dtype=data_type
+                ).reshape(attrs.get("shape"), [])
         yield {
             "info": {
                 "shape": attrs.get("shape", []),

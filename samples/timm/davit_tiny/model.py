@@ -1,0 +1,2144 @@
+import torch
+
+
+class GraphModule(torch.nn.Module):
+    def forward(
+        self,
+        L_x_: torch.Tensor,
+        L_self_modules_stem_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_conv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stem_modules_norm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe1_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe1_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe2_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe2_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe1_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe1_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe2_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe2_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe1_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe1_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe2_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe2_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe1_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe1_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe2_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe2_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_head_modules_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_head_modules_norm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_head_modules_fc_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_head_modules_fc_parameters_bias_: torch.nn.parameter.Parameter,
+    ):
+        l_x_ = L_x_
+        l_self_modules_stem_modules_conv_parameters_weight_ = (
+            L_self_modules_stem_modules_conv_parameters_weight_
+        )
+        l_self_modules_stem_modules_conv_parameters_bias_ = (
+            L_self_modules_stem_modules_conv_parameters_bias_
+        )
+        l_self_modules_stem_modules_norm_parameters_weight_ = (
+            L_self_modules_stem_modules_norm_parameters_weight_
+        )
+        l_self_modules_stem_modules_norm_parameters_bias_ = (
+            L_self_modules_stem_modules_norm_parameters_bias_
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_ = L_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_
+        l_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_weight_ = L_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_weight_
+        l_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_bias_ = L_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_bias_
+        l_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_weight_ = L_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_bias_ = L_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_ = L_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_
+        l_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_weight_ = L_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_weight_
+        l_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_bias_ = L_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_bias_
+        l_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_weight_ = L_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_bias_ = L_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe1_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe1_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe1_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe1_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_qkv_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_qkv_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe2_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe2_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe2_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe2_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm2_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm2_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm2_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm2_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc2_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc2_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe1_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe1_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe1_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe1_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_qkv_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_qkv_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe2_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe2_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe2_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe2_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm2_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm2_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm2_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm2_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc2_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc2_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe1_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe1_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe1_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe1_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_qkv_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_qkv_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe2_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe2_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe2_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe2_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm2_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm2_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm2_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm2_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc2_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc2_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe1_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe1_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe1_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe1_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_qkv_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_qkv_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe2_modules_proj_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe2_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe2_modules_proj_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe2_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm2_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm2_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm2_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm2_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc1_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc1_parameters_bias_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc2_parameters_bias_ = L_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc2_parameters_bias_
+        l_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_weight_ = L_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_weight_
+        l_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_bias_ = L_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_bias_
+        l_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_weight_ = L_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_bias_ = L_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_ = L_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_
+        l_self_modules_head_modules_norm_parameters_weight_ = (
+            L_self_modules_head_modules_norm_parameters_weight_
+        )
+        l_self_modules_head_modules_norm_parameters_bias_ = (
+            L_self_modules_head_modules_norm_parameters_bias_
+        )
+        l_self_modules_head_modules_fc_parameters_weight_ = (
+            L_self_modules_head_modules_fc_parameters_weight_
+        )
+        l_self_modules_head_modules_fc_parameters_bias_ = (
+            L_self_modules_head_modules_fc_parameters_bias_
+        )
+        x = torch._C._nn.pad(l_x_, (0, 0, 0, 0), "constant", None)
+        l_x_ = None
+        x_1 = torch.conv2d(
+            x,
+            l_self_modules_stem_modules_conv_parameters_weight_,
+            l_self_modules_stem_modules_conv_parameters_bias_,
+            (4, 4),
+            (3, 3),
+            (1, 1),
+            1,
+        )
+        x = (
+            l_self_modules_stem_modules_conv_parameters_weight_
+        ) = l_self_modules_stem_modules_conv_parameters_bias_ = None
+        x_2 = x_1.permute(0, 2, 3, 1)
+        x_1 = None
+        x_3 = torch.nn.functional.layer_norm(
+            x_2,
+            (96,),
+            l_self_modules_stem_modules_norm_parameters_weight_,
+            l_self_modules_stem_modules_norm_parameters_bias_,
+            1e-05,
+        )
+        x_2 = (
+            l_self_modules_stem_modules_norm_parameters_weight_
+        ) = l_self_modules_stem_modules_norm_parameters_bias_ = None
+        x_4 = x_3.permute(0, 3, 1, 2)
+        x_3 = None
+        feat = torch.conv2d(
+            x_4,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            96,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_ = (None)
+        x_5 = x_4 + feat
+        x_4 = feat = None
+        flatten = x_5.flatten(2)
+        x_5 = None
+        shortcut = flatten.transpose(1, 2)
+        flatten = None
+        x_6 = torch.nn.functional.layer_norm(
+            shortcut,
+            (96,),
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_ = (None)
+        x_7 = x_6.view(1, 56, 56, 96)
+        x_6 = None
+        x_8 = torch._C._nn.pad(x_7, (0, 0, 0, 0, 0, 0), "constant", None)
+        x_7 = None
+        x_9 = x_8.view(1, 8, 7, 8, 7, 96)
+        x_8 = None
+        permute_2 = x_9.permute(0, 1, 3, 2, 4, 5)
+        x_9 = None
+        contiguous = permute_2.contiguous()
+        permute_2 = None
+        windows = contiguous.view(-1, 7, 7, 96)
+        contiguous = None
+        x_windows = windows.view(-1, 49, 96)
+        windows = None
+        linear = torch._C._nn.linear(
+            x_windows,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_,
+        )
+        x_windows = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_ = (None)
+        reshape = linear.reshape(64, 49, 3, 3, 32)
+        linear = None
+        qkv = reshape.permute(2, 0, 3, 1, 4)
+        reshape = None
+        unbind = qkv.unbind(0)
+        qkv = None
+        q = unbind[0]
+        k = unbind[1]
+        v = unbind[2]
+        unbind = None
+        x_10 = torch._C._nn.scaled_dot_product_attention(q, k, v)
+        q = k = v = None
+        transpose_1 = x_10.transpose(1, 2)
+        x_10 = None
+        x_11 = transpose_1.reshape(64, 49, 96)
+        transpose_1 = None
+        x_12 = torch._C._nn.linear(
+            x_11,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_,
+        )
+        x_11 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_ = (None)
+        attn_windows = x_12.view(-1, 7, 7, 96)
+        x_12 = None
+        x_13 = attn_windows.view(-1, 8, 8, 7, 7, 96)
+        attn_windows = None
+        permute_4 = x_13.permute(0, 1, 3, 2, 4, 5)
+        x_13 = None
+        contiguous_1 = permute_4.contiguous()
+        permute_4 = None
+        x_14 = contiguous_1.view(-1, 56, 56, 96)
+        contiguous_1 = None
+        getitem_3 = x_14[
+            (
+                slice(None, None, None),
+                slice(None, 56, None),
+                slice(None, 56, None),
+                slice(None, None, None),
+            )
+        ]
+        x_14 = None
+        x_15 = getitem_3.contiguous()
+        getitem_3 = None
+        x_16 = x_15.view(1, 3136, 96)
+        x_15 = None
+        x_17 = shortcut + x_16
+        shortcut = x_16 = None
+        transpose_2 = x_17.transpose(1, 2)
+        x_17 = None
+        view_8 = transpose_2.view(1, 96, 56, 56)
+        transpose_2 = None
+        feat_1 = torch.conv2d(
+            view_8,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            96,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_ = (None)
+        x_18 = view_8 + feat_1
+        view_8 = feat_1 = None
+        flatten_1 = x_18.flatten(2)
+        x_18 = None
+        x_19 = flatten_1.transpose(1, 2)
+        flatten_1 = None
+        x_20 = torch.nn.functional.layer_norm(
+            x_19,
+            (96,),
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_ = (None)
+        x_21 = torch._C._nn.linear(
+            x_20,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_,
+        )
+        x_20 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_ = (None)
+        x_22 = torch._C._nn.gelu(x_21, approximate="none")
+        x_21 = None
+        x_23 = torch.nn.functional.dropout(x_22, 0.0, False, False)
+        x_22 = None
+        x_24 = torch._C._nn.linear(
+            x_23,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_,
+        )
+        x_23 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_ = (None)
+        x_25 = torch.nn.functional.dropout(x_24, 0.0, False, False)
+        x_24 = None
+        x_26 = x_19 + x_25
+        x_19 = x_25 = None
+        transpose_4 = x_26.transpose(1, 2)
+        x_26 = None
+        x_27 = transpose_4.view(1, 96, 56, 56)
+        transpose_4 = None
+        feat_2 = torch.conv2d(
+            x_27,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            96,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_ = (None)
+        x_28 = x_27 + feat_2
+        x_27 = feat_2 = None
+        flatten_2 = x_28.flatten(2)
+        x_28 = None
+        x_29 = flatten_2.transpose(1, 2)
+        flatten_2 = None
+        x_30 = torch.nn.functional.layer_norm(
+            x_29,
+            (96,),
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_ = (None)
+        linear_4 = torch._C._nn.linear(
+            x_30,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_,
+        )
+        x_30 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_ = (None)
+        reshape_2 = linear_4.reshape(1, 3136, 3, 3, 32)
+        linear_4 = None
+        qkv_1 = reshape_2.permute(2, 0, 3, 1, 4)
+        reshape_2 = None
+        unbind_1 = qkv_1.unbind(0)
+        qkv_1 = None
+        q_1 = unbind_1[0]
+        k_1 = unbind_1[1]
+        v_1 = unbind_1[2]
+        unbind_1 = None
+        k_2 = k_1 * 0.1767766952966369
+        k_1 = None
+        transpose_6 = k_2.transpose(-1, -2)
+        k_2 = None
+        attn = transpose_6 @ v_1
+        transpose_6 = v_1 = None
+        attn_1 = attn.softmax(dim=-1)
+        attn = None
+        transpose_7 = q_1.transpose(-1, -2)
+        q_1 = None
+        matmul_1 = attn_1 @ transpose_7
+        attn_1 = transpose_7 = None
+        x_31 = matmul_1.transpose(-1, -2)
+        matmul_1 = None
+        transpose_9 = x_31.transpose(1, 2)
+        x_31 = None
+        x_32 = transpose_9.reshape(1, 3136, 96)
+        transpose_9 = None
+        x_33 = torch._C._nn.linear(
+            x_32,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_,
+        )
+        x_32 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_ = (None)
+        x_34 = x_29 + x_33
+        x_29 = x_33 = None
+        transpose_10 = x_34.transpose(1, 2)
+        x_34 = None
+        view_10 = transpose_10.view(1, 96, 56, 56)
+        transpose_10 = None
+        feat_3 = torch.conv2d(
+            view_10,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            96,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_ = (None)
+        x_35 = view_10 + feat_3
+        view_10 = feat_3 = None
+        flatten_3 = x_35.flatten(2)
+        x_35 = None
+        x_36 = flatten_3.transpose(1, 2)
+        flatten_3 = None
+        x_37 = torch.nn.functional.layer_norm(
+            x_36,
+            (96,),
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_ = (None)
+        x_38 = torch._C._nn.linear(
+            x_37,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_,
+        )
+        x_37 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_ = (None)
+        x_39 = torch._C._nn.gelu(x_38, approximate="none")
+        x_38 = None
+        x_40 = torch.nn.functional.dropout(x_39, 0.0, False, False)
+        x_39 = None
+        x_41 = torch._C._nn.linear(
+            x_40,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_,
+            l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_,
+        )
+        x_40 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_ = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_ = (None)
+        x_42 = torch.nn.functional.dropout(x_41, 0.0, False, False)
+        x_41 = None
+        x_43 = x_36 + x_42
+        x_36 = x_42 = None
+        transpose_12 = x_43.transpose(1, 2)
+        x_43 = None
+        x_44 = transpose_12.view(1, 96, 56, 56)
+        transpose_12 = None
+        x_45 = x_44.permute(0, 2, 3, 1)
+        x_44 = None
+        x_46 = torch.nn.functional.layer_norm(
+            x_45,
+            (96,),
+            l_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_bias_,
+            1e-05,
+        )
+        x_45 = l_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_weight_ = l_self_modules_stages_modules_1_modules_downsample_modules_norm_parameters_bias_ = (None)
+        x_47 = x_46.permute(0, 3, 1, 2)
+        x_46 = None
+        x_48 = torch._C._nn.pad(x_47, (0, 0, 0, 0), "constant", None)
+        x_47 = None
+        x_49 = torch.conv2d(
+            x_48,
+            l_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_bias_,
+            (2, 2),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_48 = l_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_weight_ = l_self_modules_stages_modules_1_modules_downsample_modules_conv_parameters_bias_ = (None)
+        feat_4 = torch.conv2d(
+            x_49,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            192,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_ = (None)
+        x_50 = x_49 + feat_4
+        x_49 = feat_4 = None
+        flatten_4 = x_50.flatten(2)
+        x_50 = None
+        shortcut_1 = flatten_4.transpose(1, 2)
+        flatten_4 = None
+        x_51 = torch.nn.functional.layer_norm(
+            shortcut_1,
+            (192,),
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_ = (None)
+        x_52 = x_51.view(1, 28, 28, 192)
+        x_51 = None
+        x_53 = torch._C._nn.pad(x_52, (0, 0, 0, 0, 0, 0), "constant", None)
+        x_52 = None
+        x_54 = x_53.view(1, 4, 7, 4, 7, 192)
+        x_53 = None
+        permute_8 = x_54.permute(0, 1, 3, 2, 4, 5)
+        x_54 = None
+        contiguous_3 = permute_8.contiguous()
+        permute_8 = None
+        windows_1 = contiguous_3.view(-1, 7, 7, 192)
+        contiguous_3 = None
+        x_windows_1 = windows_1.view(-1, 49, 192)
+        windows_1 = None
+        linear_8 = torch._C._nn.linear(
+            x_windows_1,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_,
+        )
+        x_windows_1 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_ = (None)
+        reshape_4 = linear_8.reshape(16, 49, 3, 6, 32)
+        linear_8 = None
+        qkv_2 = reshape_4.permute(2, 0, 3, 1, 4)
+        reshape_4 = None
+        unbind_2 = qkv_2.unbind(0)
+        qkv_2 = None
+        q_2 = unbind_2[0]
+        k_3 = unbind_2[1]
+        v_2 = unbind_2[2]
+        unbind_2 = None
+        x_55 = torch._C._nn.scaled_dot_product_attention(q_2, k_3, v_2)
+        q_2 = k_3 = v_2 = None
+        transpose_14 = x_55.transpose(1, 2)
+        x_55 = None
+        x_56 = transpose_14.reshape(16, 49, 192)
+        transpose_14 = None
+        x_57 = torch._C._nn.linear(
+            x_56,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_,
+        )
+        x_56 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_ = (None)
+        attn_windows_1 = x_57.view(-1, 7, 7, 192)
+        x_57 = None
+        x_58 = attn_windows_1.view(-1, 4, 4, 7, 7, 192)
+        attn_windows_1 = None
+        permute_10 = x_58.permute(0, 1, 3, 2, 4, 5)
+        x_58 = None
+        contiguous_4 = permute_10.contiguous()
+        permute_10 = None
+        x_59 = contiguous_4.view(-1, 28, 28, 192)
+        contiguous_4 = None
+        getitem_10 = x_59[
+            (
+                slice(None, None, None),
+                slice(None, 28, None),
+                slice(None, 28, None),
+                slice(None, None, None),
+            )
+        ]
+        x_59 = None
+        x_60 = getitem_10.contiguous()
+        getitem_10 = None
+        x_61 = x_60.view(1, 784, 192)
+        x_60 = None
+        x_62 = shortcut_1 + x_61
+        shortcut_1 = x_61 = None
+        transpose_15 = x_62.transpose(1, 2)
+        x_62 = None
+        view_20 = transpose_15.view(1, 192, 28, 28)
+        transpose_15 = None
+        feat_5 = torch.conv2d(
+            view_20,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            192,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_ = (None)
+        x_63 = view_20 + feat_5
+        view_20 = feat_5 = None
+        flatten_5 = x_63.flatten(2)
+        x_63 = None
+        x_64 = flatten_5.transpose(1, 2)
+        flatten_5 = None
+        x_65 = torch.nn.functional.layer_norm(
+            x_64,
+            (192,),
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_ = (None)
+        x_66 = torch._C._nn.linear(
+            x_65,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_,
+        )
+        x_65 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_ = (None)
+        x_67 = torch._C._nn.gelu(x_66, approximate="none")
+        x_66 = None
+        x_68 = torch.nn.functional.dropout(x_67, 0.0, False, False)
+        x_67 = None
+        x_69 = torch._C._nn.linear(
+            x_68,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_,
+        )
+        x_68 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_ = (None)
+        x_70 = torch.nn.functional.dropout(x_69, 0.0, False, False)
+        x_69 = None
+        x_71 = x_64 + x_70
+        x_64 = x_70 = None
+        transpose_17 = x_71.transpose(1, 2)
+        x_71 = None
+        x_72 = transpose_17.view(1, 192, 28, 28)
+        transpose_17 = None
+        feat_6 = torch.conv2d(
+            x_72,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            192,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_ = (None)
+        x_73 = x_72 + feat_6
+        x_72 = feat_6 = None
+        flatten_6 = x_73.flatten(2)
+        x_73 = None
+        x_74 = flatten_6.transpose(1, 2)
+        flatten_6 = None
+        x_75 = torch.nn.functional.layer_norm(
+            x_74,
+            (192,),
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_ = (None)
+        linear_12 = torch._C._nn.linear(
+            x_75,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_,
+        )
+        x_75 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_ = (None)
+        reshape_6 = linear_12.reshape(1, 784, 3, 6, 32)
+        linear_12 = None
+        qkv_3 = reshape_6.permute(2, 0, 3, 1, 4)
+        reshape_6 = None
+        unbind_3 = qkv_3.unbind(0)
+        qkv_3 = None
+        q_3 = unbind_3[0]
+        k_4 = unbind_3[1]
+        v_3 = unbind_3[2]
+        unbind_3 = None
+        k_5 = k_4 * 0.1767766952966369
+        k_4 = None
+        transpose_19 = k_5.transpose(-1, -2)
+        k_5 = None
+        attn_2 = transpose_19 @ v_3
+        transpose_19 = v_3 = None
+        attn_3 = attn_2.softmax(dim=-1)
+        attn_2 = None
+        transpose_20 = q_3.transpose(-1, -2)
+        q_3 = None
+        matmul_3 = attn_3 @ transpose_20
+        attn_3 = transpose_20 = None
+        x_76 = matmul_3.transpose(-1, -2)
+        matmul_3 = None
+        transpose_22 = x_76.transpose(1, 2)
+        x_76 = None
+        x_77 = transpose_22.reshape(1, 784, 192)
+        transpose_22 = None
+        x_78 = torch._C._nn.linear(
+            x_77,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_,
+        )
+        x_77 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_ = (None)
+        x_79 = x_74 + x_78
+        x_74 = x_78 = None
+        transpose_23 = x_79.transpose(1, 2)
+        x_79 = None
+        view_22 = transpose_23.view(1, 192, 28, 28)
+        transpose_23 = None
+        feat_7 = torch.conv2d(
+            view_22,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            192,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_ = (None)
+        x_80 = view_22 + feat_7
+        view_22 = feat_7 = None
+        flatten_7 = x_80.flatten(2)
+        x_80 = None
+        x_81 = flatten_7.transpose(1, 2)
+        flatten_7 = None
+        x_82 = torch.nn.functional.layer_norm(
+            x_81,
+            (192,),
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_ = (None)
+        x_83 = torch._C._nn.linear(
+            x_82,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_,
+        )
+        x_82 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_ = (None)
+        x_84 = torch._C._nn.gelu(x_83, approximate="none")
+        x_83 = None
+        x_85 = torch.nn.functional.dropout(x_84, 0.0, False, False)
+        x_84 = None
+        x_86 = torch._C._nn.linear(
+            x_85,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_,
+            l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_,
+        )
+        x_85 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_ = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_ = (None)
+        x_87 = torch.nn.functional.dropout(x_86, 0.0, False, False)
+        x_86 = None
+        x_88 = x_81 + x_87
+        x_81 = x_87 = None
+        transpose_25 = x_88.transpose(1, 2)
+        x_88 = None
+        x_89 = transpose_25.view(1, 192, 28, 28)
+        transpose_25 = None
+        x_90 = x_89.permute(0, 2, 3, 1)
+        x_89 = None
+        x_91 = torch.nn.functional.layer_norm(
+            x_90,
+            (192,),
+            l_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_bias_,
+            1e-05,
+        )
+        x_90 = l_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_weight_ = l_self_modules_stages_modules_2_modules_downsample_modules_norm_parameters_bias_ = (None)
+        x_92 = x_91.permute(0, 3, 1, 2)
+        x_91 = None
+        x_93 = torch._C._nn.pad(x_92, (0, 0, 0, 0), "constant", None)
+        x_92 = None
+        x_94 = torch.conv2d(
+            x_93,
+            l_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_bias_,
+            (2, 2),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_93 = l_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_weight_ = l_self_modules_stages_modules_2_modules_downsample_modules_conv_parameters_bias_ = (None)
+        feat_8 = torch.conv2d(
+            x_94,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            384,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_ = (None)
+        x_95 = x_94 + feat_8
+        x_94 = feat_8 = None
+        flatten_8 = x_95.flatten(2)
+        x_95 = None
+        shortcut_2 = flatten_8.transpose(1, 2)
+        flatten_8 = None
+        x_96 = torch.nn.functional.layer_norm(
+            shortcut_2,
+            (384,),
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_ = (None)
+        x_97 = x_96.view(1, 14, 14, 384)
+        x_96 = None
+        x_98 = torch._C._nn.pad(x_97, (0, 0, 0, 0, 0, 0), "constant", None)
+        x_97 = None
+        x_99 = x_98.view(1, 2, 7, 2, 7, 384)
+        x_98 = None
+        permute_14 = x_99.permute(0, 1, 3, 2, 4, 5)
+        x_99 = None
+        contiguous_6 = permute_14.contiguous()
+        permute_14 = None
+        windows_2 = contiguous_6.view(-1, 7, 7, 384)
+        contiguous_6 = None
+        x_windows_2 = windows_2.view(-1, 49, 384)
+        windows_2 = None
+        linear_16 = torch._C._nn.linear(
+            x_windows_2,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_,
+        )
+        x_windows_2 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_ = (None)
+        reshape_8 = linear_16.reshape(4, 49, 3, 12, 32)
+        linear_16 = None
+        qkv_4 = reshape_8.permute(2, 0, 3, 1, 4)
+        reshape_8 = None
+        unbind_4 = qkv_4.unbind(0)
+        qkv_4 = None
+        q_4 = unbind_4[0]
+        k_6 = unbind_4[1]
+        v_4 = unbind_4[2]
+        unbind_4 = None
+        x_100 = torch._C._nn.scaled_dot_product_attention(q_4, k_6, v_4)
+        q_4 = k_6 = v_4 = None
+        transpose_27 = x_100.transpose(1, 2)
+        x_100 = None
+        x_101 = transpose_27.reshape(4, 49, 384)
+        transpose_27 = None
+        x_102 = torch._C._nn.linear(
+            x_101,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_,
+        )
+        x_101 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_ = (None)
+        attn_windows_2 = x_102.view(-1, 7, 7, 384)
+        x_102 = None
+        x_103 = attn_windows_2.view(-1, 2, 2, 7, 7, 384)
+        attn_windows_2 = None
+        permute_16 = x_103.permute(0, 1, 3, 2, 4, 5)
+        x_103 = None
+        contiguous_7 = permute_16.contiguous()
+        permute_16 = None
+        x_104 = contiguous_7.view(-1, 14, 14, 384)
+        contiguous_7 = None
+        getitem_17 = x_104[
+            (
+                slice(None, None, None),
+                slice(None, 14, None),
+                slice(None, 14, None),
+                slice(None, None, None),
+            )
+        ]
+        x_104 = None
+        x_105 = getitem_17.contiguous()
+        getitem_17 = None
+        x_106 = x_105.view(1, 196, 384)
+        x_105 = None
+        x_107 = shortcut_2 + x_106
+        shortcut_2 = x_106 = None
+        transpose_28 = x_107.transpose(1, 2)
+        x_107 = None
+        view_32 = transpose_28.view(1, 384, 14, 14)
+        transpose_28 = None
+        feat_9 = torch.conv2d(
+            view_32,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            384,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_ = (None)
+        x_108 = view_32 + feat_9
+        view_32 = feat_9 = None
+        flatten_9 = x_108.flatten(2)
+        x_108 = None
+        x_109 = flatten_9.transpose(1, 2)
+        flatten_9 = None
+        x_110 = torch.nn.functional.layer_norm(
+            x_109,
+            (384,),
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_ = (None)
+        x_111 = torch._C._nn.linear(
+            x_110,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_,
+        )
+        x_110 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_ = (None)
+        x_112 = torch._C._nn.gelu(x_111, approximate="none")
+        x_111 = None
+        x_113 = torch.nn.functional.dropout(x_112, 0.0, False, False)
+        x_112 = None
+        x_114 = torch._C._nn.linear(
+            x_113,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_,
+        )
+        x_113 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_ = (None)
+        x_115 = torch.nn.functional.dropout(x_114, 0.0, False, False)
+        x_114 = None
+        x_116 = x_109 + x_115
+        x_109 = x_115 = None
+        transpose_30 = x_116.transpose(1, 2)
+        x_116 = None
+        x_117 = transpose_30.view(1, 384, 14, 14)
+        transpose_30 = None
+        feat_10 = torch.conv2d(
+            x_117,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            384,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_ = (None)
+        x_118 = x_117 + feat_10
+        x_117 = feat_10 = None
+        flatten_10 = x_118.flatten(2)
+        x_118 = None
+        x_119 = flatten_10.transpose(1, 2)
+        flatten_10 = None
+        x_120 = torch.nn.functional.layer_norm(
+            x_119,
+            (384,),
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_ = (None)
+        linear_20 = torch._C._nn.linear(
+            x_120,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_,
+        )
+        x_120 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_ = (None)
+        reshape_10 = linear_20.reshape(1, 196, 3, 12, 32)
+        linear_20 = None
+        qkv_5 = reshape_10.permute(2, 0, 3, 1, 4)
+        reshape_10 = None
+        unbind_5 = qkv_5.unbind(0)
+        qkv_5 = None
+        q_5 = unbind_5[0]
+        k_7 = unbind_5[1]
+        v_5 = unbind_5[2]
+        unbind_5 = None
+        k_8 = k_7 * 0.1767766952966369
+        k_7 = None
+        transpose_32 = k_8.transpose(-1, -2)
+        k_8 = None
+        attn_4 = transpose_32 @ v_5
+        transpose_32 = v_5 = None
+        attn_5 = attn_4.softmax(dim=-1)
+        attn_4 = None
+        transpose_33 = q_5.transpose(-1, -2)
+        q_5 = None
+        matmul_5 = attn_5 @ transpose_33
+        attn_5 = transpose_33 = None
+        x_121 = matmul_5.transpose(-1, -2)
+        matmul_5 = None
+        transpose_35 = x_121.transpose(1, 2)
+        x_121 = None
+        x_122 = transpose_35.reshape(1, 196, 384)
+        transpose_35 = None
+        x_123 = torch._C._nn.linear(
+            x_122,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_,
+        )
+        x_122 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_ = (None)
+        x_124 = x_119 + x_123
+        x_119 = x_123 = None
+        transpose_36 = x_124.transpose(1, 2)
+        x_124 = None
+        view_34 = transpose_36.view(1, 384, 14, 14)
+        transpose_36 = None
+        feat_11 = torch.conv2d(
+            view_34,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            384,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_ = (None)
+        x_125 = view_34 + feat_11
+        view_34 = feat_11 = None
+        flatten_11 = x_125.flatten(2)
+        x_125 = None
+        x_126 = flatten_11.transpose(1, 2)
+        flatten_11 = None
+        x_127 = torch.nn.functional.layer_norm(
+            x_126,
+            (384,),
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_ = (None)
+        x_128 = torch._C._nn.linear(
+            x_127,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_,
+        )
+        x_127 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_ = (None)
+        x_129 = torch._C._nn.gelu(x_128, approximate="none")
+        x_128 = None
+        x_130 = torch.nn.functional.dropout(x_129, 0.0, False, False)
+        x_129 = None
+        x_131 = torch._C._nn.linear(
+            x_130,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_,
+        )
+        x_130 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_ = (None)
+        x_132 = torch.nn.functional.dropout(x_131, 0.0, False, False)
+        x_131 = None
+        x_133 = x_126 + x_132
+        x_126 = x_132 = None
+        transpose_38 = x_133.transpose(1, 2)
+        x_133 = None
+        x_134 = transpose_38.view(1, 384, 14, 14)
+        transpose_38 = None
+        feat_12 = torch.conv2d(
+            x_134,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe1_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe1_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            384,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe1_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe1_modules_proj_parameters_bias_ = (None)
+        x_135 = x_134 + feat_12
+        x_134 = feat_12 = None
+        flatten_12 = x_135.flatten(2)
+        x_135 = None
+        shortcut_3 = flatten_12.transpose(1, 2)
+        flatten_12 = None
+        x_136 = torch.nn.functional.layer_norm(
+            shortcut_3,
+            (384,),
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm1_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm1_parameters_bias_ = (None)
+        x_137 = x_136.view(1, 14, 14, 384)
+        x_136 = None
+        x_138 = torch._C._nn.pad(x_137, (0, 0, 0, 0, 0, 0), "constant", None)
+        x_137 = None
+        x_139 = x_138.view(1, 2, 7, 2, 7, 384)
+        x_138 = None
+        permute_18 = x_139.permute(0, 1, 3, 2, 4, 5)
+        x_139 = None
+        contiguous_9 = permute_18.contiguous()
+        permute_18 = None
+        windows_3 = contiguous_9.view(-1, 7, 7, 384)
+        contiguous_9 = None
+        x_windows_3 = windows_3.view(-1, 49, 384)
+        windows_3 = None
+        linear_24 = torch._C._nn.linear(
+            x_windows_3,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_qkv_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_qkv_parameters_bias_,
+        )
+        x_windows_3 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_qkv_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_qkv_parameters_bias_ = (None)
+        reshape_12 = linear_24.reshape(4, 49, 3, 12, 32)
+        linear_24 = None
+        qkv_6 = reshape_12.permute(2, 0, 3, 1, 4)
+        reshape_12 = None
+        unbind_6 = qkv_6.unbind(0)
+        qkv_6 = None
+        q_6 = unbind_6[0]
+        k_9 = unbind_6[1]
+        v_6 = unbind_6[2]
+        unbind_6 = None
+        x_140 = torch._C._nn.scaled_dot_product_attention(q_6, k_9, v_6)
+        q_6 = k_9 = v_6 = None
+        transpose_40 = x_140.transpose(1, 2)
+        x_140 = None
+        x_141 = transpose_40.reshape(4, 49, 384)
+        transpose_40 = None
+        x_142 = torch._C._nn.linear(
+            x_141,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_proj_parameters_bias_,
+        )
+        x_141 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_attn_modules_proj_parameters_bias_ = (None)
+        attn_windows_3 = x_142.view(-1, 7, 7, 384)
+        x_142 = None
+        x_143 = attn_windows_3.view(-1, 2, 2, 7, 7, 384)
+        attn_windows_3 = None
+        permute_20 = x_143.permute(0, 1, 3, 2, 4, 5)
+        x_143 = None
+        contiguous_10 = permute_20.contiguous()
+        permute_20 = None
+        x_144 = contiguous_10.view(-1, 14, 14, 384)
+        contiguous_10 = None
+        getitem_24 = x_144[
+            (
+                slice(None, None, None),
+                slice(None, 14, None),
+                slice(None, 14, None),
+                slice(None, None, None),
+            )
+        ]
+        x_144 = None
+        x_145 = getitem_24.contiguous()
+        getitem_24 = None
+        x_146 = x_145.view(1, 196, 384)
+        x_145 = None
+        x_147 = shortcut_3 + x_146
+        shortcut_3 = x_146 = None
+        transpose_41 = x_147.transpose(1, 2)
+        x_147 = None
+        view_44 = transpose_41.view(1, 384, 14, 14)
+        transpose_41 = None
+        feat_13 = torch.conv2d(
+            view_44,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe2_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe2_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            384,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe2_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_cpe2_modules_proj_parameters_bias_ = (None)
+        x_148 = view_44 + feat_13
+        view_44 = feat_13 = None
+        flatten_13 = x_148.flatten(2)
+        x_148 = None
+        x_149 = flatten_13.transpose(1, 2)
+        flatten_13 = None
+        x_150 = torch.nn.functional.layer_norm(
+            x_149,
+            (384,),
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm2_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm2_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm2_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_norm2_parameters_bias_ = (None)
+        x_151 = torch._C._nn.linear(
+            x_150,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc1_parameters_bias_,
+        )
+        x_150 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc1_parameters_bias_ = (None)
+        x_152 = torch._C._nn.gelu(x_151, approximate="none")
+        x_151 = None
+        x_153 = torch.nn.functional.dropout(x_152, 0.0, False, False)
+        x_152 = None
+        x_154 = torch._C._nn.linear(
+            x_153,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc2_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc2_parameters_bias_,
+        )
+        x_153 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc2_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_0_modules_mlp_modules_fc2_parameters_bias_ = (None)
+        x_155 = torch.nn.functional.dropout(x_154, 0.0, False, False)
+        x_154 = None
+        x_156 = x_149 + x_155
+        x_149 = x_155 = None
+        transpose_43 = x_156.transpose(1, 2)
+        x_156 = None
+        x_157 = transpose_43.view(1, 384, 14, 14)
+        transpose_43 = None
+        feat_14 = torch.conv2d(
+            x_157,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe1_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe1_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            384,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe1_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe1_modules_proj_parameters_bias_ = (None)
+        x_158 = x_157 + feat_14
+        x_157 = feat_14 = None
+        flatten_14 = x_158.flatten(2)
+        x_158 = None
+        x_159 = flatten_14.transpose(1, 2)
+        flatten_14 = None
+        x_160 = torch.nn.functional.layer_norm(
+            x_159,
+            (384,),
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm1_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm1_parameters_bias_ = (None)
+        linear_28 = torch._C._nn.linear(
+            x_160,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_qkv_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_qkv_parameters_bias_,
+        )
+        x_160 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_qkv_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_qkv_parameters_bias_ = (None)
+        reshape_14 = linear_28.reshape(1, 196, 3, 12, 32)
+        linear_28 = None
+        qkv_7 = reshape_14.permute(2, 0, 3, 1, 4)
+        reshape_14 = None
+        unbind_7 = qkv_7.unbind(0)
+        qkv_7 = None
+        q_7 = unbind_7[0]
+        k_10 = unbind_7[1]
+        v_7 = unbind_7[2]
+        unbind_7 = None
+        k_11 = k_10 * 0.1767766952966369
+        k_10 = None
+        transpose_45 = k_11.transpose(-1, -2)
+        k_11 = None
+        attn_6 = transpose_45 @ v_7
+        transpose_45 = v_7 = None
+        attn_7 = attn_6.softmax(dim=-1)
+        attn_6 = None
+        transpose_46 = q_7.transpose(-1, -2)
+        q_7 = None
+        matmul_7 = attn_7 @ transpose_46
+        attn_7 = transpose_46 = None
+        x_161 = matmul_7.transpose(-1, -2)
+        matmul_7 = None
+        transpose_48 = x_161.transpose(1, 2)
+        x_161 = None
+        x_162 = transpose_48.reshape(1, 196, 384)
+        transpose_48 = None
+        x_163 = torch._C._nn.linear(
+            x_162,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_proj_parameters_bias_,
+        )
+        x_162 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_attn_modules_proj_parameters_bias_ = (None)
+        x_164 = x_159 + x_163
+        x_159 = x_163 = None
+        transpose_49 = x_164.transpose(1, 2)
+        x_164 = None
+        view_46 = transpose_49.view(1, 384, 14, 14)
+        transpose_49 = None
+        feat_15 = torch.conv2d(
+            view_46,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe2_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe2_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            384,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe2_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_cpe2_modules_proj_parameters_bias_ = (None)
+        x_165 = view_46 + feat_15
+        view_46 = feat_15 = None
+        flatten_15 = x_165.flatten(2)
+        x_165 = None
+        x_166 = flatten_15.transpose(1, 2)
+        flatten_15 = None
+        x_167 = torch.nn.functional.layer_norm(
+            x_166,
+            (384,),
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm2_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm2_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm2_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_norm2_parameters_bias_ = (None)
+        x_168 = torch._C._nn.linear(
+            x_167,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc1_parameters_bias_,
+        )
+        x_167 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc1_parameters_bias_ = (None)
+        x_169 = torch._C._nn.gelu(x_168, approximate="none")
+        x_168 = None
+        x_170 = torch.nn.functional.dropout(x_169, 0.0, False, False)
+        x_169 = None
+        x_171 = torch._C._nn.linear(
+            x_170,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc2_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc2_parameters_bias_,
+        )
+        x_170 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc2_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_1_modules_mlp_modules_fc2_parameters_bias_ = (None)
+        x_172 = torch.nn.functional.dropout(x_171, 0.0, False, False)
+        x_171 = None
+        x_173 = x_166 + x_172
+        x_166 = x_172 = None
+        transpose_51 = x_173.transpose(1, 2)
+        x_173 = None
+        x_174 = transpose_51.view(1, 384, 14, 14)
+        transpose_51 = None
+        feat_16 = torch.conv2d(
+            x_174,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe1_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe1_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            384,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe1_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe1_modules_proj_parameters_bias_ = (None)
+        x_175 = x_174 + feat_16
+        x_174 = feat_16 = None
+        flatten_16 = x_175.flatten(2)
+        x_175 = None
+        shortcut_4 = flatten_16.transpose(1, 2)
+        flatten_16 = None
+        x_176 = torch.nn.functional.layer_norm(
+            shortcut_4,
+            (384,),
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm1_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm1_parameters_bias_ = (None)
+        x_177 = x_176.view(1, 14, 14, 384)
+        x_176 = None
+        x_178 = torch._C._nn.pad(x_177, (0, 0, 0, 0, 0, 0), "constant", None)
+        x_177 = None
+        x_179 = x_178.view(1, 2, 7, 2, 7, 384)
+        x_178 = None
+        permute_22 = x_179.permute(0, 1, 3, 2, 4, 5)
+        x_179 = None
+        contiguous_12 = permute_22.contiguous()
+        permute_22 = None
+        windows_4 = contiguous_12.view(-1, 7, 7, 384)
+        contiguous_12 = None
+        x_windows_4 = windows_4.view(-1, 49, 384)
+        windows_4 = None
+        linear_32 = torch._C._nn.linear(
+            x_windows_4,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_qkv_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_qkv_parameters_bias_,
+        )
+        x_windows_4 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_qkv_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_qkv_parameters_bias_ = (None)
+        reshape_16 = linear_32.reshape(4, 49, 3, 12, 32)
+        linear_32 = None
+        qkv_8 = reshape_16.permute(2, 0, 3, 1, 4)
+        reshape_16 = None
+        unbind_8 = qkv_8.unbind(0)
+        qkv_8 = None
+        q_8 = unbind_8[0]
+        k_12 = unbind_8[1]
+        v_8 = unbind_8[2]
+        unbind_8 = None
+        x_180 = torch._C._nn.scaled_dot_product_attention(q_8, k_12, v_8)
+        q_8 = k_12 = v_8 = None
+        transpose_53 = x_180.transpose(1, 2)
+        x_180 = None
+        x_181 = transpose_53.reshape(4, 49, 384)
+        transpose_53 = None
+        x_182 = torch._C._nn.linear(
+            x_181,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_proj_parameters_bias_,
+        )
+        x_181 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_attn_modules_proj_parameters_bias_ = (None)
+        attn_windows_4 = x_182.view(-1, 7, 7, 384)
+        x_182 = None
+        x_183 = attn_windows_4.view(-1, 2, 2, 7, 7, 384)
+        attn_windows_4 = None
+        permute_24 = x_183.permute(0, 1, 3, 2, 4, 5)
+        x_183 = None
+        contiguous_13 = permute_24.contiguous()
+        permute_24 = None
+        x_184 = contiguous_13.view(-1, 14, 14, 384)
+        contiguous_13 = None
+        getitem_31 = x_184[
+            (
+                slice(None, None, None),
+                slice(None, 14, None),
+                slice(None, 14, None),
+                slice(None, None, None),
+            )
+        ]
+        x_184 = None
+        x_185 = getitem_31.contiguous()
+        getitem_31 = None
+        x_186 = x_185.view(1, 196, 384)
+        x_185 = None
+        x_187 = shortcut_4 + x_186
+        shortcut_4 = x_186 = None
+        transpose_54 = x_187.transpose(1, 2)
+        x_187 = None
+        view_56 = transpose_54.view(1, 384, 14, 14)
+        transpose_54 = None
+        feat_17 = torch.conv2d(
+            view_56,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe2_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe2_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            384,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe2_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_cpe2_modules_proj_parameters_bias_ = (None)
+        x_188 = view_56 + feat_17
+        view_56 = feat_17 = None
+        flatten_17 = x_188.flatten(2)
+        x_188 = None
+        x_189 = flatten_17.transpose(1, 2)
+        flatten_17 = None
+        x_190 = torch.nn.functional.layer_norm(
+            x_189,
+            (384,),
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm2_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm2_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm2_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_norm2_parameters_bias_ = (None)
+        x_191 = torch._C._nn.linear(
+            x_190,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc1_parameters_bias_,
+        )
+        x_190 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc1_parameters_bias_ = (None)
+        x_192 = torch._C._nn.gelu(x_191, approximate="none")
+        x_191 = None
+        x_193 = torch.nn.functional.dropout(x_192, 0.0, False, False)
+        x_192 = None
+        x_194 = torch._C._nn.linear(
+            x_193,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc2_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc2_parameters_bias_,
+        )
+        x_193 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc2_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_0_modules_mlp_modules_fc2_parameters_bias_ = (None)
+        x_195 = torch.nn.functional.dropout(x_194, 0.0, False, False)
+        x_194 = None
+        x_196 = x_189 + x_195
+        x_189 = x_195 = None
+        transpose_56 = x_196.transpose(1, 2)
+        x_196 = None
+        x_197 = transpose_56.view(1, 384, 14, 14)
+        transpose_56 = None
+        feat_18 = torch.conv2d(
+            x_197,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe1_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe1_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            384,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe1_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe1_modules_proj_parameters_bias_ = (None)
+        x_198 = x_197 + feat_18
+        x_197 = feat_18 = None
+        flatten_18 = x_198.flatten(2)
+        x_198 = None
+        x_199 = flatten_18.transpose(1, 2)
+        flatten_18 = None
+        x_200 = torch.nn.functional.layer_norm(
+            x_199,
+            (384,),
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm1_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm1_parameters_bias_ = (None)
+        linear_36 = torch._C._nn.linear(
+            x_200,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_qkv_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_qkv_parameters_bias_,
+        )
+        x_200 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_qkv_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_qkv_parameters_bias_ = (None)
+        reshape_18 = linear_36.reshape(1, 196, 3, 12, 32)
+        linear_36 = None
+        qkv_9 = reshape_18.permute(2, 0, 3, 1, 4)
+        reshape_18 = None
+        unbind_9 = qkv_9.unbind(0)
+        qkv_9 = None
+        q_9 = unbind_9[0]
+        k_13 = unbind_9[1]
+        v_9 = unbind_9[2]
+        unbind_9 = None
+        k_14 = k_13 * 0.1767766952966369
+        k_13 = None
+        transpose_58 = k_14.transpose(-1, -2)
+        k_14 = None
+        attn_8 = transpose_58 @ v_9
+        transpose_58 = v_9 = None
+        attn_9 = attn_8.softmax(dim=-1)
+        attn_8 = None
+        transpose_59 = q_9.transpose(-1, -2)
+        q_9 = None
+        matmul_9 = attn_9 @ transpose_59
+        attn_9 = transpose_59 = None
+        x_201 = matmul_9.transpose(-1, -2)
+        matmul_9 = None
+        transpose_61 = x_201.transpose(1, 2)
+        x_201 = None
+        x_202 = transpose_61.reshape(1, 196, 384)
+        transpose_61 = None
+        x_203 = torch._C._nn.linear(
+            x_202,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_proj_parameters_bias_,
+        )
+        x_202 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_attn_modules_proj_parameters_bias_ = (None)
+        x_204 = x_199 + x_203
+        x_199 = x_203 = None
+        transpose_62 = x_204.transpose(1, 2)
+        x_204 = None
+        view_58 = transpose_62.view(1, 384, 14, 14)
+        transpose_62 = None
+        feat_19 = torch.conv2d(
+            view_58,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe2_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe2_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            384,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe2_modules_proj_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_cpe2_modules_proj_parameters_bias_ = (None)
+        x_205 = view_58 + feat_19
+        view_58 = feat_19 = None
+        flatten_19 = x_205.flatten(2)
+        x_205 = None
+        x_206 = flatten_19.transpose(1, 2)
+        flatten_19 = None
+        x_207 = torch.nn.functional.layer_norm(
+            x_206,
+            (384,),
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm2_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm2_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm2_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_norm2_parameters_bias_ = (None)
+        x_208 = torch._C._nn.linear(
+            x_207,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc1_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc1_parameters_bias_,
+        )
+        x_207 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc1_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc1_parameters_bias_ = (None)
+        x_209 = torch._C._nn.gelu(x_208, approximate="none")
+        x_208 = None
+        x_210 = torch.nn.functional.dropout(x_209, 0.0, False, False)
+        x_209 = None
+        x_211 = torch._C._nn.linear(
+            x_210,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc2_parameters_weight_,
+            l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc2_parameters_bias_,
+        )
+        x_210 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc2_parameters_weight_ = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_1_modules_mlp_modules_fc2_parameters_bias_ = (None)
+        x_212 = torch.nn.functional.dropout(x_211, 0.0, False, False)
+        x_211 = None
+        x_213 = x_206 + x_212
+        x_206 = x_212 = None
+        transpose_64 = x_213.transpose(1, 2)
+        x_213 = None
+        x_214 = transpose_64.view(1, 384, 14, 14)
+        transpose_64 = None
+        x_215 = x_214.permute(0, 2, 3, 1)
+        x_214 = None
+        x_216 = torch.nn.functional.layer_norm(
+            x_215,
+            (384,),
+            l_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_bias_,
+            1e-05,
+        )
+        x_215 = l_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_weight_ = l_self_modules_stages_modules_3_modules_downsample_modules_norm_parameters_bias_ = (None)
+        x_217 = x_216.permute(0, 3, 1, 2)
+        x_216 = None
+        x_218 = torch._C._nn.pad(x_217, (0, 0, 0, 0), "constant", None)
+        x_217 = None
+        x_219 = torch.conv2d(
+            x_218,
+            l_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_bias_,
+            (2, 2),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        x_218 = l_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_weight_ = l_self_modules_stages_modules_3_modules_downsample_modules_conv_parameters_bias_ = (None)
+        feat_20 = torch.conv2d(
+            x_219,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            768,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe1_modules_proj_parameters_bias_ = (None)
+        x_220 = x_219 + feat_20
+        x_219 = feat_20 = None
+        flatten_20 = x_220.flatten(2)
+        x_220 = None
+        shortcut_5 = flatten_20.transpose(1, 2)
+        flatten_20 = None
+        x_221 = torch.nn.functional.layer_norm(
+            shortcut_5,
+            (768,),
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm1_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm1_parameters_bias_ = (None)
+        x_222 = x_221.view(1, 7, 7, 768)
+        x_221 = None
+        x_223 = torch._C._nn.pad(x_222, (0, 0, 0, 0, 0, 0), "constant", None)
+        x_222 = None
+        x_224 = x_223.view(1, 1, 7, 1, 7, 768)
+        x_223 = None
+        permute_28 = x_224.permute(0, 1, 3, 2, 4, 5)
+        x_224 = None
+        contiguous_15 = permute_28.contiguous()
+        permute_28 = None
+        windows_5 = contiguous_15.view(-1, 7, 7, 768)
+        contiguous_15 = None
+        x_windows_5 = windows_5.view(-1, 49, 768)
+        windows_5 = None
+        linear_40 = torch._C._nn.linear(
+            x_windows_5,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_,
+        )
+        x_windows_5 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_qkv_parameters_bias_ = (None)
+        reshape_20 = linear_40.reshape(1, 49, 3, 24, 32)
+        linear_40 = None
+        qkv_10 = reshape_20.permute(2, 0, 3, 1, 4)
+        reshape_20 = None
+        unbind_10 = qkv_10.unbind(0)
+        qkv_10 = None
+        q_10 = unbind_10[0]
+        k_15 = unbind_10[1]
+        v_10 = unbind_10[2]
+        unbind_10 = None
+        x_225 = torch._C._nn.scaled_dot_product_attention(q_10, k_15, v_10)
+        q_10 = k_15 = v_10 = None
+        transpose_66 = x_225.transpose(1, 2)
+        x_225 = None
+        x_226 = transpose_66.reshape(1, 49, 768)
+        transpose_66 = None
+        x_227 = torch._C._nn.linear(
+            x_226,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_,
+        )
+        x_226 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_attn_modules_proj_parameters_bias_ = (None)
+        attn_windows_5 = x_227.view(-1, 7, 7, 768)
+        x_227 = None
+        x_228 = attn_windows_5.view(-1, 1, 1, 7, 7, 768)
+        attn_windows_5 = None
+        permute_30 = x_228.permute(0, 1, 3, 2, 4, 5)
+        x_228 = None
+        contiguous_16 = permute_30.contiguous()
+        permute_30 = None
+        x_229 = contiguous_16.view(-1, 7, 7, 768)
+        contiguous_16 = None
+        getitem_38 = x_229[
+            (
+                slice(None, None, None),
+                slice(None, 7, None),
+                slice(None, 7, None),
+                slice(None, None, None),
+            )
+        ]
+        x_229 = None
+        x_230 = getitem_38.contiguous()
+        getitem_38 = None
+        x_231 = x_230.view(1, 49, 768)
+        x_230 = None
+        x_232 = shortcut_5 + x_231
+        shortcut_5 = x_231 = None
+        transpose_67 = x_232.transpose(1, 2)
+        x_232 = None
+        view_68 = transpose_67.view(1, 768, 7, 7)
+        transpose_67 = None
+        feat_21 = torch.conv2d(
+            view_68,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            768,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_cpe2_modules_proj_parameters_bias_ = (None)
+        x_233 = view_68 + feat_21
+        view_68 = feat_21 = None
+        flatten_21 = x_233.flatten(2)
+        x_233 = None
+        x_234 = flatten_21.transpose(1, 2)
+        flatten_21 = None
+        x_235 = torch.nn.functional.layer_norm(
+            x_234,
+            (768,),
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm2_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_norm2_parameters_bias_ = (None)
+        x_236 = torch._C._nn.linear(
+            x_235,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_,
+        )
+        x_235 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc1_parameters_bias_ = (None)
+        x_237 = torch._C._nn.gelu(x_236, approximate="none")
+        x_236 = None
+        x_238 = torch.nn.functional.dropout(x_237, 0.0, False, False)
+        x_237 = None
+        x_239 = torch._C._nn.linear(
+            x_238,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_,
+        )
+        x_238 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_0_modules_mlp_modules_fc2_parameters_bias_ = (None)
+        x_240 = torch.nn.functional.dropout(x_239, 0.0, False, False)
+        x_239 = None
+        x_241 = x_234 + x_240
+        x_234 = x_240 = None
+        transpose_69 = x_241.transpose(1, 2)
+        x_241 = None
+        x_242 = transpose_69.view(1, 768, 7, 7)
+        transpose_69 = None
+        feat_22 = torch.conv2d(
+            x_242,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            768,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe1_modules_proj_parameters_bias_ = (None)
+        x_243 = x_242 + feat_22
+        x_242 = feat_22 = None
+        flatten_22 = x_243.flatten(2)
+        x_243 = None
+        x_244 = flatten_22.transpose(1, 2)
+        flatten_22 = None
+        x_245 = torch.nn.functional.layer_norm(
+            x_244,
+            (768,),
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm1_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm1_parameters_bias_ = (None)
+        linear_44 = torch._C._nn.linear(
+            x_245,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_,
+        )
+        x_245 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_qkv_parameters_bias_ = (None)
+        reshape_22 = linear_44.reshape(1, 49, 3, 24, 32)
+        linear_44 = None
+        qkv_11 = reshape_22.permute(2, 0, 3, 1, 4)
+        reshape_22 = None
+        unbind_11 = qkv_11.unbind(0)
+        qkv_11 = None
+        q_11 = unbind_11[0]
+        k_16 = unbind_11[1]
+        v_11 = unbind_11[2]
+        unbind_11 = None
+        k_17 = k_16 * 0.1767766952966369
+        k_16 = None
+        transpose_71 = k_17.transpose(-1, -2)
+        k_17 = None
+        attn_10 = transpose_71 @ v_11
+        transpose_71 = v_11 = None
+        attn_11 = attn_10.softmax(dim=-1)
+        attn_10 = None
+        transpose_72 = q_11.transpose(-1, -2)
+        q_11 = None
+        matmul_11 = attn_11 @ transpose_72
+        attn_11 = transpose_72 = None
+        x_246 = matmul_11.transpose(-1, -2)
+        matmul_11 = None
+        transpose_74 = x_246.transpose(1, 2)
+        x_246 = None
+        x_247 = transpose_74.reshape(1, 49, 768)
+        transpose_74 = None
+        x_248 = torch._C._nn.linear(
+            x_247,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_,
+        )
+        x_247 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_attn_modules_proj_parameters_bias_ = (None)
+        x_249 = x_244 + x_248
+        x_244 = x_248 = None
+        transpose_75 = x_249.transpose(1, 2)
+        x_249 = None
+        view_70 = transpose_75.view(1, 768, 7, 7)
+        transpose_75 = None
+        feat_23 = torch.conv2d(
+            view_70,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_,
+            (1, 1),
+            (1, 1),
+            (1, 1),
+            768,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_cpe2_modules_proj_parameters_bias_ = (None)
+        x_250 = view_70 + feat_23
+        view_70 = feat_23 = None
+        flatten_23 = x_250.flatten(2)
+        x_250 = None
+        x_251 = flatten_23.transpose(1, 2)
+        flatten_23 = None
+        x_252 = torch.nn.functional.layer_norm(
+            x_251,
+            (768,),
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_,
+            1e-05,
+        )
+        l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm2_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_norm2_parameters_bias_ = (None)
+        x_253 = torch._C._nn.linear(
+            x_252,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_,
+        )
+        x_252 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc1_parameters_bias_ = (None)
+        x_254 = torch._C._nn.gelu(x_253, approximate="none")
+        x_253 = None
+        x_255 = torch.nn.functional.dropout(x_254, 0.0, False, False)
+        x_254 = None
+        x_256 = torch._C._nn.linear(
+            x_255,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_,
+            l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_,
+        )
+        x_255 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_weight_ = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_1_modules_mlp_modules_fc2_parameters_bias_ = (None)
+        x_257 = torch.nn.functional.dropout(x_256, 0.0, False, False)
+        x_256 = None
+        x_258 = x_251 + x_257
+        x_251 = x_257 = None
+        transpose_77 = x_258.transpose(1, 2)
+        x_258 = None
+        x_259 = transpose_77.view(1, 768, 7, 7)
+        transpose_77 = None
+        x_260 = torch.nn.functional.adaptive_avg_pool2d(x_259, 1)
+        x_259 = None
+        x_261 = x_260.permute(0, 2, 3, 1)
+        x_260 = None
+        x_262 = torch.nn.functional.layer_norm(
+            x_261,
+            (768,),
+            l_self_modules_head_modules_norm_parameters_weight_,
+            l_self_modules_head_modules_norm_parameters_bias_,
+            1e-05,
+        )
+        x_261 = (
+            l_self_modules_head_modules_norm_parameters_weight_
+        ) = l_self_modules_head_modules_norm_parameters_bias_ = None
+        x_263 = x_262.permute(0, 3, 1, 2)
+        x_262 = None
+        x_264 = x_263.flatten(1, -1)
+        x_263 = None
+        x_265 = torch.nn.functional.dropout(x_264, 0.0, False, False)
+        x_264 = None
+        x_266 = torch._C._nn.linear(
+            x_265,
+            l_self_modules_head_modules_fc_parameters_weight_,
+            l_self_modules_head_modules_fc_parameters_bias_,
+        )
+        x_265 = (
+            l_self_modules_head_modules_fc_parameters_weight_
+        ) = l_self_modules_head_modules_fc_parameters_bias_ = None
+        return (x_266,)

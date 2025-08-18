@@ -170,4 +170,4 @@ def replay_tensor(info):
     if "data" in info and info["data"] is not None:
         return info["data"].to(device)
 
-    return paddle.randn(shape).to(dtype).to(device) * std * 1e-3 + 1e-2
+    return (paddle.randn(shape).cast(dtype).to(device) * std * 1e-3 + 1e-2).cast(dtype)

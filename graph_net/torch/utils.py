@@ -265,4 +265,6 @@ def replay_tensor(info):
     std = info["info"]["std"]
     if "data" in info and info["data"] is not None:
         return info["data"].to(device)
+    if dtype is torch.bool:
+        return (torch.randn(size=shape) > 0.5).to(dtype).to(device)
     return torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean

@@ -180,8 +180,8 @@ def replay_tensor(info):
     elif dtype == paddle.bool:
         return paddle.cast(
             paddle.randint(low=0, high=2, shape=shape, dtype="int32"),
-            paddle.bool.to(device),
-        )
+            paddle.bool,
+        ).to(device)
     else:
         std = info["info"]["std"]
         # return paddle.randn(shape).to(dtype).to(device) * std * 1e-3 + 1e-2

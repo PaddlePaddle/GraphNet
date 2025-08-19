@@ -71,10 +71,13 @@ def main(args):
     print(np.argmin(y), np.argmax(y))
     if isinstance(y, paddle.Tensor):
         print(y.shape)
-    elif isinstance(y, list) or isinstance(y, tuple):
+    elif (isinstance(y, list) or isinstance(y, tuple)) and all(
+        isinstance(obj, paddle.Tensor) for obj in y
+    ):
+        # list of paddle.Tensor
         print(y[0].shape)
     else:
-        raise ValueError("Illegal Return Value.")
+        raise ValueError("Illegal return value.")
 
     if not args.no_check_redundancy:
         print("Check redundancy ...")

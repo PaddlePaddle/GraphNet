@@ -127,14 +127,15 @@ def convert_meta_classes_to_tensors(file_path):
             if not k.startswith("__") and not callable(v)
         }
         data_value = None
-        data_type = getattr(paddle, attrs.get("dtype", "paddle.float").split(".")[-1])
+        data_type = getattr(paddle, attrs.get("dtype", "float32"))
         if attrs.get("data") is not None:
             if isinstance(attrs.get("data"), str):
                 raise ValueError("Unimplemented")
             else:
-                data_value = paddle.to_tensor(
-                    attrs.get("data"), dtype=data_type
-                ).reshape(attrs.get("shape"), [])
+                data_value = paddle.reshape(
+                    paddle.to_tensor(attrs.get("data"), dtype=data_type),
+                    attrs.get("shape", []),
+                )
         yield {
             "info": {
                 "shape": attrs.get("shape", []),
@@ -142,6 +143,8 @@ def convert_meta_classes_to_tensors(file_path):
                 "device": attrs.get("device", "gpu"),
                 "mean": attrs.get("mean", 0.0),
                 "std": attrs.get("std", 1.0),
+                "low": attrs.get("low", 0),
+                "high": attrs.get("high", 2),
             },
             "data": data_value,
             "name": attrs.get("name"),
@@ -163,11 +166,27 @@ def replay_tensor(info):
     device = info["info"]["device"]
     dtype = info["info"]["dtype"]
     shape = info["info"]["shape"]
+    min_value = info["info"]["low"] if "low" in info["info"] else 0
+    max_value = info["info"]["high"] if "high" in info["info"] else 0.5
     if None in shape:
         shape = list(map(lambda i: i if i is not None else 1, shape))
-    mean = info["info"]["mean"]
-    std = info["info"]["std"]
     if "data" in info and info["data"] is not None:
-        return info["data"].to(device)
-
-    return (paddle.randn(shape).cast(dtype).to(device) * std * 1e-3 + 1e-2).cast(dtype)
+        return paddle.reshape(info["data"], shape).to(dtype).to(device)
+    elif dtype == paddle.int32 or dtype == paddle.int64:
+        return paddle.cast(
+            paddle.randint(low=min_value, high=max_value, shape=shape, dtype="int64"),
+            dtype,
+        ).to(device)
+    elif dtype == paddle.bool:
+        return paddle.cast(
+            paddle.randint(low=0, high=2, shape=shape, dtype="int32"),
+            paddle.bool,
+        ).to(device)
+    else:
+        std = info["info"]["std"]
+        # return paddle.randn(shape).to(dtype).to(device) * std * 1e-3 + 1e-2
+        return (
+            paddle.uniform(shape, dtype="float32", min=min_value, max=max_value)
+            .to(dtype)
+            .to(device)
+        )

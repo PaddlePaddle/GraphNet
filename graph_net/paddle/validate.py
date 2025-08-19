@@ -71,11 +71,8 @@ def main(args):
     print(np.argmin(y), np.argmax(y))
     if isinstance(y, paddle.Tensor):
         print(y.shape)
-    elif (isinstance(y, list) or isinstance(y, tuple)) and all(
-        isinstance(obj, paddle.Tensor) for obj in y
-    ):
-        # list of paddle.Tensor
-        print(y[0].shape)
+    elif isinstance(y, list) or isinstance(y, tuple):
+        print(y[0].shape if isinstance(y[0], paddle.tensor) else y[0])
     else:
         raise ValueError("Illegal return value.")
 

@@ -132,9 +132,9 @@ def convert_meta_classes_to_tensors(file_path):
             if isinstance(attrs.get("data"), str):
                 raise ValueError("Unimplemented")
             else:
-                data_value = paddle.tensor(attrs["data"], dtype=data_type).reshape(
-                    attrs.get("shape"), []
-                )
+                data_value = paddle.to_tensor(
+                    attrs.get("data"), dtype=data_type
+                ).reshape(attrs.get("shape"), [])
         yield {
             "info": {
                 "shape": attrs.get("shape", []),
@@ -170,4 +170,4 @@ def replay_tensor(info):
     if "data" in info and info["data"] is not None:
         return info["data"].to(device)
 
-    return paddle.randn(shape).to(dtype).to(device) * std * 1e-3 + 1e-2
+    return (paddle.randn(shape).cast(dtype).to(device) * std * 1e-3 + 1e-2).cast(dtype)

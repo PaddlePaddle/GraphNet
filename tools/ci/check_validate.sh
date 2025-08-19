@@ -13,6 +13,21 @@ export PYTHONPATH=${GRAPH_NET_EXTRACT_WORKSPACE}:$PYTHONPATH
 
 [ -z "$CUDA_VISIBLE_DEVICES" ] && CUDA_VISIBLE_DEVICES="0"
 
+function check_paths_without_spaces() {
+  LOG "[INFO] Checking for spaces in modified file paths..."
+  git config --global --add safe.directory "*"
+  mapfile -t MODIFIED_FILES < <(git diff --name-only develop | grep -E "\bsamples\b/|\bpaddle_samples\b/")
+  
+  for file in "${MODIFIED_FILES[@]}"; do
+    if [[ "${file}" == *" "* ]]; then
+      LOG "[FATAL] File path contains spaces, which is not allowed. Please rename the file or directory."
+      LOG "[FATAL] Offending path: '${file}'"
+      exit 1
+    fi
+  done
+  LOG "[INFO] No spaces found in file paths. Continuing..."
+}
+
 function prepare_torch_env() {
   git config --global --add safe.directory "*"
   num_changed_samples=$(git diff --name-only develop | grep -E "\bsamples\b/(.*\.py|.*\.json)" | wc -l)
@@ -62,18 +77,27 @@ function check_torch_validation() {
     MODIFIED_MODEL_PATHS[${#MODIFIED_MODEL_PATHS[@]}]=$model_path
   done
   MODIFIED_MODEL_PATHS=($(echo ${MODIFIED_MODEL_PATHS[@]} | tr ' ' '\n' | sort | uniq))
-  LOG "[INFO] Validation of these models will run: ${MODIFIED_MODEL_PATHS[@]}"
+  local total_models=${#MODIFIED_MODEL_PATHS[@]}
+  if [ ${total_models} -eq 0 ]; then
+    LOG "[INFO] No changed torch sample models detected. Skip torch validation."
+    return 0
+  fi
+  LOG "[INFO] Validation will run on ${total_models} torch model path(s):"
+  printf "  - %s\n" "${MODIFIED_MODEL_PATHS[@]}" >&2
   fail_name=()
   for model_path in ${MODIFIED_MODEL_PATHS[@]}
   do
     python -m graph_net.torch.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} --graph-net-samples-path ${GRAPH_NET_EXTRACT_WORKSPACE}/samples >&2
     [ $? -ne 0 ] && fail_name[${#fail_name[@]}]="${model_path}"
   done
-  if [ ${#fail_name[@]} -ne 0 ]
-  then
-    LOG "[FATAL] Failed tests: ${fail_name[@]}"
-    echo ${fail_name[@]}
+  local failed_cnt=${#fail_name[@]}
+  if [ ${failed_cnt} -ne 0 ]; then
+    LOG "[FATAL] Failed tests (${failed_cnt}/${total_models}):"
+    printf "  - %s\n" "${fail_name[@]}" >&2
+    printf "%s\n" "${fail_name[@]}"
     exit -1
+  else
+    LOG "[INFO] All torch sample validations passed (0 failures / ${total_models} total)."
   fi
 }
 
@@ -87,18 +111,27 @@ function check_paddle_validation() {
     MODIFIED_MODEL_PATHS[${#MODIFIED_MODEL_PATHS[@]}]=$model_path
   done
   MODIFIED_MODEL_PATHS=($(echo ${MODIFIED_MODEL_PATHS[@]} | tr ' ' '\n' | sort | uniq))
-  LOG "[INFO] Validation of these models will run: ${MODIFIED_MODEL_PATHS[@]}"
+  local total_models=${#MODIFIED_MODEL_PATHS[@]}
+  if [ ${total_models} -eq 0 ]; then
+    LOG "[INFO] No changed paddle sample models detected. Skip paddle validation."
+    return 0
+  fi
+  LOG "[INFO] Validation will run on ${total_models} paddle model path(s):"
+  printf "  - %s\n" "${MODIFIED_MODEL_PATHS[@]}" >&2
   fail_name=()
   for model_path in ${MODIFIED_MODEL_PATHS[@]}
   do
     python -m graph_net.paddle.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} --graph-net-samples-path ${GRAPH_NET_EXTRACT_WORKSPACE}/samples >&2
     [ $? -ne 0 ] && fail_name[${#fail_name[@]}]="${model_path}"
   done
-  if [ ${#fail_name[@]} -ne 0 ]
-  then
-    LOG "[FATAL] Failed tests: ${fail_name[@]}"
-    echo ${fail_name[@]}
+  local failed_cnt=${#fail_name[@]}
+  if [ ${failed_cnt} -ne 0 ]; then
+    LOG "[FATAL] Failed tests (${failed_cnt}/${total_models}):"
+    printf "  - %s\n" "${fail_name[@]}" >&2
+    printf "%s\n" "${fail_name[@]}"
     exit -1
+  else
+    LOG "[INFO] All paddle sample validations passed (0 failures / ${total_models} total)."
   fi
 }
 
@@ -109,13 +142,17 @@ function summary_problems() {
   then
     LOG "[FATAL] ============================================"
     LOG "[FATAL] Summary problems:"
-    LOG "[FATAL] === API test error - Please fix the failed API tests accroding to fatal log:"
-    LOG "[FATAL] $check_validation_info"
+    local failed_list=($check_validation_info)
+    local failed_count=${#failed_list[@]}
+    LOG "[FATAL] === API test error (${failed_count} failure(s)) - Please fix the failed API tests according to fatal log:"
+    LOG "[FATAL] Failed model path(s):"
+    printf "  - %s\n" "${failed_list[@]}" >&2
     exit $check_validation_code
   fi
 }
 
 function main() {
+  check_paths_without_spaces
   prepare_torch_env
   check_validation_info=$(check_torch_validation)
   check_validation_code=$?

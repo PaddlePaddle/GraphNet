@@ -113,7 +113,6 @@ def load_converted_list_from_text(file_path):
     input_info = [
         data for data in convert_meta_classes_to_tensors(f"{file_path}/input_meta.py")
     ]
-    # print(f"-- input_info: {input_info}")
     weight_info = [
         data for data in convert_meta_classes_to_tensors(f"{file_path}/weight_meta.py")
     ]
@@ -122,7 +121,6 @@ def load_converted_list_from_text(file_path):
 
 def convert_meta_classes_to_tensors(file_path):
     for name, cls in _get_classes(file_path):
-        # print(f"-- name: {name}")
         attrs = {
             k: v
             for k, v in cls.__dict__.items()
@@ -162,7 +160,6 @@ def _get_classes(file_path):
     spec = importlib.util.spec_from_file_location("unnamed", file_path)
     unnamed = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(unnamed)
-    # yield from inspect.getmembers(unnamed, inspect.isclass)
 
     classes = [(name, getattr(unnamed, name)) for name in class_names]
     return classes

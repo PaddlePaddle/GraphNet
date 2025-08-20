@@ -115,12 +115,24 @@ def test_single_model(args):
     with naive_timer(compiled_duration_box, synchronizer_func):
         compiled_out = compiled_model(**input_dict)
     if isinstance(expected_out, paddle.Tensor):
-        expected_out = [expected_out.numpy()]
-        compiled_out = [compiled_out.numpy()]
+        expected_out = [expected_out.numpy().astype("float32")]
+        compiled_out = [compiled_out.numpy().astype("float32")]
     elif isinstance(expected_out, list) or isinstance(expected_out, tuple):
-        for i in len(expected_out):
-            expected_out[i] = np.array(expected_out[i])
-            compiled_out[i] = np.array(compiled_out[i])
+        if isinstance(expected_out, tuple):
+            expected_out = list(expected_out)
+            compiled_out = list(compiled_out)
+        new_expected = [
+            np.array(item).astype("float32")
+            for item in expected_out
+            if np.array(item).size != 0
+        ]
+        new_compiled = [
+            np.array(item).astype("float32")
+            for item in compiled_out
+            if np.array(item).size != 0
+        ]
+        expected_out = new_expected
+        compiled_out = new_compiled
     else:
         raise ValueError("Illegal return value.")
 

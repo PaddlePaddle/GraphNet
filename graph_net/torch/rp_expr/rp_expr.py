@@ -372,11 +372,6 @@ class LetsListTokenRpExpr(TokenRpExpr):
             for start, end in [get_range(int(consecutive_tensor.size(0)))]
         ]
 
-        # Sort by length in descending order, giving priority to long patterns
-        segments.sort(key=lambda x: len(x), reverse=True)
-
-        # print("\n>>> segments:", segments)
-
         return segments
 
     def _getter_auto_symbol_token_id(self, token_id2primitive_id):

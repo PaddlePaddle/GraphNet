@@ -73,10 +73,24 @@ def get_input_spec(args):
     inputs_params_list = utils.load_converted_list_from_text(f"{args.model_path}")
     input_spec = [None] * len(inputs_params_list)
     for i, v in enumerate(inputs_params_list):
+        name = v["name"]
         dtype = v["info"]["dtype"]
         shape = v["info"]["shape"]
+        # print(f"-- i: {i}, v: name={name}, shape={shape}, dtype={dtype}")
         input_spec[i] = paddle.static.InputSpec(shape, dtype)
     return input_spec
+
+
+def regular_item(item):
+    if isinstance(item, paddle.Tensor) and (
+        item.dtype == paddle.bfloat16 or item.dtype == paddle.bfloat32
+    ):
+        item = np.array(item.astype("float32"))
+    else:
+        item = np.array(item)
+    if item.dtype == np.bool_:
+        item = item.astype("float32")
+    return item
 
 
 def test_single_model(args):
@@ -88,20 +102,18 @@ def test_single_model(args):
     build_strategy.build_cinn_pass = False
 
     # eager
-    model = paddle.jit.to_static(
-        model_dy,
-        full_graph=False,
-    )
-    model.eval()
+    print("-- Run with eager mode")
+    model_dy.eval()
     for _ in range(args.warmup if args.warmup > 0 else 0):
-        model(**input_dict)
+        model_dy(**input_dict)
     eager_duration_box = DurationBox(-1)
     with naive_timer(eager_duration_box, synchronizer_func):
-        expected_out = model(**input_dict)
+        expected_out = model_dy(**input_dict)
 
     # compiled
+    print("-- Run with compiled mode")
     build_strategy = paddle.static.BuildStrategy()
-    build_strategy.build_cinn_pass = True
+    # build_strategy.build_cinn_pass = True
     compiled_model = paddle.jit.to_static(
         model_dy,
         input_spec=input_spec,
@@ -115,11 +127,15 @@ def test_single_model(args):
     with naive_timer(compiled_duration_box, synchronizer_func):
         compiled_out = compiled_model(**input_dict)
     if isinstance(expected_out, paddle.Tensor):
-        expected_out = expected_out.numpy()
-        compiled_out = compiled_out.numpy()
-    elif isinstance(expected_out, list) or isinstance(expected_out, tuple):
-        expected_out = expected_out[0].numpy()
-        compiled_out = compiled_out[0].numpy()
+        expected_out = [expected_out]
+        compiled_out = [compiled_out]
+    if isinstance(expected_out, list) or isinstance(expected_out, tuple):
+        expected_out = [
+            regular_item(item) for item in expected_out if np.array(item).size != 0
+        ]
+        compiled_out = [
+            regular_item(item) for item in compiled_out if np.array(item).size != 0
+        ]
     else:
         raise ValueError("Illegal return value.")
 

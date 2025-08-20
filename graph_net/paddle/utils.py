@@ -180,6 +180,7 @@ def replay_tensor(info):
     if "data" in info and info["data"] is not None:
         return paddle.reshape(info["data"], shape).to(dtype).to(device)
     elif dtype == paddle.int32 or dtype == paddle.int64:
+        # for some ops(binary_cross_entropy), label data can only be set 0 or 1.
         return paddle.cast(
             paddle.randint(low=0, high=2, shape=shape, dtype="int64"),
             dtype,

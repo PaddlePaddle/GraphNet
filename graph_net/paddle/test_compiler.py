@@ -114,8 +114,14 @@ def test_single_model(args):
     compiled_duration_box = DurationBox(-1)
     with naive_timer(compiled_duration_box, synchronizer_func):
         compiled_out = compiled_model(**input_dict)
-    expected_out = expected_out.numpy()
-    compiled_out = compiled_out.numpy()
+    if isinstance(expected_out, paddle.Tensor):
+        expected_out = expected_out.numpy()
+        compiled_out = compiled_out.numpy()
+    elif isinstance(expected_out, list) or isinstance(expected_out, tuple):
+        expected_out = expected_out[0].numpy()
+        compiled_out = compiled_out[0].numpy()
+    else:
+        raise ValueError("Illegal return value.")
 
     def print_cmp(key, func, **kwargs):
         cmp_ret = func(expected_out, compiled_out, **kwargs)

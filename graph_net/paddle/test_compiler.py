@@ -81,6 +81,18 @@ def get_input_spec(args):
     return input_spec
 
 
+def regular_item(item):
+    if isinstance(item, paddle.Tensor) and (
+        item.dtype == paddle.bfloat16 or item.dtype == paddle.bfloat32
+    ):
+        item = np.array(item.astype("float32"))
+    else:
+        item = np.array(item)
+    if item.dtype == np.bool_:
+        item = item.astype("float32")
+    return item
+
+
 def test_single_model(args):
     synchronizer_func = get_synchronizer_func(args)
     input_dict = get_input_dict(args)
@@ -115,24 +127,15 @@ def test_single_model(args):
     with naive_timer(compiled_duration_box, synchronizer_func):
         compiled_out = compiled_model(**input_dict)
     if isinstance(expected_out, paddle.Tensor):
-        expected_out = [expected_out.numpy().astype("float32")]
-        compiled_out = [compiled_out.numpy().astype("float32")]
-    elif isinstance(expected_out, list) or isinstance(expected_out, tuple):
-        if isinstance(expected_out, tuple):
-            expected_out = list(expected_out)
-            compiled_out = list(compiled_out)
-        new_expected = [
-            np.array(item).astype("float32")
-            for item in expected_out
-            if np.array(item).size != 0
+        expected_out = [expected_out]
+        compiled_out = [compiled_out]
+    if isinstance(expected_out, list) or isinstance(expected_out, tuple):
+        expected_out = [
+            regular_item(item) for item in expected_out if np.array(item).size != 0
         ]
-        new_compiled = [
-            np.array(item).astype("float32")
-            for item in compiled_out
-            if np.array(item).size != 0
+        compiled_out = [
+            regular_item(item) for item in compiled_out if np.array(item).size != 0
         ]
-        expected_out = new_expected
-        compiled_out = new_compiled
     else:
         raise ValueError("Illegal return value.")
 

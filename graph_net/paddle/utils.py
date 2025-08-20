@@ -184,7 +184,7 @@ def replay_tensor(info):
         return paddle.reshape(info["data"], shape).to(dtype).to(device)
     elif dtype == paddle.int32 or dtype == paddle.int64:
         return paddle.cast(
-            paddle.randint(low=0, high=1, shape=shape, dtype="int64"),
+            paddle.randint(low=0, high=2, shape=shape, dtype="int64"),
             dtype,
         ).to(device)
     elif dtype == paddle.bool:

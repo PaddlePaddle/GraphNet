@@ -82,9 +82,7 @@ def get_input_spec(args):
 
 
 def regular_item(item):
-    if isinstance(item, paddle.Tensor) and (
-        item.dtype == paddle.bfloat16 or item.dtype == paddle.bfloat32
-    ):
+    if isinstance(item, paddle.Tensor) and (item.dtype == paddle.bfloat16):
         item = np.array(item.astype("float32"))
     else:
         item = np.array(item)

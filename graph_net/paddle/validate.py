@@ -66,9 +66,9 @@ def main(args):
     params.update(inputs)
     state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
 
-    y = model(**state_dict)[0]
+    y = model(**state_dict)
 
-    print(np.argmin(y), np.argmax(y))
+    # print(np.argmin(y), np.argmax(y))
     if isinstance(y, paddle.Tensor):
         print(y.shape)
     elif isinstance(y, list) or isinstance(y, tuple):

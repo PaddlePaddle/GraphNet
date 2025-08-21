@@ -98,11 +98,11 @@ Once you have packaged these extracted computation graphs, submit them to the Gr
 <table>
 <tr>
 <td align="center">
-    <img width="200" src="https://github.com/user-attachments/assets/eef90a3e-ce83-4757-94ea-b0c0757785f0" />
+    <img width="200" src="https://github.com/user-attachments/assets/3ea4794b-1aed-4096-bd1c-3184832b98f3" />
 </td>
 <td align="center">
     <img width="150" src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/67d00cf7266d2c75571aebde_Example.svg" />
-    <p><a href="https://discord.gg/43XQ3tf7">Channel</a> is also available.</p>
+    <p><a href="https://discord.gg/FCZQVCkC">Channel</a> is also available.</p>
 </td>
 </tr>
 </table>

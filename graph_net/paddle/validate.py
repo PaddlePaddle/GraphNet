@@ -72,7 +72,7 @@ def main(args):
     if isinstance(y, paddle.Tensor):
         print(y.shape)
     elif isinstance(y, list) or isinstance(y, tuple):
-        print(y[0].shape if isinstance(y[0], paddle.tensor) else y[0])
+        print(y[0].shape if isinstance(y[0], paddle.Tensor) else y[0])
     else:
         raise ValueError("Illegal return value.")
 

@@ -6,6 +6,7 @@ import os
 import argparse
 import importlib
 import inspect
+import ast
 import paddle
 
 
@@ -115,8 +116,7 @@ def load_converted_list_from_text(file_path):
     weight_info = [
         data for data in convert_meta_classes_to_tensors(f"{file_path}/weight_meta.py")
     ]
-
-    return [*input_info, *weight_info]
+    return [*weight_info, *input_info]
 
 
 def convert_meta_classes_to_tensors(file_path):
@@ -152,10 +152,17 @@ def convert_meta_classes_to_tensors(file_path):
 
 
 def _get_classes(file_path):
+    with open(file_path, "r", encoding="utf-8") as f:
+        tree = ast.parse(f.read(), filename=file_path)
+
+    class_names = [node.name for node in tree.body if isinstance(node, ast.ClassDef)]
+
     spec = importlib.util.spec_from_file_location("unnamed", file_path)
     unnamed = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(unnamed)
-    yield from inspect.getmembers(unnamed, inspect.isclass)
+
+    classes = [(name, getattr(unnamed, name)) for name in class_names]
+    return classes
 
 
 def extract_dynamic_shapes(example_inputs):
@@ -173,8 +180,9 @@ def replay_tensor(info):
     if "data" in info and info["data"] is not None:
         return paddle.reshape(info["data"], shape).to(dtype).to(device)
     elif dtype == paddle.int32 or dtype == paddle.int64:
+        # for some ops(binary_cross_entropy), label data can only be set 0 or 1.
         return paddle.cast(
-            paddle.randint(low=min_value, high=max_value, shape=shape, dtype="int64"),
+            paddle.randint(low=0, high=2, shape=shape, dtype="int64"),
             dtype,
         ).to(device)
     elif dtype == paddle.bool:

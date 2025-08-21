@@ -112,6 +112,7 @@ def test_single_model(args):
     print("-- Run with compiled mode")
     build_strategy = paddle.static.BuildStrategy()
     # build_strategy.build_cinn_pass = True
+    compilation_start_time = time.time()
     compiled_model = paddle.jit.to_static(
         model_dy,
         input_spec=input_spec,
@@ -148,7 +149,7 @@ def test_single_model(args):
         raise ValueError("Illegal return value.")
 
     def print_cmp(key, func, **kwargs):
-        cmp_ret = func(processed_expected_out, processed_compiled_out, **kwargs)
+        cmp_ret = func(expected_out, compiled_out, **kwargs)
         print(
             f"{args.log_prompt} {key} model_path:{args.model_path} {cmp_ret}",
             file=sys.stderr,

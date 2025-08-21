@@ -1,0 +1,147 @@
+import paddle
+
+
+class GraphModule(paddle.nn.Layer):
+    def __init__(self):
+        super().__init__()
+
+    def forward(
+        self,
+        parameter_0,
+        parameter_1,
+        parameter_2,
+        parameter_3,
+        parameter_4,
+        parameter_5,
+        parameter_6,
+        parameter_7,
+        data_0,
+        data_1,
+        data_2,
+        data_3,
+        data_4,
+        data_5,
+    ):
+        # pd_op.distribute_fpn_proposals: ([-1x4xf32, -1x4xf32, -1x4xf32, -1x4xf32], [-1xi32, -1xi32, -1xi32, -1xi32], -1x1xi32) <- (512x4xf32, 1xi64)
+        (
+            distribute_fpn_proposals_1,
+            distribute_fpn_proposals_2,
+            distribute_fpn_proposals_0,
+        ) = (lambda x, f: f(x))(
+            paddle._C_ops.distribute_fpn_proposals(data_0, data_1, 2, 5, 4, 224, False),
+            lambda out: out if isinstance(out, (list, tuple)) else (out, None, None),
+        )
+
+        # builtin.split: (-1x4xf32, -1x4xf32, -1x4xf32, -1x4xf32) <- ([-1x4xf32, -1x4xf32, -1x4xf32, -1x4xf32])
+        (
+            split_0,
+            split_1,
+            split_2,
+            split_3,
+        ) = distribute_fpn_proposals_1
+
+        # builtin.split: (-1xi32, -1xi32, -1xi32, -1xi32) <- ([-1xi32, -1xi32, -1xi32, -1xi32])
+        (
+            split_4,
+            split_5,
+            split_6,
+            split_7,
+        ) = distribute_fpn_proposals_2
+
+        # pd_op.roi_align: (-1x256x7x7xf32) <- (1x256x168x256xf32, -1x4xf32, -1xi32)
+        roi_align_0 = paddle._C_ops.roi_align(
+            data_2, split_0, split_4, 7, 7, float("0.25"), 0, True
+        )
+
+        # pd_op.roi_align: (-1x256x7x7xf32) <- (1x256x84x128xf32, -1x4xf32, -1xi32)
+        roi_align_1 = paddle._C_ops.roi_align(
+            data_3, split_1, split_5, 7, 7, float("0.125"), 0, True
+        )
+
+        # pd_op.roi_align: (-1x256x7x7xf32) <- (1x256x42x64xf32, -1x4xf32, -1xi32)
+        roi_align_2 = paddle._C_ops.roi_align(
+            data_4, split_2, split_6, 7, 7, float("0.0625"), 0, True
+        )
+
+        # pd_op.roi_align: (-1x256x7x7xf32) <- (1x256x21x32xf32, -1x4xf32, -1xi32)
+        roi_align_3 = paddle._C_ops.roi_align(
+            data_5, split_3, split_7, 7, 7, float("0.03125"), 0, True
+        )
+
+        # pd_op.full: (1xi32) <- ()
+        full_0 = paddle._C_ops.full(
+            [1], float("0"), paddle.int32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.assign: (1xi32) <- (1xi32)
+        assign_0 = full_0
+
+        # builtin.combine: ([-1x256x7x7xf32, -1x256x7x7xf32, -1x256x7x7xf32, -1x256x7x7xf32]) <- (-1x256x7x7xf32, -1x256x7x7xf32, -1x256x7x7xf32, -1x256x7x7xf32)
+        combine_0 = [roi_align_0, roi_align_1, roi_align_2, roi_align_3]
+
+        # pd_op.concat: (-1x256x7x7xf32) <- ([-1x256x7x7xf32, -1x256x7x7xf32, -1x256x7x7xf32, -1x256x7x7xf32], 1xi32)
+        concat_0 = paddle._C_ops.concat(combine_0, full_0)
+
+        # pd_op.gather: (-1x256x7x7xf32) <- (-1x256x7x7xf32, -1x1xi32, 1xi32)
+        gather_0 = paddle._C_ops.gather(concat_0, distribute_fpn_proposals_0, full_0)
+
+        # pd_op.flatten: (-1x12544xf32) <- (-1x256x7x7xf32)
+        flatten_0 = paddle._C_ops.flatten(gather_0, 1, 3)
+
+        # pd_op.matmul: (-1x1024xf32) <- (-1x12544xf32, 12544x1024xf32)
+        matmul_0 = paddle._C_ops.matmul(flatten_0, parameter_7, False, False)
+
+        # pd_op.add: (-1x1024xf32) <- (-1x1024xf32, 1024xf32)
+        add_2 = paddle._C_ops.add(matmul_0, parameter_6)
+
+        # pd_op.relu: (-1x1024xf32) <- (-1x1024xf32)
+        relu_0 = paddle._C_ops.relu(add_2)
+
+        # pd_op.matmul: (-1x1024xf32) <- (-1x1024xf32, 1024x1024xf32)
+        matmul_1 = paddle._C_ops.matmul(relu_0, parameter_5, False, False)
+
+        # pd_op.add: (-1x1024xf32) <- (-1x1024xf32, 1024xf32)
+        add_3 = paddle._C_ops.add(matmul_1, parameter_4)
+
+        # pd_op.relu: (-1x1024xf32) <- (-1x1024xf32)
+        relu_1 = paddle._C_ops.relu(add_3)
+
+        # pd_op.matmul: (-1x3xf32) <- (-1x1024xf32, 1024x3xf32)
+        matmul_2 = paddle._C_ops.matmul(relu_1, parameter_3, False, False)
+
+        # pd_op.add: (-1x3xf32) <- (-1x3xf32, 3xf32)
+        add_0 = paddle._C_ops.add(matmul_2, parameter_2)
+
+        # pd_op.matmul: (-1x8xf32) <- (-1x1024xf32, 1024x8xf32)
+        matmul_3 = paddle._C_ops.matmul(relu_1, parameter_1, False, False)
+
+        # pd_op.add: (-1x8xf32) <- (-1x8xf32, 8xf32)
+        add_1 = paddle._C_ops.add(matmul_3, parameter_0)
+        return (
+            distribute_fpn_proposals_0,
+            split_0,
+            split_1,
+            split_2,
+            split_3,
+            split_4,
+            split_5,
+            split_6,
+            split_7,
+            roi_align_0,
+            roi_align_1,
+            roi_align_2,
+            roi_align_3,
+            full_0,
+            concat_0,
+            assign_0,
+            gather_0,
+            flatten_0,
+            matmul_0,
+            relu_0,
+            matmul_1,
+            matmul_2,
+            matmul_3,
+            add_0,
+            add_1,
+            relu_1,
+        )

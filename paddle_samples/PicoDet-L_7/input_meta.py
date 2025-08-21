@@ -1,0 +1,72 @@
+class Program_weight_tensor_data_0:
+    name = "data_0"
+    shape = [8, 1, 8500]
+    dtype = "float32"
+    low = 0
+    high = 0.5
+    data = None
+
+
+class Program_weight_tensor_data_1:
+    name = "data_1"
+    shape = [8, 1, 1]
+    dtype = "int32"
+    data = [0, 0, 0, 0, 0, 0, 0, 3]
+
+
+class Program_weight_tensor_data_2:
+    name = "data_2"
+    shape = [8, 8500]
+    dtype = "float32"
+    low = 0
+    high = 0.5
+    data = None
+
+
+class Program_weight_tensor_data_3:
+    name = "data_3"
+    shape = [8, 1, 4]
+    dtype = "float32"
+    data = [
+        347.287,
+        0.0,
+        570.543,
+        208.13,
+        381.124,
+        171.221,
+        512.959,
+        265.974,
+        15.6098,
+        0.0,
+        390.244,
+        216.471,
+        275.064,
+        173.949,
+        403.064,
+        324.923,
+        200.533,
+        235.2,
+        266.667,
+        283.2,
+        193.488,
+        228.431,
+        262.946,
+        281.6,
+        420.267,
+        102.4,
+        499.2,
+        160.0,
+        401.067,
+        83.8835,
+        590.933,
+        369.709,
+    ]
+
+
+class Program_weight_tensor_data_4:
+    name = "data_4"
+    shape = [8, 8500, 4]
+    dtype = "float32"
+    low = 0
+    high = 0.5
+    data = None

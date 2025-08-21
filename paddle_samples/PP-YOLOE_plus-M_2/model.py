@@ -1,0 +1,101 @@
+import paddle
+
+
+class GraphModule(paddle.nn.Layer):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, data_0, data_1, data_2):
+        # pd_op.full: (1xi32) <- ()
+        full_1 = paddle._C_ops.full(
+            [1], float("5"), paddle.int32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.one_hot: (8x4116x5xf32) <- (8x4116xi32, 1xi32)
+        one_hot_0 = paddle._C_ops.one_hot(
+            data_1 % paddle.cast(full_1, data_1.dtype), full_1
+        )
+
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_1 = [0]
+
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_2 = [-1]
+
+        # pd_op.slice: (8x4116x4xf32) <- (8x4116x5xf32, 1xi64, 1xi64)
+        slice_0 = paddle._C_ops.slice(
+            one_hot_0, [2], full_int_array_1, full_int_array_2, [1], []
+        )
+
+        # pd_op.pow: (8x4116x4xf32) <- (8x4116x4xf32)
+        pow_0 = paddle._C_ops.pow(data_0, float("2"))
+
+        # pd_op.full: (1xf32) <- ()
+        full_0 = paddle._C_ops.full(
+            [1], float("0.75"), paddle.float32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.scale: (8x4116x4xf32) <- (8x4116x4xf32, 1xf32)
+        scale_0 = paddle._C_ops.scale(pow_0, full_0, float("0"), True)
+
+        # pd_op.full: (1xf32) <- ()
+        full_2 = paddle._C_ops.full(
+            [1], float("-1"), paddle.float32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.scale: (8x4116x4xf32) <- (8x4116x4xf32, 1xf32)
+        scale_1 = paddle._C_ops.scale(slice_0, full_2, float("1"), True)
+
+        # pd_op.multiply: (8x4116x4xf32) <- (8x4116x4xf32, 8x4116x4xf32)
+        multiply_0 = paddle._C_ops.multiply(scale_0, scale_1)
+
+        # pd_op.multiply: (8x4116x4xf32) <- (8x4116x4xf32, 8x4116x4xf32)
+        multiply_1 = paddle._C_ops.multiply(data_2, slice_0)
+
+        # pd_op.add: (8x4116x4xf32) <- (8x4116x4xf32, 8x4116x4xf32)
+        add_0 = paddle._C_ops.add(multiply_0, multiply_1)
+
+        # pd_op.bce_loss: (8x4116x4xf32) <- (8x4116x4xf32, 8x4116x4xf32)
+        bce_loss_0 = paddle._C_ops.bce_loss(data_0, data_2)
+
+        # pd_op.multiply: (8x4116x4xf32) <- (8x4116x4xf32, 8x4116x4xf32)
+        multiply_2 = paddle._C_ops.multiply(bce_loss_0, add_0)
+
+        # pd_op.full_int_array: (0xi64) <- ()
+        full_int_array_0 = []
+
+        # pd_op.sum: (xf32) <- (8x4116x4xf32, 0xi64)
+        sum_0 = paddle._C_ops.sum(multiply_2, full_int_array_0, None, False)
+
+        # pd_op.sum: (xf32) <- (8x4116x4xf32, 0xi64)
+        sum_1 = paddle._C_ops.sum(data_2, full_int_array_0, None, False)
+
+        # pd_op.full: (1xf32) <- ()
+        full_3 = paddle._C_ops.full(
+            [1], float("1"), paddle.float32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.full: (1xf32) <- ()
+        full_4 = paddle._C_ops.full(
+            [1], float("3.40282e+38"), paddle.float32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.clip: (xf32) <- (xf32, 1xf32, 1xf32)
+        clip_0 = paddle._C_ops.clip(sum_1, full_3, full_4)
+
+        # pd_op.divide: (xf32) <- (xf32, xf32)
+        divide_0 = paddle._C_ops.divide(sum_0, clip_0)
+        return (
+            full_0,
+            scale_0,
+            scale_1,
+            multiply_0,
+            multiply_1,
+            add_0,
+            bce_loss_0,
+            multiply_2,
+            full_int_array_0,
+            sum_0,
+            clip_0,
+            divide_0,
+        )

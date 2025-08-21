@@ -1,0 +1,93 @@
+import paddle
+
+
+class GraphModule(paddle.nn.Layer):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, data_0, data_1):
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_0 = [0]
+
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_1 = [1]
+
+        # pd_op.slice: (17xf32) <- (17x2xf32, 1xi64, 1xi64)
+        slice_0 = paddle._C_ops.slice(
+            data_0, [1], full_int_array_0, full_int_array_1, [1], [1]
+        )
+
+        # pd_op.slice: (17xf32) <- (17x4xf32, 1xi64, 1xi64)
+        slice_1 = paddle._C_ops.slice(
+            data_1, [1], full_int_array_0, full_int_array_1, [1], [1]
+        )
+
+        # pd_op.subtract: (17xf32) <- (17xf32, 17xf32)
+        subtract_0 = paddle._C_ops.subtract(slice_0, slice_1)
+
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_2 = [2]
+
+        # pd_op.slice: (17xf32) <- (17x2xf32, 1xi64, 1xi64)
+        slice_2 = paddle._C_ops.slice(
+            data_0, [1], full_int_array_1, full_int_array_2, [1], [1]
+        )
+
+        # pd_op.slice: (17xf32) <- (17x4xf32, 1xi64, 1xi64)
+        slice_3 = paddle._C_ops.slice(
+            data_1, [1], full_int_array_1, full_int_array_2, [1], [1]
+        )
+
+        # pd_op.subtract: (17xf32) <- (17xf32, 17xf32)
+        subtract_1 = paddle._C_ops.subtract(slice_2, slice_3)
+
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_3 = [3]
+
+        # pd_op.slice: (17xf32) <- (17x4xf32, 1xi64, 1xi64)
+        slice_4 = paddle._C_ops.slice(
+            data_1, [1], full_int_array_2, full_int_array_3, [1], [1]
+        )
+
+        # pd_op.subtract: (17xf32) <- (17xf32, 17xf32)
+        subtract_2 = paddle._C_ops.subtract(slice_4, slice_0)
+
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_4 = [4]
+
+        # pd_op.slice: (17xf32) <- (17x4xf32, 1xi64, 1xi64)
+        slice_5 = paddle._C_ops.slice(
+            data_1, [1], full_int_array_3, full_int_array_4, [1], [1]
+        )
+
+        # pd_op.subtract: (17xf32) <- (17xf32, 17xf32)
+        subtract_3 = paddle._C_ops.subtract(slice_5, slice_2)
+
+        # pd_op.full: (1xf32) <- ()
+        full_0 = paddle._C_ops.full(
+            [1], float("0"), paddle.float32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.full: (1xf32) <- ()
+        full_1 = paddle._C_ops.full(
+            [1], float("6.9"), paddle.float32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.clip: (17xf32) <- (17xf32, 1xf32, 1xf32)
+        clip_0 = paddle._C_ops.clip(subtract_0, full_0, full_1)
+
+        # pd_op.clip: (17xf32) <- (17xf32, 1xf32, 1xf32)
+        clip_1 = paddle._C_ops.clip(subtract_1, full_0, full_1)
+
+        # pd_op.clip: (17xf32) <- (17xf32, 1xf32, 1xf32)
+        clip_2 = paddle._C_ops.clip(subtract_2, full_0, full_1)
+
+        # pd_op.clip: (17xf32) <- (17xf32, 1xf32, 1xf32)
+        clip_3 = paddle._C_ops.clip(subtract_3, full_0, full_1)
+
+        # builtin.combine: ([17xf32, 17xf32, 17xf32, 17xf32]) <- (17xf32, 17xf32, 17xf32, 17xf32)
+        combine_0 = [clip_0, clip_1, clip_2, clip_3]
+
+        # pd_op.stack: (17x4xf32) <- ([17xf32, 17xf32, 17xf32, 17xf32])
+        stack_0 = paddle._C_ops.stack(combine_0, -1)
+        return stack_0

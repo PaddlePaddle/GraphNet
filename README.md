@@ -98,7 +98,7 @@ Once you have packaged these extracted computation graphs, submit them to the Gr
 <table>
 <tr>
 <td align="center">
-    <img width="200" src="https://github.com/user-attachments/assets/3ea4794b-1aed-4096-bd1c-3184832b98f3" />
+    <img width="200" src="https://github.com/user-attachments/assets/f097977b-2101-4ddf-8be2-4cf08cb40ba5" />
 </td>
 <td align="center">
     <img width="150" src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/67d00cf7266d2c75571aebde_Example.svg" />

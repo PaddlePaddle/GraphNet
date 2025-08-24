@@ -257,7 +257,7 @@ def extract_dynamic_shapes(example_inputs):
 
 
 def replay_tensor(info):
-    device = info["info"]["device"]
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     dtype = info["info"]["dtype"]
     shape = info["info"]["shape"]
 

@@ -12,16 +12,42 @@ import os.path
 from dataclasses import dataclass
 from contextlib import contextmanager
 import time
-import torch_tensorrt
+
+try:
+    import torch_tensorrt
+except ImportError:
+    torch_tensorrt = None
 
 
-def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Module]:
+registry_backend = {
+    "inductor": {
+        "compiler": torch.compile,
+        "backend": "inductor",
+        "synchronizer": torch.cuda.synchronize,
+    },
+    "tensorrt": {
+        "compiler": torch.compile,
+        "backend": "tensorrt",
+        "synchronizer": torch.cuda.synchronize,
+    },
+    "default": {
+        "compiler": torch.compile,
+        "backend": "inductor",
+        "synchronizer": torch.cuda.synchronize,
+    },
+}
+
+
+def load_class_from_file(
+    args: argparse.Namespace, class_name: str
+) -> Type[torch.nn.Module]:
+    file_path = f"{args.model_path}/model.py"
     file = Path(file_path).resolve()
     module_name = file.stem
 
     with open(file_path, "r", encoding="utf-8") as f:
         original_code = f.read()
-    if torch.cuda.is_available():
+    if args.device == "cuda":
         modified_code = original_code.replace("cpu", "cuda")
     else:
         modified_code = original_code
@@ -36,38 +62,32 @@ def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Modul
 
 
 def get_compiler(args):
-    if args.compiler == "tensorrt":
-        return torch.compile
-    else:
-        assert args.compiler == "default"
-        return torch.compile
+    assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
+    return registry_backend[args.compiler]["compiler"]
 
 
 def get_backend(args):
-    if args.compiler == "tensorrt":
-        return "tensorrt"
-    else:
-        assert args.compiler == "default"
-        return "inductor"
+    assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
+    return registry_backend[args.compiler]["backend"]
 
 
 def get_synchronizer_func(args):
-    assert args.compiler == "default" or args.compiler == "tensorrt"
-    return torch.cuda.synchronize
+    assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
+    return registry_backend[args.compiler]["synchronizer"]
 
 
 def get_model(args):
-    model_class = load_class_from_file(
-        f"{args.model_path}/model.py", class_name="GraphModule"
-    )
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    return model_class().to(device)
+    model_class = load_class_from_file(args, class_name="GraphModule")
+    return model_class().to(torch.device(args.device))
 
 
 def get_input_dict(args):
     inputs_params = utils.load_converted_from_text(f"{args.model_path}")
     params = inputs_params["weight_info"]
-    return {k: utils.replay_tensor(v) for k, v in params.items()}
+    return {
+        k: utils.replay_tensor(v).to(torch.device(args.device))
+        for k, v in params.items()
+    }
 
 
 @dataclass
@@ -227,6 +247,13 @@ if __name__ == "__main__":
         required=False,
         default="default",
         help="Path to customized compiler python file",
+    )
+    parser.add_argument(
+        "--device",
+        type=str,
+        required=False,
+        default="cpu",
+        help="Device for testing the compiler",
     )
     parser.add_argument(
         "--warmup", type=int, required=False, default=5, help="Number of warmup steps"

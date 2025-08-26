@@ -43,14 +43,10 @@ class TensorRTBackend(GraphCompilerBackend):
         torch.cuda.synchronize()
 
 
-class DefaultBackend(InductorBackend):
-    pass
-
-
 registry_backend = {
     "inductor": InductorBackend(),
     "tensorrt": TensorRTBackend(),
-    "default": DefaultBackend(),
+    "default": InductorBackend(),
 }
 
 

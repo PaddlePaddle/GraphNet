@@ -124,15 +124,23 @@ def test_single_model(args):
     compiled_duration_box = DurationBox(-1)
     with naive_timer(compiled_duration_box, synchronizer_func):
         compiled_out = compiled_model(**input_dict)
+
     if isinstance(expected_out, paddle.Tensor):
         expected_out = [expected_out]
         compiled_out = [compiled_out]
     if isinstance(expected_out, list) or isinstance(expected_out, tuple):
+        for a, b in zip(expected_out, compiled_out):
+            if (a is None and b is not None) or (a is not None and b is None):
+                raise ValueError("Both expected_out and compiled_out must be not None.")
         expected_out = [
-            regular_item(item) for item in expected_out if np.array(item).size != 0
+            regular_item(item)
+            for item in expected_out
+            if item is not None and np.array(item).size != 0
         ]
         compiled_out = [
-            regular_item(item) for item in compiled_out if np.array(item).size != 0
+            regular_item(item)
+            for item in compiled_out
+            if item is not None and np.array(item).size != 0
         ]
     else:
         raise ValueError("Illegal return value.")

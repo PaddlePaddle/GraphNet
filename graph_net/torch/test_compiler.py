@@ -19,22 +19,38 @@ except ImportError:
     torch_tensorrt = None
 
 
+class GraphCompilerBackend:
+    def __call__(self, model):
+        raise NotImplementedError()
+
+    def synchronize(self):
+        raise NotImplementedError()
+
+
+class InductorBackend(GraphCompilerBackend):
+    def __call__(self, model):
+        return torch.compile(model, backend="inductor")
+
+    def synchronize(self):
+        torch.cuda.synchronize()
+
+
+class TensorRTBackend(GraphCompilerBackend):
+    def __call__(self, model):
+        return torch.compile(model, backend="tensorrt")
+
+    def synchronize(self):
+        torch.cuda.synchronize()
+
+
+class DefaultBackend(InductorBackend):
+    pass
+
+
 registry_backend = {
-    "inductor": {
-        "compiler": torch.compile,
-        "backend": "inductor",
-        "synchronizer": torch.cuda.synchronize,
-    },
-    "tensorrt": {
-        "compiler": torch.compile,
-        "backend": "tensorrt",
-        "synchronizer": torch.cuda.synchronize,
-    },
-    "default": {
-        "compiler": torch.compile,
-        "backend": "inductor",
-        "synchronizer": torch.cuda.synchronize,
-    },
+    "inductor": InductorBackend(),
+    "tensorrt": TensorRTBackend(),
+    "default": DefaultBackend(),
 }
 
 
@@ -61,19 +77,9 @@ def load_class_from_file(
     return model_class
 
 
-def get_compiler(args):
+def get_compiler_backend(args) -> GraphCompilerBackend:
     assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
-    return registry_backend[args.compiler]["compiler"]
-
-
-def get_backend(args):
-    assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
-    return registry_backend[args.compiler]["backend"]
-
-
-def get_synchronizer_func(args):
-    assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
-    return registry_backend[args.compiler]["synchronizer"]
+    return registry_backend[args.compiler]
 
 
 def get_model(args):
@@ -106,16 +112,14 @@ def naive_timer(duration_box, get_synchronizer_func):
 
 
 def test_single_model(args):
-    compiler = get_compiler(args)
-    backend = get_backend(args)
-    synchronizer_func = get_synchronizer_func(args)
+    compiler = get_compiler_backend(args)
     input_dict = get_input_dict(args)
     model = get_model(args)
-    compiled_model = compiler(model, backend=backend)
+    compiled_model = compiler(model)
 
     # eager
     eager_duration_box = DurationBox(-1)
-    with naive_timer(eager_duration_box, synchronizer_func):
+    with naive_timer(eager_duration_box, compiler.synchronize):
         expected_out = model(**input_dict)
 
     # warmup
@@ -124,7 +128,7 @@ def test_single_model(args):
 
     # compiled
     compiled_duration_box = DurationBox(-1)
-    with naive_timer(compiled_duration_box, synchronizer_func):
+    with naive_timer(compiled_duration_box, compiler.synchronize):
         compiled_out = compiled_model(**input_dict)
 
     def print_cmp(key, func, **kwargs):

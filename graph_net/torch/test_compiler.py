@@ -12,6 +12,12 @@ import os.path
 from dataclasses import dataclass
 from contextlib import contextmanager
 import time
+import json
+
+"""
+Acknowledgement: We introduce evaluation method in https://github.com/ScalingIntelligence/KernelBench to enhance function.
+"""
+from graph_net.torch.eval import time_execution_with_cuda_event, get_timing_stats
 
 try:
     import torch_tensorrt
@@ -32,7 +38,8 @@ class InductorBackend(GraphCompilerBackend):
         return torch.compile(model, backend="inductor")
 
     def synchronize(self):
-        torch.cuda.synchronize()
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
 
 
 class TensorRTBackend(GraphCompilerBackend):
@@ -94,17 +101,45 @@ def get_input_dict(args):
 
 @dataclass
 class DurationBox:
-    value: int
+    value: float
 
 
 @contextmanager
-def naive_timer(duration_box, get_synchronizer_func):
-    get_synchronizer_func()
+def naive_timer(duration_box, synchronizer_func):
+    synchronizer_func()
     start = time.time()
     yield
-    get_synchronizer_func()
+    synchronizer_func()
     end = time.time()
-    duration_box.value = end - start
+    duration_box.value = (end - start) * 1000  # Store in milliseconds
+
+
+def time_execution_naive(
+    model_call, synchronizer_func, num_warmup: int = 3, num_trials: int = 100
+):
+    print(f"[Profiling] Using device: CPU, warm up {num_warmup}, trials {num_trials}")
+    for _ in range(num_warmup):
+        model_call()
+
+    times = []
+    for i in range(num_trials):
+        duration_box = DurationBox(-1)
+        with naive_timer(duration_box, synchronizer_func):
+            model_call()
+        print(f"Trial {i + 1}: {duration_box.value:.2f} ms")
+        times.append(duration_box.value)
+    return times
+
+
+def get_timing_stats_cpu(elapsed_times: list[float]):
+    stats = {
+        "mean": float(f"{np.mean(elapsed_times):.3g}"),
+        "std": float(f"{np.std(elapsed_times):.3g}"),
+        "min": float(f"{np.min(elapsed_times):.3g}"),
+        "max": float(f"{np.max(elapsed_times):.3g}"),
+        "num_trials": len(elapsed_times),
+    }
+    return stats
 
 
 def test_single_model(args):
@@ -113,19 +148,55 @@ def test_single_model(args):
     model = get_model(args)
     compiled_model = compiler(model)
 
-    # eager
-    eager_duration_box = DurationBox(-1)
-    with naive_timer(eager_duration_box, compiler.synchronize):
-        expected_out = model(**input_dict)
+    eager_time_ms = -1
+    compiled_time_ms = -1
 
-    # warmup
-    for _ in range(args.warmup if args.warmup > 0 else 0):
-        compiled_model(**input_dict)
+    eager_model_call = lambda: model(**input_dict)
+    compiled_model_call = lambda: compiled_model(**input_dict)
 
-    # compiled
-    compiled_duration_box = DurationBox(-1)
-    with naive_timer(compiled_duration_box, compiler.synchronize):
-        compiled_out = compiled_model(**input_dict)
+    if args.device == "cuda":
+        for _ in range(args.warmup):
+            compiled_model_call()
+        compiler.synchronize()
+
+        eager_times = time_execution_with_cuda_event(
+            eager_model_call,
+            num_warmup=args.warmup,
+            num_trials=args.trials,
+            device=torch.device("cuda:0"),
+        )
+        eager_stats = get_timing_stats(eager_times)
+        eager_time_ms = eager_stats["mean"]
+
+        compiled_times = time_execution_with_cuda_event(
+            compiled_model_call,
+            num_warmup=args.warmup,
+            num_trials=args.trials,
+            device=torch.device("cuda:0"),
+        )
+        compiled_stats = get_timing_stats(compiled_times)
+        compiled_time_ms = compiled_stats["mean"]
+    else:
+        eager_times = time_execution_naive(
+            eager_model_call,
+            compiler.synchronize,
+            num_warmup=args.warmup,
+            num_trials=args.trials,
+        )
+        eager_stats = get_timing_stats_cpu(eager_times)
+        eager_time_ms = eager_stats["mean"]
+
+        compiled_times = time_execution_naive(
+            compiled_model_call,
+            compiler.synchronize,
+            num_warmup=args.warmup,
+            num_trials=args.trials,
+        )
+        compiled_stats = get_timing_stats_cpu(compiled_times)
+        compiled_time_ms = compiled_stats["mean"]
+
+    expected_out = eager_model_call()
+    compiled_out = compiled_model_call()
 
     def print_cmp(key, func, **kwargs):
         cmp_ret = func(expected_out, compiled_out, **kwargs)
@@ -149,7 +220,7 @@ def test_single_model(args):
     print_cmp("cmp.diff_count_atol2_rtol1", get_cmp_diff_count, atol=1e-2, rtol=1e-1)
 
     print(
-        f"{args.log_prompt} duration model_path:{args.model_path} eager:{eager_duration_box.value} compiled:{compiled_duration_box.value}",
+        f"{args.log_prompt} duration model_path:{args.model_path} eager:{eager_time_ms:.4f} compiled:{compiled_time_ms:.4f}",
         file=sys.stderr,
     )
 
@@ -197,7 +268,9 @@ def test_multi_models(args):
                 f" --model-path {model_path}",
                 f" --compiler {args.compiler}",
                 f" --warmup {args.warmup}",
+                f" --trials {args.trials}",
                 f" --log-prompt {args.log_prompt}",
+                f" --device {args.device}",
             ]
         )
         cmd_ret = os.system(cmd)
@@ -252,11 +325,14 @@ if __name__ == "__main__":
         "--device",
         type=str,
         required=False,
-        default="cpu",
-        help="Device for testing the compiler",
+        default="cuda",
+        help="Device for testing the compiler (e.g., 'cpu' or 'cuda')",
     )
     parser.add_argument(
-        "--warmup", type=int, required=False, default=5, help="Number of warmup steps"
+        "--warmup", type=int, required=False, default=3, help="Number of warmup steps"
+    )
+    parser.add_argument(
+        "--trials", type=int, required=False, default=5, help="Number of timing trials"
     )
     parser.add_argument(
         "--log-prompt",

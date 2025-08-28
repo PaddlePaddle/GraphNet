@@ -186,7 +186,7 @@ def test_single_model(args):
     elif args.compiler == "tensorrt":
         result_data["configuration"][
             "compiler_framework_version"
-        ] = f"TensorRT {torch_tensorrt.__version__}"
+        ] = f"TensorRT {torch_tensorrt.version}"
     else:
         result_data["configuration"]["compiler_version"] = "unknown"
 

@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from contextlib import contextmanager
 import time
 import json
+import numpy as np
 
 """
 Acknowledgement: We introduce evaluation method in https://github.com/ScalingIntelligence/KernelBench to enhance function.
@@ -53,7 +54,6 @@ class TensorRTBackend(GraphCompilerBackend):
 registry_backend = {
     "inductor": InductorBackend(),
     "tensorrt": TensorRTBackend(),
-    "default": InductorBackend(),
 }
 
 
@@ -115,7 +115,7 @@ def naive_timer(duration_box, synchronizer_func):
 
 
 def time_execution_naive(
-    model_call, synchronizer_func, num_warmup: int = 3, num_trials: int = 100
+    model_call, synchronizer_func, num_warmup: int = 3, num_trials: int = 10
 ):
     print(f"[Profiling] Using device: CPU, warm up {num_warmup}, trials {num_trials}")
     for _ in range(num_warmup):
@@ -137,7 +137,6 @@ def get_timing_stats_cpu(elapsed_times: list[float]):
         "std": float(f"{np.std(elapsed_times):.3g}"),
         "min": float(f"{np.min(elapsed_times):.3g}"),
         "max": float(f"{np.max(elapsed_times):.3g}"),
-        "num_trials": len(elapsed_times),
     }
     return stats
 
@@ -148,8 +147,24 @@ def test_single_model(args):
     model = get_model(args)
     compiled_model = compiler(model)
 
-    eager_time_ms = -1
-    compiled_time_ms = -1
+    eager_stats = {}
+    compiled_stats = {}
+
+    result_data = {
+        "configuration": {
+            "model": os.path.basename(os.path.normpath(args.model_path)),
+            "compiler": args.compiler,
+            "device": args.device,
+            "warmup": args.warmup,
+            "trials": args.trials,
+        },
+        "correctness": {},
+        "performance": {
+            "eager": {},
+            "compiled": {},
+            "speedup": {},
+        },
+    }
 
     eager_model_call = lambda: model(**input_dict)
     compiled_model_call = lambda: compiled_model(**input_dict)
@@ -166,7 +181,6 @@ def test_single_model(args):
             device=torch.device("cuda:0"),
         )
         eager_stats = get_timing_stats(eager_times)
-        eager_time_ms = eager_stats["mean"]
 
         compiled_times = time_execution_with_cuda_event(
             compiled_model_call,
@@ -175,7 +189,6 @@ def test_single_model(args):
             device=torch.device("cuda:0"),
         )
         compiled_stats = get_timing_stats(compiled_times)
-        compiled_time_ms = compiled_stats["mean"]
     else:
         eager_times = time_execution_naive(
             eager_model_call,
@@ -184,7 +197,6 @@ def test_single_model(args):
             num_trials=args.trials,
         )
         eager_stats = get_timing_stats_cpu(eager_times)
-        eager_time_ms = eager_stats["mean"]
 
         compiled_times = time_execution_naive(
             compiled_model_call,
@@ -193,36 +205,79 @@ def test_single_model(args):
             num_trials=args.trials,
         )
         compiled_stats = get_timing_stats_cpu(compiled_times)
-        compiled_time_ms = compiled_stats["mean"]
 
     expected_out = eager_model_call()
     compiled_out = compiled_model_call()
 
-    def print_cmp(key, func, **kwargs):
+    def print_and_store_cmp(key, func, **kwargs):
         cmp_ret = func(expected_out, compiled_out, **kwargs)
+        result_data["correctness"][key] = cmp_ret
         print(
             f"{args.log_prompt} {key} model_path:{args.model_path} {cmp_ret}",
             file=sys.stderr,
         )
 
-    print_cmp("cmp.equal", get_cmp_equal)
-    print_cmp("cmp.all_close_atol8_rtol8", get_cmp_all_close, atol=1e-8, rtol=1e-8)
-    print_cmp("cmp.all_close_atol8_rtol5", get_cmp_all_close, atol=1e-8, rtol=1e-5)
-    print_cmp("cmp.all_close_atol5_rtol5", get_cmp_all_close, atol=1e-5, rtol=1e-5)
-    print_cmp("cmp.all_close_atol3_rtol2", get_cmp_all_close, atol=1e-3, rtol=1e-2)
-    print_cmp("cmp.all_close_atol2_rtol1", get_cmp_all_close, atol=1e-2, rtol=1e-1)
-    print_cmp("cmp.max_diff", get_cmp_max_diff)
-    print_cmp("cmp.mean_diff", get_cmp_mean_diff)
-    print_cmp("cmp.diff_count_atol8_rtol8", get_cmp_diff_count, atol=1e-8, rtol=1e-8)
-    print_cmp("cmp.diff_count_atol8_rtol5", get_cmp_diff_count, atol=1e-8, rtol=1e-5)
-    print_cmp("cmp.diff_count_atol5_rtol5", get_cmp_diff_count, atol=1e-5, rtol=1e-5)
-    print_cmp("cmp.diff_count_atol3_rtol2", get_cmp_diff_count, atol=1e-3, rtol=1e-2)
-    print_cmp("cmp.diff_count_atol2_rtol1", get_cmp_diff_count, atol=1e-2, rtol=1e-1)
+    print_and_store_cmp("equal", get_cmp_equal)
+    print_and_store_cmp(
+        "all_close_atol8_rtol8", get_cmp_all_close, atol=1e-8, rtol=1e-8
+    )
+    print_and_store_cmp(
+        "all_close_atol8_rtol5", get_cmp_all_close, atol=1e-8, rtol=1e-5
+    )
+    print_and_store_cmp(
+        "all_close_atol5_rtol5", get_cmp_all_close, atol=1e-5, rtol=1e-5
+    )
+    print_and_store_cmp(
+        "all_close_atol3_rtol2", get_cmp_all_close, atol=1e-3, rtol=1e-2
+    )
+    print_and_store_cmp(
+        "all_close_atol2_rtol1", get_cmp_all_close, atol=1e-2, rtol=1e-1
+    )
+    print_and_store_cmp("max_diff", get_cmp_max_diff)
+    print_and_store_cmp("mean_diff", get_cmp_mean_diff)
+    print_and_store_cmp(
+        "diff_count_atol8_rtol8", get_cmp_diff_count, atol=1e-8, rtol=1e-8
+    )
+    print_and_store_cmp(
+        "diff_count_atol8_rtol5", get_cmp_diff_count, atol=1e-8, rtol=1e-5
+    )
+    print_and_store_cmp(
+        "diff_count_atol5_rtol5", get_cmp_diff_count, atol=1e-5, rtol=1e-5
+    )
+    print_and_store_cmp(
+        "diff_count_atol3_rtol2", get_cmp_diff_count, atol=1e-3, rtol=1e-2
+    )
+    print_and_store_cmp(
+        "diff_count_atol2_rtol1", get_cmp_diff_count, atol=1e-2, rtol=1e-1
+    )
+
+    eager_time_ms = eager_stats["mean"]
+    compiled_time_ms = compiled_stats["mean"]
+
+    result_data["performance"]["eager"]["mean"] = eager_stats["mean"]
+    result_data["performance"]["eager"]["std"] = eager_stats["std"]
+    result_data["performance"]["eager"]["min"] = eager_stats["min"]
+    result_data["performance"]["eager"]["max"] = eager_stats["max"]
+    result_data["performance"]["compiled"]["mean"] = compiled_stats["mean"]
+    result_data["performance"]["compiled"]["std"] = compiled_stats["std"]
+    result_data["performance"]["compiled"]["min"] = compiled_stats["min"]
+    result_data["performance"]["compiled"]["max"] = compiled_stats["max"]
+    if eager_time_ms > 0 and compiled_time_ms > 0:
+        result_data["performance"]["speedup"] = eager_time_ms / compiled_time_ms
 
     print(
         f"{args.log_prompt} duration model_path:{args.model_path} eager:{eager_time_ms:.4f} compiled:{compiled_time_ms:.4f}",
         file=sys.stderr,
     )
+
+    if args.output_dir:
+        os.makedirs(args.output_dir, exist_ok=True)
+        model_name = result_data["configuration"]["model"]
+        compiler_name = args.compiler
+        file_path = os.path.join(args.output_dir, f"{model_name}_{compiler_name}.json")
+        with open(file_path, "w") as f:
+            json.dump(result_data, f, indent=4)
+        print(f"Result saved to {file_path}", file=sys.stderr)
 
 
 def get_cmp_equal(expected_out, compiled_out):
@@ -261,18 +316,27 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 def test_multi_models(args):
     for model_path in get_recursively_model_path(args.model_path):
-        cmd = "".join(
-            [
-                sys.executable,
-                " -m graph_net.torch.test_compiler",
-                f" --model-path {model_path}",
-                f" --compiler {args.compiler}",
-                f" --warmup {args.warmup}",
-                f" --trials {args.trials}",
-                f" --log-prompt {args.log_prompt}",
-                f" --device {args.device}",
-            ]
-        )
+        cmd_list = [
+            sys.executable,
+            "-m",
+            "graph_net.torch.test_compiler",
+            "--model-path",
+            model_path,
+            "--compiler",
+            args.compiler,
+            "--warmup",
+            str(args.warmup),
+            "--trials",
+            str(args.trials),
+            "--log-prompt",
+            args.log_prompt,
+            "--device",
+            args.device,
+        ]
+        if args.output_dir:
+            cmd_list.extend(["--output-dir", args.output_dir])
+
+        cmd = " ".join(cmd_list)
         cmd_ret = os.system(cmd)
         assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
 
@@ -318,7 +382,7 @@ if __name__ == "__main__":
         "--compiler",
         type=str,
         required=False,
-        default="default",
+        default="inductor",
         help="Path to customized compiler python file",
     )
     parser.add_argument(
@@ -340,6 +404,13 @@ if __name__ == "__main__":
         required=False,
         default="graph-net-test-compiler-log",
         help="Log prompt for performance log filtering.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        required=False,
+        default=None,
+        help="Directory to save the structured JSON result file.",
     )
     args = parser.parse_args()
     main(args=args)

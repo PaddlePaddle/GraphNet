@@ -19,7 +19,10 @@ import platform
 """
 Acknowledgement: We introduce evaluation method in https://github.com/ScalingIntelligence/KernelBench to enhance function.
 """
-from graph_net.torch.eval import time_execution_with_cuda_event, get_timing_stats
+from graph_net.torch.performance_eval import (
+    time_execution_with_cuda_event,
+    get_timing_stats,
+)
 
 try:
     import torch_tensorrt

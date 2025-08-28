@@ -160,12 +160,9 @@ def test_single_model(args):
         "configuration": {
             "model": os.path.basename(os.path.normpath(args.model_path)),
             "device": args.device,
-            "cpu": platform.processor(),
-            "cuda_gpu": torch.cuda.get_device_name(0)
-            if args.device == "cuda"
-            else None,
+            "device_name": None,
             "compiler": args.compiler,
-            "torch_version": torch.__version__,
+            "compiler_framework_version": None,
             "warmup": args.warmup,
             "trials": args.trials,
         },
@@ -176,6 +173,22 @@ def test_single_model(args):
             "speedup": {},
         },
     }
+
+    if args.device == "cuda":
+        result_data["configuration"]["device_name"] = (torch.cuda.get_device_name(0),)
+    elif args.device == "cpu":
+        result_data["configuration"]["device_name"] = (platform.processor(),)
+    else:
+        result_data["configuration"]["device_name"] = "unknown"
+
+    if args.compiler == "inductor":
+        result_data["configuration"]["compiler_framework_version"] = torch.__version__
+    elif args.compiler == "tensorrt":
+        result_data["configuration"][
+            "compiler_framework_version"
+        ] = f"TensorRT {torch_tensorrt.__version__}"
+    else:
+        result_data["configuration"]["compiler_version"] = "unknown"
 
     eager_model_call = lambda: model(**input_dict)
     compiled_model_call = lambda: compiled_model(**input_dict)

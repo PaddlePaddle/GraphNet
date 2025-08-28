@@ -22,7 +22,7 @@ def read_speedups(log_file):
                     if compiled_time > 0:
                         speedups.append(eager_time / compiled_time)
     except FileNotFoundError:
-        print(f"错误：日志文件未找到 -> {log_file}")
+        print(f"Error: Log file not found -> {log_file}")
         return []
     return speedups
 
@@ -32,25 +32,25 @@ def analysis(args):
     num_samples_per_compiler = 200
     data = {"Compiler": [], "log2(speedup)": []}
 
-    # A: CINN (使用模拟数据)
+    # A: CINN (Simulate)
     data["log2(speedup)"].extend(
         np.random.normal(loc=0.35, scale=0.2, size=num_samples_per_compiler)
     )
     data["Compiler"].extend(["CINN"] * num_samples_per_compiler)
 
-    # B: torch.inductor (使用传入参数指定的文件)
+    # B: torch.inductor
     inductor_data_file = os.path.join(args.benchmark_log_file)
     log2_speedups = np.log2(read_speedups(inductor_data_file))
     data["log2(speedup)"].extend(log2_speedups)
     data["Compiler"].extend(["torch.inductor"] * len(log2_speedups))
 
-    # C: tvm (使用模拟数据)
+    # C: tvm (Simulate)
     data["log2(speedup)"].extend(
         np.random.normal(loc=0.3, scale=0.15, size=num_samples_per_compiler)
     )
     data["Compiler"].extend(["tvm"] * num_samples_per_compiler)
 
-    # D: XLA (使用模拟数据)
+    # D: XLA (Simulate)
     data["log2(speedup)"].extend(
         np.concatenate(
             [
@@ -65,13 +65,13 @@ def analysis(args):
     )
     data["Compiler"].extend(["XLA"] * num_samples_per_compiler)
 
-    # E: TensorRT (使用模拟数据)
+    # E: TensorRT (Simulate)
     data["log2(speedup)"].extend(
         np.random.normal(loc=0.5, scale=0.1, size=num_samples_per_compiler)
     )
     data["Compiler"].extend(["TensorRT"] * num_samples_per_compiler)
 
-    # F: BladeDISC (使用模拟数据)
+    # F: BladeDISC (Simulate)
     data["log2(speedup)"].extend(
         np.random.normal(loc=0.05, scale=0.3, size=num_samples_per_compiler)
     )
@@ -119,24 +119,30 @@ def analysis(args):
 
 
 def main(args):
-    # assert os.path.isdir(args.benchmark_path), f"目录不存在: {args.benchmark_path}"
     analysis(args)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="分析不同编译器在硬件平台上的性能加速比")
+    parser = argparse.ArgumentParser(
+        description="Analyse speedup from different compile frameworks/hardware types"
+    )
     # parser.add_argument(
     #     "--benchmark-path",
     #     type=str,
     #     required=True,
-    #     help="包含基准测试结果的目录路径"
+    #     help="Path include multiple benchmark results from test_compiler"
     # )
-    parser.add_argument("--benchmark-log-file", type=str, required=True, help="测试log")
+    parser.add_argument(
+        "--benchmark-log-file",
+        type=str,
+        required=True,
+        help="benchmark log from test_compiler",
+    )
     parser.add_argument(
         "--output-file",
         type=str,
         default="compiler_speedup.png",
-        help="输出图表文件名(默认: compiler_speedup.png)",
+        help="Output figure file name",
     )
     args = parser.parse_args()
     main(args=args)

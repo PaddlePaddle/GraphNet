@@ -112,15 +112,12 @@ def test_single_model(args):
     print("-- Run with compiled mode")
     build_strategy = paddle.static.BuildStrategy()
     # build_strategy.build_cinn_pass = True
-    compilation_start_time = time.time()
     compiled_model = paddle.jit.to_static(
         model_dy,
         input_spec=input_spec,
         build_strategy=build_strategy,
         full_graph=True,
     )
-    compilation_end_time = time.time()
-    compilation_duration = compilation_end_time - compilation_start_time
     compiled_model.eval()
     for _ in range(args.warmup if args.warmup > 0 else 0):
         compiled_model(**input_dict)
@@ -170,7 +167,7 @@ def test_single_model(args):
     print_cmp("cmp.diff_count_atol2_rtol1", get_cmp_diff_count, atol=1e-2, rtol=1e-1)
 
     print(
-        f"{args.log_prompt} duration model_path:{args.model_path} eager:{eager_duration_box.value} compiled:{compiled_duration_box.value} compilation_time:{compilation_duration}",
+        f"{args.log_prompt} duration model_path:{args.model_path} eager:{eager_duration_box.value} compiled:{compiled_duration_box.value}",
         file=sys.stderr,
     )
 

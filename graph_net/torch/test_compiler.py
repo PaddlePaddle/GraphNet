@@ -14,6 +14,7 @@ from contextlib import contextmanager
 import time
 import json
 import numpy as np
+import platform
 
 """
 Acknowledgement: We introduce evaluation method in https://github.com/ScalingIntelligence/KernelBench to enhance function.
@@ -117,7 +118,9 @@ def naive_timer(duration_box, synchronizer_func):
 def time_execution_naive(
     model_call, synchronizer_func, num_warmup: int = 3, num_trials: int = 10
 ):
-    print(f"[Profiling] Using device: CPU, warm up {num_warmup}, trials {num_trials}")
+    print(
+        f"[Profiling] Using device: {args.device} {platform.processor()}, warm up {num_warmup}, trials {num_trials}"
+    )
     for _ in range(num_warmup):
         model_call()
 
@@ -153,8 +156,13 @@ def test_single_model(args):
     result_data = {
         "configuration": {
             "model": os.path.basename(os.path.normpath(args.model_path)),
-            "compiler": args.compiler,
             "device": args.device,
+            "cpu": platform.processor(),
+            "cuda_gpu": torch.cuda.get_device_name(0)
+            if args.device == "cuda"
+            else None,
+            "compiler": args.compiler,
+            "torch_version": torch.__version__,
             "warmup": args.warmup,
             "trials": args.trials,
         },

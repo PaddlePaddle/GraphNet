@@ -160,7 +160,7 @@ def test_single_model(args):
         "configuration": {
             "model": os.path.basename(os.path.normpath(args.model_path)),
             "device": args.device,
-            "device_name": None,
+            "hardware": None,
             "compiler": args.compiler,
             "compiler_framework_version": None,
             "warmup": args.warmup,
@@ -175,11 +175,11 @@ def test_single_model(args):
     }
 
     if args.device == "cuda":
-        result_data["configuration"]["device_name"] = (torch.cuda.get_device_name(0),)
+        result_data["configuration"]["hardware"] = torch.cuda.get_device_name(0)
     elif args.device == "cpu":
-        result_data["configuration"]["device_name"] = (platform.processor(),)
+        result_data["configuration"]["hardware"] = platform.processor()
     else:
-        result_data["configuration"]["device_name"] = "unknown"
+        result_data["configuration"]["hardware"] = "unknown"
 
     if args.compiler == "inductor":
         result_data["configuration"]["compiler_framework_version"] = torch.__version__

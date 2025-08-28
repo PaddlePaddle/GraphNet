@@ -162,7 +162,7 @@ def test_single_model(args):
             "device": args.device,
             "hardware": None,
             "compiler": args.compiler,
-            "compiler_framework_version": None,
+            "compile_framework_version": None,
             "warmup": args.warmup,
             "trials": args.trials,
         },
@@ -182,10 +182,10 @@ def test_single_model(args):
         result_data["configuration"]["hardware"] = "unknown"
 
     if args.compiler == "inductor":
-        result_data["configuration"]["compiler_framework_version"] = torch.__version__
+        result_data["configuration"]["compile_framework_version"] = torch.__version__
     elif args.compiler == "tensorrt":
         result_data["configuration"][
-            "compiler_framework_version"
+            "compile_framework_version"
         ] = f"TensorRT {torch_tensorrt.version}"
     else:
         result_data["configuration"]["compiler_version"] = "unknown"

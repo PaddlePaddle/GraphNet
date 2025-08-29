@@ -69,15 +69,11 @@ def load_class_from_file(
     module_name = file.stem
 
     with open(file_path, "r", encoding="utf-8") as f:
-        original_code = f.read()
-    if args.device == "cuda":
-        modified_code = original_code.replace("cpu", "cuda")
-    else:
-        modified_code = original_code
+        model_code = f.read()
     spec = importlib.util.spec_from_loader(module_name, loader=None)
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module
-    compiled_code = compile(modified_code, filename=file, mode="exec")
+    compiled_code = compile(model_code, filename=file, mode="exec")
     exec(compiled_code, module.__dict__)
 
     model_class = getattr(module, class_name, None)
@@ -91,7 +87,10 @@ def get_compiler_backend(args) -> GraphCompilerBackend:
 
 def get_model(args):
     model_class = load_class_from_file(args, class_name="GraphModule")
-    return model_class().to(torch.device(args.device))
+    model = model_class().to(torch.device(args.device))
+    # for param in model.parameters():
+    #     param.requires_grad_(False)
+    return model
 
 
 def get_input_dict(args):

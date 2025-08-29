@@ -16,14 +16,6 @@ import json
 import numpy as np
 import platform
 
-"""
-Acknowledgement: We introduce evaluation method in https://github.com/ScalingIntelligence/KernelBench to enhance function.
-"""
-from graph_net.torch.performance_eval import (
-    time_execution_with_cuda_event,
-    get_timing_stats,
-)
-
 try:
     import torch_tensorrt
 except ImportError:
@@ -117,6 +109,66 @@ def naive_timer(duration_box, synchronizer_func):
     duration_box.value = (end - start) * 1000  # Store in milliseconds
 
 
+def time_execution_with_cuda_event(
+    kernel_fn: callable,
+    *args,
+    num_warmup: int = 3,
+    num_trials: int = 10,
+    verbose: bool = True,
+    device: torch.device = None,
+) -> list[float]:
+    """
+    Acknowledgement: We introduce evaluation method in https://github.com/ScalingIntelligence/KernelBench to enhance function.
+
+    Time a CUDA kernel function over multiple trials using torch.cuda.Event
+
+    Args:
+        kernel_fn: Function to time
+        *args: Arguments to pass to kernel_fn
+        num_trials: Number of timing trials to run
+        verbose: Whether to print per-trial timing info
+        device: CUDA device to use, if None, use current device
+
+    Returns:
+        List of elapsed times in milliseconds
+    """
+    if device is None:
+        if verbose:
+            print(f"Using current device: {torch.cuda.current_device()}")
+        device = torch.cuda.current_device()
+
+    # Warm ups
+    for _ in range(num_warmup):
+        kernel_fn(*args)
+        torch.cuda.synchronize(device=device)
+
+    print(
+        f"[Profiling] Using device: {device} {torch.cuda.get_device_name(device)}, warm up {num_warmup}, trials {num_trials}"
+    )
+    elapsed_times = []
+
+    # Actual trials
+    for trial in range(num_trials):
+        # create event marker default is not interprocess
+        start_event = torch.cuda.Event(enable_timing=True)
+        end_event = torch.cuda.Event(enable_timing=True)
+
+        start_event.record()
+        kernel_fn(*args)
+        end_event.record()
+
+        # Synchronize to ensure the events have completed
+        torch.cuda.synchronize(device=device)
+
+        # Calculate the elapsed time in milliseconds
+        elapsed_time_ms = start_event.elapsed_time(end_event)
+        if verbose:
+            print(f"Trial {trial + 1}: {elapsed_time_ms:.3g} ms")
+        elapsed_times.append(elapsed_time_ms)
+
+    return elapsed_times
+
+
 def time_execution_naive(
     model_call, synchronizer_func, num_warmup: int = 3, num_trials: int = 10
 ):
@@ -136,7 +188,7 @@ def time_execution_naive(
     return times
 
 
-def get_timing_stats_cpu(elapsed_times: list[float]):
+def get_timing_stats(elapsed_times: list[float]):
     stats = {
         "mean": float(f"{np.mean(elapsed_times):.3g}"),
         "std": float(f"{np.std(elapsed_times):.3g}"),
@@ -154,7 +206,6 @@ def measure_performance(model_call, args, compiler):
             num_trials=args.trials,
             device=torch.device("cuda:0"),
         )
-        return get_timing_stats(times)
     else:
         times = time_execution_naive(
             model_call,
@@ -162,7 +213,7 @@ def measure_performance(model_call, args, compiler):
             num_warmup=args.warmup,
             num_trials=args.trials,
         )
-        return get_timing_stats_cpu(times)
+    return get_timing_stats(times)
 
 
 def test_single_model(args):
@@ -262,14 +313,8 @@ def test_single_model(args):
     eager_time_ms = eager_stats["mean"]
     compiled_time_ms = compiled_stats["mean"]
 
-    result_data["performance"]["eager"]["mean"] = eager_stats["mean"]
-    result_data["performance"]["eager"]["std"] = eager_stats["std"]
-    result_data["performance"]["eager"]["min"] = eager_stats["min"]
-    result_data["performance"]["eager"]["max"] = eager_stats["max"]
-    result_data["performance"]["compiled"]["mean"] = compiled_stats["mean"]
-    result_data["performance"]["compiled"]["std"] = compiled_stats["std"]
-    result_data["performance"]["compiled"]["min"] = compiled_stats["min"]
-    result_data["performance"]["compiled"]["max"] = compiled_stats["max"]
+    result_data["performance"]["eager"] = eager_stats
+    result_data["performance"]["compiled"] = compiled_stats
     if eager_time_ms > 0 and compiled_time_ms > 0:
         result_data["performance"]["speedup"] = eager_time_ms / compiled_time_ms
 

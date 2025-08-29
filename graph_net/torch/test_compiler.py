@@ -146,6 +146,25 @@ def get_timing_stats_cpu(elapsed_times: list[float]):
     return stats
 
 
+def measure_performance(model_call, args, compiler):
+    if args.device == "cuda":
+        times = time_execution_with_cuda_event(
+            model_call,
+            num_warmup=args.warmup,
+            num_trials=args.trials,
+            device=torch.device("cuda:0"),
+        )
+        return get_timing_stats(times)
+    else:
+        times = time_execution_naive(
+            model_call,
+            compiler.synchronize,
+            num_warmup=args.warmup,
+            num_trials=args.trials,
+        )
+        return get_timing_stats_cpu(times)
+
+
 def test_single_model(args):
     compiler = get_compiler_backend(args)
     input_dict = get_input_dict(args)
@@ -192,38 +211,8 @@ def test_single_model(args):
     eager_model_call = lambda: model(**input_dict)
     compiled_model_call = lambda: compiled_model(**input_dict)
 
-    if args.device == "cuda":
-        eager_times = time_execution_with_cuda_event(
-            eager_model_call,
-            num_warmup=args.warmup,
-            num_trials=args.trials,
-            device=torch.device("cuda:0"),
-        )
-        eager_stats = get_timing_stats(eager_times)
-
-        compiled_times = time_execution_with_cuda_event(
-            compiled_model_call,
-            num_warmup=args.warmup,
-            num_trials=args.trials,
-            device=torch.device("cuda:0"),
-        )
-        compiled_stats = get_timing_stats(compiled_times)
-    else:
-        eager_times = time_execution_naive(
-            eager_model_call,
-            compiler.synchronize,
-            num_warmup=args.warmup,
-            num_trials=args.trials,
-        )
-        eager_stats = get_timing_stats_cpu(eager_times)
-
-        compiled_times = time_execution_naive(
-            compiled_model_call,
-            compiler.synchronize,
-            num_warmup=args.warmup,
-            num_trials=args.trials,
-        )
-        compiled_stats = get_timing_stats_cpu(compiled_times)
+    eager_stats = measure_performance(eager_model_call, args, compiler)
+    compiled_stats = measure_performance(compiled_model_call, args, compiler)
 
     expected_out = eager_model_call()
     compiled_out = compiled_model_call()

@@ -12,6 +12,9 @@ import os.path
 from dataclasses import dataclass
 from contextlib import contextmanager
 import time
+import json
+import numpy as np
+import platform
 
 try:
     import torch_tensorrt
@@ -32,7 +35,8 @@ class InductorBackend(GraphCompilerBackend):
         return torch.compile(model, backend="inductor")
 
     def synchronize(self):
-        torch.cuda.synchronize()
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
 
 
 class TensorRTBackend(GraphCompilerBackend):
@@ -46,7 +50,6 @@ class TensorRTBackend(GraphCompilerBackend):
 registry_backend = {
     "inductor": InductorBackend(),
     "tensorrt": TensorRTBackend(),
-    "default": InductorBackend(),
 }
 
 
@@ -58,15 +61,11 @@ def load_class_from_file(
     module_name = file.stem
 
     with open(file_path, "r", encoding="utf-8") as f:
-        original_code = f.read()
-    if args.device == "cuda":
-        modified_code = original_code.replace("cpu", "cuda")
-    else:
-        modified_code = original_code
+        model_code = f.read()
     spec = importlib.util.spec_from_loader(module_name, loader=None)
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module
-    compiled_code = compile(modified_code, filename=file, mode="exec")
+    compiled_code = compile(model_code, filename=file, mode="exec")
     exec(compiled_code, module.__dict__)
 
     model_class = getattr(module, class_name, None)
@@ -80,7 +79,10 @@ def get_compiler_backend(args) -> GraphCompilerBackend:
 
 def get_model(args):
     model_class = load_class_from_file(args, class_name="GraphModule")
-    return model_class().to(torch.device(args.device))
+    model = model_class().to(torch.device(args.device))
+    # for param in model.parameters():
+    #     param.requires_grad_(False)
+    return model
 
 
 def get_input_dict(args):
@@ -94,17 +96,124 @@ def get_input_dict(args):
 
 @dataclass
 class DurationBox:
-    value: int
+    value: float
 
 
 @contextmanager
-def naive_timer(duration_box, get_synchronizer_func):
-    get_synchronizer_func()
+def naive_timer(duration_box, synchronizer_func):
+    synchronizer_func()
     start = time.time()
     yield
-    get_synchronizer_func()
+    synchronizer_func()
     end = time.time()
-    duration_box.value = end - start
+    duration_box.value = (end - start) * 1000  # Store in milliseconds
+
+
+def time_execution_with_cuda_event(
+    kernel_fn: callable,
+    *args,
+    num_warmup: int = 3,
+    num_trials: int = 10,
+    verbose: bool = True,
+    device: torch.device = None,
+) -> list[float]:
+    """
+    Acknowledgement: We introduce evaluation method in https://github.com/ScalingIntelligence/KernelBench to enhance function.
+
+    Time a CUDA kernel function over multiple trials using torch.cuda.Event
+
+    Args:
+        kernel_fn: Function to time
+        *args: Arguments to pass to kernel_fn
+        num_trials: Number of timing trials to run
+        verbose: Whether to print per-trial timing info
+        device: CUDA device to use, if None, use current device
+
+    Returns:
+        List of elapsed times in milliseconds
+    """
+    if device is None:
+        if verbose:
+            print(f"Using current device: {torch.cuda.current_device()}")
+        device = torch.cuda.current_device()
+
+    # Warm ups
+    for _ in range(num_warmup):
+        kernel_fn(*args)
+        torch.cuda.synchronize(device=device)
+
+    print(
+        f"[Profiling] Using device: {device} {torch.cuda.get_device_name(device)}, warm up {num_warmup}, trials {num_trials}"
+    )
+    elapsed_times = []
+
+    # Actual trials
+    for trial in range(num_trials):
+        # create event marker default is not interprocess
+        start_event = torch.cuda.Event(enable_timing=True)
+        end_event = torch.cuda.Event(enable_timing=True)
+
+        start_event.record()
+        kernel_fn(*args)
+        end_event.record()
+
+        # Synchronize to ensure the events have completed
+        torch.cuda.synchronize(device=device)
+
+        # Calculate the elapsed time in milliseconds
+        elapsed_time_ms = start_event.elapsed_time(end_event)
+        if verbose:
+            print(f"Trial {trial + 1}: {elapsed_time_ms:.3g} ms")
+        elapsed_times.append(elapsed_time_ms)
+
+    return elapsed_times
+
+
+def time_execution_naive(
+    model_call, synchronizer_func, num_warmup: int = 3, num_trials: int = 10
+):
+    print(
+        f"[Profiling] Using device: {args.device} {platform.processor()}, warm up {num_warmup}, trials {num_trials}"
+    )
+    for _ in range(num_warmup):
+        model_call()
+
+    times = []
+    for i in range(num_trials):
+        duration_box = DurationBox(-1)
+        with naive_timer(duration_box, synchronizer_func):
+            model_call()
+        print(f"Trial {i + 1}: {duration_box.value:.2f} ms")
+        times.append(duration_box.value)
+    return times
+
+
+def get_timing_stats(elapsed_times: list[float]):
+    stats = {
+        "mean": float(f"{np.mean(elapsed_times):.3g}"),
+        "std": float(f"{np.std(elapsed_times):.3g}"),
+        "min": float(f"{np.min(elapsed_times):.3g}"),
+        "max": float(f"{np.max(elapsed_times):.3g}"),
+    }
+    return stats
+
+
+def measure_performance(model_call, args, compiler):
+    if args.device == "cuda":
+        times = time_execution_with_cuda_event(
+            model_call,
+            num_warmup=args.warmup,
+            num_trials=args.trials,
+            device=torch.device("cuda:0"),
+        )
+    else:
+        times = time_execution_naive(
+            model_call,
+            compiler.synchronize,
+            num_warmup=args.warmup,
+            num_trials=args.trials,
+        )
+    return get_timing_stats(times)
 
 
 def test_single_model(args):
@@ -113,45 +222,115 @@ def test_single_model(args):
     model = get_model(args)
     compiled_model = compiler(model)
 
-    # eager
-    eager_duration_box = DurationBox(-1)
-    with naive_timer(eager_duration_box, compiler.synchronize):
-        expected_out = model(**input_dict)
+    eager_stats = {}
+    compiled_stats = {}
 
-    # warmup
-    for _ in range(args.warmup if args.warmup > 0 else 0):
-        compiled_model(**input_dict)
+    result_data = {
+        "configuration": {
+            "model": os.path.basename(os.path.normpath(args.model_path)),
+            "device": args.device,
+            "hardware": None,
+            "compiler": args.compiler,
+            "compile_framework_version": None,
+            "warmup": args.warmup,
+            "trials": args.trials,
+        },
+        "correctness": {},
+        "performance": {
+            "eager": {},
+            "compiled": {},
+            "speedup": {},
+        },
+    }
 
-    # compiled
-    compiled_duration_box = DurationBox(-1)
-    with naive_timer(compiled_duration_box, compiler.synchronize):
-        compiled_out = compiled_model(**input_dict)
+    if args.device == "cuda":
+        result_data["configuration"]["hardware"] = torch.cuda.get_device_name(0)
+    elif args.device == "cpu":
+        result_data["configuration"]["hardware"] = platform.processor()
+    else:
+        result_data["configuration"]["hardware"] = "unknown"
 
-    def print_cmp(key, func, **kwargs):
+    if args.compiler == "inductor":
+        result_data["configuration"]["compile_framework_version"] = torch.__version__
+    elif args.compiler == "tensorrt":
+        result_data["configuration"][
+            "compile_framework_version"
+        ] = f"TensorRT {torch_tensorrt.version}"
+    else:
+        result_data["configuration"]["compiler_version"] = "unknown"
+
+    eager_model_call = lambda: model(**input_dict)
+    compiled_model_call = lambda: compiled_model(**input_dict)
+
+    eager_stats = measure_performance(eager_model_call, args, compiler)
+    compiled_stats = measure_performance(compiled_model_call, args, compiler)
+
+    expected_out = eager_model_call()
+    compiled_out = compiled_model_call()
+
+    def print_and_store_cmp(key, func, **kwargs):
         cmp_ret = func(expected_out, compiled_out, **kwargs)
+        result_data["correctness"][key] = cmp_ret
         print(
             f"{args.log_prompt} {key} model_path:{args.model_path} {cmp_ret}",
             file=sys.stderr,
         )
 
-    print_cmp("cmp.equal", get_cmp_equal)
-    print_cmp("cmp.all_close_atol8_rtol8", get_cmp_all_close, atol=1e-8, rtol=1e-8)
-    print_cmp("cmp.all_close_atol8_rtol5", get_cmp_all_close, atol=1e-8, rtol=1e-5)
-    print_cmp("cmp.all_close_atol5_rtol5", get_cmp_all_close, atol=1e-5, rtol=1e-5)
-    print_cmp("cmp.all_close_atol3_rtol2", get_cmp_all_close, atol=1e-3, rtol=1e-2)
-    print_cmp("cmp.all_close_atol2_rtol1", get_cmp_all_close, atol=1e-2, rtol=1e-1)
-    print_cmp("cmp.max_diff", get_cmp_max_diff)
-    print_cmp("cmp.mean_diff", get_cmp_mean_diff)
-    print_cmp("cmp.diff_count_atol8_rtol8", get_cmp_diff_count, atol=1e-8, rtol=1e-8)
-    print_cmp("cmp.diff_count_atol8_rtol5", get_cmp_diff_count, atol=1e-8, rtol=1e-5)
-    print_cmp("cmp.diff_count_atol5_rtol5", get_cmp_diff_count, atol=1e-5, rtol=1e-5)
-    print_cmp("cmp.diff_count_atol3_rtol2", get_cmp_diff_count, atol=1e-3, rtol=1e-2)
-    print_cmp("cmp.diff_count_atol2_rtol1", get_cmp_diff_count, atol=1e-2, rtol=1e-1)
+    print_and_store_cmp("equal", get_cmp_equal)
+    print_and_store_cmp(
+        "all_close_atol8_rtol8", get_cmp_all_close, atol=1e-8, rtol=1e-8
+    )
+    print_and_store_cmp(
+        "all_close_atol8_rtol5", get_cmp_all_close, atol=1e-8, rtol=1e-5
+    )
+    print_and_store_cmp(
+        "all_close_atol5_rtol5", get_cmp_all_close, atol=1e-5, rtol=1e-5
+    )
+    print_and_store_cmp(
+        "all_close_atol3_rtol2", get_cmp_all_close, atol=1e-3, rtol=1e-2
+    )
+    print_and_store_cmp(
+        "all_close_atol2_rtol1", get_cmp_all_close, atol=1e-2, rtol=1e-1
+    )
+    print_and_store_cmp("max_diff", get_cmp_max_diff)
+    print_and_store_cmp("mean_diff", get_cmp_mean_diff)
+    print_and_store_cmp(
+        "diff_count_atol8_rtol8", get_cmp_diff_count, atol=1e-8, rtol=1e-8
+    )
+    print_and_store_cmp(
+        "diff_count_atol8_rtol5", get_cmp_diff_count, atol=1e-8, rtol=1e-5
+    )
+    print_and_store_cmp(
+        "diff_count_atol5_rtol5", get_cmp_diff_count, atol=1e-5, rtol=1e-5
+    )
+    print_and_store_cmp(
+        "diff_count_atol3_rtol2", get_cmp_diff_count, atol=1e-3, rtol=1e-2
+    )
+    print_and_store_cmp(
+        "diff_count_atol2_rtol1", get_cmp_diff_count, atol=1e-2, rtol=1e-1
+    )
+
+    eager_time_ms = eager_stats["mean"]
+    compiled_time_ms = compiled_stats["mean"]
+
+    result_data["performance"]["eager"] = eager_stats
+    result_data["performance"]["compiled"] = compiled_stats
+    if eager_time_ms > 0 and compiled_time_ms > 0:
+        result_data["performance"]["speedup"] = eager_time_ms / compiled_time_ms
 
     print(
-        f"{args.log_prompt} duration model_path:{args.model_path} eager:{eager_duration_box.value} compiled:{compiled_duration_box.value}",
+        f"{args.log_prompt} duration model_path:{args.model_path} eager:{eager_time_ms:.4f} compiled:{compiled_time_ms:.4f}",
         file=sys.stderr,
     )
+
+    if args.output_dir:
+        os.makedirs(args.output_dir, exist_ok=True)
+        model_name = result_data["configuration"]["model"]
+        compiler_name = args.compiler
+        file_path = os.path.join(args.output_dir, f"{model_name}_{compiler_name}.json")
+        with open(file_path, "w") as f:
+            json.dump(result_data, f, indent=4)
+        print(f"Result saved to {file_path}", file=sys.stderr)
 
 
 def get_cmp_equal(expected_out, compiled_out):
@@ -190,16 +369,27 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 def test_multi_models(args):
     for model_path in get_recursively_model_path(args.model_path):
-        cmd = "".join(
-            [
-                sys.executable,
-                " -m graph_net.torch.test_compiler",
-                f" --model-path {model_path}",
-                f" --compiler {args.compiler}",
-                f" --warmup {args.warmup}",
-                f" --log-prompt {args.log_prompt}",
-            ]
-        )
+        cmd_list = [
+            sys.executable,
+            "-m",
+            "graph_net.torch.test_compiler",
+            "--model-path",
+            model_path,
+            "--compiler",
+            args.compiler,
+            "--warmup",
+            str(args.warmup),
+            "--trials",
+            str(args.trials),
+            "--log-prompt",
+            args.log_prompt,
+            "--device",
+            args.device,
+        ]
+        if args.output_dir:
+            cmd_list.extend(["--output-dir", args.output_dir])
+
+        cmd = " ".join(cmd_list)
         cmd_ret = os.system(cmd)
         assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
 
@@ -245,18 +435,21 @@ if __name__ == "__main__":
         "--compiler",
         type=str,
         required=False,
-        default="default",
+        default="inductor",
         help="Path to customized compiler python file",
     )
     parser.add_argument(
         "--device",
         type=str,
         required=False,
-        default="cpu",
-        help="Device for testing the compiler",
+        default="cuda",
+        help="Device for testing the compiler (e.g., 'cpu' or 'cuda')",
     )
     parser.add_argument(
-        "--warmup", type=int, required=False, default=5, help="Number of warmup steps"
+        "--warmup", type=int, required=False, default=3, help="Number of warmup steps"
+    )
+    parser.add_argument(
+        "--trials", type=int, required=False, default=5, help="Number of timing trials"
     )
     parser.add_argument(
         "--log-prompt",
@@ -264,6 +457,13 @@ if __name__ == "__main__":
         required=False,
         default="graph-net-test-compiler-log",
         help="Log prompt for performance log filtering.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        required=False,
+        default=None,
+        help="Directory to save the structured JSON result file.",
     )
     args = parser.parse_args()
     main(args=args)

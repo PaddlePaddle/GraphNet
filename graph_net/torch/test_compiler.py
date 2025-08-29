@@ -194,10 +194,6 @@ def test_single_model(args):
     compiled_model_call = lambda: compiled_model(**input_dict)
 
     if args.device == "cuda":
-        for _ in range(args.warmup):
-            compiled_model_call()
-        compiler.synchronize()
-
         eager_times = time_execution_with_cuda_event(
             eager_model_call,
             num_warmup=args.warmup,

@@ -8,7 +8,7 @@ import json
 import re
 
 
-def read_speedups(log_file):
+def read_speedups_from_log(log_file):
     speedups = []
     try:
         with open(log_file, "r") as f:
@@ -27,6 +27,39 @@ def read_speedups(log_file):
     return speedups
 
 
+def read_speedups_from_json(benchmark_path):
+    speedups = []
+    if not os.path.exists(benchmark_path):
+        print(f"Error: Path does not exist -> {benchmark_path}")
+        return []
+
+    try:
+        for root, _, files in os.walk(benchmark_path):
+            for file in files:
+                if file.endswith(".json"):
+                    json_file = os.path.join(root, file)
+                    try:
+                        with open(json_file, "r") as f:
+                            data = json.load(f)
+                            if (
+                                "performance" in data
+                                and "speedup" in data["performance"]
+                            ):
+                                speedups.append(data["performance"]["speedup"])
+                            else:
+                                print(
+                                    f"Warning: Invalid JSON format (missing 'performance.speedup') -> {json_file}"
+                                )
+                    except json.JSONDecodeError:
+                        print(f"Error: Invalid JSON file -> {json_file}")
+                        continue
+    except Exception as e:
+        print(f"Unexpected error: {str(e)}")
+        return []
+
+    return speedups
+
+
 def analysis(args):
     compilers = ["CINN", "torch.inductor", "tvm", "XLA", "TensorRT", "BladeDISC"]
     num_samples_per_compiler = 200
@@ -39,8 +72,10 @@ def analysis(args):
     data["Compiler"].extend(["CINN"] * num_samples_per_compiler)
 
     # B: torch.inductor
-    inductor_data_file = os.path.join(args.benchmark_log_file)
-    log2_speedups = np.log2(read_speedups(inductor_data_file))
+    # inductor_log = os.path.join(args.test_compiler_log_file)
+    # inductor_speedup = read_speedups_from_log(inductor_log)
+    inductor_speedup = read_speedups_from_json(args.benchmark_path)
+    log2_speedups = np.log2(inductor_speedup)
     data["log2(speedup)"].extend(log2_speedups)
     data["Compiler"].extend(["torch.inductor"] * len(log2_speedups))
 
@@ -126,17 +161,17 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Analyse speedup from different compile frameworks/hardware types"
     )
-    # parser.add_argument(
-    #     "--benchmark-path",
-    #     type=str,
-    #     required=True,
-    #     help="Path include multiple benchmark results from test_compiler"
-    # )
     parser.add_argument(
-        "--benchmark-log-file",
+        "--benchmark-path",
         type=str,
         required=True,
-        help="benchmark log from test_compiler",
+        help="Path include multiple benchmark results from test_compiler",
+    )
+    parser.add_argument(
+        "--test-compiler-log-file",
+        type=str,
+        required=False,
+        help="Log from test_compiler (Outdated)",
     )
     parser.add_argument(
         "--output-file",

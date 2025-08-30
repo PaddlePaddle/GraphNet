@@ -1,41 +1,40 @@
 #!/bin/bash
-benchmark_dir="/work/GraphNet/benchmark_logs"
-mkdir -p "${benchmark_dir}"
+# A benchmark script for GraphNet models.
 
-global_log="${benchmark_dir}/global_0830.log"
+benchmark_dir="/work/GraphNet/benchmark_logs"
+samples_dir="/work/GraphNet/samples"
+global_log="${benchmark_dir}/global.log"
+
+mkdir -p "${benchmark_dir}"
 > "$global_log"
 
-echo "[$(date)] Script started in background (PID: $$)" | tee -a "$global_log"
-{
-    valid_packages=("timm" "torchaudio" "torchgeometric" "torchvision" "transformers-auto-model" "ultralytics")
-    for i in /work/GraphNet/samples/*/; do
-        package_name=$(basename "${i%/}")
-        if [[ " ${valid_packages[*]} " == *" ${package_name} "* ]]; then
-            echo "[$(date)] Processing package: ${package_name}" | tee -a "$global_log"
-            for j in "$i"*/; do
-                model_name=$(basename "${j%/}")
-                
-                echo "Processing model: ${model_name}"
-                
+for package_path in "${samples_dir}"/*/; do
+    package_name=$(basename "${package_path%/}")
+    output_dir="${benchmark_dir}/${package_name}"
+    mkdir -p "${output_dir}"
+
+    for model_path in "${package_path}"*/; do
+        model_name=$(basename "${model_path%/}")
+        {
+            if ls "${output_dir}"/*"${model_name}"*.json > /dev/null 2>&1; then
+                echo "[$(date)] SKIPPING: ${package_name}/${model_name} (JSON result already exists)"
+            else
+                echo "[$(date)] STARTING: ${package_name}/${model_name}"
+
                 python -m graph_net.torch.test_compiler \
-                    --model-path "${j}" \
+                    --model-path "${model_path}" \
                     --compiler "inductor" \
                     --warmup 3 \
                     --trials 10 \
-                    --device cuda \
-                    --output-dir "${benchmark_dir}/${package_name}"
-                
-            done
-        else
-            echo "[$(date)] Skipping package (not in valid list): ${package_name}" | tee -a "$global_log"
-        fi
+                    --device "cuda" \
+                    --output-dir "${output_dir}"
+
+                echo "[$(date)] FINISHED: ${package_name}/${model_name}"
+            fi
+        } >> "$global_log" 2>&1 &
     done
-    echo "[$(date)] Script completed" | tee -a "$global_log"
-} >> "$global_log" 2>&1
+done
 
-
-# nohup bash /work/GraphNet/graph_net/benchmark_demo.sh &
-
-# python3 -m graph_net.analysis --test-compiler-log-file /work/GraphNet/global.log
-
-# python3 -m graph_net.analysis --benchmark-path "${benchmark_dir}"
+echo "[$(date)] All tasks launched. Waiting for remaining background jobs to complete..." | tee -a "$global_log"
+wait
+echo "[$(date)] All jobs finished. Script completed." | tee -a "$global_log"

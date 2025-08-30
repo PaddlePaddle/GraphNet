@@ -14,10 +14,16 @@ import time
 import json
 import numpy as np
 import platform
-from .graph_compiler_backend import GraphCompilerBackend
-from .inductor_backend import InductorBackend
-from .tensorrt_backend import TensorRTBackend
-from .blade_disc_backend import BladeDISCBackend
+from graph_net.torch.graph_compiler_backend import GraphCompilerBackend
+from graph_net.torch.inductor_backend import InductorBackend
+from graph_net.torch.tensorrt_backend import TensorRTBackend
+from graph_net.torch.blade_disc_backend import BladeDISCBackend
+
+registry_backend = {
+    "inductor": InductorBackend(),
+    "tensorrt": TensorRTBackend(),
+    "bladedisc": BladeDISCBackend(),
+}
 
 
 def load_class_from_file(
@@ -39,25 +45,9 @@ def load_class_from_file(
     return model_class
 
 
-registry_backend_classes = {
-    "inductor": InductorBackend,
-    "tensorrt": TensorRTBackend,
-    "bladedisc": BladeDISCBackend,
-}
-
-
 def get_compiler_backend(args) -> GraphCompilerBackend:
-    assert (
-        args.compiler in registry_backend_classes
-    ), f"Unknown compiler: {args.compiler}"
-    cls = registry_backend_classes[args.compiler]
-    if cls == InductorBackend:
-        return InductorBackend()
-    elif cls == TensorRTBackend:
-        return TensorRTBackend()
-    elif cls == BladeDISCBackend:
-        input_dict = get_input_dict(args)
-        return BladeDISCBackend(input_dict)
+    assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
+    return registry_backend[args.compiler]
 
 
 def get_model(args):

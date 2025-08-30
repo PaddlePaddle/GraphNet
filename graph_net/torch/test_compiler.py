@@ -65,7 +65,7 @@ def load_class_from_file(
     spec = importlib.util.spec_from_loader(module_name, loader=None)
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module
-    compiled_code = compile(cleaned_code, filename=file, mode="exec")
+    compiled_code = compile(model_code, filename=file, mode="exec")
     exec(compiled_code, module.__dict__)
 
     model_class = getattr(module, class_name, None)

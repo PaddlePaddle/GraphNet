@@ -1,0 +1,2707 @@
+import torch
+
+from torch import device
+
+
+class GraphModule(torch.nn.Module):
+    def forward(
+        self,
+        L_self_modules_preprocessor_modules_patchifier_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_preprocessor_modules_patchifier_modules_proj_parameters_bias_: torch.nn.parameter.Parameter,
+        L_pixel_values_: torch.Tensor,
+        L_self_modules_preprocessor_modules_patchifier_modules_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_preprocessor_parameters_pos_embed_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_0_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_0_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_0_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_0_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_1_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_1_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_1_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_1_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_2_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_2_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_2_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_2_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_3_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_3_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_3_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_3_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_4_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_4_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_4_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_4_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_5_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_5_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_5_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_5_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_6_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_6_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_6_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_6_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_7_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_7_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_7_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_7_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_8_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_8_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_8_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_8_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_9_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_9_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_9_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_9_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_10_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_10_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_10_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_10_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_11_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_11_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_11_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_11_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_12_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_12_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_12_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_12_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_13_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_13_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_13_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_13_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_14_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_14_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_14_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_14_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_15_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_15_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_15_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_15_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_16_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_16_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_16_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_16_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_17_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_17_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_17_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_17_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_18_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_18_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_18_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_18_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_19_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_19_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_19_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_19_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_20_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_20_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_20_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_20_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_21_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_21_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_21_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_21_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_22_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_22_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_22_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_22_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_23_modules_norm_1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_23_modules_attn_modules_qkv_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_23_modules_attn_modules_proj_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_23_modules_norm_2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc1_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc3_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc2_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_trunk_modules_post_trunk_norm_parameters_weight_: torch.nn.parameter.Parameter,
+    ):
+        l_self_modules_preprocessor_modules_patchifier_modules_proj_parameters_weight_ = L_self_modules_preprocessor_modules_patchifier_modules_proj_parameters_weight_
+        l_self_modules_preprocessor_modules_patchifier_modules_proj_parameters_bias_ = (
+            L_self_modules_preprocessor_modules_patchifier_modules_proj_parameters_bias_
+        )
+        l_pixel_values_ = L_pixel_values_
+        l_self_modules_preprocessor_modules_patchifier_modules_norm_parameters_weight_ = L_self_modules_preprocessor_modules_patchifier_modules_norm_parameters_weight_
+        l_self_modules_preprocessor_parameters_pos_embed_ = (
+            L_self_modules_preprocessor_parameters_pos_embed_
+        )
+        l_self_modules_trunk_modules_blocks_modules_0_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_0_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_0_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_0_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_0_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_0_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_0_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_0_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_1_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_1_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_1_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_1_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_1_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_1_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_1_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_1_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_2_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_2_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_2_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_2_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_2_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_2_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_2_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_2_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_3_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_3_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_3_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_3_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_3_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_3_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_3_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_3_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_4_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_4_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_4_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_4_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_4_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_4_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_4_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_4_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_5_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_5_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_5_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_5_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_5_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_5_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_5_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_5_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_6_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_6_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_6_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_6_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_6_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_6_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_6_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_6_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_7_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_7_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_7_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_7_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_7_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_7_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_7_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_7_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_8_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_8_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_8_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_8_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_8_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_8_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_8_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_8_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_9_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_9_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_9_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_9_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_9_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_9_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_9_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_9_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_10_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_10_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_10_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_10_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_10_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_10_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_10_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_10_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_11_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_11_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_11_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_11_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_11_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_11_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_11_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_11_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_12_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_12_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_12_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_12_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_12_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_12_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_12_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_12_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_13_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_13_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_13_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_13_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_13_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_13_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_13_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_13_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_14_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_14_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_14_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_14_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_14_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_14_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_14_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_14_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_15_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_15_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_15_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_15_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_15_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_15_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_15_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_15_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_16_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_16_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_16_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_16_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_16_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_16_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_16_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_16_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_17_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_17_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_17_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_17_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_17_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_17_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_17_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_17_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_18_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_18_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_18_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_18_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_18_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_18_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_18_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_18_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_19_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_19_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_19_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_19_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_19_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_19_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_19_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_19_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_20_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_20_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_20_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_20_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_20_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_20_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_20_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_20_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_21_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_21_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_21_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_21_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_21_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_21_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_21_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_21_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_22_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_22_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_22_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_22_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_22_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_22_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_22_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_22_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_23_modules_norm_1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_23_modules_norm_1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_23_modules_attn_modules_qkv_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_23_modules_attn_modules_qkv_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_23_modules_attn_modules_proj_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_23_modules_attn_modules_proj_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_23_modules_norm_2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_23_modules_norm_2_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc1_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc1_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc3_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc3_parameters_weight_
+        l_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc2_parameters_weight_ = L_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc2_parameters_weight_
+        l_self_modules_trunk_modules_post_trunk_norm_parameters_weight_ = (
+            L_self_modules_trunk_modules_post_trunk_norm_parameters_weight_
+        )
+        conv2d = torch.conv2d(
+            l_pixel_values_,
+            l_self_modules_preprocessor_modules_patchifier_modules_proj_parameters_weight_,
+            l_self_modules_preprocessor_modules_patchifier_modules_proj_parameters_bias_,
+            (14, 14),
+            (0, 0),
+            (1, 1),
+            1,
+        )
+        l_pixel_values_ = l_self_modules_preprocessor_modules_patchifier_modules_proj_parameters_weight_ = (
+            l_self_modules_preprocessor_modules_patchifier_modules_proj_parameters_bias_
+        ) = None
+        flatten = conv2d.flatten(2)
+        conv2d = None
+        x = flatten.transpose(1, 2)
+        flatten = None
+        float_1 = x.float()
+        pow_1 = float_1.pow(2)
+        mean = pow_1.mean(-1, keepdim=True)
+        pow_1 = None
+        add = mean + 1e-05
+        mean = None
+        rsqrt = torch.rsqrt(add)
+        add = None
+        mul = float_1 * rsqrt
+        float_1 = rsqrt = None
+        output = mul.type_as(x)
+        mul = x = None
+        x_1 = (
+            output
+            * l_self_modules_preprocessor_modules_patchifier_modules_norm_parameters_weight_
+        )
+        output = l_self_modules_preprocessor_modules_patchifier_modules_norm_parameters_weight_ = (None)
+        pos_embed = l_self_modules_preprocessor_parameters_pos_embed_.to(
+            device(type="cuda", index=0)
+        )
+        l_self_modules_preprocessor_parameters_pos_embed_ = None
+        getitem = pos_embed[(slice(None, None, None), slice(None, 256, None))]
+        pos_embed = None
+        tokens = x_1 + getitem
+        x_1 = getitem = None
+        float_2 = tokens.float()
+        pow_2 = float_2.pow(2)
+        mean_1 = pow_2.mean(-1, keepdim=True)
+        pow_2 = None
+        add_2 = mean_1 + 1e-05
+        mean_1 = None
+        rsqrt_1 = torch.rsqrt(add_2)
+        add_2 = None
+        mul_2 = float_2 * rsqrt_1
+        float_2 = rsqrt_1 = None
+        output_1 = mul_2.type_as(tokens)
+        mul_2 = None
+        mul_3 = (
+            output_1
+            * l_self_modules_trunk_modules_blocks_modules_0_modules_norm_1_parameters_weight_
+        )
+        output_1 = l_self_modules_trunk_modules_blocks_modules_0_modules_norm_1_parameters_weight_ = (None)
+        linear = torch._C._nn.linear(
+            mul_3,
+            l_self_modules_trunk_modules_blocks_modules_0_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_3 = l_self_modules_trunk_modules_blocks_modules_0_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape = linear.reshape(1, 256, 3, 12, 128)
+        linear = None
+        qkv = reshape.permute(2, 0, 3, 1, 4)
+        reshape = None
+        unbind = qkv.unbind(0)
+        qkv = None
+        q = unbind[0]
+        k = unbind[1]
+        v = unbind[2]
+        unbind = None
+        x_2 = torch._C._nn.scaled_dot_product_attention(q, k, v, attn_mask=None)
+        q = k = v = None
+        transpose_1 = x_2.transpose(1, 2)
+        x_2 = None
+        contiguous = transpose_1.contiguous()
+        transpose_1 = None
+        x_3 = contiguous.reshape(1, 256, 1536)
+        contiguous = None
+        x_4 = torch._C._nn.linear(
+            x_3,
+            l_self_modules_trunk_modules_blocks_modules_0_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_3 = l_self_modules_trunk_modules_blocks_modules_0_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_5 = torch.nn.functional.dropout(x_4, 0.0, False, False)
+        x_4 = None
+        x_6 = tokens + x_5
+        tokens = x_5 = None
+        float_3 = x_6.float()
+        pow_3 = float_3.pow(2)
+        mean_2 = pow_3.mean(-1, keepdim=True)
+        pow_3 = None
+        add_4 = mean_2 + 1e-05
+        mean_2 = None
+        rsqrt_2 = torch.rsqrt(add_4)
+        add_4 = None
+        mul_4 = float_3 * rsqrt_2
+        float_3 = rsqrt_2 = None
+        output_2 = mul_4.type_as(x_6)
+        mul_4 = None
+        mul_5 = (
+            output_2
+            * l_self_modules_trunk_modules_blocks_modules_0_modules_norm_2_parameters_weight_
+        )
+        output_2 = l_self_modules_trunk_modules_blocks_modules_0_modules_norm_2_parameters_weight_ = (None)
+        linear_2 = torch._C._nn.linear(
+            mul_5,
+            l_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu = torch.nn.functional.silu(linear_2)
+        linear_2 = None
+        linear_3 = torch._C._nn.linear(
+            mul_5,
+            l_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_5 = l_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_7 = silu * linear_3
+        silu = linear_3 = None
+        x_8 = torch._C._nn.linear(
+            x_7,
+            l_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_7 = l_self_modules_trunk_modules_blocks_modules_0_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_9 = x_6 + x_8
+        x_6 = x_8 = None
+        float_4 = x_9.float()
+        pow_4 = float_4.pow(2)
+        mean_3 = pow_4.mean(-1, keepdim=True)
+        pow_4 = None
+        add_6 = mean_3 + 1e-05
+        mean_3 = None
+        rsqrt_3 = torch.rsqrt(add_6)
+        add_6 = None
+        mul_7 = float_4 * rsqrt_3
+        float_4 = rsqrt_3 = None
+        output_3 = mul_7.type_as(x_9)
+        mul_7 = None
+        mul_8 = (
+            output_3
+            * l_self_modules_trunk_modules_blocks_modules_1_modules_norm_1_parameters_weight_
+        )
+        output_3 = l_self_modules_trunk_modules_blocks_modules_1_modules_norm_1_parameters_weight_ = (None)
+        linear_5 = torch._C._nn.linear(
+            mul_8,
+            l_self_modules_trunk_modules_blocks_modules_1_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_8 = l_self_modules_trunk_modules_blocks_modules_1_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_2 = linear_5.reshape(1, 256, 3, 12, 128)
+        linear_5 = None
+        qkv_1 = reshape_2.permute(2, 0, 3, 1, 4)
+        reshape_2 = None
+        unbind_1 = qkv_1.unbind(0)
+        qkv_1 = None
+        q_1 = unbind_1[0]
+        k_1 = unbind_1[1]
+        v_1 = unbind_1[2]
+        unbind_1 = None
+        x_10 = torch._C._nn.scaled_dot_product_attention(q_1, k_1, v_1, attn_mask=None)
+        q_1 = k_1 = v_1 = None
+        transpose_2 = x_10.transpose(1, 2)
+        x_10 = None
+        contiguous_1 = transpose_2.contiguous()
+        transpose_2 = None
+        x_11 = contiguous_1.reshape(1, 256, 1536)
+        contiguous_1 = None
+        x_12 = torch._C._nn.linear(
+            x_11,
+            l_self_modules_trunk_modules_blocks_modules_1_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_11 = l_self_modules_trunk_modules_blocks_modules_1_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_13 = torch.nn.functional.dropout(x_12, 0.0, False, False)
+        x_12 = None
+        x_14 = x_9 + x_13
+        x_9 = x_13 = None
+        float_5 = x_14.float()
+        pow_5 = float_5.pow(2)
+        mean_4 = pow_5.mean(-1, keepdim=True)
+        pow_5 = None
+        add_8 = mean_4 + 1e-05
+        mean_4 = None
+        rsqrt_4 = torch.rsqrt(add_8)
+        add_8 = None
+        mul_9 = float_5 * rsqrt_4
+        float_5 = rsqrt_4 = None
+        output_4 = mul_9.type_as(x_14)
+        mul_9 = None
+        mul_10 = (
+            output_4
+            * l_self_modules_trunk_modules_blocks_modules_1_modules_norm_2_parameters_weight_
+        )
+        output_4 = l_self_modules_trunk_modules_blocks_modules_1_modules_norm_2_parameters_weight_ = (None)
+        linear_7 = torch._C._nn.linear(
+            mul_10,
+            l_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_1 = torch.nn.functional.silu(linear_7)
+        linear_7 = None
+        linear_8 = torch._C._nn.linear(
+            mul_10,
+            l_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_10 = l_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_15 = silu_1 * linear_8
+        silu_1 = linear_8 = None
+        x_16 = torch._C._nn.linear(
+            x_15,
+            l_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_15 = l_self_modules_trunk_modules_blocks_modules_1_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_17 = x_14 + x_16
+        x_14 = x_16 = None
+        float_6 = x_17.float()
+        pow_6 = float_6.pow(2)
+        mean_5 = pow_6.mean(-1, keepdim=True)
+        pow_6 = None
+        add_10 = mean_5 + 1e-05
+        mean_5 = None
+        rsqrt_5 = torch.rsqrt(add_10)
+        add_10 = None
+        mul_12 = float_6 * rsqrt_5
+        float_6 = rsqrt_5 = None
+        output_5 = mul_12.type_as(x_17)
+        mul_12 = None
+        mul_13 = (
+            output_5
+            * l_self_modules_trunk_modules_blocks_modules_2_modules_norm_1_parameters_weight_
+        )
+        output_5 = l_self_modules_trunk_modules_blocks_modules_2_modules_norm_1_parameters_weight_ = (None)
+        linear_10 = torch._C._nn.linear(
+            mul_13,
+            l_self_modules_trunk_modules_blocks_modules_2_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_13 = l_self_modules_trunk_modules_blocks_modules_2_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_4 = linear_10.reshape(1, 256, 3, 12, 128)
+        linear_10 = None
+        qkv_2 = reshape_4.permute(2, 0, 3, 1, 4)
+        reshape_4 = None
+        unbind_2 = qkv_2.unbind(0)
+        qkv_2 = None
+        q_2 = unbind_2[0]
+        k_2 = unbind_2[1]
+        v_2 = unbind_2[2]
+        unbind_2 = None
+        x_18 = torch._C._nn.scaled_dot_product_attention(q_2, k_2, v_2, attn_mask=None)
+        q_2 = k_2 = v_2 = None
+        transpose_3 = x_18.transpose(1, 2)
+        x_18 = None
+        contiguous_2 = transpose_3.contiguous()
+        transpose_3 = None
+        x_19 = contiguous_2.reshape(1, 256, 1536)
+        contiguous_2 = None
+        x_20 = torch._C._nn.linear(
+            x_19,
+            l_self_modules_trunk_modules_blocks_modules_2_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_19 = l_self_modules_trunk_modules_blocks_modules_2_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_21 = torch.nn.functional.dropout(x_20, 0.0, False, False)
+        x_20 = None
+        x_22 = x_17 + x_21
+        x_17 = x_21 = None
+        float_7 = x_22.float()
+        pow_7 = float_7.pow(2)
+        mean_6 = pow_7.mean(-1, keepdim=True)
+        pow_7 = None
+        add_12 = mean_6 + 1e-05
+        mean_6 = None
+        rsqrt_6 = torch.rsqrt(add_12)
+        add_12 = None
+        mul_14 = float_7 * rsqrt_6
+        float_7 = rsqrt_6 = None
+        output_6 = mul_14.type_as(x_22)
+        mul_14 = None
+        mul_15 = (
+            output_6
+            * l_self_modules_trunk_modules_blocks_modules_2_modules_norm_2_parameters_weight_
+        )
+        output_6 = l_self_modules_trunk_modules_blocks_modules_2_modules_norm_2_parameters_weight_ = (None)
+        linear_12 = torch._C._nn.linear(
+            mul_15,
+            l_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_2 = torch.nn.functional.silu(linear_12)
+        linear_12 = None
+        linear_13 = torch._C._nn.linear(
+            mul_15,
+            l_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_15 = l_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_23 = silu_2 * linear_13
+        silu_2 = linear_13 = None
+        x_24 = torch._C._nn.linear(
+            x_23,
+            l_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_23 = l_self_modules_trunk_modules_blocks_modules_2_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_25 = x_22 + x_24
+        x_22 = x_24 = None
+        float_8 = x_25.float()
+        pow_8 = float_8.pow(2)
+        mean_7 = pow_8.mean(-1, keepdim=True)
+        pow_8 = None
+        add_14 = mean_7 + 1e-05
+        mean_7 = None
+        rsqrt_7 = torch.rsqrt(add_14)
+        add_14 = None
+        mul_17 = float_8 * rsqrt_7
+        float_8 = rsqrt_7 = None
+        output_7 = mul_17.type_as(x_25)
+        mul_17 = None
+        mul_18 = (
+            output_7
+            * l_self_modules_trunk_modules_blocks_modules_3_modules_norm_1_parameters_weight_
+        )
+        output_7 = l_self_modules_trunk_modules_blocks_modules_3_modules_norm_1_parameters_weight_ = (None)
+        linear_15 = torch._C._nn.linear(
+            mul_18,
+            l_self_modules_trunk_modules_blocks_modules_3_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_18 = l_self_modules_trunk_modules_blocks_modules_3_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_6 = linear_15.reshape(1, 256, 3, 12, 128)
+        linear_15 = None
+        qkv_3 = reshape_6.permute(2, 0, 3, 1, 4)
+        reshape_6 = None
+        unbind_3 = qkv_3.unbind(0)
+        qkv_3 = None
+        q_3 = unbind_3[0]
+        k_3 = unbind_3[1]
+        v_3 = unbind_3[2]
+        unbind_3 = None
+        x_26 = torch._C._nn.scaled_dot_product_attention(q_3, k_3, v_3, attn_mask=None)
+        q_3 = k_3 = v_3 = None
+        transpose_4 = x_26.transpose(1, 2)
+        x_26 = None
+        contiguous_3 = transpose_4.contiguous()
+        transpose_4 = None
+        x_27 = contiguous_3.reshape(1, 256, 1536)
+        contiguous_3 = None
+        x_28 = torch._C._nn.linear(
+            x_27,
+            l_self_modules_trunk_modules_blocks_modules_3_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_27 = l_self_modules_trunk_modules_blocks_modules_3_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_29 = torch.nn.functional.dropout(x_28, 0.0, False, False)
+        x_28 = None
+        x_30 = x_25 + x_29
+        x_25 = x_29 = None
+        float_9 = x_30.float()
+        pow_9 = float_9.pow(2)
+        mean_8 = pow_9.mean(-1, keepdim=True)
+        pow_9 = None
+        add_16 = mean_8 + 1e-05
+        mean_8 = None
+        rsqrt_8 = torch.rsqrt(add_16)
+        add_16 = None
+        mul_19 = float_9 * rsqrt_8
+        float_9 = rsqrt_8 = None
+        output_8 = mul_19.type_as(x_30)
+        mul_19 = None
+        mul_20 = (
+            output_8
+            * l_self_modules_trunk_modules_blocks_modules_3_modules_norm_2_parameters_weight_
+        )
+        output_8 = l_self_modules_trunk_modules_blocks_modules_3_modules_norm_2_parameters_weight_ = (None)
+        linear_17 = torch._C._nn.linear(
+            mul_20,
+            l_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_3 = torch.nn.functional.silu(linear_17)
+        linear_17 = None
+        linear_18 = torch._C._nn.linear(
+            mul_20,
+            l_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_20 = l_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_31 = silu_3 * linear_18
+        silu_3 = linear_18 = None
+        x_32 = torch._C._nn.linear(
+            x_31,
+            l_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_31 = l_self_modules_trunk_modules_blocks_modules_3_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_33 = x_30 + x_32
+        x_30 = x_32 = None
+        float_10 = x_33.float()
+        pow_10 = float_10.pow(2)
+        mean_9 = pow_10.mean(-1, keepdim=True)
+        pow_10 = None
+        add_18 = mean_9 + 1e-05
+        mean_9 = None
+        rsqrt_9 = torch.rsqrt(add_18)
+        add_18 = None
+        mul_22 = float_10 * rsqrt_9
+        float_10 = rsqrt_9 = None
+        output_9 = mul_22.type_as(x_33)
+        mul_22 = None
+        mul_23 = (
+            output_9
+            * l_self_modules_trunk_modules_blocks_modules_4_modules_norm_1_parameters_weight_
+        )
+        output_9 = l_self_modules_trunk_modules_blocks_modules_4_modules_norm_1_parameters_weight_ = (None)
+        linear_20 = torch._C._nn.linear(
+            mul_23,
+            l_self_modules_trunk_modules_blocks_modules_4_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_23 = l_self_modules_trunk_modules_blocks_modules_4_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_8 = linear_20.reshape(1, 256, 3, 12, 128)
+        linear_20 = None
+        qkv_4 = reshape_8.permute(2, 0, 3, 1, 4)
+        reshape_8 = None
+        unbind_4 = qkv_4.unbind(0)
+        qkv_4 = None
+        q_4 = unbind_4[0]
+        k_4 = unbind_4[1]
+        v_4 = unbind_4[2]
+        unbind_4 = None
+        x_34 = torch._C._nn.scaled_dot_product_attention(q_4, k_4, v_4, attn_mask=None)
+        q_4 = k_4 = v_4 = None
+        transpose_5 = x_34.transpose(1, 2)
+        x_34 = None
+        contiguous_4 = transpose_5.contiguous()
+        transpose_5 = None
+        x_35 = contiguous_4.reshape(1, 256, 1536)
+        contiguous_4 = None
+        x_36 = torch._C._nn.linear(
+            x_35,
+            l_self_modules_trunk_modules_blocks_modules_4_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_35 = l_self_modules_trunk_modules_blocks_modules_4_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_37 = torch.nn.functional.dropout(x_36, 0.0, False, False)
+        x_36 = None
+        x_38 = x_33 + x_37
+        x_33 = x_37 = None
+        float_11 = x_38.float()
+        pow_11 = float_11.pow(2)
+        mean_10 = pow_11.mean(-1, keepdim=True)
+        pow_11 = None
+        add_20 = mean_10 + 1e-05
+        mean_10 = None
+        rsqrt_10 = torch.rsqrt(add_20)
+        add_20 = None
+        mul_24 = float_11 * rsqrt_10
+        float_11 = rsqrt_10 = None
+        output_10 = mul_24.type_as(x_38)
+        mul_24 = None
+        mul_25 = (
+            output_10
+            * l_self_modules_trunk_modules_blocks_modules_4_modules_norm_2_parameters_weight_
+        )
+        output_10 = l_self_modules_trunk_modules_blocks_modules_4_modules_norm_2_parameters_weight_ = (None)
+        linear_22 = torch._C._nn.linear(
+            mul_25,
+            l_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_4 = torch.nn.functional.silu(linear_22)
+        linear_22 = None
+        linear_23 = torch._C._nn.linear(
+            mul_25,
+            l_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_25 = l_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_39 = silu_4 * linear_23
+        silu_4 = linear_23 = None
+        x_40 = torch._C._nn.linear(
+            x_39,
+            l_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_39 = l_self_modules_trunk_modules_blocks_modules_4_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_41 = x_38 + x_40
+        x_38 = x_40 = None
+        float_12 = x_41.float()
+        pow_12 = float_12.pow(2)
+        mean_11 = pow_12.mean(-1, keepdim=True)
+        pow_12 = None
+        add_22 = mean_11 + 1e-05
+        mean_11 = None
+        rsqrt_11 = torch.rsqrt(add_22)
+        add_22 = None
+        mul_27 = float_12 * rsqrt_11
+        float_12 = rsqrt_11 = None
+        output_11 = mul_27.type_as(x_41)
+        mul_27 = None
+        mul_28 = (
+            output_11
+            * l_self_modules_trunk_modules_blocks_modules_5_modules_norm_1_parameters_weight_
+        )
+        output_11 = l_self_modules_trunk_modules_blocks_modules_5_modules_norm_1_parameters_weight_ = (None)
+        linear_25 = torch._C._nn.linear(
+            mul_28,
+            l_self_modules_trunk_modules_blocks_modules_5_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_28 = l_self_modules_trunk_modules_blocks_modules_5_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_10 = linear_25.reshape(1, 256, 3, 12, 128)
+        linear_25 = None
+        qkv_5 = reshape_10.permute(2, 0, 3, 1, 4)
+        reshape_10 = None
+        unbind_5 = qkv_5.unbind(0)
+        qkv_5 = None
+        q_5 = unbind_5[0]
+        k_5 = unbind_5[1]
+        v_5 = unbind_5[2]
+        unbind_5 = None
+        x_42 = torch._C._nn.scaled_dot_product_attention(q_5, k_5, v_5, attn_mask=None)
+        q_5 = k_5 = v_5 = None
+        transpose_6 = x_42.transpose(1, 2)
+        x_42 = None
+        contiguous_5 = transpose_6.contiguous()
+        transpose_6 = None
+        x_43 = contiguous_5.reshape(1, 256, 1536)
+        contiguous_5 = None
+        x_44 = torch._C._nn.linear(
+            x_43,
+            l_self_modules_trunk_modules_blocks_modules_5_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_43 = l_self_modules_trunk_modules_blocks_modules_5_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_45 = torch.nn.functional.dropout(x_44, 0.0, False, False)
+        x_44 = None
+        x_46 = x_41 + x_45
+        x_41 = x_45 = None
+        float_13 = x_46.float()
+        pow_13 = float_13.pow(2)
+        mean_12 = pow_13.mean(-1, keepdim=True)
+        pow_13 = None
+        add_24 = mean_12 + 1e-05
+        mean_12 = None
+        rsqrt_12 = torch.rsqrt(add_24)
+        add_24 = None
+        mul_29 = float_13 * rsqrt_12
+        float_13 = rsqrt_12 = None
+        output_12 = mul_29.type_as(x_46)
+        mul_29 = None
+        mul_30 = (
+            output_12
+            * l_self_modules_trunk_modules_blocks_modules_5_modules_norm_2_parameters_weight_
+        )
+        output_12 = l_self_modules_trunk_modules_blocks_modules_5_modules_norm_2_parameters_weight_ = (None)
+        linear_27 = torch._C._nn.linear(
+            mul_30,
+            l_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_5 = torch.nn.functional.silu(linear_27)
+        linear_27 = None
+        linear_28 = torch._C._nn.linear(
+            mul_30,
+            l_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_30 = l_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_47 = silu_5 * linear_28
+        silu_5 = linear_28 = None
+        x_48 = torch._C._nn.linear(
+            x_47,
+            l_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_47 = l_self_modules_trunk_modules_blocks_modules_5_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_49 = x_46 + x_48
+        x_46 = x_48 = None
+        float_14 = x_49.float()
+        pow_14 = float_14.pow(2)
+        mean_13 = pow_14.mean(-1, keepdim=True)
+        pow_14 = None
+        add_26 = mean_13 + 1e-05
+        mean_13 = None
+        rsqrt_13 = torch.rsqrt(add_26)
+        add_26 = None
+        mul_32 = float_14 * rsqrt_13
+        float_14 = rsqrt_13 = None
+        output_13 = mul_32.type_as(x_49)
+        mul_32 = None
+        mul_33 = (
+            output_13
+            * l_self_modules_trunk_modules_blocks_modules_6_modules_norm_1_parameters_weight_
+        )
+        output_13 = l_self_modules_trunk_modules_blocks_modules_6_modules_norm_1_parameters_weight_ = (None)
+        linear_30 = torch._C._nn.linear(
+            mul_33,
+            l_self_modules_trunk_modules_blocks_modules_6_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_33 = l_self_modules_trunk_modules_blocks_modules_6_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_12 = linear_30.reshape(1, 256, 3, 12, 128)
+        linear_30 = None
+        qkv_6 = reshape_12.permute(2, 0, 3, 1, 4)
+        reshape_12 = None
+        unbind_6 = qkv_6.unbind(0)
+        qkv_6 = None
+        q_6 = unbind_6[0]
+        k_6 = unbind_6[1]
+        v_6 = unbind_6[2]
+        unbind_6 = None
+        x_50 = torch._C._nn.scaled_dot_product_attention(q_6, k_6, v_6, attn_mask=None)
+        q_6 = k_6 = v_6 = None
+        transpose_7 = x_50.transpose(1, 2)
+        x_50 = None
+        contiguous_6 = transpose_7.contiguous()
+        transpose_7 = None
+        x_51 = contiguous_6.reshape(1, 256, 1536)
+        contiguous_6 = None
+        x_52 = torch._C._nn.linear(
+            x_51,
+            l_self_modules_trunk_modules_blocks_modules_6_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_51 = l_self_modules_trunk_modules_blocks_modules_6_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_53 = torch.nn.functional.dropout(x_52, 0.0, False, False)
+        x_52 = None
+        x_54 = x_49 + x_53
+        x_49 = x_53 = None
+        float_15 = x_54.float()
+        pow_15 = float_15.pow(2)
+        mean_14 = pow_15.mean(-1, keepdim=True)
+        pow_15 = None
+        add_28 = mean_14 + 1e-05
+        mean_14 = None
+        rsqrt_14 = torch.rsqrt(add_28)
+        add_28 = None
+        mul_34 = float_15 * rsqrt_14
+        float_15 = rsqrt_14 = None
+        output_14 = mul_34.type_as(x_54)
+        mul_34 = None
+        mul_35 = (
+            output_14
+            * l_self_modules_trunk_modules_blocks_modules_6_modules_norm_2_parameters_weight_
+        )
+        output_14 = l_self_modules_trunk_modules_blocks_modules_6_modules_norm_2_parameters_weight_ = (None)
+        linear_32 = torch._C._nn.linear(
+            mul_35,
+            l_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_6 = torch.nn.functional.silu(linear_32)
+        linear_32 = None
+        linear_33 = torch._C._nn.linear(
+            mul_35,
+            l_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_35 = l_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_55 = silu_6 * linear_33
+        silu_6 = linear_33 = None
+        x_56 = torch._C._nn.linear(
+            x_55,
+            l_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_55 = l_self_modules_trunk_modules_blocks_modules_6_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_57 = x_54 + x_56
+        x_54 = x_56 = None
+        float_16 = x_57.float()
+        pow_16 = float_16.pow(2)
+        mean_15 = pow_16.mean(-1, keepdim=True)
+        pow_16 = None
+        add_30 = mean_15 + 1e-05
+        mean_15 = None
+        rsqrt_15 = torch.rsqrt(add_30)
+        add_30 = None
+        mul_37 = float_16 * rsqrt_15
+        float_16 = rsqrt_15 = None
+        output_15 = mul_37.type_as(x_57)
+        mul_37 = None
+        mul_38 = (
+            output_15
+            * l_self_modules_trunk_modules_blocks_modules_7_modules_norm_1_parameters_weight_
+        )
+        output_15 = l_self_modules_trunk_modules_blocks_modules_7_modules_norm_1_parameters_weight_ = (None)
+        linear_35 = torch._C._nn.linear(
+            mul_38,
+            l_self_modules_trunk_modules_blocks_modules_7_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_38 = l_self_modules_trunk_modules_blocks_modules_7_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_14 = linear_35.reshape(1, 256, 3, 12, 128)
+        linear_35 = None
+        qkv_7 = reshape_14.permute(2, 0, 3, 1, 4)
+        reshape_14 = None
+        unbind_7 = qkv_7.unbind(0)
+        qkv_7 = None
+        q_7 = unbind_7[0]
+        k_7 = unbind_7[1]
+        v_7 = unbind_7[2]
+        unbind_7 = None
+        x_58 = torch._C._nn.scaled_dot_product_attention(q_7, k_7, v_7, attn_mask=None)
+        q_7 = k_7 = v_7 = None
+        transpose_8 = x_58.transpose(1, 2)
+        x_58 = None
+        contiguous_7 = transpose_8.contiguous()
+        transpose_8 = None
+        x_59 = contiguous_7.reshape(1, 256, 1536)
+        contiguous_7 = None
+        x_60 = torch._C._nn.linear(
+            x_59,
+            l_self_modules_trunk_modules_blocks_modules_7_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_59 = l_self_modules_trunk_modules_blocks_modules_7_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_61 = torch.nn.functional.dropout(x_60, 0.0, False, False)
+        x_60 = None
+        x_62 = x_57 + x_61
+        x_57 = x_61 = None
+        float_17 = x_62.float()
+        pow_17 = float_17.pow(2)
+        mean_16 = pow_17.mean(-1, keepdim=True)
+        pow_17 = None
+        add_32 = mean_16 + 1e-05
+        mean_16 = None
+        rsqrt_16 = torch.rsqrt(add_32)
+        add_32 = None
+        mul_39 = float_17 * rsqrt_16
+        float_17 = rsqrt_16 = None
+        output_16 = mul_39.type_as(x_62)
+        mul_39 = None
+        mul_40 = (
+            output_16
+            * l_self_modules_trunk_modules_blocks_modules_7_modules_norm_2_parameters_weight_
+        )
+        output_16 = l_self_modules_trunk_modules_blocks_modules_7_modules_norm_2_parameters_weight_ = (None)
+        linear_37 = torch._C._nn.linear(
+            mul_40,
+            l_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_7 = torch.nn.functional.silu(linear_37)
+        linear_37 = None
+        linear_38 = torch._C._nn.linear(
+            mul_40,
+            l_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_40 = l_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_63 = silu_7 * linear_38
+        silu_7 = linear_38 = None
+        x_64 = torch._C._nn.linear(
+            x_63,
+            l_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_63 = l_self_modules_trunk_modules_blocks_modules_7_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_65 = x_62 + x_64
+        x_62 = x_64 = None
+        float_18 = x_65.float()
+        pow_18 = float_18.pow(2)
+        mean_17 = pow_18.mean(-1, keepdim=True)
+        pow_18 = None
+        add_34 = mean_17 + 1e-05
+        mean_17 = None
+        rsqrt_17 = torch.rsqrt(add_34)
+        add_34 = None
+        mul_42 = float_18 * rsqrt_17
+        float_18 = rsqrt_17 = None
+        output_17 = mul_42.type_as(x_65)
+        mul_42 = None
+        mul_43 = (
+            output_17
+            * l_self_modules_trunk_modules_blocks_modules_8_modules_norm_1_parameters_weight_
+        )
+        output_17 = l_self_modules_trunk_modules_blocks_modules_8_modules_norm_1_parameters_weight_ = (None)
+        linear_40 = torch._C._nn.linear(
+            mul_43,
+            l_self_modules_trunk_modules_blocks_modules_8_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_43 = l_self_modules_trunk_modules_blocks_modules_8_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_16 = linear_40.reshape(1, 256, 3, 12, 128)
+        linear_40 = None
+        qkv_8 = reshape_16.permute(2, 0, 3, 1, 4)
+        reshape_16 = None
+        unbind_8 = qkv_8.unbind(0)
+        qkv_8 = None
+        q_8 = unbind_8[0]
+        k_8 = unbind_8[1]
+        v_8 = unbind_8[2]
+        unbind_8 = None
+        x_66 = torch._C._nn.scaled_dot_product_attention(q_8, k_8, v_8, attn_mask=None)
+        q_8 = k_8 = v_8 = None
+        transpose_9 = x_66.transpose(1, 2)
+        x_66 = None
+        contiguous_8 = transpose_9.contiguous()
+        transpose_9 = None
+        x_67 = contiguous_8.reshape(1, 256, 1536)
+        contiguous_8 = None
+        x_68 = torch._C._nn.linear(
+            x_67,
+            l_self_modules_trunk_modules_blocks_modules_8_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_67 = l_self_modules_trunk_modules_blocks_modules_8_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_69 = torch.nn.functional.dropout(x_68, 0.0, False, False)
+        x_68 = None
+        x_70 = x_65 + x_69
+        x_65 = x_69 = None
+        float_19 = x_70.float()
+        pow_19 = float_19.pow(2)
+        mean_18 = pow_19.mean(-1, keepdim=True)
+        pow_19 = None
+        add_36 = mean_18 + 1e-05
+        mean_18 = None
+        rsqrt_18 = torch.rsqrt(add_36)
+        add_36 = None
+        mul_44 = float_19 * rsqrt_18
+        float_19 = rsqrt_18 = None
+        output_18 = mul_44.type_as(x_70)
+        mul_44 = None
+        mul_45 = (
+            output_18
+            * l_self_modules_trunk_modules_blocks_modules_8_modules_norm_2_parameters_weight_
+        )
+        output_18 = l_self_modules_trunk_modules_blocks_modules_8_modules_norm_2_parameters_weight_ = (None)
+        linear_42 = torch._C._nn.linear(
+            mul_45,
+            l_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_8 = torch.nn.functional.silu(linear_42)
+        linear_42 = None
+        linear_43 = torch._C._nn.linear(
+            mul_45,
+            l_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_45 = l_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_71 = silu_8 * linear_43
+        silu_8 = linear_43 = None
+        x_72 = torch._C._nn.linear(
+            x_71,
+            l_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_71 = l_self_modules_trunk_modules_blocks_modules_8_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_73 = x_70 + x_72
+        x_70 = x_72 = None
+        float_20 = x_73.float()
+        pow_20 = float_20.pow(2)
+        mean_19 = pow_20.mean(-1, keepdim=True)
+        pow_20 = None
+        add_38 = mean_19 + 1e-05
+        mean_19 = None
+        rsqrt_19 = torch.rsqrt(add_38)
+        add_38 = None
+        mul_47 = float_20 * rsqrt_19
+        float_20 = rsqrt_19 = None
+        output_19 = mul_47.type_as(x_73)
+        mul_47 = None
+        mul_48 = (
+            output_19
+            * l_self_modules_trunk_modules_blocks_modules_9_modules_norm_1_parameters_weight_
+        )
+        output_19 = l_self_modules_trunk_modules_blocks_modules_9_modules_norm_1_parameters_weight_ = (None)
+        linear_45 = torch._C._nn.linear(
+            mul_48,
+            l_self_modules_trunk_modules_blocks_modules_9_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_48 = l_self_modules_trunk_modules_blocks_modules_9_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_18 = linear_45.reshape(1, 256, 3, 12, 128)
+        linear_45 = None
+        qkv_9 = reshape_18.permute(2, 0, 3, 1, 4)
+        reshape_18 = None
+        unbind_9 = qkv_9.unbind(0)
+        qkv_9 = None
+        q_9 = unbind_9[0]
+        k_9 = unbind_9[1]
+        v_9 = unbind_9[2]
+        unbind_9 = None
+        x_74 = torch._C._nn.scaled_dot_product_attention(q_9, k_9, v_9, attn_mask=None)
+        q_9 = k_9 = v_9 = None
+        transpose_10 = x_74.transpose(1, 2)
+        x_74 = None
+        contiguous_9 = transpose_10.contiguous()
+        transpose_10 = None
+        x_75 = contiguous_9.reshape(1, 256, 1536)
+        contiguous_9 = None
+        x_76 = torch._C._nn.linear(
+            x_75,
+            l_self_modules_trunk_modules_blocks_modules_9_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_75 = l_self_modules_trunk_modules_blocks_modules_9_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_77 = torch.nn.functional.dropout(x_76, 0.0, False, False)
+        x_76 = None
+        x_78 = x_73 + x_77
+        x_73 = x_77 = None
+        float_21 = x_78.float()
+        pow_21 = float_21.pow(2)
+        mean_20 = pow_21.mean(-1, keepdim=True)
+        pow_21 = None
+        add_40 = mean_20 + 1e-05
+        mean_20 = None
+        rsqrt_20 = torch.rsqrt(add_40)
+        add_40 = None
+        mul_49 = float_21 * rsqrt_20
+        float_21 = rsqrt_20 = None
+        output_20 = mul_49.type_as(x_78)
+        mul_49 = None
+        mul_50 = (
+            output_20
+            * l_self_modules_trunk_modules_blocks_modules_9_modules_norm_2_parameters_weight_
+        )
+        output_20 = l_self_modules_trunk_modules_blocks_modules_9_modules_norm_2_parameters_weight_ = (None)
+        linear_47 = torch._C._nn.linear(
+            mul_50,
+            l_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_9 = torch.nn.functional.silu(linear_47)
+        linear_47 = None
+        linear_48 = torch._C._nn.linear(
+            mul_50,
+            l_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_50 = l_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_79 = silu_9 * linear_48
+        silu_9 = linear_48 = None
+        x_80 = torch._C._nn.linear(
+            x_79,
+            l_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_79 = l_self_modules_trunk_modules_blocks_modules_9_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_81 = x_78 + x_80
+        x_78 = x_80 = None
+        float_22 = x_81.float()
+        pow_22 = float_22.pow(2)
+        mean_21 = pow_22.mean(-1, keepdim=True)
+        pow_22 = None
+        add_42 = mean_21 + 1e-05
+        mean_21 = None
+        rsqrt_21 = torch.rsqrt(add_42)
+        add_42 = None
+        mul_52 = float_22 * rsqrt_21
+        float_22 = rsqrt_21 = None
+        output_21 = mul_52.type_as(x_81)
+        mul_52 = None
+        mul_53 = (
+            output_21
+            * l_self_modules_trunk_modules_blocks_modules_10_modules_norm_1_parameters_weight_
+        )
+        output_21 = l_self_modules_trunk_modules_blocks_modules_10_modules_norm_1_parameters_weight_ = (None)
+        linear_50 = torch._C._nn.linear(
+            mul_53,
+            l_self_modules_trunk_modules_blocks_modules_10_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_53 = l_self_modules_trunk_modules_blocks_modules_10_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_20 = linear_50.reshape(1, 256, 3, 12, 128)
+        linear_50 = None
+        qkv_10 = reshape_20.permute(2, 0, 3, 1, 4)
+        reshape_20 = None
+        unbind_10 = qkv_10.unbind(0)
+        qkv_10 = None
+        q_10 = unbind_10[0]
+        k_10 = unbind_10[1]
+        v_10 = unbind_10[2]
+        unbind_10 = None
+        x_82 = torch._C._nn.scaled_dot_product_attention(
+            q_10, k_10, v_10, attn_mask=None
+        )
+        q_10 = k_10 = v_10 = None
+        transpose_11 = x_82.transpose(1, 2)
+        x_82 = None
+        contiguous_10 = transpose_11.contiguous()
+        transpose_11 = None
+        x_83 = contiguous_10.reshape(1, 256, 1536)
+        contiguous_10 = None
+        x_84 = torch._C._nn.linear(
+            x_83,
+            l_self_modules_trunk_modules_blocks_modules_10_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_83 = l_self_modules_trunk_modules_blocks_modules_10_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_85 = torch.nn.functional.dropout(x_84, 0.0, False, False)
+        x_84 = None
+        x_86 = x_81 + x_85
+        x_81 = x_85 = None
+        float_23 = x_86.float()
+        pow_23 = float_23.pow(2)
+        mean_22 = pow_23.mean(-1, keepdim=True)
+        pow_23 = None
+        add_44 = mean_22 + 1e-05
+        mean_22 = None
+        rsqrt_22 = torch.rsqrt(add_44)
+        add_44 = None
+        mul_54 = float_23 * rsqrt_22
+        float_23 = rsqrt_22 = None
+        output_22 = mul_54.type_as(x_86)
+        mul_54 = None
+        mul_55 = (
+            output_22
+            * l_self_modules_trunk_modules_blocks_modules_10_modules_norm_2_parameters_weight_
+        )
+        output_22 = l_self_modules_trunk_modules_blocks_modules_10_modules_norm_2_parameters_weight_ = (None)
+        linear_52 = torch._C._nn.linear(
+            mul_55,
+            l_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_10 = torch.nn.functional.silu(linear_52)
+        linear_52 = None
+        linear_53 = torch._C._nn.linear(
+            mul_55,
+            l_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_55 = l_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_87 = silu_10 * linear_53
+        silu_10 = linear_53 = None
+        x_88 = torch._C._nn.linear(
+            x_87,
+            l_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_87 = l_self_modules_trunk_modules_blocks_modules_10_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_89 = x_86 + x_88
+        x_86 = x_88 = None
+        float_24 = x_89.float()
+        pow_24 = float_24.pow(2)
+        mean_23 = pow_24.mean(-1, keepdim=True)
+        pow_24 = None
+        add_46 = mean_23 + 1e-05
+        mean_23 = None
+        rsqrt_23 = torch.rsqrt(add_46)
+        add_46 = None
+        mul_57 = float_24 * rsqrt_23
+        float_24 = rsqrt_23 = None
+        output_23 = mul_57.type_as(x_89)
+        mul_57 = None
+        mul_58 = (
+            output_23
+            * l_self_modules_trunk_modules_blocks_modules_11_modules_norm_1_parameters_weight_
+        )
+        output_23 = l_self_modules_trunk_modules_blocks_modules_11_modules_norm_1_parameters_weight_ = (None)
+        linear_55 = torch._C._nn.linear(
+            mul_58,
+            l_self_modules_trunk_modules_blocks_modules_11_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_58 = l_self_modules_trunk_modules_blocks_modules_11_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_22 = linear_55.reshape(1, 256, 3, 12, 128)
+        linear_55 = None
+        qkv_11 = reshape_22.permute(2, 0, 3, 1, 4)
+        reshape_22 = None
+        unbind_11 = qkv_11.unbind(0)
+        qkv_11 = None
+        q_11 = unbind_11[0]
+        k_11 = unbind_11[1]
+        v_11 = unbind_11[2]
+        unbind_11 = None
+        x_90 = torch._C._nn.scaled_dot_product_attention(
+            q_11, k_11, v_11, attn_mask=None
+        )
+        q_11 = k_11 = v_11 = None
+        transpose_12 = x_90.transpose(1, 2)
+        x_90 = None
+        contiguous_11 = transpose_12.contiguous()
+        transpose_12 = None
+        x_91 = contiguous_11.reshape(1, 256, 1536)
+        contiguous_11 = None
+        x_92 = torch._C._nn.linear(
+            x_91,
+            l_self_modules_trunk_modules_blocks_modules_11_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_91 = l_self_modules_trunk_modules_blocks_modules_11_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_93 = torch.nn.functional.dropout(x_92, 0.0, False, False)
+        x_92 = None
+        x_94 = x_89 + x_93
+        x_89 = x_93 = None
+        float_25 = x_94.float()
+        pow_25 = float_25.pow(2)
+        mean_24 = pow_25.mean(-1, keepdim=True)
+        pow_25 = None
+        add_48 = mean_24 + 1e-05
+        mean_24 = None
+        rsqrt_24 = torch.rsqrt(add_48)
+        add_48 = None
+        mul_59 = float_25 * rsqrt_24
+        float_25 = rsqrt_24 = None
+        output_24 = mul_59.type_as(x_94)
+        mul_59 = None
+        mul_60 = (
+            output_24
+            * l_self_modules_trunk_modules_blocks_modules_11_modules_norm_2_parameters_weight_
+        )
+        output_24 = l_self_modules_trunk_modules_blocks_modules_11_modules_norm_2_parameters_weight_ = (None)
+        linear_57 = torch._C._nn.linear(
+            mul_60,
+            l_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_11 = torch.nn.functional.silu(linear_57)
+        linear_57 = None
+        linear_58 = torch._C._nn.linear(
+            mul_60,
+            l_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_60 = l_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_95 = silu_11 * linear_58
+        silu_11 = linear_58 = None
+        x_96 = torch._C._nn.linear(
+            x_95,
+            l_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_95 = l_self_modules_trunk_modules_blocks_modules_11_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_97 = x_94 + x_96
+        x_94 = x_96 = None
+        float_26 = x_97.float()
+        pow_26 = float_26.pow(2)
+        mean_25 = pow_26.mean(-1, keepdim=True)
+        pow_26 = None
+        add_50 = mean_25 + 1e-05
+        mean_25 = None
+        rsqrt_25 = torch.rsqrt(add_50)
+        add_50 = None
+        mul_62 = float_26 * rsqrt_25
+        float_26 = rsqrt_25 = None
+        output_25 = mul_62.type_as(x_97)
+        mul_62 = None
+        mul_63 = (
+            output_25
+            * l_self_modules_trunk_modules_blocks_modules_12_modules_norm_1_parameters_weight_
+        )
+        output_25 = l_self_modules_trunk_modules_blocks_modules_12_modules_norm_1_parameters_weight_ = (None)
+        linear_60 = torch._C._nn.linear(
+            mul_63,
+            l_self_modules_trunk_modules_blocks_modules_12_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_63 = l_self_modules_trunk_modules_blocks_modules_12_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_24 = linear_60.reshape(1, 256, 3, 12, 128)
+        linear_60 = None
+        qkv_12 = reshape_24.permute(2, 0, 3, 1, 4)
+        reshape_24 = None
+        unbind_12 = qkv_12.unbind(0)
+        qkv_12 = None
+        q_12 = unbind_12[0]
+        k_12 = unbind_12[1]
+        v_12 = unbind_12[2]
+        unbind_12 = None
+        x_98 = torch._C._nn.scaled_dot_product_attention(
+            q_12, k_12, v_12, attn_mask=None
+        )
+        q_12 = k_12 = v_12 = None
+        transpose_13 = x_98.transpose(1, 2)
+        x_98 = None
+        contiguous_12 = transpose_13.contiguous()
+        transpose_13 = None
+        x_99 = contiguous_12.reshape(1, 256, 1536)
+        contiguous_12 = None
+        x_100 = torch._C._nn.linear(
+            x_99,
+            l_self_modules_trunk_modules_blocks_modules_12_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_99 = l_self_modules_trunk_modules_blocks_modules_12_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_101 = torch.nn.functional.dropout(x_100, 0.0, False, False)
+        x_100 = None
+        x_102 = x_97 + x_101
+        x_97 = x_101 = None
+        float_27 = x_102.float()
+        pow_27 = float_27.pow(2)
+        mean_26 = pow_27.mean(-1, keepdim=True)
+        pow_27 = None
+        add_52 = mean_26 + 1e-05
+        mean_26 = None
+        rsqrt_26 = torch.rsqrt(add_52)
+        add_52 = None
+        mul_64 = float_27 * rsqrt_26
+        float_27 = rsqrt_26 = None
+        output_26 = mul_64.type_as(x_102)
+        mul_64 = None
+        mul_65 = (
+            output_26
+            * l_self_modules_trunk_modules_blocks_modules_12_modules_norm_2_parameters_weight_
+        )
+        output_26 = l_self_modules_trunk_modules_blocks_modules_12_modules_norm_2_parameters_weight_ = (None)
+        linear_62 = torch._C._nn.linear(
+            mul_65,
+            l_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_12 = torch.nn.functional.silu(linear_62)
+        linear_62 = None
+        linear_63 = torch._C._nn.linear(
+            mul_65,
+            l_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_65 = l_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_103 = silu_12 * linear_63
+        silu_12 = linear_63 = None
+        x_104 = torch._C._nn.linear(
+            x_103,
+            l_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_103 = l_self_modules_trunk_modules_blocks_modules_12_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_105 = x_102 + x_104
+        x_102 = x_104 = None
+        float_28 = x_105.float()
+        pow_28 = float_28.pow(2)
+        mean_27 = pow_28.mean(-1, keepdim=True)
+        pow_28 = None
+        add_54 = mean_27 + 1e-05
+        mean_27 = None
+        rsqrt_27 = torch.rsqrt(add_54)
+        add_54 = None
+        mul_67 = float_28 * rsqrt_27
+        float_28 = rsqrt_27 = None
+        output_27 = mul_67.type_as(x_105)
+        mul_67 = None
+        mul_68 = (
+            output_27
+            * l_self_modules_trunk_modules_blocks_modules_13_modules_norm_1_parameters_weight_
+        )
+        output_27 = l_self_modules_trunk_modules_blocks_modules_13_modules_norm_1_parameters_weight_ = (None)
+        linear_65 = torch._C._nn.linear(
+            mul_68,
+            l_self_modules_trunk_modules_blocks_modules_13_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_68 = l_self_modules_trunk_modules_blocks_modules_13_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_26 = linear_65.reshape(1, 256, 3, 12, 128)
+        linear_65 = None
+        qkv_13 = reshape_26.permute(2, 0, 3, 1, 4)
+        reshape_26 = None
+        unbind_13 = qkv_13.unbind(0)
+        qkv_13 = None
+        q_13 = unbind_13[0]
+        k_13 = unbind_13[1]
+        v_13 = unbind_13[2]
+        unbind_13 = None
+        x_106 = torch._C._nn.scaled_dot_product_attention(
+            q_13, k_13, v_13, attn_mask=None
+        )
+        q_13 = k_13 = v_13 = None
+        transpose_14 = x_106.transpose(1, 2)
+        x_106 = None
+        contiguous_13 = transpose_14.contiguous()
+        transpose_14 = None
+        x_107 = contiguous_13.reshape(1, 256, 1536)
+        contiguous_13 = None
+        x_108 = torch._C._nn.linear(
+            x_107,
+            l_self_modules_trunk_modules_blocks_modules_13_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_107 = l_self_modules_trunk_modules_blocks_modules_13_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_109 = torch.nn.functional.dropout(x_108, 0.0, False, False)
+        x_108 = None
+        x_110 = x_105 + x_109
+        x_105 = x_109 = None
+        float_29 = x_110.float()
+        pow_29 = float_29.pow(2)
+        mean_28 = pow_29.mean(-1, keepdim=True)
+        pow_29 = None
+        add_56 = mean_28 + 1e-05
+        mean_28 = None
+        rsqrt_28 = torch.rsqrt(add_56)
+        add_56 = None
+        mul_69 = float_29 * rsqrt_28
+        float_29 = rsqrt_28 = None
+        output_28 = mul_69.type_as(x_110)
+        mul_69 = None
+        mul_70 = (
+            output_28
+            * l_self_modules_trunk_modules_blocks_modules_13_modules_norm_2_parameters_weight_
+        )
+        output_28 = l_self_modules_trunk_modules_blocks_modules_13_modules_norm_2_parameters_weight_ = (None)
+        linear_67 = torch._C._nn.linear(
+            mul_70,
+            l_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_13 = torch.nn.functional.silu(linear_67)
+        linear_67 = None
+        linear_68 = torch._C._nn.linear(
+            mul_70,
+            l_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_70 = l_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_111 = silu_13 * linear_68
+        silu_13 = linear_68 = None
+        x_112 = torch._C._nn.linear(
+            x_111,
+            l_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_111 = l_self_modules_trunk_modules_blocks_modules_13_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_113 = x_110 + x_112
+        x_110 = x_112 = None
+        float_30 = x_113.float()
+        pow_30 = float_30.pow(2)
+        mean_29 = pow_30.mean(-1, keepdim=True)
+        pow_30 = None
+        add_58 = mean_29 + 1e-05
+        mean_29 = None
+        rsqrt_29 = torch.rsqrt(add_58)
+        add_58 = None
+        mul_72 = float_30 * rsqrt_29
+        float_30 = rsqrt_29 = None
+        output_29 = mul_72.type_as(x_113)
+        mul_72 = None
+        mul_73 = (
+            output_29
+            * l_self_modules_trunk_modules_blocks_modules_14_modules_norm_1_parameters_weight_
+        )
+        output_29 = l_self_modules_trunk_modules_blocks_modules_14_modules_norm_1_parameters_weight_ = (None)
+        linear_70 = torch._C._nn.linear(
+            mul_73,
+            l_self_modules_trunk_modules_blocks_modules_14_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_73 = l_self_modules_trunk_modules_blocks_modules_14_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_28 = linear_70.reshape(1, 256, 3, 12, 128)
+        linear_70 = None
+        qkv_14 = reshape_28.permute(2, 0, 3, 1, 4)
+        reshape_28 = None
+        unbind_14 = qkv_14.unbind(0)
+        qkv_14 = None
+        q_14 = unbind_14[0]
+        k_14 = unbind_14[1]
+        v_14 = unbind_14[2]
+        unbind_14 = None
+        x_114 = torch._C._nn.scaled_dot_product_attention(
+            q_14, k_14, v_14, attn_mask=None
+        )
+        q_14 = k_14 = v_14 = None
+        transpose_15 = x_114.transpose(1, 2)
+        x_114 = None
+        contiguous_14 = transpose_15.contiguous()
+        transpose_15 = None
+        x_115 = contiguous_14.reshape(1, 256, 1536)
+        contiguous_14 = None
+        x_116 = torch._C._nn.linear(
+            x_115,
+            l_self_modules_trunk_modules_blocks_modules_14_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_115 = l_self_modules_trunk_modules_blocks_modules_14_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_117 = torch.nn.functional.dropout(x_116, 0.0, False, False)
+        x_116 = None
+        x_118 = x_113 + x_117
+        x_113 = x_117 = None
+        float_31 = x_118.float()
+        pow_31 = float_31.pow(2)
+        mean_30 = pow_31.mean(-1, keepdim=True)
+        pow_31 = None
+        add_60 = mean_30 + 1e-05
+        mean_30 = None
+        rsqrt_30 = torch.rsqrt(add_60)
+        add_60 = None
+        mul_74 = float_31 * rsqrt_30
+        float_31 = rsqrt_30 = None
+        output_30 = mul_74.type_as(x_118)
+        mul_74 = None
+        mul_75 = (
+            output_30
+            * l_self_modules_trunk_modules_blocks_modules_14_modules_norm_2_parameters_weight_
+        )
+        output_30 = l_self_modules_trunk_modules_blocks_modules_14_modules_norm_2_parameters_weight_ = (None)
+        linear_72 = torch._C._nn.linear(
+            mul_75,
+            l_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_14 = torch.nn.functional.silu(linear_72)
+        linear_72 = None
+        linear_73 = torch._C._nn.linear(
+            mul_75,
+            l_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_75 = l_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_119 = silu_14 * linear_73
+        silu_14 = linear_73 = None
+        x_120 = torch._C._nn.linear(
+            x_119,
+            l_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_119 = l_self_modules_trunk_modules_blocks_modules_14_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_121 = x_118 + x_120
+        x_118 = x_120 = None
+        float_32 = x_121.float()
+        pow_32 = float_32.pow(2)
+        mean_31 = pow_32.mean(-1, keepdim=True)
+        pow_32 = None
+        add_62 = mean_31 + 1e-05
+        mean_31 = None
+        rsqrt_31 = torch.rsqrt(add_62)
+        add_62 = None
+        mul_77 = float_32 * rsqrt_31
+        float_32 = rsqrt_31 = None
+        output_31 = mul_77.type_as(x_121)
+        mul_77 = None
+        mul_78 = (
+            output_31
+            * l_self_modules_trunk_modules_blocks_modules_15_modules_norm_1_parameters_weight_
+        )
+        output_31 = l_self_modules_trunk_modules_blocks_modules_15_modules_norm_1_parameters_weight_ = (None)
+        linear_75 = torch._C._nn.linear(
+            mul_78,
+            l_self_modules_trunk_modules_blocks_modules_15_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_78 = l_self_modules_trunk_modules_blocks_modules_15_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_30 = linear_75.reshape(1, 256, 3, 12, 128)
+        linear_75 = None
+        qkv_15 = reshape_30.permute(2, 0, 3, 1, 4)
+        reshape_30 = None
+        unbind_15 = qkv_15.unbind(0)
+        qkv_15 = None
+        q_15 = unbind_15[0]
+        k_15 = unbind_15[1]
+        v_15 = unbind_15[2]
+        unbind_15 = None
+        x_122 = torch._C._nn.scaled_dot_product_attention(
+            q_15, k_15, v_15, attn_mask=None
+        )
+        q_15 = k_15 = v_15 = None
+        transpose_16 = x_122.transpose(1, 2)
+        x_122 = None
+        contiguous_15 = transpose_16.contiguous()
+        transpose_16 = None
+        x_123 = contiguous_15.reshape(1, 256, 1536)
+        contiguous_15 = None
+        x_124 = torch._C._nn.linear(
+            x_123,
+            l_self_modules_trunk_modules_blocks_modules_15_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_123 = l_self_modules_trunk_modules_blocks_modules_15_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_125 = torch.nn.functional.dropout(x_124, 0.0, False, False)
+        x_124 = None
+        x_126 = x_121 + x_125
+        x_121 = x_125 = None
+        float_33 = x_126.float()
+        pow_33 = float_33.pow(2)
+        mean_32 = pow_33.mean(-1, keepdim=True)
+        pow_33 = None
+        add_64 = mean_32 + 1e-05
+        mean_32 = None
+        rsqrt_32 = torch.rsqrt(add_64)
+        add_64 = None
+        mul_79 = float_33 * rsqrt_32
+        float_33 = rsqrt_32 = None
+        output_32 = mul_79.type_as(x_126)
+        mul_79 = None
+        mul_80 = (
+            output_32
+            * l_self_modules_trunk_modules_blocks_modules_15_modules_norm_2_parameters_weight_
+        )
+        output_32 = l_self_modules_trunk_modules_blocks_modules_15_modules_norm_2_parameters_weight_ = (None)
+        linear_77 = torch._C._nn.linear(
+            mul_80,
+            l_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_15 = torch.nn.functional.silu(linear_77)
+        linear_77 = None
+        linear_78 = torch._C._nn.linear(
+            mul_80,
+            l_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_80 = l_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_127 = silu_15 * linear_78
+        silu_15 = linear_78 = None
+        x_128 = torch._C._nn.linear(
+            x_127,
+            l_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_127 = l_self_modules_trunk_modules_blocks_modules_15_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_129 = x_126 + x_128
+        x_126 = x_128 = None
+        float_34 = x_129.float()
+        pow_34 = float_34.pow(2)
+        mean_33 = pow_34.mean(-1, keepdim=True)
+        pow_34 = None
+        add_66 = mean_33 + 1e-05
+        mean_33 = None
+        rsqrt_33 = torch.rsqrt(add_66)
+        add_66 = None
+        mul_82 = float_34 * rsqrt_33
+        float_34 = rsqrt_33 = None
+        output_33 = mul_82.type_as(x_129)
+        mul_82 = None
+        mul_83 = (
+            output_33
+            * l_self_modules_trunk_modules_blocks_modules_16_modules_norm_1_parameters_weight_
+        )
+        output_33 = l_self_modules_trunk_modules_blocks_modules_16_modules_norm_1_parameters_weight_ = (None)
+        linear_80 = torch._C._nn.linear(
+            mul_83,
+            l_self_modules_trunk_modules_blocks_modules_16_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_83 = l_self_modules_trunk_modules_blocks_modules_16_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_32 = linear_80.reshape(1, 256, 3, 12, 128)
+        linear_80 = None
+        qkv_16 = reshape_32.permute(2, 0, 3, 1, 4)
+        reshape_32 = None
+        unbind_16 = qkv_16.unbind(0)
+        qkv_16 = None
+        q_16 = unbind_16[0]
+        k_16 = unbind_16[1]
+        v_16 = unbind_16[2]
+        unbind_16 = None
+        x_130 = torch._C._nn.scaled_dot_product_attention(
+            q_16, k_16, v_16, attn_mask=None
+        )
+        q_16 = k_16 = v_16 = None
+        transpose_17 = x_130.transpose(1, 2)
+        x_130 = None
+        contiguous_16 = transpose_17.contiguous()
+        transpose_17 = None
+        x_131 = contiguous_16.reshape(1, 256, 1536)
+        contiguous_16 = None
+        x_132 = torch._C._nn.linear(
+            x_131,
+            l_self_modules_trunk_modules_blocks_modules_16_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_131 = l_self_modules_trunk_modules_blocks_modules_16_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_133 = torch.nn.functional.dropout(x_132, 0.0, False, False)
+        x_132 = None
+        x_134 = x_129 + x_133
+        x_129 = x_133 = None
+        float_35 = x_134.float()
+        pow_35 = float_35.pow(2)
+        mean_34 = pow_35.mean(-1, keepdim=True)
+        pow_35 = None
+        add_68 = mean_34 + 1e-05
+        mean_34 = None
+        rsqrt_34 = torch.rsqrt(add_68)
+        add_68 = None
+        mul_84 = float_35 * rsqrt_34
+        float_35 = rsqrt_34 = None
+        output_34 = mul_84.type_as(x_134)
+        mul_84 = None
+        mul_85 = (
+            output_34
+            * l_self_modules_trunk_modules_blocks_modules_16_modules_norm_2_parameters_weight_
+        )
+        output_34 = l_self_modules_trunk_modules_blocks_modules_16_modules_norm_2_parameters_weight_ = (None)
+        linear_82 = torch._C._nn.linear(
+            mul_85,
+            l_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_16 = torch.nn.functional.silu(linear_82)
+        linear_82 = None
+        linear_83 = torch._C._nn.linear(
+            mul_85,
+            l_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_85 = l_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_135 = silu_16 * linear_83
+        silu_16 = linear_83 = None
+        x_136 = torch._C._nn.linear(
+            x_135,
+            l_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_135 = l_self_modules_trunk_modules_blocks_modules_16_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_137 = x_134 + x_136
+        x_134 = x_136 = None
+        float_36 = x_137.float()
+        pow_36 = float_36.pow(2)
+        mean_35 = pow_36.mean(-1, keepdim=True)
+        pow_36 = None
+        add_70 = mean_35 + 1e-05
+        mean_35 = None
+        rsqrt_35 = torch.rsqrt(add_70)
+        add_70 = None
+        mul_87 = float_36 * rsqrt_35
+        float_36 = rsqrt_35 = None
+        output_35 = mul_87.type_as(x_137)
+        mul_87 = None
+        mul_88 = (
+            output_35
+            * l_self_modules_trunk_modules_blocks_modules_17_modules_norm_1_parameters_weight_
+        )
+        output_35 = l_self_modules_trunk_modules_blocks_modules_17_modules_norm_1_parameters_weight_ = (None)
+        linear_85 = torch._C._nn.linear(
+            mul_88,
+            l_self_modules_trunk_modules_blocks_modules_17_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_88 = l_self_modules_trunk_modules_blocks_modules_17_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_34 = linear_85.reshape(1, 256, 3, 12, 128)
+        linear_85 = None
+        qkv_17 = reshape_34.permute(2, 0, 3, 1, 4)
+        reshape_34 = None
+        unbind_17 = qkv_17.unbind(0)
+        qkv_17 = None
+        q_17 = unbind_17[0]
+        k_17 = unbind_17[1]
+        v_17 = unbind_17[2]
+        unbind_17 = None
+        x_138 = torch._C._nn.scaled_dot_product_attention(
+            q_17, k_17, v_17, attn_mask=None
+        )
+        q_17 = k_17 = v_17 = None
+        transpose_18 = x_138.transpose(1, 2)
+        x_138 = None
+        contiguous_17 = transpose_18.contiguous()
+        transpose_18 = None
+        x_139 = contiguous_17.reshape(1, 256, 1536)
+        contiguous_17 = None
+        x_140 = torch._C._nn.linear(
+            x_139,
+            l_self_modules_trunk_modules_blocks_modules_17_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_139 = l_self_modules_trunk_modules_blocks_modules_17_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_141 = torch.nn.functional.dropout(x_140, 0.0, False, False)
+        x_140 = None
+        x_142 = x_137 + x_141
+        x_137 = x_141 = None
+        float_37 = x_142.float()
+        pow_37 = float_37.pow(2)
+        mean_36 = pow_37.mean(-1, keepdim=True)
+        pow_37 = None
+        add_72 = mean_36 + 1e-05
+        mean_36 = None
+        rsqrt_36 = torch.rsqrt(add_72)
+        add_72 = None
+        mul_89 = float_37 * rsqrt_36
+        float_37 = rsqrt_36 = None
+        output_36 = mul_89.type_as(x_142)
+        mul_89 = None
+        mul_90 = (
+            output_36
+            * l_self_modules_trunk_modules_blocks_modules_17_modules_norm_2_parameters_weight_
+        )
+        output_36 = l_self_modules_trunk_modules_blocks_modules_17_modules_norm_2_parameters_weight_ = (None)
+        linear_87 = torch._C._nn.linear(
+            mul_90,
+            l_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_17 = torch.nn.functional.silu(linear_87)
+        linear_87 = None
+        linear_88 = torch._C._nn.linear(
+            mul_90,
+            l_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_90 = l_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_143 = silu_17 * linear_88
+        silu_17 = linear_88 = None
+        x_144 = torch._C._nn.linear(
+            x_143,
+            l_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_143 = l_self_modules_trunk_modules_blocks_modules_17_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_145 = x_142 + x_144
+        x_142 = x_144 = None
+        float_38 = x_145.float()
+        pow_38 = float_38.pow(2)
+        mean_37 = pow_38.mean(-1, keepdim=True)
+        pow_38 = None
+        add_74 = mean_37 + 1e-05
+        mean_37 = None
+        rsqrt_37 = torch.rsqrt(add_74)
+        add_74 = None
+        mul_92 = float_38 * rsqrt_37
+        float_38 = rsqrt_37 = None
+        output_37 = mul_92.type_as(x_145)
+        mul_92 = None
+        mul_93 = (
+            output_37
+            * l_self_modules_trunk_modules_blocks_modules_18_modules_norm_1_parameters_weight_
+        )
+        output_37 = l_self_modules_trunk_modules_blocks_modules_18_modules_norm_1_parameters_weight_ = (None)
+        linear_90 = torch._C._nn.linear(
+            mul_93,
+            l_self_modules_trunk_modules_blocks_modules_18_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_93 = l_self_modules_trunk_modules_blocks_modules_18_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_36 = linear_90.reshape(1, 256, 3, 12, 128)
+        linear_90 = None
+        qkv_18 = reshape_36.permute(2, 0, 3, 1, 4)
+        reshape_36 = None
+        unbind_18 = qkv_18.unbind(0)
+        qkv_18 = None
+        q_18 = unbind_18[0]
+        k_18 = unbind_18[1]
+        v_18 = unbind_18[2]
+        unbind_18 = None
+        x_146 = torch._C._nn.scaled_dot_product_attention(
+            q_18, k_18, v_18, attn_mask=None
+        )
+        q_18 = k_18 = v_18 = None
+        transpose_19 = x_146.transpose(1, 2)
+        x_146 = None
+        contiguous_18 = transpose_19.contiguous()
+        transpose_19 = None
+        x_147 = contiguous_18.reshape(1, 256, 1536)
+        contiguous_18 = None
+        x_148 = torch._C._nn.linear(
+            x_147,
+            l_self_modules_trunk_modules_blocks_modules_18_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_147 = l_self_modules_trunk_modules_blocks_modules_18_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_149 = torch.nn.functional.dropout(x_148, 0.0, False, False)
+        x_148 = None
+        x_150 = x_145 + x_149
+        x_145 = x_149 = None
+        float_39 = x_150.float()
+        pow_39 = float_39.pow(2)
+        mean_38 = pow_39.mean(-1, keepdim=True)
+        pow_39 = None
+        add_76 = mean_38 + 1e-05
+        mean_38 = None
+        rsqrt_38 = torch.rsqrt(add_76)
+        add_76 = None
+        mul_94 = float_39 * rsqrt_38
+        float_39 = rsqrt_38 = None
+        output_38 = mul_94.type_as(x_150)
+        mul_94 = None
+        mul_95 = (
+            output_38
+            * l_self_modules_trunk_modules_blocks_modules_18_modules_norm_2_parameters_weight_
+        )
+        output_38 = l_self_modules_trunk_modules_blocks_modules_18_modules_norm_2_parameters_weight_ = (None)
+        linear_92 = torch._C._nn.linear(
+            mul_95,
+            l_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_18 = torch.nn.functional.silu(linear_92)
+        linear_92 = None
+        linear_93 = torch._C._nn.linear(
+            mul_95,
+            l_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_95 = l_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_151 = silu_18 * linear_93
+        silu_18 = linear_93 = None
+        x_152 = torch._C._nn.linear(
+            x_151,
+            l_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_151 = l_self_modules_trunk_modules_blocks_modules_18_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_153 = x_150 + x_152
+        x_150 = x_152 = None
+        float_40 = x_153.float()
+        pow_40 = float_40.pow(2)
+        mean_39 = pow_40.mean(-1, keepdim=True)
+        pow_40 = None
+        add_78 = mean_39 + 1e-05
+        mean_39 = None
+        rsqrt_39 = torch.rsqrt(add_78)
+        add_78 = None
+        mul_97 = float_40 * rsqrt_39
+        float_40 = rsqrt_39 = None
+        output_39 = mul_97.type_as(x_153)
+        mul_97 = None
+        mul_98 = (
+            output_39
+            * l_self_modules_trunk_modules_blocks_modules_19_modules_norm_1_parameters_weight_
+        )
+        output_39 = l_self_modules_trunk_modules_blocks_modules_19_modules_norm_1_parameters_weight_ = (None)
+        linear_95 = torch._C._nn.linear(
+            mul_98,
+            l_self_modules_trunk_modules_blocks_modules_19_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_98 = l_self_modules_trunk_modules_blocks_modules_19_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_38 = linear_95.reshape(1, 256, 3, 12, 128)
+        linear_95 = None
+        qkv_19 = reshape_38.permute(2, 0, 3, 1, 4)
+        reshape_38 = None
+        unbind_19 = qkv_19.unbind(0)
+        qkv_19 = None
+        q_19 = unbind_19[0]
+        k_19 = unbind_19[1]
+        v_19 = unbind_19[2]
+        unbind_19 = None
+        x_154 = torch._C._nn.scaled_dot_product_attention(
+            q_19, k_19, v_19, attn_mask=None
+        )
+        q_19 = k_19 = v_19 = None
+        transpose_20 = x_154.transpose(1, 2)
+        x_154 = None
+        contiguous_19 = transpose_20.contiguous()
+        transpose_20 = None
+        x_155 = contiguous_19.reshape(1, 256, 1536)
+        contiguous_19 = None
+        x_156 = torch._C._nn.linear(
+            x_155,
+            l_self_modules_trunk_modules_blocks_modules_19_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_155 = l_self_modules_trunk_modules_blocks_modules_19_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_157 = torch.nn.functional.dropout(x_156, 0.0, False, False)
+        x_156 = None
+        x_158 = x_153 + x_157
+        x_153 = x_157 = None
+        float_41 = x_158.float()
+        pow_41 = float_41.pow(2)
+        mean_40 = pow_41.mean(-1, keepdim=True)
+        pow_41 = None
+        add_80 = mean_40 + 1e-05
+        mean_40 = None
+        rsqrt_40 = torch.rsqrt(add_80)
+        add_80 = None
+        mul_99 = float_41 * rsqrt_40
+        float_41 = rsqrt_40 = None
+        output_40 = mul_99.type_as(x_158)
+        mul_99 = None
+        mul_100 = (
+            output_40
+            * l_self_modules_trunk_modules_blocks_modules_19_modules_norm_2_parameters_weight_
+        )
+        output_40 = l_self_modules_trunk_modules_blocks_modules_19_modules_norm_2_parameters_weight_ = (None)
+        linear_97 = torch._C._nn.linear(
+            mul_100,
+            l_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_19 = torch.nn.functional.silu(linear_97)
+        linear_97 = None
+        linear_98 = torch._C._nn.linear(
+            mul_100,
+            l_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_100 = l_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_159 = silu_19 * linear_98
+        silu_19 = linear_98 = None
+        x_160 = torch._C._nn.linear(
+            x_159,
+            l_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_159 = l_self_modules_trunk_modules_blocks_modules_19_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_161 = x_158 + x_160
+        x_158 = x_160 = None
+        float_42 = x_161.float()
+        pow_42 = float_42.pow(2)
+        mean_41 = pow_42.mean(-1, keepdim=True)
+        pow_42 = None
+        add_82 = mean_41 + 1e-05
+        mean_41 = None
+        rsqrt_41 = torch.rsqrt(add_82)
+        add_82 = None
+        mul_102 = float_42 * rsqrt_41
+        float_42 = rsqrt_41 = None
+        output_41 = mul_102.type_as(x_161)
+        mul_102 = None
+        mul_103 = (
+            output_41
+            * l_self_modules_trunk_modules_blocks_modules_20_modules_norm_1_parameters_weight_
+        )
+        output_41 = l_self_modules_trunk_modules_blocks_modules_20_modules_norm_1_parameters_weight_ = (None)
+        linear_100 = torch._C._nn.linear(
+            mul_103,
+            l_self_modules_trunk_modules_blocks_modules_20_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_103 = l_self_modules_trunk_modules_blocks_modules_20_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_40 = linear_100.reshape(1, 256, 3, 12, 128)
+        linear_100 = None
+        qkv_20 = reshape_40.permute(2, 0, 3, 1, 4)
+        reshape_40 = None
+        unbind_20 = qkv_20.unbind(0)
+        qkv_20 = None
+        q_20 = unbind_20[0]
+        k_20 = unbind_20[1]
+        v_20 = unbind_20[2]
+        unbind_20 = None
+        x_162 = torch._C._nn.scaled_dot_product_attention(
+            q_20, k_20, v_20, attn_mask=None
+        )
+        q_20 = k_20 = v_20 = None
+        transpose_21 = x_162.transpose(1, 2)
+        x_162 = None
+        contiguous_20 = transpose_21.contiguous()
+        transpose_21 = None
+        x_163 = contiguous_20.reshape(1, 256, 1536)
+        contiguous_20 = None
+        x_164 = torch._C._nn.linear(
+            x_163,
+            l_self_modules_trunk_modules_blocks_modules_20_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_163 = l_self_modules_trunk_modules_blocks_modules_20_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_165 = torch.nn.functional.dropout(x_164, 0.0, False, False)
+        x_164 = None
+        x_166 = x_161 + x_165
+        x_161 = x_165 = None
+        float_43 = x_166.float()
+        pow_43 = float_43.pow(2)
+        mean_42 = pow_43.mean(-1, keepdim=True)
+        pow_43 = None
+        add_84 = mean_42 + 1e-05
+        mean_42 = None
+        rsqrt_42 = torch.rsqrt(add_84)
+        add_84 = None
+        mul_104 = float_43 * rsqrt_42
+        float_43 = rsqrt_42 = None
+        output_42 = mul_104.type_as(x_166)
+        mul_104 = None
+        mul_105 = (
+            output_42
+            * l_self_modules_trunk_modules_blocks_modules_20_modules_norm_2_parameters_weight_
+        )
+        output_42 = l_self_modules_trunk_modules_blocks_modules_20_modules_norm_2_parameters_weight_ = (None)
+        linear_102 = torch._C._nn.linear(
+            mul_105,
+            l_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_20 = torch.nn.functional.silu(linear_102)
+        linear_102 = None
+        linear_103 = torch._C._nn.linear(
+            mul_105,
+            l_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_105 = l_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_167 = silu_20 * linear_103
+        silu_20 = linear_103 = None
+        x_168 = torch._C._nn.linear(
+            x_167,
+            l_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_167 = l_self_modules_trunk_modules_blocks_modules_20_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_169 = x_166 + x_168
+        x_166 = x_168 = None
+        float_44 = x_169.float()
+        pow_44 = float_44.pow(2)
+        mean_43 = pow_44.mean(-1, keepdim=True)
+        pow_44 = None
+        add_86 = mean_43 + 1e-05
+        mean_43 = None
+        rsqrt_43 = torch.rsqrt(add_86)
+        add_86 = None
+        mul_107 = float_44 * rsqrt_43
+        float_44 = rsqrt_43 = None
+        output_43 = mul_107.type_as(x_169)
+        mul_107 = None
+        mul_108 = (
+            output_43
+            * l_self_modules_trunk_modules_blocks_modules_21_modules_norm_1_parameters_weight_
+        )
+        output_43 = l_self_modules_trunk_modules_blocks_modules_21_modules_norm_1_parameters_weight_ = (None)
+        linear_105 = torch._C._nn.linear(
+            mul_108,
+            l_self_modules_trunk_modules_blocks_modules_21_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_108 = l_self_modules_trunk_modules_blocks_modules_21_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_42 = linear_105.reshape(1, 256, 3, 12, 128)
+        linear_105 = None
+        qkv_21 = reshape_42.permute(2, 0, 3, 1, 4)
+        reshape_42 = None
+        unbind_21 = qkv_21.unbind(0)
+        qkv_21 = None
+        q_21 = unbind_21[0]
+        k_21 = unbind_21[1]
+        v_21 = unbind_21[2]
+        unbind_21 = None
+        x_170 = torch._C._nn.scaled_dot_product_attention(
+            q_21, k_21, v_21, attn_mask=None
+        )
+        q_21 = k_21 = v_21 = None
+        transpose_22 = x_170.transpose(1, 2)
+        x_170 = None
+        contiguous_21 = transpose_22.contiguous()
+        transpose_22 = None
+        x_171 = contiguous_21.reshape(1, 256, 1536)
+        contiguous_21 = None
+        x_172 = torch._C._nn.linear(
+            x_171,
+            l_self_modules_trunk_modules_blocks_modules_21_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_171 = l_self_modules_trunk_modules_blocks_modules_21_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_173 = torch.nn.functional.dropout(x_172, 0.0, False, False)
+        x_172 = None
+        x_174 = x_169 + x_173
+        x_169 = x_173 = None
+        float_45 = x_174.float()
+        pow_45 = float_45.pow(2)
+        mean_44 = pow_45.mean(-1, keepdim=True)
+        pow_45 = None
+        add_88 = mean_44 + 1e-05
+        mean_44 = None
+        rsqrt_44 = torch.rsqrt(add_88)
+        add_88 = None
+        mul_109 = float_45 * rsqrt_44
+        float_45 = rsqrt_44 = None
+        output_44 = mul_109.type_as(x_174)
+        mul_109 = None
+        mul_110 = (
+            output_44
+            * l_self_modules_trunk_modules_blocks_modules_21_modules_norm_2_parameters_weight_
+        )
+        output_44 = l_self_modules_trunk_modules_blocks_modules_21_modules_norm_2_parameters_weight_ = (None)
+        linear_107 = torch._C._nn.linear(
+            mul_110,
+            l_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_21 = torch.nn.functional.silu(linear_107)
+        linear_107 = None
+        linear_108 = torch._C._nn.linear(
+            mul_110,
+            l_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_110 = l_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_175 = silu_21 * linear_108
+        silu_21 = linear_108 = None
+        x_176 = torch._C._nn.linear(
+            x_175,
+            l_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_175 = l_self_modules_trunk_modules_blocks_modules_21_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_177 = x_174 + x_176
+        x_174 = x_176 = None
+        float_46 = x_177.float()
+        pow_46 = float_46.pow(2)
+        mean_45 = pow_46.mean(-1, keepdim=True)
+        pow_46 = None
+        add_90 = mean_45 + 1e-05
+        mean_45 = None
+        rsqrt_45 = torch.rsqrt(add_90)
+        add_90 = None
+        mul_112 = float_46 * rsqrt_45
+        float_46 = rsqrt_45 = None
+        output_45 = mul_112.type_as(x_177)
+        mul_112 = None
+        mul_113 = (
+            output_45
+            * l_self_modules_trunk_modules_blocks_modules_22_modules_norm_1_parameters_weight_
+        )
+        output_45 = l_self_modules_trunk_modules_blocks_modules_22_modules_norm_1_parameters_weight_ = (None)
+        linear_110 = torch._C._nn.linear(
+            mul_113,
+            l_self_modules_trunk_modules_blocks_modules_22_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_113 = l_self_modules_trunk_modules_blocks_modules_22_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_44 = linear_110.reshape(1, 256, 3, 12, 128)
+        linear_110 = None
+        qkv_22 = reshape_44.permute(2, 0, 3, 1, 4)
+        reshape_44 = None
+        unbind_22 = qkv_22.unbind(0)
+        qkv_22 = None
+        q_22 = unbind_22[0]
+        k_22 = unbind_22[1]
+        v_22 = unbind_22[2]
+        unbind_22 = None
+        x_178 = torch._C._nn.scaled_dot_product_attention(
+            q_22, k_22, v_22, attn_mask=None
+        )
+        q_22 = k_22 = v_22 = None
+        transpose_23 = x_178.transpose(1, 2)
+        x_178 = None
+        contiguous_22 = transpose_23.contiguous()
+        transpose_23 = None
+        x_179 = contiguous_22.reshape(1, 256, 1536)
+        contiguous_22 = None
+        x_180 = torch._C._nn.linear(
+            x_179,
+            l_self_modules_trunk_modules_blocks_modules_22_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_179 = l_self_modules_trunk_modules_blocks_modules_22_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_181 = torch.nn.functional.dropout(x_180, 0.0, False, False)
+        x_180 = None
+        x_182 = x_177 + x_181
+        x_177 = x_181 = None
+        float_47 = x_182.float()
+        pow_47 = float_47.pow(2)
+        mean_46 = pow_47.mean(-1, keepdim=True)
+        pow_47 = None
+        add_92 = mean_46 + 1e-05
+        mean_46 = None
+        rsqrt_46 = torch.rsqrt(add_92)
+        add_92 = None
+        mul_114 = float_47 * rsqrt_46
+        float_47 = rsqrt_46 = None
+        output_46 = mul_114.type_as(x_182)
+        mul_114 = None
+        mul_115 = (
+            output_46
+            * l_self_modules_trunk_modules_blocks_modules_22_modules_norm_2_parameters_weight_
+        )
+        output_46 = l_self_modules_trunk_modules_blocks_modules_22_modules_norm_2_parameters_weight_ = (None)
+        linear_112 = torch._C._nn.linear(
+            mul_115,
+            l_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_22 = torch.nn.functional.silu(linear_112)
+        linear_112 = None
+        linear_113 = torch._C._nn.linear(
+            mul_115,
+            l_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_115 = l_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_183 = silu_22 * linear_113
+        silu_22 = linear_113 = None
+        x_184 = torch._C._nn.linear(
+            x_183,
+            l_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_183 = l_self_modules_trunk_modules_blocks_modules_22_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_185 = x_182 + x_184
+        x_182 = x_184 = None
+        float_48 = x_185.float()
+        pow_48 = float_48.pow(2)
+        mean_47 = pow_48.mean(-1, keepdim=True)
+        pow_48 = None
+        add_94 = mean_47 + 1e-05
+        mean_47 = None
+        rsqrt_47 = torch.rsqrt(add_94)
+        add_94 = None
+        mul_117 = float_48 * rsqrt_47
+        float_48 = rsqrt_47 = None
+        output_47 = mul_117.type_as(x_185)
+        mul_117 = None
+        mul_118 = (
+            output_47
+            * l_self_modules_trunk_modules_blocks_modules_23_modules_norm_1_parameters_weight_
+        )
+        output_47 = l_self_modules_trunk_modules_blocks_modules_23_modules_norm_1_parameters_weight_ = (None)
+        linear_115 = torch._C._nn.linear(
+            mul_118,
+            l_self_modules_trunk_modules_blocks_modules_23_modules_attn_modules_qkv_parameters_weight_,
+            None,
+        )
+        mul_118 = l_self_modules_trunk_modules_blocks_modules_23_modules_attn_modules_qkv_parameters_weight_ = (None)
+        reshape_46 = linear_115.reshape(1, 256, 3, 12, 128)
+        linear_115 = None
+        qkv_23 = reshape_46.permute(2, 0, 3, 1, 4)
+        reshape_46 = None
+        unbind_23 = qkv_23.unbind(0)
+        qkv_23 = None
+        q_23 = unbind_23[0]
+        k_23 = unbind_23[1]
+        v_23 = unbind_23[2]
+        unbind_23 = None
+        x_186 = torch._C._nn.scaled_dot_product_attention(
+            q_23, k_23, v_23, attn_mask=None
+        )
+        q_23 = k_23 = v_23 = None
+        transpose_24 = x_186.transpose(1, 2)
+        x_186 = None
+        contiguous_23 = transpose_24.contiguous()
+        transpose_24 = None
+        x_187 = contiguous_23.reshape(1, 256, 1536)
+        contiguous_23 = None
+        x_188 = torch._C._nn.linear(
+            x_187,
+            l_self_modules_trunk_modules_blocks_modules_23_modules_attn_modules_proj_parameters_weight_,
+            None,
+        )
+        x_187 = l_self_modules_trunk_modules_blocks_modules_23_modules_attn_modules_proj_parameters_weight_ = (None)
+        x_189 = torch.nn.functional.dropout(x_188, 0.0, False, False)
+        x_188 = None
+        x_190 = x_185 + x_189
+        x_185 = x_189 = None
+        float_49 = x_190.float()
+        pow_49 = float_49.pow(2)
+        mean_48 = pow_49.mean(-1, keepdim=True)
+        pow_49 = None
+        add_96 = mean_48 + 1e-05
+        mean_48 = None
+        rsqrt_48 = torch.rsqrt(add_96)
+        add_96 = None
+        mul_119 = float_49 * rsqrt_48
+        float_49 = rsqrt_48 = None
+        output_48 = mul_119.type_as(x_190)
+        mul_119 = None
+        mul_120 = (
+            output_48
+            * l_self_modules_trunk_modules_blocks_modules_23_modules_norm_2_parameters_weight_
+        )
+        output_48 = l_self_modules_trunk_modules_blocks_modules_23_modules_norm_2_parameters_weight_ = (None)
+        linear_117 = torch._C._nn.linear(
+            mul_120,
+            l_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc1_parameters_weight_,
+            None,
+        )
+        l_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc1_parameters_weight_ = (
+            None
+        )
+        silu_23 = torch.nn.functional.silu(linear_117)
+        linear_117 = None
+        linear_118 = torch._C._nn.linear(
+            mul_120,
+            l_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc3_parameters_weight_,
+            None,
+        )
+        mul_120 = l_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc3_parameters_weight_ = (None)
+        x_191 = silu_23 * linear_118
+        silu_23 = linear_118 = None
+        x_192 = torch._C._nn.linear(
+            x_191,
+            l_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc2_parameters_weight_,
+            None,
+        )
+        x_191 = l_self_modules_trunk_modules_blocks_modules_23_modules_mlp_modules_fc2_parameters_weight_ = (None)
+        x_193 = x_190 + x_192
+        x_190 = x_192 = None
+        float_50 = x_193.float()
+        pow_50 = float_50.pow(2)
+        mean_49 = pow_50.mean(-1, keepdim=True)
+        pow_50 = None
+        add_98 = mean_49 + 1e-05
+        mean_49 = None
+        rsqrt_49 = torch.rsqrt(add_98)
+        add_98 = None
+        mul_122 = float_50 * rsqrt_49
+        float_50 = rsqrt_49 = None
+        output_49 = mul_122.type_as(x_193)
+        mul_122 = x_193 = None
+        tokens_1 = (
+            output_49 * l_self_modules_trunk_modules_post_trunk_norm_parameters_weight_
+        )
+        output_49 = (
+            l_self_modules_trunk_modules_post_trunk_norm_parameters_weight_
+        ) = None
+        return (tokens_1,)

@@ -12,6 +12,7 @@ import numpy as np
 import graph_net
 import os
 import re
+import paddle
 
 
 def load_class_from_file(file_path: str, class_name: str):
@@ -65,10 +66,15 @@ def main(args):
     params.update(inputs)
     state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
 
-    y = model(**state_dict)[0]
+    y = model(**state_dict)
 
-    print(np.argmin(y), np.argmax(y))
-    print(y.shape)
+    # print(np.argmin(y), np.argmax(y))
+    if isinstance(y, paddle.Tensor):
+        print(y.shape)
+    elif isinstance(y, list) or isinstance(y, tuple):
+        print(y[0].shape if isinstance(y[0], paddle.Tensor) else y[0])
+    else:
+        raise ValueError("Illegal return value.")
 
     if not args.no_check_redundancy:
         print("Check redundancy ...")

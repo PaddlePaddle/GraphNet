@@ -340,28 +340,27 @@ def test_single_model(args):
 
 def get_cmp_equal(expected_out, compiled_out):
     return " ".join(
-        str(int(torch.equal(a.cpu(), b.cpu())))
-        for a, b in zip(expected_out, compiled_out)
+        str(int(torch.equal(a, b))) for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_all_close(expected_out, compiled_out, atol, rtol):
     return " ".join(
-        str(int(torch.allclose(a.cpu(), b.cpu(), atol=atol, rtol=rtol)))
+        str(int(torch.allclose(a, b, atol=atol, rtol=rtol)))
         for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_max_diff(expected_out, compiled_out):
     return " ".join(
-        str(torch.max(torch.abs(a.cpu().float() - b.cpu().float())).item())
+        str(torch.max(torch.abs(a.float() - b.float())).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_mean_diff(expected_out, compiled_out):
     return " ".join(
-        str(torch.mean(torch.abs(a.cpu().float() - b.cpu().float())).item())
+        str(torch.mean(torch.abs(a.float() - b.float())).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
@@ -369,13 +368,10 @@ def get_cmp_mean_diff(expected_out, compiled_out):
 def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
     results = []
     for a, b in zip(expected_out, compiled_out):
-        a_cpu, b_cpu = a.cpu(), b.cpu()
-        if a_cpu.is_floating_point() and b_cpu.is_floating_point():
-            diff_count = torch.sum(
-                ~torch.isclose(a_cpu, b_cpu, atol=atol, rtol=rtol)
-            ).item()
+        if a.is_floating_point() and b.is_floating_point():
+            diff_count = torch.sum(~torch.isclose(a, b, atol=atol, rtol=rtol)).item()
         else:
-            diff_count = torch.sum(a_cpu != b_cpu).item()
+            diff_count = torch.sum(a != b).item()
         results.append(str(diff_count))
     return " ".join(results)
 

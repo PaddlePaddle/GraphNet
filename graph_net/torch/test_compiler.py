@@ -4,9 +4,8 @@ import importlib.util
 import inspect
 import torch
 from pathlib import Path
-from typing import Type, Any
+from typing import Type, Any, List, Dict, Callable
 import sys
-from graph_net.torch.extractor import extract
 import os
 import os.path
 from dataclasses import dataclass
@@ -20,6 +19,11 @@ try:
     import torch_tensorrt
 except ImportError:
     torch_tensorrt = None
+
+try:
+    import torch_blade
+except ImportError:
+    torch_blade = None
 
 
 class GraphCompilerBackend:
@@ -45,12 +49,6 @@ class TensorRTBackend(GraphCompilerBackend):
 
     def synchronize(self):
         torch.cuda.synchronize()
-
-
-registry_backend = {
-    "inductor": InductorBackend(),
-    "tensorrt": TensorRTBackend(),
-}
 
 
 def load_class_from_file(
@@ -94,6 +92,33 @@ def get_input_dict(args):
     }
 
 
+class BladeDISCBackend(GraphCompilerBackend):
+    def __init__(self, input_dict=None):
+        self.input_dict = input_dict
+
+    def __call__(self, model):
+        torch_config = torch_blade.config.Config()
+        torch_config.enable_mlir_amp = False
+        with torch.no_grad(), torch_config:
+            input_dict = get_input_dict(args)
+            dummy_input = tuple(input_dict.values())
+            compiled_model = torch_blade.optimize(
+                model, allow_tracing=True, model_inputs=dummy_input
+            )
+        return compiled_model
+
+    def synchronize(self):
+        if torch.cuda.is_available():
+            torch.cuda.synchronize()
+
+
+registry_backend = {
+    "inductor": InductorBackend(),
+    "tensorrt": TensorRTBackend(),
+    "bladedisc": BladeDISCBackend(),
+}
+
+
 @dataclass
 class DurationBox:
     value: float
@@ -110,13 +135,13 @@ def naive_timer(duration_box, synchronizer_func):
 
 
 def time_execution_with_cuda_event(
-    kernel_fn: callable,
+    kernel_fn: Callable,
     *args,
     num_warmup: int = 3,
     num_trials: int = 10,
     verbose: bool = True,
     device: torch.device = None,
-) -> list[float]:
+) -> List[float]:
     """
     Acknowledgement: We introduce evaluation method in https://github.com/ScalingIntelligence/KernelBench to enhance function.
 
@@ -188,7 +213,7 @@ def time_execution_naive(
     return times
 
 
-def get_timing_stats(elapsed_times: list[float]):
+def get_timing_stats(elapsed_times: List[float]):
     stats = {
         "mean": float(f"{np.mean(elapsed_times):.3g}"),
         "std": float(f"{np.std(elapsed_times):.3g}"),

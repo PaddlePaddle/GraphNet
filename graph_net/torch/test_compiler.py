@@ -14,41 +14,12 @@ import time
 import json
 import numpy as np
 import platform
-
-try:
-    import torch_tensorrt
-except ImportError:
-    torch_tensorrt = None
-
-try:
-    import torch_blade
-except ImportError:
-    torch_blade = None
-
-
-class GraphCompilerBackend:
-    def __call__(self, model):
-        raise NotImplementedError()
-
-    def synchronize(self):
-        raise NotImplementedError()
-
-
-class InductorBackend(GraphCompilerBackend):
-    def __call__(self, model):
-        return torch.compile(model, backend="inductor")
-
-    def synchronize(self):
-        if torch.cuda.is_available():
-            torch.cuda.synchronize()
-
-
-class TensorRTBackend(GraphCompilerBackend):
-    def __call__(self, model):
-        return torch.compile(model, backend="tensorrt")
-
-    def synchronize(self):
-        torch.cuda.synchronize()
+from .graph_compiler_backend import (
+    GraphCompilerBackend,
+    InductorBackend,
+    TensorRTBackend,
+)
+from .blade_disc_backend import BladeDISCBackend
 
 
 def load_class_from_file(
@@ -70,9 +41,25 @@ def load_class_from_file(
     return model_class
 
 
+registry_backend_classes = {
+    "inductor": InductorBackend,
+    "tensorrt": TensorRTBackend,
+    "bladedisc": BladeDISCBackend,
+}
+
+
 def get_compiler_backend(args) -> GraphCompilerBackend:
-    assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
-    return registry_backend[args.compiler]
+    assert (
+        args.compiler in registry_backend_classes
+    ), f"Unknown compiler: {args.compiler}"
+    cls = registry_backend_classes[args.compiler]
+    if cls == InductorBackend:
+        return InductorBackend()
+    elif cls == TensorRTBackend:
+        return TensorRTBackend()
+    elif cls == BladeDISCBackend:
+        input_dict = get_input_dict(args)
+        return BladeDISCBackend(input_dict)
 
 
 def get_model(args):
@@ -90,33 +77,6 @@ def get_input_dict(args):
         k: utils.replay_tensor(v).to(torch.device(args.device))
         for k, v in params.items()
     }
-
-
-class BladeDISCBackend(GraphCompilerBackend):
-    def __init__(self, input_dict=None):
-        self.input_dict = input_dict
-
-    def __call__(self, model):
-        torch_config = torch_blade.config.Config()
-        torch_config.enable_mlir_amp = False
-        with torch.no_grad(), torch_config:
-            input_dict = get_input_dict(args)
-            dummy_input = tuple(input_dict.values())
-            compiled_model = torch_blade.optimize(
-                model, allow_tracing=True, model_inputs=dummy_input
-            )
-        return compiled_model
-
-    def synchronize(self):
-        if torch.cuda.is_available():
-            torch.cuda.synchronize()
-
-
-registry_backend = {
-    "inductor": InductorBackend(),
-    "tensorrt": TensorRTBackend(),
-    "bladedisc": BladeDISCBackend(),
-}
 
 
 @dataclass

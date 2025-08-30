@@ -15,7 +15,7 @@ The process of compiling and optimizing with `torch.jit.trace` or `torch.jit.scr
 ```shell
 # allow_tracing=True   using torch.jit.trace(model, inputs)
 compiled_model = torch_blade.optimize(model, allow_tracing=True, model_inputs=tuple(inputs))
-# allow_tracing=False  using torch.jit.script(model)  在本例中的尝试
+# allow_tracing=False  using torch.jit.script(model)
 compiled_model = torch_blade.optimize(model, allow_tracing=False)
 ```
 

@@ -199,12 +199,12 @@ def get_timing_stats(elapsed_times: list[float]):
 
 
 def measure_performance(model_call, args, compiler):
-    if args.device == "cuda":
+    if "cuda" in args.device:
         times = time_execution_with_cuda_event(
             model_call,
             num_warmup=args.warmup,
             num_trials=args.trials,
-            device=torch.device("cuda:0"),
+            device=torch.device(args.device),
         )
     else:
         times = time_execution_naive(
@@ -243,8 +243,10 @@ def test_single_model(args):
         },
     }
 
-    if args.device == "cuda":
-        result_data["configuration"]["hardware"] = torch.cuda.get_device_name(0)
+    if "cuda" in args.device:
+        result_data["configuration"]["hardware"] = torch.cuda.get_device_name(
+            args.device
+        )
     elif args.device == "cpu":
         result_data["configuration"]["hardware"] = platform.processor()
     else:
@@ -335,27 +337,28 @@ def test_single_model(args):
 
 def get_cmp_equal(expected_out, compiled_out):
     return " ".join(
-        str(int(torch.equal(a, b))) for a, b in zip(expected_out, compiled_out)
+        str(int(torch.equal(a.cpu(), b.cpu())))
+        for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_all_close(expected_out, compiled_out, atol, rtol):
     return " ".join(
-        str(int(torch.allclose(a, b, atol=atol, rtol=rtol)))
+        str(int(torch.allclose(a.cpu(), b.cpu(), atol=atol, rtol=rtol)))
         for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_max_diff(expected_out, compiled_out):
     return " ".join(
-        str(torch.max(torch.abs(a.float() - b.float())).item())
+        str(torch.max(torch.abs(a.cpu().float() - b.cpu().float())).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_mean_diff(expected_out, compiled_out):
     return " ".join(
-        str(torch.mean(torch.abs(a.float() - b.float())).item())
+        str(torch.mean(torch.abs(a.cpu().float() - b.cpu().float())).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
@@ -363,10 +366,13 @@ def get_cmp_mean_diff(expected_out, compiled_out):
 def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
     results = []
     for a, b in zip(expected_out, compiled_out):
-        if a.is_floating_point() and b.is_floating_point():
-            diff_count = torch.sum(~torch.isclose(a, b, atol=atol, rtol=rtol)).item()
+        a_cpu, b_cpu = a.cpu(), b.cpu()
+        if a_cpu.is_floating_point() and b_cpu.is_floating_point():
+            diff_count = torch.sum(
+                ~torch.isclose(a_cpu, b_cpu, atol=atol, rtol=rtol)
+            ).item()
         else:
-            diff_count = torch.sum(a != b).item()
+            diff_count = torch.sum(a_cpu != b_cpu).item()
         results.append(str(diff_count))
     return " ".join(results)
 

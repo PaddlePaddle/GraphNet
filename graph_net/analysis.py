@@ -75,9 +75,20 @@ def analysis(args):
     # inductor_log = os.path.join(args.test_compiler_log_file)
     # inductor_speedup = read_speedups_from_log(inductor_log)
     inductor_speedup = read_speedups_from_json(args.benchmark_path)
+    print(f"Find {len(inductor_speedup)} samples.")
     log2_speedups = np.log2(inductor_speedup)
-    data["log2(speedup)"].extend(log2_speedups)
-    data["Compiler"].extend(["torch.inductor"] * len(log2_speedups))
+
+    mask = log2_speedups <= 2
+    filtered_log2_speedups = log2_speedups[mask]
+    filtered_count = len(filtered_log2_speedups)
+    print(
+        f"After filtering, {filtered_count} samples remain (removed {len(log2_speedups) - filtered_count} outliers)."
+    )
+
+    data["log2(speedup)"].extend(filtered_log2_speedups)
+    data["Compiler"].extend(["torch.inductor"] * len(filtered_log2_speedups))
+    # data["log2(speedup)"].extend(log2_speedups)
+    # data["Compiler"].extend(["torch.inductor"] * len(log2_speedups))
 
     # C: tvm (Simulate)
     # data["log2(speedup)"].extend(

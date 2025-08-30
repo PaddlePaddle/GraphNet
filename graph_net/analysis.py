@@ -66,10 +66,10 @@ def analysis(args):
     data = {"Compiler": [], "log2(speedup)": []}
 
     # A: CINN (Simulate)
-    data["log2(speedup)"].extend(
-        np.random.normal(loc=0.35, scale=0.2, size=num_samples_per_compiler)
-    )
-    data["Compiler"].extend(["CINN"] * num_samples_per_compiler)
+    # data["log2(speedup)"].extend(
+    #     np.random.normal(loc=0.35, scale=0.2, size=num_samples_per_compiler)
+    # )
+    # data["Compiler"].extend(["CINN"] * num_samples_per_compiler)
 
     # B: torch.inductor
     # inductor_log = os.path.join(args.test_compiler_log_file)
@@ -80,37 +80,37 @@ def analysis(args):
     data["Compiler"].extend(["torch.inductor"] * len(log2_speedups))
 
     # C: tvm (Simulate)
-    data["log2(speedup)"].extend(
-        np.random.normal(loc=0.3, scale=0.15, size=num_samples_per_compiler)
-    )
-    data["Compiler"].extend(["tvm"] * num_samples_per_compiler)
+    # data["log2(speedup)"].extend(
+    #     np.random.normal(loc=0.3, scale=0.15, size=num_samples_per_compiler)
+    # )
+    # data["Compiler"].extend(["tvm"] * num_samples_per_compiler)
 
     # D: XLA (Simulate)
-    data["log2(speedup)"].extend(
-        np.concatenate(
-            [
-                np.random.normal(
-                    loc=-0.5, scale=0.1, size=int(num_samples_per_compiler * 0.6)
-                ),
-                np.random.normal(
-                    loc=0.2, scale=0.2, size=int(num_samples_per_compiler * 0.4)
-                ),
-            ]
-        )
-    )
-    data["Compiler"].extend(["XLA"] * num_samples_per_compiler)
+    # data["log2(speedup)"].extend(
+    #     np.concatenate(
+    #         [
+    #             np.random.normal(
+    #                 loc=-0.5, scale=0.1, size=int(num_samples_per_compiler * 0.6)
+    #             ),
+    #             np.random.normal(
+    #                 loc=0.2, scale=0.2, size=int(num_samples_per_compiler * 0.4)
+    #             ),
+    #         ]
+    #     )
+    # )
+    # data["Compiler"].extend(["XLA"] * num_samples_per_compiler)
 
     # E: TensorRT (Simulate)
-    data["log2(speedup)"].extend(
-        np.random.normal(loc=0.5, scale=0.1, size=num_samples_per_compiler)
-    )
-    data["Compiler"].extend(["TensorRT"] * num_samples_per_compiler)
+    # data["log2(speedup)"].extend(
+    #     np.random.normal(loc=0.5, scale=0.1, size=num_samples_per_compiler)
+    # )
+    # data["Compiler"].extend(["TensorRT"] * num_samples_per_compiler)
 
     # F: BladeDISC (Simulate)
-    data["log2(speedup)"].extend(
-        np.random.normal(loc=0.05, scale=0.3, size=num_samples_per_compiler)
-    )
-    data["Compiler"].extend(["BladeDISC"] * num_samples_per_compiler)
+    # data["log2(speedup)"].extend(
+    #     np.random.normal(loc=0.05, scale=0.3, size=num_samples_per_compiler)
+    # )
+    # data["Compiler"].extend(["BladeDISC"] * num_samples_per_compiler)
 
     df = pd.DataFrame(data)
     df["Compiler"] = pd.Categorical(df["Compiler"], categories=compilers, ordered=True)

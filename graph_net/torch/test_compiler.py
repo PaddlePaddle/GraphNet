@@ -348,23 +348,27 @@ def get_cmp_all_close(expected_out, compiled_out, atol, rtol):
 
 def get_cmp_max_diff(expected_out, compiled_out):
     return " ".join(
-        str(torch.max(torch.abs(a - b)).item())
+        str(torch.max(torch.abs(a.float() - b.float())).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_mean_diff(expected_out, compiled_out):
     return " ".join(
-        str(torch.mean(torch.abs(a - b)).item())
+        str(torch.mean(torch.abs(a.float() - b.float())).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
-    return " ".join(
-        str(torch.sum(~torch.isclose(a, b, atol=atol, rtol=rtol)).item())
-        for a, b in zip(expected_out, compiled_out)
-    )
+    results = []
+    for a, b in zip(expected_out, compiled_out):
+        if a.is_floating_point() and b.is_floating_point():
+            diff_count = torch.sum(~torch.isclose(a, b, atol=atol, rtol=rtol)).item()
+        else:
+            diff_count = torch.sum(a != b).item()
+        results.append(str(diff_count))
+    return " ".join(results)
 
 
 def test_multi_models(args):

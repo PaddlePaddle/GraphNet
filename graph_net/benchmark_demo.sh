@@ -34,8 +34,8 @@ echo "[$(date)] Script started in background (PID: $$)" | tee -a "$global_log"
 } >> "$global_log" 2>&1
 
 
-# nohup bash /work/GraphNet/graph_net/benchmark_demo.sh > /dev/ 2>&1 &
+# nohup bash /work/GraphNet/graph_net/benchmark_demo.sh &
 
-# python3 -m graph_net.analysis --test-compiler-log-file /work/GraphNet/torchvision_cuda.log
+# python3 -m graph_net.analysis --test-compiler-log-file /work/GraphNet/global.log
 
 # python3 -m graph_net.analysis --benchmark-path "${benchmark_dir}"

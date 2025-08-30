@@ -65,7 +65,7 @@ def load_class_from_file(
     spec = importlib.util.spec_from_loader(module_name, loader=None)
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module
-    compiled_code = compile(model_code, filename=file, mode="exec")
+    compiled_code = compile(cleaned_code, filename=file, mode="exec")
     exec(compiled_code, module.__dict__)
 
     model_class = getattr(module, class_name, None)
@@ -88,6 +88,9 @@ def get_model(args):
 def get_input_dict(args):
     inputs_params = utils.load_converted_from_text(f"{args.model_path}")
     params = inputs_params["weight_info"]
+    for tensor_meta in params.values():
+        if hasattr(tensor_meta, "device"):
+            tensor_meta.device = args.device
     return {
         k: utils.replay_tensor(v).to(torch.device(args.device))
         for k, v in params.items()

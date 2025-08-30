@@ -14,11 +14,9 @@ import time
 import json
 import numpy as np
 import platform
-from .graph_compiler_backend import (
-    GraphCompilerBackend,
-    InductorBackend,
-    TensorRTBackend,
-)
+from .graph_compiler_backend import GraphCompilerBackend
+from .inductor_backend import InductorBackend
+from .tensorrt_backend import TensorRTBackend
 from .blade_disc_backend import BladeDISCBackend
 
 

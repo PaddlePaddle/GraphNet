@@ -9,6 +9,8 @@ import inspect
 import ast
 import paddle
 
+kLiteralTensorSize = 64
+
 
 def get_limited_precision_float_str(value):
     if not isinstance(value, float):
@@ -35,7 +37,7 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
 
         info = tensor_info(tensor)
         if tensor.dtype in [paddle.int8, paddle.int16, paddle.int32, paddle.int64]:
-            if tensor.numel() < 1024:
+            if tensor.numel() < kLiteralTensorSize:
                 return {
                     "type": "small_int_tensor",
                     "data": tensor.clone(),
@@ -43,7 +45,7 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
                 }
             else:
                 return {"type": "big_int_tensor", "data": tensor.clone(), "info": info}
-        elif tensor.numel() < 1024:
+        elif tensor.numel() < kLiteralTensorSize:
             return {"type": "small_tensor", "data": tensor.clone(), "info": info}
         else:
             return {"type": "random_tensor", "info": info}
@@ -141,10 +143,10 @@ def convert_meta_classes_to_tensors(file_path):
                 "shape": attrs.get("shape", []),
                 "dtype": data_type,
                 "device": attrs.get("device", "gpu"),
-                "mean": attrs.get("mean", 0.0),
-                "std": attrs.get("std", 1.0),
-                "low": attrs.get("low", 0),
-                "high": attrs.get("high", 2),
+                "mean": 0.0 if attrs.get("mean", None) is None else attrs.get("mean"),
+                "std": 1.0 if attrs.get("std", None) is None else attrs.get("std"),
+                "min_val": attrs.get("min_val", 0),
+                "max_val": attrs.get("max_val", 2),
             },
             "data": data_value,
             "name": attrs.get("name"),
@@ -173,17 +175,18 @@ def replay_tensor(info):
     device = info["info"]["device"]
     dtype = info["info"]["dtype"]
     shape = info["info"]["shape"]
-    min_value = info["info"]["low"] if "low" in info["info"] else 0
-    max_value = info["info"]["high"] if "high" in info["info"] else 0.5
+
+    mean = info["info"]["mean"]
+    std = info["info"]["std"]
+    min_val = info["info"]["min_val"]
+    max_val = info["info"]["max_val"]
     if None in shape:
         shape = list(map(lambda i: i if i is not None else 1, shape))
     if "data" in info and info["data"] is not None:
         return paddle.reshape(info["data"], shape).to(dtype).to(device)
     elif dtype == paddle.int32 or dtype == paddle.int64:
         return paddle.cast(
-            paddle.randint(
-                low=min_value, high=max_value + 1, shape=shape, dtype="int64"
-            ),
+            paddle.randint(low=min_val, high=max_val + 1, shape=shape, dtype="int64"),
             dtype,
         ).to(device)
     elif dtype == paddle.bool:
@@ -194,7 +197,9 @@ def replay_tensor(info):
     else:
         std = info["info"]["std"]
         return (
-            paddle.uniform(shape, dtype="float32", min=min_value, max=max_value)
+            paddle.clip(
+                paddle.normal(shape=shape, mean=mean, std=std), min=min_val, max=max_val
+            )
             .to(dtype)
             .to(device)
         )

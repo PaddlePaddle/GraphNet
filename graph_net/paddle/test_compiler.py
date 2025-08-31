@@ -76,7 +76,6 @@ def get_input_spec(args):
         name = v["name"]
         dtype = v["info"]["dtype"]
         shape = v["info"]["shape"]
-        # print(f"-- i: {i}, v: name={name}, shape={shape}, dtype={dtype}")
         input_spec[i] = paddle.static.InputSpec(shape, dtype)
     return input_spec
 
@@ -95,9 +94,6 @@ def test_single_model(args):
     synchronizer_func = get_synchronizer_func(args)
     input_dict = get_input_dict(args)
     model_dy = get_model(args)
-    input_spec = get_input_spec(args)
-    build_strategy = paddle.static.BuildStrategy()
-    build_strategy.build_cinn_pass = False
 
     # eager
     print("-- Run with eager mode")
@@ -110,6 +106,7 @@ def test_single_model(args):
 
     # compiled
     print("-- Run with compiled mode")
+    input_spec = get_input_spec(args)
     build_strategy = paddle.static.BuildStrategy()
     # build_strategy.build_cinn_pass = True
     compiled_model = paddle.jit.to_static(

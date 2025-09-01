@@ -9,8 +9,10 @@ from contextlib import contextmanager
 import time
 import numpy as np
 import random
+import platform
 
-from . import utils
+from graph_net.paddle import utils
+from graph_net.benchmark_result import BenchmarkResult
 
 
 def load_class_from_file(file_path: str, class_name: str):
@@ -201,6 +203,27 @@ def measure_performance(model_call, synchronizer_func, args, profile=False):
     return outs, times
 
 
+def init_benchmark_result(args):
+    if args.device == "cuda":
+        hardware = paddle.device.cuda.get_device_name(0)
+    elif args.device == "cpu":
+        hardware = platform.processor()
+    else:
+        hardware = "unknown"
+
+    if args.compiler == "CINN":
+        compile_framework_version = paddle.__version__
+    else:
+        compile_framework_version = "unknown"
+
+    result_data = BenchmarkResult(
+        args=args,
+        hardware=hardware,
+        compile_framework_version=compile_framework_version,
+    )
+    return result_data
+
+
 def test_single_model(args):
     synchronizer_func = get_synchronizer_func(args)
     input_dict, input_dtypes, param_dtypes = get_input_dict(args)
@@ -210,12 +233,16 @@ def test_single_model(args):
     # Collect model information
     num_ops = count_number_of_ops(args, model)
 
-    print("Run on eager mode")
+    # Initialize benchmark result
+    result_data = init_benchmark_result(args)
+    result_data.update_model_info(num_ops, input_dtypes, param_dtypes)
+
+    # Run on eager mode
     expected_out, eager_time_ms = measure_performance(
         lambda: model(**input_dict), synchronizer_func, args, profile=False
     )
 
-    print("Run on compiling mode")
+    # Run on compiling mode
     compiled_model = get_compiled_model(args, model)
     compiled_out, compiled_time_ms = measure_performance(
         lambda: compiled_model(**input_dict), synchronizer_func, args, profile=False
@@ -243,6 +270,7 @@ def test_single_model(args):
 
     def print_cmp(key, func, **kwargs):
         cmp_ret = func(expected_out, compiled_out, **kwargs)
+        result_data.update_corrrectness(key, cmp_ret)
         print(
             f"{args.log_prompt} {key} model_path:{args.model_path} {cmp_ret}",
             file=sys.stderr,
@@ -270,6 +298,10 @@ def test_single_model(args):
         f"{args.log_prompt} duration model_path:{args.model_path} eager:{eager_time_ms:.5f} ms, compiled:{compiled_time_ms:.5f} ms, speedup:{eager_time_ms / compiled_time_ms:.3f}",
         file=sys.stderr,
     )
+
+    result_data.update_performance(eager_time_ms, compiled_time_ms)
+    if args.output_dir:
+        result_data.write_to_json(args.output_dir)
 
 
 def get_cmp_equal(expected_out, compiled_out):
@@ -373,6 +405,13 @@ if __name__ == "__main__":
         help="Path to customized compiler python file",
     )
     parser.add_argument(
+        "--device",
+        type=str,
+        required=False,
+        default="cuda",
+        help="Device for testing the compiler (e.g., 'cpu' or 'cuda')",
+    )
+    parser.add_argument(
         "--warmup", type=int, required=False, default=5, help="Number of warmup steps"
     )
     parser.add_argument(
@@ -390,6 +429,13 @@ if __name__ == "__main__":
         required=False,
         default="graph-net-test-compiler-log",
         help="Log prompt for performance log filtering.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        required=False,
+        default=None,
+        help="Directory to save the structured JSON result file.",
     )
     args = parser.parse_args()
     main(args=args)

@@ -11,7 +11,7 @@ from collections import defaultdict
 def parse_filename(filename):
     """
     Parses the model name and compiler name from a JSON filename.
-    According to filename format of graph_net.torch.test_compiler: <model_name>_<compiler_name>.json
+    According to output filename format of graph_net.torch.test_compiler: <model_name>_<compiler_name>.json
     """
     parts = os.path.splitext(filename)[0].split("_")
     if len(parts) < 2:

@@ -353,6 +353,7 @@ def get_cmp_all_close(expected_out, compiled_out, atol, rtol):
 
 def get_cmp_max_diff(expected_out, compiled_out):
     return " ".join(
+        # Transform to float to handle LongTensor output of some models, which cannnot be processed with torch.max().
         str(torch.max(torch.abs(a.float() - b.float())).item())
         for a, b in zip(expected_out, compiled_out)
     )
@@ -360,6 +361,7 @@ def get_cmp_max_diff(expected_out, compiled_out):
 
 def get_cmp_mean_diff(expected_out, compiled_out):
     return " ".join(
+        # To handle LongTensor
         str(torch.mean(torch.abs(a.float() - b.float())).item())
         for a, b in zip(expected_out, compiled_out)
     )
@@ -368,6 +370,7 @@ def get_cmp_mean_diff(expected_out, compiled_out):
 def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
     results = []
     for a, b in zip(expected_out, compiled_out):
+        # To handle LongTensor
         if a.is_floating_point() and b.is_floating_point():
             diff_count = torch.sum(~torch.isclose(a, b, atol=atol, rtol=rtol)).item()
         else:

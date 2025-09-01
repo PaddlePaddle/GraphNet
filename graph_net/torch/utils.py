@@ -270,3 +270,16 @@ def replay_tensor(info):
     if dtype is torch.bool:
         return (torch.randn(size=shape) > 0.5).to(dtype).to(device)
     return torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean
+
+
+def update_device(code, device):
+    if device == "cuda":
+        pattern = r'device\(type="cpu"\)'
+        replacement = f'device(type="cuda", index={torch.cuda.current_device()})'
+        updated_code = re.sub(pattern, replacement, code)
+        return updated_code
+    else:
+        pattern = r'device\(type="cuda"(?:, index=\d+)?\)'
+        replacement = 'device(type="cpu")'
+        updated_code = re.sub(pattern, replacement, code)
+        return updated_code

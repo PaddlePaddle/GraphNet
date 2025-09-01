@@ -34,3 +34,6 @@ class BladeDISCBackend(GraphCompilerBackend):
     def synchronize(self):
         if torch.cuda.is_available():
             torch.cuda.synchronize()
+
+    def version(self):
+        return torch_blade.version

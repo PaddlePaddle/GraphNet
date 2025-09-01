@@ -105,8 +105,10 @@ def measure_performance(model_call, args, compiler):
     compiler.synchronize()
 
     if "cuda" in args.device:
-        # Acknowledgement: We evaluate the performance on both end-to-end and GPU-only timings, with reference to
-        # methods only based on CUDA events from KernelBench in https://github.com/ScalingIntelligence/KernelBench.
+        """
+        Acknowledgement: We evaluate the performance on both end-to-end and GPU-only timings,
+        With reference to methods only based on CUDA events from KernelBench in https://github.com/ScalingIntelligence/KernelBench
+        """
 
         device = torch.device(args.device)
         hardware_name = torch.cuda.get_device_name(device)

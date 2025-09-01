@@ -11,7 +11,7 @@ from collections import defaultdict
 def parse_filename(filename):
     """
     Parses the model name and compiler name from a JSON filename.
-    Assumes filename format: <model_name>_<compiler_name>.json
+    According to filename format of graph_net.torch.test_compiler: <model_name>_<compiler_name>.json
     """
     parts = os.path.splitext(filename)[0].split("_")
     if len(parts) < 2:
@@ -24,7 +24,7 @@ def parse_filename(filename):
 def read_all_speedups(benchmark_path):
     """
     Recursively finds all .json files in a given path, extracts the speedup values,
-    and organizes them by compiler and category (subdirectory).
+    and organizes them by compiler and category (library).
     """
     data_by_compiler_category = defaultdict(lambda: defaultdict(list))
     all_compilers = set()

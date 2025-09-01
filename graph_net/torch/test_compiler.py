@@ -229,6 +229,10 @@ def test_single_model(args):
         result_data["configuration"][
             "compile_framework_version"
         ] = f"TensorRT {torch_tensorrt.version}"
+    elif args.compiler == "bladedisc":
+        result_data["configuration"][
+            "compile_framework_version"
+        ] = f"BladeDISC {torch_blade.version}"
     else:
         result_data["configuration"]["compiler_version"] = "unknown"
 

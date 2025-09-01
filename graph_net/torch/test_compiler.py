@@ -112,85 +112,6 @@ def naive_timer(duration_box, synchronizer_func):
     duration_box.value = (end - start) * 1000  # Store in milliseconds
 
 
-def time_execution_with_cuda_event(
-    kernel_fn: callable,
-    *args,
-    num_warmup: int = 3,
-    num_trials: int = 10,
-    verbose: bool = True,
-    device: torch.device = None,
-) -> list[float]:
-    """
-    Acknowledgement: We introduce evaluation method in https://github.com/ScalingIntelligence/KernelBench to enhance function.
-
-    Time a CUDA kernel function over multiple trials using torch.cuda.Event
-
-    Args:
-        kernel_fn: Function to time
-        *args: Arguments to pass to kernel_fn
-        num_trials: Number of timing trials to run
-        verbose: Whether to print per-trial timing info
-        device: CUDA device to use, if None, use current device
-
-    Returns:
-        List of elapsed times in milliseconds
-    """
-    if device is None:
-        if verbose:
-            print(f"Using current device: {torch.cuda.current_device()}")
-        device = torch.cuda.current_device()
-
-    # Warm ups
-    for _ in range(num_warmup):
-        kernel_fn(*args)
-        torch.cuda.synchronize(device=device)
-
-    print(
-        f"[Profiling] Using device: {device} {torch.cuda.get_device_name(device)}, warm up {num_warmup}, trials {num_trials}"
-    )
-    elapsed_times = []
-
-    # Actual trials
-    for trial in range(num_trials):
-        # create event marker default is not interprocess
-        start_event = torch.cuda.Event(enable_timing=True)
-        end_event = torch.cuda.Event(enable_timing=True)
-
-        start_event.record()
-        kernel_fn(*args)
-        end_event.record()
-
-        # Synchronize to ensure the events have completed
-        torch.cuda.synchronize(device=device)
-
-        # Calculate the elapsed time in milliseconds
-        elapsed_time_ms = start_event.elapsed_time(end_event)
-        if verbose:
-            print(f"Trial {trial + 1}: {elapsed_time_ms:.3g} ms")
-        elapsed_times.append(elapsed_time_ms)
-
-    return elapsed_times
-
-
-def time_execution_naive(
-    model_call, synchronizer_func, num_warmup: int = 3, num_trials: int = 10
-):
-    print(
-        f"[Profiling] Using device: {args.device} {platform.processor()}, warm up {num_warmup}, trials {num_trials}"
-    )
-    for _ in range(num_warmup):
-        model_call()
-
-    times = []
-    for i in range(num_trials):
-        duration_box = DurationBox(-1)
-        with naive_timer(duration_box, synchronizer_func):
-            model_call()
-        print(f"Trial {i + 1}: {duration_box.value:.2f} ms")
-        times.append(duration_box.value)
-    return times
-
-
 def get_timing_stats(elapsed_times: list[float]):
     stats = {
         "mean": float(f"{np.mean(elapsed_times):.3g}"),
@@ -202,21 +123,66 @@ def get_timing_stats(elapsed_times: list[float]):
 
 
 def measure_performance(model_call, args, compiler):
+    stats = {}
+
+    # Warmup runs
+    for _ in range(args.warmup):
+        model_call()
+    compiler.synchronize()
+
     if "cuda" in args.device:
-        times = time_execution_with_cuda_event(
-            model_call,
-            num_warmup=args.warmup,
-            num_trials=args.trials,
-            device=torch.device(args.device),
+        # Acknowledgement: We evaluate the performance on both end-to-end and GPU-only timings, with reference to
+        # methods only based on CUDA events from KernelBench in https://github.com/ScalingIntelligence/KernelBench.
+
+        device = torch.device(args.device)
+        hardware_name = torch.cuda.get_device_name(device)
+        print(
+            f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}"
         )
-    else:
-        times = time_execution_naive(
-            model_call,
-            compiler.synchronize,
-            num_warmup=args.warmup,
-            num_trials=args.trials,
+
+        e2e_times = []
+        gpu_times = []
+
+        for i in range(args.trials):
+            # End-to-end timing (naive_timer)
+            duration_box = DurationBox(-1)
+            with naive_timer(duration_box, compiler.synchronize):
+                # GPU-only timing (CUDA Events)
+                start_event = torch.cuda.Event(enable_timing=True)
+                end_event = torch.cuda.Event(enable_timing=True)
+                start_event.record()
+
+                model_call()
+
+                end_event.record()
+                torch.cuda.synchronize(device=device)
+
+            gpu_time_ms = start_event.elapsed_time(end_event)
+            e2e_times.append(duration_box.value)
+            gpu_times.append(gpu_time_ms)
+            print(
+                f"Trial {i + 1}: e2e={duration_box.value:.2f} ms, gpu={gpu_time_ms:.3g} ms"
+            )
+
+        stats["e2e"] = get_timing_stats(e2e_times)
+        stats["gpu"] = get_timing_stats(gpu_times)
+
+    else:  # CPU or other devices
+        hardware_name = platform.processor()
+        print(
+            f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}"
         )
-    return get_timing_stats(times)
+
+        e2e_times = []
+        for i in range(args.trials):
+            duration_box = DurationBox(-1)
+            with naive_timer(duration_box, compiler.synchronize):
+                model_call()
+            print(f"Trial {i + 1}: e2e={duration_box.value:.2f} ms")
+            e2e_times.append(duration_box.value)
+        stats["e2e"] = get_timing_stats(e2e_times)
+
+    return stats
 
 
 def test_single_model(args):
@@ -224,9 +190,6 @@ def test_single_model(args):
     input_dict = get_input_dict(args)
     model = get_model(args)
     compiled_model = compiler(model)
-
-    eager_stats = {}
-    compiled_stats = {}
 
     result_data = {
         "configuration": {
@@ -270,8 +233,21 @@ def test_single_model(args):
     eager_stats = measure_performance(eager_model_call, args, compiler)
     compiled_stats = measure_performance(compiled_model_call, args, compiler)
 
+    result_data["performance"]["eager"] = eager_stats
+    result_data["performance"]["compiled"] = compiled_stats
+
+    eager_time_ms = eager_stats.get("e2e", {}).get("mean", 0)
+    compiled_time_ms = compiled_stats.get("e2e", {}).get("mean", 0)
+    # Using e2e time to calculate speedup
+    result_data["performance"]["speedup"] = eager_time_ms / compiled_time_ms
+
     expected_out = eager_model_call()
     compiled_out = compiled_model_call()
+
+    if not isinstance(expected_out, tuple):
+        expected_out = (expected_out,)
+    if not isinstance(compiled_out, tuple):
+        compiled_out = (compiled_out,)
 
     def print_and_store_cmp(key, func, **kwargs):
         cmp_ret = func(expected_out, compiled_out, **kwargs)
@@ -314,14 +290,6 @@ def test_single_model(args):
     print_and_store_cmp(
         "diff_count_atol2_rtol1", get_cmp_diff_count, atol=1e-2, rtol=1e-1
     )
-
-    eager_time_ms = eager_stats["mean"]
-    compiled_time_ms = compiled_stats["mean"]
-
-    result_data["performance"]["eager"] = eager_stats
-    result_data["performance"]["compiled"] = compiled_stats
-    if eager_time_ms > 0 and compiled_time_ms > 0:
-        result_data["performance"]["speedup"] = eager_time_ms / compiled_time_ms
 
     print(
         f"{args.log_prompt} duration model_path:{args.model_path} eager:{eager_time_ms:.4f} compiled:{compiled_time_ms:.4f}",

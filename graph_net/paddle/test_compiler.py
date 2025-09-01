@@ -90,11 +90,8 @@ def get_compiled_model(args, model):
 
 
 def regular_item(item):
-    if isinstance(item, paddle.Tensor) and (item.dtype == paddle.bfloat16):
-        item = np.array(item.astype("float32"))
-    else:
-        item = np.array(item)
-    if item.dtype == np.bool_:
+    assert isinstance(item, paddle.Tensor)
+    if item.dtype not in [paddle.float32, paddle.float64]:
         item = item.astype("float32")
     return item
 
@@ -306,32 +303,34 @@ def test_single_model(args):
 
 def get_cmp_equal(expected_out, compiled_out):
     return " ".join(
-        str(int(np.sum(np.equal(a, b)))) for a, b in zip(expected_out, compiled_out)
+        str(int(paddle.equal_all(a, b))) for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_all_close(expected_out, compiled_out, atol, rtol):
     return " ".join(
-        str(int(np.allclose(a, b, atol=atol, rtol=rtol)))
+        str(int(paddle.allclose(a, b, atol=atol, rtol=rtol)))
         for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_max_diff(expected_out, compiled_out):
     return " ".join(
-        str(np.max(np.abs(a - b)).item()) for a, b in zip(expected_out, compiled_out)
+        str(paddle.max(paddle.abs(a - b)).item())
+        for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_mean_diff(expected_out, compiled_out):
     return " ".join(
-        str(np.mean(np.abs(a - b)).item()) for a, b in zip(expected_out, compiled_out)
+        str(paddle.mean(paddle.abs(a - b)).item())
+        for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
     return " ".join(
-        str(np.sum(~np.isclose(a, b, atol=atol, rtol=rtol)).item())
+        str(paddle.sum(~paddle.isclose(a, b, atol=atol, rtol=rtol)).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
@@ -344,9 +343,11 @@ def test_multi_models(args):
                 "-m graph_net.paddle.test_compiler",
                 f"--model-path {model_path}",
                 f"--compiler {args.compiler}",
+                f"--device {args.device}",
                 f"--warmup {args.warmup}",
                 f"--trials {args.trials}",
                 f"--log-prompt {args.log_prompt}",
+                f"--output-dir {args.output_dir}",
             ]
         )
         cmd_ret = os.system(cmd)

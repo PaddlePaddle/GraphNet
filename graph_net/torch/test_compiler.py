@@ -4,9 +4,8 @@ import importlib.util
 import inspect
 import torch
 from pathlib import Path
-from typing import Type, Any
+from typing import Type, Any, List, Dict, Callable
 import sys
-from graph_net.torch.extractor import extract
 import os
 import os.path
 from dataclasses import dataclass
@@ -15,41 +14,15 @@ import time
 import json
 import numpy as np
 import platform
-
-try:
-    import torch_tensorrt
-except ImportError:
-    torch_tensorrt = None
-
-
-class GraphCompilerBackend:
-    def __call__(self, model):
-        raise NotImplementedError()
-
-    def synchronize(self):
-        raise NotImplementedError()
-
-
-class InductorBackend(GraphCompilerBackend):
-    def __call__(self, model):
-        return torch.compile(model, backend="inductor")
-
-    def synchronize(self):
-        if torch.cuda.is_available():
-            torch.cuda.synchronize()
-
-
-class TensorRTBackend(GraphCompilerBackend):
-    def __call__(self, model):
-        return torch.compile(model, backend="tensorrt")
-
-    def synchronize(self):
-        torch.cuda.synchronize()
-
+from graph_net.torch.graph_compiler_backend import GraphCompilerBackend
+from graph_net.torch.inductor_backend import InductorBackend
+from graph_net.torch.tensorrt_backend import TensorRTBackend
+from graph_net.torch.blade_disc_backend import BladeDISCBackend
 
 registry_backend = {
     "inductor": InductorBackend(),
     "tensorrt": TensorRTBackend(),
+    "bladedisc": BladeDISCBackend(),
 }
 
 
@@ -112,7 +85,86 @@ def naive_timer(duration_box, synchronizer_func):
     duration_box.value = (end - start) * 1000  # Store in milliseconds
 
 
-def get_timing_stats(elapsed_times: list[float]):
+def time_execution_with_cuda_event(
+    kernel_fn: Callable,
+    *args,
+    num_warmup: int = 3,
+    num_trials: int = 10,
+    verbose: bool = True,
+    device: torch.device = None,
+) -> List[float]:
+    """
+    Acknowledgement: We introduce evaluation method in https://github.com/ScalingIntelligence/KernelBench to enhance function.
+
+    Time a CUDA kernel function over multiple trials using torch.cuda.Event
+
+    Args:
+        kernel_fn: Function to time
+        *args: Arguments to pass to kernel_fn
+        num_trials: Number of timing trials to run
+        verbose: Whether to print per-trial timing info
+        device: CUDA device to use, if None, use current device
+
+    Returns:
+        List of elapsed times in milliseconds
+    """
+    if device is None:
+        if verbose:
+            print(f"Using current device: {torch.cuda.current_device()}")
+        device = torch.cuda.current_device()
+
+    # Warm ups
+    for _ in range(num_warmup):
+        kernel_fn(*args)
+        torch.cuda.synchronize(device=device)
+
+    print(
+        f"[Profiling] Using device: {device} {torch.cuda.get_device_name(device)}, warm up {num_warmup}, trials {num_trials}"
+    )
+    elapsed_times = []
+
+    # Actual trials
+    for trial in range(num_trials):
+        # create event marker default is not interprocess
+        start_event = torch.cuda.Event(enable_timing=True)
+        end_event = torch.cuda.Event(enable_timing=True)
+
+        start_event.record()
+        kernel_fn(*args)
+        end_event.record()
+
+        # Synchronize to ensure the events have completed
+        torch.cuda.synchronize(device=device)
+
+        # Calculate the elapsed time in milliseconds
+        elapsed_time_ms = start_event.elapsed_time(end_event)
+        if verbose:
+            print(f"Trial {trial + 1}: {elapsed_time_ms:.3g} ms")
+        elapsed_times.append(elapsed_time_ms)
+
+    return elapsed_times
+
+
+def time_execution_naive(
+    model_call, synchronizer_func, num_warmup: int = 3, num_trials: int = 10
+):
+    print(
+        f"[Profiling] Using device: {args.device} {platform.processor()}, warm up {num_warmup}, trials {num_trials}"
+    )
+    for _ in range(num_warmup):
+        model_call()
+
+    times = []
+    for i in range(num_trials):
+        duration_box = DurationBox(-1)
+        with naive_timer(duration_box, synchronizer_func):
+            model_call()
+        print(f"Trial {i + 1}: {duration_box.value:.2f} ms")
+        times.append(duration_box.value)
+    return times
+
+
+def get_timing_stats(elapsed_times: List[float]):
     stats = {
         "mean": float(f"{np.mean(elapsed_times):.3g}"),
         "std": float(f"{np.std(elapsed_times):.3g}"),
@@ -224,6 +276,10 @@ def test_single_model(args):
         result_data["configuration"][
             "compile_framework_version"
         ] = f"TensorRT {torch_tensorrt.version}"
+    elif args.compiler == "bladedisc":
+        result_data["configuration"][
+            "compile_framework_version"
+        ] = f"BladeDISC {torch_blade.version}"
     else:
         result_data["configuration"]["compiler_version"] = "unknown"
 

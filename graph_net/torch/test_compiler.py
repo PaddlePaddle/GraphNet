@@ -4,9 +4,8 @@ import importlib.util
 import inspect
 import torch
 from pathlib import Path
-from typing import Type, Any
+from typing import Type, Any, List, Dict, Callable
 import sys
-from graph_net.torch.extractor import extract
 import os
 import os.path
 from dataclasses import dataclass
@@ -15,41 +14,15 @@ import time
 import json
 import numpy as np
 import platform
-
-try:
-    import torch_tensorrt
-except ImportError:
-    torch_tensorrt = None
-
-
-class GraphCompilerBackend:
-    def __call__(self, model):
-        raise NotImplementedError()
-
-    def synchronize(self):
-        raise NotImplementedError()
-
-
-class InductorBackend(GraphCompilerBackend):
-    def __call__(self, model):
-        return torch.compile(model, backend="inductor")
-
-    def synchronize(self):
-        if torch.cuda.is_available():
-            torch.cuda.synchronize()
-
-
-class TensorRTBackend(GraphCompilerBackend):
-    def __call__(self, model):
-        return torch.compile(model, backend="tensorrt")
-
-    def synchronize(self):
-        torch.cuda.synchronize()
-
+from graph_net.torch.graph_compiler_backend import GraphCompilerBackend
+from graph_net.torch.inductor_backend import InductorBackend
+from graph_net.torch.tensorrt_backend import TensorRTBackend
+from graph_net.torch.blade_disc_backend import BladeDISCBackend
 
 registry_backend = {
     "inductor": InductorBackend(),
     "tensorrt": TensorRTBackend(),
+    "bladedisc": BladeDISCBackend(),
 }
 
 
@@ -110,13 +83,13 @@ def naive_timer(duration_box, synchronizer_func):
 
 
 def time_execution_with_cuda_event(
-    kernel_fn: callable,
+    kernel_fn: Callable,
     *args,
     num_warmup: int = 3,
     num_trials: int = 10,
     verbose: bool = True,
     device: torch.device = None,
-) -> list[float]:
+) -> List[float]:
     """
     Acknowledgement: We introduce evaluation method in https://github.com/ScalingIntelligence/KernelBench to enhance function.
 
@@ -188,7 +161,7 @@ def time_execution_naive(
     return times
 
 
-def get_timing_stats(elapsed_times: list[float]):
+def get_timing_stats(elapsed_times: List[float]):
     stats = {
         "mean": float(f"{np.mean(elapsed_times):.3g}"),
         "std": float(f"{np.std(elapsed_times):.3g}"),
@@ -256,6 +229,10 @@ def test_single_model(args):
         result_data["configuration"][
             "compile_framework_version"
         ] = f"TensorRT {torch_tensorrt.version}"
+    elif args.compiler == "bladedisc":
+        result_data["configuration"][
+            "compile_framework_version"
+        ] = f"BladeDISC {torch_blade.version}"
     else:
         result_data["configuration"]["compiler_version"] = "unknown"
 

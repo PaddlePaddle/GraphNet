@@ -14,10 +14,10 @@ import time
 import json
 import numpy as np
 import platform
-from graph_net.torch.graph_compiler_backend import GraphCompilerBackend
-from graph_net.torch.inductor_backend import InductorBackend
-from graph_net.torch.tensorrt_backend import TensorRTBackend
-from graph_net.torch.blade_disc_backend import BladeDISCBackend
+from graph_net.torch.backend.graph_compiler_backend import GraphCompilerBackend
+from graph_net.torch.backend.inductor_backend import InductorBackend
+from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
+from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
 
 registry_backend = {
     "inductor": InductorBackend(),
@@ -35,6 +35,7 @@ def load_class_from_file(
 
     with open(file_path, "r", encoding="utf-8") as f:
         model_code = f.read()
+    model_code = utils.update_device(model_code, args.device)
     spec = importlib.util.spec_from_loader(module_name, loader=None)
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module
@@ -228,11 +229,11 @@ def test_single_model(args):
     elif args.compiler == "tensorrt":
         result_data["configuration"][
             "compile_framework_version"
-        ] = f"TensorRT {torch_tensorrt.version}"
+        ] = f"TensorRT {compiler.version}"
     elif args.compiler == "bladedisc":
         result_data["configuration"][
             "compile_framework_version"
-        ] = f"BladeDISC {torch_blade.version}"
+        ] = f"BladeDISC {compiler.version}"
     else:
         result_data["configuration"]["compiler_version"] = "unknown"
 

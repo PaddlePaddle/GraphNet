@@ -1,11 +1,10 @@
 import torch
+from .graph_compiler_backend import GraphCompilerBackend
 
 try:
     import torch_tensorrt
 except ImportError:
     torch_tensorrt = None
-
-from .graph_compiler_backend import GraphCompilerBackend
 
 
 class TensorRTBackend(GraphCompilerBackend):
@@ -16,3 +15,6 @@ class TensorRTBackend(GraphCompilerBackend):
 
     def synchronize(self):
         torch.cuda.synchronize()
+
+    def version(self):
+        return torch_tensorrt.version

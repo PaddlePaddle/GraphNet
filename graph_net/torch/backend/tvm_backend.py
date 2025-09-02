@@ -30,8 +30,7 @@ class TvmCompiledModule(torch.nn.Module):
             self.compiled_vm = self.compile(self.module, **kwargs)
             for name in self.param_names:
                 if name in kwargs and name != "s1":
-                    param = kwargs[name]
-                    self.tvm_input.append(tvm.nd.array(param.cpu(), self.dev))
+                    self.tvm_input.append(tvm.nd.from_dlpack(kwargs[name]))
 
         output = self.compiled_vm["subgraph_0"](*self.tvm_input)
         self.counter += 1

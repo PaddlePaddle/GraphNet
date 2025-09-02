@@ -251,7 +251,6 @@ def test_single_model(args):
 
     expected_out = eager_model_call()
     compiled_out = compiled_model_call()
-    compiled_out = (tensor.to(args.device) for tensor in compiled_out)
 
     def print_and_store_cmp(key, func, **kwargs):
         cmp_ret = func(expected_out, compiled_out, **kwargs)

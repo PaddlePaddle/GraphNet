@@ -33,9 +33,9 @@ class TvmCompiledModule(torch.nn.Module):
                     param = kwargs[name]
                     self.tvm_input.append(tvm.nd.array(param.cpu(), self.dev))
 
-        output = self.compiled_vm["subgraph_0"](*self.tvm_input).numpy()
+        output = self.compiled_vm["subgraph_0"](*self.tvm_input)
         self.counter += 1
-        return torch.from_numpy(output)
+        return torch.from_dlpack(output)
 
     def compile(self, module, **kwargs):
         with torch.no_grad():

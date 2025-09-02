@@ -15,11 +15,13 @@ import json
 import numpy as np
 import platform
 from graph_net.torch.backend.graph_compiler_backend import GraphCompilerBackend
+from graph_net.torch.backend.tvm_backend import TvmBackend
 from graph_net.torch.backend.inductor_backend import InductorBackend
 from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
 
 registry_backend = {
+    "tvm": TvmBackend(),
     "inductor": InductorBackend(),
     "tensorrt": TensorRTBackend(),
     "bladedisc": BladeDISCBackend(),
@@ -35,7 +37,7 @@ def load_class_from_file(
 
     with open(file_path, "r", encoding="utf-8") as f:
         model_code = f.read()
-    model_code = utils.update_device(model_code, args.device)
+    model_code = utils.modify_code_by_device(model_code, args.device)
     spec = importlib.util.spec_from_loader(module_name, loader=None)
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module
@@ -226,6 +228,10 @@ def test_single_model(args):
 
     if args.compiler == "inductor":
         result_data["configuration"]["compile_framework_version"] = torch.__version__
+    elif args.compiler == "tvm":
+        result_data["configuration"][
+            "compile_framework_version"
+        ] = f"Tvm {compiler.version}"
     elif args.compiler == "tensorrt":
         result_data["configuration"][
             "compile_framework_version"

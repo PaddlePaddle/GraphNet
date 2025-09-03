@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "gonchisi/roberta-base-bne-finetuned-new_or_used-title",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "roberta",
+        "text-classification",
+        "generated_from_trainer",
+        "base_model:BSC-LT/roberta-base-bne",
+        "base_model:finetune:BSC-LT/roberta-base-bne",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

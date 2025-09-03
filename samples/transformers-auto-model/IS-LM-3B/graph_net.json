@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "UmbrellaCorp/IS-LM-3B_GGUF",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "gguf",
+        "text-generation",
+        "en",
+        "dataset:teknium/dataforge-economics",
+        "arxiv:2305.14314",
+        "license:cc-by-sa-4.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

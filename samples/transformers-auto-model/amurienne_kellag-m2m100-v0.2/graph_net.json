@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "amurienne/kellag-m2m100-v0.2",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "m2m_100",
+        "text2text-generation",
+        "translation",
+        "fr",
+        "br",
+        "dataset:Bretagne/ofis_publik_br-fr",
+        "dataset:Bretagne/OpenSubtitles_br_fr",
+        "dataset:Bretagne/Autogramm_Breton_translation",
+        "base_model:facebook/m2m100_418M",
+        "base_model:finetune:facebook/m2m100_418M",
+        "license:mit",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

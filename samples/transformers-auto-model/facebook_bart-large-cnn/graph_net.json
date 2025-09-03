@@ -1,5 +1,25 @@
 {
     "framework": "torch",
     "num_devices_required": 1,
-    "num_nodes_required": 1
+    "num_nodes_required": 1,
+    "model_name": "facebook/bart-large-cnn",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "jax",
+        "rust",
+        "safetensors",
+        "bart",
+        "text2text-generation",
+        "summarization",
+        "en",
+        "dataset:cnn_dailymail",
+        "arxiv:1910.13461",
+        "license:mit",
+        "model-index",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

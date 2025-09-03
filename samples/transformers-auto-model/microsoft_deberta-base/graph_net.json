@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "microsoft/deberta-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "rust",
+        "deberta",
+        "deberta-v1",
+        "fill-mask",
+        "en",
+        "arxiv:2006.03654",
+        "license:mit",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

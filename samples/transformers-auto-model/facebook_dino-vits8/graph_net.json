@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "facebook/dino-vits8",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "vit",
+        "image-feature-extraction",
+        "dino",
+        "vision",
+        "dataset:imagenet-1k",
+        "arxiv:2104.14294",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

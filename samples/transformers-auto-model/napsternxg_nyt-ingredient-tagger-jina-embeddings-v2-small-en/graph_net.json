@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "napsternxg/nyt-ingredient-tagger-jina-embeddings-v2-small-en",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "bert",
+        "token-classification",
+        "generated_from_trainer",
+        "custom_code",
+        "dataset:napsternxg/nyt_ingredients",
+        "base_model:jinaai/jina-embeddings-v2-small-en",
+        "base_model:finetune:jinaai/jina-embeddings-v2-small-en",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

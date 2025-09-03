@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Helsinki-NLP/opus-mt-rn-en",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "safetensors",
+        "marian",
+        "text2text-generation",
+        "translation",
+        "rn",
+        "en",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

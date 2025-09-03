@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "davidhajdu/dab_detr_finetuned_cppe5",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "dab-detr",
+        "object-detection",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

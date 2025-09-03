@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Intel/dpt-beit-large-512",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "dpt",
+        "depth-estimation",
+        "vision",
+        "arxiv:2103.13413",
+        "arxiv:2307.14460",
+        "license:mit",
+        "model-index",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

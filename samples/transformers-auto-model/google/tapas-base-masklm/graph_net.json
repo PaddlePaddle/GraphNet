@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "google/tapas-base-masklm",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "safetensors",
+        "tapas",
+        "fill-mask",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

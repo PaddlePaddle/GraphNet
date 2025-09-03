@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "miangoar/esm2_t12_35M_UR50D-finetuned-secondary-structure-classification",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "tf",
+        "esm",
+        "token-classification",
+        "generated_from_keras_callback",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

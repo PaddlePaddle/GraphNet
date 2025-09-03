@@ -2,5 +2,15 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "QuantFactory/Biggie-SmoLlm-0.4B-GGUF",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "gguf",
+        "base_model:HuggingFaceTB/SmolLM-360M-Instruct",
+        "base_model:quantized:HuggingFaceTB/SmolLM-360M-Instruct",
+        "endpoints_compatible",
+        "region:us",
+        "conversational"
+    ]
 }

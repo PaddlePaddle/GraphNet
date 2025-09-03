@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "mazkooleg/0-9up-wavlm-base-plus-ft",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "wavlm",
+        "audio-classification",
+        "generated_from_trainer",
+        "dataset:mazkooleg/0-9up_google_speech_commands_augmented_raw",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

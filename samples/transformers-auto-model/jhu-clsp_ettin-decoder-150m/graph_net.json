@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "jhu-clsp/ettin-decoder-150m",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "pytorch",
+        "modernbert-decoder",
+        "fill-mask",
+        "en",
+        "arxiv:2507.11412",
+        "license:mit",
+        "region:us"
+    ]
 }

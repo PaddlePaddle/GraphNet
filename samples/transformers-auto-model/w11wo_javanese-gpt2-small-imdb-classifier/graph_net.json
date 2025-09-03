@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "w11wo/javanese-gpt2-small-imdb-classifier",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "safetensors",
+        "gpt2",
+        "text-classification",
+        "javanese-gpt2-small-imdb-classifier",
+        "jv",
+        "dataset:w11wo/imdb-javanese",
+        "license:mit",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

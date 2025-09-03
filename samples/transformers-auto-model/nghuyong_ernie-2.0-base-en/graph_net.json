@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "nghuyong/ernie-2.0-base-en",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "ernie",
+        "feature-extraction",
+        "en",
+        "arxiv:1907.12412",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

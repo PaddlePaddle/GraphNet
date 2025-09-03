@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "hossamamer12/BUS15100_MB2_20epoch_notweettokenizer_fp16",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "mobilebert",
+        "text-classification",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

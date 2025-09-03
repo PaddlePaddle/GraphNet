@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "facebook/sam-vit-large",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "safetensors",
+        "sam",
+        "mask-generation",
+        "vision",
+        "arxiv:2304.02643",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

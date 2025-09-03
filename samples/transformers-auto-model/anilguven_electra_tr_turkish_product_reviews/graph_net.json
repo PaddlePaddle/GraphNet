@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "anilguven/electra_tr_turkish_product_reviews",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "electra",
+        "text-classification",
+        "turkish",
+        "product",
+        "bert",
+        "review",
+        "tr",
+        "dataset:anilguven/turkish_product_reviews_sentiment",
+        "license:unknown",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

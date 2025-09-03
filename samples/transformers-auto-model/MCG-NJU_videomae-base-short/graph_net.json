@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "MCG-NJU/videomae-base-short",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "videomae",
+        "pretraining",
+        "vision",
+        "video-classification",
+        "arxiv:2203.12602",
+        "arxiv:2111.06377",
+        "license:cc-by-nc-4.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

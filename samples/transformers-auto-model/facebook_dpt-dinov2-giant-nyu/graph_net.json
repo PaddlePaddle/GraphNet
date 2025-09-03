@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "facebook/dpt-dinov2-giant-nyu",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "dpt",
+        "depth-estimation",
+        "vision",
+        "dinov2",
+        "arxiv:2304.07193",
+        "arxiv:2103.13413",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

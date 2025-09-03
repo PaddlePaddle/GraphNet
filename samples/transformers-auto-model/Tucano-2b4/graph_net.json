@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "TucanoBR/Tucano-2b4",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "jax",
+        "safetensors",
+        "llama",
+        "text-generation",
+        "text-generation-inference",
+        "pt",
+        "dataset:TucanoBR/GigaVerbo",
+        "arxiv:2411.07854",
+        "license:apache-2.0",
+        "model-index",
+        "co2_eq_emissions",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

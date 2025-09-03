@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "sdadas/polish-reranker-roberta-v2",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "safetensors",
+        "roberta",
+        "text-classification",
+        "transformers",
+        "information-retrieval",
+        "text-ranking",
+        "custom_code",
+        "pl",
+        "arxiv:2402.14318",
+        "license:gemma",
+        "region:us"
+    ]
 }

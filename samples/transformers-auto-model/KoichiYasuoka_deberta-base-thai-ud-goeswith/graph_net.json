@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "KoichiYasuoka/deberta-base-thai-ud-goeswith",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "deberta-v2",
+        "token-classification",
+        "thai",
+        "pos",
+        "dependency-parsing",
+        "th",
+        "dataset:universal_dependencies",
+        "base_model:KoichiYasuoka/deberta-base-thai",
+        "base_model:finetune:KoichiYasuoka/deberta-base-thai",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

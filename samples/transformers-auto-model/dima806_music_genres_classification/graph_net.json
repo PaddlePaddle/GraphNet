@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "dima806/music_genres_classification",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "wav2vec2",
+        "audio-classification",
+        "base_model:facebook/wav2vec2-base-960h",
+        "base_model:finetune:facebook/wav2vec2-base-960h",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "jinaai/jina-reranker-m0",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "qwen2_vl",
+        "feature-extraction",
+        "vidore",
+        "reranker",
+        "text-classification",
+        "custom_code",
+        "multilingual",
+        "base_model:Qwen/Qwen2-VL-2B-Instruct",
+        "base_model:finetune:Qwen/Qwen2-VL-2B-Instruct",
+        "license:cc-by-nc-4.0",
+        "text-generation-inference",
+        "region:eu"
+    ]
 }

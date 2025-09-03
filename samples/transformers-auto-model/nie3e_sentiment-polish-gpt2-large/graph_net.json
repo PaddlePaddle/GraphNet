@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "nie3e/sentiment-polish-gpt2-large",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "gpt2",
+        "text-classification",
+        "generated_from_trainer",
+        "pl",
+        "dataset:clarin-pl/polemo2-official",
+        "base_model:sdadas/polish-gpt2-large",
+        "base_model:finetune:sdadas/polish-gpt2-large",
+        "license:mit",
+        "model-index",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "inthedarkness/klue-roberta-small-cross-encoder",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "safetensors",
+        "roberta",
+        "text-classification",
+        "feature-extraction",
+        "sentence-similarity",
+        "transformers",
+        "text-ranking",
+        "region:us"
+    ]
 }

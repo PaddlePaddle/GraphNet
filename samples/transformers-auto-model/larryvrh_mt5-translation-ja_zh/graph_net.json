@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "larryvrh/mt5-translation-ja_zh",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "mt5",
+        "text2text-generation",
+        "translation",
+        "zh",
+        "ja",
+        "dataset:larryvrh/WikiMatrix-v1-Ja_Zh-filtered",
+        "dataset:larryvrh/CCMatrix-v1-Ja_Zh-filtered",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

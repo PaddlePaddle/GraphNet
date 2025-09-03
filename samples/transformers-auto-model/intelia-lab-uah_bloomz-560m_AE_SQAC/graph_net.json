@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "intelia-lab-uah/bloomz-560m_AE_SQAC",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "bloom",
+        "text-generation",
+        "AnswerExtraction",
+        "text2text-generation",
+        "es",
+        "dataset:PlanTL-GOB-ES/SQAC",
+        "base_model:bigscience/bloom-560m",
+        "base_model:finetune:bigscience/bloom-560m",
+        "license:gpl-3.0",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

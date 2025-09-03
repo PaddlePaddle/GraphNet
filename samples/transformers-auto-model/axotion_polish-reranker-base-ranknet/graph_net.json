@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "axotion/polish-reranker-base-ranknet",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "onnx",
+        "roberta",
+        "text-classification",
+        "transformers",
+        "information-retrieval",
+        "text-ranking",
+        "pl",
+        "arxiv:2402.14318",
+        "base_model:sdadas/polish-reranker-base-ranknet",
+        "base_model:quantized:sdadas/polish-reranker-base-ranknet",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "yuvalkirstain/PickScore_v1",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "clip",
+        "zero-shot-image-classification",
+        "arxiv:2305.01569",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

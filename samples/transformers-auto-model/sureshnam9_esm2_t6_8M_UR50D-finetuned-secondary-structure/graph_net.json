@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "sureshnam9/esm2_t6_8M_UR50D-finetuned-secondary-structure",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "esm",
+        "token-classification",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

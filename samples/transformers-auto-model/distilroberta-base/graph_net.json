@@ -2,5 +2,26 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "distilbert/distilroberta-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "jax",
+        "rust",
+        "safetensors",
+        "roberta",
+        "fill-mask",
+        "exbert",
+        "en",
+        "dataset:openwebtext",
+        "arxiv:1910.01108",
+        "arxiv:1910.09700",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

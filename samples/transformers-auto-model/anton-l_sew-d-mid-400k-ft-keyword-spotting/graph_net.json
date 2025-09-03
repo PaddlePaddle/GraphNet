@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "anton-l/sew-d-mid-400k-ft-keyword-spotting",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "sew-d",
+        "audio-classification",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "CAMeL-Lab/text-editing-qalb14-nopnx",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "pytorch",
+        "bert",
+        "token-classification",
+        "ar",
+        "arxiv:2503.00985",
+        "base_model:aubmindlab/bert-base-arabertv02",
+        "base_model:finetune:aubmindlab/bert-base-arabertv02",
+        "license:mit",
+        "region:us"
+    ]
 }

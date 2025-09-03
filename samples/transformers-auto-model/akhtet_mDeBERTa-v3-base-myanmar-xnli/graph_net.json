@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "akhtet/mDeBERTa-v3-base-myanmar-xnli",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "deberta-v2",
+        "text-classification",
+        "zero-shot-classification",
+        "my",
+        "en",
+        "dataset:akhtet/myXNLI",
+        "arxiv:2504.09645",
+        "arxiv:2006.03654",
+        "arxiv:2111.09543",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

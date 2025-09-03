@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Finnish-NLP/convbert-base-generator-finnish",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "convbert",
+        "fill-mask",
+        "finnish",
+        "fi",
+        "dataset:Finnish-NLP/mc4_fi_cleaned",
+        "dataset:wikipedia",
+        "arxiv:2008.02496",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

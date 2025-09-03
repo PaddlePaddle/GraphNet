@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "prathameshdalal/vivit-b-16x2-kinetics400-UCF-Crime",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "vivit",
+        "video-classification",
+        "generated_from_trainer",
+        "base_model:google/vivit-b-16x2-kinetics400",
+        "base_model:finetune:google/vivit-b-16x2-kinetics400",
+        "license:mit",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,28 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "audeering/wav2vec2-large-robust-24-ft-age-gender",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "wav2vec2",
+        "speech",
+        "audio",
+        "audio-classification",
+        "age-recognition",
+        "gender-recognition",
+        "dataset:agender",
+        "dataset:mozillacommonvoice",
+        "dataset:timit",
+        "dataset:voxceleb2",
+        "arxiv:2306.16962",
+        "base_model:facebook/wav2vec2-large-robust",
+        "base_model:finetune:facebook/wav2vec2-large-robust",
+        "license:cc-by-nc-sa-4.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

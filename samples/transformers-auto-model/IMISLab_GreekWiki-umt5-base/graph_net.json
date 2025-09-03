@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "IMISLab/GreekWiki-umt5-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "safetensors",
+        "umt5",
+        "summarization",
+        "el",
+        "license:apache-2.0",
+        "model-index",
+        "region:us"
+    ]
 }

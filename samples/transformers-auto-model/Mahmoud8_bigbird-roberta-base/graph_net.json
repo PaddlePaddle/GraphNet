@@ -3,16 +3,14 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "Mahmoud8/google-bigbird-roberta-base",
+    "model_name": "Mahmoud8/bigbird-roberta-base",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
         "tensorboard",
-        "safetensors",
         "big_bird",
         "text-classification",
-        "generated_from_trainer",
         "autotrain_compatible",
         "endpoints_compatible",
         "region:us"

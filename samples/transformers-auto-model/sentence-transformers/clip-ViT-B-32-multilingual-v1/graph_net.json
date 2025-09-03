@@ -2,5 +2,26 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "sentence-transformers/clip-ViT-B-32-multilingual-v1",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "pytorch",
+        "tf",
+        "onnx",
+        "safetensors",
+        "openvino",
+        "distilbert",
+        "feature-extraction",
+        "sentence-similarity",
+        "multilingual",
+        "arxiv:2004.09813",
+        "arxiv:1908.10084",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "text-embeddings-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

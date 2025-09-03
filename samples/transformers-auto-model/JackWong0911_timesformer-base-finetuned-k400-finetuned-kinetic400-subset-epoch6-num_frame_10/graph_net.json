@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "JackWong0911/timesformer-base-finetuned-k400-finetuned-kinetic400-subset-epoch6-num_frame_10_spatial_only",
+    "model_name": "JackWong0911/timesformer-base-finetuned-k400-finetuned-kinetic400-subset-epoch6-num_frame_10",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",

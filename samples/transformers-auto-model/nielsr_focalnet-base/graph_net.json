@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "nielsr/focalnet-base-lrf",
+    "model_name": "nielsr/focalnet-base",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",

@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "detr-resnet-50-dc5-panoptic",
+    "model_name": "NO_VALID_MATCH_FOUND",
     "source": "huggingface_hub",
     "original_tag": []
 }

@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "opus-mt-tc-bible-big-deu_eng_fra_por_spa-urj",
+    "model_name": "NO_VALID_MATCH_FOUND",
     "source": "huggingface_hub",
     "original_tag": []
 }

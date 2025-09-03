@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "microsoft/phi-1_5",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "phi",
+        "text-generation",
+        "nlp",
+        "code",
+        "en",
+        "arxiv:2309.05463",
+        "license:mit",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

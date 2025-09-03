@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "TinyLlama/TinyLlama-1.1B-Chat-v0.4",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "llama",
+        "text-generation",
+        "en",
+        "dataset:cerebras/SlimPajama-627B",
+        "dataset:bigcode/starcoderdata",
+        "dataset:OpenAssistant/oasst_top1_2023-08-25",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

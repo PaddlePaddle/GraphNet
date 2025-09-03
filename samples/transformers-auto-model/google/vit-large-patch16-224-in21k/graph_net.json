@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "google/vit-large-patch16-224-in21k",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "jax",
+        "safetensors",
+        "vit",
+        "image-feature-extraction",
+        "vision",
+        "dataset:imagenet-21k",
+        "arxiv:2010.11929",
+        "arxiv:2006.03677",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

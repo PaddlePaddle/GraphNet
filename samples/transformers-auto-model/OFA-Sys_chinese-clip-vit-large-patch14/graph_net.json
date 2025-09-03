@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "OFA-Sys/chinese-clip-vit-large-patch14-336px",
+    "model_name": "OFA-Sys/chinese-clip-vit-large-patch14",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",

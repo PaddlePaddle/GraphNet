@@ -3,19 +3,17 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": true,
-    "model_name": "facebook/regnet-y-1280-seer-in1k",
+    "model_name": "facebook/regnet-y-1280-seer",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
-        "tf",
+        "safetensors",
         "regnet",
-        "image-classification",
+        "image-feature-extraction",
         "vision",
-        "dataset:imagenet-1k",
         "arxiv:2202.08360",
         "license:apache-2.0",
-        "autotrain_compatible",
         "endpoints_compatible",
         "region:us"
     ]

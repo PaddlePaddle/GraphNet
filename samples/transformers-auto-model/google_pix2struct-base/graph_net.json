@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "google/pix2struct-textcaps-base",
+    "model_name": "google/pix2struct-base",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",

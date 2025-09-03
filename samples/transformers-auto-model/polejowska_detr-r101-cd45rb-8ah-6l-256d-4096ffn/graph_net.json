@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "polejowska/detr-r101-cd45rb-8ah-6l-256d-4096ffn-correcetd",
+    "model_name": "polejowska/detr-r101-cd45rb-8ah-6l-256d-4096ffn",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
@@ -11,7 +11,8 @@
         "detr",
         "object-detection",
         "generated_from_trainer",
-        "dataset:polejowska/cd45rb",
+        "dataset:cd45rb",
+        "license:apache-2.0",
         "endpoints_compatible",
         "region:us"
     ]

@@ -3,13 +3,15 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "facebook/data2vec-vision-large-ft1k",
+    "model_name": "facebook/data2vec-vision-large",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
         "tf",
+        "safetensors",
         "data2vec-vision",
+        "image-feature-extraction",
         "image-classification",
         "vision",
         "dataset:imagenet",
@@ -17,7 +19,6 @@
         "arxiv:2202.03555",
         "arxiv:2106.08254",
         "license:apache-2.0",
-        "autotrain_compatible",
         "endpoints_compatible",
         "region:us"
     ]

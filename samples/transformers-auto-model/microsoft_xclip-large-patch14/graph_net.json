@@ -3,11 +3,12 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": true,
-    "model_name": "microsoft/xclip-large-patch14-kinetics-600",
+    "model_name": "microsoft/xclip-large-patch14",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
+        "safetensors",
         "xclip",
         "feature-extraction",
         "vision",

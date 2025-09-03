@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "google/siglip-so400m-patch16-256-i18n",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "siglip",
+        "zero-shot-image-classification",
+        "vision",
+        "arxiv:2303.15343",
+        "arxiv:2305.13035",
+        "arxiv:2209.06794",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

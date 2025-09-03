@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "KoichiYasuoka/deberta-base-chinese-erlangshen-ud-goeswith",
+    "model_name": "KoichiYasuoka/deberta-base-chinese-ud-goeswith",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
@@ -15,9 +15,9 @@
         "dependency-parsing",
         "zh",
         "dataset:universal_dependencies",
-        "base_model:KoichiYasuoka/deberta-base-chinese-erlangshen-upos",
-        "base_model:finetune:KoichiYasuoka/deberta-base-chinese-erlangshen-upos",
-        "license:apache-2.0",
+        "base_model:KoichiYasuoka/deberta-base-chinese-upos",
+        "base_model:finetune:KoichiYasuoka/deberta-base-chinese-upos",
+        "license:cc-by-sa-4.0",
         "autotrain_compatible",
         "endpoints_compatible",
         "region:us"

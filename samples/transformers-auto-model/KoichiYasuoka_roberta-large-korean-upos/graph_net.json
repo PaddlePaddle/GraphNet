@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "KoichiYasuoka/roberta-large-korean-morph-upos",
+    "model_name": "KoichiYasuoka/roberta-large-korean-upos",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
@@ -14,6 +14,7 @@
         "pos",
         "dependency-parsing",
         "ko",
+        "dataset:universal_dependencies",
         "base_model:KoichiYasuoka/roberta-large-korean-hanja",
         "base_model:finetune:KoichiYasuoka/roberta-large-korean-hanja",
         "license:cc-by-sa-4.0",

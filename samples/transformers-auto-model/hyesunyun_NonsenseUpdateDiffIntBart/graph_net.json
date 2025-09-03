@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "hyesunyun/NonsenseUpdateDiffIntBart",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "bart",
+        "text2text-generation",
+        "summarization",
+        "diff generation",
+        "en",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

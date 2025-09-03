@@ -1,5 +1,25 @@
 {
     "framework": "torch",
     "num_devices_required": 1,
-    "num_nodes_required": 1
+    "num_nodes_required": 1,
+    "model_name": "albert/albert-base-v2",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "jax",
+        "rust",
+        "safetensors",
+        "albert",
+        "fill-mask",
+        "en",
+        "dataset:bookcorpus",
+        "dataset:wikipedia",
+        "arxiv:1909.11942",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

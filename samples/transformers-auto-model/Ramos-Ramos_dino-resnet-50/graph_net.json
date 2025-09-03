@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "Ramos-Ramos/dino-resnet-50",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "resnet",
+        "image-feature-extraction",
+        "dino",
+        "vision",
+        "dataset:imagenet-1k",
+        "arxiv:2104.14294",
+        "arxiv:1512.03385",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

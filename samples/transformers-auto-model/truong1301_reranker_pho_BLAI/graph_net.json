@@ -2,5 +2,15 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "truong1301/reranker_pho_BLAI",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "safetensors",
+        "roberta",
+        "text-ranking",
+        "vi",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

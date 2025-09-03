@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Fsoft-AIC/videberta-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "deberta-v2",
+        "transformer",
+        "vietnamese",
+        "nlp",
+        "bert",
+        "deberta",
+        "deberta-v3",
+        "token-classification",
+        "vi",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

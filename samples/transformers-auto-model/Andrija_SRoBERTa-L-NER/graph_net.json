@@ -2,5 +2,15 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Andrija/SRoBERTaFastBPE-2",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "roberta",
+        "fill-mask",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

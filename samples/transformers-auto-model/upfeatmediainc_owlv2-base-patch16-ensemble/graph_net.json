@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "upfeatmediainc/owlv2-base-patch16-ensemble",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "owlv2",
+        "zero-shot-object-detection",
+        "vision",
+        "object-detection",
+        "arxiv:2306.09683",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

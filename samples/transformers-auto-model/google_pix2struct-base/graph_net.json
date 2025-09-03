@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "google/pix2struct-textcaps-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "pix2struct",
+        "image-to-text",
+        "en",
+        "fr",
+        "ro",
+        "de",
+        "multilingual",
+        "arxiv:2210.03347",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

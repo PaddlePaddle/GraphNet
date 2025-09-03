@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "facebook/wav2vec2-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "wav2vec2",
+        "pretraining",
+        "speech",
+        "en",
+        "dataset:librispeech_asr",
+        "arxiv:2006.11477",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "KoichiYasuoka/bert-base-thai-upos",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "bert",
+        "token-classification",
+        "thai",
+        "pos",
+        "wikipedia",
+        "dependency-parsing",
+        "th",
+        "dataset:universal_dependencies",
+        "base_model:Geotrend/bert-base-th-cased",
+        "base_model:finetune:Geotrend/bert-base-th-cased",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

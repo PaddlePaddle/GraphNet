@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "kanak8278/xlnet-large-cased-ner-food-combined-weighted-v2",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "xlnet",
+        "token-classification",
+        "generated_from_trainer",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

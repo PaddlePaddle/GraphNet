@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "microsoft/layoutlmv3-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "onnx",
+        "safetensors",
+        "layoutlmv3",
+        "en",
+        "arxiv:2204.08387",
+        "license:cc-by-nc-sa-4.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

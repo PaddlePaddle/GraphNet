@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "DarshanDeshpande/marathi-distilbert",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "distilbert",
+        "fill-mask",
+        "mr",
+        "arxiv:1910.01108",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

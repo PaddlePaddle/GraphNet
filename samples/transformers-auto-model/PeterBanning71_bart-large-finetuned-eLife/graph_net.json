@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "PeterBanning71/bart-large-finetuned-eLife",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "bart",
+        "text2text-generation",
+        "summarization",
+        "generated_from_trainer",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

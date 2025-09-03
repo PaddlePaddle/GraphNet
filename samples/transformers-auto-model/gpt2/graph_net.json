@@ -1,5 +1,27 @@
 {
     "framework": "torch",
     "num_devices_required": 1,
-    "num_nodes_required": 1
+    "num_nodes_required": 1,
+    "model_name": "openai-community/gpt2",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "jax",
+        "tflite",
+        "rust",
+        "onnx",
+        "safetensors",
+        "gpt2",
+        "text-generation",
+        "exbert",
+        "en",
+        "doi:10.57967/hf/0039",
+        "license:mit",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

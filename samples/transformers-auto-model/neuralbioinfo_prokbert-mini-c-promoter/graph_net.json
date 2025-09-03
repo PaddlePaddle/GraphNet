@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "neuralbioinfo/prokbert-mini",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "prokbert",
+        "fill-mask",
+        "bioinformatics",
+        "genomics",
+        "sequence embedding",
+        "genomic language models",
+        "nucleotide",
+        "dna-sequence",
+        "promoter-prediction",
+        "phage",
+        "custom_code",
+        "license:cc-by-nc-4.0",
+        "autotrain_compatible",
+        "region:us"
+    ]
 }

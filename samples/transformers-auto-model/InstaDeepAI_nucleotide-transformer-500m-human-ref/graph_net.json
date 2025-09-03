@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "InstaDeepAI/nucleotide-transformer-500m-human-ref",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "joblib",
+        "esm",
+        "fill-mask",
+        "DNA",
+        "biology",
+        "genomics",
+        "dataset:InstaDeepAI/human_reference_genome",
+        "dataset:InstaDeepAI/nucleotide_transformer_downstream_tasks",
+        "license:cc-by-nc-sa-4.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

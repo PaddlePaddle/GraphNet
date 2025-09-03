@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "pszemraj/tFINE-base-300m-samsum",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "t5",
+        "text2text-generation",
+        "generated_from_trainer",
+        "summarization",
+        "en",
+        "dataset:samsum",
+        "base_model:pszemraj/tFINE-base-300m",
+        "base_model:finetune:pszemraj/tFINE-base-300m",
+        "license:apache-2.0",
+        "model-index",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "pszemraj/electra-base-discriminator-CoLA",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "onnx",
+        "safetensors",
+        "electra",
+        "text-classification",
+        "generated_from_trainer",
+        "en",
+        "dataset:glue",
+        "license:apache-2.0",
+        "model-index",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

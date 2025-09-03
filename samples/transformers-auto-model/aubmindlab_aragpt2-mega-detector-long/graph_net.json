@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "aubmindlab/aragpt2-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "jax",
+        "tensorboard",
+        "safetensors",
+        "gpt2",
+        "text-generation",
+        "ar",
+        "arxiv:2012.15520",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

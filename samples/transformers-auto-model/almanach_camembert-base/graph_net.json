@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "almanach/camembert-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "safetensors",
+        "camembert",
+        "fill-mask",
+        "fr",
+        "dataset:oscar",
+        "arxiv:1911.03894",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

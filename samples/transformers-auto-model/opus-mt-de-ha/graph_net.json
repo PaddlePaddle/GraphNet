@@ -2,5 +2,12 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "harisnaeem/opus-mt-ar-de-onnx",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "onnx",
+        "marian",
+        "region:us"
+    ]
 }

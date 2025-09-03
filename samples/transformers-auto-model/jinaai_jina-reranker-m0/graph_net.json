@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "jinaai/jina-reranker-v2-base-multilingual",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "onnx",
+        "safetensors",
+        "text-classification",
+        "reranker",
+        "cross-encoder",
+        "transformers.js",
+        "custom_code",
+        "multilingual",
+        "license:cc-by-nc-4.0",
+        "autotrain_compatible",
+        "region:eu"
+    ]
 }

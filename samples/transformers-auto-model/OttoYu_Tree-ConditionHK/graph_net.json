@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "OttoYu/Tree-ConditionHK",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "swin",
+        "image-classification",
+        "vision",
+        "object-detection",
+        "zh",
+        "en",
+        "dataset:OttoYu/Tree-ConditionHK",
+        "doi:10.57967/hf/0481",
+        "license:afl-3.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

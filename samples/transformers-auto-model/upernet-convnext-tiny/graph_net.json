@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "openmmlab/upernet-convnext-small",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "upernet",
+        "vision",
+        "image-segmentation",
+        "en",
+        "arxiv:1807.10221",
+        "arxiv:2201.03545",
+        "license:mit",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

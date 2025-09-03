@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "MoritzLaurer/DeBERTa-v3-base-mnli-fever-anli",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "deberta-v2",
+        "text-classification",
+        "zero-shot-classification",
+        "en",
+        "dataset:multi_nli",
+        "dataset:facebook/anli",
+        "dataset:fever",
+        "arxiv:2006.03654",
+        "license:mit",
+        "model-index",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

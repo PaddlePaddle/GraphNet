@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "dccuchile/albert-base-spanish",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "albert",
+        "pretraining",
+        "spanish",
+        "OpenCENIA",
+        "es",
+        "dataset:large_spanish_corpus",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

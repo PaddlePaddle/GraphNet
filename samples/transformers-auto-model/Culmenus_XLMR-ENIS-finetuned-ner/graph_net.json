@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Culmenus/XLMR-ENIS-finetuned-ner",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "xlm-roberta",
+        "token-classification",
+        "generated_from_trainer",
+        "dataset:mim_gold_ner",
+        "license:agpl-3.0",
+        "model-index",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "IDEA-Research/grounding-dino-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "grounding-dino",
+        "zero-shot-object-detection",
+        "vision",
+        "arxiv:2303.05499",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

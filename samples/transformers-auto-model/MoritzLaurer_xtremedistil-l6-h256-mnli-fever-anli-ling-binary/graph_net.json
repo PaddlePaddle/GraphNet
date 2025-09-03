@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "MoritzLaurer/xtremedistil-l6-h256-zeroshot-v1.1-all-33",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "onnx",
+        "safetensors",
+        "bert",
+        "text-classification",
+        "zero-shot-classification",
+        "en",
+        "arxiv:2312.17543",
+        "base_model:microsoft/xtremedistil-l6-h256-uncased",
+        "base_model:quantized:microsoft/xtremedistil-l6-h256-uncased",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

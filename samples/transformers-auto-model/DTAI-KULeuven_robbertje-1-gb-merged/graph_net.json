@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "DTAI-KULeuven/robbert-v2-dutch-sentiment",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "roberta",
+        "text-classification",
+        "Dutch",
+        "Flemish",
+        "RoBERTa",
+        "RobBERT",
+        "nl",
+        "dataset:dbrd",
+        "license:mit",
+        "model-index",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

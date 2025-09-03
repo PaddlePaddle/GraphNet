@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "facebook/vit-msn-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "vit_msn",
+        "image-feature-extraction",
+        "vision",
+        "dataset:imagenet-1k",
+        "arxiv:2204.07141",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

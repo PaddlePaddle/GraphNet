@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "SHENMU007/neunit-ks-20230509V2",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "wav2vec2",
+        "audio-classification",
+        "generated_from_trainer",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

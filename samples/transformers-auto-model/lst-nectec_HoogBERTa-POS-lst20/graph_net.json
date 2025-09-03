@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "lst-nectec/HoogBERTa",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "roberta",
+        "fill-mask",
+        "th",
+        "dataset:best2009",
+        "dataset:scb_mt_enth_2020",
+        "dataset:oscar",
+        "dataset:wikipedia",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

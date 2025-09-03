@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "jonathandinu/face-parsing",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "onnx",
+        "safetensors",
+        "segformer",
+        "vision",
+        "image-segmentation",
+        "nvidia/mit-b5",
+        "transformers.js",
+        "en",
+        "dataset:celebamaskhq",
+        "arxiv:2105.15203",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "xbgoose/hubert-large-speech-emotion-recognition-russian-dusha-finetuned",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "hubert",
+        "audio-classification",
+        "SER",
+        "speech",
+        "audio",
+        "russian",
+        "ru",
+        "dataset:xbgoose/dusha",
+        "base_model:facebook/hubert-large-ls960-ft",
+        "base_model:finetune:facebook/hubert-large-ls960-ft",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

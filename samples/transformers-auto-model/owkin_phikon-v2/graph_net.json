@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "owkin/phikon-v2",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "dinov2",
+        "image-feature-extraction",
+        "histology",
+        "pathology",
+        "vision",
+        "pytorch",
+        "self-supervised",
+        "vit",
+        "en",
+        "arxiv:2409.09173",
+        "license:other",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

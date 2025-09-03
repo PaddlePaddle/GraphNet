@@ -2,5 +2,27 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "kaveh/rclip",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "safetensors",
+        "vision-text-dual-encoder",
+        "feature-extraction",
+        "clip",
+        "vision",
+        "medical",
+        "bert",
+        "zero-shot-image-classification",
+        "en",
+        "base_model:openai/clip-vit-large-patch14",
+        "base_model:finetune:openai/clip-vit-large-patch14",
+        "doi:10.57967/hf/0896",
+        "license:gpl-3.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

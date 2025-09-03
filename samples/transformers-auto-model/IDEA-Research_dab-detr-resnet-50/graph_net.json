@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "IDEA-Research/dab-detr-resnet-50",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "dab-detr",
+        "object-detection",
+        "vision",
+        "en",
+        "arxiv:2201.12329",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

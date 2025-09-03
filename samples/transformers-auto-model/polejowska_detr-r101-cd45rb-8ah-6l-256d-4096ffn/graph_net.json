@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "polejowska/detr-r50-mist1-bg-2ah-6l",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "tensorboard",
+        "safetensors",
+        "detr",
+        "object-detection",
+        "generated_from_trainer",
+        "base_model:facebook/detr-resnet-50",
+        "base_model:finetune:facebook/detr-resnet-50",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

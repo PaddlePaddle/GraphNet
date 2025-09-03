@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "fxmarty/sam-vit-tiny-random",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "sam",
+        "mask-generation",
+        "license:mit",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

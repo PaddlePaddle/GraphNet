@@ -2,5 +2,28 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "cointegrated/rubert-tiny2",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "pytorch",
+        "safetensors",
+        "bert",
+        "pretraining",
+        "russian",
+        "fill-mask",
+        "embeddings",
+        "masked-lm",
+        "tiny",
+        "feature-extraction",
+        "sentence-similarity",
+        "transformers",
+        "ru",
+        "license:mit",
+        "autotrain_compatible",
+        "text-embeddings-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

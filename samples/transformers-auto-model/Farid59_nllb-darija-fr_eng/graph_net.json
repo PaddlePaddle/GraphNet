@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Farid59/nllb-darija-fr_eng",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "m2m_100",
+        "text2text-generation",
+        "nllb",
+        "translation",
+        "lora",
+        "darija",
+        "fr",
+        "en",
+        "ary",
+        "dataset:MBZUAI-Paris/Darija-SFT-Mixture",
+        "dataset:custom-scraped-data",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

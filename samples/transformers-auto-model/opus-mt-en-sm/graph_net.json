@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "persiannlp/mt5-small-parsinlu-opus-translation_fa_en",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "mt5",
+        "text2text-generation",
+        "machine-translation",
+        "persian",
+        "farsi",
+        "fa",
+        "multilingual",
+        "dataset:parsinlu",
+        "license:cc-by-nc-sa-4.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

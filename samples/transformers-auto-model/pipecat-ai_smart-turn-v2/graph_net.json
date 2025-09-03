@@ -2,5 +2,14 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "pipecat-ai/smart-turn",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "coreml",
+        "safetensors",
+        "wav2vec2-bert",
+        "license:bsd-2-clause",
+        "region:us"
+    ]
 }

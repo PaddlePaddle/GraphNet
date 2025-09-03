@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "cross-encoder/monoelectra-large",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "onnx",
+        "safetensors",
+        "openvino",
+        "electra",
+        "text-classification",
+        "transformers",
+        "text-ranking",
+        "custom_code",
+        "en",
+        "arxiv:2405.07920",
+        "base_model:google/electra-large-discriminator",
+        "base_model:quantized:google/electra-large-discriminator",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

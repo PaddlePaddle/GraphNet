@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "audeering/wav2vec2-large-robust-12-ft-emotion-msp-dim",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "wav2vec2",
+        "speech",
+        "audio",
+        "audio-classification",
+        "emotion-recognition",
+        "en",
+        "dataset:msp-podcast",
+        "arxiv:2203.07378",
+        "license:cc-by-nc-sa-4.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

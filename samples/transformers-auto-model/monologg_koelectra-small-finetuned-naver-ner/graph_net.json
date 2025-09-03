@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "monologg/koelectra-small-v2-distilled-korquad-384",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tflite",
+        "safetensors",
+        "electra",
+        "question-answering",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

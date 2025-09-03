@@ -2,5 +2,32 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "gsarti/it5-efficient-small-el32-headline-generation",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "jax",
+        "tensorboard",
+        "t5",
+        "text2text-generation",
+        "italian",
+        "sequence-to-sequence",
+        "newspaper",
+        "ilgiornale",
+        "repubblica",
+        "efficient",
+        "headline-generation",
+        "it",
+        "dataset:gsarti/change_it",
+        "arxiv:2203.03759",
+        "arxiv:2109.10686",
+        "license:apache-2.0",
+        "model-index",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

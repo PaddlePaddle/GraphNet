@@ -2,5 +2,15 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Ar4ikov/W2VFSC2",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "wav2vec2",
+        "audio-classification",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

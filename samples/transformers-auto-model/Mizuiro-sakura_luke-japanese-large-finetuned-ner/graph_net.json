@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Mizuiro-sakura/luke-japanese-large-sentiment-analysis-wrime",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "luke",
+        "text-classification",
+        "sentiment-analysis",
+        "wrime",
+        "SentimentAnalysis",
+        "sentiment-classification",
+        "ja",
+        "dataset:shunk031/wrime",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

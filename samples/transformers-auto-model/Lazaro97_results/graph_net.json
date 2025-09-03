@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Lazaro97/results",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "roberta",
+        "text-classification",
+        "generated_from_trainer",
+        "dataset:amazon_reviews_multi",
+        "license:apache-2.0",
+        "model-index",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

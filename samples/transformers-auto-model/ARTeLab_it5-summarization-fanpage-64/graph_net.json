@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "ARTeLab/it5-summarization-fanpage",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "t5",
+        "text2text-generation",
+        "summarization",
+        "it",
+        "dataset:ARTeLab/fanpage",
+        "base_model:gsarti/it5-base",
+        "base_model:finetune:gsarti/it5-base",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

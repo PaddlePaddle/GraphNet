@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "apple/aimv2-huge-patch14-448",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "jax",
+        "safetensors",
+        "aimv2_vision_model",
+        "image-feature-extraction",
+        "vision",
+        "mlx",
+        "pytorch",
+        "custom_code",
+        "arxiv:2411.14402",
+        "license:apple-amlr",
+        "model-index",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

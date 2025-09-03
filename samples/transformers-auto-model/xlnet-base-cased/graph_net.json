@@ -1,5 +1,23 @@
 {
     "framework": "torch",
     "num_devices_required": 1,
-    "num_nodes_required": 1
+    "num_nodes_required": 1,
+    "model_name": "xlnet/xlnet-base-cased",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "rust",
+        "xlnet",
+        "text-generation",
+        "en",
+        "dataset:bookcorpus",
+        "dataset:wikipedia",
+        "arxiv:1906.08237",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

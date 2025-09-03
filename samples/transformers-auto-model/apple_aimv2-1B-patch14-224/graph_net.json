@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "timm/aimv2_1b_patch14_224.apple_pt",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "timm",
+        "pytorch",
+        "safetensors",
+        "image-feature-extraction",
+        "transformers",
+        "arxiv:2411.14402",
+        "license:apple-ascl",
+        "region:us"
+    ]
 }

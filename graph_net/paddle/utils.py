@@ -7,6 +7,7 @@ import argparse
 import importlib
 import inspect
 import ast
+import math
 import paddle
 
 kLiteralTensorSize = 64
@@ -121,6 +122,22 @@ def load_converted_list_from_text(file_path):
     return [*weight_info, *input_info]
 
 
+def ConvertToValidNumber(data_type, value):
+    if value is not None and data_type in [
+        paddle.float32,
+        paddle.float16,
+        paddle.bfloat16,
+    ]:
+        if math.isnan(value):
+            return None
+        if math.isinf(value) and value > 0:
+            return paddle.finfo(data_type).max
+        if math.isinf(value) and value < 0:
+            return paddle.finfo(data_type).min
+
+    return value
+
+
 def convert_meta_classes_to_tensors(file_path):
     for name, cls in _get_classes(file_path):
         attrs = {
@@ -143,10 +160,10 @@ def convert_meta_classes_to_tensors(file_path):
                 "shape": attrs.get("shape", []),
                 "dtype": data_type,
                 "device": attrs.get("device", "gpu"),
-                "mean": 0.0 if attrs.get("mean", None) is None else attrs.get("mean"),
-                "std": 1.0 if attrs.get("std", None) is None else attrs.get("std"),
-                "min_val": attrs.get("min_val", 0),
-                "max_val": attrs.get("max_val", 2),
+                "mean": ConvertToValidNumber(data_type, attrs.get("mean", None)),
+                "std": ConvertToValidNumber(data_type, attrs.get("std", None)),
+                "min_val": ConvertToValidNumber(data_type, attrs.get("min_val", 0)),
+                "max_val": ConvertToValidNumber(data_type, attrs.get("max_val", 2)),
             },
             "data": data_value,
             "name": attrs.get("name"),
@@ -195,11 +212,19 @@ def replay_tensor(info):
             paddle.bool,
         ).to(device)
     else:
-        std = info["info"]["std"]
-        return (
-            paddle.clip(
-                paddle.normal(shape=shape, mean=mean, std=std), min=min_val, max=max_val
+        if mean is not None and std is not None:
+            return (
+                paddle.clip(
+                    paddle.normal(shape=shape, mean=mean, std=std),
+                    min=min_val,
+                    max=max_val,
+                )
+                .to(dtype)
+                .to(device)
             )
-            .to(dtype)
-            .to(device)
-        )
+        else:
+            return (
+                paddle.uniform(shape=shape, dtype="float32", min=min_val, max=max_val)
+                .to(dtype)
+                .to(device)
+            )

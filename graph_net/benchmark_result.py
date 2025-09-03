@@ -5,11 +5,13 @@ import re
 
 
 class BenchmarkResult:
-    def __init__(self, args, hardware, compile_framework_version):
+    def __init__(self, args, framework, hardware, compile_framework_version):
         self.configuration = {
             "model_name": self.get_model_name(args),
+            "model_path": args.model_path,
             "device": args.device,
             "hardware": hardware,
+            "framework": framework,
             "compiler": args.compiler,
             "compile_framework_version": compile_framework_version,
             "warmup": args.warmup,

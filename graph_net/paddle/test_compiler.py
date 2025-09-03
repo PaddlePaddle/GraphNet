@@ -215,6 +215,7 @@ def init_benchmark_result(args):
 
     result_data = BenchmarkResult(
         args=args,
+        framework="PaddlePaddle",
         hardware=hardware,
         compile_framework_version=compile_framework_version,
     )
@@ -249,9 +250,21 @@ def test_single_model(args):
         expected_out = [expected_out]
         compiled_out = [compiled_out]
     if isinstance(expected_out, list) or isinstance(expected_out, tuple):
+        output_dtypes = []
         for a, b in zip(expected_out, compiled_out):
             if (a is None and b is not None) or (a is not None and b is None):
                 raise ValueError("Both expected_out and compiled_out must be not None.")
+            if a is not None and b is not None:
+                assert (
+                    a.dtype == b.dtype
+                ), f"expected_out's dtype ({a.dtype}) is not the same as compiled_out's dtype {b.dtype}."
+                output_dtypes.append(str(a.dtype))
+        result_data.update_corrrectness("num_outpus", len(output_dtypes))
+        result_data.update_corrrectness("output_dtyps", output_dtypes)
+
+        # Remove all None in outputs
+        expected_out = [x for x in expected_out if x is not None]
+        compiled_out = [x for x in compiled_out if x is not None]
         expected_out = [
             regular_item(item)
             for item in expected_out

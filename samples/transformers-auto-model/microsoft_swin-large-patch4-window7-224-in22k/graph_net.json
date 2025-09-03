@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "microsoft/swin-large-patch4-window12-384-in22k",
+    "model_name": "microsoft/swin-large-patch4-window7-224-in22k",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",

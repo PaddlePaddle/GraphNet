@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "Helsinki-NLP/opus-mt-ber-es",
+    "model_name": "Helsinki-NLP/opus-mt-be-es",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
@@ -12,7 +12,7 @@
         "marian",
         "text2text-generation",
         "translation",
-        "ber",
+        "be",
         "es",
         "license:apache-2.0",
         "endpoints_compatible",

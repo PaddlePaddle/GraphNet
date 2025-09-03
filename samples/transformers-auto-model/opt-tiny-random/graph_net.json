@@ -3,12 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "optimum-internal-testing/tiny-random-llama",
+    "model_name": "opt-tiny-random",
     "source": "huggingface_hub",
-    "original_tag": [
-        "safetensors",
-        "llama",
-        "license:apache-2.0",
-        "region:us"
-    ]
+    "original_tag": []
 }

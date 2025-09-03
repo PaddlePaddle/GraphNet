@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": true,
-    "model_name": "microsoft/trocr-base-handwritten",
+    "model_name": "microsoft/trocr-base-printed",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
@@ -13,7 +13,6 @@
         "image-to-text",
         "trocr",
         "arxiv:2109.10282",
-        "license:mit",
         "endpoints_compatible",
         "region:us"
     ]

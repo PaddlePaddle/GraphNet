@@ -3,12 +3,11 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "MCG-NJU/videomae-base-finetuned-kinetics",
+    "model_name": "MCG-NJU/videomae-base-short-finetuned-kinetics",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
-        "safetensors",
         "videomae",
         "video-classification",
         "vision",

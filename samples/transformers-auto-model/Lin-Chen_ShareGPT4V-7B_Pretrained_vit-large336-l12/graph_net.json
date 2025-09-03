@@ -3,16 +3,13 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": true,
-    "model_name": "Lin-Chen/ShareGPT4V-7B",
+    "model_name": "Lin-Chen/ShareGPT4V-7B_Pretrained_vit-large336-l12",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
-        "share4v",
-        "text-generation",
-        "image-text-to-text",
+        "image-feature-extraction",
         "arxiv:2311.12793",
-        "autotrain_compatible",
         "region:us"
     ]
 }

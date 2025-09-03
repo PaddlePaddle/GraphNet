@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "apple/aimv2-large-patch14-336",
+    "model_name": "apple/aimv2-large-patch14-224",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",

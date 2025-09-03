@@ -3,15 +3,14 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": true,
-    "model_name": "ydshieh/tiny-random-gptj-for-sequence-classification",
+    "model_name": "ydshieh/tiny-random-ViTModel",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
         "tf",
-        "gptj",
-        "text-classification",
-        "autotrain_compatible",
+        "vit",
+        "image-feature-extraction",
         "endpoints_compatible",
         "region:us"
     ]

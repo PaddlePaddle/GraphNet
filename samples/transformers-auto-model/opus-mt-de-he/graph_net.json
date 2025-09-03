@@ -3,21 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "Helsinki-NLP/opus-mt-en-de",
+    "model_name": "opus-mt-de-he",
     "source": "huggingface_hub",
-    "original_tag": [
-        "transformers",
-        "pytorch",
-        "tf",
-        "jax",
-        "rust",
-        "marian",
-        "text2text-generation",
-        "translation",
-        "en",
-        "de",
-        "license:cc-by-4.0",
-        "endpoints_compatible",
-        "region:us"
-    ]
+    "original_tag": []
 }

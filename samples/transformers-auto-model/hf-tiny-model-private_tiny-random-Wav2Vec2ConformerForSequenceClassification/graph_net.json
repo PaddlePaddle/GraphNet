@@ -3,14 +3,13 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "hf-tiny-model-private/tiny-random-CLIPModel",
+    "model_name": "hf-tiny-model-private/tiny-random-Wav2Vec2ConformerForSequenceClassification",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
-        "tf",
-        "clip",
-        "zero-shot-image-classification",
+        "wav2vec2-conformer",
+        "audio-classification",
         "endpoints_compatible",
         "region:us"
     ]

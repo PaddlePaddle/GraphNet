@@ -3,14 +3,14 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "hf-tiny-model-private/tiny-random-CLIPModel",
+    "model_name": "hf-tiny-model-private/tiny-random-ErnieForSequenceClassification",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
-        "tf",
-        "clip",
-        "zero-shot-image-classification",
+        "ernie",
+        "text-classification",
+        "autotrain_compatible",
         "endpoints_compatible",
         "region:us"
     ]

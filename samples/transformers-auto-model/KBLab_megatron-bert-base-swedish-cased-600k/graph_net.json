@@ -3,14 +3,16 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "KBLab/megatron.bert-base.wordpiece-64k-no_pretok.25k-steps",
+    "model_name": "KBLab/megatron-bert-base-swedish-cased-600k",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
+        "pytorch",
         "safetensors",
         "megatron-bert",
-        "feature-extraction",
+        "fill-mask",
         "sv",
+        "autotrain_compatible",
         "endpoints_compatible",
         "region:us"
     ]

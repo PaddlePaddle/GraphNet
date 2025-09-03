@@ -3,22 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "Helsinki-NLP/opus-mt-tc-big-fr-en",
+    "model_name": "opus-mt-bi-fr",
     "source": "huggingface_hub",
-    "original_tag": [
-        "transformers",
-        "pytorch",
-        "tf",
-        "safetensors",
-        "marian",
-        "text2text-generation",
-        "translation",
-        "opus-mt-tc",
-        "en",
-        "fr",
-        "license:cc-by-4.0",
-        "model-index",
-        "endpoints_compatible",
-        "region:us"
-    ]
+    "original_tag": []
 }

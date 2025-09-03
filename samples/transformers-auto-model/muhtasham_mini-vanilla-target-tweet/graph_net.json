@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "muhtasham/mini-vanilla-target-imdb",
+    "model_name": "muhtasham/mini-vanilla-target-tweet",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
@@ -11,7 +11,7 @@
         "bert",
         "text-classification",
         "generated_from_trainer",
-        "dataset:imdb",
+        "dataset:tweet_eval",
         "license:apache-2.0",
         "model-index",
         "autotrain_compatible",

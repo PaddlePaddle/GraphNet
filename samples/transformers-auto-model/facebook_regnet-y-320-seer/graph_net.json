@@ -3,20 +3,17 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": true,
-    "model_name": "facebook/regnet-y-040",
+    "model_name": "facebook/regnet-y-320-seer",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
         "tf",
-        "jax",
         "regnet",
-        "image-classification",
+        "image-feature-extraction",
         "vision",
-        "dataset:imagenet-1k",
-        "arxiv:2003.13678",
+        "arxiv:2202.08360",
         "license:apache-2.0",
-        "autotrain_compatible",
         "endpoints_compatible",
         "region:us"
     ]

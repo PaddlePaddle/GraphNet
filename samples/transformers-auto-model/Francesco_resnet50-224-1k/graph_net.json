@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": true,
-    "model_name": "Francesco/resnet18",
+    "model_name": "Francesco/resnet50-224-1k",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",

@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "Visual-Attention-Network/van-tiny",
+    "model_name": "Visual-Attention-Network/van-large",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",

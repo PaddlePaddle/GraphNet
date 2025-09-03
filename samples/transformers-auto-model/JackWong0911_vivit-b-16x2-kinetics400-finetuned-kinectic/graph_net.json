@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "JackWong0911/vivit-b-16x2-kinetics400-finetuned-ucf101-subset-without-pretrained",
+    "model_name": "JackWong0911/vivit-b-16x2-kinetics400-finetuned-kinectic",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",

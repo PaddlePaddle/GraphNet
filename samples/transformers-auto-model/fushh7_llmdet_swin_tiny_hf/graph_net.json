@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "fushh7/llmdet_swin_large_hf",
+    "model_name": "fushh7/llmdet_swin_tiny_hf",
     "source": "huggingface_hub",
     "original_tag": [
         "pytorch",

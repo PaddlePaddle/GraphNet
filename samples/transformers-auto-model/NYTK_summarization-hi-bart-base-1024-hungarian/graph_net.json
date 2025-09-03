@@ -3,15 +3,16 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "NYTK/summarization-hi-pegasus-hungarian",
+    "model_name": "NYTK/summarization-hi-bart-base-1024-hungarian",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
-        "pegasus",
+        "bart",
         "text2text-generation",
         "summarization",
         "hu",
+        "license:apache-2.0",
         "endpoints_compatible",
         "region:us"
     ]

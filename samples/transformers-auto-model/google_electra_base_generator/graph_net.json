@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "google/electra-base-discriminator",
+    "model_name": "google/electra-base-generator",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
@@ -12,10 +12,11 @@
         "jax",
         "rust",
         "electra",
-        "pretraining",
+        "fill-mask",
         "en",
         "arxiv:1406.2661",
         "license:apache-2.0",
+        "autotrain_compatible",
         "endpoints_compatible",
         "region:us"
     ]

@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "MIT/ast-finetuned-audioset-10-10-0.4593",
+    "model_name": "MIT/ast-finetuned-audioset-14-14-0.443",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",

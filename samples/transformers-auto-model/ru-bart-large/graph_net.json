@@ -3,14 +3,18 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "SummerSigh/Bart-Large-Rule-Of-Thumb",
+    "model_name": "sn4kebyt3/ru-bart-large",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
         "safetensors",
-        "bart",
+        "mbart",
         "text2text-generation",
+        "mbart-50",
+        "ru",
+        "en",
+        "license:mit",
         "endpoints_compatible",
         "region:us"
     ]

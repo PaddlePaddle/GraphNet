@@ -3,18 +3,16 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "paulkm/autotrain-lottery_prod_v3-3409393337",
+    "model_name": "paulkm/autotrain-lottery_v2-2420075389",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
-        "bert",
-        "text-classification",
         "autotrain",
+        "text-classification",
         "zh",
-        "dataset:paulkm/autotrain-data-lottery_prod_v3",
+        "dataset:paulkm/autotrain-data-lottery_v2",
         "co2_eq_emissions",
-        "autotrain_compatible",
         "endpoints_compatible",
         "region:us"
     ]

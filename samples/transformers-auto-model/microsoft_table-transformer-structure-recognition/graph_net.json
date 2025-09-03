@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "microsoft/table-transformer-detection",
+    "model_name": "microsoft/table-transformer-structure-recognition",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",

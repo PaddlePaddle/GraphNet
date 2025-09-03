@@ -3,18 +3,17 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "microsoft/layoutlmv3-base",
+    "model_name": "microsoft/layoutlm-base-uncased",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
         "tf",
-        "onnx",
         "safetensors",
-        "layoutlmv3",
+        "layoutlm",
         "en",
-        "arxiv:2204.08387",
-        "license:cc-by-nc-sa-4.0",
+        "arxiv:1912.13318",
+        "license:mit",
         "endpoints_compatible",
         "region:us"
     ]

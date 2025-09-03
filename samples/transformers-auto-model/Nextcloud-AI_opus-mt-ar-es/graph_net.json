@@ -3,19 +3,18 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "Nextcloud-AI/opus-mt-zh-en",
+    "model_name": "Nextcloud-AI/opus-mt-ar-es",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
         "tf",
-        "rust",
         "marian",
         "text2text-generation",
         "translation",
-        "zh",
-        "en",
-        "license:cc-by-4.0",
+        "ar",
+        "es",
+        "license:apache-2.0",
         "endpoints_compatible",
         "region:us"
     ]

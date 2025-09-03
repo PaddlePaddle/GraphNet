@@ -3,18 +3,15 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "polejowska/detr-r50-mist1-bg-2ah-6l",
+    "model_name": "polejowska/detr-r101-cd45rb-8ah-6l-256d-4096ffn-correcetd",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
-        "tensorboard",
-        "safetensors",
+        "pytorch",
         "detr",
         "object-detection",
         "generated_from_trainer",
-        "base_model:facebook/detr-resnet-50",
-        "base_model:finetune:facebook/detr-resnet-50",
-        "license:apache-2.0",
+        "dataset:polejowska/cd45rb",
         "endpoints_compatible",
         "region:us"
     ]

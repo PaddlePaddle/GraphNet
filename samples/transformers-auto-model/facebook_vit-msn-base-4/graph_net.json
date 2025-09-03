@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": true,
-    "model_name": "facebook/vit-msn-base",
+    "model_name": "facebook/vit-msn-base-4",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",

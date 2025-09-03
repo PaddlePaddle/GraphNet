@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": true,
-    "model_name": "google/vit-large-patch16-384",
+    "model_name": "google/vit-large-patch32-384",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",

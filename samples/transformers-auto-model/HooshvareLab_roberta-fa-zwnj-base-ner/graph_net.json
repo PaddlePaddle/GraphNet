@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "HooshvareLab/roberta-fa-zwnj-base",
+    "model_name": "HooshvareLab/roberta-fa-zwnj-base-ner",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
@@ -11,9 +11,8 @@
         "tf",
         "jax",
         "roberta",
-        "fill-mask",
+        "token-classification",
         "fa",
-        "license:apache-2.0",
         "autotrain_compatible",
         "endpoints_compatible",
         "region:us"

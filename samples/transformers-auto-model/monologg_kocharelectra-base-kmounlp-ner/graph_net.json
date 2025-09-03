@@ -3,13 +3,14 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "monologg/kocharelectra-base-discriminator",
+    "model_name": "monologg/kocharelectra-base-kmounlp-ner",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
         "electra",
-        "pretraining",
+        "token-classification",
+        "autotrain_compatible",
         "endpoints_compatible",
         "region:us"
     ]

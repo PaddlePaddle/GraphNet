@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "milistu/reranker-msmarco-v1.1-MiniLM-L12-H384-uncased-lambdaloss",
+    "model_name": "milistu/reranker-msmarco-v1.1-MiniLM-L12-H384-uncased-lambdaloss_v2",
     "source": "huggingface_hub",
     "original_tag": [
         "sentence-transformers",
@@ -12,7 +12,7 @@
         "cross-encoder",
         "text-classification",
         "generated_from_trainer",
-        "dataset_size:78704",
+        "dataset_size:82326",
         "loss:LambdaLoss",
         "text-ranking",
         "en",
@@ -20,7 +20,6 @@
         "arxiv:1908.10084",
         "base_model:microsoft/MiniLM-L12-H384-uncased",
         "base_model:finetune:microsoft/MiniLM-L12-H384-uncased",
-        "model-index",
         "region:us"
     ]
 }

@@ -3,15 +3,16 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "mazkooleg/digit-mask-unispeech-sat-base-ft",
+    "model_name": "mazkooleg/digit-mask-data2vec-audio-base-960h-ft",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
-        "unispeech-sat",
+        "data2vec-audio",
         "audio-classification",
         "generated_from_trainer",
         "dataset:mazkooleg/digit_mask_augmented_raw",
+        "license:apache-2.0",
         "endpoints_compatible",
         "region:us"
     ]

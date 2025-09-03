@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": true,
-    "model_name": "sadhaklal/wide-and-deep-net-california-housing",
+    "model_name": "sadhaklal/wide-and-deep-net-california-housing-v3",
     "source": "huggingface_hub",
     "original_tag": [
         "pytorch",

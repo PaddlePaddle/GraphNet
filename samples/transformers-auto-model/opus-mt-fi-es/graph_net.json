@@ -3,21 +3,19 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "omkarhurix/fine-tuned-opus-mt-en-es",
+    "model_name": "Helsinki-NLP/opus-mt-fi-es",
     "source": "huggingface_hub",
     "original_tag": [
+        "transformers",
         "pytorch",
-        "safetensors",
+        "tf",
         "marian",
-        "generated_from_trainer",
+        "text2text-generation",
         "translation",
-        "en",
+        "fi",
         "es",
-        "dataset:custom",
-        "base_model:Helsinki-NLP/opus-mt-en-es",
-        "base_model:finetune:Helsinki-NLP/opus-mt-en-es",
         "license:apache-2.0",
-        "model-index",
+        "endpoints_compatible",
         "region:us"
     ]
 }

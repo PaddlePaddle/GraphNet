@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "moussaKam/barthez",
+    "model_name": "moussaKam/barthez-orangesum-abstract",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
@@ -12,7 +12,6 @@
         "text2text-generation",
         "summarization",
         "bart",
-        "fill-mask",
         "fr",
         "arxiv:2010.12321",
         "license:apache-2.0",

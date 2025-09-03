@@ -3,18 +3,14 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "dccuchile/albert-base-spanish",
+    "model_name": "dccuchile/albert-base-10-spanish-distilled-ner",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
-        "tf",
         "albert",
-        "pretraining",
-        "spanish",
-        "OpenCENIA",
-        "es",
-        "dataset:large_spanish_corpus",
+        "token-classification",
+        "autotrain_compatible",
         "endpoints_compatible",
         "region:us"
     ]

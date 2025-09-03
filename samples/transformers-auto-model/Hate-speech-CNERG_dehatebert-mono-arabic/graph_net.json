@@ -3,7 +3,7 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "Hate-speech-CNERG/dehatebert-mono-english",
+    "model_name": "Hate-speech-CNERG/dehatebert-mono-arabic",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
@@ -11,7 +11,7 @@
         "jax",
         "bert",
         "text-classification",
-        "en",
+        "ar",
         "arxiv:2004.06465",
         "license:apache-2.0",
         "autotrain_compatible",

@@ -3,14 +3,13 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": true,
-    "model_name": "hf-tiny-model-private/tiny-random-CLIPModel",
+    "model_name": "hf-tiny-model-private/tiny-random-ConvNextV2Model",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
-        "tf",
-        "clip",
-        "zero-shot-image-classification",
+        "convnextv2",
+        "image-feature-extraction",
         "endpoints_compatible",
         "region:us"
     ]

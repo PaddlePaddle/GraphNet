@@ -3,15 +3,14 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "aurelio-ai/sr-test-vit",
+    "model_name": "aurelio-ai/sr-test-clip",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
         "tf",
-        "vit",
-        "image-classification",
-        "autotrain_compatible",
+        "clip",
+        "zero-shot-image-classification",
         "endpoints_compatible",
         "region:us"
     ]

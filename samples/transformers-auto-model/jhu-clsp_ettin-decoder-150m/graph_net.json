@@ -3,18 +3,15 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "jhu-clsp/ettin-decoder-32m",
+    "model_name": "jhu-clsp/ettin-decoder-150m",
     "source": "huggingface_hub",
     "original_tag": [
-        "transformers",
         "pytorch",
         "modernbert-decoder",
-        "text-generation",
+        "fill-mask",
         "en",
         "arxiv:2507.11412",
         "license:mit",
-        "autotrain_compatible",
-        "endpoints_compatible",
         "region:us"
     ]
 }

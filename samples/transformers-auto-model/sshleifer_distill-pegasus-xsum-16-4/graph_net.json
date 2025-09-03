@@ -3,20 +3,16 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "model_name": "sshleifer/distilbart-cnn-12-6",
+    "model_name": "sshleifer/distill-pegasus-xsum-16-4",
     "source": "huggingface_hub",
     "original_tag": [
         "transformers",
         "pytorch",
-        "jax",
-        "rust",
-        "bart",
+        "pegasus",
         "text2text-generation",
         "summarization",
         "en",
-        "dataset:cnn_dailymail",
-        "dataset:xsum",
-        "license:apache-2.0",
+        "arxiv:1912.08777",
         "endpoints_compatible",
         "region:us"
     ]

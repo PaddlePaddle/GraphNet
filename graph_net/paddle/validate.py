@@ -68,7 +68,6 @@ def main(args):
 
     y = model(**state_dict)
 
-    # print(np.argmin(y), np.argmax(y))
     if isinstance(y, paddle.Tensor):
         print(y.shape)
     elif isinstance(y, list) or isinstance(y, tuple):

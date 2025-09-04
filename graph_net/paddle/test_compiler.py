@@ -96,16 +96,19 @@ def regular_item(item):
     return item
 
 
-def count_number_of_ops(args, model):
-    static_model = paddle.jit.to_static(
-        model,
-        input_spec=get_input_spec(args),
-        full_graph=True,
-        backend=None,
-    )
-    static_model.eval()
-    program = model.forward.concrete_program.main_program
-    # print(program)
+def count_number_of_ops(args, model, eager_mode):
+    if eager_mode:
+        static_model = paddle.jit.to_static(
+            model,
+            input_spec=get_input_spec(args),
+            full_graph=True,
+            backend=None,
+        )
+        static_model.eval()
+        program = static_model.forward.concrete_program.main_program
+    else:
+        program = model.forward.concrete_program.main_program
+        print(program)
 
     num_ops = 0
     for block in program.blocks:
@@ -129,75 +132,77 @@ def naive_timer(duration_box, synchronizer_func):
     yield
     synchronizer_func()
     end = time.time()
-    duration_box.value = end - start
+    duration_box.value = (end - start) * 1000  # Store in milliseconds
 
 
-def time_execution_with_cuda_event(
-    model_call, synchronizer_func, num_warmup=3, num_trials=10, profile=False
-):
-    outs = None
+def get_timing_stats(elapsed_times):
+    stats = {
+        "mean": float(f"{np.mean(elapsed_times):.6g}"),
+        "std": float(f"{np.std(elapsed_times):.6g}"),
+        "min": float(f"{np.min(elapsed_times):.6g}"),
+        "max": float(f"{np.max(elapsed_times):.6g}"),
+    }
+    return stats
 
-    # warmups
-    for _ in range(num_warmup):
+
+def measure_performance(model_call, args, synchronizer_func):
+    stats = {}
+
+    # Warmup runs
+    for _ in range(args.warmup):
         outs = model_call()
     synchronizer_func()
 
-    elapsed_times = []
-    if profile:
-        paddle.base.core.nvprof_start()
-
-    # actual trials
-    for trial in range(num_trials):
-        # create event marker default is not interprocess
-        start_event = paddle.device.Event(enable_timing=True)
-        end_event = paddle.device.Event(enable_timing=True)
-
-        start_event.record()
-        outs = model_call()
-        end_event.record()
-        synchronizer_func()
-
-        # Calculate the elapsed time in milliseconds
-        elapsed_time_ms = start_event.elapsed_time(end_event)
-        elapsed_times.append(elapsed_time_ms)
-    if profile:
-        paddle.base.core.nvprof_stop()
-    elapsed_times = elapsed_times[num_trials // 2 :]
-    return outs, np.mean(elapsed_times)
-
-
-def time_execution_naive(model_call, synchronizer_func, num_warmup=3, num_trials=10):
-    outs = None
-
-    # warmups
-    for _ in range(num_warmup):
-        outs = model_call()
-
-    # actual trials
-    duration_box = DurationBox(-1)
-    with naive_timer(duration_box, synchronizer_func):
-        for i in range(num_trials):
-            outs = model_call()
-    return outs, duration_box.value * 1000 / float(num_trials)
-
-
-def measure_performance(model_call, synchronizer_func, args, profile=False):
-    if not args.use_naive_timer:
-        outs, times = time_execution_with_cuda_event(
-            model_call,
-            synchronizer_func=synchronizer_func,
-            num_warmup=args.warmup,
-            num_trials=args.trials,
-            profile=profile,
+    if "cuda" in args.device:
+        """
+        Acknowledgement: We evaluate the performance on both end-to-end and GPU-only timings,
+        With reference to methods only based on CUDA events from KernelBench in https://github.com/ScalingIntelligence/KernelBench
+        """
+        hardware_name = paddle.device.cuda.get_device_name(0)
+        print(
+            f"{args.log_prompt} [Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}"
         )
-    else:
-        outs, times = time_execution_naive(
-            model_call,
-            synchronizer_func=synchronizer_func,
-            num_warmup=args.warmup,
-            num_trials=args.trials,
+
+        e2e_times = []
+        gpu_times = []
+
+        for i in range(args.trials):
+            # End-to-end timing (naive_timer)
+            duration_box = DurationBox(-1)
+            with naive_timer(duration_box, synchronizer_func):
+                # GPU-only timing (CUDA Events)
+                start_event = paddle.device.Event(enable_timing=True)
+                end_event = paddle.device.Event(enable_timing=True)
+
+                start_event.record()
+                outs = model_call()
+                end_event.record()
+
+            gpu_time_ms = start_event.elapsed_time(end_event)
+            e2e_times.append(duration_box.value)
+            gpu_times.append(gpu_time_ms)
+            print(
+                f"Trial {i + 1}: e2e={duration_box.value:.4f} ms, gpu={gpu_time_ms:.5g} ms"
+            )
+
+        stats["e2e"] = get_timing_stats(e2e_times)
+        stats["gpu"] = get_timing_stats(gpu_times)
+    else:  # CPU or other devices
+        hardware_name = platform.processor()
+        print(
+            f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}"
         )
-    return outs, times
+
+        e2e_times = []
+        for i in range(args.trials):
+            duration_box = DurationBox(-1)
+            with naive_timer(duration_box, compiler.synchronize):
+                outs = model_call()
+            print(f"Trial {i + 1}: e2e={duration_box.value:.4f} ms")
+            e2e_times.append(duration_box.value)
+        stats["e2e"] = get_timing_stats(e2e_times)
+
+    return outs, stats
 
 
 def init_benchmark_result(args):
@@ -208,7 +213,7 @@ def init_benchmark_result(args):
     else:
         hardware = "unknown"
 
-    if args.compiler == "CINN":
+    if args.compiler == "cinn":
         compile_framework_version = paddle.__version__
     else:
         compile_framework_version = "unknown"
@@ -229,21 +234,21 @@ def test_single_model(args):
     model.eval()
 
     # Collect model information
-    num_ops = count_number_of_ops(args, model)
+    num_eager_ops = count_number_of_ops(args, model, eager_mode=True)
 
     # Initialize benchmark result
     result_data = init_benchmark_result(args)
-    result_data.update_model_info(num_ops, input_dtypes, param_dtypes)
+    result_data.update_model_info(num_eager_ops, input_dtypes, param_dtypes)
 
     # Run on eager mode
-    expected_out, eager_time_ms = measure_performance(
-        lambda: model(**input_dict), synchronizer_func, args, profile=False
+    expected_out, eager_time_stats = measure_performance(
+        lambda: model(**input_dict), args, synchronizer_func
     )
 
     # Run on compiling mode
     compiled_model = get_compiled_model(args, model)
-    compiled_out, compiled_time_ms = measure_performance(
-        lambda: compiled_model(**input_dict), synchronizer_func, args, profile=False
+    compiled_out, compiled_time_stats = measure_performance(
+        lambda: compiled_model(**input_dict), args, synchronizer_func
     )
 
     if isinstance(expected_out, paddle.Tensor):
@@ -301,15 +306,26 @@ def test_single_model(args):
     print_cmp("cmp.diff_count_atol2_rtol1", get_cmp_diff_count, atol=1e-2, rtol=1e-1)
 
     print(
-        f"{args.log_prompt} information model_path:{args.model_path} {num_ops} ops, param_dtypes:{param_dtypes}, input_dtypes:{input_dtypes}",
-        file=sys.stderr,
-    )
-    print(
-        f"{args.log_prompt} duration model_path:{args.model_path} eager:{eager_time_ms:.5f} ms, compiled:{compiled_time_ms:.5f} ms, speedup:{eager_time_ms / compiled_time_ms:.3f}",
+        f"{args.log_prompt} information model_path:{args.model_path} {num_eager_ops} ops, param_dtypes:{param_dtypes}, input_dtypes:{input_dtypes}",
         file=sys.stderr,
     )
 
-    result_data.update_performance(eager_time_ms, compiled_time_ms)
+    result_data.update_performance(eager_time_stats, compiled_time_stats)
+    duration_log = (
+        f"{args.log_prompt} [Duration] "
+        f"eager_e2e:{result_data.eager_e2e_time_ms:.4f} ms compiled_e2e:{result_data.compiled_e2e_time_ms:.4f} ms"
+    )
+    speedup_log = (
+        f"{args.log_prompt} [Speedup] " f"e2e_speedup:{result_data.e2e_speedup:.4f}"
+    )
+
+    if "cuda" in args.device:
+        duration_log += f" eager_gpu:{result_data.eager_gpu_time_ms:.4f} ms compiled_gpu:{result_data.compiled_gpu_time_ms:.4f} ms"
+        speedup_log += f" gpu_speedup:{result_data.gpu_speedup:.4f}"
+
+    print(duration_log, file=sys.stderr)
+    print(speedup_log, file=sys.stderr)
+
     if args.output_dir:
         result_data.write_to_json(args.output_dir)
 
@@ -390,7 +406,7 @@ def is_single_model_dir(model_dir):
 
 def main(args):
     assert os.path.isdir(args.model_path)
-    assert args.compiler == "CINN"
+    assert args.compiler == "cinn"
 
     random_seed = 123
     paddle.seed(random_seed)
@@ -415,7 +431,7 @@ if __name__ == "__main__":
         "--compiler",
         type=str,
         required=False,
-        default="CINN",
+        default="cinn",
         help="Path to customized compiler python file",
     )
     parser.add_argument(
@@ -430,12 +446,6 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--trials", type=int, required=False, default=10, help="Number of timing trials"
-    )
-    parser.add_argument(
-        "--use-naive-timer",
-        action="store_true",
-        default=False,
-        help="Use naive timer for permance measuring.",
     )
     parser.add_argument(
         "--log-prompt",

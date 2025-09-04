@@ -278,8 +278,12 @@ def modify_code_by_device(code, device):
         replacement = f'device(type="cuda", index={torch.cuda.current_device()})'
         modify_code = re.sub(pattern, replacement, code)
         return modify_code
-    else:
-        pattern = r'device\(type="cuda"(?:, index=\d+)?\)'
-        replacement = 'device(type="cpu")'
+    elif device == "xla":
+        pattern = r'device\(type="(?:cpu|cuda)"(?:, index=\d+)?\)'
+        replacement = 'device(type="xla")'
         modify_code = re.sub(pattern, replacement, code)
         return modify_code
+    else:
+        pattern = r'device\(type="(?:cuda)"(?:, index=\d+)?\)'
+        replacement = 'device(type="cpu")'
+        modify_code = re

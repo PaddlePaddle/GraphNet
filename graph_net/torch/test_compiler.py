@@ -16,12 +16,14 @@ import numpy as np
 import platform
 from graph_net.torch.backend.graph_compiler_backend import GraphCompilerBackend
 from graph_net.torch.backend.tvm_backend import TvmBackend
+from graph_net.torch.backend.xla_backend import XlaBackend
 from graph_net.torch.backend.inductor_backend import InductorBackend
 from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
 
 registry_backend = {
     "tvm": TvmBackend(),
+    "xla": XlaBackend(),
     "inductor": InductorBackend(),
     "tensorrt": TensorRTBackend(),
     "bladedisc": BladeDISCBackend(),
@@ -106,13 +108,13 @@ def measure_performance(model_call, args, compiler):
         model_call()
     compiler.synchronize()
 
-    if "cuda" in args.device:
+    if "cuda" in args.device or os.environ.get("PJRT_DEVICE") == "CUDA":
         """
         Acknowledgement: We evaluate the performance on both end-to-end and GPU-only timings,
         With reference to methods only based on CUDA events from KernelBench in https://github.com/ScalingIntelligence/KernelBench
         """
 
-        device = torch.device(args.device)
+        device = torch.device("cuda")
         hardware_name = torch.cuda.get_device_name(device)
         print(
             f"{args.log_prompt} [Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}"
@@ -187,11 +189,9 @@ def test_single_model(args):
         },
     }
 
-    if "cuda" in args.device:
-        result_data["configuration"]["hardware"] = torch.cuda.get_device_name(
-            args.device
-        )
-    elif args.device == "cpu":
+    if "cuda" in args.device or os.environ.get("PJRT_DEVICE") == "CUDA":
+        result_data["configuration"]["hardware"] = torch.cuda.get_device_name("cuda")
+    elif args.device == "cpu" or os.environ.get("PJRT_DEVICE") == "CPU":
         result_data["configuration"]["hardware"] = platform.processor()
     else:
         result_data["configuration"]["hardware"] = "unknown"
@@ -202,6 +202,10 @@ def test_single_model(args):
         result_data["configuration"][
             "compile_framework_version"
         ] = f"Tvm {compiler.version}"
+    elif args.compiler == "xla":
+        result_data["configuration"][
+            "compile_framework_version"
+        ] = f"Xla {compiler.version}"
     elif args.compiler == "tensorrt":
         result_data["configuration"][
             "compile_framework_version"
@@ -286,7 +290,7 @@ def test_single_model(args):
     )
     speedup_log = f"{args.log_prompt} [Speedup] " f"e2e_speedup:{e2e_speedup:.4f}"
 
-    if "cuda" in args.device:
+    if "cuda" in args.device or os.environ.get("PJRT_DEVICE") == "CUDA":
         eager_gpu_time_ms = eager_stats.get("gpu", {}).get("mean", 0)
         compiled_gpu_time_ms = compiled_stats.get("gpu", {}).get("mean", 0)
 

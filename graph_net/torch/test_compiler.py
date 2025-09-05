@@ -213,31 +213,89 @@ def test_single_model(args):
     else:
         result_data["configuration"]["compiler_version"] = "unknown"
 
+    execution_failure = False
+    correctness_failure = False
+
     eager_model_call = lambda: model(**input_dict)
-    compiled_model_call = lambda: compiled_model(**input_dict)
-
     eager_stats = measure_performance(eager_model_call, args, compiler)
-    compiled_stats = measure_performance(compiled_model_call, args, compiler)
-
     result_data["performance"]["eager"] = eager_stats
-    result_data["performance"]["compiled"] = compiled_stats
-
     expected_out = eager_model_call()
-    compiled_out = compiled_model_call()
-
     if not isinstance(expected_out, tuple):
         expected_out = (expected_out,)
-    if not isinstance(compiled_out, tuple):
-        compiled_out = (compiled_out,)
 
-    def print_and_store_cmp(key, func, **kwargs):
-        cmp_ret = func(expected_out, compiled_out, **kwargs)
-        result_data["correctness"][key] = cmp_ret
+    try:
+        compiled_model_call = lambda: compiled_model(**input_dict)
+        compiled_stats = measure_performance(compiled_model_call, args, compiler)
+        result_data["performance"]["compiled"] = compiled_stats
+        compiled_out = compiled_model_call()
+        if not isinstance(compiled_out, tuple):
+            compiled_out = (compiled_out,)
+
+        correctness_failure = compare_correctness(expected_out, compiled_out)
+    except (TypeError, RuntimeError) as e:
+        print(f"Model execution failed: {str(e)}", file=sys.stderr)
+        execution_failure = True
+
+    penalty = 5
+    e2e_speedup = 0
+    gpu_speedup = 0
+    if execution_failure or correctness_failure:
+        e2e_speedup = 1 / (2**penalty)
+        result_data["performance"]["speedup"]["e2e"] = e2e_speedup
         print(
-            f"{args.log_prompt} {key} model_path:{args.model_path} {cmp_ret}",
+            f"{args.log_prompt} [FAIL][Panelty Speedup] e2e_speedup:{e2e_speedup:.4f}",
             file=sys.stderr,
         )
+    else:
+        eager_e2e_time_ms = eager_stats.get("e2e", {}).get("mean", 0)
+        compiled_e2e_time_ms = compiled_stats.get("e2e", {}).get("mean", 0)
 
+        if eager_e2e_time_ms > 0 and compiled_e2e_time_ms > 0:
+            e2e_speedup = eager_e2e_time_ms / compiled_e2e_time_ms
+            result_data["performance"]["speedup"]["e2e"] = e2e_speedup
+
+            duration_log = (
+                f"{args.log_prompt} [Duration] "
+                f"eager_e2e:{eager_e2e_time_ms:.4f} compiled_e2e:{compiled_e2e_time_ms:.4f}"
+            )
+            speedup_log = (
+                f"{args.log_prompt} [Speedup] " f"e2e_speedup:{e2e_speedup:.4f}"
+            )
+
+        if "cuda" in args.device:
+            eager_gpu_time_ms = eager_stats.get("gpu", {}).get("mean", 0)
+            compiled_gpu_time_ms = compiled_stats.get("gpu", {}).get("mean", 0)
+
+            if eager_gpu_time_ms > 0 and compiled_gpu_time_ms > 0:
+                gpu_speedup = eager_gpu_time_ms / compiled_gpu_time_ms
+                result_data["performance"]["speedup"]["gpu"] = gpu_speedup
+
+            duration_log += f" eager_gpu:{eager_gpu_time_ms:.4f} compiled_gpu:{compiled_gpu_time_ms:.4f}"
+            speedup_log += f" gpu_speedup:{gpu_speedup:.4f}"
+
+        print(duration_log, file=sys.stderr)
+        print(speedup_log, file=sys.stderr)
+
+    if args.output_dir:
+        os.makedirs(args.output_dir, exist_ok=True)
+        model_name = result_data["configuration"]["model"]
+        compiler_name = args.compiler
+        file_path = os.path.join(args.output_dir, f"{model_name}_{compiler_name}.json")
+        with open(file_path, "w") as f:
+            json.dump(result_data, f, indent=4)
+        print(f"Result saved to {file_path}", file=sys.stderr)
+
+
+def print_and_store_cmp(key, func, **kwargs):
+    cmp_ret = func(expected_out, compiled_out, **kwargs)
+    result_data["correctness"][key] = cmp_ret
+    print(
+        f"{args.log_prompt} {key} model_path:{args.model_path} {cmp_ret}",
+        file=sys.stderr,
+    )
+
+
+def compare_correctness(expected_out, compiled_out):
     print_and_store_cmp("[equal]", get_cmp_equal)
     print_and_store_cmp(
         "[all_close_atol8_rtol8]", get_cmp_all_close, atol=1e-8, rtol=1e-8
@@ -271,44 +329,12 @@ def test_single_model(args):
     print_and_store_cmp(
         "[diff_count_atol2_rtol1]", get_cmp_diff_count, atol=1e-2, rtol=1e-1
     )
-
-    eager_e2e_time_ms = eager_stats.get("e2e", {}).get("mean", 0)
-    compiled_e2e_time_ms = compiled_stats.get("e2e", {}).get("mean", 0)
-
-    e2e_speedup = 0
-    if eager_e2e_time_ms > 0 and compiled_e2e_time_ms > 0:
-        e2e_speedup = eager_e2e_time_ms / compiled_e2e_time_ms
-        result_data["performance"]["speedup"]["e2e"] = e2e_speedup
-
-    duration_log = (
-        f"{args.log_prompt} [Duration] "
-        f"eager_e2e:{eager_e2e_time_ms:.4f} compiled_e2e:{compiled_e2e_time_ms:.4f}"
-    )
-    speedup_log = f"{args.log_prompt} [Speedup] " f"e2e_speedup:{e2e_speedup:.4f}"
-
-    if "cuda" in args.device:
-        eager_gpu_time_ms = eager_stats.get("gpu", {}).get("mean", 0)
-        compiled_gpu_time_ms = compiled_stats.get("gpu", {}).get("mean", 0)
-
-        gpu_speedup = 0
-        if eager_gpu_time_ms > 0 and compiled_gpu_time_ms > 0:
-            gpu_speedup = eager_gpu_time_ms / compiled_gpu_time_ms
-            result_data["performance"]["speedup"]["gpu"] = gpu_speedup
-
-        duration_log += f" eager_gpu:{eager_gpu_time_ms:.4f} compiled_gpu:{compiled_gpu_time_ms:.4f}"
-        speedup_log += f" gpu_speedup:{gpu_speedup:.4f}"
-
-    print(duration_log, file=sys.stderr)
-    print(speedup_log, file=sys.stderr)
-
-    if args.output_dir:
-        os.makedirs(args.output_dir, exist_ok=True)
-        model_name = result_data["configuration"]["model"]
-        compiler_name = args.compiler
-        file_path = os.path.join(args.output_dir, f"{model_name}_{compiler_name}.json")
-        with open(file_path, "w") as f:
-            json.dump(result_data, f, indent=4)
-        print(f"Result saved to {file_path}", file=sys.stderr)
+    for value in result_data["correctness"].values():
+        parts = value.split()
+        if not all(part == "0" for part in parts):
+            return False
+        else:
+            return True
 
 
 def get_cmp_equal(expected_out, compiled_out):

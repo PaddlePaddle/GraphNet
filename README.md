@@ -12,17 +12,12 @@ With GraphNet, users can:
 **Vision**: We aim to achieve cross-hardware portability of compiler optimizations by allowing models to learn and transfer optimization strategies. It will significantly  reduce the manual effort required to develop efficient operator implementations.
 
 
-
-
 ### Dataset Construction Constraints：
 1. Dynamic graphs must execute correctly.
-2. Each computation graph should include a standardized method for measuring performance.
-3. Graphs and their corresponding Python code must support serialization and deserialization.
-4. The full graph can be decomposed into two disjoint subgraphs.
-5. Compiler passes or behaviors must be configurable.
-6. Operator names within each computation graph must be statically parseable.
-7. If custom operators are used, their implementation code must be fully accessible.
-8. Graph execution on different hardware backends must be configurable via a unified interface.
+2. Graphs and their corresponding Python code must support serialization and deserialization.
+3. The full graph can be decomposed into two disjoint subgraphs.
+4. Operator names within each computation graph must be statically parseable.
+5. If custom operators are used, their implementation code must be fully accessible.
 
 
 ## ⚡ Quick Start
@@ -98,15 +93,16 @@ Once you have packaged these extracted computation graphs, submit them to the Gr
 <table>
 <tr>
 <td align="center">
-    <img width="200" src="https://github.com/user-attachments/assets/3ea4794b-1aed-4096-bd1c-3184832b98f3" />
+    <img width="200" src="https://github.com/user-attachments/assets/125e3494-25c9-4494-9acd-8ad65ca85d03" />
 </td>
 <td align="center">
     <img width="150" src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/67d00cf7266d2c75571aebde_Example.svg" />
-    <p><a href="https://discord.gg/FCZQVCkC">Channel</a> is also available.</p>
+    <p><a href="https://discord.gg/vyeAydwh">Channel</a> is also available.</p>
 </td>
 </tr>
 </table>
 </div>
+
 
 
 ##  License

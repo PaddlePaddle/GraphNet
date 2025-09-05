@@ -230,8 +230,9 @@ def test_single_model(args):
         compiled_out = compiled_model_call()
         if not isinstance(compiled_out, tuple):
             compiled_out = (compiled_out,)
-
-        correctness_failure = compare_correctness(expected_out, compiled_out)
+        correctness_failure = compare_correctness(
+            expected_out, compiled_out, result_data, args
+        )
     except (TypeError, RuntimeError) as e:
         print(f"Model execution failed: {str(e)}", file=sys.stderr)
         execution_failure = True
@@ -259,7 +260,8 @@ def test_single_model(args):
                 f"eager_e2e:{eager_e2e_time_ms:.4f} compiled_e2e:{compiled_e2e_time_ms:.4f}"
             )
             speedup_log = (
-                f"{args.log_prompt} [Speedup] " f"e2e_speedup:{e2e_speedup:.4f}"
+                f"{args.log_prompt} [SUCCESS][Speedup] "
+                f"e2e_speedup:{e2e_speedup:.4f}"
             )
 
         if "cuda" in args.device:
@@ -286,55 +288,52 @@ def test_single_model(args):
         print(f"Result saved to {file_path}", file=sys.stderr)
 
 
-def print_and_store_cmp(key, func, **kwargs):
-    cmp_ret = func(expected_out, compiled_out, **kwargs)
+def print_and_store_cmp(
+    key, cmp_func, result_data, args, expected_out, compiled_out, **kwargs
+):
+    cmp_ret = cmp_func(expected_out, compiled_out, **kwargs)
     result_data["correctness"][key] = cmp_ret
     print(
         f"{args.log_prompt} {key} model_path:{args.model_path} {cmp_ret}",
         file=sys.stderr,
     )
+    return cmp_ret
 
 
-def compare_correctness(expected_out, compiled_out):
-    print_and_store_cmp("[equal]", get_cmp_equal)
-    print_and_store_cmp(
-        "[all_close_atol8_rtol8]", get_cmp_all_close, atol=1e-8, rtol=1e-8
-    )
-    print_and_store_cmp(
-        "[all_close_atol8_rtol5]", get_cmp_all_close, atol=1e-8, rtol=1e-5
-    )
-    print_and_store_cmp(
-        "[all_close_atol5_rtol5]", get_cmp_all_close, atol=1e-5, rtol=1e-5
-    )
-    print_and_store_cmp(
-        "[all_close_atol3_rtol2]", get_cmp_all_close, atol=1e-3, rtol=1e-2
-    )
-    print_and_store_cmp(
-        "[all_close_atol2_rtol1]", get_cmp_all_close, atol=1e-2, rtol=1e-1
-    )
-    print_and_store_cmp("[max_diff]", get_cmp_max_diff)
-    print_and_store_cmp("[mean_diff]", get_cmp_mean_diff)
-    print_and_store_cmp(
-        "[diff_count_atol8_rtol8]", get_cmp_diff_count, atol=1e-8, rtol=1e-8
-    )
-    print_and_store_cmp(
-        "[diff_count_atol8_rtol5]", get_cmp_diff_count, atol=1e-8, rtol=1e-5
-    )
-    print_and_store_cmp(
-        "[diff_count_atol5_rtol5]", get_cmp_diff_count, atol=1e-5, rtol=1e-5
-    )
-    print_and_store_cmp(
-        "[diff_count_atol3_rtol2]", get_cmp_diff_count, atol=1e-3, rtol=1e-2
-    )
-    print_and_store_cmp(
-        "[diff_count_atol2_rtol1]", get_cmp_diff_count, atol=1e-2, rtol=1e-1
-    )
-    for value in result_data["correctness"].values():
-        parts = value.split()
-        if not all(part == "0" for part in parts):
-            return False
-        else:
-            return True
+def compare_correctness(expected_out, compiled_out, result_data, args):
+    cmp_configs = [
+        ("[equal]", get_cmp_equal, {}),
+        ("[all_close_atol8_rtol8]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-8}),
+        ("[all_close_atol8_rtol5]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-5}),
+        ("[all_close_atol5_rtol5]", get_cmp_all_close, {"atol": 1e-5, "rtol": 1e-5}),
+        ("[all_close_atol3_rtol2]", get_cmp_all_close, {"atol": 1e-3, "rtol": 1e-2}),
+        ("[all_close_atol2_rtol1]", get_cmp_all_close, {"atol": 1e-2, "rtol": 1e-1}),
+        ("[max_diff]", get_cmp_max_diff, {}),
+        ("[mean_diff]", get_cmp_mean_diff, {}),
+        ("[diff_count_atol8_rtol8]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-8}),
+        ("[diff_count_atol8_rtol5]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-5}),
+        ("[diff_count_atol5_rtol5]", get_cmp_diff_count, {"atol": 1e-5, "rtol": 1e-5}),
+        ("[diff_count_atol3_rtol2]", get_cmp_diff_count, {"atol": 1e-3, "rtol": 1e-2}),
+        ("[diff_count_atol2_rtol1]", get_cmp_diff_count, {"atol": 1e-2, "rtol": 1e-1}),
+    ]
+
+    all_failed = True
+    for key, func, kwargs in cmp_configs:
+        print_and_store_cmp(
+            key=key,
+            cmp_func=func,
+            result_data=result_data,
+            args=args,
+            expected_out=expected_out,
+            compiled_out=compiled_out,
+            **kwargs,
+        )
+
+        cmp_value = result_data["correctness"][key]
+        if any(part != "0" for part in cmp_value.split()):
+            all_failed = False
+
+    return all_failed
 
 
 def get_cmp_equal(expected_out, compiled_out):

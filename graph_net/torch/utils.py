@@ -5,10 +5,11 @@ from collections import OrderedDict
 import uuid
 import json
 import os
+import ast
+import math
+import inspect
 import argparse
 import importlib
-import inspect
-import math
 
 kLiteralTensorSize = 64
 
@@ -272,14 +273,73 @@ def replay_tensor(info):
     return torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean
 
 
-def modify_code_by_device(code, device):
-    if device == "cuda":
-        pattern = r'device\(type="cpu"\)'
-        replacement = f'device(type="cuda", index={torch.cuda.current_device()})'
-        modify_code = re.sub(pattern, replacement, code)
-        return modify_code
-    else:
-        pattern = r'device\(type="cuda"(?:, index=\d+)?\)'
-        replacement = 'device(type="cpu")'
-        modify_code = re.sub(pattern, replacement, code)
-        return modify_code
+def modify_code_by_device(code, new_device_str):
+    tree = ast.parse(code)
+
+    class DeviceReplacer(ast.NodeTransformer):
+        def __init__(self, new_device):
+            super().__init__()
+            self.new_device = new_device
+
+        def visit_Call(self, node):
+            # device.type("device")
+            if (
+                isinstance(node.func, ast.Attribute)
+                and isinstance(node.func.value, ast.Name)
+                and node.func.value.id == "device"
+                and node.func.attr == "type"
+            ):
+                if (
+                    node.args
+                    and isinstance(node.args[0], ast.Constant)
+                    and isinstance(node.args[0].value, str)
+                ):
+                    node.args[0].value = self.new_device
+                return node
+
+            # .to(device(type="device"))
+            if (
+                isinstance(node.func, ast.Attribute)
+                and node.func.attr == "to"
+                and len(node.args) == 1
+                and isinstance(node.args[0], ast.Call)
+                and isinstance(node.args[0].func, ast.Name)
+                and node.args[0].func.id == "device"
+            ):
+                device_call = node.args[0]
+                for keyword in device_call.keywords:
+                    if (
+                        keyword.arg == "type"
+                        and isinstance(keyword.value, ast.Constant)
+                        and isinstance(keyword.value.value, str)
+                    ):
+                        keyword.value.value = self.new_device
+                return node
+
+            # device=device(type="device")
+            new_keywords = []
+            for keyword in node.keywords:
+                if (
+                    keyword.arg == "device"
+                    and isinstance(keyword.value, ast.Call)
+                    and isinstance(keyword.value.func, ast.Name)
+                    and keyword.value.func.id == "device"
+                ):
+                    device_call = keyword.value
+                    for kw in device_call.keywords:
+                        if (
+                            kw.arg == "type"
+                            and isinstance(kw.value, ast.Constant)
+                            and isinstance(kw.value.value, str)
+                        ):
+                            kw.value.value = self.new_device
+                    new_keywords.append(keyword)
+                else:
+                    new_keywords.append(keyword)
+            node.keywords = new_keywords
+            return self.generic_visit(node)
+
+    transformer = DeviceReplacer(new_device_str)
+    modified_tree = transformer.visit(tree)
+    ast.fix_missing_locations(modified_tree)
+    return ast.unparse(modified_tree)

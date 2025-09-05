@@ -16,12 +16,14 @@ import numpy as np
 import platform
 from graph_net.torch.backend.graph_compiler_backend import GraphCompilerBackend
 from graph_net.torch.backend.tvm_backend import TvmBackend
+from graph_net.torch.backend.xla_backend import XlaBackend
 from graph_net.torch.backend.inductor_backend import InductorBackend
 from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
 
 registry_backend = {
     "tvm": TvmBackend(),
+    "xla": XlaBackend(),
     "inductor": InductorBackend(),
     "tensorrt": TensorRTBackend(),
     "bladedisc": BladeDISCBackend(),
@@ -29,7 +31,7 @@ registry_backend = {
 
 
 def load_class_from_file(
-    args: argparse.Namespace, class_name: str
+    args: argparse.Namespace, class_name: str, device: str
 ) -> Type[torch.nn.Module]:
     file_path = f"{args.model_path}/model.py"
     file = Path(file_path).resolve()
@@ -37,7 +39,7 @@ def load_class_from_file(
 
     with open(file_path, "r", encoding="utf-8") as f:
         model_code = f.read()
-    model_code = utils.modify_code_by_device(model_code, args.device)
+    model_code = utils.modify_code_by_device(model_code, device)
     spec = importlib.util.spec_from_loader(module_name, loader=None)
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module
@@ -53,11 +55,10 @@ def get_compiler_backend(args) -> GraphCompilerBackend:
     return registry_backend[args.compiler]
 
 
-def get_model(args):
-    model_class = load_class_from_file(args, class_name="GraphModule")
+def get_model(args, device):
+    # device: Torch device object specifying the target device for model loading (e.g., 'cuda', 'cpu', 'xla')
+    model_class = load_class_from_file(args, class_name="GraphModule", device=device)
     model = model_class().to(torch.device(args.device))
-    # for param in model.parameters():
-    #     param.requires_grad_(False)
     return model
 
 
@@ -166,8 +167,12 @@ def measure_performance(model_call, args, compiler):
 def test_single_model(args):
     compiler = get_compiler_backend(args)
     input_dict = get_input_dict(args)
-    model = get_model(args)
-    compiled_model = compiler(model)
+    model = get_model(args, args.device)
+    if args.compiler == "xla":
+        xla_model = get_model(args, "xla")
+        compiled_model = compiler(xla_model)
+    else:
+        compiled_model = compiler(model)
 
     result_data = {
         "configuration": {
@@ -202,6 +207,10 @@ def test_single_model(args):
         result_data["configuration"][
             "compile_framework_version"
         ] = f"Tvm {compiler.version}"
+    elif args.compiler == "xla":
+        result_data["configuration"][
+            "compile_framework_version"
+        ] = f"Xla {compiler.version}"
     elif args.compiler == "tensorrt":
         result_data["configuration"][
             "compile_framework_version"
@@ -229,6 +238,8 @@ def test_single_model(args):
         expected_out = (expected_out,)
     if not isinstance(compiled_out, tuple):
         compiled_out = (compiled_out,)
+    if args.compiler == "xla":
+        compiled_out = tuple(item.to("cpu").to("cuda") for item in compiled_out)
 
     def print_and_store_cmp(key, func, **kwargs):
         cmp_ret = func(expected_out, compiled_out, **kwargs)

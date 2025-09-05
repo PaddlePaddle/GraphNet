@@ -216,14 +216,14 @@ def test_single_model(args):
     execution_failure = False
     correctness_failure = False
 
-    eager_model_call = lambda: model(**input_dict)
-    eager_stats = measure_performance(eager_model_call, args, compiler)
-    result_data["performance"]["eager"] = eager_stats
-    expected_out = eager_model_call()
-    if not isinstance(expected_out, tuple):
-        expected_out = (expected_out,)
-
     try:
+        eager_model_call = lambda: model(**input_dict)
+        eager_stats = measure_performance(eager_model_call, args, compiler)
+        result_data["performance"]["eager"] = eager_stats
+        expected_out = eager_model_call()
+        if not isinstance(expected_out, tuple):
+            expected_out = (expected_out,)
+
         compiled_model_call = lambda: compiled_model(**input_dict)
         compiled_stats = measure_performance(compiled_model_call, args, compiler)
         result_data["performance"]["compiled"] = compiled_stats

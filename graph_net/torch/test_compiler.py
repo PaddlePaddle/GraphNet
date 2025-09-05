@@ -183,6 +183,7 @@ def test_single_model(args):
         "performance": {
             "eager": {},
             "compiled": {},
+            "datatype": {},
             "speedup": {},
         },
     }
@@ -224,15 +225,43 @@ def test_single_model(args):
         if not isinstance(expected_out, tuple):
             expected_out = (expected_out,)
 
+        eager_types = [
+            str(x.dtype) if isinstance(x, torch.Tensor) else type(x).__name__
+            for x in expected_out
+        ]
+        result_data["performance"]["datatype"] = {
+            "eager": eager_types,
+            "compiled": None,
+        }
+
         compiled_model_call = lambda: compiled_model(**input_dict)
         compiled_stats = measure_performance(compiled_model_call, args, compiler)
         result_data["performance"]["compiled"] = compiled_stats
         compiled_out = compiled_model_call()
         if not isinstance(compiled_out, tuple):
             compiled_out = (compiled_out,)
-        correctness_failure = compare_correctness(
-            expected_out, compiled_out, result_data, args
+
+        compiled_types = [
+            str(x.dtype) if isinstance(x, torch.Tensor) else type(x).__name__
+            for x in compiled_out
+        ]
+        result_data["performance"]["datatype"]["compiled"] = compiled_types
+
+        # datatype check
+        type_match = all(
+            eager == compiled for eager, compiled in zip(eager_types, compiled_types)
         )
+        print(
+            f"{args.log_prompt} [DataType] eager:{eager_types} compiled:{compiled_types} match:{type_match}",
+            file=sys.stderr,
+        )
+        if not type_match:
+            correctness_failure = True
+        else:
+            # correctness check according to datatype
+            correctness_failure = compare_correctness(
+                expected_out, compiled_out, result_data, args
+            )
     except (TypeError, RuntimeError) as e:
         print(f"Model execution failed: {str(e)}", file=sys.stderr)
         execution_failure = True
@@ -240,11 +269,18 @@ def test_single_model(args):
     penalty = 5
     e2e_speedup = 0
     gpu_speedup = 0
-    if execution_failure or correctness_failure:
+    if execution_failure:
         e2e_speedup = 1 / (2**penalty)
         result_data["performance"]["speedup"]["e2e"] = e2e_speedup
         print(
-            f"{args.log_prompt} [FAIL][Panelty Speedup] e2e_speedup:{e2e_speedup:.4f}",
+            f"{args.log_prompt} [Execution Fail][Panelty Speedup] e2e_speedup:{e2e_speedup:.4f}",
+            file=sys.stderr,
+        )
+    elif correctness_failure:
+        e2e_speedup = 1 / (2**penalty)
+        result_data["performance"]["speedup"]["e2e"] = e2e_speedup
+        print(
+            f"{args.log_prompt} [Correctness Fail][Panelty Speedup] e2e_speedup:{e2e_speedup:.4f}",
             file=sys.stderr,
         )
     else:
@@ -260,7 +296,7 @@ def test_single_model(args):
                 f"eager_e2e:{eager_e2e_time_ms:.4f} compiled_e2e:{compiled_e2e_time_ms:.4f}"
             )
             speedup_log = (
-                f"{args.log_prompt} [SUCCESS][Speedup] "
+                f"{args.log_prompt} [Success][Speedup] "
                 f"e2e_speedup:{e2e_speedup:.4f}"
             )
 
@@ -317,7 +353,6 @@ def compare_correctness(expected_out, compiled_out, result_data, args):
         ("[diff_count_atol2_rtol1]", get_cmp_diff_count, {"atol": 1e-2, "rtol": 1e-1}),
     ]
 
-    all_failed = True
     for key, func, kwargs in cmp_configs:
         print_and_store_cmp(
             key=key,
@@ -329,11 +364,36 @@ def compare_correctness(expected_out, compiled_out, result_data, args):
             **kwargs,
         )
 
-        cmp_value = result_data["correctness"][key]
-        if any(part != "0" for part in cmp_value.split()):
-            all_failed = False
+    eager_types = result_data["performance"]["datatype"]["eager"]
+    compiled_types = result_data["performance"]["datatype"]["compiled"]
 
-    return all_failed
+    def _pick_key(dtype):
+        if dtype in ("torch.float64", "torch.double"):
+            return "[all_close_atol8_rtol5]"
+        if dtype in ("torch.float32", "torch.float"):
+            return "[all_close_atol8_rtol5]"
+        if dtype in ("torch.float16", "torch.bfloat16"):
+            return "[all_close_atol3_rtol2]"
+        # float8
+        if dtype in ("torch.float8_e5m2", "torch.float8_e4m3fn"):
+            return "[all_close_atol2_rtol1]"
+        # int / bool
+        if "int" in dtype or dtype == "torch.bool":
+            return "[equal]"
+        # complex
+        if dtype in ("torch.complex64", "torch.complex128"):
+            return "[all_close_atol8_rtol5]"
+        # default
+        return "[all_close_atol8_rtol5]"
+
+    for idx in range(len(compiled_out)):
+        dtype = compiled_types[idx]
+        cmp_str = result_data["correctness"].get(_pick_key(dtype), "")
+        tokens = cmp_str.split()
+        if idx >= len(tokens) or tokens[idx] != "1":
+            return True
+
+    return False
 
 
 def get_cmp_equal(expected_out, compiled_out):

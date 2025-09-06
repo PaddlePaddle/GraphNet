@@ -119,7 +119,7 @@ python3 graph_net/analysis.py \
 
 After executing, one summary plot of results on all compilers (as shown below in "Evaluation Results Example"), as well as multiple sub-plots of results in categories (model tasks, Library...) on a single compiler. 
 
-The script was design to process a file structure as /benchmark_path/compiler_name/category_name/, for example /benchmark_logs/paddle/nlp/. And items on x-axis are identified by name of the folders. So you can modify  ```read_all_speedups``` function to fit the benchmark settings on your demand.
+The script was designed to process a file structure as /benchmark_path/compiler_name/category_name/, for example /benchmark_logs/paddle/nlp/. And items on x-axis are identified by name of the folders. So you can modify  ```read_all_speedups``` function to fit the benchmark settings on your demand.
 
 ### Evaluation Results Example
 

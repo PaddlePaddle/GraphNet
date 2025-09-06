@@ -63,6 +63,8 @@ model = graph_net.torch.extract(name="model_name")(model)
 #   $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
+For details, see docstring of `graph_net.torch.extract` defined in `graph_net/torch/extractor.py`
+
 **graph_net.torch.validate**
 ```
 # Verify that the extracted model meets requirements

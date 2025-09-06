@@ -140,7 +140,7 @@ def measure_performance(model_call, args, compiler):
             e2e_times.append(duration_box.value)
             gpu_times.append(gpu_time_ms)
             print(
-                f"Trial {i + 1}: e2e={duration_box.value:.2f} ms, gpu={gpu_time_ms:.3g} ms"
+                f"Trial {i + 1}: e2e={duration_box.value:.4f} ms, gpu={gpu_time_ms:.5g} ms"
             )
 
         stats["e2e"] = get_timing_stats(e2e_times)
@@ -157,7 +157,7 @@ def measure_performance(model_call, args, compiler):
             duration_box = DurationBox(-1)
             with naive_timer(duration_box, compiler.synchronize):
                 model_call()
-            print(f"Trial {i + 1}: e2e={duration_box.value:.2f} ms")
+            print(f"Trial {i + 1}: e2e={duration_box.value:.4f} ms")
             e2e_times.append(duration_box.value)
         stats["e2e"] = get_timing_stats(e2e_times)
 
@@ -220,7 +220,7 @@ def test_single_model(args):
             "compile_framework_version"
         ] = f"BladeDISC {compiler.version}"
     else:
-        result_data["configuration"]["compiler_version"] = "unknown"
+        result_data["configuration"]["compile_framework_version"] = "unknown"
 
     eager_model_call = lambda: model(**input_dict)
     compiled_model_call = lambda: compiled_model(**input_dict)

@@ -10,6 +10,7 @@ import time
 import numpy as np
 import random
 import platform
+import traceback
 
 from graph_net.paddle import utils
 from graph_net.benchmark_result import BenchmarkResult
@@ -87,13 +88,6 @@ def get_compiled_model(args, model):
     )
     compiled_model.eval()
     return compiled_model
-
-
-def regular_item(item):
-    assert isinstance(item, paddle.Tensor)
-    if item.dtype not in [paddle.float32, paddle.float64]:
-        item = item.astype("float32")
-    return item
 
 
 def count_number_of_ops(args, model, eager_mode):
@@ -227,70 +221,64 @@ def init_benchmark_result(args):
     return result_data
 
 
-def test_single_model(args):
-    synchronizer_func = get_synchronizer_func(args)
-    input_dict, input_dtypes, param_dtypes = get_input_dict(args)
-    model = get_model(args)
-    model.eval()
-
-    # Collect model information
-    num_eager_ops = count_number_of_ops(args, model, eager_mode=True)
-
-    # Initialize benchmark result
-    result_data = init_benchmark_result(args)
-    result_data.update_model_info(num_eager_ops, input_dtypes, param_dtypes)
-
-    # Run on eager mode
-    expected_out, eager_time_stats = measure_performance(
-        lambda: model(**input_dict), args, synchronizer_func
-    )
-
-    # Run on compiling mode
-    compiled_model = get_compiled_model(args, model)
-    compiled_out, compiled_time_stats = measure_performance(
-        lambda: compiled_model(**input_dict), args, synchronizer_func
-    )
-
+def check_outputs(args, expected_out, compiled_out, result_data):
     if isinstance(expected_out, paddle.Tensor):
         expected_out = [expected_out]
+    if isinstance(compiled_out, paddle.Tensor):
         compiled_out = [compiled_out]
-    if isinstance(expected_out, list) or isinstance(expected_out, tuple):
-        output_dtypes = []
-        for a, b in zip(expected_out, compiled_out):
-            if (a is None and b is not None) or (a is not None and b is None):
-                raise ValueError("Both expected_out and compiled_out must be not None.")
-            if a is not None and b is not None:
-                assert (
-                    a.dtype == b.dtype
-                ), f"expected_out's dtype ({a.dtype}) is not the same as compiled_out's dtype {b.dtype}."
-                output_dtypes.append(str(a.dtype))
-        result_data.update_corrrectness("num_outpus", len(output_dtypes))
-        result_data.update_corrrectness("output_dtyps", output_dtypes)
 
-        # Remove all None in outputs
-        expected_out = [x for x in expected_out if x is not None]
-        compiled_out = [x for x in compiled_out if x is not None]
-        expected_out = [
-            regular_item(item)
-            for item in expected_out
-            if item is not None and np.array(item).size != 0
-        ]
-        compiled_out = [
-            regular_item(item)
-            for item in compiled_out
-            if item is not None and np.array(item).size != 0
-        ]
-    else:
-        raise ValueError("Illegal return value.")
+    eager_output_dtypes = [None] * len(expected_out)
+    for i, tensor in enumerate(expected_out):
+        if tensor is not None:
+            eager_output_dtypes[i] = str(tensor.dtype)
+    result_data.update_corrrectness("num_eager_outputs", len(expected_out))
+    result_data.update_corrrectness("eager_output_dtypes", eager_output_dtypes)
+
+    compiled_output_dtypes = [None] * len(compiled_out)
+    for i, tensor in enumerate(compiled_out):
+        if tensor is not None:
+            compiled_output_dtypes[i] = str(tensor.dtype)
+    result_data.update_corrrectness("num_compiled_outputs", len(compiled_out))
+    result_data.update_corrrectness("compiled_output_dtypes", compiled_output_dtypes)
+
+    is_output_consistent = len(expected_out) == len(compiled_out)
+    for a, b in zip(expected_out, compiled_out):
+        if (a is None and b is not None) or (a is not None and b is None):
+            is_output_consistent = False
+        if a is not None and b is not None and a.dtype != b.dtype:
+            is_output_consistent = False
+    result_data.update_corrrectness("output_consistent", is_output_consistent)
+
+    def regular_outputs(origin_outputs):
+        outputs = []
+        for item in origin_outputs:
+            if (
+                item is not None
+                and isinstance(item, paddle.Tensor)
+                and item.dtype not in [paddle.float32, paddle.float64]
+            ):
+                item = item.astype("float32")
+            outputs.append(item)
+        return outputs
+
+    expected_out = regular_outputs(expected_out)
+    compiled_out = regular_outputs(compiled_out)
 
     def print_cmp(key, func, **kwargs):
-        cmp_ret = func(expected_out, compiled_out, **kwargs)
+        try:
+            cmp_ret = func(expected_out, compiled_out, **kwargs)
+        except Exception as e:
+            cmp_ret = f"{key} failed: {str(e)}\n{traceback.format_exc()}"
         result_data.update_corrrectness(key, cmp_ret)
         print(
             f"{args.log_prompt} {key} model_path:{args.model_path} {cmp_ret}",
             file=sys.stderr,
         )
 
+    print(
+        f"{args.log_prompt} output_dtypes model_path:{args.model_path} eager:{eager_output_dtypes} compiled:{compiled_output_dtypes}",
+        file=sys.stderr,
+    )
     print_cmp("cmp.equal", get_cmp_equal)
     print_cmp("cmp.all_close_atol8_rtol8", get_cmp_all_close, atol=1e-8, rtol=1e-8)
     print_cmp("cmp.all_close_atol8_rtol5", get_cmp_all_close, atol=1e-8, rtol=1e-5)
@@ -305,26 +293,65 @@ def test_single_model(args):
     print_cmp("cmp.diff_count_atol3_rtol2", get_cmp_diff_count, atol=1e-3, rtol=1e-2)
     print_cmp("cmp.diff_count_atol2_rtol1", get_cmp_diff_count, atol=1e-2, rtol=1e-1)
 
+
+def test_single_model(args):
+    synchronizer_func = get_synchronizer_func(args)
+    input_dict, input_dtypes, param_dtypes = get_input_dict(args)
+    model = get_model(args)
+    model.eval()
+
+    # Collect model information
+    num_eager_ops = count_number_of_ops(args, model, eager_mode=True)
+
+    # Initialize benchmark result
+    result_data = init_benchmark_result(args)
+    result_data.update_model_info(num_eager_ops, input_dtypes, param_dtypes)
+
+    # Run on eager mode
+    running_eager_success = False
+    try:
+        print("Run model in eager mode.")
+        expected_out, eager_time_stats = measure_performance(
+            lambda: model(**input_dict), args, synchronizer_func
+        )
+        running_eager_success = True
+    except Exception as e:
+        print(f"Run model in eager mode failed: {str(e)}\n{traceback.format_exc()}")
+
+    # Run on compiling mode
+    running_compiled_success = False
+    try:
+        print("Run model in compiled mode.")
+        compiled_model = get_compiled_model(args, model)
+        compiled_out, compiled_time_stats = measure_performance(
+            lambda: compiled_model(**input_dict), args, synchronizer_func
+        )
+        running_compiled_success = True
+    except Exception as e:
+        print(f"Run model in compiled mode failed: {str(e)}\n{traceback.format_exc()}")
+
     print(
         f"{args.log_prompt} information model_path:{args.model_path} {num_eager_ops} ops, param_dtypes:{param_dtypes}, input_dtypes:{input_dtypes}",
         file=sys.stderr,
     )
+    if running_eager_success and running_compiled_success:
+        check_outputs(args, expected_out, compiled_out, result_data)
 
-    result_data.update_performance(eager_time_stats, compiled_time_stats)
-    duration_log = (
-        f"{args.log_prompt} [Duration] "
-        f"eager_e2e:{result_data.eager_e2e_time_ms:.4f} ms compiled_e2e:{result_data.compiled_e2e_time_ms:.4f} ms"
-    )
-    speedup_log = (
-        f"{args.log_prompt} [Speedup] " f"e2e_speedup:{result_data.e2e_speedup:.4f}"
-    )
+        result_data.update_performance(eager_time_stats, compiled_time_stats)
+        duration_log = (
+            f"{args.log_prompt} [Duration] "
+            f"eager_e2e:{result_data.eager_e2e_time_ms:.4f} ms compiled_e2e:{result_data.compiled_e2e_time_ms:.4f} ms"
+        )
+        speedup_log = (
+            f"{args.log_prompt} [Speedup] " f"e2e_speedup:{result_data.e2e_speedup:.4f}"
+        )
 
-    if "cuda" in args.device:
-        duration_log += f" eager_gpu:{result_data.eager_gpu_time_ms:.4f} ms compiled_gpu:{result_data.compiled_gpu_time_ms:.4f} ms"
-        speedup_log += f" gpu_speedup:{result_data.gpu_speedup:.4f}"
+        if "cuda" in args.device:
+            duration_log += f" eager_gpu:{result_data.eager_gpu_time_ms:.4f} ms compiled_gpu:{result_data.compiled_gpu_time_ms:.4f} ms"
+            speedup_log += f" gpu_speedup:{result_data.gpu_speedup:.4f}"
 
-    print(duration_log, file=sys.stderr)
-    print(speedup_log, file=sys.stderr)
+        print(duration_log, file=sys.stderr)
+        print(speedup_log, file=sys.stderr)
 
     if args.output_dir:
         result_data.write_to_json(args.output_dir)

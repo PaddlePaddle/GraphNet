@@ -43,8 +43,10 @@ def is_single_model_dir(model_dir):
 
 
 def main(args):
-    assert os.path.isdir(args.model_path)
-    assert os.path.isdir(args.graph_net_samples_path)
+    assert os.path.isdir(args.model_path), f"model_path: {args.model_path}"
+    assert os.path.isdir(
+        args.graph_net_samples_path
+    ), f"graph_net_samples_path: {args.graph_net_samples_path}"
     current_model_graph_hash_pathes = set(
         graph_hash_path
         for model_path in get_recursively_model_pathes(args.model_path)

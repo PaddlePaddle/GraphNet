@@ -47,29 +47,31 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="load and run model")
+    parser = argparse.ArgumentParser(
+        description="Validate a computation graph sample. return 0 if success"
+    )
     parser.add_argument(
         "--model-path",
         type=str,
         required=True,
-        help="Path to folder e.g '../../samples/torch/resnet18'",
+        help="Computation graph sample directory. e.g '../../samples/torch/resnet18'",
     )
     parser.add_argument(
         "--graph-net-samples-path",
         type=str,
         required=False,
         default=None,
-        help="Path to GraphNet samples folder. e.g '../../samples'",
+        help="GraphNet samples directory. used for redundancy check. e.g '../../samples'",
     )
     parser.add_argument(
         "--no-check-redundancy",
         action="store_true",
-        help="whether check model graph redundancy",
+        help="Diable redundancy check (default: False).",
     )
     parser.add_argument(
         "--workspace",
         default=os.environ.get("GRAPH_NET_EXTRACT_WORKSPACE", "./workspace"),
-        help="whether check model graph redundancy",
+        help="temporary directory for validation (default: env var GRAPH_NET_EXTRACT_WORKSPACE). ",
     )
     args = parser.parse_args()
     os.environ["GRAPH_NET_EXTRACT_WORKSPACE"] = args.workspace

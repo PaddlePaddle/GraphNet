@@ -9,6 +9,8 @@ import argparse
 import importlib
 import inspect
 import math
+import graph_net.torch.imp_util as imp_util
+import graph_net.torch.record_util as record_util
 
 kLiteralTensorSize = 64
 
@@ -195,6 +197,10 @@ def save_converted_to_text(converted, file_path):
 
 
 def load_converted_from_text(file_path):
+    return make_input_and_param_tensors_from_model_path(file_path)
+
+
+def make_input_and_param_tensors_from_model_path(file_path):
     input_info = list(convert_meta_classes_to_tensors(f"{file_path}/input_meta.py"))
 
     weight_info = {
@@ -209,13 +215,14 @@ def load_converted_from_text(file_path):
     }
 
 
+def convert_tensor_meta_file_to_attrs(file_path):
+    for name, cls in imp_util.load_name_and_classes_from_file(file_path):
+        attrs = record_util.make_attrs_from_class(cls)
+        yield attrs
+
+
 def convert_meta_classes_to_tensors(file_path):
-    for name, cls in _get_classes(file_path):
-        attrs = {
-            k: v
-            for k, v in cls.__dict__.items()
-            if not k.startswith("__") and not callable(v)
-        }
+    for attrs in convert_tensor_meta_file_to_attrs(file_path):
         data_value = None
         data_type = getattr(torch, attrs.get("dtype", "torch.float").split(".")[-1])
         shape = attrs.get("shape", [])
@@ -247,21 +254,13 @@ def convert_meta_classes_to_tensors(file_path):
         }
 
 
-def _get_classes(file_path):
-    spec = importlib.util.spec_from_file_location("unnamed", file_path)
-    unnamed = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(unnamed)
-    yield from inspect.getmembers(unnamed, inspect.isclass)
-
-
-def extract_dynamic_shapes(example_inputs):
-    pass
-
-
-def replay_tensor(info):
+def replay_tensor(info, shape_modifier=None):
     device = info["info"]["device"]
     dtype = info["info"]["dtype"]
     shape = info["info"]["shape"]
+    if shape_modifier is None:
+        shape_modifier = lambda name, shape: shape
+    shape = shape_modifier(info["name"], shape)
 
     mean = info["info"]["mean"]
     std = info["info"]["std"]

@@ -1,4 +1,4 @@
-from . import utils
+from graph_net.torch import utils
 import argparse
 import importlib.util
 import inspect
@@ -10,6 +10,10 @@ import sys
 from graph_net.torch.extractor import extract
 import hashlib
 from contextlib import contextmanager
+import json
+import record_util
+import imp_util
+import os
 
 
 def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Module]:
@@ -62,9 +66,14 @@ def main(args):
             kwargs = dict(name=args.extract_name, dynamic=False, **dump_graph_options)
             model = extract(**kwargs)(model)
 
-        inputs_params = utils.load_converted_from_text(f"{model_path}")
+        inputs_params = utils.make_input_and_param_tensors_from_model_path(
+            f"{model_path}"
+        )
         params = inputs_params["weight_info"]
-        state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
+        shape_modifier = _get_shape_modifier(args)
+        state_dict = {
+            k: utils.replay_tensor(v, shape_modifier) for k, v in params.items()
+        }
 
         explain = torch._dynamo.explain(model)(**state_dict)
         if explain.graph_count != 1 or len(explain.break_reasons) != 0:
@@ -76,10 +85,31 @@ def main(args):
                 f"Graph extraction failed. The resulting graph is incomplete, broken into {explain.graph_count} subgraphs."
             )
 
-        y = model(**state_dict)[0]
+        model(**state_dict)
 
-        print(torch.argmin(y), torch.argmax(y))
-        print(y.shape)
+
+def _get_shape_modifier(cli_args):
+    """
+    yield shape modifier from shape_modifiers.json in directory cli_args.model_path
+    """
+    if not cli_args.enable_shape_patch:
+        return lambda name, shape: shape
+    shape_patch_file_path = f"{cli_args.model_path}/shape_patch.py"
+    if not os.path.exists(shape_patch_file_path):
+        return lambda name, shape: shape
+    shape_modifier_data = [
+        attrs
+        for name, cls in imp_util.load_name_and_classes_from_file(shape_patch_file_path)
+        for attrs in [record_util.make_attrs_from_class(cls)]
+    ]
+    assert isinstance(shape_modifier_data, list)
+    return _make_shape_modifier_impl(shape_modifier_data)
+
+
+def _make_shape_modifier_impl(shape_modifier_data):
+    name2new_shape = {attrs["name"]: attrs["shape"] for attrs in shape_modifier_data}
+    print(f"{name2new_shape=}")
+    return lambda name, shape: name2new_shape[name] if name in name2new_shape else shape
 
 
 if __name__ == "__main__":
@@ -109,6 +139,13 @@ if __name__ == "__main__":
         required=False,
         default=None,
         help="Extracted graph's name",
+    )
+    parser.add_argument(
+        "--enable-shape-patch",
+        type=bool,
+        required=False,
+        default=False,
+        help="Enable extra inputs",
     )
     args = parser.parse_args()
     main(args=args)

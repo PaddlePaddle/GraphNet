@@ -86,7 +86,9 @@ def get_model(args):
 
 
 def get_input_dict(args):
-    inputs_params = utils.load_converted_from_text(f"{args.model_path}")
+    inputs_params = utils.make_input_and_param_tensors_from_model_path(
+        f"{args.model_path}"
+    )
     params = inputs_params["weight_info"]
     return {
         k: utils.replay_tensor(v).to(torch.device(args.device))

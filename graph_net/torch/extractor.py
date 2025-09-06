@@ -18,7 +18,7 @@ def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=Fa
         dynamic (bool): Enable dynamic shape support in torch.compile.
 
     Returns:
-        wrapper or dorector
+        wrapper or decorector
 
     Examples:
         >>> # wrapper style:

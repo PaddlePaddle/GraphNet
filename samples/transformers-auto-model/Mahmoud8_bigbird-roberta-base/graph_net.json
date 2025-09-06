@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Mahmoud8/bigbird-roberta-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "big_bird",
+        "text-classification",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

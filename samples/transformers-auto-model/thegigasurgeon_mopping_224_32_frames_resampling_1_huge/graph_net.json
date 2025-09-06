@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "thegigasurgeon/mopping_224_32_frames_resampling_1_huge",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "videomae",
+        "video-classification",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

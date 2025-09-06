@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Zahra99/wavlm-large-finetuned-iemocap",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "wavlm",
+        "audio-classification",
+        "generated_from_trainer",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "cross-encoder/nli-MiniLM2-L6-H768",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "pytorch",
+        "onnx",
+        "safetensors",
+        "openvino",
+        "roberta",
+        "text-classification",
+        "transformers",
+        "zero-shot-classification",
+        "en",
+        "dataset:nyu-mll/multi_nli",
+        "dataset:stanfordnlp/snli",
+        "base_model:nreimers/MiniLMv2-L6-H768-distilled-from-RoBERTa-Large",
+        "base_model:quantized:nreimers/MiniLMv2-L6-H768-distilled-from-RoBERTa-Large",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

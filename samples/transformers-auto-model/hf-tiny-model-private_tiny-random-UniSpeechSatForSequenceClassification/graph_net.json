@@ -2,5 +2,15 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "hf-tiny-model-private/tiny-random-UniSpeechSatForSequenceClassification",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "unispeech-sat",
+        "audio-classification",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

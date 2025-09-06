@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "BAAI/AltCLIP",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "altclip",
+        "zero-shot-image-classification",
+        "Zero-Shot Image Classification",
+        "bilingual",
+        "en",
+        "English",
+        "zh",
+        "Chinese",
+        "arxiv:2211.06679",
+        "license:creativeml-openrail-m",
+        "region:us"
+    ]
 }

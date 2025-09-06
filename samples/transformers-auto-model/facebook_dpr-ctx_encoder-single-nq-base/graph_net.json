@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "facebook/dpr-ctx_encoder-single-nq-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "dpr",
+        "en",
+        "dataset:nq_open",
+        "arxiv:2004.04906",
+        "arxiv:1702.08734",
+        "arxiv:1910.09700",
+        "license:cc-by-nc-4.0",
+        "region:us"
+    ]
 }

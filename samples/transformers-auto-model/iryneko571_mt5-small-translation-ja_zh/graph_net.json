@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "iryneko571/mt5-small-translation-ja_zh",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "mt5",
+        "text2text-generation",
+        "translation",
+        "ja",
+        "zh",
+        "dataset:iryneko571/CCMatrix-v1-Ja_Zh-fused",
+        "license:mit",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

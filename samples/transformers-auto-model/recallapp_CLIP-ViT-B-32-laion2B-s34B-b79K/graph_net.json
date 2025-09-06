@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "recallapp/CLIP-ViT-B-32-laion2B-s34B-b79K",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "open_clip",
+        "pytorch",
+        "onnx",
+        "safetensors",
+        "clip",
+        "zero-shot-image-classification",
+        "arxiv:1910.04867",
+        "license:mit",
+        "region:us"
+    ]
 }

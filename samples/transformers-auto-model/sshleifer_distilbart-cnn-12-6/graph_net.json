@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "sshleifer/distilbart-cnn-12-6",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "jax",
+        "rust",
+        "bart",
+        "text2text-generation",
+        "summarization",
+        "en",
+        "dataset:cnn_dailymail",
+        "dataset:xsum",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

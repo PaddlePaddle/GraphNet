@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "cross-encoder/msmarco-MiniLM-L12-en-de-v1",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "pytorch",
+        "onnx",
+        "safetensors",
+        "openvino",
+        "bert",
+        "text-classification",
+        "transformers",
+        "text-ranking",
+        "en",
+        "de",
+        "dataset:sentence-transformers/msmarco",
+        "base_model:microsoft/Multilingual-MiniLM-L12-H384",
+        "base_model:quantized:microsoft/Multilingual-MiniLM-L12-H384",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

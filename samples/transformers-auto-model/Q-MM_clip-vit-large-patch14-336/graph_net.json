@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Q-MM/clip-vit-large-patch14-336",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "clip",
+        "zero-shot-image-classification",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

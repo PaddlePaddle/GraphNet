@@ -1,5 +1,25 @@
 {
     "framework": "torch",
     "num_devices_required": 1,
-    "num_nodes_required": 1
+    "num_nodes_required": 1,
+    "model_name": "pankajmathur/orca_mini_3b",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "llama",
+        "text-generation",
+        "en",
+        "dataset:psmathur/alpaca_orca",
+        "dataset:psmathur/dolly-v2_orca",
+        "dataset:psmathur/WizardLM_Orca",
+        "arxiv:2306.02707",
+        "license:cc-by-nc-sa-4.0",
+        "model-index",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

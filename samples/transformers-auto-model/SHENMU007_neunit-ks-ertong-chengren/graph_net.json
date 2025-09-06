@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "SHENMU007/neunit-ks-ertong-chengren",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "wav2vec2",
+        "audio-classification",
+        "generated_from_trainer",
+        "base_model:facebook/wav2vec2-base",
+        "base_model:finetune:facebook/wav2vec2-base",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

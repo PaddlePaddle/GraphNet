@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Finnish-NLP/electra-base-generator-finnish",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "electra",
+        "fill-mask",
+        "finnish",
+        "fi",
+        "dataset:Finnish-NLP/mc4_fi_cleaned",
+        "dataset:wikipedia",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

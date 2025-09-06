@@ -2,5 +2,26 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "vpelloin/MEDIA_NLU-flaubert_oral_mixed",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "safetensors",
+        "flaubert",
+        "token-classification",
+        "bert",
+        "natural language understanding",
+        "NLU",
+        "spoken language understanding",
+        "SLU",
+        "understanding",
+        "MEDIA",
+        "fr",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

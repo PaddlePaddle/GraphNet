@@ -2,5 +2,27 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "cmarkea/distilcamembert-base-nli",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "onnx",
+        "safetensors",
+        "camembert",
+        "text-classification",
+        "zero-shot-classification",
+        "sentence-similarity",
+        "nli",
+        "fr",
+        "dataset:flue",
+        "base_model:cmarkea/distilcamembert-base",
+        "base_model:quantized:cmarkea/distilcamembert-base",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

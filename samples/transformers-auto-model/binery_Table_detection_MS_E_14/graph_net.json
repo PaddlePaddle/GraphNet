@@ -2,5 +2,15 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "binery/Table_detection_MS_E_14",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "detr",
+        "object-detection",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

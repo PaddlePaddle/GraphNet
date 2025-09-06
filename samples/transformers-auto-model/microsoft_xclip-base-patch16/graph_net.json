@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "microsoft/xclip-base-patch16",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "xclip",
+        "feature-extraction",
+        "vision",
+        "video-classification",
+        "en",
+        "arxiv:2208.02816",
+        "license:mit",
+        "model-index",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

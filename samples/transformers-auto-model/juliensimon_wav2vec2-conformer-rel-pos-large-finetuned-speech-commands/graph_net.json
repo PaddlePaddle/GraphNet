@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "juliensimon/wav2vec2-conformer-rel-pos-large-finetuned-speech-commands",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "wav2vec2-conformer",
+        "audio-classification",
+        "generated_from_trainer",
+        "en",
+        "dataset:speech_commands",
+        "license:apache-2.0",
+        "model-index",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

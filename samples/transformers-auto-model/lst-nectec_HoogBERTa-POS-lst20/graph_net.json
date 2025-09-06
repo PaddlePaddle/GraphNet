@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "lst-nectec/HoogBERTa-POS-lst20",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "roberta",
+        "token-classification",
+        "th",
+        "dataset:lst20",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

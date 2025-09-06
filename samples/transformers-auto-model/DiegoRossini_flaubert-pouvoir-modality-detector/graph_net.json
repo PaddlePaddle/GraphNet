@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "DiegoRossini/flaubert-pouvoir-modality-detector",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "fasttext",
+        "safetensors",
+        "flaubert",
+        "token-classification",
+        "fr",
+        "license:mit",
+        "region:us"
+    ]
 }

@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "DAMO-NLP-SG/zero-shot-classify-SSTuning-ALBERT",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "albert",
+        "text-classification",
+        "Zero-Shot Classification",
+        "zero-shot-classification",
+        "arxiv:2305.11442",
+        "license:mit",
+        "autotrain_compatible",
+        "region:us"
+    ]
 }

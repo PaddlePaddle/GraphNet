@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "emekaboris/autonlp-txc-17923129",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "bert",
+        "text-classification",
+        "autonlp",
+        "en",
+        "dataset:emekaboris/autonlp-data-txc",
+        "co2_eq_emissions",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

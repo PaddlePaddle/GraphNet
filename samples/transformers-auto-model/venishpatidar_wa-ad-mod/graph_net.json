@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "venishpatidar/wa-ad-mod",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "safetensors",
+        "bloom",
+        "zero-shot-classification",
+        "en",
+        "base_model:bigscience/bloom-560m",
+        "base_model:finetune:bigscience/bloom-560m",
+        "license:mit",
+        "region:us"
+    ]
 }

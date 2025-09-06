@@ -2,5 +2,29 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "DTAI-KULeuven/robbertje-1-gb-bort",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "roberta",
+        "fill-mask",
+        "Dutch",
+        "Flemish",
+        "RoBERTa",
+        "RobBERT",
+        "RobBERTje",
+        "nl",
+        "dataset:oscar",
+        "dataset:dbrd",
+        "dataset:lassy-ud",
+        "dataset:europarl-mono",
+        "dataset:conll2002",
+        "arxiv:2101.05716",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

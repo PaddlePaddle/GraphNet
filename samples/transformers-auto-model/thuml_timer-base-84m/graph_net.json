@@ -2,5 +2,27 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "thuml/timer-base-84m",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "timer",
+        "safetensors",
+        "time series",
+        "time-series",
+        "forecasting",
+        "foundation models",
+        "pretrained models",
+        "transformer",
+        "time series foundation models",
+        "time-series-forecasting",
+        "custom_code",
+        "dataset:thuml/UTSD",
+        "dataset:Salesforce/lotsa_data",
+        "arxiv:2502.00816",
+        "arxiv:2402.02368",
+        "arxiv:2410.04803",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Mizuiro-sakura/luke-japanese-large-finetuned-ner",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "luke",
+        "token-classification",
+        "ner",
+        "固有表現抽出",
+        "named entity recognition",
+        "named-entity-recognition",
+        "ja",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "domenicrosati/BioM-ALBERT-xxlarge-finetuned-DAGPap22",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "albert",
+        "text-classification",
+        "generated_from_trainer",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

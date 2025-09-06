@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Dr-BERT/CAS-Biomedical-POS-Tagging",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "camembert",
+        "token-classification",
+        "medical",
+        "fr",
+        "dataset:bigbio/cas",
+        "arxiv:2304.00958",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

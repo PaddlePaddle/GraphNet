@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "HooshvareLab/roberta-fa-zwnj-base-ner",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "jax",
+        "roberta",
+        "token-classification",
+        "fa",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

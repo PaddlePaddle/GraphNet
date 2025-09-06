@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "MoritzLaurer/xtremedistil-l6-h256-mnli-fever-anli-ling-binary",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "bert",
+        "text-classification",
+        "zero-shot-classification",
+        "en",
+        "dataset:multi_nli",
+        "dataset:facebook/anli",
+        "dataset:fever",
+        "dataset:lingnli",
+        "arxiv:2104.07179",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

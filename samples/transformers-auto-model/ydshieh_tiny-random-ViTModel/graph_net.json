@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "ydshieh/tiny-random-ViTModel",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "vit",
+        "image-feature-extraction",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

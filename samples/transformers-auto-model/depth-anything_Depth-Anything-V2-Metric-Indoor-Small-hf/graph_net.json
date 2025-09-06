@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "depth-anything/Depth-Anything-V2-Metric-Indoor-Small-hf",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "depth_anything",
+        "depth-estimation",
+        "depth",
+        "absolute depth",
+        "arxiv:2406.09414",
+        "arxiv:2401.10891",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

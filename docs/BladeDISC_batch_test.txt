@@ -1,0 +1,98 @@
+Expected bias to be of same shape as normalized_shape, but got bias of shape [2048] and normalized_shape = [512]
+Failed! Try to export it through torch.jit.script:
+
+
+Arguments for call are not valid.
+The following variants are available:
+  
+  aten::device(str a) -> (Device):
+  Argument a not provided.
+  
+  device(str type) -> (Device):
+  Keyword argument index unknown.
+
+The original call is:
+  File "/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M/model.py", line 409
+        q_with_bias_v = transpose_8 = None
+        zero_pad = torch.zeros(
+            (1, 8, 763, 1), device=device(type="cuda", index=0), dtype=torch.float32
+                                   ~~~~~~ <--- HERE
+        )
+        x_padded = torch.cat([zero_pad, matrix_bd], dim=-1)
+
+Fail to export torchscript on the top level of the model, We will iterate over the submodules and replace those that can be successfully exported by the torch.jit.script
+graph-net-test-compiler-log equal model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 1
+graph-net-test-compiler-log all_close_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 1
+graph-net-test-compiler-log all_close_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 1
+graph-net-test-compiler-log all_close_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 1
+graph-net-test-compiler-log all_close_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 1
+graph-net-test-compiler-log all_close_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 1
+graph-net-test-compiler-log max_diff model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0.0
+graph-net-test-compiler-log mean_diff model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0.0
+graph-net-test-compiler-log diff_count_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0
+graph-net-test-compiler-log diff_count_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0
+graph-net-test-compiler-log diff_count_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0
+graph-net-test-compiler-log diff_count_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0
+graph-net-test-compiler-log diff_count_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0
+graph-net-test-compiler-log duration model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M eager:8.6400 compiled:8.4100
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 9.36 ms
+Trial 2: 8.55 ms
+Trial 3: 8.48 ms
+Trial 4: 8.41 ms
+Trial 5: 8.41 ms
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 8.42 ms
+Trial 2: 8.41 ms
+Trial 3: 8.4 ms
+Trial 4: 8.4 ms
+Trial 5: 8.41 ms
+Expected bias to be of same shape as normalized_shape, but got bias of shape [2048] and normalized_shape = [512]
+Failed! Try to export it through torch.jit.script:
+
+
+Arguments for call are not valid.
+The following variants are available:
+  
+  aten::device(str a) -> (Device):
+  Argument a not provided.
+  
+  device(str type) -> (Device):
+  Keyword argument index unknown.
+
+The original call is:
+  File "/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B/model.py", line 291
+        q_with_bias_v = transpose_8 = None
+        zero_pad = torch.zeros(
+            (1, 8, 796, 1), device=device(type="cuda", index=0), dtype=torch.float32
+                                   ~~~~~~ <--- HERE
+        )
+        x_padded = torch.cat([zero_pad, matrix_bd], dim=-1)
+
+Fail to export torchscript on the top level of the model, We will iterate over the submodules and replace those that can be successfully exported by the torch.jit.script
+graph-net-test-compiler-log equal model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B 1
+graph-net-test-compiler-log all_close_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B 1
+graph-net-test-compiler-log all_close_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B 1
+graph-net-test-compiler-log all_close_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B 1
+graph-net-test-compiler-log all_close_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B 1
+graph-net-test-compiler-log all_close_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B 1
+graph-net-test-compiler-log max_diff model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B 0.0
+graph-net-test-compiler-log mean_diff model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B 0.0
+graph-net-test-compiler-log diff_count_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B 0
+graph-net-test-compiler-log diff_count_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B 0
+graph-net-test-compiler-log diff_count_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B 0
+graph-net-test-compiler-log diff_count_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B 0
+graph-net-test-compiler-log diff_count_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B 0
+graph-net-test-compiler-log duration model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice2-0.5B eager:6.0600 compiled:6.0400
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 6.11 ms
+Trial 2: 6.05 ms
+Trial 3: 6.04 ms
+Trial 4: 6.04 ms
+Trial 5: 6.05 ms
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 6.03 ms
+Trial 2: 6.03 ms
+Trial 3: 6.04 ms
+Trial 4: 6.04 ms
+Trial 5: 6.06 ms

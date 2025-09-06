@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "apple/mobilevitv2-1.0-imagenet1k-256",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "mobilevitv2",
+        "vision",
+        "image-classification",
+        "dataset:imagenet-1k",
+        "arxiv:2206.02680",
+        "license:other",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "google/pegasus-xsum",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "jax",
+        "pegasus",
+        "text2text-generation",
+        "summarization",
+        "en",
+        "arxiv:1912.08777",
+        "model-index",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "KoichiYasuoka/roberta-classical-chinese-base-sentence-segmentation",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "roberta",
+        "token-classification",
+        "classical chinese",
+        "literary chinese",
+        "ancient chinese",
+        "sentence segmentation",
+        "lzh",
+        "base_model:KoichiYasuoka/roberta-classical-chinese-base-char",
+        "base_model:finetune:KoichiYasuoka/roberta-classical-chinese-base-char",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

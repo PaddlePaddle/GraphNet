@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "sbulut/finetuned-kde4-en-to-tr",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "tensorboard",
+        "safetensors",
+        "marian",
+        "text2text-generation",
+        "translation",
+        "generated_from_trainer",
+        "dataset:kde4",
+        "base_model:Helsinki-NLP/opus-mt-tc-big-tr-en",
+        "base_model:finetune:Helsinki-NLP/opus-mt-tc-big-tr-en",
+        "license:cc-by-4.0",
+        "model-index",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

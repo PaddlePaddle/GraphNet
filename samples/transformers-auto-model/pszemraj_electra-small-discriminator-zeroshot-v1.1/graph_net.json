@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "pszemraj/electra-small-discriminator-zeroshot-v1.1",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "electra",
+        "text-classification",
+        "generated_from_trainer",
+        "zero-shot-classification",
+        "en",
+        "base_model:google/electra-small-discriminator",
+        "base_model:finetune:google/electra-small-discriminator",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

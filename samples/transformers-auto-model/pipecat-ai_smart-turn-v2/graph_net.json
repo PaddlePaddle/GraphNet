@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "pipecat-ai/smart-turn-v2",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "safetensors",
+        "wav2vec2",
+        "speech-processing",
+        "semantic-vad",
+        "multilingual",
+        "voice-activity-detection",
+        "dataset:pipecat-ai/chirp3_1",
+        "dataset:pipecat-ai/orpheus_midfiller_1",
+        "dataset:pipecat-ai/orpheus_grammar_1",
+        "dataset:pipecat-ai/orpheus_endfiller_1",
+        "dataset:pipecat-ai/human_convcollector_1",
+        "dataset:pipecat-ai/rime_2",
+        "dataset:pipecat-ai/human_5_all",
+        "license:bsd-2-clause",
+        "region:us"
+    ]
 }

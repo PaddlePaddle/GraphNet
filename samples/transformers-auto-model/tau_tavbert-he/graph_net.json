@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "tau/tavbert-he",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "roberta",
+        "fill-mask",
+        "language model",
+        "he",
+        "dataset:oscar",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

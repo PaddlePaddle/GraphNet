@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "studio-ousia/luke-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "luke",
+        "fill-mask",
+        "named entity recognition",
+        "entity typing",
+        "relation classification",
+        "question answering",
+        "en",
+        "arxiv:1906.08237",
+        "arxiv:1903.07785",
+        "arxiv:2002.01808",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

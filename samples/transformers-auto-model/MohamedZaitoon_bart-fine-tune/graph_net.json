@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "MohamedZaitoon/bart-fine-tune",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "jax",
+        "bart",
+        "text2text-generation",
+        "summarization",
+        "dataset:CNN/Daily-mail",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

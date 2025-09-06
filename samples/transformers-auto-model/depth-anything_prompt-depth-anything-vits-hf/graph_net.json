@@ -2,5 +2,14 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "depth-anything/prompt-depth-anything-vits-hf",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "safetensors",
+        "prompt_depth_anything",
+        "depth-estimation",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

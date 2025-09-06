@@ -1,0 +1,862 @@
+Expected bias to be of same shape as normalized_shape, but got bias of shape [2048] and normalized_shape = [512]
+Failed! Try to export it through torch.jit.script:
+
+
+Arguments for call are not valid.
+The following variants are available:
+  
+  aten::device(str a) -> (Device):
+  Argument a not provided.
+  
+  device(str type) -> (Device):
+  Keyword argument index unknown.
+
+The original call is:
+  File "/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M/model.py", line 409
+        q_with_bias_v = transpose_8 = None
+        zero_pad = torch.zeros(
+            (1, 8, 763, 1), device=device(type="cuda", index=0), dtype=torch.float32
+                                   ~~~~~~ <--- HERE
+        )
+        x_padded = torch.cat([zero_pad, matrix_bd], dim=-1)
+
+Fail to export torchscript on the top level of the model, We will iterate over the submodules and replace those that can be successfully exported by the torch.jit.script
+graph-net-test-compiler-log equal model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 1
+graph-net-test-compiler-log all_close_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 1
+graph-net-test-compiler-log all_close_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 1
+graph-net-test-compiler-log all_close_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 1
+graph-net-test-compiler-log all_close_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 1
+graph-net-test-compiler-log all_close_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 1
+graph-net-test-compiler-log max_diff model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0.0
+graph-net-test-compiler-log mean_diff model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0.0
+graph-net-test-compiler-log diff_count_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0
+graph-net-test-compiler-log diff_count_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0
+graph-net-test-compiler-log diff_count_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0
+graph-net-test-compiler-log diff_count_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0
+graph-net-test-compiler-log diff_count_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M 0
+graph-net-test-compiler-log duration model_path:/daiwenhao/GraphNet/samples/cosyvoice/CosyVoice-300M eager:8.4000 compiled:8.3600
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 8.45 ms
+Trial 2: 8.39 ms
+Trial 3: 8.4 ms
+Trial 4: 8.36 ms
+Trial 5: 8.37 ms
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 8.37 ms
+Trial 2: 8.37 ms
+Trial 3: 8.34 ms
+Trial 4: 8.38 ms
+Trial 5: 8.36 ms
+weight should have at least three dimensions
+Failed! Try to export it through torch.jit.script:
+
+The following operation failed in the TorchScript interpreter.
+Traceback of TorchScript (most recent call last):
+  File "/daiwenhao/GraphNet/samples/mmpose/2xmspn_50/model.py", line 1450, in _torch_blade_record_tensor
+        l_self_modules_head_modules_predict_layers_modules_7_modules_conv_layers_modules_1_modules_bn_parameters_weight_ = L_self_modules_head_modules_predict_layers_modules_7_modules_conv_layers_modules_1_modules_bn_parameters_weight_
+        l_self_modules_head_modules_predict_layers_modules_7_modules_conv_layers_modules_1_modules_bn_parameters_bias_ = L_self_modules_head_modules_predict_layers_modules_7_modules_conv_layers_modules_1_modules_bn_parameters_bias_
+        x = torch.conv2d(
+            ~~~~~~~~~~~~ <--- HERE
+            l_inputs_,
+            l_self_modules_backbone_modules_top_modules_top_modules_0_modules_conv_parameters_weight_,
+RuntimeError: weight should have at least three dimensions
+
+Some Tensors' shapes are not recorded.
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+graph-net-test-compiler-log equal model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 0 0 0 0 0 0 0 0
+graph-net-test-compiler-log all_close_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 0 0 0 0 0 0 0 0
+graph-net-test-compiler-log all_close_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 0 0 0 0 0 0 0 0
+graph-net-test-compiler-log all_close_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 0 0 0 0 0 0 0 0
+graph-net-test-compiler-log all_close_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 0 0 0 0 0 0 0 0
+graph-net-test-compiler-log all_close_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 0 0 0 0 0 0 0 0
+graph-net-test-compiler-log max_diff model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 nan nan nan nan nan nan nan nan
+graph-net-test-compiler-log mean_diff model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 nan nan nan nan nan nan nan nan
+graph-net-test-compiler-log diff_count_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 52224 52224 52224 52224 52224 52224 52224 52224
+graph-net-test-compiler-log diff_count_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 52224 52224 52224 52224 52224 52224 52224 52224
+graph-net-test-compiler-log diff_count_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 52224 52224 52224 52224 52224 52224 52224 52224
+graph-net-test-compiler-log diff_count_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 52224 52224 52224 52224 52224 52224 52224 52224
+graph-net-test-compiler-log diff_count_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 52224 52224 52224 52224 52224 52224 52224 52224
+graph-net-test-compiler-log duration model_path:/daiwenhao/GraphNet/samples/mmpose/2xmspn_50 eager:17.1000 compiled:14.1000
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 17.4 ms
+Trial 2: 17.1 ms
+Trial 3: 17.1 ms
+Trial 4: 17.1 ms
+Trial 5: 17.1 ms
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 14.3 ms
+Trial 2: 14.1 ms
+Trial 3: 14 ms
+Trial 4: 14 ms
+Trial 5: 14 ms
+Expected 3D (unbatched) or 4D (batched) input to conv2d, but got input of size: [64]
+Failed! Try to export it through torch.jit.script:
+
+The following operation failed in the TorchScript interpreter.
+Traceback of TorchScript (most recent call last):
+  File "/daiwenhao/GraphNet/samples/mmseg/ANN_R50/model.py", line 678, in _torch_blade_record_tensor
+            L_self_modules_decode_head_modules_conv_seg_parameters_bias_
+        )
+        input_1 = torch.conv2d(
+                  ~~~~~~~~~~~~ <--- HERE
+            l_inputs_,
+            l_self_modules_backbone_modules_stem_modules_0_parameters_weight_,
+RuntimeError: Expected 3D (unbatched) or 4D (batched) input to conv2d, but got input of size: [64]
+
+Some Tensors' shapes are not recorded.
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+graph-net-test-compiler-log equal model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 0
+graph-net-test-compiler-log all_close_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 0
+graph-net-test-compiler-log all_close_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 0
+graph-net-test-compiler-log all_close_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 1
+graph-net-test-compiler-log all_close_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 1
+graph-net-test-compiler-log all_close_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 1
+graph-net-test-compiler-log max_diff model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 3.382563591003418e-06
+graph-net-test-compiler-log mean_diff model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 5.515127798894071e-10
+graph-net-test-compiler-log diff_count_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 75
+graph-net-test-compiler-log diff_count_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 54
+graph-net-test-compiler-log diff_count_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 0
+graph-net-test-compiler-log diff_count_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 0
+graph-net-test-compiler-log diff_count_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 0
+graph-net-test-compiler-log duration model_path:/daiwenhao/GraphNet/samples/mmseg/ANN_R50 eager:21.7000 compiled:21.8000
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 21.8 ms
+Trial 2: 21.7 ms
+Trial 3: 21.7 ms
+Trial 4: 21.7 ms
+Trial 5: 21.7 ms
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 24.7 ms
+Trial 2: 21.9 ms
+Trial 3: 20.8 ms
+Trial 4: 21.2 ms
+Trial 5: 20.7 ms
+Dimension out of range (expected to be in range of [-1, 0], but got 1)
+Failed! Try to export it through torch.jit.script:
+
+
+Arguments for call are not valid.
+The following variants are available:
+  
+  aten::device(str a) -> (Device):
+  Argument a not provided.
+  
+  device(str type) -> (Device):
+  Keyword argument index unknown.
+
+The original call is:
+  File "/daiwenhao/GraphNet/samples/nemo/parakeet-ctc-0.6b/model.py", line 2361
+        x_2 = None
+        att_mask = torch.ones(
+            1, 66, 66, dtype=torch.bool, device=device(type="cuda", index=0)
+                                                ~~~~~~ <--- HERE
+        )
+        arange = torch.arange(0, 66, device=device(type="cuda", index=0))
+
+Fail to export torchscript on the top level of the model, We will iterate over the submodules and replace those that can be successfully exported by the torch.jit.script
+graph-net-test-compiler-log equal model_path:/daiwenhao/GraphNet/samples/nemo/parakeet-ctc-0.6b 0 1
+graph-net-test-compiler-log all_close_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/nemo/parakeet-ctc-0.6b 0 1
+graph-net-test-compiler-log all_close_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/nemo/parakeet-ctc-0.6b 0 1
+graph-net-test-compiler-log all_close_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/nemo/parakeet-ctc-0.6b 0 1
+graph-net-test-compiler-log all_close_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/nemo/parakeet-ctc-0.6b 0 1
+graph-net-test-compiler-log all_close_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/nemo/parakeet-ctc-0.6b 0 1
+graph-net-test-compiler-log max_diff model_path:/daiwenhao/GraphNet/samples/nemo/parakeet-ctc-0.6b nan 0
+Traceback (most recent call last):
+  File "/usr/lib/python3.8/runpy.py", line 194, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/daiwenhao/GraphNet/graph_net/torch/test_compiler.py", line 494, in <module>
+    main(args=args)
+  File "/daiwenhao/GraphNet/graph_net/torch/test_compiler.py", line 446, in main
+    test_single_model(args)
+  File "/daiwenhao/GraphNet/graph_net/torch/test_compiler.py", line 321, in test_single_model
+    print_and_store_cmp("mean_diff", get_cmp_mean_diff)
+  File "/daiwenhao/GraphNet/graph_net/torch/test_compiler.py", line 297, in print_and_store_cmp
+    cmp_ret = func(expected_out, compiled_out, **kwargs)
+  File "/daiwenhao/GraphNet/graph_net/torch/test_compiler.py", line 382, in get_cmp_mean_diff
+    return " ".join(
+  File "/daiwenhao/GraphNet/graph_net/torch/test_compiler.py", line 383, in <genexpr>
+    str(torch.mean(torch.abs(a - b)).item())
+RuntimeError: mean(): could not infer output dtype. Input dtype must be either a floating point or complex dtype. Got: Long
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 55.3 ms
+Trial 2: 54.5 ms
+Trial 3: 54.6 ms
+Trial 4: 54.4 ms
+Trial 5: 57.1 ms
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 54.4 ms
+Trial 2: 54.3 ms
+Trial 3: 56.7 ms
+Trial 4: 54.3 ms
+Trial 5: 54.3 ms
+
+Expected weight to be a vector of size equal to the number of channels in input, but got weight of shape [512, 1, 16] and input of shape [1, 512, 4001]
+Failed! Try to export it through torch.jit.script:
+
+The following operation failed in the TorchScript interpreter.
+Traceback of TorchScript (most recent call last):
+  File "/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix/model.py", line 724, in _torch_blade_record_tensor
+        )
+        l_input_ = l_self_modules_encoder_parameters_weight_ = None
+        feats_1 = torch.nn.functional.group_norm(
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ <--- HERE
+            feats,
+            1,
+  File "/usr/local/lib/python3.8/dist-packages/torch/nn/functional.py", line 2516, in group_norm
+        return handle_torch_function(group_norm, (input, weight, bias,), input, num_groups, weight=weight, bias=bias, eps=eps)
+    _verify_batch_size([input.size(0) * input.size(1) // num_groups, num_groups] + list(input.size()[2:]))
+    return torch.group_norm(input, num_groups, weight, bias, eps, torch.backends.cudnn.enabled)
+           ~~~~~~~~~~~~~~~~ <--- HERE
+RuntimeError: Expected weight to be a vector of size equal to the number of channels in input, but got weight of shape [512, 1, 16] and input of shape [1, 512, 4001]
+
+Some Tensors' shapes are not recorded.
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+2025-08-30 09:13:39.936834: I external/org_tensorflow/tensorflow/compiler/xla/stream_executor/cuda/cuda_dnn.cc:424] Loaded cuDNN version 8204
+graph-net-test-compiler-log equal model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix 1
+graph-net-test-compiler-log all_close_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix 1
+graph-net-test-compiler-log all_close_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix 1
+graph-net-test-compiler-log all_close_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix 1
+graph-net-test-compiler-log all_close_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix 1
+graph-net-test-compiler-log all_close_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix 1
+graph-net-test-compiler-log max_diff model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix nan
+graph-net-test-compiler-log mean_diff model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix nan
+graph-net-test-compiler-log diff_count_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix 0
+graph-net-test-compiler-log diff_count_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix 0
+graph-net-test-compiler-log diff_count_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix 0
+graph-net-test-compiler-log diff_count_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix 0
+graph-net-test-compiler-log diff_count_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix 0
+graph-net-test-compiler-log duration model_path:/daiwenhao/GraphNet/samples/torchaudio/convtasnet_base_libri2mix eager:99.4000 compiled:99.6000
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 99.4 ms
+Trial 2: 99.5 ms
+Trial 3: 99.4 ms
+Trial 4: 99.5 ms
+Trial 5: 99.5 ms
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 99.6 ms
+Trial 2: 99.5 ms
+Trial 3: 99.7 ms
+Trial 4: 99.8 ms
+Trial 5: 99.7 ms
+"index_select_out_cuda_impl" not implemented for 'Float'
+Failed! Try to export it through torch.jit.script:
+
+The following operation failed in the TorchScript interpreter.
+Traceback of TorchScript (most recent call last):
+  File "/daiwenhao/GraphNet/samples/torchgeometric/LINKX/model.py", line 119, in _torch_blade_record_tensor
+        edge_index_j = l_edge_index_[0]
+        l_edge_index_ = None
+        weight_j = l_self_modules_edge_lin_parameters_weight_.index_select(
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ <--- HERE
+            -2, edge_index_j
+        )
+RuntimeError: "index_select_out_cuda_impl" not implemented for 'Float'
+
+Some Tensors' shapes are not recorded.
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+graph-net-test-compiler-log equal model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX 1
+graph-net-test-compiler-log all_close_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX 1
+graph-net-test-compiler-log all_close_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX 1
+graph-net-test-compiler-log all_close_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX 1
+graph-net-test-compiler-log all_close_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX 1
+graph-net-test-compiler-log all_close_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX 1
+graph-net-test-compiler-log max_diff model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX 0.0
+graph-net-test-compiler-log mean_diff model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX 0.0
+graph-net-test-compiler-log diff_count_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX 0
+graph-net-test-compiler-log diff_count_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX 0
+graph-net-test-compiler-log diff_count_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX 0
+graph-net-test-compiler-log diff_count_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX 0
+graph-net-test-compiler-log diff_count_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX 0
+graph-net-test-compiler-log duration model_path:/daiwenhao/GraphNet/samples/torchgeometric/LINKX eager:1.0300 compiled:0.7280
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 1.06 ms
+Trial 2: 1.04 ms
+Trial 3: 1.02 ms
+Trial 4: 1 ms
+Trial 5: 1.02 ms
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 0.788 ms
+Trial 2: 0.736 ms
+Trial 3: 0.71 ms
+Trial 4: 0.718 ms
+Trial 5: 0.689 msExpected 3D (unbatched) or 4D (batched) input to conv2d, but got input of size: [1000, 1024]
+Failed! Try to export it through torch.jit.script:
+
+The following operation failed in the TorchScript interpreter.
+Traceback of TorchScript (most recent call last):
+  File "/daiwenhao/GraphNet/samples/timm/darknet17/model.py", line 188, in _torch_blade_record_tensor
+            L_self_modules_head_modules_fc_parameters_bias_
+        )
+        x = torch.conv2d(
+            ~~~~~~~~~~~~ <--- HERE
+            l_x_,
+            l_self_modules_stem_modules_conv1_modules_conv_parameters_weight_,
+RuntimeError: Expected 3D (unbatched) or 4D (batched) input to conv2d, but got input of size: [1000, 1024]
+
+Some Tensors' shapes are not recorded.
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+graph-net-test-compiler-log equal model_path:/daiwenhao/GraphNet/samples/timm/darknet17 1
+graph-net-test-compiler-log all_close_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/timm/darknet17 1
+graph-net-test-compiler-log all_close_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/timm/darknet17 1
+graph-net-test-compiler-log all_close_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/timm/darknet17 1
+graph-net-test-compiler-log all_close_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/timm/darknet17 1
+graph-net-test-compiler-log all_close_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/timm/darknet17 1
+graph-net-test-compiler-log max_diff model_path:/daiwenhao/GraphNet/samples/timm/darknet17 0.0
+graph-net-test-compiler-log mean_diff model_path:/daiwenhao/GraphNet/samples/timm/darknet17 0.0
+graph-net-test-compiler-log diff_count_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/timm/darknet17 0
+graph-net-test-compiler-log diff_count_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/timm/darknet17 0
+graph-net-test-compiler-log diff_count_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/timm/darknet17 0
+graph-net-test-compiler-log diff_count_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/timm/darknet17 0
+graph-net-test-compiler-log diff_count_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/timm/darknet17 0
+graph-net-test-compiler-log duration model_path:/daiwenhao/GraphNet/samples/timm/darknet17 eager:2.1500 compiled:2.1300
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 2.24 ms
+Trial 2: 2.13 ms
+Trial 3: 2.13 ms
+Trial 4: 2.13 ms
+Trial 5: 2.13 ms
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 2.13 ms
+Trial 2: 2.13 ms
+Trial 3: 2.14 ms
+Trial 4: 2.11 ms
+Trial 5: 2.13 ms
+weight should have at least three dimensions
+Failed! Try to export it through torch.jit.script:
+
+The following operation failed in the TorchScript interpreter.
+Traceback of TorchScript (most recent call last):
+  File "/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50/model.py", line 666, in _torch_blade_record_tensor
+            L_self_modules_aux_classifier_modules_4_parameters_bias_
+        )
+        x = torch.conv2d(
+            ~~~~~~~~~~~~ <--- HERE
+            l_x_,
+            l_self_modules_backbone_modules_conv1_parameters_weight_,
+RuntimeError: weight should have at least three dimensions
+
+Some Tensors' shapes are not recorded.
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+graph-net-test-compiler-log equal model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 1 0
+graph-net-test-compiler-log all_close_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 1 0
+graph-net-test-compiler-log all_close_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 1 0
+graph-net-test-compiler-log all_close_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 1 0
+graph-net-test-compiler-log all_close_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 1 1
+graph-net-test-compiler-log all_close_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 1 1
+graph-net-test-compiler-log max_diff model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 0.0 1.7121434211730957e-05
+graph-net-test-compiler-log mean_diff model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 0.0 1.762935575300162e-08
+graph-net-test-compiler-log diff_count_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 0 15966
+graph-net-test-compiler-log diff_count_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 0 5908
+graph-net-test-compiler-log diff_count_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 0 40
+graph-net-test-compiler-log diff_count_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 0 0
+graph-net-test-compiler-log diff_count_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 0 0
+graph-net-test-compiler-log duration model_path:/daiwenhao/GraphNet/samples/torchvision/deeplabv3_resnet50 eager:8.4300 compiled:7.6200
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 8.5 ms
+Trial 2: 8.43 ms
+Trial 3: 8.41 ms
+Trial 4: 8.39 ms
+Trial 5: 8.42 ms
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 7.7 ms
+Trial 2: 7.62 ms
+Trial 3: 7.59 ms
+Trial 4: 7.59 ms
+Trial 5: 7.6 ms
+
+expand(torch.cuda.FloatTensor{[1, 3, 30, 30]}, size=[2, 17]): the number of sizes provided (2) must be greater or equal to the number of dimensions in the tensor (4)
+Failed! Try to export it through torch.jit.script:
+
+The following operation failed in the TorchScript interpreter.
+Traceback of TorchScript (most recent call last):
+  File "/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel/model.py", line 406, in _torch_blade_record_tensor
+            None
+        )
+        buffered_token_type_ids_expanded = buffered_token_type_ids.expand(2, 17)
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ <--- HERE
+        buffered_token_type_ids = None
+        extended_attention_mask = l_attention_mask_[
+RuntimeError: expand(torch.cuda.FloatTensor{[1, 3, 30, 30]}, size=[2, 17]): the number of sizes provided (2) must be greater or equal to the number of dimensions in the tensor (4)
+
+Some Tensors' shapes are not recorded.
+graph-net-test-compiler-log equal model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel 0 0 0 0 0 0 0 0
+graph-net-test-compiler-log all_close_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel 0 1 0 0 0 0 0 0
+graph-net-test-compiler-log all_close_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel 1 1 0 1 1 1 1 1
+graph-net-test-compiler-log all_close_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel 1 1 1 1 1 1 1 1
+graph-net-test-compiler-log all_close_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel 1 1 1 1 1 1 1 1
+graph-net-test-compiler-log all_close_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel 1 1 1 1 1 1 1 1
+graph-net-test-compiler-log max_diff model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel 1.4901161193847656e-08 8.381903171539307e-09 4.76837158203125e-07 1.1920928955078125e-07 7.152557373046875e-07 7.152557373046875e-07 1.341104507446289e-07 5.960464477539063e-08
+graph-net-test-compiler-log mean_diff model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel 2.7375388622630226e-09 2.523847797419876e-09 4.827760591297192e-08 4.057073965668678e-08 4.76837158203125e-07 4.76837158203125e-07 1.966327545233071e-08 9.284121915698051e-09
+graph-net-test-compiler-log diff_count_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel 18 0 3233 20 2 2 90 22
+graph-net-test-compiler-log diff_count_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel 0 0 11 0 0 0 0 0
+graph-net-test-compiler-log diff_count_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel 0 0 0 0 0 0 0 0
+graph-net-test-compiler-log diff_count_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel 0 0 0 0 0 0 0 0
+graph-net-test-compiler-log diff_count_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel 0 0 0 0 0 0 0 0
+graph-net-test-compiler-log duration model_path:/daiwenhao/GraphNet/samples/transformers-auto-model/hf-tiny-model-private_tiny-random-AltCLIPModel eager:6.0000 compiled:4.4200
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 6.05 ms
+Trial 2: 6.02 ms
+Trial 3: 6 ms
+Trial 4: 5.96 ms
+Trial 5: 5.98 ms
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 4.85 ms
+Trial 2: 4.35 ms
+Trial 3: 4.31 ms
+Trial 4: 4.3 ms
+Trial 5: 4.3 ms
+Expected 3D (unbatched) or 4D (batched) input to conv2d, but got input of size: [64]
+Failed! Try to export it through torch.jit.script:
+
+The following operation failed in the TorchScript interpreter.
+Traceback of TorchScript (most recent call last):
+  File "/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls/model.py", line 1340, in _torch_blade_record_tensor
+            L_self_modules_model_modules_10_modules_linear_parameters_bias_
+        )
+        conv2d = torch.conv2d(
+                 ~~~~~~~~~~~~ <--- HERE
+            l_x_,
+            l_self_modules_model_modules_0_modules_conv_parameters_weight_,
+RuntimeError: Expected 3D (unbatched) or 4D (batched) input to conv2d, but got input of size: [64]
+
+Some Tensors' shapes are not recorded.
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+Expected tensor_type != nullptr to be true, but got false.  (Could this error message be improved?  If so, please report an enhancement request to PyTorch.)
+graph-net-test-compiler-log equal model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls 0 0
+graph-net-test-compiler-log all_close_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls 0 0
+graph-net-test-compiler-log all_close_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls 0 0
+graph-net-test-compiler-log all_close_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls 0 0
+graph-net-test-compiler-log all_close_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls 0 0
+graph-net-test-compiler-log all_close_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls 0 0
+graph-net-test-compiler-log max_diff model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls nan nan
+graph-net-test-compiler-log mean_diff model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls nan nan
+graph-net-test-compiler-log diff_count_atol8_rtol8 model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls 1000 1000
+graph-net-test-compiler-log diff_count_atol8_rtol5 model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls 1000 1000
+graph-net-test-compiler-log diff_count_atol5_rtol5 model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls 1000 1000
+graph-net-test-compiler-log diff_count_atol3_rtol2 model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls 1000 1000
+graph-net-test-compiler-log diff_count_atol2_rtol1 model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls 1000 1000
+graph-net-test-compiler-log duration model_path:/daiwenhao/GraphNet/samples/ultralytics/yolo11l-cls eager:17.6000 compiled:14.8000
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 17.7 ms
+Trial 2: 17.6 ms
+Trial 3: 17.6 ms
+Trial 4: 17.6 ms
+Trial 5: 17.5 ms
+[Profiling] Using device: cuda:0 NVIDIA A100-SXM4-40GB, warm up 3, trials 5
+Trial 1: 15.3 ms
+Trial 2: 14.8 ms
+Trial 3: 14.7 ms
+Trial 4: 14.7 ms
+Trial 5: 14.7 ms

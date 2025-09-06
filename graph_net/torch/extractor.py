@@ -11,7 +11,7 @@ torch._dynamo.config.capture_dynamic_output_shape_ops = True
 def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=False):
     """
     Extract computation graphs from PyTorch nn.Module.
-    The extracted computation graph will be saved into directory of env var $GRAPH_NET_EXTRACT_WORKSPACE.
+    The extracted computation graphs will be saved into directory of env var $GRAPH_NET_EXTRACT_WORKSPACE.
 
     Args:
         name (str): The name of the model, used as the directory name for saving.

@@ -124,7 +124,7 @@ The script was design to process a file structure as /benchmark_path/compiler_na
 ### Evaluation Results Example
 
 <div align="center">
-<img src="/pics/Eval_result.jpg" alt="Violin plots of rectified speedup distributions" width="65%">
+<img src="/pics/Eval_result.png" alt="Violin plots of rectified speedup distributions" width="65%">
 </div>
 
 

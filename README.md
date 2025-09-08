@@ -85,19 +85,19 @@ We use ```graph_net/benchmark_demo.sh``` to benchmark GraphNet computation graph
 bash graph_net/benchmark_demo.sh &
 ```
 
-The script will run ```graph_net.torch.test_compiler``` with specific batch and log configurations.
+The script runs ```graph_net.torch.test_compiler``` with specific batch and log configurations.
 
 Or you can customize and use ```graph_net.torch.test_compiler``` yourself:
 
 ```
-python3 -m graph_net.torch.test_compiler \
+python -m graph_net.torch.test_compiler \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name/ \
   --compiler /path/to/custom/compiler/ \
   --output-dir /path/to/save/JSON/result/file/
 # Note: if --compiler is omitted, PyTorch’s built-in compiler is used by default
 ```
 
-After that, ```graph_net.torch.test_compiler``` processes as below:
+After that, ```graph_net.torch.test_compiler``` will process as below:
 1. Running the original model in eager mode to record a baseline.
 2. Compiling the model with the specified backend (e.g., CINN, TorchInductor, TVM).
 3. Executing the compiled model and collecting its runtime and outputs.
@@ -108,7 +108,7 @@ After that, ```graph_net.torch.test_compiler``` processes as below:
 After processing, we provide ```graph_net/analysis.py``` to generate [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on the JSON results.
 
 ```
-python3 graph_net/analysis.py \
+python -m graph_net.analysis \
   --benchmark-path /path/to/read/JSON/result/file/ \
   --output-dir /path/to/save/output/figures/
 ```

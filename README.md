@@ -1,36 +1,36 @@
 # GraphNet  ![](https://img.shields.io/badge/version-v0.1-brightgreen) ![](https://img.shields.io/github/issues/PaddlePaddle/GraphNet?label=open%20issues)    [![](https://img.shields.io/badge/Contribute%20to%20GraphNet-blue)](https://github.com/PaddlePaddle/GraphNet/issues/98)
 
 
-**GraphNet** is a large-scale dataset of deep learning **computation graphs**, built as a standard benchmark for **tensor compiler** optimization. It provides 2.7K computation graphs extracted from state-of-the-art deep learning models spanning diverse tasks and ML frameworks. With standardized formats and rich metadata, GraphNet enables fair comparison, reproducible evaluation, and deeper research into the general optimization capabilities of tensor compilers.
+**GraphNet** is a large-scale dataset of deep learning **computation graphs**, built as a standard benchmark for **tensor compiler** optimization. It provides 2.7K computation graphs extracted from state-of-the-art deep learning models spanning diverse tasks and ML frameworks. With standardized formats and rich metadata, GraphNet enables fair comparison and reproducible evaluation of the general optimization capabilities of tensor compilers, thereby supporting advanced research in AI for compilers (**AI4C**).
+
 <br>
 <div align="center">
-<img src="/pics/graphnet_overview.jpg" alt="GraphNet Architecture Overview" width="65%">
+<img src="/pics/Eval_result.png" alt="Violin plots of speedup distributions" width="65%">
 </div>
 
-With GraphNet, users can:
-1. **Contribute new computation graphs** through the built-in automated extraction and validation pipeline.
-2. **Evaluate tensor compilers** on existing graphs with the integrated compiler evaluation tool, supporting multiple compiler backends.
-3. **Advance research** in tensor compiler optimization using the test data and statistics provided by GraphNet.
+Compiler developers can use GraphNet samples to evaluate tensor compilers (e.g., CINN, TorchInductor, TVM) on target tasks. The figure above shows the speedup of two compilers (CINN and TorchInductor) across two tasks (CV and NLP).
 
-
-
-
-**Vision**: We aim to achieve cross-hardware portability of compiler optimizations by allowing models to learn and transfer optimization strategies. It will significantly  reduce the manual effort required to develop efficient operator implementations.
 
 
 ## Dataset Construction
 
 To guarantee the dataset’s overall quality, reproducibility, and cross-compiler compatibility, we define the following construction **constraints**:
 
-1. Dynamic graphs must execute correctly.
-2. Graphs and their corresponding Python code must support serialization and deserialization.
+1. Computation graphs must be executable in imperative (eager) mode.
+2. Computation graphs and their corresponding Python code must support serialization and deserialization.
 3. The full graph can be decomposed into two disjoint subgraphs.
 4. Operator names within each computation graph must be statically parseable.
 5. If custom operators are used, their implementation code must be fully accessible.
 
 
 ### Graph Extraction & Validation
-For full implementation details, please refer to the [Co-Creation Tutorial](https://github.com/PaddlePaddle/GraphNet/blob/develop/CONTRIBUTE_TUTORIAL.md#co-creation-tutorial).
+
+We provide automated extraction and validation tools for constructing this dataset.
+
+<div align="center">
+<img src="/pics/graphnet_overview.jpg" alt="GraphNet Architecture Overview" width="65%">
+</div>
+
 
 **Demo: Extract & Validate ResNet‑18**
 ```
@@ -75,19 +75,9 @@ python -m graph_net.torch.validate \
 
 ## Compiler Evaluation
 
-The compiler evaluation process takes a GraphNet sample as input and involves:
-1. Running the original model in eager mode to record a baseline.
-2. Compiling the model with the specified backend (e.g., CINN, TorchInductor, TVM).
-3. Executing the compiled model and collecting its runtime and outputs.
-4. Analyzing performance by comparing the compiled results against the baseline.
-
-### Evaluation Metrics
-
-We define two key metrics here: **rectified speedup** and **GraphNet Score**. Rectified speedup measures runtime performance while incorporating compilation success, time cost, and correctness. GraphNet Score aggregates the rectified speedup of a compiler on specified tasks, providing a measure of its general optimization capability. 
-
 **Demo: How to benchmark your compiler on the model:**
 
-1. Benchmark
+**Step 1: Benchmark**
 
 We use ```graph_net/benchmark_demo.sh``` to benchmark GraphNet computation graph samples:
 
@@ -107,7 +97,7 @@ python3 -m graph_net.torch.test_compiler \
 # Note: if --compiler is omitted, PyTorch’s built-in compiler is used by default
 ```
 
-2. Analysis
+**Step 2: Analysis**
 
 After processing, we provide ```graph_net/analysis.py``` to generate [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on the JSON results.
 
@@ -121,19 +111,14 @@ After executing, one summary plot of results on all compilers (as shown below in
 
 The script is designed to process a file structure as ```/benchmark_path/compiler_name/category_name/``` (for example ```/benchmark_logs/paddle/nlp/```), and items on x-axis are identified by name of the folders. So you can modify  ```read_all_speedups``` function to fit the benchmark settings on your demand.
 
-### Evaluation Results Example
-
-<div align="center">
-<img src="/pics/Eval_result.png" alt="Violin plots of rectified speedup distributions" width="65%">
-</div>
-
-
 ## Roadmap
 
 1. Scale GraphNet to 10K+ graphs.
 2. Further annotate GraphNet samples into more granular sub-categories
 3. Extract samples from multi-GPU scenarios to support benchmarking and optimization for large-scale, distributed computing.
 4. Enable splitting full graphs into independently optimized subgraphs and operator sequences.
+
+**Vision**: GraphNet aims to lay the foundation for AI4C by enabling large-scale, systematic evaluation of tensor compiler optimizations.
 
 ## GraphNet Community:
 

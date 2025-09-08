@@ -43,6 +43,10 @@ python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/resnet18/
 ```
 
+<div align="center">
+<img src="/pics/graphnet_sample.png" alt="GraphNet Extract Sample" width="65%">
+</div>
+
 **Step 1: graph_net.torch.extract**
 
 ```bash
@@ -121,6 +125,8 @@ The script is designed to process a file structure as ```/benchmark_path/compile
 4. Enable splitting full graphs into independently optimized subgraphs and operator sequences.
 
 **Vision**: GraphNet aims to lay the foundation for [ai4c](https://github.com/PaddlePaddle/ai4c) by enabling large-scale, systematic evaluation of tensor compiler optimizations.
+
+We aim to achieve cross-hardware portability of compiler optimizations by allowing models to learn and transfer optimization strategies. It will significantly reduce the manual effort required to develop efficient operator implementations.
 
 ## 💬 GraphNet Community
 

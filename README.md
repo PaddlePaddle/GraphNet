@@ -71,15 +71,14 @@ For more details, see docstring of `graph_net.torch.extract` defined in `graph_n
 
 **Step 2: graph_net.torch.validate**
 
-To verify that the extracted model meets requirements in **construction constraints**, we use `graph_net.torch.validate` in CI tool and also ask contributors to self-check in advance:
+To verify that the extracted model meets requirements, we use `graph_net.torch.validate` in CI tool and also ask contributors to self-check in advance:
 
 ```bash
 python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
-A unique `graph_hash.txt` will be generated after validation and examined in CI procedure to avoid redundant.
-
+All the **construction constraints** will be examined automatically. After passing validation, a unique `graph_hash.txt` will be generated and later checked in CI procedure to avoid redundant.
 
 ## ⚖️ Compiler Evaluation
 

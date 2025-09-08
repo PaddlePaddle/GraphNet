@@ -1,0 +1,6 @@
+{
+    "framework": "paddle",
+    "model_name": "ResNet152_vd",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
+}

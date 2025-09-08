@@ -95,7 +95,7 @@ python -m graph_net.torch.test_compiler \
 
 After executing, ```graph_net.torch.test_compiler``` will:
 1. Running the original model in eager mode to record a baseline.
-2. Compiling the model with the specified backend (e.g., CINN, TorchInductor, TVM).
+2. Compiling the model with the specified backend (e.g., CINN, TVM, Inductor, TensorRT, XLA, BladeDISC).
 3. Executing the compiled model and collecting its runtime and outputs.
 4. Conduct speedup by comparing the compiled results against the baseline.
 

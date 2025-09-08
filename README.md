@@ -7,7 +7,7 @@
 <img src="/pics/Eval_result.png" alt="Violin plots of speedup distributions" width="65%">
 </div>
 
-Compiler developers can use GraphNet samples to evaluate tensor compilers on target tasks. The figure above shows the speedup of two compilers (CINN and TorchInductor) across two tasks (CV and NLP).
+Compiler developers can use GraphNet samples to evaluate tensor compilers (e.g., CINN, TorchInductor, TVM) on target tasks. The figure above shows the speedup of two compilers (CINN and TorchInductor) across two tasks (CV and NLP).
 
 ## 🧱 Dataset Construction
 

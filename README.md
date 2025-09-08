@@ -124,7 +124,7 @@ The script is designed to process a file structure as ```/benchmark_path/compile
 
 ## 💬 GraphNet Community
 
-You can join our community via the following group chats. Welcome to ask any questions about using and building GraphNet.
+You can join our community via following group chats. Welcome to ask any questions about using and building GraphNet.
 
 <div align="center">
 <table>

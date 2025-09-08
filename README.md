@@ -43,7 +43,7 @@ python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/resnet18/
 ```
 
-**Illustrate: How does GraphNet extract and construct a computation graph sample on PyTorch?**
+**Illustration: How does GraphNet extract and construct a computation graph sample on PyTorch?**
 
 <div align="center">
 <img src="/pics/graphnet_sample.png" alt="GraphNet Extract Sample" width="65%">

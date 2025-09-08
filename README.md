@@ -12,7 +12,7 @@ Compiler developers can use GraphNet samples to evaluate tensor compilers (e.g.,
 
 
 
-## Dataset Construction
+## 🧱 Dataset Construction
 
 To guarantee the dataset’s overall quality, reproducibility, and cross-compiler compatibility, we define the following construction **constraints**:
 
@@ -73,7 +73,7 @@ python -m graph_net.torch.validate \
 ```
 
 
-## Compiler Evaluation
+## ⚖️ Compiler Evaluation
 
 **Step 1: Benchmark**
 
@@ -119,7 +119,7 @@ After executing, one summary plot of results on all compilers (as shown in "Eval
 
 The script is designed to process a file structure as ```/benchmark_path/compiler_name/category_name/``` (for example ```/benchmark_logs/paddle/nlp/```), and items on x-axis are identified by name of the folders. So you can modify  ```read_all_speedups``` function to fit the benchmark settings on your demand.
 
-## Roadmap
+## 📌 Roadmap
 
 1. Scale GraphNet to 10K+ graphs.
 2. Further annotate GraphNet samples into more granular sub-categories
@@ -128,7 +128,7 @@ The script is designed to process a file structure as ```/benchmark_path/compile
 
 **Vision**: GraphNet aims to lay the foundation for [ai4c](https://github.com/PaddlePaddle/ai4c) by enabling large-scale, systematic evaluation of tensor compiler optimizations.
 
-## GraphNet Community:
+## 💬 GraphNet Community:
 
 
 You can join GraphNet community via the following group chats.
@@ -150,6 +150,6 @@ You can join GraphNet community via the following group chats.
 
 
 
-##  License
+## 🪪 License
 This project is released under the [MIT License](LICENSE).
 

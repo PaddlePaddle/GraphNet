@@ -75,8 +75,6 @@ python -m graph_net.torch.validate \
 
 ## Compiler Evaluation
 
-**Demo: How to benchmark your compiler on the model:**
-
 **Step 1: Benchmark**
 
 We use ```graph_net/benchmark_demo.sh``` to benchmark GraphNet computation graph samples:

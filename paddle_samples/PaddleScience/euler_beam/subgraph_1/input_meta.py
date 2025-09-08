@@ -2,10 +2,8 @@ class Program_weight_tensor_data_0:
     name = "data_0"
     shape = [100, 1]
     dtype = "float32"
-    min_val = 0
-    max_val = 0.5
-    mean = None
-    std = None
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -13,10 +11,8 @@ class Program_weight_tensor_data_1:
     name = "data_1"
     shape = [100, 1]
     dtype = "float32"
-    min_val = 0
-    max_val = 0.5
-    mean = None
-    std = None
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -38,10 +34,8 @@ class Program_weight_tensor_data_4:
     name = "data_4"
     shape = [100, 1]
     dtype = "float32"
-    min_val = 0
-    max_val = 0.5
-    mean = None
-    std = None
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 

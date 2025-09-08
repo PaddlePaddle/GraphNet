@@ -48,7 +48,7 @@ python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/resnet18
 ```
 
-**graph_net.torch.extract**
+**Step 1: graph_net.torch.extract**
 
 ```python
 import graph_net
@@ -65,7 +65,7 @@ model = graph_net.torch.extract(name="model_name")(model)
 
 For details, see docstring of `graph_net.torch.extract` defined in `graph_net/torch/extractor.py`
 
-**graph_net.torch.validate**
+**Step 2: graph_net.torch.validate**
 ```
 # Verify that the extracted model meets requirements
 python -m graph_net.torch.validate \

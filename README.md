@@ -97,7 +97,7 @@ python -m graph_net.torch.test_compiler \
 # Note: if --compiler is omitted, PyTorch’s built-in compiler is used by default
 ```
 
-After that, ```graph_net.torch.test_compiler``` will process as below:
+After executing, ```graph_net.torch.test_compiler``` will:
 1. Running the original model in eager mode to record a baseline.
 2. Compiling the model with the specified backend (e.g., CINN, TorchInductor, TVM).
 3. Executing the compiled model and collecting its runtime and outputs.

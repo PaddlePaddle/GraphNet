@@ -126,7 +126,7 @@ The script is designed to process a file structure as ```/benchmark_path/compile
 3. Extract samples from multi-GPU scenarios to support benchmarking and optimization for large-scale, distributed computing.
 4. Enable splitting full graphs into independently optimized subgraphs and operator sequences.
 
-**Vision**: GraphNet aims to lay the foundation for ai4c by enabling large-scale, systematic evaluation of tensor compiler optimizations.
+**Vision**: GraphNet aims to lay the foundation for [ai4c](https://github.com/PaddlePaddle/ai4c) by enabling large-scale, systematic evaluation of tensor compiler optimizations.
 
 ## GraphNet Community:
 

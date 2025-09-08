@@ -33,7 +33,7 @@ We provide automated extraction and validation tools for constructing this datas
 
 
 **Demo: Extract & Validate ResNet‑18**
-```
+```bash
 git clone https://github.com/PaddlePaddle/GraphNet.git
 cd GraphNet
 
@@ -50,7 +50,7 @@ python -m graph_net.torch.validate \
 
 **Step 1: graph_net.torch.extract**
 
-```python
+```bash
 import graph_net
 
 # Instantiate the model (e.g. a torchvision model)
@@ -66,7 +66,7 @@ model = graph_net.torch.extract(name="model_name")(model)
 For details, see docstring of `graph_net.torch.extract` defined in `graph_net/torch/extractor.py`
 
 **Step 2: graph_net.torch.validate**
-```
+```bash
 # Verify that the extracted model meets requirements
 python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
@@ -79,7 +79,7 @@ python -m graph_net.torch.validate \
 
 We use ```graph_net/benchmark_demo.sh``` to benchmark GraphNet computation graph samples:
 
-```
+```bash
 bash graph_net/benchmark_demo.sh &
 ```
 
@@ -87,7 +87,7 @@ The script runs ```graph_net.torch.test_compiler``` with specific batch and log 
 
 Or you can customize and use ```graph_net.torch.test_compiler``` yourself:
 
-```
+```bash
 python -m graph_net.torch.test_compiler \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name/ \
   --compiler /path/to/custom/compiler/ \
@@ -105,7 +105,7 @@ After executing, ```graph_net.torch.test_compiler``` will:
 
 After processing, we provide ```graph_net/analysis.py``` to generate [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on the JSON results.
 
-```
+```bash
 python -m graph_net.analysis \
   --benchmark-path /path/to/read/JSON/result/file/ \
   --output-dir /path/to/save/output/figures/
@@ -122,7 +122,7 @@ The script is designed to process a file structure as ```/benchmark_path/compile
 3. Extract samples from multi-GPU scenarios to support benchmarking and optimization for large-scale, distributed computing.
 4. Enable splitting full graphs into independently optimized subgraphs and operator sequences.
 
-**Vision**: GraphNet aims to lay the foundation for AI4C by enabling large-scale, systematic evaluation of tensor compiler optimizations.
+**Vision**: GraphNet aims to lay the foundation for ai4c by enabling large-scale, systematic evaluation of tensor compiler optimizations.
 
 ## GraphNet Community:
 

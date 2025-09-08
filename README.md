@@ -33,14 +33,14 @@ git clone https://github.com/PaddlePaddle/GraphNet.git
 cd GraphNet
 
 # Set your workspace directory
-export GRAPH_NET_EXTRACT_WORKSPACE=/home/yourname/graphnet_workspace
+export GRAPH_NET_EXTRACT_WORKSPACE=/home/yourname/graphnet_workspace/
 
 # Extract the ResNet‑18 computation graph
 python graph_net/test/vision_model_test.py
 
-# Validate the extracted graph (e.g. /home/yourname/graphnet_workspace/resnet18)
+# Validate the extracted graph (e.g. /home/yourname/graphnet_workspace/resnet18/)
 python -m graph_net.torch.validate \
-  --model-path $GRAPH_NET_EXTRACT_WORKSPACE/resnet18
+  --model-path $GRAPH_NET_EXTRACT_WORKSPACE/resnet18/
 ```
 
 **Step 1: graph_net.torch.extract**
@@ -55,7 +55,7 @@ model = ...
 model = graph_net.torch.extract(name="model_name")(model)
 
 # After running, the extracted graph will be saved to:
-#   $GRAPH_NET_EXTRACT_WORKSPACE/model_name
+#   $GRAPH_NET_EXTRACT_WORKSPACE/model_name/
 ```
 
 For details, see docstring of `graph_net.torch.extract` defined in `graph_net/torch/extractor.py`

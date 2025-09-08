@@ -1,6 +1,5 @@
 # GraphNet  ![](https://img.shields.io/badge/version-v0.1-brightgreen) ![](https://img.shields.io/github/issues/PaddlePaddle/GraphNet?label=open%20issues)    [![](https://img.shields.io/badge/Contribute%20to%20GraphNet-blue)](https://github.com/PaddlePaddle/GraphNet/issues/98)
 
-
 **GraphNet** is a large-scale dataset of deep learning **computation graphs**, built as a standard benchmark for **tensor compiler** optimization. It provides 2.7K computation graphs extracted from state-of-the-art deep learning models spanning diverse tasks and ML frameworks. With standardized formats and rich metadata, GraphNet enables fair comparison and reproducible evaluation of the general optimization capabilities of tensor compilers, thereby supporting advanced research such as AI for System on compilers ([**ai4c**](https://github.com/PaddlePaddle/ai4c)).
 
 <br>
@@ -9,8 +8,6 @@
 </div>
 
 Compiler developers can use GraphNet samples to evaluate tensor compilers (e.g., CINN, TorchInductor, TVM) on target tasks. The figure above shows the speedup of two compilers (CINN and TorchInductor) across two tasks (CV and NLP).
-
-
 
 ## 🧱 Dataset Construction
 
@@ -22,7 +19,6 @@ To guarantee the dataset’s overall quality, reproducibility, and cross-compile
 4. Operator names within each computation graph must be statically parseable.
 5. If custom operators are used, their implementation code must be fully accessible.
 
-
 ### Graph Extraction & Validation
 
 We provide automated extraction and validation tools for constructing this dataset.
@@ -30,7 +26,6 @@ We provide automated extraction and validation tools for constructing this datas
 <div align="center">
 <img src="/pics/graphnet_overview.jpg" alt="GraphNet Architecture Overview" width="65%">
 </div>
-
 
 **Demo: Extract & Validate ResNet‑18**
 ```bash
@@ -71,7 +66,6 @@ For details, see docstring of `graph_net.torch.extract` defined in `graph_net/to
 python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
-
 
 ## ⚖️ Compiler Evaluation
 
@@ -115,7 +109,7 @@ python -m graph_net.analysis \
   --output-dir /path/to/save/output/figures/
 ```
 
-After executing, one summary plot of results on all compilers (as shown in "Evaluation Results Example"), as well as multiple sub-plots of results in categories (model tasks, Library...) on a single compiler. 
+After executing, one summary plot of results on all compilers, as well as multiple sub-plots of results in categories (model tasks, Library...) on a single compiler will be exported. 
 
 The script is designed to process a file structure as ```/benchmark_path/compiler_name/category_name/``` (for example ```/benchmark_logs/paddle/nlp/```), and items on x-axis are identified by name of the folders. So you can modify  ```read_all_speedups``` function to fit the benchmark settings on your demand.
 
@@ -130,9 +124,7 @@ The script is designed to process a file structure as ```/benchmark_path/compile
 
 ## 💬 GraphNet Community:
 
-
 You can join GraphNet community via the following group chats.
-
 
 <div align="center">
 <table>
@@ -148,8 +140,5 @@ You can join GraphNet community via the following group chats.
 </table>
 </div>
 
-
-
 ## 🪪 License
 This project is released under the [MIT License](LICENSE).
-

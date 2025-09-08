@@ -113,7 +113,7 @@ After executing, one summary plot of results on all compilers, as well as multip
 
 The script is designed to process a file structure as ```/benchmark_path/compiler_name/category_name/``` (for example ```/benchmark_logs/paddle/nlp/```), and items on x-axis are identified by name of the folders. So you can modify  ```read_all_speedups``` function to fit the benchmark settings on your demand.
 
-## 📌 Upcoming Roadmap
+## 📌 Roadmap
 
 1. Scale GraphNet to 10K+ graphs.
 2. Further annotate GraphNet samples into more granular sub-categories
@@ -124,7 +124,7 @@ The script is designed to process a file structure as ```/benchmark_path/compile
 
 ## 💬 GraphNet Community
 
-You can join GraphNet community via the following group chats. Welcome to ask any questions about using and building GraphNet.
+You can join our community via the following group chats. Welcome to ask any questions about using and building GraphNet.
 
 <div align="center">
 <table>

@@ -122,7 +122,7 @@ The script is designed to process a file structure as ```/benchmark_path/compile
 
 **Vision**: GraphNet aims to lay the foundation for [ai4c](https://github.com/PaddlePaddle/ai4c) by enabling large-scale, systematic evaluation of tensor compiler optimizations.
 
-## 💬 GraphNet Community:
+## 💬 GraphNet Community
 
 You can join GraphNet community via the following group chats.
 

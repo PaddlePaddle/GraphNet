@@ -87,17 +87,44 @@ We define two key metrics here: **rectified speedup** and **GraphNet Score**. Re
 
 **Demo: How to benchmark your compiler on the model:**
 
+1. Benchmark
+
+We use ```graph_net/benchmark_demo.sh``` to benchmark GraphNet computation graph samples:
+
+```
+bash graph_net/benchmark_demo.sh &
+```
+
+The script will run ```graph_net.torch.test_compiler``` with specific batch and log configurations.
+
+Or you can customize and use ```graph_net.torch.test_compiler``` yourself:
+
 ```
 python3 -m graph_net.torch.test_compiler \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name/ \
-  --compiler /path/to/custom/compiler 
+  --compiler /path/to/custom/compiler/ \
+  --output-dir /path/to/save/JSON/result/file/
 # Note: if --compiler is omitted, PyTorch’s built-in compiler is used by default
 ```
+
+2. Analysis
+
+After processing, we provide ```graph_net/analysis.py``` to generate [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on the JSON results.
+
+```
+python3 graph_net/analysis.py \
+  --benchmark-path /path/to/read/JSON/result/file/ \
+  --output-dir /path/to/save/output/figures/
+```
+
+After executing, one summary plot of results on all compilers (as shown below in "Evaluation Results Example"), as well as multiple sub-plots of results in categories (model tasks, Library...) on a single compiler. 
+
+The script is designed to process a file structure as ```/benchmark_path/compiler_name/category_name/``` (for example ```/benchmark_logs/paddle/nlp/```), and items on x-axis are identified by name of the folders. So you can modify  ```read_all_speedups``` function to fit the benchmark settings on your demand.
 
 ### Evaluation Results Example
 
 <div align="center">
-<img src="/pics/Eval_result.jpg" alt="Violin plots of rectified speedup distributions" width="65%">
+<img src="/pics/Eval_result.png" alt="Violin plots of rectified speedup distributions" width="65%">
 </div>
 
 

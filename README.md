@@ -43,7 +43,17 @@ python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/resnet18/
 ```
 
+**Illustration: How does GraphNet extract and construct a computation graph sample on PyTorch?**
+
+<div align="center">
+<img src="/pics/graphnet_sample.png" alt="GraphNet Extract Sample" width="65%">
+</div>
+
+* Source code of custom_op is required **only when** corresponding operator is used in the module, and **no specific format** is required.
+
 **Step 1: graph_net.torch.extract**
+
+Import and wrap the model with `graph_net.torch.extract(name=model_name, dynamic=dynamic_mode)()` is all you need:
 
 ```bash
 import graph_net
@@ -52,34 +62,37 @@ import graph_net
 model = ...  
 
 # Extract your own model
-model = graph_net.torch.extract(name="model_name")(model)
-
-# After running, the extracted graph will be saved to:
-#   $GRAPH_NET_EXTRACT_WORKSPACE/model_name/
+model = graph_net.torch.extract(name="model_name", dynamic="True")(model)
 ```
 
-For details, see docstring of `graph_net.torch.extract` defined in `graph_net/torch/extractor.py`
+After running, the extracted graph will be saved to: `$GRAPH_NET_EXTRACT_WORKSPACE/model_name/`.
+
+For more details, see docstring of `graph_net.torch.extract` defined in `graph_net/torch/extractor.py`.
 
 **Step 2: graph_net.torch.validate**
+
+To verify that the extracted model meets requirements, we use `graph_net.torch.validate` in CI tool and also ask contributors to self-check in advance:
+
 ```bash
-# Verify that the extracted model meets requirements
 python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
+
+All the **construction constraints** will be examined automatically. After passing validation, a unique `graph_hash.txt` will be generated and later checked in CI procedure to avoid redundant.
 
 ## ⚖️ Compiler Evaluation
 
 **Step 1: Benchmark**
 
-We use ```graph_net/benchmark_demo.sh``` to benchmark GraphNet computation graph samples:
+We use `graph_net/benchmark_demo.sh` to benchmark GraphNet computation graph samples:
 
 ```bash
 bash graph_net/benchmark_demo.sh &
 ```
 
-The script runs ```graph_net.torch.test_compiler``` with specific batch and log configurations.
+The script runs `graph_net.torch.test_compiler` with specific batch and log configurations.
 
-Or you can customize and use ```graph_net.torch.test_compiler``` yourself:
+Or you can customize and use `graph_net.torch.test_compiler` yourself:
 
 ```bash
 python -m graph_net.torch.test_compiler \
@@ -93,7 +106,7 @@ python -m graph_net.torch.test_compiler \
 # Note: if --compiler is omitted, PyTorch’s built-in compiler is used by default
 ```
 
-After executing, ```graph_net.torch.test_compiler``` will:
+After executing, `graph_net.torch.test_compiler` will:
 1. Running the original model in eager mode to record a baseline.
 2. Compiling the model with the specified backend (e.g., CINN, TVM, Inductor, TensorRT, XLA, BladeDISC).
 3. Executing the compiled model and collecting its runtime and outputs.
@@ -101,7 +114,7 @@ After executing, ```graph_net.torch.test_compiler``` will:
 
 **Step 2: Analysis**
 
-After processing, we provide ```graph_net/analysis.py``` to generate [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on the JSON results.
+After processing, we provide `graph_net/analysis.py` to generate [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on the JSON results.
 
 ```bash
 python -m graph_net.analysis \
@@ -111,7 +124,7 @@ python -m graph_net.analysis \
 
 After executing, one summary plot of results on all compilers, as well as multiple sub-plots of results in categories (model tasks, Library...) on a single compiler will be exported. 
 
-The script is designed to process a file structure as ```/benchmark_path/compiler_name/category_name/``` (for example ```/benchmark_logs/paddle/nlp/```), and items on x-axis are identified by name of the folders. So you can modify  ```read_all_speedups``` function to fit the benchmark settings on your demand.
+The script is designed to process a file structure as `/benchmark_path/compiler_name/category_name/` (for example `/benchmark_logs/paddle/nlp/`), and items on x-axis are identified by name of the folders. So you can modify  `read_all_speedups` function to fit the benchmark settings on your demand.
 
 ## 📌 Roadmap
 
@@ -120,7 +133,7 @@ The script is designed to process a file structure as ```/benchmark_path/compile
 3. Extract samples from multi-GPU scenarios to support benchmarking and optimization for large-scale, distributed computing.
 4. Enable splitting full graphs into independently optimized subgraphs and operator sequences.
 
-**Vision**: GraphNet aims to lay the foundation for [ai4c](https://github.com/PaddlePaddle/ai4c) by enabling large-scale, systematic evaluation of tensor compiler optimizations.
+**Vision**: GraphNet aims to lay the foundation for [ai4c](https://github.com/PaddlePaddle/ai4c) by enabling **large-scale, systematic evaluation** of tensor compiler optimizations, and providing a **dataset for models to learn** and transfer optimization strategies.
 
 ## 💬 GraphNet Community
 

@@ -90,8 +90,12 @@ Or you can customize and use ```graph_net.torch.test_compiler``` yourself:
 ```bash
 python -m graph_net.torch.test_compiler \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name/ \
-  --compiler /path/to/custom/compiler/ \
+  --compiler /custom/or/builtin/compiler/ \
+  --warmup /times/to/warmup/ \
+  --trials /times/to/test/ \
+  --device /device/to/execute/ \
   --output-dir /path/to/save/JSON/result/file/
+
 # Note: if --compiler is omitted, PyTorch’s built-in compiler is used by default
 ```
 

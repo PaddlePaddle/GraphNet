@@ -15,8 +15,7 @@ def temp_workspace():
         os.environ["GRAPH_NET_EXTRACT_WORKSPACE"] = old
 
 
-def main(args):
-    model_path = args.model_path
+def validate(args, model_path):
     with temp_workspace() as tmp_dir_name:
         print("Check extractability ...")
         cmd = f"{sys.executable} -m graph_net.torch.single_device_runner --model-path {model_path}"
@@ -36,14 +35,44 @@ def main(args):
                 if args.graph_net_samples_path is None
                 else args.graph_net_samples_path
             )
-            cmd = f"{sys.executable} -m graph_net.torch.check_redundant_incrementally --model-path {args.model_path} --graph-net-samples-path {graph_net_samples_path}"
+            cmd = f"{sys.executable} -m graph_net.torch.check_redundant_incrementally --model-path {model_path} --graph-net-samples-path {graph_net_samples_path}"
             cmd_ret = os.system(cmd)
-            rm_cmd = f"{sys.executable} -m graph_net.torch.remove_redundant_incrementally --model-path {args.model_path} --graph-net-samples-path {graph_net_samples_path}"
+            rm_cmd = f"{sys.executable} -m graph_net.torch.remove_redundant_incrementally --model-path {model_path} --graph-net-samples-path {graph_net_samples_path}"
             assert (
                 cmd_ret == 0
             ), f"\nPlease use the following command to remove redundant model directories:\n\n{rm_cmd}\n"
 
         print(f"Validation success, {model_path=}")
+
+
+def get_recursively_model_path(root_dir):
+    for sub_dir in get_immediate_subdirectory_paths(root_dir):
+        if is_single_model_dir(sub_dir):
+            yield sub_dir
+        else:
+            yield from get_recursively_model_path(sub_dir)
+
+
+def get_immediate_subdirectory_paths(parent_dir):
+    return [
+        sub_dir
+        for name in os.listdir(parent_dir)
+        for sub_dir in [os.path.join(parent_dir, name)]
+        if os.path.isdir(sub_dir)
+    ]
+
+
+def is_single_model_dir(model_dir):
+    return os.path.isfile(f"{model_dir}/graph_net.json")
+
+
+def main(args):
+    model_path = args.model_path
+    if is_single_model_dir(args.model_path):
+        validate(args, model_path)
+    else:
+        for model_path in get_recursively_model_path(args.model_path):
+            validate(args, model_path)
 
 
 if __name__ == "__main__":

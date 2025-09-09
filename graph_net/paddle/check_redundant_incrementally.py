@@ -49,14 +49,15 @@ def main(args):
     find_redundant = False
     graph_hash2graph_net_model_path = {}
     for model_path in get_recursively_model_pathes(args.graph_net_samples_path):
-        graph_hash_path = f"{model_path}/graph_hash.txt"
-        if os.path.isfile(graph_hash_path):
-            graph_hash = open(graph_hash_path).read()
-            if graph_hash not in graph_hash2graph_net_model_path.keys():
-                graph_hash2graph_net_model_path[graph_hash] = [graph_hash_path]
-            else:
-                find_redundant = True
-                graph_hash2graph_net_model_path[graph_hash].append(graph_hash_path)
+        if args.model_path is None or args.model_path != model_path:
+            graph_hash_path = f"{model_path}/graph_hash.txt"
+            if os.path.isfile(graph_hash_path):
+                graph_hash = open(graph_hash_path).read()
+                if graph_hash not in graph_hash2graph_net_model_path.keys():
+                    graph_hash2graph_net_model_path[graph_hash] = [graph_hash_path]
+                else:
+                    find_redundant = True
+                    graph_hash2graph_net_model_path[graph_hash].append(graph_hash_path)
     print(
         f"Totally {len(graph_hash2graph_net_model_path)} unique samples under {args.graph_net_samples_path}."
     )

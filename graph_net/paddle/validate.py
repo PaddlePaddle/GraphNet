@@ -52,16 +52,20 @@ def check_graph_hash(args):
         model_str = _extract_forward_source(model_path)
         assert model_str is not None, f"model_str of {args.model_path} is None."
         new_hash_text = _get_sha_hash(model_str)
+
+        old_hash_text = None
         if os.path.exists(file_path):
             with open(file_path, "r") as f:
                 old_hash_text = f.read()
-                assert (
-                    new_hash_text == old_hash_text
-                ), f"Hash value for {model_path} is not consistent."
-        else:
+
+        if old_hash_text is None or new_hash_text != old_hash_text:
             print(f"Writing to {file_path}.")
             with open(file_path, "w") as f:
                 f.write(new_hash_text)
+            if old_hash_text is not None:
+                assert (
+                    new_hash_text == old_hash_text
+                ), f"Hash value for {model_path} is not consistent."
     else:
         assert os.path.exists(file_path), f"{file_path} does not exist."
 

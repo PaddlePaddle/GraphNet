@@ -1,6 +1,0 @@
-{
-    "framework": "paddle",
-    "model_name": "rocketqa-zh-dureader-cross-encoder",
-    "num_devices_required": 1,
-    "num_nodes_required": 1
-}

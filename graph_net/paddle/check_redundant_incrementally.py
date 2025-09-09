@@ -60,16 +60,19 @@ def main(args):
     print(
         f"Totally {len(graph_hash2graph_net_model_path)} unique samples under {args.graph_net_samples_path}."
     )
-    for graph_hash, graph_paths in graph_hash2graph_net_model_path.items():
-        if len(graph_paths) > 1:
-            print(f"Redundant models detected for grap_hash {graph_hash}:")
-            for model_path in graph_paths:
-                print(f"    {model_path}")
-    assert (
-        not find_redundant
-    ), f"Redundant models detected under {args.graph_net_samples_path}."
 
-    if args.model_path:
+    if not args.model_path:
+        # Check whether there are redundant samples under samples directory.
+        for graph_hash, graph_paths in graph_hash2graph_net_model_path.items():
+            if len(graph_paths) > 1:
+                print(f"Redundant models detected for grap_hash {graph_hash}:")
+                for model_path in graph_paths:
+                    print(f"    {model_path}")
+        assert (
+            not find_redundant
+        ), f"Redundant models detected under {args.graph_net_samples_path}."
+    else:
+        # Check whether the specified model is redundant.
         assert os.path.isdir(
             args.model_path
         ), f"args.model_path {args.model_path} is not a directory!"

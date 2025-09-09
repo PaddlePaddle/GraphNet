@@ -1,0 +1,6 @@
+{
+    "framework": "paddle",
+    "model_name": "PP-ShiTuV2_rec_CLIP_vit_large",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
+}

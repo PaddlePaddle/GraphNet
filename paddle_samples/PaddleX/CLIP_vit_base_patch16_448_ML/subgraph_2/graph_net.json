@@ -1,0 +1,6 @@
+{
+    "framework": "paddle",
+    "model_name": "CLIP_vit_base_patch16_448_ML",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
+}

@@ -1,6 +1,0 @@
-{
-    "framework": "paddle",
-    "model_name": "PP-OCRv4_mobile_seal_det",
-    "num_devices_required": 1,
-    "num_nodes_required": 1
-}

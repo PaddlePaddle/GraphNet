@@ -87,7 +87,7 @@ function check_torch_validation() {
   fail_name=()
   for model_path in ${MODIFIED_MODEL_PATHS[@]}
   do
-    python -m graph_net.torch.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} --graph-net-samples-path ${GRAPH_NET_EXTRACT_WORKSPACE}/samples >&2
+    python -m graph_net.torch.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} >&2
     [ $? -ne 0 ] && fail_name[${#fail_name[@]}]="${model_path}"
   done
   local failed_cnt=${#fail_name[@]}
@@ -121,7 +121,7 @@ function check_paddle_validation() {
   fail_name=()
   for model_path in ${MODIFIED_MODEL_PATHS[@]}
   do
-    python -m graph_net.paddle.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} --graph-net-samples-path ${GRAPH_NET_EXTRACT_WORKSPACE}/samples >&2
+    python -m graph_net.paddle.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} >&2
     [ $? -ne 0 ] && fail_name[${#fail_name[@]}]="${model_path}"
   done
   local failed_cnt=${#fail_name[@]}

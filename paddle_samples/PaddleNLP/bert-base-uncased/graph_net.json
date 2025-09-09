@@ -1,6 +1,0 @@
-{
-    "framework": "paddle",
-    "model_name": "bert-base-uncased",
-    "num_devices_required": 1,
-    "num_nodes_required": 1
-}

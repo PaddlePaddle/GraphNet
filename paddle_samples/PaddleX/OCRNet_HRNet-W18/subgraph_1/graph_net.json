@@ -1,6 +1,0 @@
-{
-    "framework": "paddle",
-    "model_name": "OCRNet_HRNet-W18",
-    "num_devices_required": 1,
-    "num_nodes_required": 1
-}

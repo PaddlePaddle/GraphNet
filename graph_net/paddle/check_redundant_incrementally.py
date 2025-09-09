@@ -43,26 +43,46 @@ def is_single_model_dir(model_dir):
 
 
 def main(args):
-    assert os.path.isdir(args.model_path)
-    assert os.path.isdir(args.graph_net_samples_path)
-    current_model_graph_hash_pathes = set(
-        graph_hash_path
-        for model_path in get_recursively_model_pathes(args.model_path)
-        for graph_hash_path in [f"{model_path}/graph_hash.txt"]
+    assert os.path.isdir(
+        args.graph_net_samples_path
+    ), f"args.graph_net_samples_path ({args.graph_net_samples_path}) is not a directory!"
+    find_redundant = False
+    graph_hash2graph_net_model_path = {}
+    for model_path in get_recursively_model_pathes(args.graph_net_samples_path):
+        graph_hash_path = f"{model_path}/graph_hash.txt"
+        if os.path.isfile(graph_hash_path):
+            graph_hash = open(graph_hash_path).read()
+            if graph_hash not in graph_hash2graph_net_model_path.keys():
+                graph_hash2graph_net_model_path[graph_hash] = [graph_hash_path]
+            else:
+                find_redundant = True
+                graph_hash2graph_net_model_path[graph_hash].append(graph_hash_path)
+    print(
+        f"Totally {len(graph_hash2graph_net_model_path)} unique samples under {args.graph_net_samples_path}."
     )
-    graph_hash2graph_net_model_path = {
-        graph_hash: graph_hash_path
-        for model_path in get_recursively_model_pathes(args.graph_net_samples_path)
-        for graph_hash_path in [f"{model_path}/graph_hash.txt"]
-        if os.path.isfile(graph_hash_path)
-        if graph_hash_path not in current_model_graph_hash_pathes
-        for graph_hash in [open(graph_hash_path).read()]
-    }
-    for current_model_graph_hash_path in current_model_graph_hash_pathes:
-        graph_hash = open(current_model_graph_hash_path).read()
-        assert (
-            graph_hash not in graph_hash2graph_net_model_path
-        ), f"Redundant models detected. old-model-path:{current_model_graph_hash_path}, new-model-path:{graph_hash2graph_net_model_path[graph_hash]}."
+    for graph_hash, graph_paths in graph_hash2graph_net_model_path.items():
+        if len(graph_paths) > 1:
+            print(f"Redundant models detected for grap_hash {graph_hash}:")
+            for model_path in graph_paths:
+                print(f"    {model_path}")
+    assert (
+        not find_redundant
+    ), f"Redundant models detected under {args.graph_net_samples_path}."
+
+    if args.model_path:
+        assert os.path.isdir(
+            args.model_path
+        ), f"args.model_path {args.model_path} is not a directory!"
+        current_model_graph_hash_pathes = set(
+            graph_hash_path
+            for model_path in get_recursively_model_pathes(args.model_path)
+            for graph_hash_path in [f"{model_path}/graph_hash.txt"]
+        )
+        for current_model_graph_hash_path in current_model_graph_hash_pathes:
+            graph_hash = open(current_model_graph_hash_path).read()
+            assert (
+                graph_hash not in graph_hash2graph_net_model_path
+            ), f"Redundant models detected. old-model-path:{current_model_graph_hash_path}, new-model-path:{graph_hash2graph_net_model_path[graph_hash]}."
 
 
 if __name__ == "__main__":
@@ -70,15 +90,15 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model-path",
         type=str,
-        required=True,
+        required=False,
         help="Path to model file(s), each subdirectory containing graph_net.json will be regarded as a model",
     )
     parser.add_argument(
         "--graph-net-samples-path",
         type=str,
-        required=False,
-        default="default",
+        required=True,
         help="Path to GraphNet samples",
     )
     args = parser.parse_args()
+    print(args)
     main(args=args)

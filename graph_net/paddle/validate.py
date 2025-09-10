@@ -12,6 +12,7 @@ import numpy as np
 import graph_net
 import os
 import ast
+import astor
 import paddle
 
 
@@ -29,7 +30,7 @@ def _get_sha_hash(content):
     return m.hexdigest()
 
 
-def _extract_forward_source(model_path):
+def _extract_forward_source(model_path, class_name):
     source = None
     with open(f"{model_path}/model.py", "r") as f:
         source = f.read()
@@ -38,10 +39,10 @@ def _extract_forward_source(model_path):
     forward_code = None
 
     for node in tree.body:
-        if isinstance(node, ast.ClassDef) and node.name == "GraphModule":
+        if isinstance(node, ast.ClassDef) and node.name == class_name:
             for fn in node.body:
                 if isinstance(fn, ast.FunctionDef) and fn.name == "forward":
-                    return ast.unparse(fn)
+                    return astor.to_source(fn)
     return None
 
 
@@ -49,7 +50,7 @@ def check_graph_hash(args):
     model_path = args.model_path
     file_path = f"{model_path}/graph_hash.txt"
     if args.dump_graph_hash_key:
-        model_str = _extract_forward_source(model_path)
+        model_str = _extract_forward_source(model_path, class_name="GraphModule")
         assert model_str is not None, f"model_str of {args.model_path} is None."
         new_hash_text = _get_sha_hash(model_str)
 

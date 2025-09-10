@@ -37,6 +37,7 @@ function prepare_torch_env() {
     LOG "[INFO] Update pip ..."
     env http_proxy="" https_proxy="" pip install -U pip > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
+    pip install astor
     # install torch
     pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu118 > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Install torch2.6.0 failed!" && exit -1
@@ -56,7 +57,7 @@ function prepare_paddle_env() {
     env http_proxy="" https_proxy="" pip install -U pip > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
     # install paddle
-    pip uninstall torch==2.7.0 --yes
+    pip install astor
     LOG "[INFO] Install paddlepaddle-develop ..."
     python -m pip install --pre paddlepaddle-gpu -i https://www.paddlepaddle.org.cn/packages/nightly/cu118/ > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Install paddlepaddle-develop failed!" && exit -1

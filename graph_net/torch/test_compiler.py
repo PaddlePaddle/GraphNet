@@ -276,7 +276,7 @@ def test_single_model(args):
     e2e_speedup = 0
     gpu_speedup = 0
     if failure:
-        result_data["performance"]["fail"] = "True"
+        result_data["performance"]["failure"] = "True"
         print(
             f"{args.log_prompt} [Fail due to compile error or datatype do not match.",
             file=sys.stderr,

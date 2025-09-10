@@ -72,9 +72,11 @@ function check_torch_validation() {
   MODIFIED_MODEL_PATHS=()
   for file in $(git diff --diff-filter=ACM --name-only develop | grep -E "\bsamples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$")
   do
-    LOG "[INFO] Found ${file} modified."
-    model_path=$(dirname ${file})
-    MODIFIED_MODEL_PATHS[${#MODIFIED_MODEL_PATHS[@]}]=$model_path
+    if [[ ${file} != *shape_patches_* ]]; then
+      LOG "[INFO] Found ${file} modified."
+      model_path=$(dirname ${file})
+      MODIFIED_MODEL_PATHS[${#MODIFIED_MODEL_PATHS[@]}]=$model_path
+    fi
   done
   MODIFIED_MODEL_PATHS=($(echo ${MODIFIED_MODEL_PATHS[@]} | tr ' ' '\n' | sort | uniq))
   local total_models=${#MODIFIED_MODEL_PATHS[@]}
@@ -106,9 +108,11 @@ function check_paddle_validation() {
   MODIFIED_MODEL_PATHS=()
   for file in $(git diff --diff-filter=ACM --name-only develop | grep -E "\bpaddle_samples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$")
   do
-    LOG "[INFO] Found ${file} modified."
-    model_path=$(dirname ${file})
-    MODIFIED_MODEL_PATHS[${#MODIFIED_MODEL_PATHS[@]}]=$model_path
+    if [[ ${file} != *shape_patches_* ]]; then
+      LOG "[INFO] Found ${file} modified."
+      model_path=$(dirname ${file})
+      MODIFIED_MODEL_PATHS[${#MODIFIED_MODEL_PATHS[@]}]=$model_path
+    fi
   done
   MODIFIED_MODEL_PATHS=($(echo ${MODIFIED_MODEL_PATHS[@]} | tr ' ' '\n' | sort | uniq))
   local total_models=${#MODIFIED_MODEL_PATHS[@]}

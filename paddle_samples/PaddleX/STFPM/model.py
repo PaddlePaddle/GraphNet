@@ -790,7 +790,7 @@ class GraphModule(paddle.nn.Layer):
         conv2d_17 = paddle._C_ops.conv2d(
             relu_0, parameter_14, [2, 2], [0, 0], "EXPLICIT", [1, 1], 1, "NCHW"
         )
-        del parameter_14, relu_0
+        del parameter_14
 
         # pd_op.batch_norm_: (1x512x8x8xf32, 512xf32, 512xf32, 512xf32, 512xf32, -1xui8) <- (1x512x8x8xf32, 512xf32, 512xf32, 512xf32, 512xf32)
         (

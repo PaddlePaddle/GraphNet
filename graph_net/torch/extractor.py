@@ -10,11 +10,71 @@ torch._dynamo.config.capture_dynamic_output_shape_ops = True
 
 def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=False):
     """
-    A decorator for PyTorch functions to capture the computation graph.
+    Extract computation graphs from PyTorch nn.Module.
+    The extracted computation graphs will be saved into directory of env var $GRAPH_NET_EXTRACT_WORKSPACE.
 
     Args:
         name (str): The name of the model, used as the directory name for saving.
         dynamic (bool): Enable dynamic shape support in torch.compile.
+
+    Returns:
+        wrapper or decorector
+
+    Examples:
+        >>> # wrapper style:
+        >>> from graph_net.torch.extractor import extract
+        >>> import torch
+        >>> import os
+        >>> class Foo(torch.nn.Module):
+        ...     def forward(self, x):
+        ...         return x * 2 + 1
+        ...
+        >>> os.environ['GRAPH_NET_EXTRACT_WORKSPACE'] = '/tmp'
+        >>> foo = extract("foo")(Foo())
+        >>> foo(torch.tensor([1, 2, 3]))
+        Graph and tensors for 'foo' extracted successfully to: /tmp/foo
+        tensor([3, 5, 7])
+        >>> print(open('/tmp/foo/model.py').read())
+        import torch
+
+        class GraphModule(torch.nn.Module):
+
+
+
+            def forward(self, s0 : torch.SymInt, L_x_ : torch.Tensor):
+                l_x_ = L_x_
+                mul = l_x_ * 2;  l_x_ = None
+                add = mul + 1;  mul = None
+                return (add,)
+
+        >>> # decorator style:
+        >>> from graph_net.torch.extractor import extract
+        >>> import torch
+        >>> import os
+        >>> os.environ['GRAPH_NET_EXTRACT_WORKSPACE'] = '/tmp'
+        >>> @extract('bar')
+        ... class Bar(torch.nn.Module):
+        ...     def forward(self, x):
+        ...             return x * 2 + 1
+        ...
+        >>> bar = Bar()
+        >>> bar(torch.tensor([1, 2, 3]))
+        Graph and tensors for 'bar' extracted successfully to: /tmp/bar
+        tensor([3, 5, 7])
+        >>> print(open("/tmp/bar/model.py").read())
+        import torch
+
+        class GraphModule(torch.nn.Module):
+
+
+
+            def forward(self, s0 : torch.SymInt, L_x_ : torch.Tensor):
+                l_x_ = L_x_
+                mul = l_x_ * 2;  l_x_ = None
+                add = mul + 1;  mul = None
+                return (add,)
+
+        >>>
     """
 
     def wrapper(model: torch.nn.Module):
@@ -95,4 +155,20 @@ def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=Fa
 
         return compiled_model
 
-    return wrapper
+    def decorator(module_class):
+        def constructor(*args, **kwargs):
+            return wrapper(module_class(*args, **kwargs))
+
+        return constructor
+
+    def decorator_or_wrapper(obj):
+        if isinstance(obj, torch.nn.Module):
+            return wrapper(obj)
+        elif issubclass(obj, torch.nn.Module):
+            return decorator(obj)
+        else:
+            raise NotImplementedError(
+                "Only torch.nn.Module instance or subclass supported."
+            )
+
+    return decorator_or_wrapper

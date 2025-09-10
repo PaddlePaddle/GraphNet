@@ -1,0 +1,6 @@
+{
+    "framework": "paddle",
+    "model_name": "PP-LCNetV2_small",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
+}

@@ -11,7 +11,7 @@ from collections import ChainMap
 import numpy as np
 import graph_net
 import os
-import re
+import ast
 import paddle
 
 
@@ -29,29 +29,49 @@ def _get_sha_hash(content):
     return m.hexdigest()
 
 
-def _save_to_model_path(dump_dir, hash_text):
-    file_path = f"{dump_dir}/graph_hash.txt"
-    with open(file_path, "w") as f:
-        f.write(hash_text)
+def _extract_forward_source(model_path):
+    source = None
+    with open(f"{model_path}/model.py", "r") as f:
+        source = f.read()
+
+    tree = ast.parse(source)
+    forward_code = None
+
+    for node in tree.body:
+        if isinstance(node, ast.ClassDef) and node.name == "GraphModule":
+            for fn in node.body:
+                if isinstance(fn, ast.FunctionDef) and fn.name == "forward":
+                    return ast.unparse(fn)
+    return None
 
 
-def extract_from_forward_regex(text, case_sensitive=True):
-    pattern = r"forward.*"
-    flags = 0 if case_sensitive else re.IGNORECASE
+def check_graph_hash(args):
+    model_path = args.model_path
+    file_path = f"{model_path}/graph_hash.txt"
+    if args.dump_graph_hash_key:
+        model_str = _extract_forward_source(model_path)
+        assert model_str is not None, f"model_str of {args.model_path} is None."
+        new_hash_text = _get_sha_hash(model_str)
 
-    match = re.search(pattern, text, flags)
-    if match:
-        return match.group(0)
+        old_hash_text = None
+        if os.path.exists(file_path):
+            with open(file_path, "r") as f:
+                old_hash_text = f.read()
+
+        if old_hash_text is None or new_hash_text != old_hash_text:
+            print(f"Writing to {file_path}.")
+            with open(file_path, "w") as f:
+                f.write(new_hash_text)
+            if old_hash_text is not None:
+                assert (
+                    new_hash_text == old_hash_text
+                ), f"Hash value for {model_path} is not consistent."
     else:
-        raise ValueError("Erroneous case occurs.")
+        assert os.path.exists(file_path), f"{file_path} does not exist."
 
 
 def main(args):
-    model_path = args.model_path
-    with open(f"{model_path}/model.py", "r") as fp:
-        model_str = fp.read()
-        model_str = extract_from_forward_regex(model_str)
-        _save_to_model_path(model_path, _get_sha_hash(model_str))
+    check_graph_hash(args)
 
     model_path = args.model_path
     model_class = load_class_from_file(
@@ -100,17 +120,16 @@ if __name__ == "__main__":
         required=True,
         help="Path to folder e.g '../test_dataset'",
     )
-
     parser.add_argument(
         "--no-check-redundancy",
         action="store_true",
+        default=False,
         help="whether check model graph redundancy",
     )
-
     parser.add_argument(
         "--dump-graph-hash-key",
         action="store_true",
-        default=False,
+        default=True,
         help="Dump graph hash key",
     )
     parser.add_argument(

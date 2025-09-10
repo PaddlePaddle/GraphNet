@@ -16,7 +16,7 @@ export PYTHONPATH=${GRAPH_NET_EXTRACT_WORKSPACE}:$PYTHONPATH
 function check_paths_without_spaces() {
   LOG "[INFO] Checking for spaces in modified file paths..."
   git config --global --add safe.directory "*"
-  mapfile -t MODIFIED_FILES < <(git diff --name-only develop | grep -E "\bsamples\b/|\bpaddle_samples\b/")
+  mapfile -t MODIFIED_FILES < <(git diff --diff-filter=ACM --name-only develop | grep -E "\bsamples\b/|\bpaddle_samples\b/")
   
   for file in "${MODIFIED_FILES[@]}"; do
     if [[ "${file}" == *" "* ]]; then
@@ -30,7 +30,7 @@ function check_paths_without_spaces() {
 
 function prepare_torch_env() {
   git config --global --add safe.directory "*"
-  num_changed_samples=$(git diff --name-only develop | grep -E "\bsamples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$" | wc -l)
+  num_changed_samples=$(git diff --diff-filter=ACM --name-only develop | grep -E "\bsamples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$" | wc -l)
   if [ ${num_changed_samples} -ne 0 ]; then
     LOG "[INFO] Device Id: ${CUDA_VISIBLE_DEVICES}"
     # Update pip
@@ -48,7 +48,7 @@ function prepare_torch_env() {
 
 function prepare_paddle_env() {
   git config --global --add safe.directory "*"
-  num_changed_paddle_samples=$(git diff --name-only develop | grep -E "\bpaddle_samples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$" | wc -l)
+  num_changed_paddle_samples=$(git diff --diff-filter=ACM --name-only develop | grep -E "\bpaddle_samples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$" | wc -l)
   if [ ${num_changed_paddle_samples} -ne 0 ]; then
     LOG "[INFO] Device Id: ${CUDA_VISIBLE_DEVICES}"
     # Update pip
@@ -70,7 +70,7 @@ function prepare_paddle_env() {
 function check_torch_validation() {
   LOG "[INFO] Start run validate for changed torch samples ..."
   MODIFIED_MODEL_PATHS=()
-  for file in $(git diff --name-only develop | grep -E "\bsamples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$")
+  for file in $(git diff --diff-filter=ACM --name-only develop | grep -E "\bsamples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$")
   do
     LOG "[INFO] Found ${file} modified."
     model_path=$(dirname ${file})
@@ -87,7 +87,7 @@ function check_torch_validation() {
   fail_name=()
   for model_path in ${MODIFIED_MODEL_PATHS[@]}
   do
-    python -m graph_net.torch.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} --graph-net-samples-path ${GRAPH_NET_EXTRACT_WORKSPACE}/samples >&2
+    python -m graph_net.torch.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} >&2
     [ $? -ne 0 ] && fail_name[${#fail_name[@]}]="${model_path}"
   done
   local failed_cnt=${#fail_name[@]}
@@ -104,7 +104,7 @@ function check_torch_validation() {
 function check_paddle_validation() {
   LOG "[INFO] Start run validate for changed paddle samples ..."
   MODIFIED_MODEL_PATHS=()
-  for file in $(git diff --name-only develop | grep -E "\bpaddle_samples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$")
+  for file in $(git diff --diff-filter=ACM --name-only develop | grep -E "\bpaddle_samples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$")
   do
     LOG "[INFO] Found ${file} modified."
     model_path=$(dirname ${file})
@@ -121,7 +121,7 @@ function check_paddle_validation() {
   fail_name=()
   for model_path in ${MODIFIED_MODEL_PATHS[@]}
   do
-    python -m graph_net.paddle.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} --graph-net-samples-path ${GRAPH_NET_EXTRACT_WORKSPACE}/samples >&2
+    python -m graph_net.paddle.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} >&2
     [ $? -ne 0 ] && fail_name[${#fail_name[@]}]="${model_path}"
   done
   local failed_cnt=${#fail_name[@]}

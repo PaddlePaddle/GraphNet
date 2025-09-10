@@ -31,7 +31,7 @@ for package_path in "${samples_dir}"/*/; do
 
                 echo "[$(date)] FINISHED: ${package_name}/${model_name}"
             fi
-        } >> "$global_log" 2>&1 &
+        } >> "$global_log" 2>&1
     done
 done
 

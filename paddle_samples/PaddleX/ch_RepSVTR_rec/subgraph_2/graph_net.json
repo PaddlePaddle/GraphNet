@@ -1,0 +1,6 @@
+{
+    "framework": "paddle",
+    "model_name": "ch_RepSVTR_rec",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
+}

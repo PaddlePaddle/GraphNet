@@ -1,0 +1,6 @@
+{
+    "framework": "paddle",
+    "model_name": "PP-HGNetV2-B6_ML",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
+}

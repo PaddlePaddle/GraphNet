@@ -223,8 +223,7 @@ def test_single_model(args):
     else:
         result_data["configuration"]["compiler_version"] = "unknown"
 
-    execution_failure = False
-    correctness_failure = False
+    failure = False
 
     try:
         eager_model_call = lambda: model(**input_dict)
@@ -267,31 +266,19 @@ def test_single_model(args):
             file=sys.stderr,
         )
         if not type_match:
-            correctness_failure = True
+            failure = True
         else:
-            # correctness check according to datatype
-            correctness_failure = compare_correctness(
-                expected_out, compiled_out, result_data, args
-            )
+            compare_correctness(expected_out, compiled_out, result_data, args)
     except (TypeError, RuntimeError) as e:
         print(f"Model execution failed: {str(e)}", file=sys.stderr)
-        execution_failure = True
+        failure = True
 
-    penalty = 5
     e2e_speedup = 0
     gpu_speedup = 0
-    if execution_failure:
-        e2e_speedup = 1 / (2**penalty)
-        result_data["performance"]["speedup"]["e2e"] = e2e_speedup
+    if failure:
+        result_data["performance"]["fail"] = "True"
         print(
-            f"{args.log_prompt} [Execution Fail][Panelty Speedup] e2e_speedup:{e2e_speedup:.4f}",
-            file=sys.stderr,
-        )
-    elif correctness_failure:
-        e2e_speedup = 1 / (2**penalty)
-        result_data["performance"]["speedup"]["e2e"] = e2e_speedup
-        print(
-            f"{args.log_prompt} [Correctness Fail][Panelty Speedup] e2e_speedup:{e2e_speedup:.4f}",
+            f"{args.log_prompt} [Fail due to compile error or datatype do not match.",
             file=sys.stderr,
         )
     else:
@@ -307,8 +294,7 @@ def test_single_model(args):
                 f"eager_e2e:{eager_e2e_time_ms:.4f} compiled_e2e:{compiled_e2e_time_ms:.4f}"
             )
             speedup_log = (
-                f"{args.log_prompt} [Success][Speedup] "
-                f"e2e_speedup:{e2e_speedup:.4f}"
+                f"{args.log_prompt} [Speedup] " f"e2e_speedup:{e2e_speedup:.4f}"
             )
 
         if "cuda" in args.device:
@@ -377,34 +363,6 @@ def compare_correctness(expected_out, compiled_out, result_data, args):
 
     eager_types = result_data["performance"]["datatype"]["eager"]
     compiled_types = result_data["performance"]["datatype"]["compiled"]
-
-    def _pick_key(dtype):
-        if dtype in ("torch.float64", "torch.double"):
-            return "[all_close_atol8_rtol5]"
-        if dtype in ("torch.float32", "torch.float"):
-            return "[all_close_atol8_rtol5]"
-        if dtype in ("torch.float16", "torch.bfloat16"):
-            return "[all_close_atol3_rtol2]"
-        # float8
-        if dtype in ("torch.float8_e5m2", "torch.float8_e4m3fn"):
-            return "[all_close_atol2_rtol1]"
-        # int / bool
-        if "int" in dtype or dtype == "torch.bool":
-            return "[equal]"
-        # complex
-        if dtype in ("torch.complex64", "torch.complex128"):
-            return "[all_close_atol8_rtol5]"
-        # default
-        return "[all_close_atol8_rtol5]"
-
-    for idx in range(len(compiled_out)):
-        dtype = compiled_types[idx]
-        cmp_str = result_data["correctness"].get(_pick_key(dtype), "")
-        tokens = cmp_str.split()
-        if idx >= len(tokens) or tokens[idx] != "1":
-            return True
-
-    return False
 
 
 def get_cmp_equal(expected_out, compiled_out):

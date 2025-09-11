@@ -38,8 +38,8 @@ function prepare_torch_env() {
     env http_proxy="" https_proxy="" pip install -U pip > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
     # install torch
-    pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu118 > /dev/null
-    [ $? -ne 0 ] && LOG "[FATAL] Install torch2.6.0 failed!" && exit -1
+    pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu126 > /dev/null
+    [ $? -ne 0 ] && LOG "[FATAL] Install torch2.9.0 failed!" && exit -1
   else
     python ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
     LOG "[INFO] This pull request doesn't change any torch samples, skip the CI."

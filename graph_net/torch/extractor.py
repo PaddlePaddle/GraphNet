@@ -7,6 +7,9 @@ from . import utils
 
 torch._dynamo.config.capture_scalar_outputs = True
 torch._dynamo.config.capture_dynamic_output_shape_ops = True
+torch._dynamo.config.capture_sparse_compute = True
+torch._dynamo.config.raise_on_ctx_manager_usage = False
+torch._dynamo.config.allow_rnn = True
 
 
 def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=False):
@@ -84,6 +87,11 @@ def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=Fa
         class GraphExtractor:
             def __init__(self):
                 self.subgraph_counter = 0
+                self.workspace_path = os.environ.get("GRAPH_NET_EXTRACT_WORKSPACE")
+                if not self.workspace_path:
+                    raise EnvironmentError(
+                        "Environment variable 'GRAPH_NET_EXTRACT_WORKSPACE' is not set."
+                    )
 
             def move_files(self, source_dir, target_dir):
                 os.makedirs(target_dir, exist_ok=True)
@@ -94,13 +102,8 @@ def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=Fa
                         shutil.move(source_path, target_path)
 
             def __call__(self, gm: torch.fx.GraphModule, sample_inputs):
-                # 1. Get workspace path
-                workspace_path = os.environ.get("GRAPH_NET_EXTRACT_WORKSPACE")
-                if not workspace_path:
-                    raise EnvironmentError(
-                        "Environment variable 'GRAPH_NET_EXTRACT_WORKSPACE' is not set."
-                    )
-                model_path = os.path.join(workspace_path, name)
+                # 1. Get model path
+                model_path = os.path.join(self.workspace_path, name)
                 os.makedirs(model_path, exist_ok=True)
 
                 if self.subgraph_counter == 0:
@@ -140,6 +143,15 @@ def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=Fa
                             input = torch.tensor(4)
                         params[node.target] = input
                         input_idx += 1
+
+                    if node.op == "call_function" and hasattr(node.target, "__name__"):
+                        if node.target.__name__ in [
+                            "_enter_autocast",
+                            "_exit_autocast",
+                        ]:
+                            node.replace_all_uses_with(node.args[0])
+                            gm.graph.erase_node(node)
+
                 assert input_idx == len(sample_inputs)
                 if mut_graph_codes is not None:
                     assert isinstance(mut_graph_codes, list)

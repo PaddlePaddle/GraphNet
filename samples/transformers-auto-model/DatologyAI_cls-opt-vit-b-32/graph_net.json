@@ -18,6 +18,5 @@
         "license:apache-2.0",
         "region:us"
     ],
-    "tag": "multimodal",
     "heuristic_tag": "multimodal"
 }

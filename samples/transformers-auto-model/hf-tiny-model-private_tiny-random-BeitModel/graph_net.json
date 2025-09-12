@@ -13,6 +13,5 @@
         "endpoints_compatible",
         "region:us"
     ],
-    "tag": "other",
     "heuristic_tag": "other"
 }

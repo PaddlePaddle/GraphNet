@@ -3,10 +3,6 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": true,
-    "tag": [
-        "timm",
-        "computer_vision"
-    ],
     "heuristic_tag": [
         "timm",
         "computer_vision"

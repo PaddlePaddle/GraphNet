@@ -25,6 +25,5 @@
         "endpoints_compatible",
         "region:us"
     ],
-    "tag": "multimodal",
     "heuristic_tag": "multimodal"
 }

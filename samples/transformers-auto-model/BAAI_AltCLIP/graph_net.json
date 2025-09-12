@@ -20,6 +20,5 @@
         "license:creativeml-openrail-m",
         "region:us"
     ],
-    "tag": "multimodal",
     "heuristic_tag": "multimodal"
 }

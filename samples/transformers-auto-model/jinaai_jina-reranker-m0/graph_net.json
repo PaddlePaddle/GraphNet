@@ -21,6 +21,5 @@
         "text-generation-inference",
         "region:eu"
     ],
-    "tag": "nlp",
     "heuristic_tag": "nlp"
 }

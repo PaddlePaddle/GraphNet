@@ -17,6 +17,5 @@
         "endpoints_compatible",
         "region:us"
     ],
-    "tag": "audio",
     "heuristic_tag": "audio"
 }

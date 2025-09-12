@@ -14,5 +14,6 @@
         "dataset:scikit-learn/iris",
         "region:us"
     ],
-    "tag": "other"
+    "tag": "other",
+    "heuristic_tag": "other"
 }

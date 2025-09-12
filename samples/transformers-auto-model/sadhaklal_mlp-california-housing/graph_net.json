@@ -14,5 +14,6 @@
         "dataset:gvlassis/california_housing",
         "region:us"
     ],
-    "tag": "other"
+    "tag": "other",
+    "heuristic_tag": "other"
 }

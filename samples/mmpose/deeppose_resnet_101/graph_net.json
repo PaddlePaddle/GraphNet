@@ -6,5 +6,9 @@
     "tag": [
         "mmpose",
         "computer_vision"
+    ],
+    "heuristic_tag": [
+        "mmpose",
+        "computer_vision"
     ]
 }

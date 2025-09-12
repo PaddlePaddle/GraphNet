@@ -22,5 +22,6 @@
         "license:bsd-2-clause",
         "region:us"
     ],
-    "tag": "audio"
+    "tag": "audio",
+    "heuristic_tag": "audio"
 }

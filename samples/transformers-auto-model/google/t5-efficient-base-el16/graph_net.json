@@ -20,5 +20,6 @@
         "text-generation-inference",
         "region:us"
     ],
-    "tag": "other"
+    "tag": "other",
+    "heuristic_tag": "other"
 }

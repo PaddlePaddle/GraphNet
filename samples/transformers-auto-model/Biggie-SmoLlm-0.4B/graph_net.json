@@ -13,5 +13,6 @@
         "region:us",
         "conversational"
     ],
-    "tag": "other"
+    "tag": "other",
+    "heuristic_tag": "other"
 }

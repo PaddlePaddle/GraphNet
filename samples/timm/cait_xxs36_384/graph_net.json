@@ -6,5 +6,9 @@
     "tag": [
         "timm",
         "computer_vision"
+    ],
+    "heuristic_tag": [
+        "timm",
+        "computer_vision"
     ]
 }

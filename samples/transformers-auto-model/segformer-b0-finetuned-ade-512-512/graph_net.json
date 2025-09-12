@@ -14,5 +14,6 @@
         "base_model:quantized:nvidia/segformer-b0-finetuned-ade-512-512",
         "region:us"
     ],
-    "tag": "computer_vision"
+    "tag": "computer_vision",
+    "heuristic_tag": "computer_vision"
 }

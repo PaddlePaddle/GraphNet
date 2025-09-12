@@ -6,5 +6,9 @@
     "tag": [
         "mmseg",
         "computer_vision"
+    ],
+    "heuristic_tag": [
+        "mmseg",
+        "computer_vision"
     ]
 }

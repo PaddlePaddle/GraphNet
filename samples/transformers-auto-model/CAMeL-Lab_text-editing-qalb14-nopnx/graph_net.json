@@ -16,5 +16,6 @@
         "license:mit",
         "region:us"
     ],
-    "tag": "nlp"
+    "tag": "nlp",
+    "heuristic_tag": "nlp"
 }

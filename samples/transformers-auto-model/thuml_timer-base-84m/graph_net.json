@@ -25,5 +25,6 @@
         "license:apache-2.0",
         "region:us"
     ],
-    "tag": "other"
+    "tag": "other",
+    "heuristic_tag": "other"
 }

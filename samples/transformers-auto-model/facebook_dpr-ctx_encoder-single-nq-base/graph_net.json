@@ -18,5 +18,6 @@
         "license:cc-by-nc-4.0",
         "region:us"
     ],
-    "tag": "other"
+    "tag": "other",
+    "heuristic_tag": "other"
 }

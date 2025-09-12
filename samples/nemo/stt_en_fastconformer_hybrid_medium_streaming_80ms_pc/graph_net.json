@@ -7,5 +7,10 @@
         "nemo",
         "nlp",
         "audio"
+    ],
+    "heuristic_tag": [
+        "nemo",
+        "nlp",
+        "audio"
     ]
 }

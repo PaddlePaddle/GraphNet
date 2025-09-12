@@ -7,5 +7,10 @@
         "cosyvoice",
         "nlp",
         "audio"
+    ],
+    "heuristic_tag": [
+        "cosyvoice",
+        "nlp",
+        "audio"
     ]
 }

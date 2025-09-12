@@ -5,5 +5,9 @@
     "tag": [
         "torchvision",
         "computer_vision"
+    ],
+    "heuristic_tag": [
+        "torchvision",
+        "computer_vision"
     ]
 }

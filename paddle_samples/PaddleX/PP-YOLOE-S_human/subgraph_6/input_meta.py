@@ -1,38 +1,31 @@
 class Program_weight_tensor_data_0:
     name = "data_0"
-    shape = [2, 8400, 4]
+    shape = [2, 384, 16, 16]
     dtype = "float32"
-    min_val = float("0.0843685")
-    max_val = float("15.1723")
-    mean = float("4.87061")
-    std = float("3.19583")
+    min_val = float("-0.278465")
+    max_val = float("5.37003")
+    mean = float("0.223584")
+    std = float("0.551132")
     data = None
 
 
 class Program_weight_tensor_data_1:
     name = "data_1"
-    shape = [8400, 2]
+    shape = [2, 192, 32, 32]
     dtype = "float32"
-    min_val = float("0.5")
-    max_val = float("79.5")
-    mean = float("34.7619")
-    std = float("22.9098")
+    min_val = float("-0.278465")
+    max_val = float("7.76898")
+    mean = float("0.298021")
+    std = float("0.601257")
     data = None
 
 
 class Program_weight_tensor_data_2:
     name = "data_2"
-    shape = [8400, 1]
+    shape = [2, 96, 64, 64]
     dtype = "float32"
-    min_val = float("8.0")
-    max_val = float("32.0")
-    mean = float("10.6667")
-    std = float("5.70157")
+    min_val = float("-0.278465")
+    max_val = float("9.44375")
+    mean = float("0.389922")
+    std = float("0.624856")
     data = None
-
-
-class Program_weight_tensor_data_3:
-    name = "data_3"
-    shape = [2, 2]
-    dtype = "float32"
-    data = [1.20075, 0.802005, 1.74863, 1.16364]

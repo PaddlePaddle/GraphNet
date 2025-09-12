@@ -12,5 +12,6 @@
         "zero-shot-image-classification",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "tag": "multimodal"
 }

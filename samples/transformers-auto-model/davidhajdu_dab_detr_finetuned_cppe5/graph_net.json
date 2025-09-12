@@ -13,5 +13,6 @@
         "object-detection",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "tag": "computer_vision"
 }

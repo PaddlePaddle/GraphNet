@@ -16,5 +16,6 @@
         "license:mit",
         "autotrain_compatible",
         "region:us"
-    ]
+    ],
+    "tag": "nlp"
 }

@@ -20,5 +20,6 @@
         "arxiv:2105.15203",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "tag": "computer_vision"
 }

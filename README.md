@@ -84,24 +84,20 @@ All the **construction constraints** will be examined automatically. After passi
 
 **Step 1: Benchmark**
 
-We use `graph_net/benchmark_demo.sh` to benchmark GraphNet computation graph samples:
+We use `graph_net.torch.test_compiler` to benchmark GraphNet samples with specific batch and log configurations:
 
 ```bash
-bash graph_net/benchmark_demo.sh &
-```
+# Set your benchmark directory
+export GRAPH_NET_BENCHMARK_PATH=/home/yourname/graphnet_benchmark/
 
-The script runs `graph_net.torch.test_compiler` with specific batch and log configurations.
-
-Or you can customize and use `graph_net.torch.test_compiler` yourself:
-
-```bash
+# Run benchmark
 python -m graph_net.torch.test_compiler \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name/ \
   --compiler /custom/or/builtin/compiler/ \
+  --device /device/to/execute/ \
   --warmup /times/to/warmup/ \
   --trials /times/to/test/ \
-  --device /device/to/execute/ \
-  --output-dir /path/to/save/JSON/result/file/
+  > $GRAPH_NET_BENCHMARK_PATH/log.log 2>&1
 
 # Note: if --compiler is omitted, PyTorch’s built-in compiler is used by default
 ```
@@ -110,9 +106,20 @@ After executing, `graph_net.torch.test_compiler` will:
 1. Running the original model in eager mode to record a baseline.
 2. Compiling the model with the specified backend (e.g., CINN, TVM, Inductor, TensorRT, XLA, BladeDISC).
 3. Executing the compiled model and collecting its runtime and outputs.
-4. Conduct speedup by comparing the compiled results against the baseline.
+4. Conduct speedup by comparing the compiled results against the baseline (if no execution failure occurs).
 
-**Step 2: Analysis**
+**Step 2: Generate JSON Record**
+
+This step is to extract information (including failure) from logs in benchmark.
+All the information will be saved to multiple `model_compiler.json` files via:
+
+```bash
+python -m graph_net.torch.log2json \
+  --log-file $GRAPH_NET_BENCHMARK_PATH/log.log \
+  --output-dir $GRAPH_NET_BENCHMARK_PATH
+```
+
+**Step 3: Analysis**
 
 After processing, we provide `graph_net/analysis.py` to generate [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on the JSON results.
 

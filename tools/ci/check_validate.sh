@@ -37,6 +37,7 @@ function prepare_torch_env() {
     LOG "[INFO] Update pip ..."
     env http_proxy="" https_proxy="" pip install -U pip > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
+    pip install astor
     # install torch
     pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu126 > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Install torch2.9.0 failed!" && exit -1

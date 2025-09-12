@@ -22,5 +22,6 @@
         "custom_code",
         "license:other",
         "region:us"
-    ]
+    ],
+    "tag": "computer_vision"
 }

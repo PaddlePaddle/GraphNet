@@ -13,5 +13,6 @@
         "tabular-classification",
         "dataset:scikit-learn/iris",
         "region:us"
-    ]
+    ],
+    "tag": "other"
 }

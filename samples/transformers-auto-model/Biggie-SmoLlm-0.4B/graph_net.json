@@ -12,5 +12,6 @@
         "endpoints_compatible",
         "region:us",
         "conversational"
-    ]
+    ],
+    "tag": "other"
 }

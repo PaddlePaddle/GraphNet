@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "google/owlv2-large-patch14-finetuned",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "owlv2",
+        "zero-shot-object-detection",
+        "vision",
+        "arxiv:2306.09683",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

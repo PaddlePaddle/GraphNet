@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "JackWong0911/timesformer-base-finetuned-k400-finetuned-kinetic400-subset-epoch6-num_frame_10",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "tensorboard",
+        "safetensors",
+        "timesformer",
+        "video-classification",
+        "generated_from_trainer",
+        "base_model:facebook/timesformer-base-finetuned-k400",
+        "base_model:finetune:facebook/timesformer-base-finetuned-k400",
+        "license:cc-by-nc-4.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

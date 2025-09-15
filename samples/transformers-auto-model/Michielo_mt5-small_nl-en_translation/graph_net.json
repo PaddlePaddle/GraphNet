@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Michielo/mt5-small_nl-en_translation",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "mt5",
+        "text2text-generation",
+        "translation",
+        "en",
+        "nl",
+        "dataset:opus_books",
+        "dataset:iwslt2017",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

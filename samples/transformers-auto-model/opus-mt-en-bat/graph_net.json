@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Helsinki-NLP/opus-mt-tc-bible-big-bat-en",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "marian",
+        "text2text-generation",
+        "translation",
+        "opus-mt-tc-bible",
+        "en",
+        "lt",
+        "lv",
+        "prg",
+        "sgs",
+        "license:apache-2.0",
+        "model-index",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

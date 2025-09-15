@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Intel/zoedepth-kitti",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "zoedepth",
+        "depth-estimation",
+        "vision",
+        "arxiv:2302.12288",
+        "license:mit",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

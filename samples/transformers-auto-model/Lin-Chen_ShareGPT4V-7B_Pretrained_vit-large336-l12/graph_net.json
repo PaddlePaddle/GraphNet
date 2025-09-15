@@ -2,5 +2,14 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "Lin-Chen/ShareGPT4V-7B_Pretrained_vit-large336-l12",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "image-feature-extraction",
+        "arxiv:2311.12793",
+        "region:us"
+    ]
 }

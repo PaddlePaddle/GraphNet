@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "PeterBanning71/long-t5-tfg",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "longt5",
+        "text2text-generation",
+        "summarization",
+        "generated_from_trainer",
+        "license:bsd-3-clause",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

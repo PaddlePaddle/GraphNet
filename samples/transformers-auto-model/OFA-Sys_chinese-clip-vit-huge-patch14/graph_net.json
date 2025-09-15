@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "OFA-Sys/chinese-clip-vit-huge-patch14",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "chinese_clip",
+        "zero-shot-image-classification",
+        "vision",
+        "arxiv:2211.01335",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

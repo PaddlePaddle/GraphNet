@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "breadlicker45/autotrain-blender-50601120822",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "blenderbot",
+        "text2text-generation",
+        "autotrain",
+        "summarization",
+        "unk",
+        "dataset:breadlicker45/autotrain-data-blender",
+        "co2_eq_emissions",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

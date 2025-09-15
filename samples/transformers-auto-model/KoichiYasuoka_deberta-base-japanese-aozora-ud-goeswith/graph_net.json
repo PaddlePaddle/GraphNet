@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "KoichiYasuoka/deberta-base-japanese-aozora-ud-goeswith",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "deberta-v2",
+        "token-classification",
+        "japanese",
+        "pos",
+        "dependency-parsing",
+        "ja",
+        "dataset:universal_dependencies",
+        "base_model:KoichiYasuoka/deberta-base-japanese-aozora",
+        "base_model:finetune:KoichiYasuoka/deberta-base-japanese-aozora",
+        "license:cc-by-sa-4.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

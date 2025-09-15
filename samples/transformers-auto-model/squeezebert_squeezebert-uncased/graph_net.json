@@ -1,5 +1,16 @@
 {
     "framework": "torch",
     "num_devices_required": 1,
-    "num_nodes_required": 1
+    "num_nodes_required": 1,
+    "model_name": "squeezebert/squeezebert-uncased",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "squeezebert",
+        "arxiv:2006.11316",
+        "arxiv:1904.00962",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

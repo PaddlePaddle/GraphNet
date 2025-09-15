@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "AethiQs-Max/AethiQs_GemBERT_bertje_50k",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "bert",
+        "fill-mask",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

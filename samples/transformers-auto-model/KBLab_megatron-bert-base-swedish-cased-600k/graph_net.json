@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "KBLab/megatron-bert-base-swedish-cased-600k",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "megatron-bert",
+        "fill-mask",
+        "sv",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

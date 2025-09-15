@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "RaphaelKalandadze/tmp_trainer",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "yolos",
+        "object-detection",
+        "generated_from_trainer",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

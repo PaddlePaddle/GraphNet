@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "NDugar/deberta-v2-xlarge-mnli",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "deberta-v2",
+        "text-classification",
+        "deberta-v3",
+        "deberta-v2`",
+        "deberta-mnli",
+        "zero-shot-classification",
+        "en",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

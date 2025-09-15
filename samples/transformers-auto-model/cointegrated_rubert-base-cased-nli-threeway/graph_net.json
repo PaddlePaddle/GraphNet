@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "cointegrated/rubert-base-cased-nli-threeway",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "onnx",
+        "safetensors",
+        "bert",
+        "text-classification",
+        "rubert",
+        "russian",
+        "nli",
+        "rte",
+        "zero-shot-classification",
+        "ru",
+        "dataset:cointegrated/nli-rus-translated-v2021",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

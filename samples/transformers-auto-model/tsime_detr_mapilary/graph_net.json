@@ -2,5 +2,15 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "tsime/detr_mapilary",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "deformable_detr",
+        "object-detection",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

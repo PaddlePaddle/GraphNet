@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "voxreality/src_ctx_aware_nllb_1.3B",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "m2m_100",
+        "text2text-generation",
+        "translation",
+        "en",
+        "de",
+        "nl",
+        "it",
+        "el",
+        "es",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "paulkm/autotrain-lottery_v2-2420075389",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "autotrain",
+        "text-classification",
+        "zh",
+        "dataset:paulkm/autotrain-data-lottery_v2",
+        "co2_eq_emissions",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

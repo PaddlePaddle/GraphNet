@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "nvidia/mit-b0",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "segformer",
+        "image-classification",
+        "vision",
+        "dataset:imagenet_1k",
+        "arxiv:2105.15203",
+        "license:other",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

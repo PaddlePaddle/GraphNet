@@ -2,5 +2,17 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "ncoop57/bart-base-code-summarizer-java-v0",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "bart",
+        "text2text-generation",
+        "summarization",
+        "license:mit",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

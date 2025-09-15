@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Helsinki-NLP/opus-mt-fi-hr",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "marian",
+        "text2text-generation",
+        "translation",
+        "fi",
+        "hr",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

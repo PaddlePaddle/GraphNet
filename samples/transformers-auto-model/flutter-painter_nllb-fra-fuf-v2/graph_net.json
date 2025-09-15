@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "flutter-painter/nllb-fra-fuf-v2",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "m2m_100",
+        "text2text-generation",
+        "translation",
+        "ff",
+        "fr",
+        "license:cc-by-nc-4.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

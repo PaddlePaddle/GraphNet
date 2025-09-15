@@ -1,0 +1,6 @@
+{
+    "framework": "paddle",
+    "model_name": "ernie-3.0-tiny-mini-v2-zh",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
+}

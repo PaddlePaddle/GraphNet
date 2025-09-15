@@ -2,5 +2,8 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "NO_VALID_MATCH_FOUND",
+    "source": "huggingface_hub",
+    "original_tag": []
 }

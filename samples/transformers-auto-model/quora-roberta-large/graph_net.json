@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "cross-encoder/quora-roberta-large",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "pytorch",
+        "jax",
+        "onnx",
+        "safetensors",
+        "openvino",
+        "roberta",
+        "text-classification",
+        "transformers",
+        "text-ranking",
+        "en",
+        "dataset:sentence-transformers/quora-duplicates",
+        "base_model:FacebookAI/roberta-large",
+        "base_model:quantized:FacebookAI/roberta-large",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

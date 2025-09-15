@@ -2,5 +2,25 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "cross-encoder/ms-marco-TinyBERT-L6",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "pytorch",
+        "jax",
+        "onnx",
+        "safetensors",
+        "openvino",
+        "bert",
+        "text-classification",
+        "transformers",
+        "text-ranking",
+        "en",
+        "dataset:sentence-transformers/msmarco",
+        "base_model:nreimers/TinyBERT_L-6_H-768_v2",
+        "base_model:quantized:nreimers/TinyBERT_L-6_H-768_v2",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

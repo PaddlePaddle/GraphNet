@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "sn4kebyt3/ru-bart-large",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "mbart",
+        "text2text-generation",
+        "mbart-50",
+        "ru",
+        "en",
+        "license:mit",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

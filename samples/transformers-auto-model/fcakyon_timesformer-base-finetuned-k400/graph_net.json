@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "fcakyon/timesformer-base-finetuned-k400",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "timesformer",
+        "video-classification",
+        "vision",
+        "arxiv:2102.05095",
+        "license:cc-by-nc-4.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

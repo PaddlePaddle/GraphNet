@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "sismetanin/mbart_ru_sum_gazeta-ru-sentiment-liniscrowd",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "mbart",
+        "text-classification",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

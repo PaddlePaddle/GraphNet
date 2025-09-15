@@ -2,5 +2,26 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "OpenMed/OpenMed-NER-PharmaDetect-SuperMedical-125M",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "roberta",
+        "token-classification",
+        "named-entity-recognition",
+        "biomedical-nlp",
+        "chemical-entity-recognition",
+        "drug-discovery",
+        "pharmacology",
+        "biocuration",
+        "chem",
+        "en",
+        "arxiv:2508.01630",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

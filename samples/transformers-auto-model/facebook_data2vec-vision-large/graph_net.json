@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "facebook/data2vec-vision-large",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "safetensors",
+        "data2vec-vision",
+        "image-feature-extraction",
+        "image-classification",
+        "vision",
+        "dataset:imagenet",
+        "dataset:imagenet-1k",
+        "arxiv:2202.03555",
+        "arxiv:2106.08254",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "cross-encoder/nli-deberta-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "pytorch",
+        "onnx",
+        "safetensors",
+        "deberta",
+        "text-classification",
+        "transformers",
+        "zero-shot-classification",
+        "en",
+        "dataset:nyu-mll/multi_nli",
+        "dataset:stanfordnlp/snli",
+        "base_model:microsoft/deberta-base",
+        "base_model:quantized:microsoft/deberta-base",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

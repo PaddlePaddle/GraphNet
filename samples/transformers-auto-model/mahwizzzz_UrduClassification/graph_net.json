@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "mahwizzzz/UrduClassification",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "safetensors",
+        "roberta",
+        "text-classification",
+        "generated_from_trainer",
+        "ur",
+        "dataset:imdb_urdu_reviews",
+        "base_model:urduhack/roberta-urdu-small",
+        "base_model:finetune:urduhack/roberta-urdu-small",
+        "license:mit",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,26 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Menlo/AlphaMaze-v0.2-1.5B",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "qwen2",
+        "text-generation",
+        "text-generation-inference",
+        "unsloth",
+        "trl",
+        "conversational",
+        "en",
+        "arxiv:2501.07542",
+        "arxiv:2502.14669",
+        "base_model:jan-hq/AlphaMaze-v0.2-1.5B-SFT",
+        "base_model:finetune:jan-hq/AlphaMaze-v0.2-1.5B-SFT",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

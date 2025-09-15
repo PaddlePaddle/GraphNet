@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "facebook/regnet-y-640-seer",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "regnet",
+        "image-feature-extraction",
+        "vision",
+        "arxiv:2202.08360",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

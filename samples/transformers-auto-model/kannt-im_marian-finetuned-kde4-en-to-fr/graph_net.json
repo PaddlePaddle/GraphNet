@@ -2,5 +2,22 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "kannt-im/marian-finetuned-kde4-en-to-fr",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "marian",
+        "text2text-generation",
+        "translation",
+        "generated_from_trainer",
+        "dataset:kde4",
+        "base_model:Helsinki-NLP/opus-mt-en-ru",
+        "base_model:finetune:Helsinki-NLP/opus-mt-en-ru",
+        "license:apache-2.0",
+        "model-index",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

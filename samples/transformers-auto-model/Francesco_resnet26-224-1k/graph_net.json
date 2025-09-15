@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "Francesco/resnet26-224-1k",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "resnet",
+        "image-classification",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

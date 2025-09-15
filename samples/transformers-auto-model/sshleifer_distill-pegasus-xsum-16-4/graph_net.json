@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "sshleifer/distill-pegasus-xsum-16-4",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "pegasus",
+        "text2text-generation",
+        "summarization",
+        "en",
+        "arxiv:1912.08777",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

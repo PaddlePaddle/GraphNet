@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "microsoft/trocr-base-handwritten",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "vision-encoder-decoder",
+        "image-to-text",
+        "trocr",
+        "arxiv:2109.10282",
+        "license:mit",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

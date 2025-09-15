@@ -2,5 +2,26 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "neuralbioinfo/prokbert-mini-c-promoter",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "prokbert",
+        "text-classification",
+        "bioinformatics",
+        "genomics",
+        "sequence embedding",
+        "genomic language models",
+        "nucleotide",
+        "dna-sequence",
+        "promoter",
+        "microbiom",
+        "custom_code",
+        "license:cc-by-4.0",
+        "autotrain_compatible",
+        "region:us"
+    ]
 }

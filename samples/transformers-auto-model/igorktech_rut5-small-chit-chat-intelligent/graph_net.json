@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "igorktech/rut5-small-chit-chat-intelligent",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "t5",
+        "text2text-generation",
+        "generated_from_trainer",
+        "ru",
+        "base_model:cointegrated/rut5-small-chitchat2",
+        "base_model:finetune:cointegrated/rut5-small-chitchat2",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

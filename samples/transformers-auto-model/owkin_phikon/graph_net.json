@@ -2,5 +2,24 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "owkin/phikon",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "vit",
+        "image-feature-extraction",
+        "biology",
+        "medical",
+        "cancer",
+        "feature-extraction",
+        "en",
+        "dataset:owkin/nct-crc-he",
+        "dataset:owkin/camelyon16-features",
+        "license:other",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

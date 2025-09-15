@@ -2,5 +2,21 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Hezam/ArabicT5_Classification",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "t5",
+        "text2text-generation",
+        "Classification",
+        "ArabicT5",
+        "Text Classification",
+        "text-classification",
+        "ar",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

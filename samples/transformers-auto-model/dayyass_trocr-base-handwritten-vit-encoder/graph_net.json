@@ -2,5 +2,15 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "dayyass/trocr-base-handwritten-vit-encoder",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "vit",
+        "image-feature-extraction",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -16,7 +16,7 @@ export PYTHONPATH=${GRAPH_NET_EXTRACT_WORKSPACE}:$PYTHONPATH
 function check_paths_without_spaces() {
   LOG "[INFO] Checking for spaces in modified file paths..."
   git config --global --add safe.directory "*"
-  mapfile -t MODIFIED_FILES < <(git diff --name-only develop | grep -E "\bsamples\b/|\bpaddle_samples\b/")
+  mapfile -t MODIFIED_FILES < <(git diff --diff-filter=ACM --name-only develop | grep -E "\bsamples\b/|\bpaddle_samples\b/")
   
   for file in "${MODIFIED_FILES[@]}"; do
     if [[ "${file}" == *" "* ]]; then
@@ -30,16 +30,17 @@ function check_paths_without_spaces() {
 
 function prepare_torch_env() {
   git config --global --add safe.directory "*"
-  num_changed_samples=$(git diff --name-only develop | grep -E "\bsamples\b/(.*\.py|.*\.json)" | wc -l)
+  num_changed_samples=$(git diff --diff-filter=ACM --name-only develop | grep -E "\bsamples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$" | wc -l)
   if [ ${num_changed_samples} -ne 0 ]; then
     LOG "[INFO] Device Id: ${CUDA_VISIBLE_DEVICES}"
     # Update pip
     LOG "[INFO] Update pip ..."
     env http_proxy="" https_proxy="" pip install -U pip > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
+    pip install astor
     # install torch
-    pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu118 > /dev/null
-    [ $? -ne 0 ] && LOG "[FATAL] Install torch2.6.0 failed!" && exit -1
+    pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu126 > /dev/null
+    [ $? -ne 0 ] && LOG "[FATAL] Install torch2.9.0 failed!" && exit -1
   else
     python ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
     LOG "[INFO] This pull request doesn't change any torch samples, skip the CI."
@@ -48,7 +49,7 @@ function prepare_torch_env() {
 
 function prepare_paddle_env() {
   git config --global --add safe.directory "*"
-  num_changed_paddle_samples=$(git diff --name-only develop | grep -E "\bpaddle_samples\b/(.*\.py|.*\.json)" | wc -l)
+  num_changed_paddle_samples=$(git diff --diff-filter=ACM --name-only develop | grep -E "\bpaddle_samples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$" | wc -l)
   if [ ${num_changed_paddle_samples} -ne 0 ]; then
     LOG "[INFO] Device Id: ${CUDA_VISIBLE_DEVICES}"
     # Update pip
@@ -56,7 +57,7 @@ function prepare_paddle_env() {
     env http_proxy="" https_proxy="" pip install -U pip > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
     # install paddle
-    pip uninstall torch==2.7.0 --yes
+    pip install astor
     LOG "[INFO] Install paddlepaddle-develop ..."
     python -m pip install --pre paddlepaddle-gpu -i https://www.paddlepaddle.org.cn/packages/nightly/cu118/ > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Install paddlepaddle-develop failed!" && exit -1
@@ -70,11 +71,13 @@ function prepare_paddle_env() {
 function check_torch_validation() {
   LOG "[INFO] Start run validate for changed torch samples ..."
   MODIFIED_MODEL_PATHS=()
-  for file in $(git diff --name-only develop | grep -E "\bsamples\b/(.*\.py|.*\.json)")
+  for file in $(git diff --diff-filter=ACM --name-only develop | grep -E "\bsamples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$")
   do
-    LOG "[INFO] Found ${file} modified."
-    model_path=$(dirname ${file})
-    MODIFIED_MODEL_PATHS[${#MODIFIED_MODEL_PATHS[@]}]=$model_path
+    if [[ ${file} != *shape_patches_* ]]; then
+      LOG "[INFO] Found ${file} modified."
+      model_path=$(dirname ${file})
+      MODIFIED_MODEL_PATHS[${#MODIFIED_MODEL_PATHS[@]}]=$model_path
+    fi
   done
   MODIFIED_MODEL_PATHS=($(echo ${MODIFIED_MODEL_PATHS[@]} | tr ' ' '\n' | sort | uniq))
   local total_models=${#MODIFIED_MODEL_PATHS[@]}
@@ -87,7 +90,7 @@ function check_torch_validation() {
   fail_name=()
   for model_path in ${MODIFIED_MODEL_PATHS[@]}
   do
-    python -m graph_net.torch.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} --graph-net-samples-path ${GRAPH_NET_EXTRACT_WORKSPACE}/samples >&2
+    python -m graph_net.torch.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} >&2
     [ $? -ne 0 ] && fail_name[${#fail_name[@]}]="${model_path}"
   done
   local failed_cnt=${#fail_name[@]}
@@ -104,11 +107,13 @@ function check_torch_validation() {
 function check_paddle_validation() {
   LOG "[INFO] Start run validate for changed paddle samples ..."
   MODIFIED_MODEL_PATHS=()
-  for file in $(git diff --name-only develop | grep -E "\bpaddle_samples\b/(.*\.py|.*\.json)")
+  for file in $(git diff --diff-filter=ACM --name-only develop | grep -E "\bpaddle_samples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$")
   do
-    LOG "[INFO] Found ${file} modified."
-    model_path=$(dirname ${file})
-    MODIFIED_MODEL_PATHS[${#MODIFIED_MODEL_PATHS[@]}]=$model_path
+    if [[ ${file} != *shape_patches_* ]]; then
+      LOG "[INFO] Found ${file} modified."
+      model_path=$(dirname ${file})
+      MODIFIED_MODEL_PATHS[${#MODIFIED_MODEL_PATHS[@]}]=$model_path
+    fi
   done
   MODIFIED_MODEL_PATHS=($(echo ${MODIFIED_MODEL_PATHS[@]} | tr ' ' '\n' | sort | uniq))
   local total_models=${#MODIFIED_MODEL_PATHS[@]}
@@ -121,7 +126,7 @@ function check_paddle_validation() {
   fail_name=()
   for model_path in ${MODIFIED_MODEL_PATHS[@]}
   do
-    python -m graph_net.paddle.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} --graph-net-samples-path ${GRAPH_NET_EXTRACT_WORKSPACE}/samples >&2
+    python -m graph_net.paddle.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} >&2
     [ $? -ne 0 ] && fail_name[${#fail_name[@]}]="${model_path}"
   done
   local failed_cnt=${#fail_name[@]}
@@ -144,7 +149,7 @@ function summary_problems() {
     LOG "[FATAL] Summary problems:"
     local failed_list=($check_validation_info)
     local failed_count=${#failed_list[@]}
-    LOG "[FATAL] === API test error (${failed_count} failure(s)) - Please fix the failed API tests according to fatal log:"
+    LOG "[FATAL] === Sample test error (${failed_count} failure(s)) - Please fix the failed sample tests according to fatal log:"
     LOG "[FATAL] Failed model path(s):"
     printf "  - %s\n" "${failed_list[@]}" >&2
     exit $check_validation_code

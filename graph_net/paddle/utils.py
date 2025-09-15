@@ -7,7 +7,10 @@ import argparse
 import importlib
 import inspect
 import ast
+import math
 import paddle
+
+kLiteralTensorSize = 64
 
 
 def get_limited_precision_float_str(value):
@@ -35,7 +38,7 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
 
         info = tensor_info(tensor)
         if tensor.dtype in [paddle.int8, paddle.int16, paddle.int32, paddle.int64]:
-            if tensor.numel() < 1024:
+            if tensor.numel() < kLiteralTensorSize:
                 return {
                     "type": "small_int_tensor",
                     "data": tensor.clone(),
@@ -43,7 +46,7 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
                 }
             else:
                 return {"type": "big_int_tensor", "data": tensor.clone(), "info": info}
-        elif tensor.numel() < 1024:
+        elif tensor.numel() < kLiteralTensorSize:
             return {"type": "small_tensor", "data": tensor.clone(), "info": info}
         else:
             return {"type": "random_tensor", "info": info}
@@ -119,6 +122,22 @@ def load_converted_list_from_text(file_path):
     return [*weight_info, *input_info]
 
 
+def ConvertToValidNumber(data_type, value):
+    if value is not None and data_type in [
+        paddle.float32,
+        paddle.float16,
+        paddle.bfloat16,
+    ]:
+        if math.isnan(value):
+            return None
+        if math.isinf(value) and value > 0:
+            return paddle.finfo(data_type).max
+        if math.isinf(value) and value < 0:
+            return paddle.finfo(data_type).min
+
+    return value
+
+
 def convert_meta_classes_to_tensors(file_path):
     for name, cls in _get_classes(file_path):
         attrs = {
@@ -141,10 +160,10 @@ def convert_meta_classes_to_tensors(file_path):
                 "shape": attrs.get("shape", []),
                 "dtype": data_type,
                 "device": attrs.get("device", "gpu"),
-                "mean": attrs.get("mean", 0.0),
-                "std": attrs.get("std", 1.0),
-                "low": attrs.get("low", 0),
-                "high": attrs.get("high", 2),
+                "mean": ConvertToValidNumber(data_type, attrs.get("mean", None)),
+                "std": ConvertToValidNumber(data_type, attrs.get("std", None)),
+                "min_val": ConvertToValidNumber(data_type, attrs.get("min_val", 0)),
+                "max_val": ConvertToValidNumber(data_type, attrs.get("max_val", 2)),
             },
             "data": data_value,
             "name": attrs.get("name"),
@@ -173,17 +192,18 @@ def replay_tensor(info):
     device = info["info"]["device"]
     dtype = info["info"]["dtype"]
     shape = info["info"]["shape"]
-    min_value = info["info"]["low"] if "low" in info["info"] else 0
-    max_value = info["info"]["high"] if "high" in info["info"] else 0.5
+
+    mean = info["info"]["mean"]
+    std = info["info"]["std"]
+    min_val = info["info"]["min_val"]
+    max_val = info["info"]["max_val"]
     if None in shape:
         shape = list(map(lambda i: i if i is not None else 1, shape))
     if "data" in info and info["data"] is not None:
         return paddle.reshape(info["data"], shape).to(dtype).to(device)
     elif dtype == paddle.int32 or dtype == paddle.int64:
         return paddle.cast(
-            paddle.randint(
-                low=min_value, high=max_value + 1, shape=shape, dtype="int64"
-            ),
+            paddle.randint(low=min_val, high=max_val + 1, shape=shape, dtype="int64"),
             dtype,
         ).to(device)
     elif dtype == paddle.bool:
@@ -192,9 +212,19 @@ def replay_tensor(info):
             paddle.bool,
         ).to(device)
     else:
-        std = info["info"]["std"]
-        return (
-            paddle.uniform(shape, dtype="float32", min=min_value, max=max_value)
-            .to(dtype)
-            .to(device)
-        )
+        if mean is not None and std is not None:
+            return (
+                paddle.clip(
+                    paddle.normal(shape=shape, mean=mean, std=std),
+                    min=min_val,
+                    max=max_val,
+                )
+                .to(dtype)
+                .to(device)
+            )
+        else:
+            return (
+                paddle.uniform(shape=shape, dtype="float32", min=min_val, max=max_val)
+                .to(dtype)
+                .to(device)
+            )

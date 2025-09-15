@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": true
+    "dynamic": true,
+    "model_name": "sadhaklal/wide-and-deep-net-california-housing-v3",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "pytorch",
+        "safetensors",
+        "model_hub_mixin",
+        "pytorch_model_hub_mixin",
+        "tabular-regression",
+        "dataset:gvlassis/california_housing",
+        "region:us"
+    ]
 }

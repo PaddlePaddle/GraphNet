@@ -2,5 +2,19 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "echarlaix/bart-base-cnn-r2-18.7-d23-hybrid",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "bart",
+        "text2text-generation",
+        "summarization",
+        "en",
+        "dataset:cnn_dailymail",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

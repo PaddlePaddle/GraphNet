@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "907508196l/wavlm-libri-clean-100h-base-plus-finetuned-ks",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tensorboard",
+        "wavlm",
+        "audio-classification",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

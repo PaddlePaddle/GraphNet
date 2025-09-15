@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "TrustSafeAI/RADAR-Vicuna-7B",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "roberta",
+        "text-classification",
+        "arxiv:1907.11692",
+        "arxiv:2307.03838",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

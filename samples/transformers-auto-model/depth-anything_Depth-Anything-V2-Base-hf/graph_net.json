@@ -2,5 +2,20 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "depth-anything/Depth-Anything-V2-Base-hf",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "depth_anything",
+        "depth-estimation",
+        "depth",
+        "relative depth",
+        "arxiv:2406.09414",
+        "arxiv:2401.10891",
+        "license:cc-by-nc-4.0",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

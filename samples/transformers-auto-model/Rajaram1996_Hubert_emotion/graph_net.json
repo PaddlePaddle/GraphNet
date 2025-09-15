@@ -2,5 +2,18 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Rajaram1996/Hubert_emotion",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "hubert",
+        "speech",
+        "audio",
+        "HUBert",
+        "audio-classification",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

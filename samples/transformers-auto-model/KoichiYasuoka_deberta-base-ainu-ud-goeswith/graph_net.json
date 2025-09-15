@@ -2,5 +2,23 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "KoichiYasuoka/deberta-base-ainu-ud-goeswith",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "deberta-v2",
+        "token-classification",
+        "ainu",
+        "pos",
+        "dependency-parsing",
+        "ain",
+        "base_model:KoichiYasuoka/deberta-base-ainu-upos",
+        "base_model:finetune:KoichiYasuoka/deberta-base-ainu-upos",
+        "license:cc-by-sa-4.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

@@ -2,5 +2,28 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "WhereIsAI/UAE-Large-V1",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "onnx",
+        "safetensors",
+        "openvino",
+        "bert",
+        "feature-extraction",
+        "mteb",
+        "sentence_embedding",
+        "feature_extraction",
+        "transformers",
+        "transformers.js",
+        "en",
+        "arxiv:2309.12871",
+        "license:mit",
+        "model-index",
+        "autotrain_compatible",
+        "text-embeddings-inference",
+        "endpoints_compatible",
+        "region:us"
+    ]
 }

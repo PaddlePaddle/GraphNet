@@ -2,5 +2,16 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "model_name": "Neurora/opus-tatoeba-tur-eng",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "safetensors",
+        "marian",
+        "translation",
+        "tr",
+        "en",
+        "license:apache-2.0",
+        "region:us"
+    ]
 }

@@ -61,7 +61,7 @@ jobs:
             -v "/home/data/cfs/.ccache:/root/.ccache" \
             -v "/dev/shm:/dev/shm" \
             -v ${{ github.workspace }}/../../..:${{ github.workspace }}/../../.. \
-            -v ${{ github.workspace }}:/graphnet \
+            -v ${{ github.workspace }}:${{ github.workspace }} \
             -e python \
             -e core_index \
             -e BRANCH \
@@ -73,7 +73,7 @@ jobs:
             -e CACHE_DIR \
             -e GITHUB_API_TOKEN \
             -e CFS_DIR \
-            -w /graphnet --network host ${docker_image}
+            -w ${{ github.workspace }} --network host ${docker_image}
 
       - name: Run check
         env:

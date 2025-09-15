@@ -116,7 +116,9 @@ def measure_performance(model_call, args, compiler):
         device = torch.device(args.device)
         hardware_name = torch.cuda.get_device_name(device)
         print(
-            f"{args.log_prompt} [Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}"
+            f"{args.log_prompt} [Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}",
+            file=sys.stderr,
+            flush=True,
         )
 
         e2e_times = []
@@ -140,7 +142,9 @@ def measure_performance(model_call, args, compiler):
             e2e_times.append(duration_box.value)
             gpu_times.append(gpu_time_ms)
             print(
-                f"Trial {i + 1}: e2e={duration_box.value:.2f} ms, gpu={gpu_time_ms:.3g} ms"
+                f"Trial {i + 1}: e2e={duration_box.value:.2f} ms, gpu={gpu_time_ms:.3g} ms",
+                file=sys.stderr,
+                flush=True,
             )
 
         stats["e2e"] = get_timing_stats(e2e_times)
@@ -149,7 +153,9 @@ def measure_performance(model_call, args, compiler):
     else:  # CPU or other devices
         hardware_name = platform.processor()
         print(
-            f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}"
+            f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}",
+            file=sys.stderr,
+            flush=True,
         )
 
         e2e_times = []
@@ -157,7 +163,11 @@ def measure_performance(model_call, args, compiler):
             duration_box = DurationBox(-1)
             with naive_timer(duration_box, compiler.synchronize):
                 model_call()
-            print(f"Trial {i + 1}: e2e={duration_box.value:.2f} ms")
+            print(
+                f"Trial {i + 1}: e2e={duration_box.value:.2f} ms",
+                file=sys.stderr,
+                flush=True,
+            )
             e2e_times.append(duration_box.value)
         stats["e2e"] = get_timing_stats(e2e_times)
 
@@ -174,152 +184,195 @@ def test_single_model(args):
     else:
         compiled_model = compiler(model)
 
-    result_data = {
-        "configuration": {
-            "model": os.path.basename(os.path.normpath(args.model_path)),
-            "device": args.device,
-            "hardware": None,
-            "compiler": args.compiler,
-            "compile_framework_version": None,
-            "warmup": args.warmup,
-            "trials": args.trials,
-        },
-        "correctness": {},
-        "performance": {
-            "eager": {},
-            "compiled": {},
-            "speedup": {},
-        },
-    }
+    model_path = os.path.normpath(args.model_path)
+    print(f"{args.log_prompt} [Processing] {model_path}", file=sys.stderr, flush=True)
+    model_name = os.path.basename(model_path)
+    print(
+        f"{args.log_prompt} [Config] model: {model_name}", file=sys.stderr, flush=True
+    )
+    print(
+        f"{args.log_prompt} [Config] device: {args.device}", file=sys.stderr, flush=True
+    )
 
+    hardware_name = "unknown"
     if "cuda" in args.device:
-        result_data["configuration"]["hardware"] = torch.cuda.get_device_name(
-            args.device
-        )
+        hardware_name = torch.cuda.get_device_name(args.device)
     elif args.device == "cpu":
-        result_data["configuration"]["hardware"] = platform.processor()
-    else:
-        result_data["configuration"]["hardware"] = "unknown"
+        hardware_name = platform.processor()
+    print(
+        f"{args.log_prompt} [Config] hardware: {hardware_name}",
+        file=sys.stderr,
+        flush=True,
+    )
 
+    print(
+        f"{args.log_prompt} [Config] compiler: {args.compiler}",
+        file=sys.stderr,
+        flush=True,
+    )
+    print(
+        f"{args.log_prompt} [Config] warmup: {args.warmup}", file=sys.stderr, flush=True
+    )
+    print(
+        f"{args.log_prompt} [Config] trials: {args.trials}", file=sys.stderr, flush=True
+    )
+
+    version_str = "unknown"
     if args.compiler == "inductor":
-        result_data["configuration"]["compile_framework_version"] = torch.__version__
-    elif args.compiler == "tvm":
-        result_data["configuration"][
-            "compile_framework_version"
-        ] = f"Tvm {compiler.version}"
-    elif args.compiler == "xla":
-        result_data["configuration"][
-            "compile_framework_version"
-        ] = f"Xla {compiler.version}"
-    elif args.compiler == "tensorrt":
-        result_data["configuration"][
-            "compile_framework_version"
-        ] = f"TensorRT {compiler.version}"
-    elif args.compiler == "bladedisc":
-        result_data["configuration"][
-            "compile_framework_version"
-        ] = f"BladeDISC {compiler.version}"
-    else:
-        result_data["configuration"]["compiler_version"] = "unknown"
+        version_str = torch.__version__
+    elif args.compiler in ["tvm", "xla", "tensorrt", "bladedisc"]:
+        # Assuming compiler object has a version attribute
+        version_str = f"{args.compiler.capitalize()} {compiler.version}"
+    print(
+        f"{args.log_prompt} [Config] compile_framework_version: {version_str}",
+        file=sys.stderr,
+        flush=True,
+    )
 
-    eager_model_call = lambda: model(**input_dict)
-    compiled_model_call = lambda: compiled_model(**input_dict)
+    failure = False
 
-    eager_stats = measure_performance(eager_model_call, args, compiler)
-    compiled_stats = measure_performance(compiled_model_call, args, compiler)
-
-    result_data["performance"]["eager"] = eager_stats
-    result_data["performance"]["compiled"] = compiled_stats
-
-    expected_out = eager_model_call()
-    compiled_out = compiled_model_call()
-
-    if not isinstance(expected_out, tuple):
-        expected_out = (expected_out,)
-    if not isinstance(compiled_out, tuple):
-        compiled_out = (compiled_out,)
-    if args.compiler == "xla":
-        compiled_out = tuple(item.to("cpu").to("cuda") for item in compiled_out)
-
-    def print_and_store_cmp(key, func, **kwargs):
-        cmp_ret = func(expected_out, compiled_out, **kwargs)
-        result_data["correctness"][key] = cmp_ret
+    try:
+        eager_model_call = lambda: model(**input_dict)
+        eager_stats = measure_performance(eager_model_call, args, compiler)
         print(
-            f"{args.log_prompt} {key} model_path:{args.model_path} {cmp_ret}",
+            f"{args.log_prompt} [Performance][eager]: {json.dumps(eager_stats)}",
+            file=sys.stderr,
+            flush=True,
+        )
+        expected_out = eager_model_call()
+        if not isinstance(expected_out, tuple):
+            expected_out = (expected_out,)
+
+        eager_types = [
+            str(x.dtype).replace("torch.", "")
+            if isinstance(x, torch.Tensor)
+            else type(x).__name__
+            for x in expected_out
+        ]
+        print(
+            f"{args.log_prompt} [Datatype][eager]: {' '.join(eager_types)}",
+            file=sys.stderr,
+            flush=True,
+        )
+
+        compiled_model_call = lambda: compiled_model(**input_dict)
+        compiled_stats = measure_performance(compiled_model_call, args, compiler)
+        print(
+            f"{args.log_prompt} [Performance][compiled]: {json.dumps(compiled_stats)}",
+            file=sys.stderr,
+            flush=True,
+        )
+        compiled_out = compiled_model_call()
+        if not isinstance(compiled_out, tuple):
+            compiled_out = (compiled_out,)
+        if args.compiler == "xla":
+            compiled_out = tuple(item.to("cpu").to("cuda") for item in compiled_out)
+
+        compiled_types = [
+            str(x.dtype).replace("torch.", "")
+            if isinstance(x, torch.Tensor)
+            else type(x).__name__
+            for x in compiled_out
+        ]
+        print(
+            f"{args.log_prompt} [Datatype][compiled]: {' '.join(compiled_types)}",
+            file=sys.stderr,
+            flush=True,
+        )
+
+        # datatype check
+        type_match = all(
+            eager == compiled for eager, compiled in zip(eager_types, compiled_types)
+        )
+        print(
+            f"{args.log_prompt} [DataType] eager:{eager_types} compiled:{compiled_types} match:{type_match}",
             file=sys.stderr,
         )
-
-    print_and_store_cmp("[equal]", get_cmp_equal)
-    print_and_store_cmp(
-        "[all_close_atol8_rtol8]", get_cmp_all_close, atol=1e-8, rtol=1e-8
-    )
-    print_and_store_cmp(
-        "[all_close_atol8_rtol5]", get_cmp_all_close, atol=1e-8, rtol=1e-5
-    )
-    print_and_store_cmp(
-        "[all_close_atol5_rtol5]", get_cmp_all_close, atol=1e-5, rtol=1e-5
-    )
-    print_and_store_cmp(
-        "[all_close_atol3_rtol2]", get_cmp_all_close, atol=1e-3, rtol=1e-2
-    )
-    print_and_store_cmp(
-        "[all_close_atol2_rtol1]", get_cmp_all_close, atol=1e-2, rtol=1e-1
-    )
-    print_and_store_cmp("[max_diff]", get_cmp_max_diff)
-    print_and_store_cmp("[mean_diff]", get_cmp_mean_diff)
-    print_and_store_cmp(
-        "[diff_count_atol8_rtol8]", get_cmp_diff_count, atol=1e-8, rtol=1e-8
-    )
-    print_and_store_cmp(
-        "[diff_count_atol8_rtol5]", get_cmp_diff_count, atol=1e-8, rtol=1e-5
-    )
-    print_and_store_cmp(
-        "[diff_count_atol5_rtol5]", get_cmp_diff_count, atol=1e-5, rtol=1e-5
-    )
-    print_and_store_cmp(
-        "[diff_count_atol3_rtol2]", get_cmp_diff_count, atol=1e-3, rtol=1e-2
-    )
-    print_and_store_cmp(
-        "[diff_count_atol2_rtol1]", get_cmp_diff_count, atol=1e-2, rtol=1e-1
-    )
-
-    eager_e2e_time_ms = eager_stats.get("e2e", {}).get("mean", 0)
-    compiled_e2e_time_ms = compiled_stats.get("e2e", {}).get("mean", 0)
+        if not type_match:
+            failure = True
+        else:
+            compare_correctness(expected_out, compiled_out, args)
+    except (TypeError, RuntimeError) as e:
+        print(f"Model execution failed: {str(e)}", file=sys.stderr)
+        failure = True
 
     e2e_speedup = 0
-    if eager_e2e_time_ms > 0 and compiled_e2e_time_ms > 0:
-        e2e_speedup = eager_e2e_time_ms / compiled_e2e_time_ms
-        result_data["performance"]["speedup"]["e2e"] = e2e_speedup
+    gpu_speedup = 0
+    if failure:
+        print(f"{args.log_prompt} [Result] status: failed", file=sys.stderr, flush=True)
+        print(
+            f"{args.log_prompt} [Fail due to compile error or datatype do not match.]",
+            file=sys.stderr,
+            flush=True,
+        )
+    else:
+        print(
+            f"{args.log_prompt} [Result] status: success", file=sys.stderr, flush=True
+        )
+        eager_e2e_time_ms = eager_stats.get("e2e", {}).get("mean", 0)
+        compiled_e2e_time_ms = compiled_stats.get("e2e", {}).get("mean", 0)
 
-    duration_log = (
-        f"{args.log_prompt} [Duration] "
-        f"eager_e2e:{eager_e2e_time_ms:.4f} compiled_e2e:{compiled_e2e_time_ms:.4f}"
+        if eager_e2e_time_ms > 0 and compiled_e2e_time_ms > 0:
+            e2e_speedup = eager_e2e_time_ms / compiled_e2e_time_ms
+
+        if "cuda" in args.device:
+            eager_gpu_time_ms = eager_stats.get("gpu", {}).get("mean", 0)
+            compiled_gpu_time_ms = compiled_stats.get("gpu", {}).get("mean", 0)
+
+            if eager_gpu_time_ms > 0 and compiled_gpu_time_ms > 0:
+                gpu_speedup = eager_gpu_time_ms / compiled_gpu_time_ms
+
+        if e2e_speedup > 0:
+            print(
+                f"{args.log_prompt} [Speedup][e2e]: {e2e_speedup:.4f}",
+                file=sys.stderr,
+                flush=True,
+            )
+
+        if "cuda" in args.device and gpu_speedup > 0:
+            print(
+                f"{args.log_prompt} [Speedup][gpu]: {gpu_speedup:.4f}",
+                file=sys.stderr,
+                flush=True,
+            )
+
+
+def print_and_store_cmp(key, cmp_func, args, expected_out, compiled_out, **kwargs):
+    cmp_ret = cmp_func(expected_out, compiled_out, **kwargs)
+    print(
+        f"{args.log_prompt} [Correctness]{key}: {cmp_ret}",
+        file=sys.stderr,
+        flush=True,
     )
-    speedup_log = f"{args.log_prompt} [Speedup] " f"e2e_speedup:{e2e_speedup:.4f}"
+    return cmp_ret
 
-    if "cuda" in args.device:
-        eager_gpu_time_ms = eager_stats.get("gpu", {}).get("mean", 0)
-        compiled_gpu_time_ms = compiled_stats.get("gpu", {}).get("mean", 0)
 
-        gpu_speedup = 0
-        if eager_gpu_time_ms > 0 and compiled_gpu_time_ms > 0:
-            gpu_speedup = eager_gpu_time_ms / compiled_gpu_time_ms
-            result_data["performance"]["speedup"]["gpu"] = gpu_speedup
+def compare_correctness(expected_out, compiled_out, args):
+    cmp_configs = [
+        ("[equal]", get_cmp_equal, {}),
+        ("[all_close_atol8_rtol8]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-8}),
+        ("[all_close_atol8_rtol5]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-5}),
+        ("[all_close_atol5_rtol5]", get_cmp_all_close, {"atol": 1e-5, "rtol": 1e-5}),
+        ("[all_close_atol3_rtol2]", get_cmp_all_close, {"atol": 1e-3, "rtol": 1e-2}),
+        ("[all_close_atol2_rtol1]", get_cmp_all_close, {"atol": 1e-2, "rtol": 1e-1}),
+        ("[max_diff]", get_cmp_max_diff, {}),
+        ("[mean_diff]", get_cmp_mean_diff, {}),
+        ("[diff_count_atol8_rtol8]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-8}),
+        ("[diff_count_atol8_rtol5]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-5}),
+        ("[diff_count_atol5_rtol5]", get_cmp_diff_count, {"atol": 1e-5, "rtol": 1e-5}),
+        ("[diff_count_atol3_rtol2]", get_cmp_diff_count, {"atol": 1e-3, "rtol": 1e-2}),
+        ("[diff_count_atol2_rtol1]", get_cmp_diff_count, {"atol": 1e-2, "rtol": 1e-1}),
+    ]
 
-        duration_log += f" eager_gpu:{eager_gpu_time_ms:.4f} compiled_gpu:{compiled_gpu_time_ms:.4f}"
-        speedup_log += f" gpu_speedup:{gpu_speedup:.4f}"
-
-    print(duration_log, file=sys.stderr)
-    print(speedup_log, file=sys.stderr)
-
-    if args.output_dir:
-        os.makedirs(args.output_dir, exist_ok=True)
-        model_name = result_data["configuration"]["model"]
-        compiler_name = args.compiler
-        file_path = os.path.join(args.output_dir, f"{model_name}_{compiler_name}.json")
-        with open(file_path, "w") as f:
-            json.dump(result_data, f, indent=4)
-        print(f"Result saved to {file_path}", file=sys.stderr)
+    for key, func, kwargs in cmp_configs:
+        print_and_store_cmp(
+            key=key,
+            cmp_func=func,
+            args=args,
+            expected_out=expected_out,
+            compiled_out=compiled_out,
+            **kwargs,
+        )
 
 
 def get_cmp_equal(expected_out, compiled_out):
@@ -382,8 +435,6 @@ def test_multi_models(args):
             "--device",
             args.device,
         ]
-        if args.output_dir:
-            cmd_list.extend(["--output-dir", args.output_dir])
 
         cmd = " ".join(cmd_list)
         cmd_ret = os.system(cmd)
@@ -453,13 +504,6 @@ if __name__ == "__main__":
         required=False,
         default="graph-net-test-compiler-log",
         help="Log prompt for performance log filtering.",
-    )
-    parser.add_argument(
-        "--output-dir",
-        type=str,
-        required=False,
-        default=None,
-        help="Directory to save the structured JSON result file.",
     )
     args = parser.parse_args()
     main(args=args)

@@ -110,5 +110,5 @@ if __name__ == "__main__":
         help="Path to GraphNet samples",
     )
     args = parser.parse_args()
-    print(args)
+    print(f"[Check Redundancy Arguments] {args}")
     main(args=args)

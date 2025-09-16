@@ -60,20 +60,25 @@ def resolve_get_attr(gm: torch.fx.GraphModule, node: torch.fx.Node):
     val = gm
     for a in attr_itr:
         val = getattr(val, a)
-    return val
+    out = val.to(device="meta") if isinstance(val, torch.Tensor) else val
+    return out
 
 
 def collect_op_stats(model, input_dict):
+    # FX symbolic trace
+    try:
+        traced = torch.fx.symbolic_trace(model)
+        # print(traced.graph)
+    except Exception:
+        print("Failed to FX symbolic trace")
+        return None
+
     # Use meta tensors as input to avoid actually running the model
     meta_input_dict = {}
     for name, x in input_dict.items():
         meta_input_dict[name] = (
             torch.empty_like(x, device="meta") if isinstance(x, torch.Tensor) else x
         )
-
-    # FX symbolic trace
-    traced = torch.fx.symbolic_trace(model)
-    # print(traced.graph)
 
     node_outputs = {}
     op_stats = {}
@@ -84,7 +89,7 @@ def collect_op_stats(model, input_dict):
             node_outputs[node.name] = meta_input_dict[node.target]
             op_name = node.op
             dtype = node_outputs[node.name].dtype
-        elif node.op in ["call_function", "call_method", "call_module"]:
+        elif node.op in ["call_function", "call_module", "call_method"]:
             node_args = torch.fx.map_arg(
                 node.args,
                 lambda n: node_outputs[n.name] if isinstance(n, torch.fx.Node) else n,
@@ -96,28 +101,32 @@ def collect_op_stats(model, input_dict):
 
             if node.op == "call_module":
                 # classname of module
-                submod = dict(traced.named_modules())[node.target]
+                submod = traced.get_submodule(node.target)
                 op_name = submod.__class__.__name__
-                try:
-                    out = submod(*node_args, **node_kwargs)
-                    node_outputs[node.name] = out
-                    dtype = out.dtype if isinstance(out, torch.Tensor) else None
-                except Exception:
-                    node_outputs[node.name] = None
-            elif node.op in ["call_function", "call_method"]:
-                op_name = (
-                    node.target.__name__ if node.op == "call_function" else node.target
+                op_func = submod
+            elif node.op == "call_function":
+                op_name = node.target.__name__
+                op_func = node.target
+            elif node.op == "call_method":
+                op_name = node.target
+                self_obj = (
+                    node_outputs[node.args[0].name]
+                    if isinstance(node.args[0], torch.fx.Node)
+                    else node.args[0]
                 )
-                try:
-                    out = node.target(*node_args, **node_kwargs)
-                    node_outputs[node.name] = out
-                    dtype = out.dtype if isinstance(out, torch.Tensor) else None
-                except Exception:
-                    print(f"dtype inference failed: op_name={op_name}")
-                    node_outputs[node.name] = None
+                op_func = getattr(self_obj, node.target)
+                node_args = node_args[1:]
+
+            try:
+                out = op_func(*node_args, **node_kwargs)
+                node_outputs[node.name] = out
+                dtype = out.dtype if isinstance(out, torch.Tensor) else None
+            except Exception:
+                print(f"dtype inference failed: node.op={node.op}, op_name={op_name}")
+                node_outputs[node.name] = None
         elif node.op == "get_attr":
-            val = resolve_get_attr(traced, node)
-            out = val.to(device="meta") if isinstance(val, torch.Tensor) else val
+            op_name = node.op
+            out = resolve_get_attr(traced, node)
             node_outputs[node.name] = out
             dtype = out.dtype if isinstance(out, torch.Tensor) else None
         elif node.op == "output":
@@ -156,18 +165,20 @@ def collect_model_stats(model_path, device, log_prompt):
     num_outputs = 0
     dtypes = set()
     op_stats = collect_op_stats(model, input_dict)
-    for op_name, stat in op_stats.items():
-        if op_name == "placeholder":
-            num_inputs += stat.count
-        elif op_name == "output":
-            num_outputs += stat.count
-        else:
-            num_ops += stat.count
-        for v in stat.dtype:
-            if v is not None:
-                dtypes.add(v)
+    if op_stats is not None:
+        for op_name, stat in op_stats.items():
+            if op_name == "placeholder":
+                num_inputs += stat.count
+            elif op_name == "output":
+                num_outputs += stat.count
+            else:
+                num_ops += stat.count
+            for v in stat.dtype:
+                if v is not None:
+                    dtypes.add(v)
 
     arg_types = get_argument_types(model_class, "forward")
+    num_inputs = len(arg_types) if op_stats is None else num_inputs
     num_params = 0
     param_dtypes = set()
     for name, arg_type in arg_types.items():

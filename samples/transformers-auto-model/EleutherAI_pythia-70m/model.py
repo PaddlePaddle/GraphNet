@@ -6,270 +6,288 @@ from torch import device
 class GraphModule(torch.nn.Module):
     def forward(
         self,
-        L_inputs_embeds_: torch.Tensor,
-        L_attention_mask_: torch.Tensor,
-        L_self_modules_rotary_emb_buffers_inv_freq_: torch.Tensor,
-        L_self_modules_layers_modules_0_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_0_modules_input_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_0_modules_attention_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_0_modules_attention_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_0_modules_post_attention_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_1_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_1_modules_input_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_1_modules_attention_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_1_modules_attention_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_1_modules_post_attention_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_2_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_2_modules_input_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_2_modules_attention_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_2_modules_attention_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_2_modules_post_attention_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_3_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_3_modules_input_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_3_modules_attention_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_3_modules_attention_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_3_modules_post_attention_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_4_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_4_modules_input_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_4_modules_attention_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_4_modules_attention_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_4_modules_post_attention_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_5_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_5_modules_input_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_5_modules_attention_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_5_modules_attention_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_5_modules_post_attention_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_bias_: torch.nn.parameter.Parameter,
-        L_self_modules_final_layer_norm_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_final_layer_norm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_kwargs_input_ids_: torch.Tensor,
+        L_self_modules_gpt_neox_modules_embed_in_parameters_weight_: torch.nn.parameter.Parameter,
+        L_kwargs_attention_mask_: torch.Tensor,
+        L_self_modules_gpt_neox_modules_rotary_emb_buffers_inv_freq_: torch.Tensor,
+        L_self_modules_gpt_neox_modules_layers_modules_0_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_0_modules_input_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_0_modules_post_attention_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_1_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_1_modules_input_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_1_modules_post_attention_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_2_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_2_modules_input_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_2_modules_post_attention_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_3_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_3_modules_input_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_3_modules_post_attention_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_4_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_4_modules_input_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_4_modules_post_attention_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_5_modules_input_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_5_modules_input_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_dense_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_dense_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_5_modules_post_attention_layernorm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_final_layer_norm_parameters_weight_: torch.nn.parameter.Parameter,
+        L_self_modules_gpt_neox_modules_final_layer_norm_parameters_bias_: torch.nn.parameter.Parameter,
+        L_self_modules_embed_out_parameters_weight_: torch.nn.parameter.Parameter,
     ):
-        l_inputs_embeds_ = L_inputs_embeds_
-        l_attention_mask_ = L_attention_mask_
-        l_self_modules_rotary_emb_buffers_inv_freq_ = (
-            L_self_modules_rotary_emb_buffers_inv_freq_
+        l_kwargs_input_ids_ = L_kwargs_input_ids_
+        l_self_modules_gpt_neox_modules_embed_in_parameters_weight_ = (
+            L_self_modules_gpt_neox_modules_embed_in_parameters_weight_
         )
-        l_self_modules_layers_modules_0_modules_input_layernorm_parameters_weight_ = (
-            L_self_modules_layers_modules_0_modules_input_layernorm_parameters_weight_
+        l_kwargs_attention_mask_ = L_kwargs_attention_mask_
+        l_self_modules_gpt_neox_modules_rotary_emb_buffers_inv_freq_ = (
+            L_self_modules_gpt_neox_modules_rotary_emb_buffers_inv_freq_
         )
-        l_self_modules_layers_modules_0_modules_input_layernorm_parameters_bias_ = (
-            L_self_modules_layers_modules_0_modules_input_layernorm_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_input_layernorm_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_0_modules_input_layernorm_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_input_layernorm_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_0_modules_input_layernorm_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_dense_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_dense_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_dense_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_dense_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_post_attention_layernorm_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_0_modules_post_attention_layernorm_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_input_layernorm_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_1_modules_input_layernorm_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_input_layernorm_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_1_modules_input_layernorm_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_dense_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_dense_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_dense_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_dense_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_post_attention_layernorm_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_1_modules_post_attention_layernorm_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_input_layernorm_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_2_modules_input_layernorm_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_input_layernorm_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_2_modules_input_layernorm_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_dense_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_dense_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_dense_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_dense_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_post_attention_layernorm_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_2_modules_post_attention_layernorm_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_input_layernorm_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_3_modules_input_layernorm_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_input_layernorm_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_3_modules_input_layernorm_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_dense_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_dense_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_dense_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_dense_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_post_attention_layernorm_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_3_modules_post_attention_layernorm_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_input_layernorm_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_4_modules_input_layernorm_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_input_layernorm_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_4_modules_input_layernorm_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_dense_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_dense_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_dense_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_dense_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_post_attention_layernorm_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_4_modules_post_attention_layernorm_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_input_layernorm_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_5_modules_input_layernorm_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_input_layernorm_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_5_modules_input_layernorm_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_dense_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_dense_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_dense_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_dense_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_post_attention_layernorm_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_5_modules_post_attention_layernorm_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_bias_
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = L_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_weight_
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = L_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_bias_
+        l_self_modules_gpt_neox_modules_final_layer_norm_parameters_weight_ = (
+            L_self_modules_gpt_neox_modules_final_layer_norm_parameters_weight_
         )
-        l_self_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_weight_ = L_self_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_weight_
-        l_self_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_bias_ = L_self_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_bias_
-        l_self_modules_layers_modules_0_modules_attention_modules_dense_parameters_weight_ = L_self_modules_layers_modules_0_modules_attention_modules_dense_parameters_weight_
-        l_self_modules_layers_modules_0_modules_attention_modules_dense_parameters_bias_ = L_self_modules_layers_modules_0_modules_attention_modules_dense_parameters_bias_
-        l_self_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_
-        l_self_modules_layers_modules_0_modules_post_attention_layernorm_parameters_bias_ = L_self_modules_layers_modules_0_modules_post_attention_layernorm_parameters_bias_
-        l_self_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = L_self_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_weight_
-        l_self_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = L_self_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_bias_
-        l_self_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = L_self_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_weight_
-        l_self_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = L_self_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_bias_
-        l_self_modules_layers_modules_1_modules_input_layernorm_parameters_weight_ = (
-            L_self_modules_layers_modules_1_modules_input_layernorm_parameters_weight_
+        l_self_modules_gpt_neox_modules_final_layer_norm_parameters_bias_ = (
+            L_self_modules_gpt_neox_modules_final_layer_norm_parameters_bias_
         )
-        l_self_modules_layers_modules_1_modules_input_layernorm_parameters_bias_ = (
-            L_self_modules_layers_modules_1_modules_input_layernorm_parameters_bias_
+        l_self_modules_embed_out_parameters_weight_ = (
+            L_self_modules_embed_out_parameters_weight_
         )
-        l_self_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_weight_ = L_self_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_weight_
-        l_self_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_bias_ = L_self_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_bias_
-        l_self_modules_layers_modules_1_modules_attention_modules_dense_parameters_weight_ = L_self_modules_layers_modules_1_modules_attention_modules_dense_parameters_weight_
-        l_self_modules_layers_modules_1_modules_attention_modules_dense_parameters_bias_ = L_self_modules_layers_modules_1_modules_attention_modules_dense_parameters_bias_
-        l_self_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_
-        l_self_modules_layers_modules_1_modules_post_attention_layernorm_parameters_bias_ = L_self_modules_layers_modules_1_modules_post_attention_layernorm_parameters_bias_
-        l_self_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = L_self_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_weight_
-        l_self_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = L_self_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_bias_
-        l_self_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = L_self_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_weight_
-        l_self_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = L_self_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_bias_
-        l_self_modules_layers_modules_2_modules_input_layernorm_parameters_weight_ = (
-            L_self_modules_layers_modules_2_modules_input_layernorm_parameters_weight_
+        inputs_embeds = torch.nn.functional.embedding(
+            l_kwargs_input_ids_,
+            l_self_modules_gpt_neox_modules_embed_in_parameters_weight_,
+            None,
+            None,
+            2.0,
+            False,
+            False,
         )
-        l_self_modules_layers_modules_2_modules_input_layernorm_parameters_bias_ = (
-            L_self_modules_layers_modules_2_modules_input_layernorm_parameters_bias_
-        )
-        l_self_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_weight_ = L_self_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_weight_
-        l_self_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_bias_ = L_self_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_bias_
-        l_self_modules_layers_modules_2_modules_attention_modules_dense_parameters_weight_ = L_self_modules_layers_modules_2_modules_attention_modules_dense_parameters_weight_
-        l_self_modules_layers_modules_2_modules_attention_modules_dense_parameters_bias_ = L_self_modules_layers_modules_2_modules_attention_modules_dense_parameters_bias_
-        l_self_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_
-        l_self_modules_layers_modules_2_modules_post_attention_layernorm_parameters_bias_ = L_self_modules_layers_modules_2_modules_post_attention_layernorm_parameters_bias_
-        l_self_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = L_self_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_weight_
-        l_self_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = L_self_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_bias_
-        l_self_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = L_self_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_weight_
-        l_self_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = L_self_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_bias_
-        l_self_modules_layers_modules_3_modules_input_layernorm_parameters_weight_ = (
-            L_self_modules_layers_modules_3_modules_input_layernorm_parameters_weight_
-        )
-        l_self_modules_layers_modules_3_modules_input_layernorm_parameters_bias_ = (
-            L_self_modules_layers_modules_3_modules_input_layernorm_parameters_bias_
-        )
-        l_self_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_weight_ = L_self_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_weight_
-        l_self_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_bias_ = L_self_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_bias_
-        l_self_modules_layers_modules_3_modules_attention_modules_dense_parameters_weight_ = L_self_modules_layers_modules_3_modules_attention_modules_dense_parameters_weight_
-        l_self_modules_layers_modules_3_modules_attention_modules_dense_parameters_bias_ = L_self_modules_layers_modules_3_modules_attention_modules_dense_parameters_bias_
-        l_self_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_
-        l_self_modules_layers_modules_3_modules_post_attention_layernorm_parameters_bias_ = L_self_modules_layers_modules_3_modules_post_attention_layernorm_parameters_bias_
-        l_self_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = L_self_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_weight_
-        l_self_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = L_self_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_bias_
-        l_self_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = L_self_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_weight_
-        l_self_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = L_self_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_bias_
-        l_self_modules_layers_modules_4_modules_input_layernorm_parameters_weight_ = (
-            L_self_modules_layers_modules_4_modules_input_layernorm_parameters_weight_
-        )
-        l_self_modules_layers_modules_4_modules_input_layernorm_parameters_bias_ = (
-            L_self_modules_layers_modules_4_modules_input_layernorm_parameters_bias_
-        )
-        l_self_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_weight_ = L_self_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_weight_
-        l_self_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_bias_ = L_self_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_bias_
-        l_self_modules_layers_modules_4_modules_attention_modules_dense_parameters_weight_ = L_self_modules_layers_modules_4_modules_attention_modules_dense_parameters_weight_
-        l_self_modules_layers_modules_4_modules_attention_modules_dense_parameters_bias_ = L_self_modules_layers_modules_4_modules_attention_modules_dense_parameters_bias_
-        l_self_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_
-        l_self_modules_layers_modules_4_modules_post_attention_layernorm_parameters_bias_ = L_self_modules_layers_modules_4_modules_post_attention_layernorm_parameters_bias_
-        l_self_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = L_self_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_weight_
-        l_self_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = L_self_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_bias_
-        l_self_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = L_self_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_weight_
-        l_self_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = L_self_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_bias_
-        l_self_modules_layers_modules_5_modules_input_layernorm_parameters_weight_ = (
-            L_self_modules_layers_modules_5_modules_input_layernorm_parameters_weight_
-        )
-        l_self_modules_layers_modules_5_modules_input_layernorm_parameters_bias_ = (
-            L_self_modules_layers_modules_5_modules_input_layernorm_parameters_bias_
-        )
-        l_self_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_weight_ = L_self_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_weight_
-        l_self_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_bias_ = L_self_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_bias_
-        l_self_modules_layers_modules_5_modules_attention_modules_dense_parameters_weight_ = L_self_modules_layers_modules_5_modules_attention_modules_dense_parameters_weight_
-        l_self_modules_layers_modules_5_modules_attention_modules_dense_parameters_bias_ = L_self_modules_layers_modules_5_modules_attention_modules_dense_parameters_bias_
-        l_self_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_ = L_self_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_
-        l_self_modules_layers_modules_5_modules_post_attention_layernorm_parameters_bias_ = L_self_modules_layers_modules_5_modules_post_attention_layernorm_parameters_bias_
-        l_self_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = L_self_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_weight_
-        l_self_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = L_self_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_bias_
-        l_self_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = L_self_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_weight_
-        l_self_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = L_self_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_bias_
-        l_self_modules_final_layer_norm_parameters_weight_ = (
-            L_self_modules_final_layer_norm_parameters_weight_
-        )
-        l_self_modules_final_layer_norm_parameters_bias_ = (
-            L_self_modules_final_layer_norm_parameters_bias_
-        )
-        cache_position = torch.arange(0, 9, device=device(type="cuda", index=0))
+        l_kwargs_input_ids_ = (
+            l_self_modules_gpt_neox_modules_embed_in_parameters_weight_
+        ) = None
+        cache_position = torch.arange(0, 19, device=device(type="cuda", index=0))
         position_ids = cache_position.unsqueeze(0)
-        attention_mask = l_attention_mask_.to(
+        attention_mask = l_kwargs_attention_mask_.to(
             device=device(type="cuda", index=0), dtype=torch.bool
         )
-        l_attention_mask_ = None
-        kv_arange = torch.arange(9, device=device(type="cuda", index=0))
+        l_kwargs_attention_mask_ = None
+        kv_arange = torch.arange(19, device=device(type="cuda", index=0))
         kv_arange += 0
         kv_arange_1 = kv_arange
         kv_arange = None
         batch_arange = torch.arange(1, device=device(type="cuda", index=0))
         head_arange = torch.arange(1, device=device(type="cuda", index=0))
-        lazy_load_decompositions = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions = None
-        _vmap_increment_nesting = torch._C._functorch._vmap_increment_nesting(
+        _vmap_increment_nesting = torch._functorch.predispatch._vmap_increment_nesting(
             1, "error"
         )
         _vmap_increment_nesting = None
-        child = torch._C._functorch._add_batch_dim(batch_arange, 0, 1)
+        child = torch._functorch.predispatch._add_batch_dim(batch_arange, 0, 1)
         batch_arange = None
-        lazy_load_decompositions_1 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_1 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_1 = None
-        _vmap_increment_nesting_1 = torch._C._functorch._vmap_increment_nesting(
-            1, "error"
+        _vmap_increment_nesting_1 = (
+            torch._functorch.predispatch._vmap_increment_nesting(1, "error")
         )
         _vmap_increment_nesting_1 = None
-        child_1 = torch._C._functorch._add_batch_dim(head_arange, 0, 2)
+        child_1 = torch._functorch.predispatch._add_batch_dim(head_arange, 0, 2)
         head_arange = child_1 = None
-        lazy_load_decompositions_2 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_2 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_2 = None
-        _vmap_increment_nesting_2 = torch._C._functorch._vmap_increment_nesting(
-            9, "error"
+        _vmap_increment_nesting_2 = (
+            torch._functorch.predispatch._vmap_increment_nesting(19, "error")
         )
         _vmap_increment_nesting_2 = None
-        child_2 = torch._C._functorch._add_batch_dim(cache_position, 0, 3)
+        child_2 = torch._functorch.predispatch._add_batch_dim(cache_position, 0, 3)
         cache_position = None
-        lazy_load_decompositions_3 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_3 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_3 = None
-        _vmap_increment_nesting_3 = torch._C._functorch._vmap_increment_nesting(
-            9, "error"
+        _vmap_increment_nesting_3 = (
+            torch._functorch.predispatch._vmap_increment_nesting(19, "error")
         )
         _vmap_increment_nesting_3 = None
-        child_3 = torch._C._functorch._add_batch_dim(kv_arange_1, 0, 4)
+        child_3 = torch._functorch.predispatch._add_batch_dim(kv_arange_1, 0, 4)
         kv_arange_1 = None
         result = child_2.new_ones((), dtype=torch.bool)
         le = child_3.le(child_2)
         child_2 = None
-        result_1 = result.__and__(le)
-        result = le = None
+        to_1 = le.to(device(type="cuda", index=0))
+        le = None
+        result_1 = result.__and__(to_1)
+        result = to_1 = None
         index = torch.ops.aten.index(attention_mask, [child, child_3])
         attention_mask = child = child_3 = None
-        result_2 = result_1.__and__(index)
-        result_1 = index = None
-        batched_outputs = torch._C._functorch._remove_batch_dim(result_2, 4, 9, 0)
+        to_2 = index.to(device(type="cuda", index=0))
+        index = None
+        result_2 = result_1.__and__(to_2)
+        result_1 = to_2 = None
+        batched_outputs = torch._functorch.predispatch._remove_batch_dim(
+            result_2, 4, 19, 0
+        )
         result_2 = None
-        _vmap_decrement_nesting = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting = torch._functorch.predispatch._vmap_decrement_nesting()
         _vmap_decrement_nesting = None
-        batched_outputs_1 = torch._C._functorch._remove_batch_dim(
-            batched_outputs, 3, 9, 0
+        batched_outputs_1 = torch._functorch.predispatch._remove_batch_dim(
+            batched_outputs, 3, 19, 0
         )
         batched_outputs = None
-        _vmap_decrement_nesting_1 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_1 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_1 = None
-        batched_outputs_2 = torch._C._functorch._remove_batch_dim(
+        batched_outputs_2 = torch._functorch.predispatch._remove_batch_dim(
             batched_outputs_1, 2, 1, 0
         )
         batched_outputs_1 = None
-        _vmap_decrement_nesting_2 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_2 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_2 = None
-        causal_mask = torch._C._functorch._remove_batch_dim(batched_outputs_2, 1, 1, 0)
+        causal_mask = torch._functorch.predispatch._remove_batch_dim(
+            batched_outputs_2, 1, 1, 0
+        )
         batched_outputs_2 = None
-        _vmap_decrement_nesting_3 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_3 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_3 = None
-        hidden_states = torch.nn.functional.dropout(l_inputs_embeds_, 0.0, False, False)
-        l_inputs_embeds_ = None
-        getitem = l_self_modules_rotary_emb_buffers_inv_freq_[
+        hidden_states = torch.nn.functional.dropout(inputs_embeds, 0.0, False, False)
+        inputs_embeds = None
+        getitem = l_self_modules_gpt_neox_modules_rotary_emb_buffers_inv_freq_[
             (None, slice(None, None, None), None)
         ]
-        l_self_modules_rotary_emb_buffers_inv_freq_ = None
+        l_self_modules_gpt_neox_modules_rotary_emb_buffers_inv_freq_ = None
         float_1 = getitem.float()
         getitem = None
         expand = float_1.expand(1, -1, 1)
@@ -282,9 +300,6 @@ class GraphModule(torch.nn.Module):
         position_ids = None
         position_ids_expanded = getitem_1.float()
         getitem_1 = None
-        _enter_autocast = torch.amp.autocast_mode._enter_autocast(
-            "cuda", None, False, None
-        )
         float_3 = inv_freq_expanded.float()
         inv_freq_expanded = None
         float_4 = position_ids_expanded.float()
@@ -302,8 +317,6 @@ class GraphModule(torch.nn.Module):
         emb = None
         sin_1 = sin * 1.0
         sin = None
-        _exit_autocast = torch.amp.autocast_mode._exit_autocast(_enter_autocast)
-        _enter_autocast = _exit_autocast = None
         cos_2 = cos_1.to(dtype=torch.float16)
         cos_1 = None
         sin_2 = sin_1.to(dtype=torch.float16)
@@ -311,20 +324,18 @@ class GraphModule(torch.nn.Module):
         layer_norm = torch.nn.functional.layer_norm(
             hidden_states,
             (512,),
-            l_self_modules_layers_modules_0_modules_input_layernorm_parameters_weight_,
-            l_self_modules_layers_modules_0_modules_input_layernorm_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_0_modules_input_layernorm_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_0_modules_input_layernorm_parameters_bias_,
             1e-05,
         )
-        l_self_modules_layers_modules_0_modules_input_layernorm_parameters_weight_ = (
-            l_self_modules_layers_modules_0_modules_input_layernorm_parameters_bias_
-        ) = None
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_input_layernorm_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_0_modules_input_layernorm_parameters_bias_ = (None)
         linear = torch._C._nn.linear(
             layer_norm,
-            l_self_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_weight_,
-            l_self_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_bias_,
         )
-        layer_norm = l_self_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_weight_ = l_self_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_bias_ = (None)
-        view = linear.view((1, 9, -1, 192))
+        layer_norm = l_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_query_key_value_parameters_bias_ = (None)
+        view = linear.view((1, 19, -1, 192))
         linear = None
         qkv = view.transpose(1, 2)
         view = None
@@ -376,61 +387,57 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
                 slice(None, None, None),
                 slice(None, None, None),
-                slice(None, 9, None),
+                slice(None, 19, None),
             )
         ]
-        query = q_embed_1.contiguous()
-        q_embed_1 = None
-        key = k_embed_1.contiguous()
-        value = value_states.contiguous()
         attn_output = torch._C._nn.scaled_dot_product_attention(
-            query,
-            key,
-            value,
+            q_embed_1,
+            k_embed_1,
+            value_states,
             attn_mask=attention_mask_1,
             dropout_p=0.0,
             scale=0.125,
             is_causal=False,
         )
-        query = key = value = attention_mask_1 = None
+        q_embed_1 = k_embed_1 = value_states = attention_mask_1 = None
         transpose_2 = attn_output.transpose(1, 2)
         attn_output = None
         attn_output_1 = transpose_2.contiguous()
         transpose_2 = None
-        reshape = attn_output_1.reshape(1, 9, -1)
+        reshape = attn_output_1.reshape(1, 19, -1)
         attn_output_1 = None
         attn_output_2 = reshape.contiguous()
         reshape = None
         attn_output_3 = torch._C._nn.linear(
             attn_output_2,
-            l_self_modules_layers_modules_0_modules_attention_modules_dense_parameters_weight_,
-            l_self_modules_layers_modules_0_modules_attention_modules_dense_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_dense_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_dense_parameters_bias_,
         )
-        attn_output_2 = l_self_modules_layers_modules_0_modules_attention_modules_dense_parameters_weight_ = l_self_modules_layers_modules_0_modules_attention_modules_dense_parameters_bias_ = (None)
+        attn_output_2 = l_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_dense_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_0_modules_attention_modules_dense_parameters_bias_ = (None)
         attn_output_4 = torch.nn.functional.dropout(attn_output_3, 0.0, False, False)
         attn_output_3 = None
         layer_norm_1 = torch.nn.functional.layer_norm(
             hidden_states,
             (512,),
-            l_self_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_,
-            l_self_modules_layers_modules_0_modules_post_attention_layernorm_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_0_modules_post_attention_layernorm_parameters_bias_,
             1e-05,
         )
-        l_self_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_ = l_self_modules_layers_modules_0_modules_post_attention_layernorm_parameters_bias_ = (None)
+        l_self_modules_gpt_neox_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_0_modules_post_attention_layernorm_parameters_bias_ = (None)
         hidden_states_1 = torch._C._nn.linear(
             layer_norm_1,
-            l_self_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_weight_,
-            l_self_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_bias_,
         )
-        layer_norm_1 = l_self_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = l_self_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = (None)
+        layer_norm_1 = l_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = (None)
         hidden_states_2 = torch._C._nn.gelu(hidden_states_1)
         hidden_states_1 = None
         hidden_states_3 = torch._C._nn.linear(
             hidden_states_2,
-            l_self_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_weight_,
-            l_self_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_bias_,
         )
-        hidden_states_2 = l_self_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = l_self_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = (None)
+        hidden_states_2 = l_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_0_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = (None)
         mlp_output = torch.nn.functional.dropout(hidden_states_3, 0.0, False, False)
         hidden_states_3 = None
         add_2 = mlp_output + attn_output_4
@@ -440,20 +447,18 @@ class GraphModule(torch.nn.Module):
         layer_norm_2 = torch.nn.functional.layer_norm(
             hidden_states_4,
             (512,),
-            l_self_modules_layers_modules_1_modules_input_layernorm_parameters_weight_,
-            l_self_modules_layers_modules_1_modules_input_layernorm_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_1_modules_input_layernorm_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_1_modules_input_layernorm_parameters_bias_,
             1e-05,
         )
-        l_self_modules_layers_modules_1_modules_input_layernorm_parameters_weight_ = (
-            l_self_modules_layers_modules_1_modules_input_layernorm_parameters_bias_
-        ) = None
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_input_layernorm_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_1_modules_input_layernorm_parameters_bias_ = (None)
         linear_4 = torch._C._nn.linear(
             layer_norm_2,
-            l_self_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_weight_,
-            l_self_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_bias_,
         )
-        layer_norm_2 = l_self_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_weight_ = l_self_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_bias_ = (None)
-        view_1 = linear_4.view((1, 9, -1, 192))
+        layer_norm_2 = l_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_query_key_value_parameters_bias_ = (None)
+        view_1 = linear_4.view((1, 19, -1, 192))
         linear_4 = None
         qkv_1 = view_1.transpose(1, 2)
         view_1 = None
@@ -505,61 +510,57 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
                 slice(None, None, None),
                 slice(None, None, None),
-                slice(None, 9, None),
+                slice(None, 19, None),
             )
         ]
-        query_1 = q_embed_3.contiguous()
-        q_embed_3 = None
-        key_1 = k_embed_3.contiguous()
-        value_1 = value_states_1.contiguous()
         attn_output_5 = torch._C._nn.scaled_dot_product_attention(
-            query_1,
-            key_1,
-            value_1,
+            q_embed_3,
+            k_embed_3,
+            value_states_1,
             attn_mask=attention_mask_2,
             dropout_p=0.0,
             scale=0.125,
             is_causal=False,
         )
-        query_1 = key_1 = value_1 = attention_mask_2 = None
+        q_embed_3 = k_embed_3 = value_states_1 = attention_mask_2 = None
         transpose_4 = attn_output_5.transpose(1, 2)
         attn_output_5 = None
         attn_output_6 = transpose_4.contiguous()
         transpose_4 = None
-        reshape_1 = attn_output_6.reshape(1, 9, -1)
+        reshape_1 = attn_output_6.reshape(1, 19, -1)
         attn_output_6 = None
         attn_output_7 = reshape_1.contiguous()
         reshape_1 = None
         attn_output_8 = torch._C._nn.linear(
             attn_output_7,
-            l_self_modules_layers_modules_1_modules_attention_modules_dense_parameters_weight_,
-            l_self_modules_layers_modules_1_modules_attention_modules_dense_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_dense_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_dense_parameters_bias_,
         )
-        attn_output_7 = l_self_modules_layers_modules_1_modules_attention_modules_dense_parameters_weight_ = l_self_modules_layers_modules_1_modules_attention_modules_dense_parameters_bias_ = (None)
+        attn_output_7 = l_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_dense_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_1_modules_attention_modules_dense_parameters_bias_ = (None)
         attn_output_9 = torch.nn.functional.dropout(attn_output_8, 0.0, False, False)
         attn_output_8 = None
         layer_norm_3 = torch.nn.functional.layer_norm(
             hidden_states_4,
             (512,),
-            l_self_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_,
-            l_self_modules_layers_modules_1_modules_post_attention_layernorm_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_1_modules_post_attention_layernorm_parameters_bias_,
             1e-05,
         )
-        l_self_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_ = l_self_modules_layers_modules_1_modules_post_attention_layernorm_parameters_bias_ = (None)
+        l_self_modules_gpt_neox_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_1_modules_post_attention_layernorm_parameters_bias_ = (None)
         hidden_states_5 = torch._C._nn.linear(
             layer_norm_3,
-            l_self_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_weight_,
-            l_self_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_bias_,
         )
-        layer_norm_3 = l_self_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = l_self_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = (None)
+        layer_norm_3 = l_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = (None)
         hidden_states_6 = torch._C._nn.gelu(hidden_states_5)
         hidden_states_5 = None
         hidden_states_7 = torch._C._nn.linear(
             hidden_states_6,
-            l_self_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_weight_,
-            l_self_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_bias_,
         )
-        hidden_states_6 = l_self_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = l_self_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = (None)
+        hidden_states_6 = l_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_1_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = (None)
         mlp_output_1 = torch.nn.functional.dropout(hidden_states_7, 0.0, False, False)
         hidden_states_7 = None
         add_6 = mlp_output_1 + attn_output_9
@@ -569,20 +570,18 @@ class GraphModule(torch.nn.Module):
         layer_norm_4 = torch.nn.functional.layer_norm(
             hidden_states_8,
             (512,),
-            l_self_modules_layers_modules_2_modules_input_layernorm_parameters_weight_,
-            l_self_modules_layers_modules_2_modules_input_layernorm_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_2_modules_input_layernorm_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_2_modules_input_layernorm_parameters_bias_,
             1e-05,
         )
-        l_self_modules_layers_modules_2_modules_input_layernorm_parameters_weight_ = (
-            l_self_modules_layers_modules_2_modules_input_layernorm_parameters_bias_
-        ) = None
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_input_layernorm_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_2_modules_input_layernorm_parameters_bias_ = (None)
         linear_8 = torch._C._nn.linear(
             layer_norm_4,
-            l_self_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_weight_,
-            l_self_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_bias_,
         )
-        layer_norm_4 = l_self_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_weight_ = l_self_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_bias_ = (None)
-        view_2 = linear_8.view((1, 9, -1, 192))
+        layer_norm_4 = l_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_query_key_value_parameters_bias_ = (None)
+        view_2 = linear_8.view((1, 19, -1, 192))
         linear_8 = None
         qkv_2 = view_2.transpose(1, 2)
         view_2 = None
@@ -634,61 +633,57 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
                 slice(None, None, None),
                 slice(None, None, None),
-                slice(None, 9, None),
+                slice(None, 19, None),
             )
         ]
-        query_2 = q_embed_5.contiguous()
-        q_embed_5 = None
-        key_2 = k_embed_5.contiguous()
-        value_2 = value_states_2.contiguous()
         attn_output_10 = torch._C._nn.scaled_dot_product_attention(
-            query_2,
-            key_2,
-            value_2,
+            q_embed_5,
+            k_embed_5,
+            value_states_2,
             attn_mask=attention_mask_3,
             dropout_p=0.0,
             scale=0.125,
             is_causal=False,
         )
-        query_2 = key_2 = value_2 = attention_mask_3 = None
+        q_embed_5 = k_embed_5 = value_states_2 = attention_mask_3 = None
         transpose_6 = attn_output_10.transpose(1, 2)
         attn_output_10 = None
         attn_output_11 = transpose_6.contiguous()
         transpose_6 = None
-        reshape_2 = attn_output_11.reshape(1, 9, -1)
+        reshape_2 = attn_output_11.reshape(1, 19, -1)
         attn_output_11 = None
         attn_output_12 = reshape_2.contiguous()
         reshape_2 = None
         attn_output_13 = torch._C._nn.linear(
             attn_output_12,
-            l_self_modules_layers_modules_2_modules_attention_modules_dense_parameters_weight_,
-            l_self_modules_layers_modules_2_modules_attention_modules_dense_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_dense_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_dense_parameters_bias_,
         )
-        attn_output_12 = l_self_modules_layers_modules_2_modules_attention_modules_dense_parameters_weight_ = l_self_modules_layers_modules_2_modules_attention_modules_dense_parameters_bias_ = (None)
+        attn_output_12 = l_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_dense_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_2_modules_attention_modules_dense_parameters_bias_ = (None)
         attn_output_14 = torch.nn.functional.dropout(attn_output_13, 0.0, False, False)
         attn_output_13 = None
         layer_norm_5 = torch.nn.functional.layer_norm(
             hidden_states_8,
             (512,),
-            l_self_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_,
-            l_self_modules_layers_modules_2_modules_post_attention_layernorm_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_2_modules_post_attention_layernorm_parameters_bias_,
             1e-05,
         )
-        l_self_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_ = l_self_modules_layers_modules_2_modules_post_attention_layernorm_parameters_bias_ = (None)
+        l_self_modules_gpt_neox_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_2_modules_post_attention_layernorm_parameters_bias_ = (None)
         hidden_states_9 = torch._C._nn.linear(
             layer_norm_5,
-            l_self_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_weight_,
-            l_self_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_bias_,
         )
-        layer_norm_5 = l_self_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = l_self_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = (None)
+        layer_norm_5 = l_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = (None)
         hidden_states_10 = torch._C._nn.gelu(hidden_states_9)
         hidden_states_9 = None
         hidden_states_11 = torch._C._nn.linear(
             hidden_states_10,
-            l_self_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_weight_,
-            l_self_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_bias_,
         )
-        hidden_states_10 = l_self_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = l_self_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = (None)
+        hidden_states_10 = l_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_2_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = (None)
         mlp_output_2 = torch.nn.functional.dropout(hidden_states_11, 0.0, False, False)
         hidden_states_11 = None
         add_10 = mlp_output_2 + attn_output_14
@@ -698,20 +693,18 @@ class GraphModule(torch.nn.Module):
         layer_norm_6 = torch.nn.functional.layer_norm(
             hidden_states_12,
             (512,),
-            l_self_modules_layers_modules_3_modules_input_layernorm_parameters_weight_,
-            l_self_modules_layers_modules_3_modules_input_layernorm_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_3_modules_input_layernorm_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_3_modules_input_layernorm_parameters_bias_,
             1e-05,
         )
-        l_self_modules_layers_modules_3_modules_input_layernorm_parameters_weight_ = (
-            l_self_modules_layers_modules_3_modules_input_layernorm_parameters_bias_
-        ) = None
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_input_layernorm_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_3_modules_input_layernorm_parameters_bias_ = (None)
         linear_12 = torch._C._nn.linear(
             layer_norm_6,
-            l_self_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_weight_,
-            l_self_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_bias_,
         )
-        layer_norm_6 = l_self_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_weight_ = l_self_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_bias_ = (None)
-        view_3 = linear_12.view((1, 9, -1, 192))
+        layer_norm_6 = l_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_query_key_value_parameters_bias_ = (None)
+        view_3 = linear_12.view((1, 19, -1, 192))
         linear_12 = None
         qkv_3 = view_3.transpose(1, 2)
         view_3 = None
@@ -763,61 +756,57 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
                 slice(None, None, None),
                 slice(None, None, None),
-                slice(None, 9, None),
+                slice(None, 19, None),
             )
         ]
-        query_3 = q_embed_7.contiguous()
-        q_embed_7 = None
-        key_3 = k_embed_7.contiguous()
-        value_3 = value_states_3.contiguous()
         attn_output_15 = torch._C._nn.scaled_dot_product_attention(
-            query_3,
-            key_3,
-            value_3,
+            q_embed_7,
+            k_embed_7,
+            value_states_3,
             attn_mask=attention_mask_4,
             dropout_p=0.0,
             scale=0.125,
             is_causal=False,
         )
-        query_3 = key_3 = value_3 = attention_mask_4 = None
+        q_embed_7 = k_embed_7 = value_states_3 = attention_mask_4 = None
         transpose_8 = attn_output_15.transpose(1, 2)
         attn_output_15 = None
         attn_output_16 = transpose_8.contiguous()
         transpose_8 = None
-        reshape_3 = attn_output_16.reshape(1, 9, -1)
+        reshape_3 = attn_output_16.reshape(1, 19, -1)
         attn_output_16 = None
         attn_output_17 = reshape_3.contiguous()
         reshape_3 = None
         attn_output_18 = torch._C._nn.linear(
             attn_output_17,
-            l_self_modules_layers_modules_3_modules_attention_modules_dense_parameters_weight_,
-            l_self_modules_layers_modules_3_modules_attention_modules_dense_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_dense_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_dense_parameters_bias_,
         )
-        attn_output_17 = l_self_modules_layers_modules_3_modules_attention_modules_dense_parameters_weight_ = l_self_modules_layers_modules_3_modules_attention_modules_dense_parameters_bias_ = (None)
+        attn_output_17 = l_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_dense_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_3_modules_attention_modules_dense_parameters_bias_ = (None)
         attn_output_19 = torch.nn.functional.dropout(attn_output_18, 0.0, False, False)
         attn_output_18 = None
         layer_norm_7 = torch.nn.functional.layer_norm(
             hidden_states_12,
             (512,),
-            l_self_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_,
-            l_self_modules_layers_modules_3_modules_post_attention_layernorm_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_3_modules_post_attention_layernorm_parameters_bias_,
             1e-05,
         )
-        l_self_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_ = l_self_modules_layers_modules_3_modules_post_attention_layernorm_parameters_bias_ = (None)
+        l_self_modules_gpt_neox_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_3_modules_post_attention_layernorm_parameters_bias_ = (None)
         hidden_states_13 = torch._C._nn.linear(
             layer_norm_7,
-            l_self_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_weight_,
-            l_self_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_bias_,
         )
-        layer_norm_7 = l_self_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = l_self_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = (None)
+        layer_norm_7 = l_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = (None)
         hidden_states_14 = torch._C._nn.gelu(hidden_states_13)
         hidden_states_13 = None
         hidden_states_15 = torch._C._nn.linear(
             hidden_states_14,
-            l_self_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_weight_,
-            l_self_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_bias_,
         )
-        hidden_states_14 = l_self_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = l_self_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = (None)
+        hidden_states_14 = l_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_3_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = (None)
         mlp_output_3 = torch.nn.functional.dropout(hidden_states_15, 0.0, False, False)
         hidden_states_15 = None
         add_14 = mlp_output_3 + attn_output_19
@@ -827,20 +816,18 @@ class GraphModule(torch.nn.Module):
         layer_norm_8 = torch.nn.functional.layer_norm(
             hidden_states_16,
             (512,),
-            l_self_modules_layers_modules_4_modules_input_layernorm_parameters_weight_,
-            l_self_modules_layers_modules_4_modules_input_layernorm_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_4_modules_input_layernorm_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_4_modules_input_layernorm_parameters_bias_,
             1e-05,
         )
-        l_self_modules_layers_modules_4_modules_input_layernorm_parameters_weight_ = (
-            l_self_modules_layers_modules_4_modules_input_layernorm_parameters_bias_
-        ) = None
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_input_layernorm_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_4_modules_input_layernorm_parameters_bias_ = (None)
         linear_16 = torch._C._nn.linear(
             layer_norm_8,
-            l_self_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_weight_,
-            l_self_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_bias_,
         )
-        layer_norm_8 = l_self_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_weight_ = l_self_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_bias_ = (None)
-        view_4 = linear_16.view((1, 9, -1, 192))
+        layer_norm_8 = l_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_query_key_value_parameters_bias_ = (None)
+        view_4 = linear_16.view((1, 19, -1, 192))
         linear_16 = None
         qkv_4 = view_4.transpose(1, 2)
         view_4 = None
@@ -892,61 +879,57 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
                 slice(None, None, None),
                 slice(None, None, None),
-                slice(None, 9, None),
+                slice(None, 19, None),
             )
         ]
-        query_4 = q_embed_9.contiguous()
-        q_embed_9 = None
-        key_4 = k_embed_9.contiguous()
-        value_4 = value_states_4.contiguous()
         attn_output_20 = torch._C._nn.scaled_dot_product_attention(
-            query_4,
-            key_4,
-            value_4,
+            q_embed_9,
+            k_embed_9,
+            value_states_4,
             attn_mask=attention_mask_5,
             dropout_p=0.0,
             scale=0.125,
             is_causal=False,
         )
-        query_4 = key_4 = value_4 = attention_mask_5 = None
+        q_embed_9 = k_embed_9 = value_states_4 = attention_mask_5 = None
         transpose_10 = attn_output_20.transpose(1, 2)
         attn_output_20 = None
         attn_output_21 = transpose_10.contiguous()
         transpose_10 = None
-        reshape_4 = attn_output_21.reshape(1, 9, -1)
+        reshape_4 = attn_output_21.reshape(1, 19, -1)
         attn_output_21 = None
         attn_output_22 = reshape_4.contiguous()
         reshape_4 = None
         attn_output_23 = torch._C._nn.linear(
             attn_output_22,
-            l_self_modules_layers_modules_4_modules_attention_modules_dense_parameters_weight_,
-            l_self_modules_layers_modules_4_modules_attention_modules_dense_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_dense_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_dense_parameters_bias_,
         )
-        attn_output_22 = l_self_modules_layers_modules_4_modules_attention_modules_dense_parameters_weight_ = l_self_modules_layers_modules_4_modules_attention_modules_dense_parameters_bias_ = (None)
+        attn_output_22 = l_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_dense_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_4_modules_attention_modules_dense_parameters_bias_ = (None)
         attn_output_24 = torch.nn.functional.dropout(attn_output_23, 0.0, False, False)
         attn_output_23 = None
         layer_norm_9 = torch.nn.functional.layer_norm(
             hidden_states_16,
             (512,),
-            l_self_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_,
-            l_self_modules_layers_modules_4_modules_post_attention_layernorm_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_4_modules_post_attention_layernorm_parameters_bias_,
             1e-05,
         )
-        l_self_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_ = l_self_modules_layers_modules_4_modules_post_attention_layernorm_parameters_bias_ = (None)
+        l_self_modules_gpt_neox_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_4_modules_post_attention_layernorm_parameters_bias_ = (None)
         hidden_states_17 = torch._C._nn.linear(
             layer_norm_9,
-            l_self_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_weight_,
-            l_self_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_bias_,
         )
-        layer_norm_9 = l_self_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = l_self_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = (None)
+        layer_norm_9 = l_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = (None)
         hidden_states_18 = torch._C._nn.gelu(hidden_states_17)
         hidden_states_17 = None
         hidden_states_19 = torch._C._nn.linear(
             hidden_states_18,
-            l_self_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_weight_,
-            l_self_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_bias_,
         )
-        hidden_states_18 = l_self_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = l_self_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = (None)
+        hidden_states_18 = l_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_4_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = (None)
         mlp_output_4 = torch.nn.functional.dropout(hidden_states_19, 0.0, False, False)
         hidden_states_19 = None
         add_18 = mlp_output_4 + attn_output_24
@@ -956,20 +939,18 @@ class GraphModule(torch.nn.Module):
         layer_norm_10 = torch.nn.functional.layer_norm(
             hidden_states_20,
             (512,),
-            l_self_modules_layers_modules_5_modules_input_layernorm_parameters_weight_,
-            l_self_modules_layers_modules_5_modules_input_layernorm_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_5_modules_input_layernorm_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_5_modules_input_layernorm_parameters_bias_,
             1e-05,
         )
-        l_self_modules_layers_modules_5_modules_input_layernorm_parameters_weight_ = (
-            l_self_modules_layers_modules_5_modules_input_layernorm_parameters_bias_
-        ) = None
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_input_layernorm_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_5_modules_input_layernorm_parameters_bias_ = (None)
         linear_20 = torch._C._nn.linear(
             layer_norm_10,
-            l_self_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_weight_,
-            l_self_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_bias_,
         )
-        layer_norm_10 = l_self_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_weight_ = l_self_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_bias_ = (None)
-        view_5 = linear_20.view((1, 9, -1, 192))
+        layer_norm_10 = l_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_query_key_value_parameters_bias_ = (None)
+        view_5 = linear_20.view((1, 19, -1, 192))
         linear_20 = None
         qkv_5 = view_5.transpose(1, 2)
         view_5 = None
@@ -1023,62 +1004,58 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
                 slice(None, None, None),
                 slice(None, None, None),
-                slice(None, 9, None),
+                slice(None, 19, None),
             )
         ]
         causal_mask = None
-        query_5 = q_embed_11.contiguous()
-        q_embed_11 = None
-        key_5 = k_embed_11.contiguous()
-        value_5 = value_states_5.contiguous()
         attn_output_25 = torch._C._nn.scaled_dot_product_attention(
-            query_5,
-            key_5,
-            value_5,
+            q_embed_11,
+            k_embed_11,
+            value_states_5,
             attn_mask=attention_mask_6,
             dropout_p=0.0,
             scale=0.125,
             is_causal=False,
         )
-        query_5 = key_5 = value_5 = attention_mask_6 = None
+        q_embed_11 = k_embed_11 = value_states_5 = attention_mask_6 = None
         transpose_12 = attn_output_25.transpose(1, 2)
         attn_output_25 = None
         attn_output_26 = transpose_12.contiguous()
         transpose_12 = None
-        reshape_5 = attn_output_26.reshape(1, 9, -1)
+        reshape_5 = attn_output_26.reshape(1, 19, -1)
         attn_output_26 = None
         attn_output_27 = reshape_5.contiguous()
         reshape_5 = None
         attn_output_28 = torch._C._nn.linear(
             attn_output_27,
-            l_self_modules_layers_modules_5_modules_attention_modules_dense_parameters_weight_,
-            l_self_modules_layers_modules_5_modules_attention_modules_dense_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_dense_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_dense_parameters_bias_,
         )
-        attn_output_27 = l_self_modules_layers_modules_5_modules_attention_modules_dense_parameters_weight_ = l_self_modules_layers_modules_5_modules_attention_modules_dense_parameters_bias_ = (None)
+        attn_output_27 = l_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_dense_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_5_modules_attention_modules_dense_parameters_bias_ = (None)
         attn_output_29 = torch.nn.functional.dropout(attn_output_28, 0.0, False, False)
         attn_output_28 = None
         layer_norm_11 = torch.nn.functional.layer_norm(
             hidden_states_20,
             (512,),
-            l_self_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_,
-            l_self_modules_layers_modules_5_modules_post_attention_layernorm_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_5_modules_post_attention_layernorm_parameters_bias_,
             1e-05,
         )
-        l_self_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_ = l_self_modules_layers_modules_5_modules_post_attention_layernorm_parameters_bias_ = (None)
+        l_self_modules_gpt_neox_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_5_modules_post_attention_layernorm_parameters_bias_ = (None)
         hidden_states_21 = torch._C._nn.linear(
             layer_norm_11,
-            l_self_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_weight_,
-            l_self_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_bias_,
         )
-        layer_norm_11 = l_self_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = l_self_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = (None)
+        layer_norm_11 = l_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_h_to_4h_parameters_bias_ = (None)
         hidden_states_22 = torch._C._nn.gelu(hidden_states_21)
         hidden_states_21 = None
         hidden_states_23 = torch._C._nn.linear(
             hidden_states_22,
-            l_self_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_weight_,
-            l_self_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_bias_,
+            l_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_weight_,
+            l_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_bias_,
         )
-        hidden_states_22 = l_self_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = l_self_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = (None)
+        hidden_states_22 = l_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_weight_ = l_self_modules_gpt_neox_modules_layers_modules_5_modules_mlp_modules_dense_4h_to_h_parameters_bias_ = (None)
         mlp_output_5 = torch.nn.functional.dropout(hidden_states_23, 0.0, False, False)
         hidden_states_23 = None
         add_22 = mlp_output_5 + attn_output_29
@@ -1088,25 +1065,19 @@ class GraphModule(torch.nn.Module):
         hidden_states_25 = torch.nn.functional.layer_norm(
             hidden_states_24,
             (512,),
-            l_self_modules_final_layer_norm_parameters_weight_,
-            l_self_modules_final_layer_norm_parameters_bias_,
+            l_self_modules_gpt_neox_modules_final_layer_norm_parameters_weight_,
+            l_self_modules_gpt_neox_modules_final_layer_norm_parameters_bias_,
             1e-05,
         )
         hidden_states_24 = (
-            l_self_modules_final_layer_norm_parameters_weight_
-        ) = l_self_modules_final_layer_norm_parameters_bias_ = None
-        return (
-            value_states,
-            k_embed_1,
-            value_states_1,
-            k_embed_3,
-            value_states_2,
-            k_embed_5,
-            value_states_3,
-            k_embed_7,
-            value_states_4,
-            k_embed_9,
-            value_states_5,
-            k_embed_11,
-            hidden_states_25,
+            l_self_modules_gpt_neox_modules_final_layer_norm_parameters_weight_
+        ) = l_self_modules_gpt_neox_modules_final_layer_norm_parameters_bias_ = None
+        getitem_74 = hidden_states_25[
+            (slice(None, None, None), slice(0, None, None), slice(None, None, None))
+        ]
+        hidden_states_25 = None
+        logits = torch._C._nn.linear(
+            getitem_74, l_self_modules_embed_out_parameters_weight_, None
         )
+        getitem_74 = l_self_modules_embed_out_parameters_weight_ = None
+        return (logits,)

@@ -141,4 +141,5 @@ if __name__ == "__main__":
         help="Path to GraphNet samples folder. e.g '../../samples'",
     )
     args = parser.parse_args()
+    print(f"[Validate Arguments] {args}")
     main(args=args)

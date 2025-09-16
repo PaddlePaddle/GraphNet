@@ -1,174 +1,12 @@
 class Program_weight_tensor_meta_L_kwargs_input_ids_:
     name = "L_kwargs_input_ids_"
-    shape = [1, 181]
+    shape = [1, 19]
     dtype = "torch.int64"
-    device = "cpu"
+    device = "cuda:0"
     mean = None
     std = None
     data = [
         9707,
-        11,
-        847,
-        829,
-        374,
-        14261,
-        13,
-        358,
-        1079,
-        6832,
-        911,
-        3460,
-        4128,
-        4119,
-        323,
-        862,
-        77235,
-        13,
-        21927,
-        11,
-        847,
-        829,
-        374,
-        14261,
-        13,
-        358,
-        1079,
-        6832,
-        911,
-        3460,
-        4128,
-        4119,
-        323,
-        862,
-        77235,
-        13,
-        21927,
-        11,
-        847,
-        829,
-        374,
-        14261,
-        13,
-        358,
-        1079,
-        6832,
-        911,
-        3460,
-        4128,
-        4119,
-        323,
-        862,
-        77235,
-        13,
-        21927,
-        11,
-        847,
-        829,
-        374,
-        14261,
-        13,
-        358,
-        1079,
-        6832,
-        911,
-        3460,
-        4128,
-        4119,
-        323,
-        862,
-        77235,
-        13,
-        21927,
-        11,
-        847,
-        829,
-        374,
-        14261,
-        13,
-        358,
-        1079,
-        6832,
-        911,
-        3460,
-        4128,
-        4119,
-        323,
-        862,
-        77235,
-        13,
-        21927,
-        11,
-        847,
-        829,
-        374,
-        14261,
-        13,
-        358,
-        1079,
-        6832,
-        911,
-        3460,
-        4128,
-        4119,
-        323,
-        862,
-        77235,
-        13,
-        21927,
-        11,
-        847,
-        829,
-        374,
-        14261,
-        13,
-        358,
-        1079,
-        6832,
-        911,
-        3460,
-        4128,
-        4119,
-        323,
-        862,
-        77235,
-        13,
-        21927,
-        11,
-        847,
-        829,
-        374,
-        14261,
-        13,
-        358,
-        1079,
-        6832,
-        911,
-        3460,
-        4128,
-        4119,
-        323,
-        862,
-        77235,
-        13,
-        21927,
-        11,
-        847,
-        829,
-        374,
-        14261,
-        13,
-        358,
-        1079,
-        6832,
-        911,
-        3460,
-        4128,
-        4119,
-        323,
-        862,
-        77235,
-        13,
-        21927,
         11,
         847,
         829,
@@ -193,1631 +31,1482 @@ class Program_weight_tensor_meta_L_kwargs_input_ids_:
 class Program_weight_tensor_meta_L_self_modules_model_modules_embed_tokens_parameters_weight_:
     name = "L_self_modules_model_modules_embed_tokens_parameters_weight_"
     shape = [151936, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.016
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_kwargs_attention_mask_:
     name = "L_kwargs_attention_mask_"
-    shape = [1, 181]
+    shape = [1, 19]
     dtype = "torch.int64"
-    device = "cpu"
+    device = "cuda:0"
     mean = None
     std = None
-    data = [
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-    ]
+    data = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_rotary_emb_buffers_inv_freq_:
     name = "L_self_modules_model_modules_rotary_emb_buffers_inv_freq_"
     shape = [32]
     dtype = "torch.float32"
-    device = "cpu"
+    device = "cuda:0"
     mean = 0.089
     std = 0.218
-    data = None
+    data = [
+        1.000000,
+        0.649382,
+        0.421697,
+        0.273842,
+        0.177828,
+        0.115478,
+        0.074989,
+        0.048697,
+        0.031623,
+        0.020535,
+        0.013335,
+        0.008660,
+        0.005623,
+        0.003652,
+        0.002371,
+        0.001540,
+        0.001000,
+        0.000649,
+        0.000422,
+        0.000274,
+        0.000178,
+        0.000115,
+        0.000075,
+        0.000049,
+        0.000032,
+        0.000021,
+        0.000013,
+        0.000009,
+        0.000006,
+        0.000004,
+        0.000002,
+        0.000002,
+    ]
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_0_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_0_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.032
-    std = 0.091
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.068
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.152
-    std = 7.854
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.082
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 3.861
-    std = 32.336
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.012
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.002
-    std = 0.015
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_0_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.013
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.674
-    std = 0.151
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_0_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_0_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.023
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_0_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_0_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_0_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_0_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.019
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_1_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_1_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.681
-    std = 0.321
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.029
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.142
-    std = 1.167
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.041
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.667
-    std = 18.454
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.012
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.021
-    std = 0.242
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_1_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.015
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.002
-    std = 0.252
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_1_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_1_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.024
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_1_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_1_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.017
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_1_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_1_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.017
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_2_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_2_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.901
-    std = 0.398
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.026
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.012
-    std = 1.014
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.037
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.409
-    std = 11.956
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.011
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.009
-    std = 0.181
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.015
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.121
-    std = 0.278
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_2_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_2_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.024
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_2_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_2_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_2_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_2_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.017
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_3_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_3_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.976
-    std = 0.427
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.023
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.128
-    std = 1.554
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.030
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.119
-    std = 2.985
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.016
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.046
-    std = 0.264
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_3_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.017
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.250
-    std = 0.467
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_3_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_3_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.023
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_3_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_3_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.018
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_3_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_3_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_4_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_4_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.018
-    std = 0.528
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.023
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.158
-    std = 1.970
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.027
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.023
-    std = 2.338
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.030
-    std = 0.441
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_4_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.216
-    std = 0.342
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_4_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_4_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.023
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_4_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_4_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.018
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_4_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_4_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_5_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_5_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.199
-    std = 0.511
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.022
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.021
-    std = 1.920
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.026
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.054
-    std = 0.923
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.019
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.042
-    std = 0.359
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.018
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.411
-    std = 0.433
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_5_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_5_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.025
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_5_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_5_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_5_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_5_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.017
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_6_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_6_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.024
-    std = 0.391
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.023
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.132
-    std = 1.983
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.029
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.077
-    std = 1.206
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.016
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.067
-    std = 0.527
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_6_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_6_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_6_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.289
-    std = 0.360
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_6_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_6_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.022
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_6_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_6_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_6_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_6_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_7_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_7_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.143
-    std = 0.362
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.023
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.339
-    std = 2.658
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.028
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.085
-    std = 0.804
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.004
-    std = 0.173
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_7_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.018
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_7_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_7_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.299
-    std = 0.404
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_7_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_7_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.022
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_7_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_7_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.019
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_7_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_7_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_8_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_8_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.081
-    std = 0.552
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.026
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.233
-    std = 2.374
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.033
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -3.760
-    std = 24.905
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.017
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.046
-    std = 0.552
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_8_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_8_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.231
-    std = 0.460
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_8_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_8_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.022
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_8_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_8_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.019
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_8_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_8_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.018
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_9_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_9_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.532
-    std = 0.967
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.023
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.098
-    std = 2.687
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.025
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.057
-    std = 0.661
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.010
-    std = 0.122
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_9_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.017
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_9_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_9_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.304
-    std = 0.573
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_9_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_9_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.021
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_9_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_9_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_9_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_9_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.018
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_10_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_10_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.491
-    std = 0.929
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.022
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.163
-    std = 2.142
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.025
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.017
-    std = 0.981
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.021
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.019
-    std = 0.137
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_10_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_10_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.297
-    std = 0.641
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_10_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_10_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.022
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_10_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_10_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.019
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_10_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_10_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_11_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_11_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.779
-    std = 1.132
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.021
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.397
-    std = 2.430
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.024
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.059
-    std = 0.733
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.017
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.024
-    std = 0.176
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_11_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_11_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_11_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.355
-    std = 0.644
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_11_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_11_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1825,119 +1514,119 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_11_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_11_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_11_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_11_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_11_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_12_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.585
-    std = 1.000
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.022
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.224
-    std = 2.030
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.024
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.047
-    std = 1.061
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.019
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.001
-    std = 0.071
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.018
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_12_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.292
-    std = 0.618
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_12_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -1945,8 +1634,8 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_12_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
     std = 0.020
     data = None
@@ -1955,109 +1644,109 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_12_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_12_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_13_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.705
-    std = 0.991
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.022
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.266
-    std = 1.920
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.024
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.088
-    std = 1.021
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.019
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.098
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_13_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_13_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.311
-    std = 0.549
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_13_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -2065,8 +1754,8 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_13_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
     std = 0.020
     data = None
@@ -2075,108 +1764,108 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_13_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_13_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_14_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.686
-    std = 0.738
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.021
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.143
-    std = 2.077
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.022
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.033
-    std = 1.111
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.021
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.011
-    std = 0.130
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.019
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_14_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.267
-    std = 0.445
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_14_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
     std = 0.020
     data = None
@@ -2185,8 +1874,8 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_14_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
     std = 0.020
     data = None
@@ -2195,69 +1884,69 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_14_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_14_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_15_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.592
-    std = 0.799
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.021
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.066
-    std = 2.199
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.025
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.026
-    std = 0.990
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -2265,38 +1954,38 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.012
-    std = 0.123
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_15_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_15_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.318
-    std = 0.435
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_15_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
     std = 0.020
     data = None
@@ -2305,8 +1994,8 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_15_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
     std = 0.020
     data = None
@@ -2315,88 +2004,88 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_15_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_15_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_16_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.682
-    std = 0.847
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.025
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.252
-    std = 1.806
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.023
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.177
-    std = 1.161
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.019
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.006
-    std = 0.073
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_16_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
     std = 0.020
     data = None
@@ -2405,28 +2094,28 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_16_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.398
-    std = 0.349
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_16_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.022
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_16_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
     std = 0.020
     data = None
@@ -2435,209 +2124,209 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_16_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_16_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_17_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_17_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.535
-    std = 0.379
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.022
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.006
-    std = 1.972
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.022
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.105
-    std = 0.884
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.021
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.038
-    std = 0.414
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_17_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_17_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_17_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.660
-    std = 0.402
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_17_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_17_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.023
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_17_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_17_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_17_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_17_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_18_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.543
-    std = 0.391
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.021
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.071
-    std = 2.313
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.023
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.042
-    std = 0.870
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.025
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.008
-    std = 0.182
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_18_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -2645,28 +2334,28 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_18_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.654
-    std = 0.423
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_18_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.021
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_18_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
     std = 0.020
     data = None
@@ -2675,118 +2364,118 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_18_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_18_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_19_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.404
-    std = 0.586
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.022
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.046
-    std = 2.311
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.022
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.114
-    std = 0.974
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.023
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.019
-    std = 0.157
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_19_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_19_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.790
-    std = 0.351
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_19_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.021
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_19_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
     std = 0.020
     data = None
@@ -2795,9 +2484,9 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_19_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -2805,118 +2494,118 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_19_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_20_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_20_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.590
-    std = 0.684
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.022
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.059
-    std = 1.495
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.021
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.167
-    std = 1.047
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.025
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.061
-    std = 0.698
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_20_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.022
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_20_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_20_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.877
-    std = 0.304
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_20_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_20_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.021
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_20_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_20_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.021
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_20_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_20_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
     std = 0.020
     data = None
@@ -2925,119 +2614,119 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_20_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_21_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_21_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.580
-    std = 1.475
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.022
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.085
-    std = 1.628
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.019
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.042
-    std = 0.914
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.031
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.085
-    std = 1.015
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_21_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.022
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_21_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_21_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 2.066
-    std = 0.476
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_21_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_21_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.021
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_21_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_21_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.021
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_21_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_21_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
     std = 0.020
     data = None
 
@@ -3045,99 +2734,99 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_21_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_22_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.579
-    std = 1.490
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.021
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.074
-    std = 1.118
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.182
-    std = 1.302
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.028
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.002
-    std = 0.153
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_22_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.022
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_22_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.984
-    std = 0.300
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_22_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -3145,19 +2834,19 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_22_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.021
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_22_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
     std = 0.020
     data = None
 
@@ -3165,128 +2854,128 @@ class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_22_
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_23_modules_input_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_23_modules_input_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 1.716
-    std = 1.896
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.000
-    std = 0.022
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_q_proj_parameters_bias_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.036
-    std = 1.463
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.019
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_k_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = -0.055
-    std = 1.607
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_weight_"
     shape = [128, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.026
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_bias_:
     name = "L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_v_proj_parameters_bias_"
     shape = [128]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.033
-    std = 1.485
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 0.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_o_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_23_modules_self_attn_modules_o_proj_parameters_weight_"
     shape = [896, 896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 0.000
-    std = 0.021
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = -0.000
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_23_modules_post_attention_layernorm_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_23_modules_post_attention_layernorm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 2.358
-    std = 0.419
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_23_modules_mlp_modules_gate_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_23_modules_mlp_modules_gate_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.021
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_23_modules_mlp_modules_up_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_23_modules_mlp_modules_up_proj_parameters_weight_"
     shape = [4864, 896]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = 0.000
-    std = 0.021
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_layers_modules_23_modules_mlp_modules_down_proj_parameters_weight_:
     name = "L_self_modules_model_modules_layers_modules_23_modules_mlp_modules_down_proj_parameters_weight_"
     shape = [896, 4864]
-    dtype = "torch.float32"
-    device = "cpu"
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
     mean = -0.000
-    std = 0.018
+    std = 0.020
     data = None
 
 
 class Program_weight_tensor_meta_L_self_modules_model_modules_norm_parameters_weight_:
     name = "L_self_modules_model_modules_norm_parameters_weight_"
     shape = [896]
-    dtype = "torch.float32"
-    device = "cpu"
-    mean = 7.036
-    std = 1.108
+    dtype = "torch.bfloat16"
+    device = "cuda:0"
+    mean = 1.000
+    std = 0.000
     data = None

@@ -55,6 +55,14 @@ class OpStat:
     count: int = 0
 
 
+def resolve_get_attr(gm: torch.fx.GraphModule, node: torch.fx.Node):
+    attr_itr = node.target.split(".")
+    val = gm
+    for a in attr_itr:
+        val = getattr(val, a)
+    return val
+
+
 def collect_op_stats(model, input_dict):
     # Use meta tensors as input to avoid actually running the model
     meta_input_dict = {}
@@ -77,14 +85,14 @@ def collect_op_stats(model, input_dict):
             op_name = node.op
             dtype = node_outputs[node.name].dtype
         elif node.op in ["call_function", "call_method", "call_module"]:
-            node_args = []
-            for arg in node.args:
-                node_args.append(
-                    node_outputs[arg.name] if hasattr(arg, "name") else arg
-                )
-            node_kwargs = {}
-            for k, v in node.kwargs.items():
-                node_kwargs[k] = node_outputs[v.name] if hasattr(v, "name") else v
+            node_args = torch.fx.map_arg(
+                node.args,
+                lambda n: node_outputs[n.name] if isinstance(n, torch.fx.Node) else n,
+            )
+            node_kwargs = torch.fx.map_arg(
+                node.kwargs,
+                lambda n: node_outputs[n.name] if isinstance(n, torch.fx.Node) else n,
+            )
 
             if node.op == "call_module":
                 # classname of module
@@ -107,13 +115,17 @@ def collect_op_stats(model, input_dict):
                 except Exception:
                     print(f"dtype inference failed: op_name={op_name}")
                     node_outputs[node.name] = None
+        elif node.op == "get_attr":
+            val = resolve_get_attr(traced, node)
+            out = val.to(device="meta") if isinstance(val, torch.Tensor) else val
+            node_outputs[node.name] = out
+            dtype = out.dtype if isinstance(out, torch.Tensor) else None
         elif node.op == "output":
             op_name = node.op
-            node_args = []
-            for arg in node.args:
-                node_args.append(
-                    node_outputs[arg.name] if hasattr(arg, "name") else arg
-                )
+            node_args = torch.fx.map_arg(
+                node.args,
+                lambda n: node_outputs[n.name] if isinstance(n, torch.fx.Node) else n,
+            )
             node_outputs[node.name] = node_args[0] if len(node_args) == 1 else node_args
             dtype = (
                 node_args[0].dtype if isinstance(node_args[0], torch.Tensor) else None

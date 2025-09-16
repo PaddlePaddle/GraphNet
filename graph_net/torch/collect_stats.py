@@ -55,6 +55,20 @@ class OpStat:
     count: int = 0
 
 
+def resolve_native_multi_head_attention(*args, **kwargs):
+    query, key, value = args[0], args[1], args[2]
+    seq_len, batch_size, embed_dim = query.shape
+    attn_output = torch.empty(
+        (seq_len, batch_size, embed_dim), dtype=query.dtype, device="meta"
+    )
+
+    # seq_len_k = key.shape[0]
+    # num_heads = args[4]
+    # attn_output_weights = torch.empty((batch_size, num_heads, seq_len, seq_len_k),
+    #                                  dtype=query.dtype, device='meta')
+    return attn_output  # , attn_output_weights
+
+
 def resolve_get_attr(gm: torch.fx.GraphModule, node: torch.fx.Node):
     attr_itr = node.target.split(".")
     val = gm
@@ -65,13 +79,13 @@ def resolve_get_attr(gm: torch.fx.GraphModule, node: torch.fx.Node):
 
 
 def collect_op_stats(model, input_dict):
-    # FX symbolic trace
     try:
+        # FX symbolic trace
         traced = torch.fx.symbolic_trace(model)
         # print(traced.graph)
     except Exception:
         print("Failed to FX symbolic trace")
-        return None
+        return False, None
 
     # Use meta tensors as input to avoid actually running the model
     meta_input_dict = {}
@@ -80,8 +94,9 @@ def collect_op_stats(model, input_dict):
             torch.empty_like(x, device="meta") if isinstance(x, torch.Tensor) else x
         )
 
-    node_outputs = {}
+    is_complete = True
     op_stats = {}
+    node_outputs = {}
     for node in traced.graph.nodes:
         op_name = None
         dtype = None
@@ -99,31 +114,35 @@ def collect_op_stats(model, input_dict):
                 lambda n: node_outputs[n.name] if isinstance(n, torch.fx.Node) else n,
             )
 
-            if node.op == "call_module":
-                # classname of module
-                submod = traced.get_submodule(node.target)
-                op_name = submod.__class__.__name__
-                op_func = submod
-            elif node.op == "call_function":
-                op_name = node.target.__name__
-                op_func = node.target
-            elif node.op == "call_method":
-                op_name = node.target
-                self_obj = (
-                    node_outputs[node.args[0].name]
-                    if isinstance(node.args[0], torch.fx.Node)
-                    else node.args[0]
-                )
-                op_func = getattr(self_obj, node.target)
-                node_args = node_args[1:]
-
             try:
-                out = op_func(*node_args, **node_kwargs)
+                if node.op == "call_module":
+                    # classname of module
+                    submod = traced.get_submodule(node.target)
+                    op_name = submod.__class__.__name__
+                    op_func = submod
+                elif node.op == "call_function":
+                    op_name = node.target.__name__
+                    op_func = node.target
+                elif node.op == "call_method":
+                    op_name = node.target
+                    self_obj = (
+                        node_outputs[node.args[0].name]
+                        if isinstance(node.args[0], torch.fx.Node)
+                        else node.args[0]
+                    )
+                    op_func = getattr(self_obj, node.target)
+                    node_args = node_args[1:]
+
+                if op_name == "_native_multi_head_attention":
+                    out = resolve_native_multi_head_attention(*node_args, **node_kwargs)
+                else:
+                    out = op_func(*node_args, **node_kwargs)
                 node_outputs[node.name] = out
                 dtype = out.dtype if isinstance(out, torch.Tensor) else None
             except Exception:
                 print(f"dtype inference failed: node.op={node.op}, op_name={op_name}")
                 node_outputs[node.name] = None
+                is_complete = False
         elif node.op == "get_attr":
             op_name = node.op
             out = resolve_get_attr(traced, node)
@@ -149,11 +168,16 @@ def collect_op_stats(model, input_dict):
             else:
                 op_stats[op_name].dtype.add(dtype_str)
                 op_stats[op_name].count = op_stats[op_name].count + 1
-    return op_stats
+    return is_complete, op_stats
 
 
 def collect_model_stats(model_path, device, log_prompt):
-    print(f"Collect information for {model_path}")
+    if not hasattr(collect_model_stats, "_counter"):
+        collect_model_stats._counter = 0
+    else:
+        collect_model_stats._counter += 1
+    print(f"[{collect_model_stats._counter}] Collect information for {model_path}")
+
     model_class = load_class_from_file(
         os.path.join(model_path, "model.py"), "GraphModule"
     )
@@ -164,7 +188,7 @@ def collect_model_stats(model_path, device, log_prompt):
     num_inputs = 0
     num_outputs = 0
     dtypes = set()
-    op_stats = collect_op_stats(model, input_dict)
+    is_complete, op_stats = collect_op_stats(model, input_dict)
     if op_stats is not None:
         for op_name, stat in op_stats.items():
             if op_name == "placeholder":
@@ -192,7 +216,7 @@ def collect_model_stats(model_path, device, log_prompt):
     dtypes_str = "[" + ",".join(dtypes) + "]"
     param_dtypes_str = "[" + ",".join(param_dtypes) + "]"
     print(
-        f"{log_prompt} [ModelStats] model_path:{model_path} num_inputs:{num_inputs} num_outputs:{num_outputs} num_ops:{num_ops} num_params:{num_params_in_billion}B param_dtypes:{param_dtypes_str} op_dtypes:{dtypes_str}",
+        f"{log_prompt} [ModelStats] model_path:{model_path} num_inputs:{num_inputs} num_outputs:{num_outputs} num_ops:{num_ops} num_params:{num_params_in_billion}B param_dtypes:{param_dtypes_str} op_dtypes:{dtypes_str} is_complete:{is_complete}",
         file=sys.stderr,
         flush=True,
     )

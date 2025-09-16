@@ -4,6 +4,7 @@ import sys
 import math
 import importlib
 import inspect
+import subprocess
 from typing import Type
 from dataclasses import dataclass, field
 from collections import defaultdict
@@ -62,11 +63,31 @@ def resolve_native_multi_head_attention(*args, **kwargs):
         (seq_len, batch_size, embed_dim), dtype=query.dtype, device="meta"
     )
 
-    # seq_len_k = key.shape[0]
-    # num_heads = args[4]
-    # attn_output_weights = torch.empty((batch_size, num_heads, seq_len, seq_len_k),
-    #                                  dtype=query.dtype, device='meta')
-    return attn_output  # , attn_output_weights
+    # TODO(Xreki): get value from args
+    need_weights = False
+    if need_weights:
+        seq_len_k = key.shape[0]
+        num_heads = args[4]
+        attn_output_weights = torch.empty(
+            (batch_size, num_heads, seq_len, seq_len_k),
+            dtype=query.dtype,
+            device="meta",
+        )
+        return attn_output, attn_output_weights
+    else:
+        return attn_output
+
+
+def resolve_tensor_to(tensor, *args, **kwargs):
+    if isinstance(args[0], torch.dtype):
+        dtype = args[0]
+    else:
+        dtype = tensor.dtype
+    return torch.empty(tensor.shape, dtype=dtype, device="meta")
+
+
+def resolve_tensor_item(tensor):
+    return torch.empty((), dtype=tensor.dtype, device="meta")
 
 
 def resolve_get_attr(gm: torch.fx.GraphModule, node: torch.fx.Node):
@@ -115,6 +136,7 @@ def collect_op_stats(model, input_dict):
             )
 
             try:
+                # if True:
                 if node.op == "call_module":
                     # classname of module
                     submod = traced.get_submodule(node.target)
@@ -133,8 +155,15 @@ def collect_op_stats(model, input_dict):
                     op_func = getattr(self_obj, node.target)
                     node_args = node_args[1:]
 
+                # print(f"node.op={node.op}, op_name={op_name}, node.args={node.args}")
                 if op_name == "_native_multi_head_attention":
                     out = resolve_native_multi_head_attention(*node_args, **node_kwargs)
+                elif op_name == "to":
+                    out = resolve_tensor_to(
+                        node_outputs[node.args[0].name], *node_args, **node_kwargs
+                    )
+                elif op_name == "item":
+                    out = resolve_tensor_item(node_outputs[node.args[0].name])
                 else:
                     out = op_func(*node_args, **node_kwargs)
                 node_outputs[node.name] = out
@@ -172,12 +201,6 @@ def collect_op_stats(model, input_dict):
 
 
 def collect_model_stats(model_path, device, log_prompt):
-    if not hasattr(collect_model_stats, "_counter"):
-        collect_model_stats._counter = 0
-    else:
-        collect_model_stats._counter += 1
-    print(f"[{collect_model_stats._counter}] Collect information for {model_path}")
-
     model_class = load_class_from_file(
         os.path.join(model_path, "model.py"), "GraphModule"
     )
@@ -187,16 +210,18 @@ def collect_model_stats(model_path, device, log_prompt):
     num_ops = 0
     num_inputs = 0
     num_outputs = 0
+    ops_count_info = []
     dtypes = set()
     is_complete, op_stats = collect_op_stats(model, input_dict)
     if op_stats is not None:
-        for op_name, stat in op_stats.items():
+        for op_name, stat in sorted(op_stats.items()):
             if op_name == "placeholder":
                 num_inputs += stat.count
             elif op_name == "output":
                 num_outputs += stat.count
             else:
                 num_ops += stat.count
+                ops_count_info.append(f"{op_name}={stat.count}")
             for v in stat.dtype:
                 if v is not None:
                     dtypes.add(v)
@@ -213,11 +238,11 @@ def collect_model_stats(model_path, device, log_prompt):
             param_dtypes.add(str(input_dict[name].dtype).replace("torch.", ""))
     num_params_in_billion = num_params / 1e9
 
+    ops_str = "[" + ",".join(ops_count_info) + "]"
     dtypes_str = "[" + ",".join(dtypes) + "]"
     param_dtypes_str = "[" + ",".join(param_dtypes) + "]"
     print(
-        f"{log_prompt} [ModelStats] model_path:{model_path} num_inputs:{num_inputs} num_outputs:{num_outputs} num_ops:{num_ops} num_params:{num_params_in_billion}B param_dtypes:{param_dtypes_str} op_dtypes:{dtypes_str} is_complete:{is_complete}",
-        file=sys.stderr,
+        f"{log_prompt} [ModelStats] model_path:{model_path} num_inputs:{num_inputs} num_outputs:{num_outputs} num_ops:{num_ops} num_params:{num_params_in_billion}B param_dtypes:{param_dtypes_str} op_dtypes:{dtypes_str} is_complete:{is_complete} ops:{ops_str}",
         flush=True,
     )
 
@@ -226,6 +251,7 @@ def main(args):
     if args.model_path is not None:
         assert os.path.isdir(args.model_path)
         assert is_single_model_dir(args.model_path)
+        print(f"Collect information for {args.model_path}")
         collect_model_stats(args.model_path, args.device, args.log_prompt)
     else:
         graph_net_samples_path = (
@@ -233,9 +259,28 @@ def main(args):
             if args.graph_net_samples_path is None
             else args.graph_net_samples_path
         )
+        i = 0
         for root, dirs, files in os.walk(graph_net_samples_path):
             if is_single_model_dir(root):
-                collect_model_stats(root, args.device, args.log_prompt)
+                print(f"[{i}] Collect information for {root}")
+                cmd = [
+                    "python",
+                    "-m",
+                    "graph_net.torch.collect_stats",
+                    f"--device={args.device}",
+                    f"--model-path={root}",
+                    f"--log-prompt={args.log_prompt}",
+                ]
+                result = subprocess.run(
+                    cmd,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                    timeout=600,
+                )
+                if result.returncode == 0:
+                    print(result.stdout)
+                i += 1
 
 
 if __name__ == "__main__":

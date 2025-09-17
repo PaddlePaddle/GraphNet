@@ -52,7 +52,7 @@ def get_input_dict(model_path, device):
 @dataclass
 class OpStat:
     op_name: str
-    dtype: set[str] = field(default_factory=set)
+    op_dtypes: dict[str, int] = field(default_factory=dict)
     count: int = 0
 
 
@@ -124,7 +124,6 @@ def collect_op_stats_manual(model, input_dict):
         if node.op == "placeholder":
             node_outputs[node.name] = meta_input_dict[node.target]
             op_name = node.op
-            dtype = node_outputs[node.name].dtype
         elif node.op in ["call_function", "call_module", "call_method"]:
             node_args = torch.fx.map_arg(
                 node.args,
@@ -190,11 +189,13 @@ def collect_op_stats_manual(model, input_dict):
             assert False, f"node.op: {node.op}"
 
         if op_name is not None:
-            dtype_str = str(dtype).replace("torch.", "") if dtype is not None else None
+            dtype_str = str(dtype).replace("torch.", "")
             if op_stats.get(op_name, None) is None:
-                op_stats[op_name] = OpStat(op_name, {dtype_str}, 1)
+                op_stats[op_name] = OpStat(op_name, {dtype_str: 1}, 1)
             else:
-                op_stats[op_name].dtype.add(dtype_str)
+                op_stats[op_name].op_dtypes[dtype_str] = (
+                    op_stats[op_name].op_dtypes.get(dtype_str, 0) + 1
+                )
                 op_stats[op_name].count = op_stats[op_name].count + 1
     return is_complete, op_stats
 
@@ -234,7 +235,7 @@ def collect_op_stats_with_make_fx(model, input_dict, arg_types):
             assert False, f"node.op: {node.op}"
 
         dtype = None
-        if node.op != "output":
+        if node.op not in ["placeholder", "output"]:
             if "tensor_meta" in node.meta:
                 tensor_meta = node.meta["tensor_meta"]
                 dtype = tensor_meta.dtype
@@ -252,9 +253,11 @@ def collect_op_stats_with_make_fx(model, input_dict, arg_types):
         )
         dtype_str = str(dtype).replace("torch.", "")
         if op_stats.get(op_name, None) is None:
-            op_stats[op_name] = OpStat(op_name, {dtype_str}, 1)
+            op_stats[op_name] = OpStat(op_name, {dtype_str: 1}, 1)
         else:
-            op_stats[op_name].dtype.add(dtype_str)
+            op_stats[op_name].op_dtypes[dtype_str] = (
+                op_stats[op_name].op_dtypes.get(dtype_str, 0) + 1
+            )
             op_stats[op_name].count = op_stats[op_name].count + 1
     return is_complete, op_stats
 
@@ -280,8 +283,8 @@ def collect_model_stats(model_path, device, log_prompt):
 
     num_ops = 0
     num_outputs = 0
-    ops_count_info = []
-    dtypes = set()
+    ops_count_dict = {}
+    op_dtypes = {}
     method, is_complete, op_stats = collect_op_stats(model, input_dict, arg_types)
     if op_stats is not None:
         for op_name, stat in sorted(op_stats.items()):
@@ -291,29 +294,48 @@ def collect_model_stats(model_path, device, log_prompt):
                 num_outputs += stat.count
             else:
                 num_ops += stat.count
-                ops_count_info.append(f"{op_name}={stat.count}")
-            for v in stat.dtype:
-                if v is not None:
-                    dtypes.add(v)
+                ops_count_dict[op_name] = stat.count
+            for dtype_str, num in stat.op_dtypes.items():
+                if dtype_str is not None and dtype_str != "None":
+                    op_dtypes[dtype_str] = op_dtypes.get(dtype_str, 0) + num
 
-    num_inputs = len(arg_types)
     num_params = 0
-    param_dtypes = set()
+    model_size = 0
+    input_dtypes = {}
+    param_dtypes = {}
     for name, arg_type in arg_types.items():
         if arg_type == torch.nn.parameter.Parameter:
-            count = math.prod(input_dict[name].shape)
+            param_numel = math.prod(input_dict[name].shape)
             # print(f"Parameter {name}: {count}")
-            num_params += count
-            param_dtypes.add(str(input_dict[name].dtype).replace("torch.", ""))
-    num_params_in_billion = num_params / 1e9
+            num_params += 1
+            model_size += param_numel
+            dtype_str = str(input_dict[name].dtype).replace("torch.", "")
+            param_dtypes[dtype_str] = param_dtypes.get(dtype_str, 0) + 1
+        else:
+            dtype_str = str(input_dict[name].dtype).replace("torch.", "")
+            input_dtypes[dtype_str] = input_dtypes.get(dtype_str, 0) + 1
+    model_size_in_billion = model_size / 1e9
+    num_inputs = len(arg_types) - num_params
 
-    ops_str = "[" + ",".join(ops_count_info) + "]"
-    dtypes_str = "[" + ",".join(dtypes) + "]"
-    param_dtypes_str = "[" + ",".join(param_dtypes) + "]"
-    print(
-        f"{log_prompt} [ModelStats] model_path:{model_path} num_inputs:{num_inputs} num_outputs:{num_outputs} num_ops:{num_ops} num_params:{num_params_in_billion}B param_dtypes:{param_dtypes_str} op_dtypes:{dtypes_str} method:{method} is_complete:{is_complete} ops:{ops_str}",
-        flush=True,
-    )
+    def dict_to_string(d):
+        kv_list = [f"{k}={v}" for k, v in d.items()]
+        return "{" + ",".join(kv_list) + "}"
+
+    log_fields = [log_prompt, "[ModelStats]"]
+    log_fields.append(f"model_path:{model_path}")
+    log_fields.append(f"num_inputs:{num_inputs}")
+    log_fields.append(f"num_params:{num_params}")
+    log_fields.append(f"num_outputs:{num_outputs}")
+    log_fields.append(f"num_ops:{num_ops}")
+    log_fields.append(f"model_size:{model_size_in_billion}B")
+    log_fields.append(f"input_dtypes:{dict_to_string(input_dtypes)}")
+    log_fields.append(f"param_dtypes:{dict_to_string(param_dtypes)}")
+    log_fields.append(f"op_dtypes:{dict_to_string(op_dtypes)}")
+    log_fields.append(f"ops:{dict_to_string(ops_count_dict)}")
+    log_fields.append(f"method:{method}")
+    log_fields.append(f"is_complete:{is_complete}")
+
+    print(" ".join(log_fields), flush=True)
 
 
 def main(args):

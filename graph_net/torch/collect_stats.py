@@ -369,8 +369,9 @@ def main(args):
                     text=True,
                     timeout=600,
                 )
-                if result.returncode == 0:
-                    print(result.stdout)
+                print(result.stdout)
+                if result.returncode != 0:
+                    print(result.stderr)
                 i += 1
 
 

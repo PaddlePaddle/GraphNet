@@ -79,7 +79,7 @@ def resolve_native_multi_head_attention(*args, **kwargs):
 
 
 def resolve_tensor_to(tensor, *args, **kwargs):
-    if isinstance(args[0], torch.dtype):
+    if len(args) > 0 and isinstance(args[0], torch.dtype):
         dtype = args[0]
     else:
         dtype = tensor.dtype
@@ -99,7 +99,40 @@ def resolve_get_attr(gm: torch.fx.GraphModule, node: torch.fx.Node):
     return out
 
 
-def collect_op_stats_manual(model, input_dict):
+def convert_real_to_meta(x):
+    if isinstance(x, torch.Tensor) and not x.is_meta:
+        return torch.empty_like(x, device="meta")
+    elif isinstance(x, (list, tuple)):
+        return type(x)(convert_real_to_meta(v) for v in x)
+    elif isinstance(x, dict):
+        return {k: convert_real_to_meta(v) for k, v in x.items()}
+    else:
+        return x
+
+
+def convert_meta_to_real(x, device):
+    if isinstance(x, torch.Tensor) and x.is_meta:
+        return torch.empty_like(x, device=device)
+    elif isinstance(x, (list, tuple)):
+        return type(x)(convert_meta_to_real(v, device) for v in x)
+    elif isinstance(x, dict):
+        return {k: convert_meta_to_real(v, device) for k, v in x.items()}
+    else:
+        return x
+
+
+def resolve_with_real_tensor(op_func, device, meta_args, meta_kwargs):
+    try:
+        real_args = convert_meta_to_real(meta_args, device)
+        real_kwargs = convert_meta_to_real(meta_kwargs, device)
+
+        real_out = op_func(*real_args, **real_kwargs)
+        return convert_real_to_meta(real_out)
+    except Exception:
+        return None
+
+
+def collect_op_stats_manual(model, input_dict, device):
     try:
         # FX symbolic trace
         traced = torch.fx.symbolic_trace(model)
@@ -109,11 +142,19 @@ def collect_op_stats_manual(model, input_dict):
         return False, None
 
     # Use meta tensors as input to avoid actually running the model
-    meta_input_dict = {}
-    for name, x in input_dict.items():
-        meta_input_dict[name] = (
-            torch.empty_like(x, device="meta") if isinstance(x, torch.Tensor) else x
-        )
+    meta_input_dict = convert_real_to_meta(input_dict)
+
+    def get_output_dtype(out):
+        if isinstance(out, torch.Tensor):
+            return out.dtype
+        if (
+            isinstance(out, (list, tuple))
+            and len(out) > 0
+            and isinstance(out[0], torch.Tensor)
+        ):
+            return out[0].dtype
+        else:
+            return None
 
     is_complete = True
     op_stats = {}
@@ -157,6 +198,7 @@ def collect_op_stats_manual(model, input_dict):
                 if op_name == "_native_multi_head_attention":
                     out = resolve_native_multi_head_attention(*node_args, **node_kwargs)
                 elif op_name == "to":
+                    # print(f"node.op={node.op}, op_name={op_name}, node.args={node.args}")
                     out = resolve_tensor_to(
                         node_outputs[node.args[0].name], *node_args, **node_kwargs
                     )
@@ -165,16 +207,22 @@ def collect_op_stats_manual(model, input_dict):
                 else:
                     out = op_func(*node_args, **node_kwargs)
                 node_outputs[node.name] = out
-                dtype = out.dtype if isinstance(out, torch.Tensor) else None
+                dtype = get_output_dtype(out)
             except Exception:
-                print(f"dtype inference failed: node.op={node.op}, op_name={op_name}")
-                node_outputs[node.name] = None
-                is_complete = False
+                out = resolve_with_real_tensor(op_func, device, node_args, node_kwargs)
+                node_outputs[node.name] = out
+                if out is not None:
+                    dtype = get_output_dtype(out)
+                else:
+                    print(
+                        f"dtype inference failed: node.op={node.op}, op_name={op_name}"
+                    )
+                    is_complete = False
         elif node.op == "get_attr":
             op_name = node.op
             out = resolve_get_attr(traced, node)
             node_outputs[node.name] = out
-            dtype = out.dtype if isinstance(out, torch.Tensor) else None
+            dtype = get_output_dtype(out)
         elif node.op == "output":
             op_name = node.op
             node_args = torch.fx.map_arg(
@@ -182,9 +230,7 @@ def collect_op_stats_manual(model, input_dict):
                 lambda n: node_outputs[n.name] if isinstance(n, torch.fx.Node) else n,
             )
             node_outputs[node.name] = node_args[0] if len(node_args) == 1 else node_args
-            dtype = (
-                node_args[0].dtype if isinstance(node_args[0], torch.Tensor) else None
-            )
+            dtype = get_output_dtype(node_args[0])
         else:
             assert False, f"node.op: {node.op}"
 
@@ -205,10 +251,7 @@ def collect_op_stats_with_make_fx(model, input_dict, arg_types):
     meta_input_list = []
     for arg_name in arg_types.keys():
         x = input_dict[arg_name]
-        meta_x = (
-            torch.empty_like(x, device="meta") if isinstance(x, torch.Tensor) else x
-        )
-        meta_input_list.append(meta_x)
+        meta_input_list.append(convert_real_to_meta(x))
 
     try:
         # Generate FX Graph, and automatically fill in meta information
@@ -262,8 +305,10 @@ def collect_op_stats_with_make_fx(model, input_dict, arg_types):
     return is_complete, op_stats
 
 
-def collect_op_stats(model, input_dict, arg_types):
-    is_complete_manual, op_stats_manual = collect_op_stats_manual(model, input_dict)
+def collect_op_stats(model, input_dict, arg_types, device):
+    is_complete_manual, op_stats_manual = collect_op_stats_manual(
+        model, input_dict, device
+    )
     if not is_complete_manual:
         is_complete_make_fx, op_stats_make_fx = collect_op_stats_with_make_fx(
             model, input_dict, arg_types
@@ -285,7 +330,9 @@ def collect_model_stats(model_path, device, log_prompt):
     num_outputs = 0
     ops_count_dict = {}
     op_dtypes = {}
-    method, is_complete, op_stats = collect_op_stats(model, input_dict, arg_types)
+    method, is_complete, op_stats = collect_op_stats(
+        model, input_dict, arg_types, device
+    )
     if op_stats is not None:
         for op_name, stat in sorted(op_stats.items()):
             if op_name == "placeholder":

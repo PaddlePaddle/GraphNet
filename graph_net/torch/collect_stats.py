@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 from collections import defaultdict
 
 import torch
-from torch.fx.passes.shape_prop import ShapeProp
+from functorch import make_fx
 from graph_net.torch import utils
 
 
@@ -99,13 +99,13 @@ def resolve_get_attr(gm: torch.fx.GraphModule, node: torch.fx.Node):
     return out
 
 
-def collect_op_stats(model, input_dict):
+def collect_op_stats_manual(model, input_dict):
     try:
         # FX symbolic trace
         traced = torch.fx.symbolic_trace(model)
         # print(traced.graph)
     except Exception:
-        print("Failed to FX symbolic trace")
+        print("Failed to FX symbolic_trace")
         return False, None
 
     # Use meta tensors as input to avoid actually running the model
@@ -136,7 +136,6 @@ def collect_op_stats(model, input_dict):
             )
 
             try:
-                # if True:
                 if node.op == "call_module":
                     # classname of module
                     submod = traced.get_submodule(node.target)
@@ -200,23 +199,94 @@ def collect_op_stats(model, input_dict):
     return is_complete, op_stats
 
 
+def collect_op_stats_with_make_fx(model, input_dict, arg_types):
+    # Use meta tensors as input to avoid actually running the model
+    meta_input_list = []
+    for arg_name in arg_types.keys():
+        x = input_dict[arg_name]
+        meta_x = (
+            torch.empty_like(x, device="meta") if isinstance(x, torch.Tensor) else x
+        )
+        meta_input_list.append(meta_x)
+
+    try:
+        # Generate FX Graph, and automatically fill in meta information
+        fx_model = make_fx(model)(*meta_input_list)
+    except Exception:
+        print("Failed to execute make_fx")
+        return False, None
+
+    is_complete = True
+    op_stats = {}
+    for node in fx_model.graph.nodes:
+        op_name = None
+        if node.op == "call_module":
+            # classname of module
+            submod = traced.get_submodule(node.target)
+            op_name = submod.__class__.__name__
+        elif node.op == "call_function":
+            op_name = node.target.__name__
+        elif node.op == "call_method":
+            op_name = node.target
+        elif node.op in ["placeholder", "output", "get_attr"]:
+            op_name = node.op
+        else:
+            assert False, f"node.op: {node.op}"
+
+        dtype = None
+        if node.op != "output":
+            if "tensor_meta" in node.meta:
+                tensor_meta = node.meta["tensor_meta"]
+                dtype = tensor_meta.dtype
+                # print(f"node.op={node.op}, node.target={node.target}, dtype={tensor_meta.dtype}")
+            else:
+                print(
+                    f"node.op={node.op}, node.target={node.target} has no tensor_meta!"
+                )
+                is_complete = False
+
+        op_name = (
+            op_name.replace(".default", "")
+            .replace(".Tensor", "")
+            .replace(".Scalar", "")
+        )
+        dtype_str = str(dtype).replace("torch.", "")
+        if op_stats.get(op_name, None) is None:
+            op_stats[op_name] = OpStat(op_name, {dtype_str}, 1)
+        else:
+            op_stats[op_name].dtype.add(dtype_str)
+            op_stats[op_name].count = op_stats[op_name].count + 1
+    return is_complete, op_stats
+
+
+def collect_op_stats(model, input_dict, arg_types):
+    is_complete_manual, op_stats_manual = collect_op_stats_manual(model, input_dict)
+    if not is_complete_manual:
+        is_complete_make_fx, op_stats_make_fx = collect_op_stats_with_make_fx(
+            model, input_dict, arg_types
+        )
+        if is_complete_make_fx or op_stats_manual is None:
+            return "make_fx", is_complete_make_fx, op_stats_make_fx
+    return "manual", is_complete_manual, op_stats_manual
+
+
 def collect_model_stats(model_path, device, log_prompt):
     model_class = load_class_from_file(
         os.path.join(model_path, "model.py"), "GraphModule"
     )
     model = model_class()
+    arg_types = get_argument_types(model_class, "forward")
     input_dict = get_input_dict(model_path, device)
 
     num_ops = 0
-    num_inputs = 0
     num_outputs = 0
     ops_count_info = []
     dtypes = set()
-    is_complete, op_stats = collect_op_stats(model, input_dict)
+    method, is_complete, op_stats = collect_op_stats(model, input_dict, arg_types)
     if op_stats is not None:
         for op_name, stat in sorted(op_stats.items()):
             if op_name == "placeholder":
-                num_inputs += stat.count
+                pass
             elif op_name == "output":
                 num_outputs += stat.count
             else:
@@ -226,8 +296,7 @@ def collect_model_stats(model_path, device, log_prompt):
                 if v is not None:
                     dtypes.add(v)
 
-    arg_types = get_argument_types(model_class, "forward")
-    num_inputs = len(arg_types) if op_stats is None else num_inputs
+    num_inputs = len(arg_types)
     num_params = 0
     param_dtypes = set()
     for name, arg_type in arg_types.items():
@@ -242,7 +311,7 @@ def collect_model_stats(model_path, device, log_prompt):
     dtypes_str = "[" + ",".join(dtypes) + "]"
     param_dtypes_str = "[" + ",".join(param_dtypes) + "]"
     print(
-        f"{log_prompt} [ModelStats] model_path:{model_path} num_inputs:{num_inputs} num_outputs:{num_outputs} num_ops:{num_ops} num_params:{num_params_in_billion}B param_dtypes:{param_dtypes_str} op_dtypes:{dtypes_str} is_complete:{is_complete} ops:{ops_str}",
+        f"{log_prompt} [ModelStats] model_path:{model_path} num_inputs:{num_inputs} num_outputs:{num_outputs} num_ops:{num_ops} num_params:{num_params_in_billion}B param_dtypes:{param_dtypes_str} op_dtypes:{dtypes_str} method:{method} is_complete:{is_complete} ops:{ops_str}",
         flush=True,
     )
 

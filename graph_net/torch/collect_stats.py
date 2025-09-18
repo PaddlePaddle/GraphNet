@@ -3,6 +3,7 @@ import os
 import sys
 import ast
 import math
+import json
 import importlib
 import inspect
 import subprocess
@@ -58,6 +59,36 @@ def get_number_of_returns(file_path, class_name, func_name):
                             else:
                                 return 1
     return 0
+
+
+def read_graph_source_and_tag(model_path):
+    try:
+        with open(os.path.join(model_path, "graph_net.json"), "r") as f:
+            data = json.load(f)
+            return data["source"], data["heuristic_tag"]
+    except Exception:
+        if "cosyvoice" in model_path:
+            return "cosyvoice", "audio"
+        elif "torchaudio" in model_path:
+            return "torchaudio", "audio"
+        elif "ultralytics" in model_path:
+            return "ultralytics", "computer_vision"
+        elif "torchvision" in model_path:
+            return "torchvision", "computer_vision"
+        elif "timm" in model_path:
+            return "timm", "computer_vision"
+        elif "mmseg" in model_path:
+            return "mmseg", "computer_vision"
+        elif "mmpose" in model_path:
+            return "mmpose", "computer_vision"
+        elif "torchgeometric" in model_path:
+            return "torchgeometric", "other"
+        elif "transformers-auto-model" in model_path:
+            return "huggingface_hub", "unknown"
+        elif "nemo" in model_path:
+            return "nemo", "unknown"
+        else:
+            return "unknown", "unknown"
 
 
 def get_input_dict(model_path, device):
@@ -456,6 +487,8 @@ def collect_model_stats(model_path, device, log_prompt):
     model_size_in_billion = model_size / 1e9
     num_inputs = len(argument_name2types) - num_params
 
+    source, heuristic_tag = read_graph_source_and_tag(model_path)
+
     def dict_to_string(d):
         kv_list = [f"{k}:{v}" for k, v in d.items()]
         return " ".join(kv_list)
@@ -475,6 +508,8 @@ def collect_model_stats(model_path, device, log_prompt):
     print_with_log_prompt("param_dtypes", dict_to_string(param_dtypes))
     print_with_log_prompt("op_dtypes", dict_to_string(op_dtypes))
     print_with_log_prompt("ops", dict_to_string(ops_count_dict))
+    print_with_log_prompt("source", source)
+    print_with_log_prompt("heuristic_tag", heuristic_tag)
     print_with_log_prompt("method", method)
     print_with_log_prompt("is_complete", is_complete)
 
@@ -505,7 +540,10 @@ def main(args):
 
         i = 0
         for root, dirs, files in os.walk(graph_net_samples_path):
-            if is_single_model_dir(root) and root in previous_failed_model_pathes:
+            if is_single_model_dir(root) and (
+                args.previous_collect_result_path is None
+                or root in previous_failed_model_pathes
+            ):
                 print(f"[{i}] Collect information for {root}")
                 cmd = [
                     "python",

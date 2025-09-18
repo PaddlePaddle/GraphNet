@@ -6,5 +6,5 @@
     "model_name": "NO_VALID_MATCH_FOUND",
     "source": "huggingface_hub",
     "original_tag": [],
-    "heuristic_tag": "transformers-auto-model"
+    "heuristic_tag": "nlp"
 }

@@ -4,5 +4,5 @@
     "num_nodes_required": 1,
     "dynamic": false,
     "source": "mmseg",
-    "tag": "computer_vision"
+    "heuristic_tag": "computer_vision"
 }

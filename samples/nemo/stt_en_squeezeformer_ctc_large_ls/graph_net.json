@@ -4,5 +4,5 @@
     "num_nodes_required": 1,
     "dynamic": false,
     "source": "nemo",
-    "tag": "audio"
+    "heuristic_tag": "audio"
 }

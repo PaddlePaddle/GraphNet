@@ -2,8 +2,6 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "heuristic_tag": [
-        "torchvision",
-        "computer_vision"
-    ]
+    "source": "torchvision",
+    "tag": "computer_vision"
 }

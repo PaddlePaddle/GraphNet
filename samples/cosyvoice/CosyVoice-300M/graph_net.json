@@ -3,9 +3,6 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": false,
-    "heuristic_tag": [
-        "cosyvoice",
-        "nlp",
-        "audio"
-    ]
+    "source": "cosyvoice",
+    "tag": "audio"
 }

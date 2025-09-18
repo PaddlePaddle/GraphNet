@@ -19,5 +19,6 @@
         "arxiv:2210.03347",
         "license:apache-2.0",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "multimodal"
 }

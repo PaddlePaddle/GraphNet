@@ -21,5 +21,6 @@
         "base_model:microsoft/MiniLM-L12-H384-uncased",
         "base_model:finetune:microsoft/MiniLM-L12-H384-uncased",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

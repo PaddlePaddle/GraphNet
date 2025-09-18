@@ -17,5 +17,6 @@
         "base_model:finetune:dmis-lab/biobert-v1.1",
         "license:mit",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

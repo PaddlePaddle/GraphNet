@@ -21,5 +21,6 @@
         "dataset:pipecat-ai/human_5_all",
         "license:bsd-2-clause",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "audio"
 }

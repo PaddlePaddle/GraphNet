@@ -397,9 +397,21 @@ def main(args):
             if args.graph_net_samples_path is None
             else args.graph_net_samples_path
         )
+
+        previous_failed_model_pathes = []
+        if args.previous_collect_result_path is not None:
+            with open(args.previous_collect_result_path, "r") as f:
+                for line in f.readlines():
+                    if "[ModelStats]" in line:
+                        fields = line.strip().split()
+                        model_path = fields[2].split(":")[-1]
+                        is_complete = fields[-1].split(":")[-1]
+                        if is_complete == "False":
+                            previous_failed_model_pathes.append(model_path)
+
         i = 0
         for root, dirs, files in os.walk(graph_net_samples_path):
-            if is_single_model_dir(root):
+            if is_single_model_dir(root) and root in previous_failed_model_pathes:
                 print(f"[{i}] Collect information for {root}")
                 cmd = [
                     "python",
@@ -448,6 +460,13 @@ if __name__ == "__main__":
         help="GraphNet samples directory. e.g '../../samples'",
     )
     parser.add_argument(
+        "--previous-collect-result-path",
+        type=str,
+        required=False,
+        default=None,
+        help="Previous collect result path, use to recollect the failed cases",
+    )
+    parser.add_argument(
         "--log-prompt",
         type=str,
         required=False,
@@ -455,4 +474,5 @@ if __name__ == "__main__":
         help="Log prompt for stats log filtering.",
     )
     args = parser.parse_args()
+    print(f"[CollectStats Arguments] {args}")
     main(args=args)

@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+import ast
 import math
 import importlib
 import inspect
@@ -26,16 +27,37 @@ def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Modul
     return model_class
 
 
-def get_argument_types(model_class, func_name):
-    arg_types = {}
+def get_argument_name_and_types(model_class, func_name):
+    argument_name2types = {}
     for name, func in inspect.getmembers(model_class, predicate=inspect.isfunction):
         if name == func_name:
             for arg_name, arg in inspect.signature(func).parameters.items():
                 if arg_name != "self":
-                    arg_types[arg_name] = (
+                    argument_name2types[arg_name] = (
                         None if arg.annotation is inspect._empty else arg.annotation
                     )
-    return arg_types
+    return argument_name2types
+
+
+def get_number_of_returns(file_path, class_name, func_name):
+    source = None
+    with open(f"{file_path}", "r") as f:
+        source = f.read()
+
+    tree = ast.parse(source)
+    for node in tree.body:
+        if isinstance(node, ast.ClassDef) and node.name == class_name:
+            for f in node.body:
+                if isinstance(f, ast.FunctionDef) and f.name == func_name:
+                    for stmt in ast.walk(f):
+                        if isinstance(stmt, ast.Return):
+                            if stmt.value is None:
+                                return 0
+                            elif isinstance(stmt.value, ast.Tuple):
+                                return len(stmt.value.elts)
+                            else:
+                                return 1
+    return 0
 
 
 def get_input_dict(model_path, device):
@@ -54,6 +76,12 @@ class OpStat:
     op_name: str
     op_dtypes: dict[str, int] = field(default_factory=dict)
     count: int = 0
+
+    def update(self, other):
+        if isinstance(other, OpStat) and self.op_name == other.op_name:
+            self.count += other.count
+            for name, count in other.op_dtypes.items():
+                self.op_dtypes[name] = self.op_dtypes.get(name, 0) + count
 
 
 def resolve_native_multi_head_attention(*args, **kwargs):
@@ -132,19 +160,23 @@ def resolve_with_real_tensor(op_func, device, meta_args, meta_kwargs):
         return None
 
 
-def collect_op_stats_manual(model, input_dict, device):
-    try:
-        # FX symbolic trace
-        traced = torch.fx.symbolic_trace(model)
-        # print(traced.graph)
-    except Exception:
-        print("Failed to FX symbolic_trace")
-        return False, None
+torch._dynamo.config.capture_scalar_outputs = True
+torch._dynamo.config.capture_dynamic_output_shape_ops = True
+torch._dynamo.config.capture_sparse_compute = True
+torch._dynamo.config.raise_on_ctx_manager_usage = False
+torch._dynamo.config.allow_rnn = True
 
-    # Use meta tensors as input to avoid actually running the model
-    meta_input_dict = convert_real_to_meta(input_dict)
 
-    def get_output_dtype(out):
+class GraphMetaExecutor:
+    def __init__(self, device):
+        self.device = device
+        self.op_stats = {}
+        self.is_complete = True
+        self.num_ops = 0
+        self.num_ops_misses_dtypes = 0
+        self.subgraph_counter = 0
+
+    def get_output_dtype(self, out):
         if isinstance(out, torch.Tensor):
             return out.dtype
         if (
@@ -156,102 +188,165 @@ def collect_op_stats_manual(model, input_dict, device):
         else:
             return None
 
-    is_complete = True
-    op_stats = {}
-    node_outputs = {}
-    for node in traced.graph.nodes:
+    def get_op_name_and_func(self, gm, node, node_outputs):
         op_name = None
-        dtype = None
-        if node.op == "placeholder":
-            node_outputs[node.name] = meta_input_dict[node.target]
-            op_name = node.op
-        elif node.op in ["call_function", "call_module", "call_method"]:
-            node_args = torch.fx.map_arg(
-                node.args,
-                lambda n: node_outputs[n.name] if isinstance(n, torch.fx.Node) else n,
-            )
-            node_kwargs = torch.fx.map_arg(
-                node.kwargs,
-                lambda n: node_outputs[n.name] if isinstance(n, torch.fx.Node) else n,
-            )
+        op_func = None
+        try:
+            if node.op == "call_module":
+                # classname of module
+                submod = gm.get_submodule(node.target)
+                op_name = submod.__class__.__name__
+                op_func = submod
+            elif node.op == "call_function":
+                op_name = node.target.__name__
+                op_func = node.target
+            elif node.op == "call_method":
+                op_name = node.target
+                self_obj = (
+                    node_outputs[node.args[0].name]
+                    if isinstance(node.args[0], torch.fx.Node)
+                    else node.args[0]
+                )
+                op_func = getattr(self_obj, node.target)
+            elif node.op in ["get_attr", "placeholder", "output"]:
+                op_name = node.op
+        except Exception:
+            pass
+        return op_name, op_func
 
-            try:
-                if node.op == "call_module":
-                    # classname of module
-                    submod = traced.get_submodule(node.target)
-                    op_name = submod.__class__.__name__
-                    op_func = submod
-                elif node.op == "call_function":
-                    op_name = node.target.__name__
-                    op_func = node.target
-                elif node.op == "call_method":
-                    op_name = node.target
-                    self_obj = (
-                        node_outputs[node.args[0].name]
-                        if isinstance(node.args[0], torch.fx.Node)
-                        else node.args[0]
-                    )
-                    op_func = getattr(self_obj, node.target)
-                    node_args = node_args[1:]
-
-                # print(f"node.op={node.op}, op_name={op_name}, node.args={node.args}")
-                if op_name == "_native_multi_head_attention":
-                    out = resolve_native_multi_head_attention(*node_args, **node_kwargs)
-                elif op_name == "to":
-                    # print(f"node.op={node.op}, op_name={op_name}, node.args={node.args}")
-                    out = resolve_tensor_to(
-                        node_outputs[node.args[0].name], *node_args, **node_kwargs
-                    )
-                elif op_name == "item":
-                    out = resolve_tensor_item(node_outputs[node.args[0].name])
-                else:
-                    out = op_func(*node_args, **node_kwargs)
-                node_outputs[node.name] = out
-                dtype = get_output_dtype(out)
-            except Exception:
-                out = resolve_with_real_tensor(op_func, device, node_args, node_kwargs)
-                node_outputs[node.name] = out
-                if out is not None:
-                    dtype = get_output_dtype(out)
-                else:
-                    print(
-                        f"dtype inference failed: node.op={node.op}, op_name={op_name}"
-                    )
-                    is_complete = False
-        elif node.op == "get_attr":
-            op_name = node.op
-            out = resolve_get_attr(traced, node)
-            node_outputs[node.name] = out
-            dtype = get_output_dtype(out)
-        elif node.op == "output":
-            op_name = node.op
-            node_args = torch.fx.map_arg(
-                node.args,
-                lambda n: node_outputs[n.name] if isinstance(n, torch.fx.Node) else n,
-            )
-            node_outputs[node.name] = node_args[0] if len(node_args) == 1 else node_args
-            dtype = get_output_dtype(node_args[0])
-        else:
-            assert False, f"node.op: {node.op}"
-
+    def update_op_stats(self, op_stats, op_name, op_dtype):
         if op_name is not None:
-            dtype_str = str(dtype).replace("torch.", "")
+            dtype_str = str(op_dtype).replace("torch.", "")
             if op_stats.get(op_name, None) is None:
                 op_stats[op_name] = OpStat(op_name, {dtype_str: 1}, 1)
             else:
                 op_stats[op_name].op_dtypes[dtype_str] = (
                     op_stats[op_name].op_dtypes.get(dtype_str, 0) + 1
                 )
-                op_stats[op_name].count = op_stats[op_name].count + 1
-    return is_complete, op_stats
+                op_stats[op_name].count += 1
+
+    def __call__(self, gm: torch.fx.GraphModule, sample_inputs):
+        # Use meta tensors as input to avoid actually running the model
+        meta_sample_inputs = convert_real_to_meta(sample_inputs)
+
+        op_stats = {}
+        num_ops_misses_dtypes = 0
+
+        input_idx = 0
+        node_outputs = {}
+        for node in gm.graph.nodes:
+            out = None
+            op_dtype = None
+            op_name, op_func = self.get_op_name_and_func(gm, node, node_outputs)
+            if node.op == "placeholder":
+                out = meta_sample_inputs[input_idx]
+                input_idx += 1
+            elif node.op in ["call_function", "call_module", "call_method"]:
+                try:
+                    node_args = torch.fx.map_arg(
+                        node.args,
+                        lambda n: node_outputs[n.name]
+                        if isinstance(n, torch.fx.Node)
+                        else n,
+                    )
+                    node_kwargs = torch.fx.map_arg(
+                        node.kwargs,
+                        lambda n: node_outputs[n.name]
+                        if isinstance(n, torch.fx.Node)
+                        else n,
+                    )
+                    if node.op == "call_method":
+                        node_args = node_args[1:]
+
+                    if op_name == "_native_multi_head_attention":
+                        out = resolve_native_multi_head_attention(
+                            *node_args, **node_kwargs
+                        )
+                    elif op_name == "to":
+                        out = resolve_tensor_to(
+                            node_outputs[node.args[0].name], *node_args, **node_kwargs
+                        )
+                    elif op_name == "item":
+                        out = resolve_tensor_item(node_outputs[node.args[0].name])
+                    else:
+                        assert op_func is not None, f"op_func of {node} is None."
+                        out = op_func(*node_args, **node_kwargs)
+                except Exception:
+                    out = resolve_with_real_tensor(
+                        op_func, self.device, node_args, node_kwargs
+                    )
+                    if out is None:
+                        if num_ops_misses_dtypes == 0:
+                            print(
+                                f"dtype inference failed: node.op={node.op}, op_name={op_name}"
+                            )
+                        num_ops_misses_dtypes += 1
+            elif node.op == "get_attr":
+                out = resolve_get_attr(gm, node)
+            elif node.op == "output":
+                pass
+            else:
+                assert False, f"node.op: {node.op}"
+
+            if out is not None:
+                node_outputs[node.name] = out
+                op_dtype = self.get_output_dtype(out)
+
+            if node.op not in ["placeholder", "output"]:
+                self.update_op_stats(op_stats, op_name, op_dtype)
+
+        if num_ops_misses_dtypes > 0:
+            self.is_complete = False
+            self.num_ops_misses_dtypes += num_ops_misses_dtypes
+        num_ops = 0
+        for name, stat in op_stats.items():
+            num_ops += stat.count
+            if name in self.op_stats.keys():
+                self.op_stats[name].update(stat)
+            else:
+                self.op_stats[name] = stat
+        self.num_ops += num_ops
+        self.subgraph_counter += 1
+        return gm.forward
+
+    def summary(self):
+        print(
+            f"Totally {self.subgraph_counter} subgraphs, {self.num_ops} operators, and {self.num_ops_misses_dtypes} operators failed to inference dtypes."
+        )
 
 
-def collect_op_stats_with_make_fx(model, input_dict, arg_types):
+def collect_op_stats_with_compile(model, sample_inputs, device):
+    assert isinstance(model, torch.nn.Module), f"{type(model)=}"
+    try:
+        meta_executor = GraphMetaExecutor(device)
+        compiled_model = torch.compile(model, backend=meta_executor)
+        compiled_model(*sample_inputs)
+        meta_executor.summary()
+        return meta_executor.is_complete, meta_executor.op_stats
+    except Exception:
+        print("Failed with torch.compile")
+        return False, None
+
+
+def collect_op_stats_with_symbolic_trace(model, sample_inputs, device):
+    assert isinstance(model, torch.nn.Module), f"{type(model)=}"
+    try:
+        # FX symbolic trace
+        traced = torch.fx.symbolic_trace(model)
+        # print(traced.graph)
+    except Exception:
+        print("Failed with symbolic_trace")
+        return False, None
+
+    meta_executor = GraphMetaExecutor(device)
+    meta_executor(traced, sample_inputs)
+    meta_executor.summary()
+    return meta_executor.is_complete, meta_executor.op_stats
+
+
+def collect_op_stats_with_make_fx(model, sample_inputs):
     # Use meta tensors as input to avoid actually running the model
-    meta_input_list = []
-    for arg_name in arg_types.keys():
-        x = input_dict[arg_name]
-        meta_input_list.append(convert_real_to_meta(x))
+    meta_input_list = convert_real_to_meta(sample_inputs)
 
     try:
         # Generate FX Graph, and automatically fill in meta information
@@ -266,7 +361,7 @@ def collect_op_stats_with_make_fx(model, input_dict, arg_types):
         op_name = None
         if node.op == "call_module":
             # classname of module
-            submod = traced.get_submodule(node.target)
+            submod = fx_model.get_submodule(node.target)
             op_name = submod.__class__.__name__
         elif node.op == "call_function":
             op_name = node.target.__name__
@@ -305,41 +400,38 @@ def collect_op_stats_with_make_fx(model, input_dict, arg_types):
     return is_complete, op_stats
 
 
-def collect_op_stats(model, input_dict, arg_types, device):
-    is_complete_manual, op_stats_manual = collect_op_stats_manual(
-        model, input_dict, device
+def collect_op_stats(model, sample_inputs, device):
+    is_complete_symbolic, op_stats_symbolic = collect_op_stats_with_symbolic_trace(
+        model, sample_inputs, device
     )
-    if not is_complete_manual:
-        is_complete_make_fx, op_stats_make_fx = collect_op_stats_with_make_fx(
-            model, input_dict, arg_types
+    if not is_complete_symbolic:
+        is_complete_compile, op_stats_compile = collect_op_stats_with_compile(
+            model, sample_inputs, device
         )
-        if is_complete_make_fx or op_stats_manual is None:
-            return "make_fx", is_complete_make_fx, op_stats_make_fx
-    return "manual", is_complete_manual, op_stats_manual
+        if is_complete_compile or op_stats_symbolic is None:
+            return "torch.compile", is_complete_compile, op_stats_compile
+    return "symbolic_trace", is_complete_symbolic, op_stats_symbolic
 
 
 def collect_model_stats(model_path, device, log_prompt):
-    model_class = load_class_from_file(
-        os.path.join(model_path, "model.py"), "GraphModule"
-    )
+    file_path = os.path.join(model_path, "model.py")
+    model_class = load_class_from_file(file_path, "GraphModule")
     model = model_class()
-    arg_types = get_argument_types(model_class, "forward")
+    argument_name2types = get_argument_name_and_types(model_class, "forward")
+    num_outputs = get_number_of_returns(file_path, "GraphModule", "forward")
+
     input_dict = get_input_dict(model_path, device)
+    ordered_input_list = [
+        input_dict[arg_name] for arg_name in argument_name2types.keys()
+    ]
 
     num_ops = 0
-    num_outputs = 0
     ops_count_dict = {}
     op_dtypes = {}
-    method, is_complete, op_stats = collect_op_stats(
-        model, input_dict, arg_types, device
-    )
+    method, is_complete, op_stats = collect_op_stats(model, ordered_input_list, device)
     if op_stats is not None:
         for op_name, stat in sorted(op_stats.items()):
-            if op_name == "placeholder":
-                pass
-            elif op_name == "output":
-                num_outputs += stat.count
-            else:
+            if op_name not in ["placeholder", "output"]:
                 num_ops += stat.count
                 ops_count_dict[op_name] = stat.count
             for dtype_str, num in stat.op_dtypes.items():
@@ -350,7 +442,7 @@ def collect_model_stats(model_path, device, log_prompt):
     model_size = 0
     input_dtypes = {}
     param_dtypes = {}
-    for name, arg_type in arg_types.items():
+    for name, arg_type in argument_name2types.items():
         if arg_type == torch.nn.parameter.Parameter:
             param_numel = math.prod(input_dict[name].shape)
             # print(f"Parameter {name}: {count}")
@@ -362,7 +454,7 @@ def collect_model_stats(model_path, device, log_prompt):
             dtype_str = str(input_dict[name].dtype).replace("torch.", "")
             input_dtypes[dtype_str] = input_dtypes.get(dtype_str, 0) + 1
     model_size_in_billion = model_size / 1e9
-    num_inputs = len(arg_types) - num_params
+    num_inputs = len(argument_name2types) - num_params
 
     def dict_to_string(d):
         kv_list = [f"{k}={v}" for k, v in d.items()]
@@ -474,5 +566,4 @@ if __name__ == "__main__":
         help="Log prompt for stats log filtering.",
     )
     args = parser.parse_args()
-    print(f"[CollectStats Arguments] {args}")
     main(args=args)

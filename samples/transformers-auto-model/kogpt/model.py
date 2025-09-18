@@ -367,7 +367,7 @@ class GraphModule(torch.nn.Module):
             False,
         )
         input_ids = None
-        cache_position = torch.arange(0, 31, device=device(type="cpu"))
+        cache_position = torch.arange(0, 31, device=device(type="cuda", index=0))
         position_ids = cache_position.unsqueeze(0)
         position_embeds = torch.nn.functional.embedding(
             position_ids,
@@ -379,88 +379,104 @@ class GraphModule(torch.nn.Module):
             False,
         )
         position_ids = l_self_modules_transformer_modules_wpe_parameters_weight_ = None
-        to = position_embeds.to(device(type="cpu"))
+        to = position_embeds.to(device(type="cuda", index=0))
         position_embeds = None
         hidden_states = inputs_embeds + to
         inputs_embeds = to = None
         attention_mask = l_attention_mask_.view(1, -1)
         l_attention_mask_ = None
         attention_mask_1 = attention_mask.to(
-            device=device(type="cpu"), dtype=torch.bool
+            device=device(type="cuda", index=0), dtype=torch.bool
         )
         attention_mask = None
-        kv_arange = torch.arange(31, device=device(type="cpu"))
+        kv_arange = torch.arange(31, device=device(type="cuda", index=0))
         kv_arange += 0
         kv_arange_1 = kv_arange
         kv_arange = None
-        batch_arange = torch.arange(1, device=device(type="cpu"))
-        head_arange = torch.arange(1, device=device(type="cpu"))
-        lazy_load_decompositions = torch._functorch.vmap.lazy_load_decompositions()
+        batch_arange = torch.arange(1, device=device(type="cuda", index=0))
+        head_arange = torch.arange(1, device=device(type="cuda", index=0))
+        lazy_load_decompositions = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions = None
-        _vmap_increment_nesting = torch._C._functorch._vmap_increment_nesting(
+        _vmap_increment_nesting = torch._functorch.predispatch._vmap_increment_nesting(
             1, "error"
         )
         _vmap_increment_nesting = None
-        child = torch._C._functorch._add_batch_dim(batch_arange, 0, 1)
+        child = torch._functorch.predispatch._add_batch_dim(batch_arange, 0, 1)
         batch_arange = None
-        lazy_load_decompositions_1 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_1 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_1 = None
-        _vmap_increment_nesting_1 = torch._C._functorch._vmap_increment_nesting(
-            1, "error"
+        _vmap_increment_nesting_1 = (
+            torch._functorch.predispatch._vmap_increment_nesting(1, "error")
         )
         _vmap_increment_nesting_1 = None
-        child_1 = torch._C._functorch._add_batch_dim(head_arange, 0, 2)
+        child_1 = torch._functorch.predispatch._add_batch_dim(head_arange, 0, 2)
         head_arange = child_1 = None
-        lazy_load_decompositions_2 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_2 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_2 = None
-        _vmap_increment_nesting_2 = torch._C._functorch._vmap_increment_nesting(
-            31, "error"
+        _vmap_increment_nesting_2 = (
+            torch._functorch.predispatch._vmap_increment_nesting(31, "error")
         )
         _vmap_increment_nesting_2 = None
-        child_2 = torch._C._functorch._add_batch_dim(cache_position, 0, 3)
+        child_2 = torch._functorch.predispatch._add_batch_dim(cache_position, 0, 3)
         cache_position = None
-        lazy_load_decompositions_3 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_3 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_3 = None
-        _vmap_increment_nesting_3 = torch._C._functorch._vmap_increment_nesting(
-            31, "error"
+        _vmap_increment_nesting_3 = (
+            torch._functorch.predispatch._vmap_increment_nesting(31, "error")
         )
         _vmap_increment_nesting_3 = None
-        child_3 = torch._C._functorch._add_batch_dim(kv_arange_1, 0, 4)
+        child_3 = torch._functorch.predispatch._add_batch_dim(kv_arange_1, 0, 4)
         kv_arange_1 = None
         result = child_2.new_ones((), dtype=torch.bool)
         le = child_3.le(child_2)
         child_2 = None
-        to_2 = le.to(device(type="cpu"))
+        to_2 = le.to(device(type="cuda", index=0))
         le = None
         result_1 = result.__and__(to_2)
         result = to_2 = None
-        function_ctx = torch.autograd.function.FunctionCtx()
-        function_ctx = None
         index = torch.ops.aten.index(attention_mask_1, [child, child_3])
         attention_mask_1 = child = child_3 = None
-        to_3 = index.to(device(type="cpu"))
+        to_3 = index.to(device(type="cuda", index=0))
         index = None
         result_2 = result_1.__and__(to_3)
         result_1 = to_3 = None
-        batched_outputs = torch._C._functorch._remove_batch_dim(result_2, 4, 31, 0)
+        batched_outputs = torch._functorch.predispatch._remove_batch_dim(
+            result_2, 4, 31, 0
+        )
         result_2 = None
-        _vmap_decrement_nesting = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting = torch._functorch.predispatch._vmap_decrement_nesting()
         _vmap_decrement_nesting = None
-        batched_outputs_1 = torch._C._functorch._remove_batch_dim(
+        batched_outputs_1 = torch._functorch.predispatch._remove_batch_dim(
             batched_outputs, 3, 31, 0
         )
         batched_outputs = None
-        _vmap_decrement_nesting_1 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_1 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_1 = None
-        batched_outputs_2 = torch._C._functorch._remove_batch_dim(
+        batched_outputs_2 = torch._functorch.predispatch._remove_batch_dim(
             batched_outputs_1, 2, 1, 0
         )
         batched_outputs_1 = None
-        _vmap_decrement_nesting_2 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_2 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_2 = None
-        causal_mask = torch._C._functorch._remove_batch_dim(batched_outputs_2, 1, 1, 0)
+        causal_mask = torch._functorch.predispatch._remove_batch_dim(
+            batched_outputs_2, 1, 1, 0
+        )
         batched_outputs_2 = None
-        _vmap_decrement_nesting_3 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_3 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_3 = None
         hidden_states_1 = torch.nn.functional.dropout(hidden_states, 0.1, False, False)
         hidden_states = None
@@ -512,22 +528,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 31, None),
             )
         ]
-        query = query_states_1.contiguous()
-        query_states_1 = None
-        key = key_states_1.contiguous()
-        key_states_1 = None
-        value = value_states_1.contiguous()
-        value_states_1 = None
         attn_output = torch._C._nn.scaled_dot_product_attention(
-            query,
-            key,
-            value,
+            query_states_1,
+            key_states_1,
+            value_states_1,
             attn_mask=attention_mask_2,
             dropout_p=0.0,
             scale=None,
             is_causal=False,
         )
-        query = key = value = attention_mask_2 = None
+        query_states_1 = key_states_1 = value_states_1 = attention_mask_2 = None
         transpose_3 = attn_output.transpose(1, 2)
         attn_output = None
         attn_output_1 = transpose_3.contiguous()
@@ -652,22 +662,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 31, None),
             )
         ]
-        query_1 = query_states_3.contiguous()
-        query_states_3 = None
-        key_1 = key_states_3.contiguous()
-        key_states_3 = None
-        value_1 = value_states_3.contiguous()
-        value_states_3 = None
         attn_output_4 = torch._C._nn.scaled_dot_product_attention(
-            query_1,
-            key_1,
-            value_1,
+            query_states_3,
+            key_states_3,
+            value_states_3,
             attn_mask=attention_mask_3,
             dropout_p=0.0,
             scale=None,
             is_causal=False,
         )
-        query_1 = key_1 = value_1 = attention_mask_3 = None
+        query_states_3 = key_states_3 = value_states_3 = attention_mask_3 = None
         transpose_7 = attn_output_4.transpose(1, 2)
         attn_output_4 = None
         attn_output_5 = transpose_7.contiguous()
@@ -792,22 +796,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 31, None),
             )
         ]
-        query_2 = query_states_5.contiguous()
-        query_states_5 = None
-        key_2 = key_states_5.contiguous()
-        key_states_5 = None
-        value_2 = value_states_5.contiguous()
-        value_states_5 = None
         attn_output_8 = torch._C._nn.scaled_dot_product_attention(
-            query_2,
-            key_2,
-            value_2,
+            query_states_5,
+            key_states_5,
+            value_states_5,
             attn_mask=attention_mask_4,
             dropout_p=0.0,
             scale=None,
             is_causal=False,
         )
-        query_2 = key_2 = value_2 = attention_mask_4 = None
+        query_states_5 = key_states_5 = value_states_5 = attention_mask_4 = None
         transpose_11 = attn_output_8.transpose(1, 2)
         attn_output_8 = None
         attn_output_9 = transpose_11.contiguous()
@@ -932,22 +930,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 31, None),
             )
         ]
-        query_3 = query_states_7.contiguous()
-        query_states_7 = None
-        key_3 = key_states_7.contiguous()
-        key_states_7 = None
-        value_3 = value_states_7.contiguous()
-        value_states_7 = None
         attn_output_12 = torch._C._nn.scaled_dot_product_attention(
-            query_3,
-            key_3,
-            value_3,
+            query_states_7,
+            key_states_7,
+            value_states_7,
             attn_mask=attention_mask_5,
             dropout_p=0.0,
             scale=None,
             is_causal=False,
         )
-        query_3 = key_3 = value_3 = attention_mask_5 = None
+        query_states_7 = key_states_7 = value_states_7 = attention_mask_5 = None
         transpose_15 = attn_output_12.transpose(1, 2)
         attn_output_12 = None
         attn_output_13 = transpose_15.contiguous()
@@ -1072,22 +1064,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 31, None),
             )
         ]
-        query_4 = query_states_9.contiguous()
-        query_states_9 = None
-        key_4 = key_states_9.contiguous()
-        key_states_9 = None
-        value_4 = value_states_9.contiguous()
-        value_states_9 = None
         attn_output_16 = torch._C._nn.scaled_dot_product_attention(
-            query_4,
-            key_4,
-            value_4,
+            query_states_9,
+            key_states_9,
+            value_states_9,
             attn_mask=attention_mask_6,
             dropout_p=0.0,
             scale=None,
             is_causal=False,
         )
-        query_4 = key_4 = value_4 = attention_mask_6 = None
+        query_states_9 = key_states_9 = value_states_9 = attention_mask_6 = None
         transpose_19 = attn_output_16.transpose(1, 2)
         attn_output_16 = None
         attn_output_17 = transpose_19.contiguous()
@@ -1212,22 +1198,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 31, None),
             )
         ]
-        query_5 = query_states_11.contiguous()
-        query_states_11 = None
-        key_5 = key_states_11.contiguous()
-        key_states_11 = None
-        value_5 = value_states_11.contiguous()
-        value_states_11 = None
         attn_output_20 = torch._C._nn.scaled_dot_product_attention(
-            query_5,
-            key_5,
-            value_5,
+            query_states_11,
+            key_states_11,
+            value_states_11,
             attn_mask=attention_mask_7,
             dropout_p=0.0,
             scale=None,
             is_causal=False,
         )
-        query_5 = key_5 = value_5 = attention_mask_7 = None
+        query_states_11 = key_states_11 = value_states_11 = attention_mask_7 = None
         transpose_23 = attn_output_20.transpose(1, 2)
         attn_output_20 = None
         attn_output_21 = transpose_23.contiguous()
@@ -1352,22 +1332,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 31, None),
             )
         ]
-        query_6 = query_states_13.contiguous()
-        query_states_13 = None
-        key_6 = key_states_13.contiguous()
-        key_states_13 = None
-        value_6 = value_states_13.contiguous()
-        value_states_13 = None
         attn_output_24 = torch._C._nn.scaled_dot_product_attention(
-            query_6,
-            key_6,
-            value_6,
+            query_states_13,
+            key_states_13,
+            value_states_13,
             attn_mask=attention_mask_8,
             dropout_p=0.0,
             scale=None,
             is_causal=False,
         )
-        query_6 = key_6 = value_6 = attention_mask_8 = None
+        query_states_13 = key_states_13 = value_states_13 = attention_mask_8 = None
         transpose_27 = attn_output_24.transpose(1, 2)
         attn_output_24 = None
         attn_output_25 = transpose_27.contiguous()
@@ -1492,22 +1466,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 31, None),
             )
         ]
-        query_7 = query_states_15.contiguous()
-        query_states_15 = None
-        key_7 = key_states_15.contiguous()
-        key_states_15 = None
-        value_7 = value_states_15.contiguous()
-        value_states_15 = None
         attn_output_28 = torch._C._nn.scaled_dot_product_attention(
-            query_7,
-            key_7,
-            value_7,
+            query_states_15,
+            key_states_15,
+            value_states_15,
             attn_mask=attention_mask_9,
             dropout_p=0.0,
             scale=None,
             is_causal=False,
         )
-        query_7 = key_7 = value_7 = attention_mask_9 = None
+        query_states_15 = key_states_15 = value_states_15 = attention_mask_9 = None
         transpose_31 = attn_output_28.transpose(1, 2)
         attn_output_28 = None
         attn_output_29 = transpose_31.contiguous()
@@ -1632,22 +1600,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 31, None),
             )
         ]
-        query_8 = query_states_17.contiguous()
-        query_states_17 = None
-        key_8 = key_states_17.contiguous()
-        key_states_17 = None
-        value_8 = value_states_17.contiguous()
-        value_states_17 = None
         attn_output_32 = torch._C._nn.scaled_dot_product_attention(
-            query_8,
-            key_8,
-            value_8,
+            query_states_17,
+            key_states_17,
+            value_states_17,
             attn_mask=attention_mask_10,
             dropout_p=0.0,
             scale=None,
             is_causal=False,
         )
-        query_8 = key_8 = value_8 = attention_mask_10 = None
+        query_states_17 = key_states_17 = value_states_17 = attention_mask_10 = None
         transpose_35 = attn_output_32.transpose(1, 2)
         attn_output_32 = None
         attn_output_33 = transpose_35.contiguous()
@@ -1772,22 +1734,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 31, None),
             )
         ]
-        query_9 = query_states_19.contiguous()
-        query_states_19 = None
-        key_9 = key_states_19.contiguous()
-        key_states_19 = None
-        value_9 = value_states_19.contiguous()
-        value_states_19 = None
         attn_output_36 = torch._C._nn.scaled_dot_product_attention(
-            query_9,
-            key_9,
-            value_9,
+            query_states_19,
+            key_states_19,
+            value_states_19,
             attn_mask=attention_mask_11,
             dropout_p=0.0,
             scale=None,
             is_causal=False,
         )
-        query_9 = key_9 = value_9 = attention_mask_11 = None
+        query_states_19 = key_states_19 = value_states_19 = attention_mask_11 = None
         transpose_39 = attn_output_36.transpose(1, 2)
         attn_output_36 = None
         attn_output_37 = transpose_39.contiguous()
@@ -1910,22 +1866,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 31, None),
             )
         ]
-        query_10 = query_states_21.contiguous()
-        query_states_21 = None
-        key_10 = key_states_21.contiguous()
-        key_states_21 = None
-        value_10 = value_states_21.contiguous()
-        value_states_21 = None
         attn_output_40 = torch._C._nn.scaled_dot_product_attention(
-            query_10,
-            key_10,
-            value_10,
+            query_states_21,
+            key_states_21,
+            value_states_21,
             attn_mask=attention_mask_12,
             dropout_p=0.0,
             scale=None,
             is_causal=False,
         )
-        query_10 = key_10 = value_10 = attention_mask_12 = None
+        query_states_21 = key_states_21 = value_states_21 = attention_mask_12 = None
         transpose_43 = attn_output_40.transpose(1, 2)
         attn_output_40 = None
         attn_output_41 = transpose_43.contiguous()
@@ -2047,22 +1997,16 @@ class GraphModule(torch.nn.Module):
             )
         ]
         causal_mask = None
-        query_11 = query_states_23.contiguous()
-        query_states_23 = None
-        key_11 = key_states_23.contiguous()
-        key_states_23 = None
-        value_11 = value_states_23.contiguous()
-        value_states_23 = None
         attn_output_44 = torch._C._nn.scaled_dot_product_attention(
-            query_11,
-            key_11,
-            value_11,
+            query_states_23,
+            key_states_23,
+            value_states_23,
             attn_mask=attention_mask_13,
             dropout_p=0.0,
             scale=None,
             is_causal=False,
         )
-        query_11 = key_11 = value_11 = attention_mask_13 = None
+        query_states_23 = key_states_23 = value_states_23 = attention_mask_13 = None
         transpose_47 = attn_output_44.transpose(1, 2)
         attn_output_44 = None
         attn_output_45 = transpose_47.contiguous()

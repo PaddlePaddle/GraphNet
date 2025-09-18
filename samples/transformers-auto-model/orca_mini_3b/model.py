@@ -519,68 +519,88 @@ class GraphModule(torch.nn.Module):
         kv_arange = None
         batch_arange = torch.arange(1, device=device(type="cpu"))
         head_arange = torch.arange(1, device=device(type="cpu"))
-        lazy_load_decompositions = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions = None
-        _vmap_increment_nesting = torch._C._functorch._vmap_increment_nesting(
+        _vmap_increment_nesting = torch._functorch.predispatch._vmap_increment_nesting(
             1, "error"
         )
         _vmap_increment_nesting = None
-        child = torch._C._functorch._add_batch_dim(batch_arange, 0, 1)
+        child = torch._functorch.predispatch._add_batch_dim(batch_arange, 0, 1)
         batch_arange = None
-        lazy_load_decompositions_1 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_1 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_1 = None
-        _vmap_increment_nesting_1 = torch._C._functorch._vmap_increment_nesting(
-            1, "error"
+        _vmap_increment_nesting_1 = (
+            torch._functorch.predispatch._vmap_increment_nesting(1, "error")
         )
         _vmap_increment_nesting_1 = None
-        child_1 = torch._C._functorch._add_batch_dim(head_arange, 0, 2)
+        child_1 = torch._functorch.predispatch._add_batch_dim(head_arange, 0, 2)
         head_arange = child_1 = None
-        lazy_load_decompositions_2 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_2 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_2 = None
-        _vmap_increment_nesting_2 = torch._C._functorch._vmap_increment_nesting(
-            21, "error"
+        _vmap_increment_nesting_2 = (
+            torch._functorch.predispatch._vmap_increment_nesting(21, "error")
         )
         _vmap_increment_nesting_2 = None
-        child_2 = torch._C._functorch._add_batch_dim(cache_position, 0, 3)
+        child_2 = torch._functorch.predispatch._add_batch_dim(cache_position, 0, 3)
         cache_position = None
-        lazy_load_decompositions_3 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_3 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_3 = None
-        _vmap_increment_nesting_3 = torch._C._functorch._vmap_increment_nesting(
-            21, "error"
+        _vmap_increment_nesting_3 = (
+            torch._functorch.predispatch._vmap_increment_nesting(21, "error")
         )
         _vmap_increment_nesting_3 = None
-        child_3 = torch._C._functorch._add_batch_dim(kv_arange_1, 0, 4)
+        child_3 = torch._functorch.predispatch._add_batch_dim(kv_arange_1, 0, 4)
         kv_arange_1 = None
         result = child_2.new_ones((), dtype=torch.bool)
         le = child_3.le(child_2)
         child_2 = None
-        result_1 = result.__and__(le)
-        result = le = None
-        function_ctx = torch.autograd.function.FunctionCtx()
-        function_ctx = None
+        to_1 = le.to(device(type="cpu"))
+        le = None
+        result_1 = result.__and__(to_1)
+        result = to_1 = None
         index = torch.ops.aten.index(attention_mask, [child, child_3])
         attention_mask = child = child_3 = None
-        result_2 = result_1.__and__(index)
-        result_1 = index = None
-        batched_outputs = torch._C._functorch._remove_batch_dim(result_2, 4, 21, 0)
+        to_2 = index.to(device(type="cpu"))
+        index = None
+        result_2 = result_1.__and__(to_2)
+        result_1 = to_2 = None
+        batched_outputs = torch._functorch.predispatch._remove_batch_dim(
+            result_2, 4, 21, 0
+        )
         result_2 = None
-        _vmap_decrement_nesting = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting = torch._functorch.predispatch._vmap_decrement_nesting()
         _vmap_decrement_nesting = None
-        batched_outputs_1 = torch._C._functorch._remove_batch_dim(
+        batched_outputs_1 = torch._functorch.predispatch._remove_batch_dim(
             batched_outputs, 3, 21, 0
         )
         batched_outputs = None
-        _vmap_decrement_nesting_1 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_1 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_1 = None
-        batched_outputs_2 = torch._C._functorch._remove_batch_dim(
+        batched_outputs_2 = torch._functorch.predispatch._remove_batch_dim(
             batched_outputs_1, 2, 1, 0
         )
         batched_outputs_1 = None
-        _vmap_decrement_nesting_2 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_2 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_2 = None
-        causal_mask = torch._C._functorch._remove_batch_dim(batched_outputs_2, 1, 1, 0)
+        causal_mask = torch._functorch.predispatch._remove_batch_dim(
+            batched_outputs_2, 1, 1, 0
+        )
         batched_outputs_2 = None
-        _vmap_decrement_nesting_3 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_3 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_3 = None
         getitem = l_self_modules_model_modules_rotary_emb_buffers_inv_freq_[
             (None, slice(None, None, None), None)
@@ -598,9 +618,6 @@ class GraphModule(torch.nn.Module):
         position_ids = None
         position_ids_expanded = getitem_1.float()
         getitem_1 = None
-        _enter_autocast = torch.amp.autocast_mode._enter_autocast(
-            "cpu", None, False, None
-        )
         float_3 = inv_freq_expanded.float()
         inv_freq_expanded = None
         float_4 = position_ids_expanded.float()
@@ -618,11 +635,9 @@ class GraphModule(torch.nn.Module):
         emb = None
         sin_1 = sin * 1.0
         sin = None
-        _exit_autocast = torch.amp.autocast_mode._exit_autocast(_enter_autocast)
-        _enter_autocast = _exit_autocast = None
-        cos_2 = cos_1.to(dtype=torch.float16)
+        cos_2 = cos_1.to(dtype=torch.float32)
         cos_1 = None
-        sin_2 = sin_1.to(dtype=torch.float16)
+        sin_2 = sin_1.to(dtype=torch.float32)
         sin_1 = None
         _log_api_usage_once = torch._C._log_api_usage_once("python.nn_module")
         _log_api_usage_once = None
@@ -636,14 +651,14 @@ class GraphModule(torch.nn.Module):
         add = None
         hidden_states_1 = hidden_states * rsqrt
         hidden_states = rsqrt = None
-        to_5 = hidden_states_1.to(torch.float16)
+        to_7 = hidden_states_1.to(torch.float32)
         hidden_states_1 = None
         hidden_states_2 = (
             l_self_modules_model_modules_layers_modules_0_modules_input_layernorm_parameters_weight_
-            * to_5
+            * to_7
         )
         l_self_modules_model_modules_layers_modules_0_modules_input_layernorm_parameters_weight_ = (
-            to_5
+            to_7
         ) = None
         linear = torch._C._nn.linear(
             hidden_states_2,
@@ -714,22 +729,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query = q_embed.contiguous()
-        q_embed = None
-        key = k_embed.contiguous()
-        k_embed = None
-        value = value_states.contiguous()
-        value_states = None
         attn_output = torch._C._nn.scaled_dot_product_attention(
-            query,
-            key,
-            value,
+            q_embed,
+            k_embed,
+            value_states,
             attn_mask=attention_mask_1,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query = key = value = attention_mask_1 = None
+        q_embed = k_embed = value_states = attention_mask_1 = None
         transpose_4 = attn_output.transpose(1, 2)
         attn_output = None
         attn_output_1 = transpose_4.contiguous()
@@ -756,14 +765,14 @@ class GraphModule(torch.nn.Module):
         add_4 = None
         hidden_states_5 = hidden_states_4 * rsqrt_1
         hidden_states_4 = rsqrt_1 = None
-        to_7 = hidden_states_5.to(torch.float16)
+        to_9 = hidden_states_5.to(torch.float32)
         hidden_states_5 = None
         hidden_states_6 = (
             l_self_modules_model_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_
-            * to_7
+            * to_9
         )
         l_self_modules_model_modules_layers_modules_0_modules_post_attention_layernorm_parameters_weight_ = (
-            to_7
+            to_9
         ) = None
         linear_4 = torch._C._nn.linear(
             hidden_states_6,
@@ -801,14 +810,14 @@ class GraphModule(torch.nn.Module):
         add_6 = None
         hidden_states_9 = hidden_states_8 * rsqrt_2
         hidden_states_8 = rsqrt_2 = None
-        to_9 = hidden_states_9.to(torch.float16)
+        to_11 = hidden_states_9.to(torch.float32)
         hidden_states_9 = None
         hidden_states_10 = (
             l_self_modules_model_modules_layers_modules_1_modules_input_layernorm_parameters_weight_
-            * to_9
+            * to_11
         )
         l_self_modules_model_modules_layers_modules_1_modules_input_layernorm_parameters_weight_ = (
-            to_9
+            to_11
         ) = None
         linear_7 = torch._C._nn.linear(
             hidden_states_10,
@@ -879,22 +888,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_1 = q_embed_1.contiguous()
-        q_embed_1 = None
-        key_1 = k_embed_1.contiguous()
-        k_embed_1 = None
-        value_1 = value_states_1.contiguous()
-        value_states_1 = None
         attn_output_4 = torch._C._nn.scaled_dot_product_attention(
-            query_1,
-            key_1,
-            value_1,
+            q_embed_1,
+            k_embed_1,
+            value_states_1,
             attn_mask=attention_mask_2,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_1 = key_1 = value_1 = attention_mask_2 = None
+        q_embed_1 = k_embed_1 = value_states_1 = attention_mask_2 = None
         transpose_8 = attn_output_4.transpose(1, 2)
         attn_output_4 = None
         attn_output_5 = transpose_8.contiguous()
@@ -921,14 +924,14 @@ class GraphModule(torch.nn.Module):
         add_10 = None
         hidden_states_13 = hidden_states_12 * rsqrt_3
         hidden_states_12 = rsqrt_3 = None
-        to_11 = hidden_states_13.to(torch.float16)
+        to_13 = hidden_states_13.to(torch.float32)
         hidden_states_13 = None
         hidden_states_14 = (
             l_self_modules_model_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_
-            * to_11
+            * to_13
         )
         l_self_modules_model_modules_layers_modules_1_modules_post_attention_layernorm_parameters_weight_ = (
-            to_11
+            to_13
         ) = None
         linear_11 = torch._C._nn.linear(
             hidden_states_14,
@@ -966,14 +969,14 @@ class GraphModule(torch.nn.Module):
         add_12 = None
         hidden_states_17 = hidden_states_16 * rsqrt_4
         hidden_states_16 = rsqrt_4 = None
-        to_13 = hidden_states_17.to(torch.float16)
+        to_15 = hidden_states_17.to(torch.float32)
         hidden_states_17 = None
         hidden_states_18 = (
             l_self_modules_model_modules_layers_modules_2_modules_input_layernorm_parameters_weight_
-            * to_13
+            * to_15
         )
         l_self_modules_model_modules_layers_modules_2_modules_input_layernorm_parameters_weight_ = (
-            to_13
+            to_15
         ) = None
         linear_14 = torch._C._nn.linear(
             hidden_states_18,
@@ -1044,22 +1047,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_2 = q_embed_2.contiguous()
-        q_embed_2 = None
-        key_2 = k_embed_2.contiguous()
-        k_embed_2 = None
-        value_2 = value_states_2.contiguous()
-        value_states_2 = None
         attn_output_8 = torch._C._nn.scaled_dot_product_attention(
-            query_2,
-            key_2,
-            value_2,
+            q_embed_2,
+            k_embed_2,
+            value_states_2,
             attn_mask=attention_mask_3,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_2 = key_2 = value_2 = attention_mask_3 = None
+        q_embed_2 = k_embed_2 = value_states_2 = attention_mask_3 = None
         transpose_12 = attn_output_8.transpose(1, 2)
         attn_output_8 = None
         attn_output_9 = transpose_12.contiguous()
@@ -1086,14 +1083,14 @@ class GraphModule(torch.nn.Module):
         add_16 = None
         hidden_states_21 = hidden_states_20 * rsqrt_5
         hidden_states_20 = rsqrt_5 = None
-        to_15 = hidden_states_21.to(torch.float16)
+        to_17 = hidden_states_21.to(torch.float32)
         hidden_states_21 = None
         hidden_states_22 = (
             l_self_modules_model_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_
-            * to_15
+            * to_17
         )
         l_self_modules_model_modules_layers_modules_2_modules_post_attention_layernorm_parameters_weight_ = (
-            to_15
+            to_17
         ) = None
         linear_18 = torch._C._nn.linear(
             hidden_states_22,
@@ -1131,14 +1128,14 @@ class GraphModule(torch.nn.Module):
         add_18 = None
         hidden_states_25 = hidden_states_24 * rsqrt_6
         hidden_states_24 = rsqrt_6 = None
-        to_17 = hidden_states_25.to(torch.float16)
+        to_19 = hidden_states_25.to(torch.float32)
         hidden_states_25 = None
         hidden_states_26 = (
             l_self_modules_model_modules_layers_modules_3_modules_input_layernorm_parameters_weight_
-            * to_17
+            * to_19
         )
         l_self_modules_model_modules_layers_modules_3_modules_input_layernorm_parameters_weight_ = (
-            to_17
+            to_19
         ) = None
         linear_21 = torch._C._nn.linear(
             hidden_states_26,
@@ -1209,22 +1206,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_3 = q_embed_3.contiguous()
-        q_embed_3 = None
-        key_3 = k_embed_3.contiguous()
-        k_embed_3 = None
-        value_3 = value_states_3.contiguous()
-        value_states_3 = None
         attn_output_12 = torch._C._nn.scaled_dot_product_attention(
-            query_3,
-            key_3,
-            value_3,
+            q_embed_3,
+            k_embed_3,
+            value_states_3,
             attn_mask=attention_mask_4,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_3 = key_3 = value_3 = attention_mask_4 = None
+        q_embed_3 = k_embed_3 = value_states_3 = attention_mask_4 = None
         transpose_16 = attn_output_12.transpose(1, 2)
         attn_output_12 = None
         attn_output_13 = transpose_16.contiguous()
@@ -1251,14 +1242,14 @@ class GraphModule(torch.nn.Module):
         add_22 = None
         hidden_states_29 = hidden_states_28 * rsqrt_7
         hidden_states_28 = rsqrt_7 = None
-        to_19 = hidden_states_29.to(torch.float16)
+        to_21 = hidden_states_29.to(torch.float32)
         hidden_states_29 = None
         hidden_states_30 = (
             l_self_modules_model_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_
-            * to_19
+            * to_21
         )
         l_self_modules_model_modules_layers_modules_3_modules_post_attention_layernorm_parameters_weight_ = (
-            to_19
+            to_21
         ) = None
         linear_25 = torch._C._nn.linear(
             hidden_states_30,
@@ -1296,14 +1287,14 @@ class GraphModule(torch.nn.Module):
         add_24 = None
         hidden_states_33 = hidden_states_32 * rsqrt_8
         hidden_states_32 = rsqrt_8 = None
-        to_21 = hidden_states_33.to(torch.float16)
+        to_23 = hidden_states_33.to(torch.float32)
         hidden_states_33 = None
         hidden_states_34 = (
             l_self_modules_model_modules_layers_modules_4_modules_input_layernorm_parameters_weight_
-            * to_21
+            * to_23
         )
         l_self_modules_model_modules_layers_modules_4_modules_input_layernorm_parameters_weight_ = (
-            to_21
+            to_23
         ) = None
         linear_28 = torch._C._nn.linear(
             hidden_states_34,
@@ -1374,22 +1365,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_4 = q_embed_4.contiguous()
-        q_embed_4 = None
-        key_4 = k_embed_4.contiguous()
-        k_embed_4 = None
-        value_4 = value_states_4.contiguous()
-        value_states_4 = None
         attn_output_16 = torch._C._nn.scaled_dot_product_attention(
-            query_4,
-            key_4,
-            value_4,
+            q_embed_4,
+            k_embed_4,
+            value_states_4,
             attn_mask=attention_mask_5,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_4 = key_4 = value_4 = attention_mask_5 = None
+        q_embed_4 = k_embed_4 = value_states_4 = attention_mask_5 = None
         transpose_20 = attn_output_16.transpose(1, 2)
         attn_output_16 = None
         attn_output_17 = transpose_20.contiguous()
@@ -1416,14 +1401,14 @@ class GraphModule(torch.nn.Module):
         add_28 = None
         hidden_states_37 = hidden_states_36 * rsqrt_9
         hidden_states_36 = rsqrt_9 = None
-        to_23 = hidden_states_37.to(torch.float16)
+        to_25 = hidden_states_37.to(torch.float32)
         hidden_states_37 = None
         hidden_states_38 = (
             l_self_modules_model_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_
-            * to_23
+            * to_25
         )
         l_self_modules_model_modules_layers_modules_4_modules_post_attention_layernorm_parameters_weight_ = (
-            to_23
+            to_25
         ) = None
         linear_32 = torch._C._nn.linear(
             hidden_states_38,
@@ -1461,14 +1446,14 @@ class GraphModule(torch.nn.Module):
         add_30 = None
         hidden_states_41 = hidden_states_40 * rsqrt_10
         hidden_states_40 = rsqrt_10 = None
-        to_25 = hidden_states_41.to(torch.float16)
+        to_27 = hidden_states_41.to(torch.float32)
         hidden_states_41 = None
         hidden_states_42 = (
             l_self_modules_model_modules_layers_modules_5_modules_input_layernorm_parameters_weight_
-            * to_25
+            * to_27
         )
         l_self_modules_model_modules_layers_modules_5_modules_input_layernorm_parameters_weight_ = (
-            to_25
+            to_27
         ) = None
         linear_35 = torch._C._nn.linear(
             hidden_states_42,
@@ -1539,22 +1524,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_5 = q_embed_5.contiguous()
-        q_embed_5 = None
-        key_5 = k_embed_5.contiguous()
-        k_embed_5 = None
-        value_5 = value_states_5.contiguous()
-        value_states_5 = None
         attn_output_20 = torch._C._nn.scaled_dot_product_attention(
-            query_5,
-            key_5,
-            value_5,
+            q_embed_5,
+            k_embed_5,
+            value_states_5,
             attn_mask=attention_mask_6,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_5 = key_5 = value_5 = attention_mask_6 = None
+        q_embed_5 = k_embed_5 = value_states_5 = attention_mask_6 = None
         transpose_24 = attn_output_20.transpose(1, 2)
         attn_output_20 = None
         attn_output_21 = transpose_24.contiguous()
@@ -1581,14 +1560,14 @@ class GraphModule(torch.nn.Module):
         add_34 = None
         hidden_states_45 = hidden_states_44 * rsqrt_11
         hidden_states_44 = rsqrt_11 = None
-        to_27 = hidden_states_45.to(torch.float16)
+        to_29 = hidden_states_45.to(torch.float32)
         hidden_states_45 = None
         hidden_states_46 = (
             l_self_modules_model_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_
-            * to_27
+            * to_29
         )
         l_self_modules_model_modules_layers_modules_5_modules_post_attention_layernorm_parameters_weight_ = (
-            to_27
+            to_29
         ) = None
         linear_39 = torch._C._nn.linear(
             hidden_states_46,
@@ -1626,14 +1605,14 @@ class GraphModule(torch.nn.Module):
         add_36 = None
         hidden_states_49 = hidden_states_48 * rsqrt_12
         hidden_states_48 = rsqrt_12 = None
-        to_29 = hidden_states_49.to(torch.float16)
+        to_31 = hidden_states_49.to(torch.float32)
         hidden_states_49 = None
         hidden_states_50 = (
             l_self_modules_model_modules_layers_modules_6_modules_input_layernorm_parameters_weight_
-            * to_29
+            * to_31
         )
         l_self_modules_model_modules_layers_modules_6_modules_input_layernorm_parameters_weight_ = (
-            to_29
+            to_31
         ) = None
         linear_42 = torch._C._nn.linear(
             hidden_states_50,
@@ -1704,22 +1683,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_6 = q_embed_6.contiguous()
-        q_embed_6 = None
-        key_6 = k_embed_6.contiguous()
-        k_embed_6 = None
-        value_6 = value_states_6.contiguous()
-        value_states_6 = None
         attn_output_24 = torch._C._nn.scaled_dot_product_attention(
-            query_6,
-            key_6,
-            value_6,
+            q_embed_6,
+            k_embed_6,
+            value_states_6,
             attn_mask=attention_mask_7,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_6 = key_6 = value_6 = attention_mask_7 = None
+        q_embed_6 = k_embed_6 = value_states_6 = attention_mask_7 = None
         transpose_28 = attn_output_24.transpose(1, 2)
         attn_output_24 = None
         attn_output_25 = transpose_28.contiguous()
@@ -1746,14 +1719,14 @@ class GraphModule(torch.nn.Module):
         add_40 = None
         hidden_states_53 = hidden_states_52 * rsqrt_13
         hidden_states_52 = rsqrt_13 = None
-        to_31 = hidden_states_53.to(torch.float16)
+        to_33 = hidden_states_53.to(torch.float32)
         hidden_states_53 = None
         hidden_states_54 = (
             l_self_modules_model_modules_layers_modules_6_modules_post_attention_layernorm_parameters_weight_
-            * to_31
+            * to_33
         )
         l_self_modules_model_modules_layers_modules_6_modules_post_attention_layernorm_parameters_weight_ = (
-            to_31
+            to_33
         ) = None
         linear_46 = torch._C._nn.linear(
             hidden_states_54,
@@ -1791,14 +1764,14 @@ class GraphModule(torch.nn.Module):
         add_42 = None
         hidden_states_57 = hidden_states_56 * rsqrt_14
         hidden_states_56 = rsqrt_14 = None
-        to_33 = hidden_states_57.to(torch.float16)
+        to_35 = hidden_states_57.to(torch.float32)
         hidden_states_57 = None
         hidden_states_58 = (
             l_self_modules_model_modules_layers_modules_7_modules_input_layernorm_parameters_weight_
-            * to_33
+            * to_35
         )
         l_self_modules_model_modules_layers_modules_7_modules_input_layernorm_parameters_weight_ = (
-            to_33
+            to_35
         ) = None
         linear_49 = torch._C._nn.linear(
             hidden_states_58,
@@ -1869,22 +1842,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_7 = q_embed_7.contiguous()
-        q_embed_7 = None
-        key_7 = k_embed_7.contiguous()
-        k_embed_7 = None
-        value_7 = value_states_7.contiguous()
-        value_states_7 = None
         attn_output_28 = torch._C._nn.scaled_dot_product_attention(
-            query_7,
-            key_7,
-            value_7,
+            q_embed_7,
+            k_embed_7,
+            value_states_7,
             attn_mask=attention_mask_8,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_7 = key_7 = value_7 = attention_mask_8 = None
+        q_embed_7 = k_embed_7 = value_states_7 = attention_mask_8 = None
         transpose_32 = attn_output_28.transpose(1, 2)
         attn_output_28 = None
         attn_output_29 = transpose_32.contiguous()
@@ -1911,14 +1878,14 @@ class GraphModule(torch.nn.Module):
         add_46 = None
         hidden_states_61 = hidden_states_60 * rsqrt_15
         hidden_states_60 = rsqrt_15 = None
-        to_35 = hidden_states_61.to(torch.float16)
+        to_37 = hidden_states_61.to(torch.float32)
         hidden_states_61 = None
         hidden_states_62 = (
             l_self_modules_model_modules_layers_modules_7_modules_post_attention_layernorm_parameters_weight_
-            * to_35
+            * to_37
         )
         l_self_modules_model_modules_layers_modules_7_modules_post_attention_layernorm_parameters_weight_ = (
-            to_35
+            to_37
         ) = None
         linear_53 = torch._C._nn.linear(
             hidden_states_62,
@@ -1956,14 +1923,14 @@ class GraphModule(torch.nn.Module):
         add_48 = None
         hidden_states_65 = hidden_states_64 * rsqrt_16
         hidden_states_64 = rsqrt_16 = None
-        to_37 = hidden_states_65.to(torch.float16)
+        to_39 = hidden_states_65.to(torch.float32)
         hidden_states_65 = None
         hidden_states_66 = (
             l_self_modules_model_modules_layers_modules_8_modules_input_layernorm_parameters_weight_
-            * to_37
+            * to_39
         )
         l_self_modules_model_modules_layers_modules_8_modules_input_layernorm_parameters_weight_ = (
-            to_37
+            to_39
         ) = None
         linear_56 = torch._C._nn.linear(
             hidden_states_66,
@@ -2034,22 +2001,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_8 = q_embed_8.contiguous()
-        q_embed_8 = None
-        key_8 = k_embed_8.contiguous()
-        k_embed_8 = None
-        value_8 = value_states_8.contiguous()
-        value_states_8 = None
         attn_output_32 = torch._C._nn.scaled_dot_product_attention(
-            query_8,
-            key_8,
-            value_8,
+            q_embed_8,
+            k_embed_8,
+            value_states_8,
             attn_mask=attention_mask_9,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_8 = key_8 = value_8 = attention_mask_9 = None
+        q_embed_8 = k_embed_8 = value_states_8 = attention_mask_9 = None
         transpose_36 = attn_output_32.transpose(1, 2)
         attn_output_32 = None
         attn_output_33 = transpose_36.contiguous()
@@ -2076,14 +2037,14 @@ class GraphModule(torch.nn.Module):
         add_52 = None
         hidden_states_69 = hidden_states_68 * rsqrt_17
         hidden_states_68 = rsqrt_17 = None
-        to_39 = hidden_states_69.to(torch.float16)
+        to_41 = hidden_states_69.to(torch.float32)
         hidden_states_69 = None
         hidden_states_70 = (
             l_self_modules_model_modules_layers_modules_8_modules_post_attention_layernorm_parameters_weight_
-            * to_39
+            * to_41
         )
         l_self_modules_model_modules_layers_modules_8_modules_post_attention_layernorm_parameters_weight_ = (
-            to_39
+            to_41
         ) = None
         linear_60 = torch._C._nn.linear(
             hidden_states_70,
@@ -2121,14 +2082,14 @@ class GraphModule(torch.nn.Module):
         add_54 = None
         hidden_states_73 = hidden_states_72 * rsqrt_18
         hidden_states_72 = rsqrt_18 = None
-        to_41 = hidden_states_73.to(torch.float16)
+        to_43 = hidden_states_73.to(torch.float32)
         hidden_states_73 = None
         hidden_states_74 = (
             l_self_modules_model_modules_layers_modules_9_modules_input_layernorm_parameters_weight_
-            * to_41
+            * to_43
         )
         l_self_modules_model_modules_layers_modules_9_modules_input_layernorm_parameters_weight_ = (
-            to_41
+            to_43
         ) = None
         linear_63 = torch._C._nn.linear(
             hidden_states_74,
@@ -2199,22 +2160,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_9 = q_embed_9.contiguous()
-        q_embed_9 = None
-        key_9 = k_embed_9.contiguous()
-        k_embed_9 = None
-        value_9 = value_states_9.contiguous()
-        value_states_9 = None
         attn_output_36 = torch._C._nn.scaled_dot_product_attention(
-            query_9,
-            key_9,
-            value_9,
+            q_embed_9,
+            k_embed_9,
+            value_states_9,
             attn_mask=attention_mask_10,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_9 = key_9 = value_9 = attention_mask_10 = None
+        q_embed_9 = k_embed_9 = value_states_9 = attention_mask_10 = None
         transpose_40 = attn_output_36.transpose(1, 2)
         attn_output_36 = None
         attn_output_37 = transpose_40.contiguous()
@@ -2241,14 +2196,14 @@ class GraphModule(torch.nn.Module):
         add_58 = None
         hidden_states_77 = hidden_states_76 * rsqrt_19
         hidden_states_76 = rsqrt_19 = None
-        to_43 = hidden_states_77.to(torch.float16)
+        to_45 = hidden_states_77.to(torch.float32)
         hidden_states_77 = None
         hidden_states_78 = (
             l_self_modules_model_modules_layers_modules_9_modules_post_attention_layernorm_parameters_weight_
-            * to_43
+            * to_45
         )
         l_self_modules_model_modules_layers_modules_9_modules_post_attention_layernorm_parameters_weight_ = (
-            to_43
+            to_45
         ) = None
         linear_67 = torch._C._nn.linear(
             hidden_states_78,
@@ -2286,14 +2241,14 @@ class GraphModule(torch.nn.Module):
         add_60 = None
         hidden_states_81 = hidden_states_80 * rsqrt_20
         hidden_states_80 = rsqrt_20 = None
-        to_45 = hidden_states_81.to(torch.float16)
+        to_47 = hidden_states_81.to(torch.float32)
         hidden_states_81 = None
         hidden_states_82 = (
             l_self_modules_model_modules_layers_modules_10_modules_input_layernorm_parameters_weight_
-            * to_45
+            * to_47
         )
         l_self_modules_model_modules_layers_modules_10_modules_input_layernorm_parameters_weight_ = (
-            to_45
+            to_47
         ) = None
         linear_70 = torch._C._nn.linear(
             hidden_states_82,
@@ -2364,22 +2319,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_10 = q_embed_10.contiguous()
-        q_embed_10 = None
-        key_10 = k_embed_10.contiguous()
-        k_embed_10 = None
-        value_10 = value_states_10.contiguous()
-        value_states_10 = None
         attn_output_40 = torch._C._nn.scaled_dot_product_attention(
-            query_10,
-            key_10,
-            value_10,
+            q_embed_10,
+            k_embed_10,
+            value_states_10,
             attn_mask=attention_mask_11,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_10 = key_10 = value_10 = attention_mask_11 = None
+        q_embed_10 = k_embed_10 = value_states_10 = attention_mask_11 = None
         transpose_44 = attn_output_40.transpose(1, 2)
         attn_output_40 = None
         attn_output_41 = transpose_44.contiguous()
@@ -2406,14 +2355,14 @@ class GraphModule(torch.nn.Module):
         add_64 = None
         hidden_states_85 = hidden_states_84 * rsqrt_21
         hidden_states_84 = rsqrt_21 = None
-        to_47 = hidden_states_85.to(torch.float16)
+        to_49 = hidden_states_85.to(torch.float32)
         hidden_states_85 = None
         hidden_states_86 = (
             l_self_modules_model_modules_layers_modules_10_modules_post_attention_layernorm_parameters_weight_
-            * to_47
+            * to_49
         )
         l_self_modules_model_modules_layers_modules_10_modules_post_attention_layernorm_parameters_weight_ = (
-            to_47
+            to_49
         ) = None
         linear_74 = torch._C._nn.linear(
             hidden_states_86,
@@ -2451,14 +2400,14 @@ class GraphModule(torch.nn.Module):
         add_66 = None
         hidden_states_89 = hidden_states_88 * rsqrt_22
         hidden_states_88 = rsqrt_22 = None
-        to_49 = hidden_states_89.to(torch.float16)
+        to_51 = hidden_states_89.to(torch.float32)
         hidden_states_89 = None
         hidden_states_90 = (
             l_self_modules_model_modules_layers_modules_11_modules_input_layernorm_parameters_weight_
-            * to_49
+            * to_51
         )
         l_self_modules_model_modules_layers_modules_11_modules_input_layernorm_parameters_weight_ = (
-            to_49
+            to_51
         ) = None
         linear_77 = torch._C._nn.linear(
             hidden_states_90,
@@ -2529,22 +2478,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_11 = q_embed_11.contiguous()
-        q_embed_11 = None
-        key_11 = k_embed_11.contiguous()
-        k_embed_11 = None
-        value_11 = value_states_11.contiguous()
-        value_states_11 = None
         attn_output_44 = torch._C._nn.scaled_dot_product_attention(
-            query_11,
-            key_11,
-            value_11,
+            q_embed_11,
+            k_embed_11,
+            value_states_11,
             attn_mask=attention_mask_12,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_11 = key_11 = value_11 = attention_mask_12 = None
+        q_embed_11 = k_embed_11 = value_states_11 = attention_mask_12 = None
         transpose_48 = attn_output_44.transpose(1, 2)
         attn_output_44 = None
         attn_output_45 = transpose_48.contiguous()
@@ -2571,14 +2514,14 @@ class GraphModule(torch.nn.Module):
         add_70 = None
         hidden_states_93 = hidden_states_92 * rsqrt_23
         hidden_states_92 = rsqrt_23 = None
-        to_51 = hidden_states_93.to(torch.float16)
+        to_53 = hidden_states_93.to(torch.float32)
         hidden_states_93 = None
         hidden_states_94 = (
             l_self_modules_model_modules_layers_modules_11_modules_post_attention_layernorm_parameters_weight_
-            * to_51
+            * to_53
         )
         l_self_modules_model_modules_layers_modules_11_modules_post_attention_layernorm_parameters_weight_ = (
-            to_51
+            to_53
         ) = None
         linear_81 = torch._C._nn.linear(
             hidden_states_94,
@@ -2616,14 +2559,14 @@ class GraphModule(torch.nn.Module):
         add_72 = None
         hidden_states_97 = hidden_states_96 * rsqrt_24
         hidden_states_96 = rsqrt_24 = None
-        to_53 = hidden_states_97.to(torch.float16)
+        to_55 = hidden_states_97.to(torch.float32)
         hidden_states_97 = None
         hidden_states_98 = (
             l_self_modules_model_modules_layers_modules_12_modules_input_layernorm_parameters_weight_
-            * to_53
+            * to_55
         )
         l_self_modules_model_modules_layers_modules_12_modules_input_layernorm_parameters_weight_ = (
-            to_53
+            to_55
         ) = None
         linear_84 = torch._C._nn.linear(
             hidden_states_98,
@@ -2694,22 +2637,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_12 = q_embed_12.contiguous()
-        q_embed_12 = None
-        key_12 = k_embed_12.contiguous()
-        k_embed_12 = None
-        value_12 = value_states_12.contiguous()
-        value_states_12 = None
         attn_output_48 = torch._C._nn.scaled_dot_product_attention(
-            query_12,
-            key_12,
-            value_12,
+            q_embed_12,
+            k_embed_12,
+            value_states_12,
             attn_mask=attention_mask_13,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_12 = key_12 = value_12 = attention_mask_13 = None
+        q_embed_12 = k_embed_12 = value_states_12 = attention_mask_13 = None
         transpose_52 = attn_output_48.transpose(1, 2)
         attn_output_48 = None
         attn_output_49 = transpose_52.contiguous()
@@ -2736,14 +2673,14 @@ class GraphModule(torch.nn.Module):
         add_76 = None
         hidden_states_101 = hidden_states_100 * rsqrt_25
         hidden_states_100 = rsqrt_25 = None
-        to_55 = hidden_states_101.to(torch.float16)
+        to_57 = hidden_states_101.to(torch.float32)
         hidden_states_101 = None
         hidden_states_102 = (
             l_self_modules_model_modules_layers_modules_12_modules_post_attention_layernorm_parameters_weight_
-            * to_55
+            * to_57
         )
         l_self_modules_model_modules_layers_modules_12_modules_post_attention_layernorm_parameters_weight_ = (
-            to_55
+            to_57
         ) = None
         linear_88 = torch._C._nn.linear(
             hidden_states_102,
@@ -2781,14 +2718,14 @@ class GraphModule(torch.nn.Module):
         add_78 = None
         hidden_states_105 = hidden_states_104 * rsqrt_26
         hidden_states_104 = rsqrt_26 = None
-        to_57 = hidden_states_105.to(torch.float16)
+        to_59 = hidden_states_105.to(torch.float32)
         hidden_states_105 = None
         hidden_states_106 = (
             l_self_modules_model_modules_layers_modules_13_modules_input_layernorm_parameters_weight_
-            * to_57
+            * to_59
         )
         l_self_modules_model_modules_layers_modules_13_modules_input_layernorm_parameters_weight_ = (
-            to_57
+            to_59
         ) = None
         linear_91 = torch._C._nn.linear(
             hidden_states_106,
@@ -2859,22 +2796,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_13 = q_embed_13.contiguous()
-        q_embed_13 = None
-        key_13 = k_embed_13.contiguous()
-        k_embed_13 = None
-        value_13 = value_states_13.contiguous()
-        value_states_13 = None
         attn_output_52 = torch._C._nn.scaled_dot_product_attention(
-            query_13,
-            key_13,
-            value_13,
+            q_embed_13,
+            k_embed_13,
+            value_states_13,
             attn_mask=attention_mask_14,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_13 = key_13 = value_13 = attention_mask_14 = None
+        q_embed_13 = k_embed_13 = value_states_13 = attention_mask_14 = None
         transpose_56 = attn_output_52.transpose(1, 2)
         attn_output_52 = None
         attn_output_53 = transpose_56.contiguous()
@@ -2901,14 +2832,14 @@ class GraphModule(torch.nn.Module):
         add_82 = None
         hidden_states_109 = hidden_states_108 * rsqrt_27
         hidden_states_108 = rsqrt_27 = None
-        to_59 = hidden_states_109.to(torch.float16)
+        to_61 = hidden_states_109.to(torch.float32)
         hidden_states_109 = None
         hidden_states_110 = (
             l_self_modules_model_modules_layers_modules_13_modules_post_attention_layernorm_parameters_weight_
-            * to_59
+            * to_61
         )
         l_self_modules_model_modules_layers_modules_13_modules_post_attention_layernorm_parameters_weight_ = (
-            to_59
+            to_61
         ) = None
         linear_95 = torch._C._nn.linear(
             hidden_states_110,
@@ -2946,14 +2877,14 @@ class GraphModule(torch.nn.Module):
         add_84 = None
         hidden_states_113 = hidden_states_112 * rsqrt_28
         hidden_states_112 = rsqrt_28 = None
-        to_61 = hidden_states_113.to(torch.float16)
+        to_63 = hidden_states_113.to(torch.float32)
         hidden_states_113 = None
         hidden_states_114 = (
             l_self_modules_model_modules_layers_modules_14_modules_input_layernorm_parameters_weight_
-            * to_61
+            * to_63
         )
         l_self_modules_model_modules_layers_modules_14_modules_input_layernorm_parameters_weight_ = (
-            to_61
+            to_63
         ) = None
         linear_98 = torch._C._nn.linear(
             hidden_states_114,
@@ -3024,22 +2955,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_14 = q_embed_14.contiguous()
-        q_embed_14 = None
-        key_14 = k_embed_14.contiguous()
-        k_embed_14 = None
-        value_14 = value_states_14.contiguous()
-        value_states_14 = None
         attn_output_56 = torch._C._nn.scaled_dot_product_attention(
-            query_14,
-            key_14,
-            value_14,
+            q_embed_14,
+            k_embed_14,
+            value_states_14,
             attn_mask=attention_mask_15,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_14 = key_14 = value_14 = attention_mask_15 = None
+        q_embed_14 = k_embed_14 = value_states_14 = attention_mask_15 = None
         transpose_60 = attn_output_56.transpose(1, 2)
         attn_output_56 = None
         attn_output_57 = transpose_60.contiguous()
@@ -3066,14 +2991,14 @@ class GraphModule(torch.nn.Module):
         add_88 = None
         hidden_states_117 = hidden_states_116 * rsqrt_29
         hidden_states_116 = rsqrt_29 = None
-        to_63 = hidden_states_117.to(torch.float16)
+        to_65 = hidden_states_117.to(torch.float32)
         hidden_states_117 = None
         hidden_states_118 = (
             l_self_modules_model_modules_layers_modules_14_modules_post_attention_layernorm_parameters_weight_
-            * to_63
+            * to_65
         )
         l_self_modules_model_modules_layers_modules_14_modules_post_attention_layernorm_parameters_weight_ = (
-            to_63
+            to_65
         ) = None
         linear_102 = torch._C._nn.linear(
             hidden_states_118,
@@ -3111,14 +3036,14 @@ class GraphModule(torch.nn.Module):
         add_90 = None
         hidden_states_121 = hidden_states_120 * rsqrt_30
         hidden_states_120 = rsqrt_30 = None
-        to_65 = hidden_states_121.to(torch.float16)
+        to_67 = hidden_states_121.to(torch.float32)
         hidden_states_121 = None
         hidden_states_122 = (
             l_self_modules_model_modules_layers_modules_15_modules_input_layernorm_parameters_weight_
-            * to_65
+            * to_67
         )
         l_self_modules_model_modules_layers_modules_15_modules_input_layernorm_parameters_weight_ = (
-            to_65
+            to_67
         ) = None
         linear_105 = torch._C._nn.linear(
             hidden_states_122,
@@ -3189,22 +3114,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_15 = q_embed_15.contiguous()
-        q_embed_15 = None
-        key_15 = k_embed_15.contiguous()
-        k_embed_15 = None
-        value_15 = value_states_15.contiguous()
-        value_states_15 = None
         attn_output_60 = torch._C._nn.scaled_dot_product_attention(
-            query_15,
-            key_15,
-            value_15,
+            q_embed_15,
+            k_embed_15,
+            value_states_15,
             attn_mask=attention_mask_16,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_15 = key_15 = value_15 = attention_mask_16 = None
+        q_embed_15 = k_embed_15 = value_states_15 = attention_mask_16 = None
         transpose_64 = attn_output_60.transpose(1, 2)
         attn_output_60 = None
         attn_output_61 = transpose_64.contiguous()
@@ -3231,14 +3150,14 @@ class GraphModule(torch.nn.Module):
         add_94 = None
         hidden_states_125 = hidden_states_124 * rsqrt_31
         hidden_states_124 = rsqrt_31 = None
-        to_67 = hidden_states_125.to(torch.float16)
+        to_69 = hidden_states_125.to(torch.float32)
         hidden_states_125 = None
         hidden_states_126 = (
             l_self_modules_model_modules_layers_modules_15_modules_post_attention_layernorm_parameters_weight_
-            * to_67
+            * to_69
         )
         l_self_modules_model_modules_layers_modules_15_modules_post_attention_layernorm_parameters_weight_ = (
-            to_67
+            to_69
         ) = None
         linear_109 = torch._C._nn.linear(
             hidden_states_126,
@@ -3276,14 +3195,14 @@ class GraphModule(torch.nn.Module):
         add_96 = None
         hidden_states_129 = hidden_states_128 * rsqrt_32
         hidden_states_128 = rsqrt_32 = None
-        to_69 = hidden_states_129.to(torch.float16)
+        to_71 = hidden_states_129.to(torch.float32)
         hidden_states_129 = None
         hidden_states_130 = (
             l_self_modules_model_modules_layers_modules_16_modules_input_layernorm_parameters_weight_
-            * to_69
+            * to_71
         )
         l_self_modules_model_modules_layers_modules_16_modules_input_layernorm_parameters_weight_ = (
-            to_69
+            to_71
         ) = None
         linear_112 = torch._C._nn.linear(
             hidden_states_130,
@@ -3354,22 +3273,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_16 = q_embed_16.contiguous()
-        q_embed_16 = None
-        key_16 = k_embed_16.contiguous()
-        k_embed_16 = None
-        value_16 = value_states_16.contiguous()
-        value_states_16 = None
         attn_output_64 = torch._C._nn.scaled_dot_product_attention(
-            query_16,
-            key_16,
-            value_16,
+            q_embed_16,
+            k_embed_16,
+            value_states_16,
             attn_mask=attention_mask_17,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_16 = key_16 = value_16 = attention_mask_17 = None
+        q_embed_16 = k_embed_16 = value_states_16 = attention_mask_17 = None
         transpose_68 = attn_output_64.transpose(1, 2)
         attn_output_64 = None
         attn_output_65 = transpose_68.contiguous()
@@ -3396,14 +3309,14 @@ class GraphModule(torch.nn.Module):
         add_100 = None
         hidden_states_133 = hidden_states_132 * rsqrt_33
         hidden_states_132 = rsqrt_33 = None
-        to_71 = hidden_states_133.to(torch.float16)
+        to_73 = hidden_states_133.to(torch.float32)
         hidden_states_133 = None
         hidden_states_134 = (
             l_self_modules_model_modules_layers_modules_16_modules_post_attention_layernorm_parameters_weight_
-            * to_71
+            * to_73
         )
         l_self_modules_model_modules_layers_modules_16_modules_post_attention_layernorm_parameters_weight_ = (
-            to_71
+            to_73
         ) = None
         linear_116 = torch._C._nn.linear(
             hidden_states_134,
@@ -3441,14 +3354,14 @@ class GraphModule(torch.nn.Module):
         add_102 = None
         hidden_states_137 = hidden_states_136 * rsqrt_34
         hidden_states_136 = rsqrt_34 = None
-        to_73 = hidden_states_137.to(torch.float16)
+        to_75 = hidden_states_137.to(torch.float32)
         hidden_states_137 = None
         hidden_states_138 = (
             l_self_modules_model_modules_layers_modules_17_modules_input_layernorm_parameters_weight_
-            * to_73
+            * to_75
         )
         l_self_modules_model_modules_layers_modules_17_modules_input_layernorm_parameters_weight_ = (
-            to_73
+            to_75
         ) = None
         linear_119 = torch._C._nn.linear(
             hidden_states_138,
@@ -3519,22 +3432,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_17 = q_embed_17.contiguous()
-        q_embed_17 = None
-        key_17 = k_embed_17.contiguous()
-        k_embed_17 = None
-        value_17 = value_states_17.contiguous()
-        value_states_17 = None
         attn_output_68 = torch._C._nn.scaled_dot_product_attention(
-            query_17,
-            key_17,
-            value_17,
+            q_embed_17,
+            k_embed_17,
+            value_states_17,
             attn_mask=attention_mask_18,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_17 = key_17 = value_17 = attention_mask_18 = None
+        q_embed_17 = k_embed_17 = value_states_17 = attention_mask_18 = None
         transpose_72 = attn_output_68.transpose(1, 2)
         attn_output_68 = None
         attn_output_69 = transpose_72.contiguous()
@@ -3561,14 +3468,14 @@ class GraphModule(torch.nn.Module):
         add_106 = None
         hidden_states_141 = hidden_states_140 * rsqrt_35
         hidden_states_140 = rsqrt_35 = None
-        to_75 = hidden_states_141.to(torch.float16)
+        to_77 = hidden_states_141.to(torch.float32)
         hidden_states_141 = None
         hidden_states_142 = (
             l_self_modules_model_modules_layers_modules_17_modules_post_attention_layernorm_parameters_weight_
-            * to_75
+            * to_77
         )
         l_self_modules_model_modules_layers_modules_17_modules_post_attention_layernorm_parameters_weight_ = (
-            to_75
+            to_77
         ) = None
         linear_123 = torch._C._nn.linear(
             hidden_states_142,
@@ -3606,14 +3513,14 @@ class GraphModule(torch.nn.Module):
         add_108 = None
         hidden_states_145 = hidden_states_144 * rsqrt_36
         hidden_states_144 = rsqrt_36 = None
-        to_77 = hidden_states_145.to(torch.float16)
+        to_79 = hidden_states_145.to(torch.float32)
         hidden_states_145 = None
         hidden_states_146 = (
             l_self_modules_model_modules_layers_modules_18_modules_input_layernorm_parameters_weight_
-            * to_77
+            * to_79
         )
         l_self_modules_model_modules_layers_modules_18_modules_input_layernorm_parameters_weight_ = (
-            to_77
+            to_79
         ) = None
         linear_126 = torch._C._nn.linear(
             hidden_states_146,
@@ -3684,22 +3591,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_18 = q_embed_18.contiguous()
-        q_embed_18 = None
-        key_18 = k_embed_18.contiguous()
-        k_embed_18 = None
-        value_18 = value_states_18.contiguous()
-        value_states_18 = None
         attn_output_72 = torch._C._nn.scaled_dot_product_attention(
-            query_18,
-            key_18,
-            value_18,
+            q_embed_18,
+            k_embed_18,
+            value_states_18,
             attn_mask=attention_mask_19,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_18 = key_18 = value_18 = attention_mask_19 = None
+        q_embed_18 = k_embed_18 = value_states_18 = attention_mask_19 = None
         transpose_76 = attn_output_72.transpose(1, 2)
         attn_output_72 = None
         attn_output_73 = transpose_76.contiguous()
@@ -3726,14 +3627,14 @@ class GraphModule(torch.nn.Module):
         add_112 = None
         hidden_states_149 = hidden_states_148 * rsqrt_37
         hidden_states_148 = rsqrt_37 = None
-        to_79 = hidden_states_149.to(torch.float16)
+        to_81 = hidden_states_149.to(torch.float32)
         hidden_states_149 = None
         hidden_states_150 = (
             l_self_modules_model_modules_layers_modules_18_modules_post_attention_layernorm_parameters_weight_
-            * to_79
+            * to_81
         )
         l_self_modules_model_modules_layers_modules_18_modules_post_attention_layernorm_parameters_weight_ = (
-            to_79
+            to_81
         ) = None
         linear_130 = torch._C._nn.linear(
             hidden_states_150,
@@ -3771,14 +3672,14 @@ class GraphModule(torch.nn.Module):
         add_114 = None
         hidden_states_153 = hidden_states_152 * rsqrt_38
         hidden_states_152 = rsqrt_38 = None
-        to_81 = hidden_states_153.to(torch.float16)
+        to_83 = hidden_states_153.to(torch.float32)
         hidden_states_153 = None
         hidden_states_154 = (
             l_self_modules_model_modules_layers_modules_19_modules_input_layernorm_parameters_weight_
-            * to_81
+            * to_83
         )
         l_self_modules_model_modules_layers_modules_19_modules_input_layernorm_parameters_weight_ = (
-            to_81
+            to_83
         ) = None
         linear_133 = torch._C._nn.linear(
             hidden_states_154,
@@ -3849,22 +3750,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_19 = q_embed_19.contiguous()
-        q_embed_19 = None
-        key_19 = k_embed_19.contiguous()
-        k_embed_19 = None
-        value_19 = value_states_19.contiguous()
-        value_states_19 = None
         attn_output_76 = torch._C._nn.scaled_dot_product_attention(
-            query_19,
-            key_19,
-            value_19,
+            q_embed_19,
+            k_embed_19,
+            value_states_19,
             attn_mask=attention_mask_20,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_19 = key_19 = value_19 = attention_mask_20 = None
+        q_embed_19 = k_embed_19 = value_states_19 = attention_mask_20 = None
         transpose_80 = attn_output_76.transpose(1, 2)
         attn_output_76 = None
         attn_output_77 = transpose_80.contiguous()
@@ -3891,14 +3786,14 @@ class GraphModule(torch.nn.Module):
         add_118 = None
         hidden_states_157 = hidden_states_156 * rsqrt_39
         hidden_states_156 = rsqrt_39 = None
-        to_83 = hidden_states_157.to(torch.float16)
+        to_85 = hidden_states_157.to(torch.float32)
         hidden_states_157 = None
         hidden_states_158 = (
             l_self_modules_model_modules_layers_modules_19_modules_post_attention_layernorm_parameters_weight_
-            * to_83
+            * to_85
         )
         l_self_modules_model_modules_layers_modules_19_modules_post_attention_layernorm_parameters_weight_ = (
-            to_83
+            to_85
         ) = None
         linear_137 = torch._C._nn.linear(
             hidden_states_158,
@@ -3936,14 +3831,14 @@ class GraphModule(torch.nn.Module):
         add_120 = None
         hidden_states_161 = hidden_states_160 * rsqrt_40
         hidden_states_160 = rsqrt_40 = None
-        to_85 = hidden_states_161.to(torch.float16)
+        to_87 = hidden_states_161.to(torch.float32)
         hidden_states_161 = None
         hidden_states_162 = (
             l_self_modules_model_modules_layers_modules_20_modules_input_layernorm_parameters_weight_
-            * to_85
+            * to_87
         )
         l_self_modules_model_modules_layers_modules_20_modules_input_layernorm_parameters_weight_ = (
-            to_85
+            to_87
         ) = None
         linear_140 = torch._C._nn.linear(
             hidden_states_162,
@@ -4014,22 +3909,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_20 = q_embed_20.contiguous()
-        q_embed_20 = None
-        key_20 = k_embed_20.contiguous()
-        k_embed_20 = None
-        value_20 = value_states_20.contiguous()
-        value_states_20 = None
         attn_output_80 = torch._C._nn.scaled_dot_product_attention(
-            query_20,
-            key_20,
-            value_20,
+            q_embed_20,
+            k_embed_20,
+            value_states_20,
             attn_mask=attention_mask_21,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_20 = key_20 = value_20 = attention_mask_21 = None
+        q_embed_20 = k_embed_20 = value_states_20 = attention_mask_21 = None
         transpose_84 = attn_output_80.transpose(1, 2)
         attn_output_80 = None
         attn_output_81 = transpose_84.contiguous()
@@ -4056,14 +3945,14 @@ class GraphModule(torch.nn.Module):
         add_124 = None
         hidden_states_165 = hidden_states_164 * rsqrt_41
         hidden_states_164 = rsqrt_41 = None
-        to_87 = hidden_states_165.to(torch.float16)
+        to_89 = hidden_states_165.to(torch.float32)
         hidden_states_165 = None
         hidden_states_166 = (
             l_self_modules_model_modules_layers_modules_20_modules_post_attention_layernorm_parameters_weight_
-            * to_87
+            * to_89
         )
         l_self_modules_model_modules_layers_modules_20_modules_post_attention_layernorm_parameters_weight_ = (
-            to_87
+            to_89
         ) = None
         linear_144 = torch._C._nn.linear(
             hidden_states_166,
@@ -4101,14 +3990,14 @@ class GraphModule(torch.nn.Module):
         add_126 = None
         hidden_states_169 = hidden_states_168 * rsqrt_42
         hidden_states_168 = rsqrt_42 = None
-        to_89 = hidden_states_169.to(torch.float16)
+        to_91 = hidden_states_169.to(torch.float32)
         hidden_states_169 = None
         hidden_states_170 = (
             l_self_modules_model_modules_layers_modules_21_modules_input_layernorm_parameters_weight_
-            * to_89
+            * to_91
         )
         l_self_modules_model_modules_layers_modules_21_modules_input_layernorm_parameters_weight_ = (
-            to_89
+            to_91
         ) = None
         linear_147 = torch._C._nn.linear(
             hidden_states_170,
@@ -4179,22 +4068,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_21 = q_embed_21.contiguous()
-        q_embed_21 = None
-        key_21 = k_embed_21.contiguous()
-        k_embed_21 = None
-        value_21 = value_states_21.contiguous()
-        value_states_21 = None
         attn_output_84 = torch._C._nn.scaled_dot_product_attention(
-            query_21,
-            key_21,
-            value_21,
+            q_embed_21,
+            k_embed_21,
+            value_states_21,
             attn_mask=attention_mask_22,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_21 = key_21 = value_21 = attention_mask_22 = None
+        q_embed_21 = k_embed_21 = value_states_21 = attention_mask_22 = None
         transpose_88 = attn_output_84.transpose(1, 2)
         attn_output_84 = None
         attn_output_85 = transpose_88.contiguous()
@@ -4221,14 +4104,14 @@ class GraphModule(torch.nn.Module):
         add_130 = None
         hidden_states_173 = hidden_states_172 * rsqrt_43
         hidden_states_172 = rsqrt_43 = None
-        to_91 = hidden_states_173.to(torch.float16)
+        to_93 = hidden_states_173.to(torch.float32)
         hidden_states_173 = None
         hidden_states_174 = (
             l_self_modules_model_modules_layers_modules_21_modules_post_attention_layernorm_parameters_weight_
-            * to_91
+            * to_93
         )
         l_self_modules_model_modules_layers_modules_21_modules_post_attention_layernorm_parameters_weight_ = (
-            to_91
+            to_93
         ) = None
         linear_151 = torch._C._nn.linear(
             hidden_states_174,
@@ -4266,14 +4149,14 @@ class GraphModule(torch.nn.Module):
         add_132 = None
         hidden_states_177 = hidden_states_176 * rsqrt_44
         hidden_states_176 = rsqrt_44 = None
-        to_93 = hidden_states_177.to(torch.float16)
+        to_95 = hidden_states_177.to(torch.float32)
         hidden_states_177 = None
         hidden_states_178 = (
             l_self_modules_model_modules_layers_modules_22_modules_input_layernorm_parameters_weight_
-            * to_93
+            * to_95
         )
         l_self_modules_model_modules_layers_modules_22_modules_input_layernorm_parameters_weight_ = (
-            to_93
+            to_95
         ) = None
         linear_154 = torch._C._nn.linear(
             hidden_states_178,
@@ -4344,22 +4227,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_22 = q_embed_22.contiguous()
-        q_embed_22 = None
-        key_22 = k_embed_22.contiguous()
-        k_embed_22 = None
-        value_22 = value_states_22.contiguous()
-        value_states_22 = None
         attn_output_88 = torch._C._nn.scaled_dot_product_attention(
-            query_22,
-            key_22,
-            value_22,
+            q_embed_22,
+            k_embed_22,
+            value_states_22,
             attn_mask=attention_mask_23,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_22 = key_22 = value_22 = attention_mask_23 = None
+        q_embed_22 = k_embed_22 = value_states_22 = attention_mask_23 = None
         transpose_92 = attn_output_88.transpose(1, 2)
         attn_output_88 = None
         attn_output_89 = transpose_92.contiguous()
@@ -4386,14 +4263,14 @@ class GraphModule(torch.nn.Module):
         add_136 = None
         hidden_states_181 = hidden_states_180 * rsqrt_45
         hidden_states_180 = rsqrt_45 = None
-        to_95 = hidden_states_181.to(torch.float16)
+        to_97 = hidden_states_181.to(torch.float32)
         hidden_states_181 = None
         hidden_states_182 = (
             l_self_modules_model_modules_layers_modules_22_modules_post_attention_layernorm_parameters_weight_
-            * to_95
+            * to_97
         )
         l_self_modules_model_modules_layers_modules_22_modules_post_attention_layernorm_parameters_weight_ = (
-            to_95
+            to_97
         ) = None
         linear_158 = torch._C._nn.linear(
             hidden_states_182,
@@ -4431,14 +4308,14 @@ class GraphModule(torch.nn.Module):
         add_138 = None
         hidden_states_185 = hidden_states_184 * rsqrt_46
         hidden_states_184 = rsqrt_46 = None
-        to_97 = hidden_states_185.to(torch.float16)
+        to_99 = hidden_states_185.to(torch.float32)
         hidden_states_185 = None
         hidden_states_186 = (
             l_self_modules_model_modules_layers_modules_23_modules_input_layernorm_parameters_weight_
-            * to_97
+            * to_99
         )
         l_self_modules_model_modules_layers_modules_23_modules_input_layernorm_parameters_weight_ = (
-            to_97
+            to_99
         ) = None
         linear_161 = torch._C._nn.linear(
             hidden_states_186,
@@ -4509,22 +4386,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_23 = q_embed_23.contiguous()
-        q_embed_23 = None
-        key_23 = k_embed_23.contiguous()
-        k_embed_23 = None
-        value_23 = value_states_23.contiguous()
-        value_states_23 = None
         attn_output_92 = torch._C._nn.scaled_dot_product_attention(
-            query_23,
-            key_23,
-            value_23,
+            q_embed_23,
+            k_embed_23,
+            value_states_23,
             attn_mask=attention_mask_24,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_23 = key_23 = value_23 = attention_mask_24 = None
+        q_embed_23 = k_embed_23 = value_states_23 = attention_mask_24 = None
         transpose_96 = attn_output_92.transpose(1, 2)
         attn_output_92 = None
         attn_output_93 = transpose_96.contiguous()
@@ -4551,14 +4422,14 @@ class GraphModule(torch.nn.Module):
         add_142 = None
         hidden_states_189 = hidden_states_188 * rsqrt_47
         hidden_states_188 = rsqrt_47 = None
-        to_99 = hidden_states_189.to(torch.float16)
+        to_101 = hidden_states_189.to(torch.float32)
         hidden_states_189 = None
         hidden_states_190 = (
             l_self_modules_model_modules_layers_modules_23_modules_post_attention_layernorm_parameters_weight_
-            * to_99
+            * to_101
         )
         l_self_modules_model_modules_layers_modules_23_modules_post_attention_layernorm_parameters_weight_ = (
-            to_99
+            to_101
         ) = None
         linear_165 = torch._C._nn.linear(
             hidden_states_190,
@@ -4596,14 +4467,14 @@ class GraphModule(torch.nn.Module):
         add_144 = None
         hidden_states_193 = hidden_states_192 * rsqrt_48
         hidden_states_192 = rsqrt_48 = None
-        to_101 = hidden_states_193.to(torch.float16)
+        to_103 = hidden_states_193.to(torch.float32)
         hidden_states_193 = None
         hidden_states_194 = (
             l_self_modules_model_modules_layers_modules_24_modules_input_layernorm_parameters_weight_
-            * to_101
+            * to_103
         )
         l_self_modules_model_modules_layers_modules_24_modules_input_layernorm_parameters_weight_ = (
-            to_101
+            to_103
         ) = None
         linear_168 = torch._C._nn.linear(
             hidden_states_194,
@@ -4674,22 +4545,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 21, None),
             )
         ]
-        query_24 = q_embed_24.contiguous()
-        q_embed_24 = None
-        key_24 = k_embed_24.contiguous()
-        k_embed_24 = None
-        value_24 = value_states_24.contiguous()
-        value_states_24 = None
         attn_output_96 = torch._C._nn.scaled_dot_product_attention(
-            query_24,
-            key_24,
-            value_24,
+            q_embed_24,
+            k_embed_24,
+            value_states_24,
             attn_mask=attention_mask_25,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_24 = key_24 = value_24 = attention_mask_25 = None
+        q_embed_24 = k_embed_24 = value_states_24 = attention_mask_25 = None
         transpose_100 = attn_output_96.transpose(1, 2)
         attn_output_96 = None
         attn_output_97 = transpose_100.contiguous()
@@ -4716,14 +4581,14 @@ class GraphModule(torch.nn.Module):
         add_148 = None
         hidden_states_197 = hidden_states_196 * rsqrt_49
         hidden_states_196 = rsqrt_49 = None
-        to_103 = hidden_states_197.to(torch.float16)
+        to_105 = hidden_states_197.to(torch.float32)
         hidden_states_197 = None
         hidden_states_198 = (
             l_self_modules_model_modules_layers_modules_24_modules_post_attention_layernorm_parameters_weight_
-            * to_103
+            * to_105
         )
         l_self_modules_model_modules_layers_modules_24_modules_post_attention_layernorm_parameters_weight_ = (
-            to_103
+            to_105
         ) = None
         linear_172 = torch._C._nn.linear(
             hidden_states_198,
@@ -4761,14 +4626,14 @@ class GraphModule(torch.nn.Module):
         add_150 = None
         hidden_states_201 = hidden_states_200 * rsqrt_50
         hidden_states_200 = rsqrt_50 = None
-        to_105 = hidden_states_201.to(torch.float16)
+        to_107 = hidden_states_201.to(torch.float32)
         hidden_states_201 = None
         hidden_states_202 = (
             l_self_modules_model_modules_layers_modules_25_modules_input_layernorm_parameters_weight_
-            * to_105
+            * to_107
         )
         l_self_modules_model_modules_layers_modules_25_modules_input_layernorm_parameters_weight_ = (
-            to_105
+            to_107
         ) = None
         linear_175 = torch._C._nn.linear(
             hidden_states_202,
@@ -4842,22 +4707,16 @@ class GraphModule(torch.nn.Module):
             )
         ]
         causal_mask = None
-        query_25 = q_embed_25.contiguous()
-        q_embed_25 = None
-        key_25 = k_embed_25.contiguous()
-        k_embed_25 = None
-        value_25 = value_states_25.contiguous()
-        value_states_25 = None
         attn_output_100 = torch._C._nn.scaled_dot_product_attention(
-            query_25,
-            key_25,
-            value_25,
+            q_embed_25,
+            k_embed_25,
+            value_states_25,
             attn_mask=attention_mask_26,
             dropout_p=0.0,
             scale=0.1,
             is_causal=False,
         )
-        query_25 = key_25 = value_25 = attention_mask_26 = None
+        q_embed_25 = k_embed_25 = value_states_25 = attention_mask_26 = None
         transpose_104 = attn_output_100.transpose(1, 2)
         attn_output_100 = None
         attn_output_101 = transpose_104.contiguous()
@@ -4884,14 +4743,14 @@ class GraphModule(torch.nn.Module):
         add_154 = None
         hidden_states_205 = hidden_states_204 * rsqrt_51
         hidden_states_204 = rsqrt_51 = None
-        to_107 = hidden_states_205.to(torch.float16)
+        to_109 = hidden_states_205.to(torch.float32)
         hidden_states_205 = None
         hidden_states_206 = (
             l_self_modules_model_modules_layers_modules_25_modules_post_attention_layernorm_parameters_weight_
-            * to_107
+            * to_109
         )
         l_self_modules_model_modules_layers_modules_25_modules_post_attention_layernorm_parameters_weight_ = (
-            to_107
+            to_109
         ) = None
         linear_179 = torch._C._nn.linear(
             hidden_states_206,
@@ -4930,12 +4789,12 @@ class GraphModule(torch.nn.Module):
         add_156 = None
         hidden_states_209 = hidden_states_208 * rsqrt_52
         hidden_states_208 = rsqrt_52 = None
-        to_109 = hidden_states_209.to(torch.float16)
+        to_111 = hidden_states_209.to(torch.float32)
         hidden_states_209 = None
         hidden_states_210 = (
-            l_self_modules_model_modules_norm_parameters_weight_ * to_109
+            l_self_modules_model_modules_norm_parameters_weight_ * to_111
         )
-        l_self_modules_model_modules_norm_parameters_weight_ = to_109 = None
+        l_self_modules_model_modules_norm_parameters_weight_ = to_111 = None
         getitem_132 = hidden_states_210[
             (slice(None, None, None), slice(0, None, None), slice(None, None, None))
         ]

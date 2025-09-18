@@ -21,5 +21,6 @@
         "base_model:quantized:microsoft/deberta-v3-xsmall",
         "license:apache-2.0",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

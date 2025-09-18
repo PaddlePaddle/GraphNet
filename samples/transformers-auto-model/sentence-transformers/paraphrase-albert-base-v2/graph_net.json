@@ -21,5 +21,6 @@
         "autotrain_compatible",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "other"
 }

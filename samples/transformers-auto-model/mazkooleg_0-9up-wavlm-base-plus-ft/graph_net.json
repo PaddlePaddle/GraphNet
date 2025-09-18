@@ -14,5 +14,6 @@
         "dataset:mazkooleg/0-9up_google_speech_commands_augmented_raw",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "audio"
 }

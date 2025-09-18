@@ -15,5 +15,6 @@
         "transformers",
         "text-ranking",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

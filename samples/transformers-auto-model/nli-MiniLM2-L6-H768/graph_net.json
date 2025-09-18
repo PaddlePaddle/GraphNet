@@ -22,5 +22,6 @@
         "base_model:quantized:nreimers/MiniLMv2-L6-H768-distilled-from-RoBERTa-Large",
         "license:apache-2.0",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

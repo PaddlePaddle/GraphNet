@@ -19,9 +19,5 @@
         "license:apache-2.0",
         "region:us"
     ],
-<<<<<<< HEAD
-    "tag": "other"
-=======
     "heuristic_tag": "other"
->>>>>>> 35d840ff3c37febed4276494fb2cf1403715439b
 }

@@ -35,9 +35,5 @@
         "endpoints_compatible",
         "region:us"
     ],
-<<<<<<< HEAD
-    "tag": "nlp"
-=======
     "heuristic_tag": "nlp"
->>>>>>> 35d840ff3c37febed4276494fb2cf1403715439b
 }

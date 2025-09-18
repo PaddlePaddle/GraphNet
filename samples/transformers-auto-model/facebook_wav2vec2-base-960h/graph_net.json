@@ -22,9 +22,5 @@
         "endpoints_compatible",
         "region:us"
     ],
-<<<<<<< HEAD
-    "tag": "audio"
-=======
     "heuristic_tag": "audio"
->>>>>>> 35d840ff3c37febed4276494fb2cf1403715439b
 }

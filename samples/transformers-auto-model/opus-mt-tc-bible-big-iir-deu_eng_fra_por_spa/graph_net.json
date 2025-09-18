@@ -6,9 +6,5 @@
     "model_name": "NO_VALID_MATCH_FOUND",
     "source": "huggingface_hub",
     "original_tag": [],
-<<<<<<< HEAD
-    "tag": "transformers-auto-model"
-=======
     "heuristic_tag": "transformers-auto-model"
->>>>>>> 35d840ff3c37febed4276494fb2cf1403715439b
 }

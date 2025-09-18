@@ -2,13 +2,6 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-<<<<<<< HEAD
-    "tag": [
-        "torchvision",
-        "computer_vision"
-    ]
-=======
     "source": "torchvision",
     "heuristic_tag": "computer_vision"
->>>>>>> 35d840ff3c37febed4276494fb2cf1403715439b
 }

@@ -457,24 +457,26 @@ def collect_model_stats(model_path, device, log_prompt):
     num_inputs = len(argument_name2types) - num_params
 
     def dict_to_string(d):
-        kv_list = [f"{k}={v}" for k, v in d.items()]
-        return "{" + ",".join(kv_list) + "}"
+        kv_list = [f"{k}:{v}" for k, v in d.items()]
+        return " ".join(kv_list)
 
-    log_fields = [log_prompt, "[ModelStats]"]
-    log_fields.append(f"model_path:{model_path}")
-    log_fields.append(f"num_inputs:{num_inputs}")
-    log_fields.append(f"num_params:{num_params}")
-    log_fields.append(f"num_outputs:{num_outputs}")
-    log_fields.append(f"num_ops:{num_ops}")
-    log_fields.append(f"model_size:{model_size_in_billion}B")
-    log_fields.append(f"input_dtypes:{dict_to_string(input_dtypes)}")
-    log_fields.append(f"param_dtypes:{dict_to_string(param_dtypes)}")
-    log_fields.append(f"op_dtypes:{dict_to_string(op_dtypes)}")
-    log_fields.append(f"ops:{dict_to_string(ops_count_dict)}")
-    log_fields.append(f"method:{method}")
-    log_fields.append(f"is_complete:{is_complete}")
+    def print_with_log_prompt(key, value):
+        print(
+            f"{log_prompt} [ModelStats.{key}] model_path:{model_path} {value}",
+            flush=True,
+        )
 
-    print(" ".join(log_fields), flush=True)
+    print_with_log_prompt("num_inputs", num_inputs)
+    print_with_log_prompt("num_params", num_params)
+    print_with_log_prompt("num_outputs", num_outputs)
+    print_with_log_prompt("num_ops", num_ops)
+    print_with_log_prompt("model_size", f"{model_size_in_billion}B")
+    print_with_log_prompt("input_dtypes", dict_to_string(input_dtypes))
+    print_with_log_prompt("param_dtypes", dict_to_string(param_dtypes))
+    print_with_log_prompt("op_dtypes", dict_to_string(op_dtypes))
+    print_with_log_prompt("ops", dict_to_string(ops_count_dict))
+    print_with_log_prompt("method", method)
+    print_with_log_prompt("is_complete", is_complete)
 
 
 def main(args):

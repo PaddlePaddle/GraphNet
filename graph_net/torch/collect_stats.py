@@ -7,6 +7,7 @@ import json
 import importlib
 import inspect
 import subprocess
+from datetime import datetime
 from typing import Type
 from dataclasses import dataclass, field
 from collections import defaultdict
@@ -518,7 +519,10 @@ def main(args):
     if args.model_path is not None:
         assert os.path.isdir(args.model_path)
         assert is_single_model_dir(args.model_path)
-        print(f"Collect information for {args.model_path}")
+        timestamp_sec = datetime.now().timestamp()
+        dt = datetime.fromtimestamp(timestamp_sec)
+        formatted_dt = dt.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+        print(f"[{formatted_dt}] Collect information for {args.model_path}")
         collect_model_stats(args.model_path, args.device, args.log_prompt)
     else:
         graph_net_samples_path = (

@@ -13,7 +13,6 @@ from dataclasses import dataclass, field
 from collections import defaultdict
 
 import torch
-from functorch import make_fx
 from graph_net.torch import utils
 
 
@@ -376,62 +375,6 @@ def collect_op_stats_with_symbolic_trace(model, sample_inputs, device):
     return meta_executor.is_complete, meta_executor.op_stats
 
 
-def collect_op_stats_with_make_fx(model, sample_inputs):
-    # Use meta tensors as input to avoid actually running the model
-    meta_input_list = convert_real_to_meta(sample_inputs)
-
-    try:
-        # Generate FX Graph, and automatically fill in meta information
-        fx_model = make_fx(model)(*meta_input_list)
-    except Exception:
-        print("Failed to execute make_fx")
-        return False, None
-
-    is_complete = True
-    op_stats = {}
-    for node in fx_model.graph.nodes:
-        op_name = None
-        if node.op == "call_module":
-            # classname of module
-            submod = fx_model.get_submodule(node.target)
-            op_name = submod.__class__.__name__
-        elif node.op == "call_function":
-            op_name = node.target.__name__
-        elif node.op == "call_method":
-            op_name = node.target
-        elif node.op in ["placeholder", "output", "get_attr"]:
-            op_name = node.op
-        else:
-            assert False, f"node.op: {node.op}"
-
-        dtype = None
-        if node.op not in ["placeholder", "output"]:
-            if "tensor_meta" in node.meta:
-                tensor_meta = node.meta["tensor_meta"]
-                dtype = tensor_meta.dtype
-                # print(f"node.op={node.op}, node.target={node.target}, dtype={tensor_meta.dtype}")
-            else:
-                print(
-                    f"node.op={node.op}, node.target={node.target} has no tensor_meta!"
-                )
-                is_complete = False
-
-        op_name = (
-            op_name.replace(".default", "")
-            .replace(".Tensor", "")
-            .replace(".Scalar", "")
-        )
-        dtype_str = str(dtype).replace("torch.", "")
-        if op_stats.get(op_name, None) is None:
-            op_stats[op_name] = OpStat(op_name, {dtype_str: 1}, 1)
-        else:
-            op_stats[op_name].op_dtypes[dtype_str] = (
-                op_stats[op_name].op_dtypes.get(dtype_str, 0) + 1
-            )
-            op_stats[op_name].count = op_stats[op_name].count + 1
-    return is_complete, op_stats
-
-
 def collect_op_stats(model, sample_inputs, device):
     is_complete_symbolic, op_stats_symbolic = collect_op_stats_with_symbolic_trace(
         model, sample_inputs, device
@@ -470,23 +413,22 @@ def collect_model_stats(model_path, device, log_prompt):
                 if dtype_str is not None and dtype_str != "None":
                     op_dtypes[dtype_str] = op_dtypes.get(dtype_str, 0) + num
 
-    num_params = 0
     model_size = 0
     input_dtypes = {}
     param_dtypes = {}
     for name, arg_type in argument_name2types.items():
         if arg_type == torch.nn.parameter.Parameter:
             param_numel = math.prod(input_dict[name].shape)
-            # print(f"Parameter {name}: {count}")
-            num_params += 1
             model_size += param_numel
             dtype_str = str(input_dict[name].dtype).replace("torch.", "")
             param_dtypes[dtype_str] = param_dtypes.get(dtype_str, 0) + 1
         else:
             dtype_str = str(input_dict[name].dtype).replace("torch.", "")
             input_dtypes[dtype_str] = input_dtypes.get(dtype_str, 0) + 1
+
     model_size_in_billion = model_size / 1e9
-    num_inputs = len(argument_name2types) - num_params
+    num_params = len(param_dtypes)
+    num_inputs = len(input_dtypes)
 
     source, heuristic_tag = read_graph_source_and_tag(model_path)
 

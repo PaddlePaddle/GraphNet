@@ -100,33 +100,28 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
 
-def get_tolerance(
-    datatype: str, atol_key: str, rtol_key: str, tolerance_config: dict
-) -> list:
+def get_precision(datatype: str, tolerance: str, tolerance_config: dict) -> list:
     """
-    根据标准尺度的 atol/rtol key 和数据类型，从配置中查找实际要检查的 atol/rtol 值。
+    根据标准尺度的 tolerance key 和 datatype，从配置中查找实际要检查的 atol/rtol 值。
     """
     precision_table = tolerance_config.get("precision_table", {}).get(datatype, {})
-    atol_dict = precision_table.get("atol", {})
-    rtol_dict = precision_table.get("rtol", {})
+    atol = precision_table.get(tolerance)
+    rtol = precision_table.get(tolerance)
 
-    atol_value_actual = atol_dict.get(atol_key)
-    rtol_value_actual = rtol_dict.get(rtol_key)
-
-    if atol_value_actual is not None and rtol_value_actual is not None:
-        return [atol_value_actual, rtol_value_actual]
+    if atol is not None and rtol is not None:
+        return [atol, rtol]
     else:
         print(
-            f"Warning: No tolerance mapping found for datatype={datatype}, atol_key={atol_key}, rtol_key={rtol_key}."
+            f"Warning: No precision found for datatype={datatype}, tolerance={tolerance}."
         )
         return None
 
 
-def get_correctness(sample: dict, atol_actual: str, rtol_actual: str) -> bool:
+def get_correctness(sample: dict, atol: str, rtol: str) -> bool:
     """
     根据给定的实际 atol 和 rtol 值，检查样本的正确性字典。
     """
-    metric_key_to_check = f"[all_close_atol_{atol_actual}_rtol_{rtol_actual}]"
+    metric_key_to_check = f"[all_close_atol_{atol}_rtol_{rtol}]"
     correctness_data = sample.get("correctness_metrics", {})
     return correctness_data.get(metric_key_to_check) == [1]
 
@@ -148,12 +143,10 @@ def calculate_s_scores(
     s_scores = OrderedDict()
 
     try:
-        ruler_keys = tolerance_config["precision_table"]["float32"]["rtol"].keys()
+        ruler_keys = tolerance_config["precision_table"]["float32"].keys()
         sorted_keys = sorted(ruler_keys, key=lambda k: float(k))
     except KeyError:
-        print(
-            "Error: Could not establish standard ruler from tolerance_config. Check 'float32' rtol keys."
-        )
+        print("Error: Could not establish standard ruler from tolerance_config.")
         return {}
 
     print(
@@ -161,10 +154,8 @@ def calculate_s_scores(
     )
 
     # 遍历“尺子”上的每一个刻度
-    for rtol_key in sorted_keys:
-        atol_key = rtol_key
-
-        ruler_key = int(re.search(r"[eE][-+]?\d+", rtol_key).group(0)[1:])
+    for tolerance in sorted_keys:
+        ruler_key = int(re.search(r"[eE][-+]?\d+", tolerance).group(0)[1:])
         if exec_failure_penalty == "logistic":
             exec_penalty = sigmoid(np.log10(ruler_key))
         elif exec_failure_penalty == "max-tanh":
@@ -189,10 +180,8 @@ def calculate_s_scores(
                 compiled_dtypes = performance.get("datatype", {}).get("compiled", [])
                 if eager_dtypes == compiled_dtypes and eager_dtypes:
                     for dtype in eager_dtypes:
-                        atol_actual, rtol_actual = get_tolerance(
-                            dtype, atol_key, rtol_key, tolerance_config
-                        )
-                        if get_correctness(sample, atol_actual, rtol_actual):
+                        atol, rtol = get_precision(dtype, tolerance, tolerance_config)
+                        if get_correctness(sample, atol, rtol):
                             is_failed = False
                             break
                         else:
@@ -214,10 +203,10 @@ def calculate_s_scores(
 
         if regularized_speedups:
             score = gmean(regularized_speedups)
-            s_scores[rtol_key] = score
-            t_val = -np.log10(float(rtol_key))
+            s_scores[tolerance] = score
+            t_val = -np.log10(float(tolerance))
             print(
-                f"  - S(t) for rtol={rtol_key} (t={t_val:.1f}), penalty={exec_penalty:.4f}: {score:.4f}"
+                f"  - S(t) for tolerance={tolerance} (t={t_val:.1f}), penalty={exec_penalty:.4f}: {score:.4f}"
             )
 
     return s_scores

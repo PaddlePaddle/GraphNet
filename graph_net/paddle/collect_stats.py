@@ -1,5 +1,6 @@
 import argparse
 import os
+import re
 import sys
 import ast
 import math
@@ -118,6 +119,24 @@ class ProgramAnalyzer:
                 )
                 self.op_stats[op_name].count += 1
 
+    def parse_pir_value_dtypes(self, type_str):
+        short_form2dtype = {
+            "f32": "float32",
+            "f16": "float16",
+            "bf16": "bfloat16",
+            "i64": "int64",
+        }
+        # type_str: "vec[tensor<1x18x13x9xf32>,tensor<1x9x13x9xf32>]"
+        matches = re.findall(r"tensor<([^>]+)>", type_str)
+        dtype_strs = []
+        for s in matches:
+            parts = s.split("x")
+            assert len(parts) > 0
+
+            dtype = parts[-1].lower()
+            dtype_strs.append(short_form2dtype[dtype])
+        return dtype_strs
+
     def __call__(self, program):
         assert isinstance(program, paddle.base.libpaddle.pir.Program)
 
@@ -129,22 +148,38 @@ class ProgramAnalyzer:
                 op_name = None
                 op_dtype = None
                 if op.name() == "pd_op.data":
+                    op_name = "data"
                     op_attrs = op.attrs()
                     op_dtype = op_attrs["dtype"]
                     self.input_dict[op_attrs["name"]] = {
                         "dtype": str(op_dtype).replace("paddle.", ""),
                         "shape": op_attrs["shape"],
                     }
-                elif not op.name().startswith("builtin."):
+                elif op.name().startswith("pd_op."):
                     self.num_ops += 1
                     op_name = op.name().replace("pd_op.", "")
-                    if len(op.results()) > 0:
-                        op_dtype = op.results()[0].dtype
-
-                if op_name is not None:
-                    self.update_op_stats(op_name, op_dtype)
-                elif op_dtype is None:
-                    self.num_ops_misses_dtypes += 1
+                    try:
+                        if len(op.results()) > 0:
+                            out = op.results()[0]
+                            if out.is_dense_tensor_type():
+                                op_dtype = out.dtype
+                            else:
+                                # for paddle.base.libpaddle.pir.VectorType, but cannot be accurately determined
+                                if op_name in ["split", "split_with_num", "meshgrid"]:
+                                    op_dtype = self.parse_pir_value_dtypes(
+                                        str(out.type())
+                                    )[0]
+                                else:
+                                    assert False, f"Unsupport op: {op}"
+                    except Exception:
+                        if self.num_ops_misses_dtypes == 0:
+                            print(f"dtype inference failed for {op_name}")
+                    if op_dtype is not None:
+                        self.update_op_stats(op_name, op_dtype)
+                    else:
+                        self.num_ops_misses_dtypes += 1
+                elif not op.name().startswith("builtin."):
+                    assert False, f"Unrecognized op: {op}"
 
         if self.num_ops_misses_dtypes > 0:
             self.is_complete = False
@@ -281,7 +316,7 @@ def main(args):
                 cmd = [
                     "python",
                     "-m",
-                    "graph_net.torch.collect_stats",
+                    "graph_net.paddle.collect_stats",
                     f"--device={args.device}",
                     f"--model-path={root}",
                     f"--log-prompt={args.log_prompt}",

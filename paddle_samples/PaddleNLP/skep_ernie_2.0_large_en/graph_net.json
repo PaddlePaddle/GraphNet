@@ -1,0 +1,6 @@
+{
+    "framework": "paddle",
+    "model_name": "skep_ernie_2.0_large_en",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
+}

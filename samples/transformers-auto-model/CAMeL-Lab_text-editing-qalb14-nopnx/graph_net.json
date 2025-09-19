@@ -15,5 +15,6 @@
         "base_model:finetune:aubmindlab/bert-base-arabertv02",
         "license:mit",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

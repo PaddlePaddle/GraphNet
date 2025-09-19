@@ -24,5 +24,6 @@
         "license:gpl-3.0",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "multimodal"
 }

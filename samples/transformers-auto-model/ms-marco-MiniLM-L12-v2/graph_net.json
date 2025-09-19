@@ -22,5 +22,6 @@
         "base_model:quantized:microsoft/MiniLM-L12-H384-uncased",
         "license:apache-2.0",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

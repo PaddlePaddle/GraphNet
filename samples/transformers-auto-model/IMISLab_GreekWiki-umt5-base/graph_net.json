@@ -13,5 +13,6 @@
         "license:apache-2.0",
         "model-index",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

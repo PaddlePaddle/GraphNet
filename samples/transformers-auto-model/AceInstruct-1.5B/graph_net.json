@@ -21,5 +21,6 @@
         "arxiv:2412.15084",
         "license:cc-by-nc-4.0",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

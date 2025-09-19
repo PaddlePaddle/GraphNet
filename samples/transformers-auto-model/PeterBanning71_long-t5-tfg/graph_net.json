@@ -16,5 +16,6 @@
         "license:bsd-3-clause",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

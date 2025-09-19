@@ -25,5 +25,6 @@
         "license:apache-2.0",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

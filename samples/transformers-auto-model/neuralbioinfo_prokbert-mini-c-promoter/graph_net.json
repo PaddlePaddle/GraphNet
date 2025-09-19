@@ -23,5 +23,6 @@
         "license:cc-by-4.0",
         "autotrain_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

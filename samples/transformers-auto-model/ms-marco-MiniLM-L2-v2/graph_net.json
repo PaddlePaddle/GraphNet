@@ -22,5 +22,6 @@
         "base_model:quantized:cross-encoder/ms-marco-MiniLM-L12-v2",
         "license:apache-2.0",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

@@ -15,5 +15,6 @@
         "dataset:hindawi",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "other"
 }

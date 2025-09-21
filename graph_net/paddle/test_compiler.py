@@ -50,21 +50,9 @@ def get_input_dict(args):
     params = inputs_params["weight_info"]
     inputs = inputs_params["input_info"]
 
-    param_dtypes = set()
-    for name, info in params.items():
-        dtype = str(info["info"]["dtype"])
-        if dtype not in param_dtypes:
-            param_dtypes.add(dtype)
-
-    input_dtypes = set()
-    for name, info in inputs.items():
-        dtype = str(info["info"]["dtype"])
-        if dtype not in input_dtypes:
-            input_dtypes.add(dtype)
-
     params.update(inputs)
     state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
-    return state_dict, list(input_dtypes), list(param_dtypes)
+    return state_dict
 
 
 def get_input_spec(args):
@@ -88,30 +76,6 @@ def get_compiled_model(args, model):
     )
     compiled_model.eval()
     return compiled_model
-
-
-def count_number_of_ops(args, model, eager_mode):
-    if eager_mode:
-        static_model = paddle.jit.to_static(
-            model,
-            input_spec=get_input_spec(args),
-            full_graph=True,
-            backend=None,
-        )
-        static_model.eval()
-        program = static_model.forward.concrete_program.main_program
-    else:
-        program = model.forward.concrete_program.main_program
-        print(program)
-
-    num_ops = 0
-    for block in program.blocks:
-        for op in block.ops:
-            if op.name() != "pd_op.data" and not op.name().startswith("builtin."):
-                num_ops += 1
-    print(f"Totally {num_ops} ops.")
-    print("")
-    return num_ops
 
 
 @dataclass
@@ -176,7 +140,7 @@ def measure_performance(model_call, args, synchronizer_func):
             e2e_times.append(duration_box.value)
             gpu_times.append(gpu_time_ms)
             print(
-                f"Trial {i + 1}: e2e={duration_box.value:.4f} ms, gpu={gpu_time_ms:.5g} ms"
+                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms, gpu={gpu_time_ms:.5f} ms"
             )
 
         stats["e2e"] = get_timing_stats(e2e_times)
@@ -221,7 +185,7 @@ def init_benchmark_result(args):
     return result_data
 
 
-def check_outputs(args, expected_out, compiled_out, result_data):
+def check_outputs(args, expected_out, compiled_out):
     if isinstance(expected_out, paddle.Tensor):
         expected_out = [expected_out]
     if isinstance(compiled_out, paddle.Tensor):
@@ -231,15 +195,11 @@ def check_outputs(args, expected_out, compiled_out, result_data):
     for i, tensor in enumerate(expected_out):
         if tensor is not None:
             eager_output_dtypes[i] = str(tensor.dtype)
-    result_data.update_corrrectness("num_eager_outputs", len(expected_out))
-    result_data.update_corrrectness("eager_output_dtypes", eager_output_dtypes)
 
     compiled_output_dtypes = [None] * len(compiled_out)
     for i, tensor in enumerate(compiled_out):
         if tensor is not None:
             compiled_output_dtypes[i] = str(tensor.dtype)
-    result_data.update_corrrectness("num_compiled_outputs", len(compiled_out))
-    result_data.update_corrrectness("compiled_output_dtypes", compiled_output_dtypes)
 
     is_output_consistent = len(expected_out) == len(compiled_out)
     for a, b in zip(expected_out, compiled_out):
@@ -247,7 +207,6 @@ def check_outputs(args, expected_out, compiled_out, result_data):
             is_output_consistent = False
         if a is not None and b is not None and a.dtype != b.dtype:
             is_output_consistent = False
-    result_data.update_corrrectness("output_consistent", is_output_consistent)
 
     def regular_outputs(origin_outputs):
         outputs = []
@@ -269,7 +228,6 @@ def check_outputs(args, expected_out, compiled_out, result_data):
             cmp_ret = func(expected_out, compiled_out, **kwargs)
         except Exception as e:
             cmp_ret = f"{key} failed: {str(e)}\n{traceback.format_exc()}"
-        result_data.update_corrrectness(key, cmp_ret)
         print(
             f"{args.log_prompt} {key} model_path:{args.model_path} {cmp_ret}",
             file=sys.stderr,
@@ -296,16 +254,9 @@ def check_outputs(args, expected_out, compiled_out, result_data):
 
 def test_single_model(args):
     synchronizer_func = get_synchronizer_func(args)
-    input_dict, input_dtypes, param_dtypes = get_input_dict(args)
+    input_dict = get_input_dict(args)
     model = get_model(args)
     model.eval()
-
-    # Collect model information
-    num_eager_ops = count_number_of_ops(args, model, eager_mode=True)
-
-    # Initialize benchmark result
-    result_data = init_benchmark_result(args)
-    result_data.update_model_info(num_eager_ops, input_dtypes, param_dtypes)
 
     # Run on eager mode
     running_eager_success = False
@@ -330,14 +281,9 @@ def test_single_model(args):
     except Exception as e:
         print(f"Run model in compiled mode failed: {str(e)}\n{traceback.format_exc()}")
 
-    print(
-        f"{args.log_prompt} information model_path:{args.model_path} {num_eager_ops} ops, param_dtypes:{param_dtypes}, input_dtypes:{input_dtypes}",
-        file=sys.stderr,
-    )
     if running_eager_success and running_compiled_success:
-        check_outputs(args, expected_out, compiled_out, result_data)
+        check_outputs(args, expected_out, compiled_out)
 
-        result_data.update_performance(eager_time_stats, compiled_time_stats)
         duration_log = (
             f"{args.log_prompt} [Duration] "
             f"eager_e2e:{result_data.eager_e2e_time_ms:.4f} ms compiled_e2e:{result_data.compiled_e2e_time_ms:.4f} ms"
@@ -352,9 +298,6 @@ def test_single_model(args):
 
         print(duration_log, file=sys.stderr)
         print(speedup_log, file=sys.stderr)
-
-    if args.output_dir:
-        result_data.write_to_json(args.output_dir)
 
 
 def get_cmp_equal(expected_out, compiled_out):

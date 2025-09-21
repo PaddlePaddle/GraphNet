@@ -1,0 +1,6 @@
+{
+    "framework": "paddle",
+    "model_name": "PicoDet_LCNet_x2_5_face",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
+}

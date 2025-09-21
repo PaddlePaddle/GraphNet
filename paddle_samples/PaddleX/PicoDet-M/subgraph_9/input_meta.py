@@ -7,35 +7,26 @@ class Program_weight_tensor_data_0:
 
 class Program_weight_tensor_data_1:
     name = "data_1"
-    shape = [4, 3060, 4]
-    dtype = "float32"
-    min_val = float("3.16228e-05")
-    max_val = float("0.325573")
-    mean = float("0.0092869")
-    std = float("0.0181921")
-    data = None
+    shape = []
+    dtype = "int64"
+    data = [3060]
 
 
 class Program_weight_tensor_data_2:
     name = "data_2"
-    shape = [4, 3060, 4]
+    shape = [4, 2, 3060]
     dtype = "float32"
-    min_val = float("-103.374")
-    max_val = float("541.138")
-    mean = float("191.699")
-    std = float("116.376")
+    max_val = float("1.0")
+    mean = float("0.00265523")
+    std = float("0.0514605")
     data = None
 
 
 class Program_weight_tensor_data_3:
     name = "data_3"
-    shape = [3060, 2]
-    dtype = "float32"
-    min_val = float("4.0")
-    max_val = float("380.0")
-    mean = float("192.0")
-    std = float("110.779")
-    data = None
+    shape = [4, 1]
+    dtype = "int32"
+    data = [0, 1, 2, 3]
 
 
 class Program_weight_tensor_data_4:
@@ -47,6 +38,16 @@ class Program_weight_tensor_data_4:
 
 class Program_weight_tensor_data_5:
     name = "data_5"
+    shape = [4, 3060]
+    dtype = "float32"
+    max_val = float("1.0")
+    mean = float("0.00531046")
+    std = float("0.0726791")
+    data = None
+
+
+class Program_weight_tensor_data_6:
+    name = "data_6"
     shape = [4, 2, 4]
     dtype = "float32"
     data = [
@@ -85,8 +86,21 @@ class Program_weight_tensor_data_5:
     ]
 
 
-class Program_weight_tensor_data_6:
-    name = "data_6"
-    shape = [4, 2, 1]
+class Program_weight_tensor_data_7:
+    name = "data_7"
+    shape = [4, 2, 3060]
     dtype = "float32"
-    data = [1.0, 0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 0.0]
+    max_val = float("0.150296")
+    mean = float("4.95832e-05")
+    std = float("0.00157955")
+    data = None
+
+
+class Program_weight_tensor_data_8:
+    name = "data_8"
+    shape = [4, 2, 3060]
+    dtype = "float32"
+    max_val = float("0.890974")
+    mean = float("0.0138066")
+    std = float("0.0622531")
+    data = None

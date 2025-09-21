@@ -5,272 +5,377 @@ class GraphModule(paddle.nn.Layer):
     def __init__(self):
         super().__init__()
 
-    def forward(self, data_0, data_1, data_2, data_3, data_4, data_5, data_6, data_7):
-        # builtin.combine: ([xi64]) <- (xi64)
-        combine_0 = [data_0]
-        del data_0
+    def forward(self, data_0, data_1, data_2, data_3, data_4):
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_0 = [0]
 
-        # pd_op.stack: (1xi64) <- ([xi64])
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_1 = [1]
+
+        # pd_op.slice: (xi64) <- (1xi64, 1xi64, 1xi64)
+        slice_1 = paddle._C_ops.slice(
+            data_3, [0], full_int_array_0, full_int_array_1, [1], [0]
+        )
+        del data_3
+
+        # pd_op.slice: (2xf32) <- (1x2xf32, 1xi64, 1xi64)
+        slice_2 = paddle._C_ops.slice(
+            data_4, [0], full_int_array_0, full_int_array_1, [1], [0]
+        )
+        del data_4
+
+        # pd_op.full: (xi64) <- ()
+        full_0 = paddle._C_ops.full(
+            [], float("2"), paddle.int64, paddle.core.CPUPlace()
+        )
+
+        # builtin.combine: ([xi64, xi64]) <- (xi64, xi64)
+        combine_0 = [slice_1, full_0]
+        del full_0, slice_1
+
+        # pd_op.stack: (2xi64) <- ([xi64, xi64])
         stack_1 = paddle._C_ops.stack(combine_0, 0)
         del combine_0
 
-        # pd_op.full: (1xf32) <- ()
-        full_0 = paddle._C_ops.full(
-            [1], float("-1"), paddle.float32, paddle.core.CPUPlace()
-        )
-
-        # pd_op.full_with_tensor: (-1xi32) <- (1xf32, 1xi64)
-        full_with_tensor_0 = paddle._C_ops.full_with_tensor(
-            full_0, stack_1, paddle.int32
-        )
-        del full_0, stack_1
-
-        # pd_op.full: (xi64) <- ()
-        full_1 = paddle._C_ops.full(
-            [], float("0"), paddle.int64, paddle.framework._current_expected_place()
-        )
-
-        # pd_op.greater_than: (xb) <- (xi64, xi64)
-        greater_than_0 = paddle._C_ops.greater_than(data_1, full_1)
-        del data_1
-
-        # pd_op.cast: (xi64) <- (xb)
-        cast_0 = paddle._C_ops.cast(greater_than_0, paddle.int64)
-        del greater_than_0
-
-        # pd_op.not_equal: (xb) <- (xi64, xi64)
-        not_equal_0 = paddle._C_ops.not_equal(cast_0, full_1)
-        del cast_0
-
-        # pd_op.cast: (xi64) <- (xb)
-        cast_1 = paddle._C_ops.cast(not_equal_0, paddle.int64)
-        del not_equal_0
-
-        # pd_op.equal: (xb) <- (xi64, xi64)
-        equal_0 = paddle._C_ops.equal(cast_1, full_1)
-        del cast_1
-
-        # pd_op.full: (1xf32) <- ()
-        full_2 = paddle._C_ops.full(
-            [1], float("0"), paddle.float32, paddle.core.CPUPlace()
-        )
-
-        # pd_op.full_like: (-1xi32) <- (-1xi32, 1xf32)
-        full_like_0 = paddle._C_ops.full_like(
-            data_4, full_2, paddle.int32, paddle.framework._current_expected_place()
-        )
-        del full_2
-
-        # pd_op.scatter: (-1xi32) <- (-1xi32, -1xi32, -1xi32)
-        scatter_1 = paddle._C_ops.scatter(full_with_tensor_0, data_4, full_like_0, True)
-        del data_4, full_like_0, full_with_tensor_0
-
-        # pd_op.greater_than: (xb) <- (xi64, xi64)
-        greater_than_1 = paddle._C_ops.greater_than(data_2, full_1)
-        del data_2
-
-        # pd_op.cast: (xi64) <- (xb)
-        cast_2 = paddle._C_ops.cast(greater_than_1, paddle.int64)
-        del greater_than_1
-
-        # pd_op.not_equal: (xb) <- (xi64, xi64)
-        not_equal_1 = paddle._C_ops.not_equal(cast_2, full_1)
-        del cast_2
-
-        # pd_op.cast: (xi64) <- (xb)
-        cast_3 = paddle._C_ops.cast(not_equal_1, paddle.int64)
-        del not_equal_1
-
-        # pd_op.equal: (xb) <- (xi64, xi64)
-        equal_1 = paddle._C_ops.equal(cast_3, full_1)
-        del cast_3, full_1
-
-        # pd_op.full: (1xf32) <- ()
-        full_3 = paddle._C_ops.full(
-            [1], float("1"), paddle.float32, paddle.core.CPUPlace()
-        )
-
-        # pd_op.full_like: (-1xi32) <- (-1xi32, 1xf32)
-        full_like_1 = paddle._C_ops.full_like(
-            data_3, full_3, paddle.int32, paddle.framework._current_expected_place()
-        )
-
-        # pd_op.scatter: (-1xi32) <- (-1xi32, -1xi32, -1xi32)
-        scatter_0 = paddle._C_ops.scatter(scatter_1, data_3, full_like_1, True)
-        del data_3, full_like_1, scatter_1
+        # pd_op.expand: (-1x2xf32) <- (2xf32, 2xi64)
+        expand_0 = paddle._C_ops.expand(slice_2, stack_1)
+        del slice_2, stack_1
 
         # pd_op.full: (1xi32) <- ()
-        full_4 = paddle._C_ops.full(
+        full_1 = paddle._C_ops.full(
             [1], float("0"), paddle.int32, paddle.core.CPUPlace()
         )
 
-        # pd_op.gather: (-1x4xf32) <- (1x4xf32, -1xi64, 1xi32)
-        gather_0 = paddle._C_ops.gather(data_5, data_6, full_4)
-        del data_5, data_6, full_4
+        # builtin.combine: ([-1x2xf32]) <- (-1x2xf32)
+        combine_1 = [expand_0]
+        del expand_0
+
+        # pd_op.concat: (-1x2xf32) <- ([-1x2xf32], 1xi32)
+        concat_0 = paddle._C_ops.concat(combine_1, full_1)
+        del combine_1
+
+        # builtin.combine: ([946x4xf32]) <- (946x4xf32)
+        combine_2 = [data_2]
+        del data_2
+
+        # pd_op.concat: (946x4xf32) <- ([946x4xf32], 1xi32)
+        concat_1 = paddle._C_ops.concat(combine_2, full_1)
+        del combine_2, full_1
 
         # pd_op.full_int_array: (1xi64) <- ()
-        full_int_array_0 = [2]
+        full_int_array_2 = [2]
 
         # pd_op.full_int_array: (1xi64) <- ()
-        full_int_array_1 = [3]
+        full_int_array_3 = [3]
 
-        # pd_op.slice: (-1xf32) <- (-1x4xf32, 1xi64, 1xi64)
-        slice_0 = paddle._C_ops.slice(
-            data_7, [1], full_int_array_0, full_int_array_1, [1], [1]
+        # pd_op.slice: (946xf32) <- (946x4xf32, 1xi64, 1xi64)
+        slice_3 = paddle._C_ops.slice(
+            concat_1, [1], full_int_array_2, full_int_array_3, [1], [1]
         )
 
-        # pd_op.full_int_array: (1xi64) <- ()
-        full_int_array_2 = [0]
-
-        # pd_op.full_int_array: (1xi64) <- ()
-        full_int_array_3 = [1]
-
-        # pd_op.slice: (-1xf32) <- (-1x4xf32, 1xi64, 1xi64)
-        slice_1 = paddle._C_ops.slice(
-            data_7, [1], full_int_array_2, full_int_array_3, [1], [1]
+        # pd_op.slice: (946xf32) <- (946x4xf32, 1xi64, 1xi64)
+        slice_4 = paddle._C_ops.slice(
+            concat_1, [1], full_int_array_0, full_int_array_1, [1], [1]
         )
 
-        # pd_op.subtract: (-1xf32) <- (-1xf32, -1xf32)
-        subtract_0 = paddle._C_ops.subtract(slice_0, slice_1)
-        del slice_0
+        # pd_op.subtract: (946xf32) <- (946xf32, 946xf32)
+        subtract_0 = paddle._C_ops.subtract(slice_3, slice_4)
+        del slice_3
 
         # pd_op.full_int_array: (1xi64) <- ()
         full_int_array_4 = [4]
 
-        # pd_op.slice: (-1xf32) <- (-1x4xf32, 1xi64, 1xi64)
-        slice_2 = paddle._C_ops.slice(
-            data_7, [1], full_int_array_1, full_int_array_4, [1], [1]
+        # pd_op.slice: (946xf32) <- (946x4xf32, 1xi64, 1xi64)
+        slice_5 = paddle._C_ops.slice(
+            concat_1, [1], full_int_array_3, full_int_array_4, [1], [1]
         )
 
-        # pd_op.slice: (-1xf32) <- (-1x4xf32, 1xi64, 1xi64)
-        slice_3 = paddle._C_ops.slice(
-            data_7, [1], full_int_array_3, full_int_array_0, [1], [1]
+        # pd_op.slice: (946xf32) <- (946x4xf32, 1xi64, 1xi64)
+        slice_6 = paddle._C_ops.slice(
+            concat_1, [1], full_int_array_1, full_int_array_2, [1], [1]
         )
-        del data_7
+        del concat_1
 
-        # pd_op.subtract: (-1xf32) <- (-1xf32, -1xf32)
-        subtract_1 = paddle._C_ops.subtract(slice_2, slice_3)
-        del slice_2
+        # pd_op.subtract: (946xf32) <- (946xf32, 946xf32)
+        subtract_1 = paddle._C_ops.subtract(slice_5, slice_6)
+        del slice_5
 
         # pd_op.full: (1xf32) <- ()
-        full_5 = paddle._C_ops.full(
+        full_2 = paddle._C_ops.full(
             [1], float("0.5"), paddle.float32, paddle.core.CPUPlace()
         )
 
-        # pd_op.scale: (-1xf32) <- (-1xf32, 1xf32)
-        scale_0 = paddle._C_ops.scale(subtract_0, full_5, float("0"), True)
+        # pd_op.scale: (946xf32) <- (946xf32, 1xf32)
+        scale_0 = paddle._C_ops.scale(subtract_0, full_2, float("0"), True)
 
-        # pd_op.add: (-1xf32) <- (-1xf32, -1xf32)
-        add_0 = paddle._C_ops.add(slice_1, scale_0)
-        del scale_0, slice_1
+        # pd_op.add: (946xf32) <- (946xf32, 946xf32)
+        add_0 = paddle._C_ops.add(slice_4, scale_0)
+        del scale_0, slice_4
 
-        # pd_op.scale: (-1xf32) <- (-1xf32, 1xf32)
-        scale_1 = paddle._C_ops.scale(subtract_1, full_5, float("0"), True)
+        # pd_op.scale: (946xf32) <- (946xf32, 1xf32)
+        scale_1 = paddle._C_ops.scale(subtract_1, full_2, float("0"), True)
 
-        # pd_op.add: (-1xf32) <- (-1xf32, -1xf32)
-        add_1 = paddle._C_ops.add(slice_3, scale_1)
-        del scale_1, slice_3
+        # pd_op.add: (946xf32) <- (946xf32, 946xf32)
+        add_1 = paddle._C_ops.add(slice_6, scale_1)
+        del scale_1, slice_6
 
-        # pd_op.slice: (-1xf32) <- (-1x4xf32, 1xi64, 1xi64)
-        slice_4 = paddle._C_ops.slice(
-            gather_0, [1], full_int_array_0, full_int_array_1, [1], [1]
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_5 = [2147483647]
+
+        # pd_op.strided_slice: (946x4xf32) <- (946x16xf32, 1xi64, 1xi64, 1xi64)
+        strided_slice_0 = paddle._C_ops.strided_slice(
+            data_0, [1], full_int_array_0, full_int_array_5, full_int_array_4
         )
 
-        # pd_op.slice: (-1xf32) <- (-1x4xf32, 1xi64, 1xi64)
-        slice_5 = paddle._C_ops.slice(
-            gather_0, [1], full_int_array_2, full_int_array_3, [1], [1]
+        # pd_op.full: (1xf32) <- ()
+        full_3 = paddle._C_ops.full(
+            [1], float("0.1"), paddle.float32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.scale: (946x4xf32) <- (946x4xf32, 1xf32)
+        scale_2 = paddle._C_ops.scale(strided_slice_0, full_3, float("0"), True)
+        del strided_slice_0
+
+        # pd_op.strided_slice: (946x4xf32) <- (946x16xf32, 1xi64, 1xi64, 1xi64)
+        strided_slice_1 = paddle._C_ops.strided_slice(
+            data_0, [1], full_int_array_1, full_int_array_5, full_int_array_4
+        )
+
+        # pd_op.scale: (946x4xf32) <- (946x4xf32, 1xf32)
+        scale_3 = paddle._C_ops.scale(strided_slice_1, full_3, float("0"), True)
+        del full_3, strided_slice_1
+
+        # pd_op.strided_slice: (946x4xf32) <- (946x16xf32, 1xi64, 1xi64, 1xi64)
+        strided_slice_2 = paddle._C_ops.strided_slice(
+            data_0, [1], full_int_array_2, full_int_array_5, full_int_array_4
+        )
+
+        # pd_op.full: (1xf32) <- ()
+        full_4 = paddle._C_ops.full(
+            [1], float("0.2"), paddle.float32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.scale: (946x4xf32) <- (946x4xf32, 1xf32)
+        scale_4 = paddle._C_ops.scale(strided_slice_2, full_4, float("0"), True)
+        del strided_slice_2
+
+        # pd_op.strided_slice: (946x4xf32) <- (946x16xf32, 1xi64, 1xi64, 1xi64)
+        strided_slice_3 = paddle._C_ops.strided_slice(
+            data_0, [1], full_int_array_3, full_int_array_5, full_int_array_4
+        )
+        del data_0, full_int_array_5
+
+        # pd_op.scale: (946x4xf32) <- (946x4xf32, 1xf32)
+        scale_5 = paddle._C_ops.scale(strided_slice_3, full_4, float("0"), True)
+        del full_4, strided_slice_3
+
+        # pd_op.full: (1xf32) <- ()
+        full_5 = paddle._C_ops.full(
+            [1], float("-3.40282e+38"), paddle.float32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.full: (1xf32) <- ()
+        full_6 = paddle._C_ops.full(
+            [1], float("4.13517"), paddle.float32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.clip: (946x4xf32) <- (946x4xf32, 1xf32, 1xf32)
+        clip_0 = paddle._C_ops.clip(scale_4, full_5, full_6)
+        del scale_4
+
+        # pd_op.clip: (946x4xf32) <- (946x4xf32, 1xf32, 1xf32)
+        clip_1 = paddle._C_ops.clip(scale_5, full_5, full_6)
+        del full_5, full_6, scale_5
+
+        # pd_op.unsqueeze: (946x1xf32) <- (946xf32, 1xi64)
+        unsqueeze_0 = paddle._C_ops.unsqueeze(subtract_0, full_int_array_1)
+        del subtract_0
+
+        # pd_op.multiply: (946x4xf32) <- (946x4xf32, 946x1xf32)
+        multiply_0 = paddle._C_ops.multiply(scale_2, unsqueeze_0)
+        del scale_2
+
+        # pd_op.unsqueeze: (946x1xf32) <- (946xf32, 1xi64)
+        unsqueeze_1 = paddle._C_ops.unsqueeze(add_0, full_int_array_1)
+        del add_0
+
+        # pd_op.add: (946x4xf32) <- (946x4xf32, 946x1xf32)
+        add_2 = paddle._C_ops.add(multiply_0, unsqueeze_1)
+        del multiply_0, unsqueeze_1
+
+        # pd_op.unsqueeze: (946x1xf32) <- (946xf32, 1xi64)
+        unsqueeze_2 = paddle._C_ops.unsqueeze(subtract_1, full_int_array_1)
+        del subtract_1
+
+        # pd_op.multiply: (946x4xf32) <- (946x4xf32, 946x1xf32)
+        multiply_1 = paddle._C_ops.multiply(scale_3, unsqueeze_2)
+        del scale_3
+
+        # pd_op.unsqueeze: (946x1xf32) <- (946xf32, 1xi64)
+        unsqueeze_3 = paddle._C_ops.unsqueeze(add_1, full_int_array_1)
+        del add_1
+
+        # pd_op.add: (946x4xf32) <- (946x4xf32, 946x1xf32)
+        add_3 = paddle._C_ops.add(multiply_1, unsqueeze_3)
+        del multiply_1, unsqueeze_3
+
+        # pd_op.exp: (946x4xf32) <- (946x4xf32)
+        exp_0 = paddle._C_ops.exp(clip_0)
+        del clip_0
+
+        # pd_op.multiply: (946x4xf32) <- (946x4xf32, 946x1xf32)
+        multiply_2 = paddle._C_ops.multiply(exp_0, unsqueeze_0)
+        del exp_0, unsqueeze_0
+
+        # pd_op.exp: (946x4xf32) <- (946x4xf32)
+        exp_1 = paddle._C_ops.exp(clip_1)
+        del clip_1
+
+        # pd_op.multiply: (946x4xf32) <- (946x4xf32, 946x1xf32)
+        multiply_3 = paddle._C_ops.multiply(exp_1, unsqueeze_2)
+        del exp_1, unsqueeze_2
+
+        # pd_op.scale: (946x4xf32) <- (946x4xf32, 1xf32)
+        scale_6 = paddle._C_ops.scale(multiply_2, full_2, float("0"), True)
+        del multiply_2
+
+        # pd_op.subtract: (946x4xf32) <- (946x4xf32, 946x4xf32)
+        subtract_2 = paddle._C_ops.subtract(add_2, scale_6)
+
+        # pd_op.scale: (946x4xf32) <- (946x4xf32, 1xf32)
+        scale_7 = paddle._C_ops.scale(multiply_3, full_2, float("0"), True)
+        del full_2, multiply_3
+
+        # pd_op.subtract: (946x4xf32) <- (946x4xf32, 946x4xf32)
+        subtract_3 = paddle._C_ops.subtract(add_3, scale_7)
+
+        # pd_op.add: (946x4xf32) <- (946x4xf32, 946x4xf32)
+        add_4 = paddle._C_ops.add(add_2, scale_6)
+        del add_2, scale_6
+
+        # pd_op.add: (946x4xf32) <- (946x4xf32, 946x4xf32)
+        add_5 = paddle._C_ops.add(add_3, scale_7)
+        del add_3, scale_7
+
+        # builtin.combine: ([946x4xf32, 946x4xf32, 946x4xf32, 946x4xf32]) <- (946x4xf32, 946x4xf32, 946x4xf32, 946x4xf32)
+        combine_3 = [subtract_2, subtract_3, add_4, add_5]
+        del add_4, add_5, subtract_2, subtract_3
+
+        # pd_op.stack: (946x4x4xf32) <- ([946x4xf32, 946x4xf32, 946x4xf32, 946x4xf32])
+        stack_2 = paddle._C_ops.stack(combine_3, -1)
+        del combine_3
+
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_6 = [-1]
+
+        # pd_op.slice: (946x4xf32) <- (946x5xf32, 1xi64, 1xi64)
+        slice_0 = paddle._C_ops.slice(
+            data_1, [1], full_int_array_0, full_int_array_6, [1], []
+        )
+        del data_1, full_int_array_6
+
+        # pd_op.full_int_array: (3xi64) <- ()
+        full_int_array_7 = [946, 4, 4]
+
+        # pd_op.expand: (946x4x4xf32) <- (946x4x4xf32, 3xi64)
+        expand_1 = paddle._C_ops.expand(stack_2, full_int_array_7)
+        del full_int_array_7, stack_2
+
+        # pd_op.slice: (-1xf32) <- (-1x2xf32, 1xi64, 1xi64)
+        slice_7 = paddle._C_ops.slice(
+            concat_0, [1], full_int_array_0, full_int_array_1, [1], [1]
+        )
+
+        # pd_op.unsqueeze: (-1x1xf32) <- (-1xf32, 1xi64)
+        unsqueeze_4 = paddle._C_ops.unsqueeze(slice_7, full_int_array_1)
+        del slice_7
+
+        # pd_op.slice: (-1xf32) <- (-1x2xf32, 1xi64, 1xi64)
+        slice_8 = paddle._C_ops.slice(
+            concat_0, [1], full_int_array_1, full_int_array_2, [1], [1]
+        )
+        del concat_0
+
+        # pd_op.unsqueeze: (-1x1xf32) <- (-1xf32, 1xi64)
+        unsqueeze_5 = paddle._C_ops.unsqueeze(slice_8, full_int_array_1)
+        del slice_8
+
+        # pd_op.full: (1xf32) <- ()
+        full_7 = paddle._C_ops.full(
+            [1], float("0"), paddle.float32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.full_like: (-1x1xf32) <- (-1x1xf32, 1xf32)
+        full_like_0 = paddle._C_ops.full_like(
+            unsqueeze_4,
+            full_7,
+            paddle.float32,
+            paddle.framework._current_expected_place(),
+        )
+        del full_7
+
+        # pd_op.slice: (946x4xf32) <- (946x4x4xf32, 1xi64, 1xi64)
+        slice_9 = paddle._C_ops.slice(
+            expand_1, [2], full_int_array_0, full_int_array_1, [1], [2]
+        )
+        del full_int_array_0
+
+        # pd_op.minimum: (946x4xf32) <- (946x4xf32, -1x1xf32)
+        minimum_0 = paddle._C_ops.minimum(slice_9, unsqueeze_5)
+        del slice_9
+
+        # pd_op.maximum: (946x4xf32) <- (946x4xf32, -1x1xf32)
+        maximum_0 = paddle._C_ops.maximum(minimum_0, full_like_0)
+        del minimum_0
+
+        # pd_op.slice: (946x4xf32) <- (946x4x4xf32, 1xi64, 1xi64)
+        slice_10 = paddle._C_ops.slice(
+            expand_1, [2], full_int_array_1, full_int_array_2, [1], [2]
+        )
+        del full_int_array_1
+
+        # pd_op.minimum: (946x4xf32) <- (946x4xf32, -1x1xf32)
+        minimum_1 = paddle._C_ops.minimum(slice_10, unsqueeze_4)
+        del slice_10
+
+        # pd_op.maximum: (946x4xf32) <- (946x4xf32, -1x1xf32)
+        maximum_1 = paddle._C_ops.maximum(minimum_1, full_like_0)
+        del minimum_1
+
+        # pd_op.slice: (946x4xf32) <- (946x4x4xf32, 1xi64, 1xi64)
+        slice_11 = paddle._C_ops.slice(
+            expand_1, [2], full_int_array_2, full_int_array_3, [1], [2]
         )
         del full_int_array_2
 
-        # pd_op.subtract: (-1xf32) <- (-1xf32, -1xf32)
-        subtract_2 = paddle._C_ops.subtract(slice_4, slice_5)
-        del slice_4
+        # pd_op.minimum: (946x4xf32) <- (946x4xf32, -1x1xf32)
+        minimum_2 = paddle._C_ops.minimum(slice_11, unsqueeze_5)
+        del slice_11, unsqueeze_5
 
-        # pd_op.slice: (-1xf32) <- (-1x4xf32, 1xi64, 1xi64)
-        slice_6 = paddle._C_ops.slice(
-            gather_0, [1], full_int_array_1, full_int_array_4, [1], [1]
+        # pd_op.maximum: (946x4xf32) <- (946x4xf32, -1x1xf32)
+        maximum_2 = paddle._C_ops.maximum(minimum_2, full_like_0)
+        del minimum_2
+
+        # pd_op.slice: (946x4xf32) <- (946x4x4xf32, 1xi64, 1xi64)
+        slice_12 = paddle._C_ops.slice(
+            expand_1, [2], full_int_array_3, full_int_array_4, [1], [2]
         )
-        del full_int_array_1, full_int_array_4
+        del expand_1, full_int_array_3, full_int_array_4
 
-        # pd_op.slice: (-1xf32) <- (-1x4xf32, 1xi64, 1xi64)
-        slice_7 = paddle._C_ops.slice(
-            gather_0, [1], full_int_array_3, full_int_array_0, [1], [1]
-        )
-        del full_int_array_0, full_int_array_3
+        # pd_op.minimum: (946x4xf32) <- (946x4xf32, -1x1xf32)
+        minimum_3 = paddle._C_ops.minimum(slice_12, unsqueeze_4)
+        del slice_12, unsqueeze_4
 
-        # pd_op.subtract: (-1xf32) <- (-1xf32, -1xf32)
-        subtract_3 = paddle._C_ops.subtract(slice_6, slice_7)
-        del slice_6
+        # pd_op.maximum: (946x4xf32) <- (946x4xf32, -1x1xf32)
+        maximum_3 = paddle._C_ops.maximum(minimum_3, full_like_0)
+        del full_like_0, minimum_3
 
-        # pd_op.scale: (-1xf32) <- (-1xf32, 1xf32)
-        scale_2 = paddle._C_ops.scale(subtract_2, full_5, float("0"), True)
+        # builtin.combine: ([946x4xf32, 946x4xf32, 946x4xf32, 946x4xf32]) <- (946x4xf32, 946x4xf32, 946x4xf32, 946x4xf32)
+        combine_4 = [maximum_0, maximum_1, maximum_2, maximum_3]
+        del maximum_0, maximum_1, maximum_2, maximum_3
 
-        # pd_op.add: (-1xf32) <- (-1xf32, -1xf32)
-        add_2 = paddle._C_ops.add(slice_5, scale_2)
-        del scale_2, slice_5
+        # pd_op.stack: (946x4x4xf32) <- ([946x4xf32, 946x4xf32, 946x4xf32, 946x4xf32])
+        stack_0 = paddle._C_ops.stack(combine_4, -1)
+        del combine_4
 
-        # pd_op.scale: (-1xf32) <- (-1xf32, 1xf32)
-        scale_3 = paddle._C_ops.scale(subtract_3, full_5, float("0"), True)
-        del full_5
-
-        # pd_op.add: (-1xf32) <- (-1xf32, -1xf32)
-        add_3 = paddle._C_ops.add(slice_7, scale_3)
-        del scale_3, slice_7
-
-        # pd_op.subtract: (-1xf32) <- (-1xf32, -1xf32)
-        subtract_4 = paddle._C_ops.subtract(add_2, add_0)
-        del add_0, add_2
-
-        # pd_op.scale: (-1xf32) <- (-1xf32, 1xf32)
-        scale_4 = paddle._C_ops.scale(subtract_4, full_3, float("0"), True)
-        del subtract_4
-
-        # pd_op.divide: (-1xf32) <- (-1xf32, -1xf32)
-        divide_0 = paddle._C_ops.divide(scale_4, subtract_0)
-        del scale_4
-
-        # pd_op.subtract: (-1xf32) <- (-1xf32, -1xf32)
-        subtract_5 = paddle._C_ops.subtract(add_3, add_1)
-        del add_1, add_3
-
-        # pd_op.scale: (-1xf32) <- (-1xf32, 1xf32)
-        scale_5 = paddle._C_ops.scale(subtract_5, full_3, float("0"), True)
-        del subtract_5
-
-        # pd_op.divide: (-1xf32) <- (-1xf32, -1xf32)
-        divide_1 = paddle._C_ops.divide(scale_5, subtract_1)
-        del scale_5
-
-        # pd_op.divide: (-1xf32) <- (-1xf32, -1xf32)
-        divide_2 = paddle._C_ops.divide(subtract_2, subtract_0)
-        del subtract_0, subtract_2
-
-        # pd_op.log: (-1xf32) <- (-1xf32)
-        log_0 = paddle._C_ops.log(divide_2)
-        del divide_2
-
-        # pd_op.scale: (-1xf32) <- (-1xf32, 1xf32)
-        scale_6 = paddle._C_ops.scale(log_0, full_3, float("0"), True)
-        del log_0
-
-        # pd_op.divide: (-1xf32) <- (-1xf32, -1xf32)
-        divide_3 = paddle._C_ops.divide(subtract_3, subtract_1)
-        del subtract_1, subtract_3
-
-        # pd_op.log: (-1xf32) <- (-1xf32)
-        log_1 = paddle._C_ops.log(divide_3)
-        del divide_3
-
-        # pd_op.scale: (-1xf32) <- (-1xf32, 1xf32)
-        scale_7 = paddle._C_ops.scale(log_1, full_3, float("0"), True)
-        del full_3, log_1
-
-        # builtin.combine: ([-1xf32, -1xf32, -1xf32, -1xf32]) <- (-1xf32, -1xf32, -1xf32, -1xf32)
-        combine_1 = [divide_0, divide_1, scale_6, scale_7]
-        del divide_0, divide_1, scale_6, scale_7
-
-        # pd_op.stack: (-1x4xf32) <- ([-1xf32, -1xf32, -1xf32, -1xf32])
-        stack_0 = paddle._C_ops.stack(combine_1, 1)
-        del combine_1, gather_0
-
-        return scatter_0, stack_0
+        return stack_0, slice_0

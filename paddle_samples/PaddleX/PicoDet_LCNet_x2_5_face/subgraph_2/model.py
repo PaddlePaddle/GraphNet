@@ -5,27 +5,67 @@ class GraphModule(paddle.nn.Layer):
     def __init__(self):
         super().__init__()
 
-    def forward(self, data_0, data_1):
-        # pd_op.full_int_array: (2xi64) <- ()
-        full_int_array_0 = [-1, 8]
+    def forward(
+        self,
+    ):
+        # pd_op.full: (1xf64) <- ()
+        full_0 = paddle._C_ops.full(
+            [1], float("0"), paddle.float64, paddle.core.CPUPlace()
+        )
 
-        # pd_op.reshape: (-1x8xf32) <- (-1x-1xf32, 2xi64)
-        reshape_1 = paddle._C_ops.reshape(data_0, full_int_array_0)
-        del data_0, full_int_array_0
+        # pd_op.full: (1xf64) <- ()
+        full_1 = paddle._C_ops.full(
+            [1], float("144"), paddle.float64, paddle.core.CPUPlace()
+        )
 
-        # pd_op.softmax: (-1x8xf32) <- (-1x8xf32)
-        softmax_0 = paddle._C_ops.softmax(reshape_1, 1)
-        del reshape_1
+        # pd_op.full: (1xf64) <- ()
+        full_2 = paddle._C_ops.full(
+            [1], float("1"), paddle.float64, paddle.core.CPUPlace()
+        )
 
-        # pd_op.matmul: (-1xf32) <- (-1x8xf32, 8xf32)
-        matmul_0 = paddle._C_ops.matmul(softmax_0, data_1, False, False)
-        del data_1
+        # pd_op.arange: (144xf32) <- (1xf64, 1xf64, 1xf64)
+        arange_0 = paddle.arange(full_0, full_1, full_2, dtype="float32")
+        del full_0, full_1, full_2
 
-        # pd_op.full_int_array: (2xi64) <- ()
-        full_int_array_1 = [-1, 4]
+        # pd_op.full: (1xf32) <- ()
+        full_3 = paddle._C_ops.full(
+            [1], float("1"), paddle.float32, paddle.core.CPUPlace()
+        )
 
-        # pd_op.reshape: (-1x4xf32) <- (-1xf32, 2xi64)
-        reshape_0 = paddle._C_ops.reshape(matmul_0, full_int_array_1)
-        del full_int_array_1, matmul_0, softmax_0
+        # pd_op.scale: (144xf32) <- (144xf32, 1xf32)
+        scale_0 = paddle._C_ops.scale(arange_0, full_3, float("0.5"), True)
+        del arange_0, full_3
 
-        return reshape_0
+        # pd_op.full: (1xf32) <- ()
+        full_4 = paddle._C_ops.full(
+            [1], float("8"), paddle.float32, paddle.core.CPUPlace()
+        )
+
+        # pd_op.scale: (144xf32) <- (144xf32, 1xf32)
+        scale_1 = paddle._C_ops.scale(scale_0, full_4, float("0"), True)
+        del full_4, scale_0
+
+        # builtin.combine: ([144xf32, 144xf32]) <- (144xf32, 144xf32)
+        combine_0 = [scale_1, scale_1]
+        del scale_1
+
+        # pd_op.meshgrid: ([144x144xf32, 144x144xf32]) <- ([144xf32, 144xf32])
+        meshgrid_0 = paddle._C_ops.meshgrid(combine_0)
+        del combine_0
+
+        # builtin.split: (144x144xf32, 144x144xf32) <- ([144x144xf32, 144x144xf32])
+        (
+            split_0,
+            split_1,
+        ) = meshgrid_0
+        del meshgrid_0
+
+        # pd_op.flatten: (20736xf32) <- (144x144xf32)
+        flatten_0 = paddle._C_ops.flatten(split_0, 0, 1)
+        del split_0
+
+        # pd_op.flatten: (20736xf32) <- (144x144xf32)
+        flatten_1 = paddle._C_ops.flatten(split_1, 0, 1)
+        del split_1
+
+        return flatten_0, flatten_1

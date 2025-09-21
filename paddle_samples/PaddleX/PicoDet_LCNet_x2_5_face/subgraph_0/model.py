@@ -5,45 +5,59 @@ class GraphModule(paddle.nn.Layer):
     def __init__(self):
         super().__init__()
 
-    def forward(self, data_0, data_1):
-        # pd_op.equal: (xb) <- (xi64, xi64)
-        equal_1 = paddle._C_ops.equal(data_1, data_0)
+    def forward(self, data_0):
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_0 = [0]
 
-        # pd_op.cast: (xi64) <- (xb)
-        cast_0 = paddle._C_ops.cast(equal_1, paddle.int64)
-        del equal_1
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_1 = [20736]
 
-        # pd_op.full: (xi64) <- ()
-        full_0 = paddle._C_ops.full(
-            [], float("0"), paddle.int64, paddle.framework._current_expected_place()
+        # pd_op.slice: (4x20736xi64) <- (4x27540xi64, 1xi64, 1xi64)
+        slice_0 = paddle._C_ops.slice(
+            data_0, [1], full_int_array_0, full_int_array_1, [1], []
         )
 
-        # pd_op.not_equal: (xb) <- (xi64, xi64)
-        not_equal_0 = paddle._C_ops.not_equal(cast_0, full_0)
-        del cast_0
+        # pd_op.squeeze: (4x20736xi64) <- (4x20736xi64, 1xi64)
+        squeeze_0 = paddle._C_ops.squeeze(slice_0, full_int_array_0)
+        del slice_0
 
-        # pd_op.multiply: (xi64) <- (xi64, xi64)
-        multiply_0 = paddle._C_ops.multiply(data_1, data_0)
-        del data_0, data_1
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_2 = [25920]
 
-        # pd_op.equal: (xb) <- (xi64, xi64)
-        equal_2 = paddle._C_ops.equal(multiply_0, full_0)
-        del multiply_0
+        # pd_op.slice: (4x5184xi64) <- (4x27540xi64, 1xi64, 1xi64)
+        slice_1 = paddle._C_ops.slice(
+            data_0, [1], full_int_array_1, full_int_array_2, [1], []
+        )
+        del full_int_array_1
 
-        # pd_op.cast: (xi64) <- (xb)
-        cast_1 = paddle._C_ops.cast(equal_2, paddle.int64)
-        del equal_2
+        # pd_op.squeeze: (4x5184xi64) <- (4x5184xi64, 1xi64)
+        squeeze_1 = paddle._C_ops.squeeze(slice_1, full_int_array_0)
+        del slice_1
 
-        # pd_op.not_equal: (xb) <- (xi64, xi64)
-        not_equal_1 = paddle._C_ops.not_equal(cast_1, full_0)
-        del cast_1
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_3 = [27216]
 
-        # pd_op.cast: (xi64) <- (xb)
-        cast_2 = paddle._C_ops.cast(not_equal_1, paddle.int64)
-        del not_equal_1
+        # pd_op.slice: (4x1296xi64) <- (4x27540xi64, 1xi64, 1xi64)
+        slice_2 = paddle._C_ops.slice(
+            data_0, [1], full_int_array_2, full_int_array_3, [1], []
+        )
+        del full_int_array_2
 
-        # pd_op.equal: (xb) <- (xi64, xi64)
-        equal_0 = paddle._C_ops.equal(cast_2, full_0)
-        del cast_2, full_0
+        # pd_op.squeeze: (4x1296xi64) <- (4x1296xi64, 1xi64)
+        squeeze_2 = paddle._C_ops.squeeze(slice_2, full_int_array_0)
+        del slice_2
 
-        return equal_0
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_4 = [2147483647]
+
+        # pd_op.slice: (4x324xi64) <- (4x27540xi64, 1xi64, 1xi64)
+        slice_3 = paddle._C_ops.slice(
+            data_0, [1], full_int_array_3, full_int_array_4, [1], []
+        )
+        del data_0, full_int_array_3, full_int_array_4
+
+        # pd_op.squeeze: (4x324xi64) <- (4x324xi64, 1xi64)
+        squeeze_3 = paddle._C_ops.squeeze(slice_3, full_int_array_0)
+        del full_int_array_0, slice_3
+
+        return squeeze_0, squeeze_1, squeeze_2, squeeze_3

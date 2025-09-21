@@ -1,73 +1,38 @@
 class Program_weight_tensor_data_0:
     name = "data_0"
-    shape = []
-    dtype = "int64"
-    data = [23]
+    shape = [4, 1, 441]
+    dtype = "float32"
+    min_val = float("6.3915")
+    max_val = float("679.041")
+    mean = float("295.163")
+    std = float("133.029")
+    data = None
 
 
 class Program_weight_tensor_data_1:
     name = "data_1"
-    shape = []
-    dtype = "int64"
-    data = [23]
+    shape = [4, 1, 1764]
+    dtype = "float32"
+    min_val = float("6.75284")
+    max_val = float("690.179")
+    mean = float("295.322")
+    std = float("133.156")
+    data = None
 
 
 class Program_weight_tensor_data_2:
     name = "data_2"
-    shape = []
-    dtype = "int64"
-    data = [46]
+    shape = [4, 1, 7056]
+    dtype = "float32"
+    min_val = float("1.59832")
+    max_val = float("695.75")
+    mean = float("295.362")
+    std = float("133.19")
+    data = None
 
 
 class Program_weight_tensor_data_3:
     name = "data_3"
-    shape = []
-    dtype = "int64"
-    data = [46]
-
-
-class Program_weight_tensor_data_4:
-    name = "data_4"
-    shape = []
-    dtype = "int64"
-    data = [92]
-
-
-class Program_weight_tensor_data_5:
-    name = "data_5"
-    shape = []
-    dtype = "int64"
-    data = [92]
-
-
-class Program_weight_tensor_data_6:
-    name = "data_6"
-    shape = [4, 960, 23, 23]
+    shape = [4, 1, 1]
     dtype = "float32"
-    min_val = float("-0.278465")
-    max_val = float("10.7155")
-    mean = float("0.251082")
-    std = float("0.608276")
-    data = None
-
-
-class Program_weight_tensor_data_7:
-    name = "data_7"
-    shape = [4, 480, 46, 46]
-    dtype = "float32"
-    min_val = float("-0.278465")
-    max_val = float("13.0972")
-    mean = float("0.33695")
-    std = float("0.675613")
-    data = None
-
-
-class Program_weight_tensor_data_8:
-    name = "data_8"
-    shape = [4, 240, 92, 92]
-    dtype = "float32"
-    min_val = float("-0.278465")
-    max_val = float("14.0523")
-    mean = float("0.446401")
-    std = float("0.752277")
-    data = None
+    data = [1.0, 1.0, 1.0, 1.0]

@@ -2,105 +2,78 @@ class Program_weight_tensor_data_0:
     name = "data_0"
     shape = []
     dtype = "int64"
-    data = [2]
+    data = [3598]
 
 
 class Program_weight_tensor_data_1:
     name = "data_1"
     shape = []
     dtype = "int64"
-    data = [3060]
+    data = [3]
 
 
 class Program_weight_tensor_data_2:
     name = "data_2"
-    shape = [4, 2, 3060]
+    shape = [3598, 4]
     dtype = "float32"
-    max_val = float("1.0")
-    mean = float("0.00265523")
-    std = float("0.0514605")
+    min_val = float("-128.0")
+    max_val = float("576.0")
+    mean = float("208.218")
+    std = float("125.26")
     data = None
 
 
 class Program_weight_tensor_data_3:
     name = "data_3"
-    shape = [4, 1]
-    dtype = "int32"
-    data = [0, 1, 2, 3]
-
-
-class Program_weight_tensor_data_4:
-    name = "data_4"
-    shape = [4, 2, 1]
-    dtype = "int32"
-    data = [0, 0, 3, 0, 1, 0, 0, 0]
-
-
-class Program_weight_tensor_data_5:
-    name = "data_5"
-    shape = [4, 3060]
-    dtype = "float32"
-    max_val = float("1.0")
-    mean = float("0.00531046")
-    std = float("0.0726791")
-    data = None
-
-
-class Program_weight_tensor_data_6:
-    name = "data_6"
-    shape = [4, 2, 4]
+    shape = [4, 3, 4]
     dtype = "float32"
     data = [
-        258.098,
-        153.098,
-        384.0,
-        296.157,
+        21.7043,
+        178.894,
+        104.904,
+        241.365,
+        135.652,
+        245.625,
+        262.261,
+        345.01,
+        0.0,
+        345.01,
+        65.113,
+        408.901,
+        15.2195,
+        104.0,
+        88.7805,
+        195.394,
         0.0,
         0.0,
         0.0,
         0.0,
-        10.1386,
-        0.0,
-        311.762,
-        384.0,
         0.0,
         0.0,
         0.0,
         0.0,
-        170.375,
-        156.8,
-        207.072,
-        197.333,
-        197.898,
-        76.8,
-        260.805,
-        130.133,
-        121.6,
-        141.12,
-        216.32,
-        212.16,
+        268.8,
+        73.0382,
+        349.867,
+        193.71,
+        266.667,
+        200.061,
+        349.867,
+        317.557,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        4.83721,
+        0.0,
+        249.116,
+        289.836,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
         0.0,
         0.0,
         0.0,
         0.0,
     ]
-
-
-class Program_weight_tensor_data_7:
-    name = "data_7"
-    shape = [4, 2, 3060]
-    dtype = "float32"
-    max_val = float("0.150296")
-    mean = float("4.95832e-05")
-    std = float("0.00157955")
-    data = None
-
-
-class Program_weight_tensor_data_8:
-    name = "data_8"
-    shape = [4, 2, 3060]
-    dtype = "float32"
-    max_val = float("0.890974")
-    mean = float("0.0138066")
-    std = float("0.0622531")
-    data = None

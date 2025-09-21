@@ -1,40 +1,63 @@
 class Program_weight_tensor_data_0:
     name = "data_0"
-    shape = []
-    dtype = "int64"
-    data = [4165]
+    shape = [2, 6150, 11]
+    dtype = "float32"
+    min_val = float("7.99616e-05")
+    max_val = float("0.783099")
+    mean = float("0.00895472")
+    std = float("0.0177082")
+    data = None
 
 
 class Program_weight_tensor_data_1:
     name = "data_1"
-    shape = []
-    dtype = "int64"
-    data = [5]
+    shape = [2, 6150, 4]
+    dtype = "float32"
+    min_val = float("-233.794")
+    max_val = float("792.017")
+    mean = float("272.137")
+    std = float("163.503")
+    data = None
 
 
 class Program_weight_tensor_data_2:
     name = "data_2"
-    shape = [4165, 4]
+    shape = [6150, 2]
     dtype = "float32"
-    min_val = float("-128.0")
-    max_val = float("576.0")
-    mean = float("224.0")
-    std = float("133.843")
+    min_val = float("4.0")
+    max_val = float("544.0")
+    mean = float("272.211")
+    std = float("157.122")
     data = None
 
 
 class Program_weight_tensor_data_3:
     name = "data_3"
-    shape = [2, 5, 4]
+    shape = [2, 12, 1]
+    dtype = "int32"
+    data = [7, 7, 7, 9, 9, 0, 0, 0, 0, 0, 0, 0, 7, 7, 1, 1, 1, 1, 1, 4, 3, 6, 5, 2]
+
+
+class Program_weight_tensor_data_4:
+    name = "data_4"
+    shape = [2, 12, 4]
+    dtype = "float32"
+    max_val = float("544.0")
+    mean = float("144.454")
+    std = float("178.425")
+    data = None
+
+
+class Program_weight_tensor_data_5:
+    name = "data_5"
+    shape = [2, 12, 1]
     dtype = "float32"
     data = [
-        22.6558,
-        0.0,
-        378.571,
-        399.403,
-        0.0,
-        0.0,
-        0.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
         0.0,
         0.0,
         0.0,
@@ -42,30 +65,16 @@ class Program_weight_tensor_data_3:
         0.0,
         0.0,
         0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        0.0,
-        380.077,
-        33.9704,
-        393.084,
-        38.057,
-        52.3871,
-        39.0787,
-        394.89,
-        220.424,
-        49.1355,
-        228.597,
-        399.226,
-        413.774,
-        57.8065,
-        418.372,
-        65.0323,
-        422.203,
-        151.742,
-        222.467,
-        295.897,
-        226.81,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
     ]

@@ -1,40 +1,34 @@
 class Program_weight_tensor_data_0:
     name = "data_0"
-    shape = [4, 1, 4789]
-    dtype = "float32"
-    max_val = float("1.0")
-    mean = float("0.00751723")
-    std = float("0.0863755")
-    data = None
+    shape = []
+    dtype = "int64"
+    data = [2577]
 
 
 class Program_weight_tensor_data_1:
     name = "data_1"
-    shape = [4, 1, 36]
-    dtype = "int64"
-    min_val = 1482
-    max_val = 4771
+    shape = [4, 1, 2577]
+    dtype = "float32"
+    max_val = float("1.0")
+    mean = float("0.00310438")
+    std = float("0.0556305")
     data = None
 
 
 class Program_weight_tensor_data_2:
     name = "data_2"
-    shape = [4, 1, 4789]
-    dtype = "float32"
-    max_val = float("0.736554")
-    mean = float("0.0151274")
-    std = float("0.0460125")
-    data = None
+    shape = [4, 1, 1]
+    dtype = "int32"
+    data = [0, 0, 0, 3]
 
 
 class Program_weight_tensor_data_3:
     name = "data_3"
-    shape = [4789, 2]
+    shape = [4, 2577]
     dtype = "float32"
-    min_val = float("4.0")
-    max_val = float("480.0")
-    mean = float("240.214")
-    std = float("138.644")
+    max_val = float("1.0")
+    mean = float("0.00310438")
+    std = float("0.0556305")
     data = None
 
 
@@ -43,27 +37,31 @@ class Program_weight_tensor_data_4:
     shape = [4, 1, 4]
     dtype = "float32"
     data = [
-        186.353,
-        203.429,
-        440.471,
-        306.286,
-        0.0,
-        188.852,
-        192.99,
-        413.115,
-        207.273,
-        225.306,
-        469.091,
-        382.041,
-        268.531,
-        107.586,
-        426.294,
-        297.931,
+        205.333,
+        129.36,
+        241.707,
+        155.76,
+        234.667,
+        7.77901,
+        273.778,
+        60.2873,
+        231.147,
+        56.32,
+        274.56,
+        88.0,
+        71.68,
+        3.41748,
+        185.6,
+        317.825,
     ]
 
 
 class Program_weight_tensor_data_5:
     name = "data_5"
-    shape = [4, 1, 1]
+    shape = [4, 2577, 4]
     dtype = "float32"
-    data = [1.0, 1.0, 1.0, 1.0]
+    min_val = float("-137.475")
+    max_val = float("691.133")
+    mean = float("176.065")
+    std = float("108.672")
+    data = None

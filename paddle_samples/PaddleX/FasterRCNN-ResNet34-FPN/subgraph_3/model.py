@@ -5,7 +5,7 @@ class GraphModule(paddle.nn.Layer):
     def __init__(self):
         super().__init__()
 
-    def forward(self, data_0, data_1, data_2, data_3, data_4, data_5, data_6):
+    def forward(self, data_0, data_1, data_2, data_3, data_4):
         # pd_op.full: (182391xi32) <- ()
         full_0 = paddle._C_ops.full(
             [182391],
@@ -14,88 +14,43 @@ class GraphModule(paddle.nn.Layer):
             paddle.framework._current_expected_place(),
         )
 
-        # pd_op.full: (xi64) <- ()
-        full_1 = paddle._C_ops.full(
-            [], float("0"), paddle.int64, paddle.framework._current_expected_place()
-        )
-
-        # pd_op.greater_than: (xb) <- (xi64, xi64)
-        greater_than_0 = paddle._C_ops.greater_than(data_0, full_1)
-        del data_0
-
-        # pd_op.cast: (xi64) <- (xb)
-        cast_0 = paddle._C_ops.cast(greater_than_0, paddle.int64)
-        del greater_than_0
-
-        # pd_op.not_equal: (xb) <- (xi64, xi64)
-        not_equal_0 = paddle._C_ops.not_equal(cast_0, full_1)
-        del cast_0
-
-        # pd_op.cast: (xi64) <- (xb)
-        cast_1 = paddle._C_ops.cast(not_equal_0, paddle.int64)
-        del not_equal_0
-
-        # pd_op.equal: (xb) <- (xi64, xi64)
-        equal_0 = paddle._C_ops.equal(cast_1, full_1)
-        del cast_1
-
         # pd_op.full: (1xf32) <- ()
-        full_2 = paddle._C_ops.full(
+        full_1 = paddle._C_ops.full(
             [1], float("0"), paddle.float32, paddle.core.CPUPlace()
         )
 
-        # pd_op.full_like: (-1xi32) <- (-1xi32, 1xf32)
+        # pd_op.full_like: (254xi32) <- (254xi32, 1xf32)
         full_like_0 = paddle._C_ops.full_like(
-            data_3, full_2, paddle.int32, paddle.framework._current_expected_place()
+            data_1, full_1, paddle.int32, paddle.framework._current_expected_place()
         )
-        del full_2
+        del full_1
 
-        # pd_op.scatter: (182391xi32) <- (182391xi32, -1xi32, -1xi32)
-        scatter_1 = paddle._C_ops.scatter(full_0, data_3, full_like_0, True)
-        del data_3, full_0, full_like_0
-
-        # pd_op.greater_than: (xb) <- (xi64, xi64)
-        greater_than_1 = paddle._C_ops.greater_than(data_1, full_1)
-        del data_1
-
-        # pd_op.cast: (xi64) <- (xb)
-        cast_2 = paddle._C_ops.cast(greater_than_1, paddle.int64)
-        del greater_than_1
-
-        # pd_op.not_equal: (xb) <- (xi64, xi64)
-        not_equal_1 = paddle._C_ops.not_equal(cast_2, full_1)
-        del cast_2
-
-        # pd_op.cast: (xi64) <- (xb)
-        cast_3 = paddle._C_ops.cast(not_equal_1, paddle.int64)
-        del not_equal_1
-
-        # pd_op.equal: (xb) <- (xi64, xi64)
-        equal_1 = paddle._C_ops.equal(cast_3, full_1)
-        del cast_3, full_1
+        # pd_op.scatter: (182391xi32) <- (182391xi32, 254xi32, 254xi32)
+        scatter_1 = paddle._C_ops.scatter(full_0, data_1, full_like_0, True)
+        del data_1, full_0, full_like_0
 
         # pd_op.full: (1xf32) <- ()
-        full_3 = paddle._C_ops.full(
+        full_2 = paddle._C_ops.full(
             [1], float("1"), paddle.float32, paddle.core.CPUPlace()
         )
 
-        # pd_op.full_like: (-1xi32) <- (-1xi32, 1xf32)
+        # pd_op.full_like: (2xi32) <- (2xi32, 1xf32)
         full_like_1 = paddle._C_ops.full_like(
-            data_2, full_3, paddle.int32, paddle.framework._current_expected_place()
+            data_0, full_2, paddle.int32, paddle.framework._current_expected_place()
         )
 
-        # pd_op.scatter: (182391xi32) <- (182391xi32, -1xi32, -1xi32)
-        scatter_0 = paddle._C_ops.scatter(scatter_1, data_2, full_like_1, True)
-        del data_2, full_like_1, scatter_1
+        # pd_op.scatter: (182391xi32) <- (182391xi32, 2xi32, 2xi32)
+        scatter_0 = paddle._C_ops.scatter(scatter_1, data_0, full_like_1, True)
+        del data_0, full_like_1, scatter_1
 
         # pd_op.full: (1xi32) <- ()
-        full_4 = paddle._C_ops.full(
+        full_3 = paddle._C_ops.full(
             [1], float("0"), paddle.int32, paddle.core.CPUPlace()
         )
 
         # pd_op.gather: (182391x4xf32) <- (1x4xf32, 182391xi64, 1xi32)
-        gather_0 = paddle._C_ops.gather(data_4, data_5, full_4)
-        del data_4, data_5, full_4
+        gather_0 = paddle._C_ops.gather(data_2, data_3, full_3)
+        del data_2, data_3, full_3
 
         # pd_op.full_int_array: (1xi64) <- ()
         full_int_array_0 = [2]
@@ -105,7 +60,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.slice: (182391xf32) <- (182391x4xf32, 1xi64, 1xi64)
         slice_0 = paddle._C_ops.slice(
-            data_6, [1], full_int_array_0, full_int_array_1, [1], [1]
+            data_4, [1], full_int_array_0, full_int_array_1, [1], [1]
         )
 
         # pd_op.full_int_array: (1xi64) <- ()
@@ -116,7 +71,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.slice: (182391xf32) <- (182391x4xf32, 1xi64, 1xi64)
         slice_1 = paddle._C_ops.slice(
-            data_6, [1], full_int_array_2, full_int_array_3, [1], [1]
+            data_4, [1], full_int_array_2, full_int_array_3, [1], [1]
         )
 
         # pd_op.subtract: (182391xf32) <- (182391xf32, 182391xf32)
@@ -128,33 +83,33 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.slice: (182391xf32) <- (182391x4xf32, 1xi64, 1xi64)
         slice_2 = paddle._C_ops.slice(
-            data_6, [1], full_int_array_1, full_int_array_4, [1], [1]
+            data_4, [1], full_int_array_1, full_int_array_4, [1], [1]
         )
 
         # pd_op.slice: (182391xf32) <- (182391x4xf32, 1xi64, 1xi64)
         slice_3 = paddle._C_ops.slice(
-            data_6, [1], full_int_array_3, full_int_array_0, [1], [1]
+            data_4, [1], full_int_array_3, full_int_array_0, [1], [1]
         )
-        del data_6
+        del data_4
 
         # pd_op.subtract: (182391xf32) <- (182391xf32, 182391xf32)
         subtract_1 = paddle._C_ops.subtract(slice_2, slice_3)
         del slice_2
 
         # pd_op.full: (1xf32) <- ()
-        full_5 = paddle._C_ops.full(
+        full_4 = paddle._C_ops.full(
             [1], float("0.5"), paddle.float32, paddle.core.CPUPlace()
         )
 
         # pd_op.scale: (182391xf32) <- (182391xf32, 1xf32)
-        scale_0 = paddle._C_ops.scale(subtract_0, full_5, float("0"), True)
+        scale_0 = paddle._C_ops.scale(subtract_0, full_4, float("0"), True)
 
         # pd_op.add: (182391xf32) <- (182391xf32, 182391xf32)
         add_0 = paddle._C_ops.add(slice_1, scale_0)
         del scale_0, slice_1
 
         # pd_op.scale: (182391xf32) <- (182391xf32, 1xf32)
-        scale_1 = paddle._C_ops.scale(subtract_1, full_5, float("0"), True)
+        scale_1 = paddle._C_ops.scale(subtract_1, full_4, float("0"), True)
 
         # pd_op.add: (182391xf32) <- (182391xf32, 182391xf32)
         add_1 = paddle._C_ops.add(slice_3, scale_1)
@@ -192,15 +147,15 @@ class GraphModule(paddle.nn.Layer):
         del slice_6
 
         # pd_op.scale: (182391xf32) <- (182391xf32, 1xf32)
-        scale_2 = paddle._C_ops.scale(subtract_2, full_5, float("0"), True)
+        scale_2 = paddle._C_ops.scale(subtract_2, full_4, float("0"), True)
 
         # pd_op.add: (182391xf32) <- (182391xf32, 182391xf32)
         add_2 = paddle._C_ops.add(slice_5, scale_2)
         del scale_2, slice_5
 
         # pd_op.scale: (182391xf32) <- (182391xf32, 1xf32)
-        scale_3 = paddle._C_ops.scale(subtract_3, full_5, float("0"), True)
-        del full_5
+        scale_3 = paddle._C_ops.scale(subtract_3, full_4, float("0"), True)
+        del full_4
 
         # pd_op.add: (182391xf32) <- (182391xf32, 182391xf32)
         add_3 = paddle._C_ops.add(slice_7, scale_3)
@@ -211,7 +166,7 @@ class GraphModule(paddle.nn.Layer):
         del add_0, add_2
 
         # pd_op.scale: (182391xf32) <- (182391xf32, 1xf32)
-        scale_4 = paddle._C_ops.scale(subtract_4, full_3, float("0"), True)
+        scale_4 = paddle._C_ops.scale(subtract_4, full_2, float("0"), True)
         del subtract_4
 
         # pd_op.divide: (182391xf32) <- (182391xf32, 182391xf32)
@@ -223,7 +178,7 @@ class GraphModule(paddle.nn.Layer):
         del add_1, add_3
 
         # pd_op.scale: (182391xf32) <- (182391xf32, 1xf32)
-        scale_5 = paddle._C_ops.scale(subtract_5, full_3, float("0"), True)
+        scale_5 = paddle._C_ops.scale(subtract_5, full_2, float("0"), True)
         del subtract_5
 
         # pd_op.divide: (182391xf32) <- (182391xf32, 182391xf32)
@@ -239,7 +194,7 @@ class GraphModule(paddle.nn.Layer):
         del divide_2
 
         # pd_op.scale: (182391xf32) <- (182391xf32, 1xf32)
-        scale_6 = paddle._C_ops.scale(log_0, full_3, float("0"), True)
+        scale_6 = paddle._C_ops.scale(log_0, full_2, float("0"), True)
         del log_0
 
         # pd_op.divide: (182391xf32) <- (182391xf32, 182391xf32)
@@ -251,8 +206,8 @@ class GraphModule(paddle.nn.Layer):
         del divide_3
 
         # pd_op.scale: (182391xf32) <- (182391xf32, 1xf32)
-        scale_7 = paddle._C_ops.scale(log_1, full_3, float("0"), True)
-        del full_3, log_1
+        scale_7 = paddle._C_ops.scale(log_1, full_2, float("0"), True)
+        del full_2, log_1
 
         # builtin.combine: ([182391xf32, 182391xf32, 182391xf32, 182391xf32]) <- (182391xf32, 182391xf32, 182391xf32, 182391xf32)
         combine_0 = [divide_0, divide_1, scale_6, scale_7]

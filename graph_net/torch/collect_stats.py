@@ -1,64 +1,18 @@
 import argparse
 import os
 import sys
-import ast
 import math
 import json
-import importlib
-import inspect
 import subprocess
 from datetime import datetime
-from typing import Type
-from dataclasses import dataclass, field
-from collections import defaultdict
 
 import torch
+from graph_net import collect_stats_util
 from graph_net.torch import utils
 
 
 def is_single_model_dir(model_dir):
     return os.path.isfile(f"{model_dir}/graph_net.json")
-
-
-def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Module]:
-    spec = importlib.util.spec_from_file_location("unnamed", file_path)
-    unnamed = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(unnamed)
-    model_class = getattr(unnamed, class_name, None)
-    return model_class
-
-
-def get_argument_name_and_types(model_class, func_name):
-    argument_name2types = {}
-    for name, func in inspect.getmembers(model_class, predicate=inspect.isfunction):
-        if name == func_name:
-            for arg_name, arg in inspect.signature(func).parameters.items():
-                if arg_name != "self":
-                    argument_name2types[arg_name] = (
-                        None if arg.annotation is inspect._empty else arg.annotation
-                    )
-    return argument_name2types
-
-
-def get_number_of_returns(file_path, class_name, func_name):
-    source = None
-    with open(f"{file_path}", "r") as f:
-        source = f.read()
-
-    tree = ast.parse(source)
-    for node in tree.body:
-        if isinstance(node, ast.ClassDef) and node.name == class_name:
-            for f in node.body:
-                if isinstance(f, ast.FunctionDef) and f.name == func_name:
-                    for stmt in ast.walk(f):
-                        if isinstance(stmt, ast.Return):
-                            if stmt.value is None:
-                                return 0
-                            elif isinstance(stmt.value, ast.Tuple):
-                                return len(stmt.value.elts)
-                            else:
-                                return 1
-    return 0
 
 
 def read_graph_source_and_tag(model_path):
@@ -67,28 +21,7 @@ def read_graph_source_and_tag(model_path):
             data = json.load(f)
             return data["source"], data["heuristic_tag"]
     except Exception:
-        if "cosyvoice" in model_path:
-            return "cosyvoice", "audio"
-        elif "torchaudio" in model_path:
-            return "torchaudio", "audio"
-        elif "ultralytics" in model_path:
-            return "ultralytics", "computer_vision"
-        elif "torchvision" in model_path:
-            return "torchvision", "computer_vision"
-        elif "timm" in model_path:
-            return "timm", "computer_vision"
-        elif "mmseg" in model_path:
-            return "mmseg", "computer_vision"
-        elif "mmpose" in model_path:
-            return "mmpose", "computer_vision"
-        elif "torchgeometric" in model_path:
-            return "torchgeometric", "other"
-        elif "transformers-auto-model" in model_path:
-            return "huggingface_hub", "unknown"
-        elif "nemo" in model_path:
-            return "nemo", "unknown"
-        else:
-            return "unknown", "unknown"
+        return "unknown", "unknown"
 
 
 def get_input_dict(model_path, device):
@@ -100,19 +33,6 @@ def get_input_dict(model_path, device):
     return {
         k: utils.replay_tensor(v).to(torch.device(device)) for k, v in params.items()
     }
-
-
-@dataclass
-class OpStat:
-    op_name: str
-    op_dtypes: dict[str, int] = field(default_factory=dict)
-    count: int = 0
-
-    def update(self, other):
-        if isinstance(other, OpStat) and self.op_name == other.op_name:
-            self.count += other.count
-            for name, count in other.op_dtypes.items():
-                self.op_dtypes[name] = self.op_dtypes.get(name, 0) + count
 
 
 def resolve_native_multi_head_attention(*args, **kwargs):
@@ -249,7 +169,9 @@ class GraphMetaExecutor:
         if op_name is not None:
             dtype_str = str(op_dtype).replace("torch.", "")
             if op_stats.get(op_name, None) is None:
-                op_stats[op_name] = OpStat(op_name, {dtype_str: 1}, 1)
+                op_stats[op_name] = collect_stats_util.OpStat(
+                    op_name, {dtype_str: 1}, 1
+                )
             else:
                 op_stats[op_name].op_dtypes[dtype_str] = (
                     op_stats[op_name].op_dtypes.get(dtype_str, 0) + 1
@@ -353,10 +275,10 @@ def collect_op_stats_with_compile(model, sample_inputs, device):
         compiled_model = torch.compile(model, backend=meta_executor)
         compiled_model(*sample_inputs)
         meta_executor.summary()
-        return meta_executor.is_complete, meta_executor.op_stats
+        return meta_executor
     except Exception:
         print("Failed with torch.compile")
-        return False, None
+        return None
 
 
 def collect_op_stats_with_symbolic_trace(model, sample_inputs, device):
@@ -364,50 +286,50 @@ def collect_op_stats_with_symbolic_trace(model, sample_inputs, device):
     try:
         # FX symbolic trace
         traced = torch.fx.symbolic_trace(model)
-        # print(traced.graph)
     except Exception:
         print("Failed with symbolic_trace")
-        return False, None
+        return None
 
     meta_executor = GraphMetaExecutor(device)
     meta_executor(traced, sample_inputs)
     meta_executor.summary()
-    return meta_executor.is_complete, meta_executor.op_stats
+    return meta_executor
 
 
 def collect_op_stats(model, sample_inputs, device):
-    is_complete_symbolic, op_stats_symbolic = collect_op_stats_with_symbolic_trace(
+    meta_executor_symbolic = collect_op_stats_with_symbolic_trace(
         model, sample_inputs, device
     )
-    if not is_complete_symbolic:
-        is_complete_compile, op_stats_compile = collect_op_stats_with_compile(
+    if meta_executor_symbolic is None or not meta_executor_symbolic.is_complete:
+        meta_executor_compile = collect_op_stats_with_compile(
             model, sample_inputs, device
         )
-        if is_complete_compile or op_stats_symbolic is None:
-            return "torch.compile", is_complete_compile, op_stats_compile
-    return "symbolic_trace", is_complete_symbolic, op_stats_symbolic
+        if meta_executor_symbolic is None or (
+            meta_executor_compile is not None and meta_executor_compile.is_complete
+        ):
+            return "torch.compile", meta_executor_compile
+    return "symbolic_trace", meta_executor_symbolic
 
 
 def collect_model_stats(model_path, device, log_prompt):
     file_path = os.path.join(model_path, "model.py")
-    model_class = load_class_from_file(file_path, "GraphModule")
+    model_class = collect_stats_util.load_class_from_file(file_path, "GraphModule")
     model = model_class()
-    argument_name2types = get_argument_name_and_types(model_class, "forward")
-    num_outputs = get_number_of_returns(file_path, "GraphModule", "forward")
+    argument_name2types = collect_stats_util.get_argument_name_and_types(
+        model_class, "forward"
+    )
 
     input_dict = get_input_dict(model_path, device)
     ordered_input_list = [
         input_dict[arg_name] for arg_name in argument_name2types.keys()
     ]
 
-    num_ops = 0
     ops_count_dict = {}
     op_dtypes = {}
-    method, is_complete, op_stats = collect_op_stats(model, ordered_input_list, device)
-    if op_stats is not None:
-        for op_name, stat in sorted(op_stats.items()):
+    method, meta_executor = collect_op_stats(model, ordered_input_list, device)
+    if meta_executor is not None:
+        for op_name, stat in sorted(meta_executor.op_stats.items()):
             if op_name not in ["placeholder", "output"]:
-                num_ops += stat.count
                 ops_count_dict[op_name] = stat.count
             for dtype_str, num in stat.op_dtypes.items():
                 if dtype_str is not None and dtype_str != "None":
@@ -426,35 +348,32 @@ def collect_model_stats(model_path, device, log_prompt):
             dtype_str = str(input_dict[name].dtype).replace("torch.", "")
             input_dtypes[dtype_str] = input_dtypes.get(dtype_str, 0) + 1
 
-    model_size_in_billion = model_size / 1e9
-    num_params = len(param_dtypes)
-    num_inputs = len(input_dtypes)
-
+    num_outputs = collect_stats_util.get_number_of_returns(
+        file_path, "GraphModule", "forward"
+    )
+    num_ops = meta_executor.num_ops if meta_executor is not None else 0
     source, heuristic_tag = read_graph_source_and_tag(model_path)
 
-    def dict_to_string(d):
-        kv_list = [f"{k}:{v}" for k, v in d.items()]
-        return " ".join(kv_list)
+    is_complete = meta_executor.is_complete if meta_executor is not None else False
+    print(
+        f"model_stats collection information: model_path={model_path}, method={method}, is_ops_complete={is_complete}"
+    )
 
-    def print_with_log_prompt(key, value):
-        print(
-            f"{log_prompt} [ModelStats.{key}] model_path:{model_path} {value}",
-            flush=True,
-        )
-
-    print_with_log_prompt("num_inputs", num_inputs)
-    print_with_log_prompt("num_params", num_params)
-    print_with_log_prompt("num_outputs", num_outputs)
-    print_with_log_prompt("num_ops", num_ops)
-    print_with_log_prompt("model_size", f"{model_size_in_billion}B")
-    print_with_log_prompt("input_dtypes", dict_to_string(input_dtypes))
-    print_with_log_prompt("param_dtypes", dict_to_string(param_dtypes))
-    print_with_log_prompt("op_dtypes", dict_to_string(op_dtypes))
-    print_with_log_prompt("ops", dict_to_string(ops_count_dict))
-    print_with_log_prompt("source", source)
-    print_with_log_prompt("heuristic_tag", heuristic_tag)
-    print_with_log_prompt("method", method)
-    print_with_log_prompt("is_complete", is_complete)
+    stats = collect_stats_util.ModelStats(
+        model_path=model_path,
+        num_inputs=sum(input_dtypes.values()),
+        num_params=sum(param_dtypes.values()),
+        num_outputs=num_outputs,
+        num_ops=num_ops,
+        model_size_in_billion=model_size / 1e9,
+        input_dtypes=input_dtypes,
+        param_dtypes=param_dtypes,
+        op_dtypes=op_dtypes,
+        ops=ops_count_dict,
+        source=source,
+        heuristic_tag=heuristic_tag,
+    )
+    collect_stats_util.print_model_stats(stats, log_prompt)
 
 
 def main(args):
@@ -473,23 +392,9 @@ def main(args):
             else args.graph_net_samples_path
         )
 
-        previous_failed_model_pathes = []
-        if args.previous_collect_result_path is not None:
-            with open(args.previous_collect_result_path, "r") as f:
-                for line in f.readlines():
-                    if "[ModelStats]" in line:
-                        fields = line.strip().split()
-                        model_path = fields[2].split(":")[-1]
-                        is_complete = fields[-1].split(":")[-1]
-                        if is_complete == "False":
-                            previous_failed_model_pathes.append(model_path)
-
         i = 0
         for root, dirs, files in os.walk(graph_net_samples_path):
-            if is_single_model_dir(root) and (
-                args.previous_collect_result_path is None
-                or root in previous_failed_model_pathes
-            ):
+            if is_single_model_dir(root):
                 print(f"[{i}] Collect information for {root}")
                 cmd = [
                     "python",
@@ -536,13 +441,6 @@ if __name__ == "__main__":
         required=False,
         default=None,
         help="GraphNet samples directory. e.g '../../samples'",
-    )
-    parser.add_argument(
-        "--previous-collect-result-path",
-        type=str,
-        required=False,
-        default=None,
-        help="Previous collect result path, use to recollect the failed cases",
     )
     parser.add_argument(
         "--log-prompt",

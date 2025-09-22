@@ -108,7 +108,12 @@ class ProgramAnalyzer:
                                 op_dtype = out.dtype
                             else:
                                 # for paddle.base.libpaddle.pir.VectorType, but cannot be accurately determined
-                                if op_name in ["split", "split_with_num", "meshgrid"]:
+                                if op_name in [
+                                    "split",
+                                    "split_with_num",
+                                    "meshgrid",
+                                    "distribute_fpn_proposals",
+                                ]:
                                     op_dtype = self.parse_pir_value_dtypes(
                                         str(out.type())
                                     )[0]

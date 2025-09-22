@@ -19,5 +19,6 @@
         "arxiv:2211.06679",
         "license:creativeml-openrail-m",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "multimodal"
 }

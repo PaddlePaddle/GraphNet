@@ -47,5 +47,6 @@
         "license:mit",
         "autotrain_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

@@ -24,5 +24,6 @@
         "arxiv:2410.04803",
         "license:apache-2.0",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "other"
 }

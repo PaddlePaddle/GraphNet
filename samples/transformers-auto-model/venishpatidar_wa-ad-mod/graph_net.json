@@ -14,5 +14,6 @@
         "base_model:finetune:bigscience/bloom-560m",
         "license:mit",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "other"
 }

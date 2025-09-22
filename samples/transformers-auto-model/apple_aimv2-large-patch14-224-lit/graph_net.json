@@ -20,5 +20,6 @@
         "license:apple-amlr",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "multimodal"
 }

@@ -27,5 +27,6 @@
         "text-embeddings-inference",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

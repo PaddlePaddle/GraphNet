@@ -21,5 +21,6 @@
         "base_model:quantized:google/electra-large-discriminator",
         "license:apache-2.0",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

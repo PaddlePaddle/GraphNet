@@ -17,5 +17,6 @@
         "arxiv:1908.04913",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "multimodal"
 }

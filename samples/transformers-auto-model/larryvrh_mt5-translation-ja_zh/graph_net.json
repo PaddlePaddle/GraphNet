@@ -17,5 +17,6 @@
         "dataset:larryvrh/CCMatrix-v1-Ja_Zh-filtered",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

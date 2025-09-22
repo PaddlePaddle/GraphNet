@@ -16,5 +16,6 @@
         "arxiv:2001.08210",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

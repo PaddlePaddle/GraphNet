@@ -11,5 +11,6 @@
         "image-feature-extraction",
         "arxiv:2311.12793",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "other"
 }

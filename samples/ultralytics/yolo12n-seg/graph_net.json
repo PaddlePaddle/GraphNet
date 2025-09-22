@@ -2,5 +2,7 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false
+    "dynamic": false,
+    "source": "ultralytics",
+    "heuristic_tag": "computer_vision"
 }

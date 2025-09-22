@@ -13,6 +13,8 @@ import platform
 import traceback
 
 from graph_net.paddle import utils
+from graph_net import path_utils
+from graph_net import test_compiler_utils
 from graph_net.benchmark_result import BenchmarkResult
 
 
@@ -78,31 +80,6 @@ def get_compiled_model(args, model):
     return compiled_model
 
 
-@dataclass
-class DurationBox:
-    value: int
-
-
-@contextmanager
-def naive_timer(duration_box, synchronizer_func):
-    synchronizer_func()
-    start = time.time()
-    yield
-    synchronizer_func()
-    end = time.time()
-    duration_box.value = (end - start) * 1000  # Store in milliseconds
-
-
-def get_timing_stats(elapsed_times):
-    stats = {
-        "mean": float(f"{np.mean(elapsed_times):.6g}"),
-        "std": float(f"{np.std(elapsed_times):.6g}"),
-        "min": float(f"{np.min(elapsed_times):.6g}"),
-        "max": float(f"{np.max(elapsed_times):.6g}"),
-    }
-    return stats
-
-
 def measure_performance(model_call, args, synchronizer_func):
     stats = {}
 
@@ -126,8 +103,8 @@ def measure_performance(model_call, args, synchronizer_func):
 
         for i in range(args.trials):
             # End-to-end timing (naive_timer)
-            duration_box = DurationBox(-1)
-            with naive_timer(duration_box, synchronizer_func):
+            duration_box = test_compiler_utils.DurationBox(-1)
+            with test_compiler_utils.naive_timer(duration_box, synchronizer_func):
                 # GPU-only timing (CUDA Events)
                 start_event = paddle.device.Event(enable_timing=True)
                 end_event = paddle.device.Event(enable_timing=True)
@@ -143,8 +120,8 @@ def measure_performance(model_call, args, synchronizer_func):
                 f"Trial {i + 1}: e2e={duration_box.value:.5f} ms, gpu={gpu_time_ms:.5f} ms"
             )
 
-        stats["e2e"] = get_timing_stats(e2e_times)
-        stats["gpu"] = get_timing_stats(gpu_times)
+        stats["e2e"] = test_compiler_utils.get_timing_stats(e2e_times)
+        stats["gpu"] = test_compiler_utils.get_timing_stats(gpu_times)
     else:  # CPU or other devices
         hardware_name = platform.processor()
         print(
@@ -153,12 +130,12 @@ def measure_performance(model_call, args, synchronizer_func):
 
         e2e_times = []
         for i in range(args.trials):
-            duration_box = DurationBox(-1)
-            with naive_timer(duration_box, compiler.synchronize):
+            duration_box = test_compiler_utils.DurationBox(-1)
+            with test_compiler_utils.naive_timer(duration_box, synchronizer_func):
                 outs = model_call()
             print(f"Trial {i + 1}: e2e={duration_box.value:.4f} ms")
             e2e_times.append(duration_box.value)
-        stats["e2e"] = get_timing_stats(e2e_times)
+        stats["e2e"] = test_compiler_utils.get_timing_stats(e2e_times)
 
     return outs, stats
 
@@ -284,20 +261,9 @@ def test_single_model(args):
     if running_eager_success and running_compiled_success:
         check_outputs(args, expected_out, compiled_out)
 
-        duration_log = (
-            f"{args.log_prompt} [Duration] "
-            f"eager_e2e:{result_data.eager_e2e_time_ms:.4f} ms compiled_e2e:{result_data.compiled_e2e_time_ms:.4f} ms"
+        test_compiler_utils.print_times_and_speedup(
+            args, eager_time_stats, compiled_time_stats
         )
-        speedup_log = (
-            f"{args.log_prompt} [Speedup] " f"e2e_speedup:{result_data.e2e_speedup:.4f}"
-        )
-
-        if "cuda" in args.device:
-            duration_log += f" eager_gpu:{result_data.eager_gpu_time_ms:.4f} ms compiled_gpu:{result_data.compiled_gpu_time_ms:.4f} ms"
-            speedup_log += f" gpu_speedup:{result_data.gpu_speedup:.4f}"
-
-        print(duration_log, file=sys.stderr)
-        print(speedup_log, file=sys.stderr)
 
 
 def get_cmp_equal(expected_out, compiled_out):
@@ -335,7 +301,7 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 
 def test_multi_models(args):
-    for model_path in get_recursively_model_path(args.model_path):
+    for model_path in path_utils.get_recursively_model_path(args.model_path):
         cmd = "".join(
             [
                 sys.executable,
@@ -353,27 +319,6 @@ def test_multi_models(args):
         assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
 
 
-def get_recursively_model_path(root_dir):
-    for sub_dir in get_immediate_subdirectory_paths(root_dir):
-        if is_single_model_dir(sub_dir):
-            yield sub_dir
-        else:
-            yield from get_recursively_model_path(sub_dir)
-
-
-def get_immediate_subdirectory_paths(parent_dir):
-    return [
-        sub_dir
-        for name in os.listdir(parent_dir)
-        for sub_dir in [os.path.join(parent_dir, name)]
-        if os.path.isdir(sub_dir)
-    ]
-
-
-def is_single_model_dir(model_dir):
-    return os.path.isfile(f"{model_dir}/graph_net.json")
-
-
 def main(args):
     assert os.path.isdir(args.model_path)
     assert args.compiler == "cinn"
@@ -383,7 +328,7 @@ def main(args):
     random.seed(random_seed)
     np.random.seed(random_seed)
 
-    if is_single_model_dir(args.model_path):
+    if path_utils.is_single_model_dir(args.model_path):
         test_single_model(args)
     else:
         test_multi_models(args)

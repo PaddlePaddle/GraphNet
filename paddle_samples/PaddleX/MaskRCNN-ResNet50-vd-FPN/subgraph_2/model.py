@@ -5,74 +5,137 @@ class GraphModule(paddle.nn.Layer):
     def __init__(self):
         super().__init__()
 
-    def forward(self, data_0, data_1, data_2):
+    def forward(
+        self,
+        data_0,
+        data_1,
+        data_2,
+        data_3,
+        data_4,
+        data_5,
+        data_6,
+        data_7,
+        data_8,
+        data_9,
+        data_10,
+        data_11,
+        data_12,
+        data_13,
+        data_14,
+        data_15,
+        data_16,
+        data_17,
+        data_18,
+        data_19,
+        data_20,
+        data_21,
+        data_22,
+        data_23,
+        data_24,
+        data_25,
+        data_26,
+        data_27,
+    ):
         # pd_op.full: (1xi32) <- ()
         full_0 = paddle._C_ops.full(
             [1], float("0"), paddle.int32, paddle.core.CPUPlace()
         )
 
-        # pd_op.gather: (1001xi32) <- (1xi32, 1001xi64, 1xi32)
-        gather_0 = paddle._C_ops.gather(data_2, data_0, full_0)
-        del data_0, data_2, full_0
+        # pd_op.gather: (-1xi32) <- (512xi32, -1x1xi64, 1xi32)
+        gather_0 = paddle._C_ops.gather(data_1, data_2, full_0)
+        del data_1, data_2, full_0
 
-        # pd_op.full: (xi32) <- ()
-        full_1 = paddle._C_ops.full(
-            [], float("0"), paddle.int32, paddle.framework._current_expected_place()
-        )
+        # builtin.combine: ([xi64]) <- (xi64)
+        combine_0 = [data_0]
+        del data_0
 
-        # pd_op.equal: (1001xb) <- (1001xi32, xi32)
-        equal_0 = paddle._C_ops.equal(data_1, full_1)
-        del full_1
+        # pd_op.stack: (1xi64) <- ([xi64])
+        stack_1 = paddle._C_ops.stack(combine_0, 0)
+        del combine_0
 
         # pd_op.full: (1xf32) <- ()
-        full_2 = paddle._C_ops.full(
+        full_1 = paddle._C_ops.full(
             [1], float("1"), paddle.float32, paddle.core.CPUPlace()
         )
 
-        # pd_op.full_like: (1001xi32) <- (1001xi32, 1xf32)
-        full_like_0 = paddle._C_ops.full_like(
-            gather_0, full_2, paddle.int32, paddle.framework._current_expected_place()
+        # pd_op.full_with_tensor: (-1xf32) <- (1xf32, 1xi64)
+        full_with_tensor_0 = paddle._C_ops.full_with_tensor(
+            full_1, stack_1, paddle.float32
+        )
+        del full_1, stack_1
+
+        # builtin.combine: ([28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32]) <- (28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32)
+        combine_1 = [
+            data_4,
+            data_5,
+            data_6,
+            data_7,
+            data_8,
+            data_9,
+            data_10,
+            data_11,
+            data_12,
+            data_13,
+            data_14,
+            data_15,
+            data_16,
+            data_17,
+            data_18,
+            data_19,
+            data_20,
+            data_21,
+            data_22,
+            data_23,
+            data_24,
+            data_25,
+            data_26,
+            data_27,
+        ]
+        del (
+            data_10,
+            data_11,
+            data_12,
+            data_13,
+            data_14,
+            data_15,
+            data_16,
+            data_17,
+            data_18,
+            data_19,
+            data_20,
+            data_21,
+            data_22,
+            data_23,
+            data_24,
+            data_25,
+            data_26,
+            data_27,
+            data_4,
+            data_5,
+            data_6,
+            data_7,
+            data_8,
+            data_9,
         )
 
-        # pd_op.full: (1xf32) <- ()
-        full_3 = paddle._C_ops.full(
-            [1], float("2"), paddle.float32, paddle.core.CPUPlace()
+        # pd_op.stack: (24x28x28xi32) <- ([28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32])
+        stack_0 = paddle._C_ops.stack(combine_1, 0)
+        del combine_1
+
+        # pd_op.shape64: (2xi64) <- (-1x4xf32)
+        shape64_0 = paddle._C_ops.shape64(data_3)
+        del data_3
+
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_0 = [0]
+
+        # pd_op.full_int_array: (1xi64) <- ()
+        full_int_array_1 = [1]
+
+        # pd_op.slice: (1xi64) <- (2xi64, 1xi64, 1xi64)
+        slice_0 = paddle._C_ops.slice(
+            shape64_0, [0], full_int_array_0, full_int_array_1, [1], []
         )
+        del full_int_array_0, full_int_array_1, shape64_0
 
-        # pd_op.scale: (1001xi32) <- (1001xi32, 1xf32)
-        scale_0 = paddle._C_ops.scale(full_like_0, full_3, float("0"), True)
-        del full_3, full_like_0
-
-        # pd_op.where: (1001xi32) <- (1001xb, 1001xi32, 1001xi32)
-        where_1 = paddle._C_ops.where(equal_0, scale_0, gather_0)
-        del equal_0, gather_0, scale_0
-
-        # pd_op.full: (xi32) <- ()
-        full_4 = paddle._C_ops.full(
-            [], float("-1"), paddle.int32, paddle.framework._current_expected_place()
-        )
-
-        # pd_op.equal: (1001xb) <- (1001xi32, xi32)
-        equal_1 = paddle._C_ops.equal(data_1, full_4)
-        del data_1, full_4
-
-        # pd_op.full_like: (1001xi32) <- (1001xi32, 1xf32)
-        full_like_1 = paddle._C_ops.full_like(
-            where_1, full_2, paddle.int32, paddle.framework._current_expected_place()
-        )
-        del full_2
-
-        # pd_op.full: (1xf32) <- ()
-        full_5 = paddle._C_ops.full(
-            [1], float("-1"), paddle.float32, paddle.core.CPUPlace()
-        )
-
-        # pd_op.scale: (1001xi32) <- (1001xi32, 1xf32)
-        scale_1 = paddle._C_ops.scale(full_like_1, full_5, float("0"), True)
-        del full_5, full_like_1
-
-        # pd_op.where: (1001xi32) <- (1001xb, 1001xi32, 1001xi32)
-        where_0 = paddle._C_ops.where(equal_1, scale_1, where_1)
-        del equal_1, scale_1, where_1
-
-        return where_0
+        return gather_0, full_with_tensor_0, stack_0, slice_0

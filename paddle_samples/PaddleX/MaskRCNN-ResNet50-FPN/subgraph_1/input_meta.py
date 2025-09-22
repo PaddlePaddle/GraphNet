@@ -1,55 +1,55 @@
 class Program_weight_tensor_data_0:
     name = "data_0"
-    shape = [1, 256, 176, 264]
+    shape = [1, 256, 200, 232]
     dtype = "float32"
-    min_val = float("-6.55832")
-    max_val = float("6.24156")
-    mean = float("-0.00161844")
-    std = float("1.00505")
+    min_val = float("-5.79458")
+    max_val = float("5.8958")
+    mean = float("0.0214926")
+    std = float("1.03276")
     data = None
 
 
 class Program_weight_tensor_data_1:
     name = "data_1"
-    shape = [1, 256, 88, 132]
+    shape = [1, 256, 100, 116]
     dtype = "float32"
-    min_val = float("-4.99069")
-    max_val = float("5.46647")
-    mean = float("0.043823")
-    std = float("0.917722")
+    min_val = float("-5.86439")
+    max_val = float("5.03828")
+    mean = float("0.0106702")
+    std = float("0.912542")
     data = None
 
 
 class Program_weight_tensor_data_2:
     name = "data_2"
-    shape = [1, 256, 44, 66]
+    shape = [1, 256, 50, 58]
     dtype = "float32"
-    min_val = float("-6.06722")
-    max_val = float("7.0637")
-    mean = float("0.0706765")
-    std = float("0.990679")
+    min_val = float("-5.64306")
+    max_val = float("4.51884")
+    mean = float("-0.0717795")
+    std = float("0.990112")
     data = None
 
 
 class Program_weight_tensor_data_3:
     name = "data_3"
-    shape = [1, 256, 22, 33]
+    shape = [1, 256, 25, 29]
     dtype = "float32"
-    min_val = float("-5.88683")
-    max_val = float("7.27476")
-    mean = float("0.0408438")
-    std = float("1.06324")
+    min_val = float("-6.41343")
+    max_val = float("6.32574")
+    mean = float("-0.0905022")
+    std = float("1.10153")
     data = None
 
 
 class Program_weight_tensor_data_4:
     name = "data_4"
-    shape = [1, 256, 11, 17]
+    shape = [1, 256, 13, 15]
     dtype = "float32"
-    min_val = float("-5.30911")
-    max_val = float("6.5931")
-    mean = float("0.0422901")
-    std = float("1.0522")
+    min_val = float("-6.35498")
+    max_val = float("6.11616")
+    mean = float("-0.084562")
+    std = float("1.07198")
     data = None
 
 

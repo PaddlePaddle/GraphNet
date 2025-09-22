@@ -17,14 +17,6 @@ class GraphModule(paddle.nn.Layer):
         data_7,
         data_8,
         data_9,
-        data_10,
-        data_11,
-        data_12,
-        data_13,
-        data_14,
-        data_15,
-        data_16,
-        data_17,
     ):
         # pd_op.full: (1xi32) <- ()
         full_0 = paddle._C_ops.full(
@@ -54,41 +46,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del full_1, stack_1
 
-        # builtin.combine: ([28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32]) <- (28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32)
-        combine_1 = [
-            data_4,
-            data_5,
-            data_6,
-            data_7,
-            data_8,
-            data_9,
-            data_10,
-            data_11,
-            data_12,
-            data_13,
-            data_14,
-            data_15,
-            data_16,
-            data_17,
-        ]
-        del (
-            data_10,
-            data_11,
-            data_12,
-            data_13,
-            data_14,
-            data_15,
-            data_16,
-            data_17,
-            data_4,
-            data_5,
-            data_6,
-            data_7,
-            data_8,
-            data_9,
-        )
+        # builtin.combine: ([28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32]) <- (28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32)
+        combine_1 = [data_4, data_5, data_6, data_7, data_8, data_9]
+        del data_4, data_5, data_6, data_7, data_8, data_9
 
-        # pd_op.stack: (14x28x28xi32) <- ([28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32])
+        # pd_op.stack: (6x28x28xi32) <- ([28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32, 28x28xi32])
         stack_0 = paddle._C_ops.stack(combine_1, 0)
         del combine_1
 

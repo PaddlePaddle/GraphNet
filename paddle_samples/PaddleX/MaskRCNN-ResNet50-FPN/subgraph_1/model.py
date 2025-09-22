@@ -37,20 +37,9 @@ class GraphModule(paddle.nn.Layer):
         reshape_5 = paddle._C_ops.reshape(parameter_4, full_int_array_0)
         del parameter_4
 
-        # pd_op.assign: (1x256x1x1xf32) <- (1x256x1x1xf32)
-        assign_0 = reshape_5
-
-        # pd_op.assign: (1x256x1x1xf32) <- (1x256x1x1xf32)
-        assign_1 = reshape_5
-
-        # pd_op.assign: (1x256x1x1xf32) <- (1x256x1x1xf32)
-        assign_2 = reshape_5
-
-        # pd_op.assign: (1x256x1x1xf32) <- (1x256x1x1xf32)
-        assign_3 = reshape_5
-
         # pd_op.add: (1x256x-1x-1xf32) <- (1x256x-1x-1xf32, 1x256x1x1xf32)
         add_10 = paddle._C_ops.add(conv2d_0, reshape_5)
+        del conv2d_0
 
         # pd_op.relu: (1x256x-1x-1xf32) <- (1x256x-1x-1xf32)
         relu_0 = paddle._C_ops.relu(add_10)
@@ -64,6 +53,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.add: (1x256x-1x-1xf32) <- (1x256x-1x-1xf32, 1x256x1x1xf32)
         add_11 = paddle._C_ops.add(conv2d_1, reshape_5)
+        del conv2d_1
 
         # pd_op.relu: (1x256x-1x-1xf32) <- (1x256x-1x-1xf32)
         relu_1 = paddle._C_ops.relu(add_11)
@@ -77,6 +67,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.add: (1x256x-1x-1xf32) <- (1x256x-1x-1xf32, 1x256x1x1xf32)
         add_12 = paddle._C_ops.add(conv2d_2, reshape_5)
+        del conv2d_2
 
         # pd_op.relu: (1x256x-1x-1xf32) <- (1x256x-1x-1xf32)
         relu_2 = paddle._C_ops.relu(add_12)
@@ -90,6 +81,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.add: (1x256x-1x-1xf32) <- (1x256x-1x-1xf32, 1x256x1x1xf32)
         add_13 = paddle._C_ops.add(conv2d_3, reshape_5)
+        del conv2d_3
 
         # pd_op.relu: (1x256x-1x-1xf32) <- (1x256x-1x-1xf32)
         relu_3 = paddle._C_ops.relu(add_13)
@@ -103,6 +95,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.add: (1x256x-1x-1xf32) <- (1x256x-1x-1xf32, 1x256x1x1xf32)
         add_14 = paddle._C_ops.add(conv2d_4, reshape_5)
+        del conv2d_4, reshape_5
 
         # pd_op.relu: (1x256x-1x-1xf32) <- (1x256x-1x-1xf32)
         relu_4 = paddle._C_ops.relu(add_14)
@@ -117,20 +110,9 @@ class GraphModule(paddle.nn.Layer):
         reshape_6 = paddle._C_ops.reshape(parameter_2, full_int_array_0)
         del parameter_2
 
-        # pd_op.assign: (1x3x1x1xf32) <- (1x3x1x1xf32)
-        assign_4 = reshape_6
-
-        # pd_op.assign: (1x3x1x1xf32) <- (1x3x1x1xf32)
-        assign_5 = reshape_6
-
-        # pd_op.assign: (1x3x1x1xf32) <- (1x3x1x1xf32)
-        assign_6 = reshape_6
-
-        # pd_op.assign: (1x3x1x1xf32) <- (1x3x1x1xf32)
-        assign_7 = reshape_6
-
         # pd_op.add: (1x3x-1x-1xf32) <- (1x3x-1x-1xf32, 1x3x1x1xf32)
         add_0 = paddle._C_ops.add(conv2d_5, reshape_6)
+        del conv2d_5
 
         # pd_op.conv2d: (1x12x-1x-1xf32) <- (1x256x-1x-1xf32, 12x256x1x1xf32)
         conv2d_6 = paddle._C_ops.conv2d(
@@ -141,20 +123,9 @@ class GraphModule(paddle.nn.Layer):
         reshape_7 = paddle._C_ops.reshape(parameter_0, full_int_array_0)
         del full_int_array_0, parameter_0
 
-        # pd_op.assign: (1x12x1x1xf32) <- (1x12x1x1xf32)
-        assign_8 = reshape_7
-
-        # pd_op.assign: (1x12x1x1xf32) <- (1x12x1x1xf32)
-        assign_9 = reshape_7
-
-        # pd_op.assign: (1x12x1x1xf32) <- (1x12x1x1xf32)
-        assign_10 = reshape_7
-
-        # pd_op.assign: (1x12x1x1xf32) <- (1x12x1x1xf32)
-        assign_11 = reshape_7
-
         # pd_op.add: (1x12x-1x-1xf32) <- (1x12x-1x-1xf32, 1x12x1x1xf32)
         add_5 = paddle._C_ops.add(conv2d_6, reshape_7)
+        del conv2d_6
 
         # pd_op.conv2d: (1x3x-1x-1xf32) <- (1x256x-1x-1xf32, 3x256x1x1xf32)
         conv2d_7 = paddle._C_ops.conv2d(
@@ -163,6 +134,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.add: (1x3x-1x-1xf32) <- (1x3x-1x-1xf32, 1x3x1x1xf32)
         add_1 = paddle._C_ops.add(conv2d_7, reshape_6)
+        del conv2d_7
 
         # pd_op.conv2d: (1x12x-1x-1xf32) <- (1x256x-1x-1xf32, 12x256x1x1xf32)
         conv2d_8 = paddle._C_ops.conv2d(
@@ -171,6 +143,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.add: (1x12x-1x-1xf32) <- (1x12x-1x-1xf32, 1x12x1x1xf32)
         add_6 = paddle._C_ops.add(conv2d_8, reshape_7)
+        del conv2d_8
 
         # pd_op.conv2d: (1x3x-1x-1xf32) <- (1x256x-1x-1xf32, 3x256x1x1xf32)
         conv2d_9 = paddle._C_ops.conv2d(
@@ -179,6 +152,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.add: (1x3x-1x-1xf32) <- (1x3x-1x-1xf32, 1x3x1x1xf32)
         add_2 = paddle._C_ops.add(conv2d_9, reshape_6)
+        del conv2d_9
 
         # pd_op.conv2d: (1x12x-1x-1xf32) <- (1x256x-1x-1xf32, 12x256x1x1xf32)
         conv2d_10 = paddle._C_ops.conv2d(
@@ -187,6 +161,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.add: (1x12x-1x-1xf32) <- (1x12x-1x-1xf32, 1x12x1x1xf32)
         add_7 = paddle._C_ops.add(conv2d_10, reshape_7)
+        del conv2d_10
 
         # pd_op.conv2d: (1x3x-1x-1xf32) <- (1x256x-1x-1xf32, 3x256x1x1xf32)
         conv2d_11 = paddle._C_ops.conv2d(
@@ -195,6 +170,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.add: (1x3x-1x-1xf32) <- (1x3x-1x-1xf32, 1x3x1x1xf32)
         add_3 = paddle._C_ops.add(conv2d_11, reshape_6)
+        del conv2d_11
 
         # pd_op.conv2d: (1x12x-1x-1xf32) <- (1x256x-1x-1xf32, 12x256x1x1xf32)
         conv2d_12 = paddle._C_ops.conv2d(
@@ -203,6 +179,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.add: (1x12x-1x-1xf32) <- (1x12x-1x-1xf32, 1x12x1x1xf32)
         add_8 = paddle._C_ops.add(conv2d_12, reshape_7)
+        del conv2d_12
 
         # pd_op.conv2d: (1x3x-1x-1xf32) <- (1x256x-1x-1xf32, 3x256x1x1xf32)
         conv2d_13 = paddle._C_ops.conv2d(
@@ -212,6 +189,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.add: (1x3x-1x-1xf32) <- (1x3x-1x-1xf32, 1x3x1x1xf32)
         add_4 = paddle._C_ops.add(conv2d_13, reshape_6)
+        del conv2d_13, reshape_6
 
         # pd_op.conv2d: (1x12x-1x-1xf32) <- (1x256x-1x-1xf32, 12x256x1x1xf32)
         conv2d_14 = paddle._C_ops.conv2d(
@@ -221,9 +199,11 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.add: (1x12x-1x-1xf32) <- (1x12x-1x-1xf32, 1x12x1x1xf32)
         add_9 = paddle._C_ops.add(conv2d_14, reshape_7)
+        del conv2d_14, reshape_7
 
         # pd_op.shape64: (4xi64) <- (1x256x-1x-1xf32)
         shape64_0 = paddle._C_ops.shape64(relu_0)
+        del relu_0
 
         # pd_op.full_int_array: (1xi64) <- ()
         full_int_array_1 = [2]
@@ -247,6 +227,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.shape64: (4xi64) <- (1x256x-1x-1xf32)
         shape64_1 = paddle._C_ops.shape64(relu_1)
+        del relu_1
 
         # pd_op.slice: (xi64) <- (4xi64, 1xi64, 1xi64)
         slice_2 = paddle._C_ops.slice(
@@ -261,6 +242,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.shape64: (4xi64) <- (1x256x-1x-1xf32)
         shape64_2 = paddle._C_ops.shape64(relu_2)
+        del relu_2
 
         # pd_op.slice: (xi64) <- (4xi64, 1xi64, 1xi64)
         slice_4 = paddle._C_ops.slice(
@@ -275,6 +257,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.shape64: (4xi64) <- (1x256x-1x-1xf32)
         shape64_3 = paddle._C_ops.shape64(relu_3)
+        del relu_3
 
         # pd_op.slice: (xi64) <- (4xi64, 1xi64, 1xi64)
         slice_6 = paddle._C_ops.slice(
@@ -289,6 +272,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.shape64: (4xi64) <- (1x256x-1x-1xf32)
         shape64_4 = paddle._C_ops.shape64(relu_4)
+        del relu_4
 
         # pd_op.slice: (xi64) <- (4xi64, 1xi64, 1xi64)
         slice_8 = paddle._C_ops.slice(
@@ -697,45 +681,7 @@ class GraphModule(paddle.nn.Layer):
 
         # pd_op.reshape: (-1x4xf32) <- (-1x3x4xf32, 2xi64)
         reshape_4 = paddle._C_ops.reshape(add_19, full_int_array_7)
-        del (
-            add_19,
-            assign_0,
-            assign_1,
-            assign_10,
-            assign_11,
-            assign_2,
-            assign_3,
-            assign_4,
-            assign_5,
-            assign_6,
-            assign_7,
-            assign_8,
-            assign_9,
-            conv2d_0,
-            conv2d_1,
-            conv2d_10,
-            conv2d_11,
-            conv2d_12,
-            conv2d_13,
-            conv2d_14,
-            conv2d_2,
-            conv2d_3,
-            conv2d_4,
-            conv2d_5,
-            conv2d_6,
-            conv2d_7,
-            conv2d_8,
-            conv2d_9,
-            full_int_array_7,
-            relu_0,
-            relu_1,
-            relu_2,
-            relu_3,
-            relu_4,
-            reshape_5,
-            reshape_6,
-            reshape_7,
-        )
+        del add_19, full_int_array_7
 
         return (
             add_0,

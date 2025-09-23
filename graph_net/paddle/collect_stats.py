@@ -109,10 +109,11 @@ class ProgramAnalyzer:
                             else:
                                 # for paddle.base.libpaddle.pir.VectorType, but cannot be accurately determined
                                 if op_name in [
+                                    "broadcast_tensors",
+                                    "distribute_fpn_proposals",
+                                    "meshgrid",
                                     "split",
                                     "split_with_num",
-                                    "meshgrid",
-                                    "distribute_fpn_proposals",
                                 ]:
                                     op_dtype = self.parse_pir_value_dtypes(
                                         str(out.type())
@@ -165,6 +166,7 @@ def collect_model_stats(model_path, log_prompt):
     model = model_class()
 
     model_size = 0
+    input_shapes = set()
     input_dtypes = {}
     param_dtypes = {}
     ops_count_dict = {}
@@ -190,6 +192,7 @@ def collect_model_stats(model_path, log_prompt):
                 param_dtypes[dtype_str] = param_dtypes.get(dtype_str, 0) + 1
             elif name in inputs.keys():
                 input_dtypes[dtype_str] = input_dtypes.get(dtype_str, 0) + 1
+                input_shapes.add(str(value["shape"]))
 
     num_outputs = collect_stats_util.get_number_of_returns(
         file_path, "GraphModule", "forward"
@@ -200,7 +203,7 @@ def collect_model_stats(model_path, log_prompt):
         program_analyzer.is_complete if program_analyzer is not None else False
     )
     print(
-        f"model_stats collection information: model_path={model_path}, method=to_static, is_ops_complete={is_complete}"
+        f"model_stats collection information: model_path={model_path} method=to_static is_ops_complete={is_complete}"
     )
 
     stats = collect_stats_util.ModelStats(
@@ -212,6 +215,7 @@ def collect_model_stats(model_path, log_prompt):
         model_size_in_billion=model_size / 1e9,
         input_dtypes=input_dtypes,
         param_dtypes=param_dtypes,
+        input_shapes=list(input_shapes),
         op_dtypes=op_dtypes,
         ops=ops_count_dict,
         source=source,

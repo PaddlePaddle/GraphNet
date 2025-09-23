@@ -1,4 +1,5 @@
 import ast
+import json
 import importlib
 import inspect
 from dataclasses import dataclass, field
@@ -28,6 +29,7 @@ class ModelStats:
     model_size_in_billion: float = None
     input_dtypes: Dict[str, int] = field(default_factory=dict)
     param_dtypes: Dict[str, int] = field(default_factory=dict)
+    input_shapes: Dict[str, list] = field(default_factory=dict)
     op_dtypes: Dict[str, int] = field(default_factory=dict)
     ops: Dict[str, int] = field(default_factory=dict)
     source: str = None
@@ -36,10 +38,6 @@ class ModelStats:
 
 def print_model_stats(stats, log_prompt):
     assert isinstance(stats, ModelStats), f"{type(stats)=}"
-
-    def dict_to_string(d):
-        kv_list = [f"{k}:{v}" for k, v in d.items()]
-        return " ".join(kv_list)
 
     def print_with_log_prompt(key, value):
         print(
@@ -52,10 +50,11 @@ def print_model_stats(stats, log_prompt):
     print_with_log_prompt("num_outputs", stats.num_outputs)
     print_with_log_prompt("num_ops", stats.num_ops)
     print_with_log_prompt("model_size", f"{stats.model_size_in_billion}B")
-    print_with_log_prompt("input_dtypes", dict_to_string(stats.input_dtypes))
-    print_with_log_prompt("param_dtypes", dict_to_string(stats.param_dtypes))
-    print_with_log_prompt("op_dtypes", dict_to_string(stats.op_dtypes))
-    print_with_log_prompt("ops", dict_to_string(stats.ops))
+    print_with_log_prompt("input_dtypes", json.dumps(stats.input_dtypes))
+    print_with_log_prompt("param_dtypes", json.dumps(stats.param_dtypes))
+    print_with_log_prompt("input_shapes", json.dumps(stats.input_shapes))
+    print_with_log_prompt("op_dtypes", json.dumps(stats.op_dtypes))
+    print_with_log_prompt("ops", json.dumps(stats.ops))
     print_with_log_prompt("source", stats.source)
     print_with_log_prompt("heuristic_tag", stats.heuristic_tag)
 

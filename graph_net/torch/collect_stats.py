@@ -336,17 +336,23 @@ def collect_model_stats(model_path, device, log_prompt):
                     op_dtypes[dtype_str] = op_dtypes.get(dtype_str, 0) + num
 
     model_size = 0
+    input_shapes = set()
     input_dtypes = {}
     param_dtypes = {}
     for name, arg_type in argument_name2types.items():
-        if arg_type == torch.nn.parameter.Parameter:
+        if (
+            name.startswith("L_self_modules_")
+            or arg_type == torch.nn.parameter.Parameter
+        ):
+            # Some parameters like L_self_modules_bn1_buffers_running_mean_ are torch.Tensor.
             param_numel = math.prod(input_dict[name].shape)
             model_size += param_numel
             dtype_str = str(input_dict[name].dtype).replace("torch.", "")
             param_dtypes[dtype_str] = param_dtypes.get(dtype_str, 0) + 1
-        else:
+        elif arg_type == torch.Tensor:
             dtype_str = str(input_dict[name].dtype).replace("torch.", "")
             input_dtypes[dtype_str] = input_dtypes.get(dtype_str, 0) + 1
+            input_shapes.add(str(list(input_dict[name].shape)))
 
     num_outputs = collect_stats_util.get_number_of_returns(
         file_path, "GraphModule", "forward"
@@ -356,7 +362,7 @@ def collect_model_stats(model_path, device, log_prompt):
 
     is_complete = meta_executor.is_complete if meta_executor is not None else False
     print(
-        f"model_stats collection information: model_path={model_path}, method={method}, is_ops_complete={is_complete}"
+        f"model_stats collection information: model_path={model_path} method={method} is_ops_complete={is_complete}"
     )
 
     stats = collect_stats_util.ModelStats(
@@ -368,6 +374,7 @@ def collect_model_stats(model_path, device, log_prompt):
         model_size_in_billion=model_size / 1e9,
         input_dtypes=input_dtypes,
         param_dtypes=param_dtypes,
+        input_shapes=list(input_shapes),
         op_dtypes=op_dtypes,
         ops=ops_count_dict,
         source=source,

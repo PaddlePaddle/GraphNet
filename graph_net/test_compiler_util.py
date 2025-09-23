@@ -1,3 +1,5 @@
+import os
+import re
 import sys
 import json
 import time
@@ -31,16 +33,54 @@ def get_timing_stats(elapsed_times):
     return stats
 
 
-def print_times_and_speedup(args, eager_stats, compiled_stats):
-    print(
-        f"{args.log_prompt} [Performance][eager]: {json.dumps(eager_stats)}",
-        file=sys.stderr,
-        flush=True,
+def get_model_name(model_path):
+    model_name = None
+    with open(os.path.join(model_path, "graph_net.json"), "r") as f:
+        data = json.load(f)
+        model_name = data.get("model_name", None)
+
+    if model_name is not None:
+        fields = model_path.split(os.sep)
+        pattern = rf"^subgraph(_\d+)?$"
+        model_name = fields[-2] if re.match(pattern, fields[-1]) else fields[-1]
+    return model_name
+
+
+def get_subgraph_tag(model_path):
+    fields = model_path.split(os.sep)
+    pattern = rf"^subgraph(_\d+)?$"
+    return fields[-1] if re.match(pattern, fields[-1]) else ""
+
+
+def print_with_log_prompt(key, value, log_prompt):
+    print(f"{log_prompt} {key} {value}", file=sys.stderr, flush=True)
+
+
+def print_basic_config(args, hardware_name, compile_framework_version):
+    model_path = os.path.normpath(args.model_path)
+    print_with_log_prompt("[Processing]", model_path, args.log_prompt)
+
+    model_name = get_model_name(model_path)
+    print_with_log_prompt("[Config] model:", model_name, args.log_prompt)
+
+    print_with_log_prompt("[Config] device:", args.device, args.log_prompt)
+    print_with_log_prompt("[Config] hardware:", hardware_name, args.log_prompt)
+    print_with_log_prompt("[Config] compiler:", args.compiler, args.log_prompt)
+    print_with_log_prompt("[Config] warmup:", args.warmup, args.log_prompt)
+    print_with_log_prompt("[Config] trials:", args.trials, args.log_prompt)
+    print_with_log_prompt(
+        "[Config] compile_framework_version:",
+        compile_framework_version,
+        args.log_prompt,
     )
-    print(
-        f"{args.log_prompt} [Performance][compiled]: {json.dumps(compiled_stats)}",
-        file=sys.stderr,
-        flush=True,
+
+
+def print_times_and_speedup(args, eager_stats, compiled_stats):
+    print_with_log_prompt(
+        "[Performance][eager]:", json.dumps(eager_stats), args.log_prompt
+    )
+    print_with_log_prompt(
+        "[Performance][compiled]:", json.dumps(compiled_stats), args.log_prompt
     )
 
     e2e_speedup = 0
@@ -60,15 +100,76 @@ def print_times_and_speedup(args, eager_stats, compiled_stats):
             gpu_speedup = eager_gpu_time_ms / compiled_gpu_time_ms
 
     if e2e_speedup > 0:
-        print(
-            f"{args.log_prompt} [Speedup][e2e]: {e2e_speedup:.5f}",
-            file=sys.stderr,
-            flush=True,
-        )
+        print_with_log_prompt("[Speedup][e2e]:", f"{e2e_speedup:.5f}", args.log_prompt)
 
     if "cuda" in args.device and gpu_speedup > 0:
-        print(
-            f"{args.log_prompt} [Speedup][gpu]: {gpu_speedup:.5f}",
-            file=sys.stderr,
-            flush=True,
+        print_with_log_prompt("[Speedup][gpu]:", f"{gpu_speedup:.5f}", args.log_prompt)
+
+
+def check_type_match(eager_dtypes, compiled_dtypes):
+    if len(eager_dtypes) != len(compiled_dtypes):
+        type_match = False
+    else:
+        type_match = all(
+            eager == compiled for eager, compiled in zip(eager_dtypes, compiled_dtypes)
+        )
+    return type_match
+
+
+def check_output_datatype(args, eager_dtypes, compiled_dtypes):
+    print_with_log_prompt("[Datatype][eager]:", " ".join(eager_dtypes), args.log_prompt)
+    print_with_log_prompt(
+        "[Datatype][compiled]:", " ".join(compiled_dtypes), args.log_prompt
+    )
+
+    # datatype check
+    type_match = check_type_match(eager_dtypes, compiled_dtypes)
+    print_with_log_prompt(
+        "[DataType]",
+        f"eager:{eager_dtypes} compiled:{compiled_dtypes} match:{type_match}",
+        args.log_prompt,
+    )
+    return type_match
+
+
+def print_and_store_cmp(key, cmp_func, args, expected_out, compiled_out, **kwargs):
+    cmp_ret = cmp_func(expected_out, compiled_out, **kwargs)
+    print_with_log_prompt(f"[Correctness]{key}:", cmp_ret, args.log_prompt)
+    return cmp_ret
+
+
+def check_correctness(
+    args,
+    expected_out,
+    compiled_out,
+    cmp_equal_func,
+    cmp_all_close_func,
+    cmp_max_diff_func,
+    cmp_mean_diff_func,
+    cmp_diff_count_func,
+):
+    cmp_configs = [
+        ("[equal]", cmp_equal_func, {}),
+        ("[all_close_atol8_rtol8]", cmp_all_close_func, {"atol": 1e-8, "rtol": 1e-8}),
+        ("[all_close_atol8_rtol5]", cmp_all_close_func, {"atol": 1e-8, "rtol": 1e-5}),
+        ("[all_close_atol5_rtol5]", cmp_all_close_func, {"atol": 1e-5, "rtol": 1e-5}),
+        ("[all_close_atol3_rtol2]", cmp_all_close_func, {"atol": 1e-3, "rtol": 1e-2}),
+        ("[all_close_atol2_rtol1]", cmp_all_close_func, {"atol": 1e-2, "rtol": 1e-1}),
+        ("[max_diff]", cmp_max_diff_func, {}),
+        ("[mean_diff]", cmp_mean_diff_func, {}),
+        ("[diff_count_atol8_rtol8]", cmp_diff_count_func, {"atol": 1e-8, "rtol": 1e-8}),
+        ("[diff_count_atol8_rtol5]", cmp_diff_count_func, {"atol": 1e-8, "rtol": 1e-5}),
+        ("[diff_count_atol5_rtol5]", cmp_diff_count_func, {"atol": 1e-5, "rtol": 1e-5}),
+        ("[diff_count_atol3_rtol2]", cmp_diff_count_func, {"atol": 1e-3, "rtol": 1e-2}),
+        ("[diff_count_atol2_rtol1]", cmp_diff_count_func, {"atol": 1e-2, "rtol": 1e-1}),
+    ]
+
+    for key, func, kwargs in cmp_configs:
+        print_and_store_cmp(
+            key=key,
+            cmp_func=func,
+            args=args,
+            expected_out=expected_out,
+            compiled_out=compiled_out,
+            **kwargs,
         )

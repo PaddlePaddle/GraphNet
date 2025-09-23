@@ -15,7 +15,24 @@ import traceback
 from graph_net.paddle import utils
 from graph_net import path_utils
 from graph_net import test_compiler_util
-from graph_net.benchmark_result import BenchmarkResult
+
+
+def get_hardward_name(args):
+    if args.device == "cuda":
+        hardware = paddle.device.cuda.get_device_name(0)
+    elif args.device == "cpu":
+        hardware = platform.processor()
+    else:
+        hardware = "unknown"
+    return hardware
+
+
+def get_compile_framework_version(args):
+    if args.compiler == "cinn":
+        compile_framework_version = paddle.__version__
+    else:
+        compile_framework_version = "unknown"
+    return compile_framework_version
 
 
 def load_class_from_file(file_path: str, class_name: str):
@@ -88,15 +105,18 @@ def measure_performance(model_call, args, synchronizer_func):
         outs = model_call()
     synchronizer_func()
 
+    hardware_name = get_hardward_name(args)
+    print(
+        f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}",
+        file=sys.stderr,
+        flush=True,
+    )
+
     if "cuda" in args.device:
         """
         Acknowledgement: We evaluate the performance on both end-to-end and GPU-only timings,
         With reference to methods only based on CUDA events from KernelBench in https://github.com/ScalingIntelligence/KernelBench
         """
-        hardware_name = paddle.device.cuda.get_device_name(0)
-        print(
-            f"{args.log_prompt} [Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}"
-        )
 
         e2e_times = []
         gpu_times = []
@@ -117,17 +137,14 @@ def measure_performance(model_call, args, synchronizer_func):
             e2e_times.append(duration_box.value)
             gpu_times.append(gpu_time_ms)
             print(
-                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms, gpu={gpu_time_ms:.5f} ms"
+                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms, gpu={gpu_time_ms:.5f} ms",
+                file=sys.stderr,
+                flush=True,
             )
 
         stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
         stats["gpu"] = test_compiler_util.get_timing_stats(gpu_times)
     else:  # CPU or other devices
-        hardware_name = platform.processor()
-        print(
-            f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}"
-        )
-
         e2e_times = []
         for i in range(args.trials):
             duration_box = test_compiler_util.DurationBox(-1)
@@ -140,50 +157,27 @@ def measure_performance(model_call, args, synchronizer_func):
     return outs, stats
 
 
-def init_benchmark_result(args):
-    if args.device == "cuda":
-        hardware = paddle.device.cuda.get_device_name(0)
-    elif args.device == "cpu":
-        hardware = platform.processor()
-    else:
-        hardware = "unknown"
-
-    if args.compiler == "cinn":
-        compile_framework_version = paddle.__version__
-    else:
-        compile_framework_version = "unknown"
-
-    result_data = BenchmarkResult(
-        args=args,
-        framework="PaddlePaddle",
-        hardware=hardware,
-        compile_framework_version=compile_framework_version,
-    )
-    return result_data
-
-
 def check_outputs(args, expected_out, compiled_out):
     if isinstance(expected_out, paddle.Tensor):
         expected_out = [expected_out]
     if isinstance(compiled_out, paddle.Tensor):
         compiled_out = [compiled_out]
 
-    eager_output_dtypes = [None] * len(expected_out)
+    eager_dtypes = [None] * len(expected_out)
     for i, tensor in enumerate(expected_out):
-        if tensor is not None:
-            eager_output_dtypes[i] = str(tensor.dtype)
+        eager_dtypes[i] = (
+            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "none"
+        )
 
-    compiled_output_dtypes = [None] * len(compiled_out)
+    compiled_dtypes = [None] * len(compiled_out)
     for i, tensor in enumerate(compiled_out):
-        if tensor is not None:
-            compiled_output_dtypes[i] = str(tensor.dtype)
+        compiled_dtypes[i] = (
+            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "none"
+        )
 
-    is_output_consistent = len(expected_out) == len(compiled_out)
-    for a, b in zip(expected_out, compiled_out):
-        if (a is None and b is not None) or (a is not None and b is None):
-            is_output_consistent = False
-        if a is not None and b is not None and a.dtype != b.dtype:
-            is_output_consistent = False
+    type_match = test_compiler_util.check_output_datatype(
+        args, eager_dtypes, compiled_dtypes
+    )
 
     def regular_outputs(origin_outputs):
         outputs = []
@@ -197,9 +191,6 @@ def check_outputs(args, expected_out, compiled_out):
             outputs.append(item)
         return outputs
 
-    expected_out = regular_outputs(expected_out)
-    compiled_out = regular_outputs(compiled_out)
-
     def print_cmp(key, func, **kwargs):
         try:
             cmp_ret = func(expected_out, compiled_out, **kwargs)
@@ -210,23 +201,33 @@ def check_outputs(args, expected_out, compiled_out):
             file=sys.stderr,
         )
 
-    print(
-        f"{args.log_prompt} output_dtypes model_path:{args.model_path} eager:{eager_output_dtypes} compiled:{compiled_output_dtypes}",
-        file=sys.stderr,
-    )
-    print_cmp("cmp.equal", get_cmp_equal)
-    print_cmp("cmp.all_close_atol8_rtol8", get_cmp_all_close, atol=1e-8, rtol=1e-8)
-    print_cmp("cmp.all_close_atol8_rtol5", get_cmp_all_close, atol=1e-8, rtol=1e-5)
-    print_cmp("cmp.all_close_atol5_rtol5", get_cmp_all_close, atol=1e-5, rtol=1e-5)
-    print_cmp("cmp.all_close_atol3_rtol2", get_cmp_all_close, atol=1e-3, rtol=1e-2)
-    print_cmp("cmp.all_close_atol2_rtol1", get_cmp_all_close, atol=1e-2, rtol=1e-1)
-    print_cmp("cmp.max_diff", get_cmp_max_diff)
-    print_cmp("cmp.mean_diff", get_cmp_mean_diff)
-    print_cmp("cmp.diff_count_atol8_rtol8", get_cmp_diff_count, atol=1e-8, rtol=1e-8)
-    print_cmp("cmp.diff_count_atol8_rtol5", get_cmp_diff_count, atol=1e-8, rtol=1e-5)
-    print_cmp("cmp.diff_count_atol5_rtol5", get_cmp_diff_count, atol=1e-5, rtol=1e-5)
-    print_cmp("cmp.diff_count_atol3_rtol2", get_cmp_diff_count, atol=1e-3, rtol=1e-2)
-    print_cmp("cmp.diff_count_atol2_rtol1", get_cmp_diff_count, atol=1e-2, rtol=1e-1)
+    if type_match:
+        expected_out = regular_outputs(expected_out)
+        compiled_out = regular_outputs(compiled_out)
+
+        print_cmp("cmp.equal", get_cmp_equal)
+        print_cmp("cmp.all_close_atol8_rtol8", get_cmp_all_close, atol=1e-8, rtol=1e-8)
+        print_cmp("cmp.all_close_atol8_rtol5", get_cmp_all_close, atol=1e-8, rtol=1e-5)
+        print_cmp("cmp.all_close_atol5_rtol5", get_cmp_all_close, atol=1e-5, rtol=1e-5)
+        print_cmp("cmp.all_close_atol3_rtol2", get_cmp_all_close, atol=1e-3, rtol=1e-2)
+        print_cmp("cmp.all_close_atol2_rtol1", get_cmp_all_close, atol=1e-2, rtol=1e-1)
+        print_cmp("cmp.max_diff", get_cmp_max_diff)
+        print_cmp("cmp.mean_diff", get_cmp_mean_diff)
+        print_cmp(
+            "cmp.diff_count_atol8_rtol8", get_cmp_diff_count, atol=1e-8, rtol=1e-8
+        )
+        print_cmp(
+            "cmp.diff_count_atol8_rtol5", get_cmp_diff_count, atol=1e-8, rtol=1e-5
+        )
+        print_cmp(
+            "cmp.diff_count_atol5_rtol5", get_cmp_diff_count, atol=1e-5, rtol=1e-5
+        )
+        print_cmp(
+            "cmp.diff_count_atol3_rtol2", get_cmp_diff_count, atol=1e-3, rtol=1e-2
+        )
+        print_cmp(
+            "cmp.diff_count_atol2_rtol1", get_cmp_diff_count, atol=1e-2, rtol=1e-1
+        )
 
 
 def test_single_model(args):
@@ -234,6 +235,10 @@ def test_single_model(args):
     input_dict = get_input_dict(args)
     model = get_model(args)
     model.eval()
+
+    test_compiler_util.print_basic_config(
+        args, get_hardward_name(args), get_compile_framework_version(args)
+    )
 
     # Run on eager mode
     running_eager_success = False

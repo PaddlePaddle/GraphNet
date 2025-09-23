@@ -14,7 +14,7 @@ import traceback
 
 from graph_net.paddle import utils
 from graph_net import path_utils
-from graph_net import test_compiler_utils
+from graph_net import test_compiler_util
 from graph_net.benchmark_result import BenchmarkResult
 
 
@@ -103,8 +103,8 @@ def measure_performance(model_call, args, synchronizer_func):
 
         for i in range(args.trials):
             # End-to-end timing (naive_timer)
-            duration_box = test_compiler_utils.DurationBox(-1)
-            with test_compiler_utils.naive_timer(duration_box, synchronizer_func):
+            duration_box = test_compiler_util.DurationBox(-1)
+            with test_compiler_util.naive_timer(duration_box, synchronizer_func):
                 # GPU-only timing (CUDA Events)
                 start_event = paddle.device.Event(enable_timing=True)
                 end_event = paddle.device.Event(enable_timing=True)
@@ -120,8 +120,8 @@ def measure_performance(model_call, args, synchronizer_func):
                 f"Trial {i + 1}: e2e={duration_box.value:.5f} ms, gpu={gpu_time_ms:.5f} ms"
             )
 
-        stats["e2e"] = test_compiler_utils.get_timing_stats(e2e_times)
-        stats["gpu"] = test_compiler_utils.get_timing_stats(gpu_times)
+        stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
+        stats["gpu"] = test_compiler_util.get_timing_stats(gpu_times)
     else:  # CPU or other devices
         hardware_name = platform.processor()
         print(
@@ -130,12 +130,12 @@ def measure_performance(model_call, args, synchronizer_func):
 
         e2e_times = []
         for i in range(args.trials):
-            duration_box = test_compiler_utils.DurationBox(-1)
-            with test_compiler_utils.naive_timer(duration_box, synchronizer_func):
+            duration_box = test_compiler_util.DurationBox(-1)
+            with test_compiler_util.naive_timer(duration_box, synchronizer_func):
                 outs = model_call()
             print(f"Trial {i + 1}: e2e={duration_box.value:.4f} ms")
             e2e_times.append(duration_box.value)
-        stats["e2e"] = test_compiler_utils.get_timing_stats(e2e_times)
+        stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
 
     return outs, stats
 
@@ -261,7 +261,7 @@ def test_single_model(args):
     if running_eager_success and running_compiled_success:
         check_outputs(args, expected_out, compiled_out)
 
-        test_compiler_utils.print_times_and_speedup(
+        test_compiler_util.print_times_and_speedup(
             args, eager_time_stats, compiled_time_stats
         )
 

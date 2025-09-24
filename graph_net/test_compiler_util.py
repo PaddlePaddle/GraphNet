@@ -75,6 +75,17 @@ def print_basic_config(args, hardware_name, compile_framework_version):
     )
 
 
+def print_running_status(args, eager_success, compiled_success):
+    def convert_to_str(b):
+        return "success" if b else "failed"
+
+    print_with_log_prompt(
+        "[Result][status]",
+        f"eager:{convert_to_str(eager_success)} compiled:{convert_to_str(compiled_success)}",
+        args.log_prompt,
+    )
+
+
 def print_times_and_speedup(args, eager_stats, compiled_stats):
     print_with_log_prompt(
         "[Performance][eager]:", json.dumps(eager_stats), args.log_prompt

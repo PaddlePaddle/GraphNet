@@ -17,6 +17,12 @@ from graph_net import path_utils
 from graph_net import test_compiler_util
 
 
+def set_seed(random_seed):
+    paddle.seed(random_seed)
+    random.seed(random_seed)
+    np.random.seed(random_seed)
+
+
 def get_hardward_name(args):
     if args.device == "cuda":
         hardware = paddle.device.cuda.get_device_name(0)
@@ -94,38 +100,30 @@ def get_compiled_model(args, model):
         full_graph=True,
     )
     compiled_model.eval()
+    program = compiled_model.forward.concrete_program.main_program
     return compiled_model
 
 
-def count_number_of_ops(args, model, eager_mode):
-    if eager_mode:
-        static_model = paddle.jit.to_static(
-            model,
-            input_spec=get_input_spec(args),
-            full_graph=True,
-            backend=None,
-        )
-        static_model.eval()
-        program = static_model.forward.concrete_program.main_program
-    else:
-        program = model.forward.concrete_program.main_program
-        print(program)
-
-    num_ops = 0
-    for block in program.blocks:
-        for op in block.ops:
-            if op.name() != "pd_op.data" and not op.name().startswith("builtin."):
-                num_ops += 1
-    print(f"Totally {num_ops} ops.")
-    print("")
-    return num_ops
+def get_static_model(args, model):
+    static_model = paddle.jit.to_static(
+        model,
+        input_spec=get_input_spec(args),
+        full_graph=True,
+        backend=None,
+    )
+    static_model.eval()
+    program = static_model.forward.concrete_program.main_program
+    return static_model
 
 
-def measure_performance(model_call, args, synchronizer_func):
+def measure_performance(model_call, args, synchronizer_func, profile=False):
+    runtime_seed = 1024
     stats = {}
 
-    # Warmup runs
+    paddle.seed(runtime_seed)
     outs = model_call()
+
+    # Warmup runs
     for _ in range(args.warmup):
         model_call()
     synchronizer_func()
@@ -146,6 +144,8 @@ def measure_performance(model_call, args, synchronizer_func):
         e2e_times = []
         gpu_times = []
 
+        if profile:
+            paddle.base.core.nvprof_start()
         for i in range(args.trials):
             # End-to-end timing (naive_timer)
             duration_box = test_compiler_util.DurationBox(-1)
@@ -166,6 +166,8 @@ def measure_performance(model_call, args, synchronizer_func):
                 file=sys.stderr,
                 flush=True,
             )
+        if profile:
+            paddle.base.core.nvprof_stop()
 
         stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
         stats["gpu"] = test_compiler_util.get_timing_stats(gpu_times)
@@ -216,16 +218,6 @@ def check_outputs(args, expected_out, compiled_out):
             outputs.append(item)
         return outputs
 
-    def print_cmp(key, func, **kwargs):
-        try:
-            cmp_ret = func(expected_out, compiled_out, **kwargs)
-        except Exception as e:
-            cmp_ret = f"{key} failed: {str(e)}\n{traceback.format_exc()}"
-        print(
-            f"{args.log_prompt} {key} model_path:{args.model_path} {cmp_ret}",
-            file=sys.stderr,
-        )
-
     if type_match:
         expected_out = regular_outputs(expected_out)
         compiled_out = regular_outputs(compiled_out)
@@ -248,36 +240,38 @@ def test_single_model(args):
     model = get_model(args)
     model.eval()
 
-    num_eager_ops = count_number_of_ops(args, model, eager_mode=True)
+    # num_eager_ops = count_number_of_ops(args, model, eager_mode=True)
 
     test_compiler_util.print_basic_config(
         args, get_hardward_name(args), get_compile_framework_version(args)
     )
 
     # Run on eager mode
-    running_eager_success = False
+    eager_success = False
     try:
         print("Run model in eager mode.")
+        static_model = get_static_model(args, model)
         expected_out, eager_time_stats = measure_performance(
-            lambda: model(**input_dict), args, synchronizer_func
+            lambda: static_model(**input_dict), args, synchronizer_func, profile=False
         )
-        running_eager_success = True
+        eager_success = True
     except Exception as e:
         print(f"Run model in eager mode failed: {str(e)}\n{traceback.format_exc()}")
 
     # Run on compiling mode
-    running_compiled_success = False
+    compiled_success = False
     try:
         print("Run model in compiled mode.")
         compiled_model = get_compiled_model(args, model)
         compiled_out, compiled_time_stats = measure_performance(
-            lambda: compiled_model(**input_dict), args, synchronizer_func
+            lambda: compiled_model(**input_dict), args, synchronizer_func, profile=False
         )
-        running_compiled_success = True
+        compiled_success = True
     except Exception as e:
         print(f"Run model in compiled mode failed: {str(e)}\n{traceback.format_exc()}")
 
-    if running_eager_success and running_compiled_success:
+    test_compiler_util.print_running_status(args, eager_success, compiled_success)
+    if eager_success and compiled_success:
         check_outputs(args, expected_out, compiled_out)
 
         test_compiler_util.print_times_and_speedup(
@@ -342,10 +336,8 @@ def main(args):
     assert os.path.isdir(args.model_path)
     assert args.compiler == "cinn"
 
-    random_seed = 123
-    paddle.seed(random_seed)
-    random.seed(random_seed)
-    np.random.seed(random_seed)
+    initalize_seed = 123
+    set_seed(random_seed=initalize_seed)
 
     if path_utils.is_single_model_dir(args.model_path):
         test_single_model(args)

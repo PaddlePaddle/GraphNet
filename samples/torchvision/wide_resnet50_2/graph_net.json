@@ -1,7 +1,0 @@
-{
-    "framework": "torch",
-    "num_devices_required": 1,
-    "num_nodes_required": 1,
-    "source": "torchvision",
-    "heuristic_tag": "computer_vision"
-}

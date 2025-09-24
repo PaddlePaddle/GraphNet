@@ -97,12 +97,37 @@ def get_compiled_model(args, model):
     return compiled_model
 
 
+def count_number_of_ops(args, model, eager_mode):
+    if eager_mode:
+        static_model = paddle.jit.to_static(
+            model,
+            input_spec=get_input_spec(args),
+            full_graph=True,
+            backend=None,
+        )
+        static_model.eval()
+        program = static_model.forward.concrete_program.main_program
+    else:
+        program = model.forward.concrete_program.main_program
+        print(program)
+
+    num_ops = 0
+    for block in program.blocks:
+        for op in block.ops:
+            if op.name() != "pd_op.data" and not op.name().startswith("builtin."):
+                num_ops += 1
+    print(f"Totally {num_ops} ops.")
+    print("")
+    return num_ops
+
+
 def measure_performance(model_call, args, synchronizer_func):
     stats = {}
 
     # Warmup runs
+    outs = model_call()
     for _ in range(args.warmup):
-        outs = model_call()
+        model_call()
     synchronizer_func()
 
     hardware_name = get_hardward_name(args)
@@ -130,7 +155,7 @@ def measure_performance(model_call, args, synchronizer_func):
                 end_event = paddle.device.Event(enable_timing=True)
 
                 start_event.record()
-                outs = model_call()
+                model_call()
                 end_event.record()
 
             gpu_time_ms = start_event.elapsed_time(end_event)
@@ -149,7 +174,7 @@ def measure_performance(model_call, args, synchronizer_func):
         for i in range(args.trials):
             duration_box = test_compiler_util.DurationBox(-1)
             with test_compiler_util.naive_timer(duration_box, synchronizer_func):
-                outs = model_call()
+                model_call()
             print(f"Trial {i + 1}: e2e={duration_box.value:.4f} ms")
             e2e_times.append(duration_box.value)
         stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
@@ -205,28 +230,15 @@ def check_outputs(args, expected_out, compiled_out):
         expected_out = regular_outputs(expected_out)
         compiled_out = regular_outputs(compiled_out)
 
-        print_cmp("cmp.equal", get_cmp_equal)
-        print_cmp("cmp.all_close_atol8_rtol8", get_cmp_all_close, atol=1e-8, rtol=1e-8)
-        print_cmp("cmp.all_close_atol8_rtol5", get_cmp_all_close, atol=1e-8, rtol=1e-5)
-        print_cmp("cmp.all_close_atol5_rtol5", get_cmp_all_close, atol=1e-5, rtol=1e-5)
-        print_cmp("cmp.all_close_atol3_rtol2", get_cmp_all_close, atol=1e-3, rtol=1e-2)
-        print_cmp("cmp.all_close_atol2_rtol1", get_cmp_all_close, atol=1e-2, rtol=1e-1)
-        print_cmp("cmp.max_diff", get_cmp_max_diff)
-        print_cmp("cmp.mean_diff", get_cmp_mean_diff)
-        print_cmp(
-            "cmp.diff_count_atol8_rtol8", get_cmp_diff_count, atol=1e-8, rtol=1e-8
-        )
-        print_cmp(
-            "cmp.diff_count_atol8_rtol5", get_cmp_diff_count, atol=1e-8, rtol=1e-5
-        )
-        print_cmp(
-            "cmp.diff_count_atol5_rtol5", get_cmp_diff_count, atol=1e-5, rtol=1e-5
-        )
-        print_cmp(
-            "cmp.diff_count_atol3_rtol2", get_cmp_diff_count, atol=1e-3, rtol=1e-2
-        )
-        print_cmp(
-            "cmp.diff_count_atol2_rtol1", get_cmp_diff_count, atol=1e-2, rtol=1e-1
+        test_compiler_util.check_correctness(
+            args,
+            expected_out,
+            compiled_out,
+            cmp_equal_func=get_cmp_equal,
+            cmp_all_close_func=get_cmp_all_close,
+            cmp_max_diff_func=get_cmp_max_diff,
+            cmp_mean_diff_func=get_cmp_mean_diff,
+            cmp_diff_count_func=get_cmp_diff_count,
         )
 
 
@@ -235,6 +247,8 @@ def test_single_model(args):
     input_dict = get_input_dict(args)
     model = get_model(args)
     model.eval()
+
+    num_eager_ops = count_number_of_ops(args, model, eager_mode=True)
 
     test_compiler_util.print_basic_config(
         args, get_hardward_name(args), get_compile_framework_version(args)

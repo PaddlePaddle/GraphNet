@@ -46,7 +46,7 @@ def load_one_folder(folder_path: str) -> list:
                     "speedup": data.get("performance", {})
                     .get("speedup", {})
                     .get("e2e"),
-                    "failed": data.get("performance", {}).get("failure") == "True",
+                    "failure": data.get("performance", {}).get("failure"),
                     "correctness_metrics": data.get("correctness", {}),
                     "performance": data.get("performance", {}),
                 }
@@ -93,8 +93,6 @@ def scan_all_folders(benchmark_path: str) -> dict:
 
 
 # ---------- 2. 核心计算逻辑 ----------
-
-
 def sigmoid(x):
     """Sigmoid 激活函数"""
     return 1 / (1 + np.exp(-x))
@@ -172,8 +170,8 @@ def calculate_s_scores(
 
         # 用当前刻度去衡量每一个样本
         for sample in samples:
-            is_failed = sample.get("failed", False)
-            if not is_failed:
+            fail_type = sample.get("failure")
+            if fail_type is not None:
                 speedup = sample.get("speedup")
                 performance = sample.get("performance", {})
                 eager_dtypes = performance.get("datatype", {}).get("eager", [])
@@ -182,17 +180,17 @@ def calculate_s_scores(
                     for dtype in eager_dtypes:
                         atol, rtol = get_precision(dtype, tolerance, tolerance_config)
                         if get_correctness(sample, atol, rtol):
-                            is_failed = False
+                            fail_type = None
                             break
                         else:
-                            is_failed = True
+                            fail_type = "accuracy"
                 else:
-                    is_failed = True
+                    fail_type = "accuracy"
             else:
-                is_failed = True
+                fail_type = None
 
             # 应用惩罚逻辑
-            if is_failed:
+            if fail_type is not None:
                 regularized_speedup = exec_penalty
             else:
                 if speedup < 1:
@@ -227,12 +225,11 @@ def calculate_category_stats(all_results):
         slowdown_among_correct = 0
 
         for sample in samples:
-            is_failed = sample.get("failed", False)
             performance = sample.get("performance", {})
             eager_dtypes = performance.get("datatype", {}).get("eager", [])
             compiled_dtypes = performance.get("datatype", {}).get("compiled", [])
 
-            if not is_failed and (eager_dtypes == compiled_dtypes):
+            if sample.get("failure") is not None and (eager_dtypes == compiled_dtypes):
                 correct_samples += 1
                 speedup = sample.get("speedup")
                 if speedup < 1:

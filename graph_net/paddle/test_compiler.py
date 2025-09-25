@@ -317,30 +317,42 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 
 def test_multi_models(args):
+    verified_samples = None
+    if args.verified_samples_path is not None:
+        assert os.path.isfile(args.verified_samples_path)
+        graphnet_root = path_utils.get_graphnet_root()
+        print(f"graphnet_root: {graphnet_root}")
+        verified_samples = []
+        with open(args.verified_samples_path, "r") as f:
+            for line in f.readlines():
+                verified_samples.append(os.path.join(graphnet_root, line.strip()))
+
     sample_idx = 0
     failed_samples = []
     for model_path in path_utils.get_recursively_model_path(args.model_path):
-        print(f"[{sample_idx}] test_compiler, model_path: {model_path}")
-        cmd = " ".join(
-            [
-                sys.executable,
-                "-m graph_net.paddle.test_compiler",
-                f"--model-path {model_path}",
-                f"--compiler {args.compiler}",
-                f"--device {args.device}",
-                f"--warmup {args.warmup}",
-                f"--trials {args.trials}",
-                f"--log-prompt {args.log_prompt}",
-                f"--output-dir {args.output_dir}",
-            ]
-        )
-        cmd_ret = os.system(cmd)
-        # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
-        if cmd_ret != 0:
-            failed_samples.append(model_path)
-        sample_idx += 1
+        if verified_samples is None or os.path.abspath(model_path) in verified_samples:
+            print(f"[{sample_idx}] test_compiler, model_path: {model_path}")
+            cmd = " ".join(
+                [
+                    sys.executable,
+                    "-m graph_net.paddle.test_compiler",
+                    f"--model-path {model_path}",
+                    f"--compiler {args.compiler}",
+                    f"--device {args.device}",
+                    f"--warmup {args.warmup}",
+                    f"--trials {args.trials}",
+                    f"--log-prompt {args.log_prompt}",
+                ]
+            )
+            cmd_ret = os.system(cmd)
+            # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+            if cmd_ret != 0:
+                failed_samples.append(model_path)
+            sample_idx += 1
 
-    print(f"Totally {sample_idx} samples, failed {len(failed_samples)} samples.")
+    print(
+        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples."
+    )
     for model_path in failed_samples:
         print(f"- {model_path}")
 
@@ -392,6 +404,13 @@ if __name__ == "__main__":
         required=False,
         default="graph-net-test-compiler-log",
         help="Log prompt for performance log filtering.",
+    )
+    parser.add_argument(
+        "--verified-samples-path",
+        type=str,
+        required=False,
+        default=None,
+        help="Path to model file(s), each subdirectory containing graph_net.json will be regarded as a model",
     )
     args = parser.parse_args()
     main(args=args)

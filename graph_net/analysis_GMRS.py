@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import gmean
 from collections import OrderedDict
 from scipy.optimize import curve_fit
+from graph_net.datatype_tolerance_config import tolerance_generator
 
 
 # ---------- 1. 数据加载与处理 ----------
@@ -98,20 +99,19 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
 
-def get_precision(datatype: str, tolerance: str, tolerance_config: dict) -> list:
+def get_precision(dtype: str, t: str) -> list:
     """
-    根据标准尺度的 tolerance key 和 datatype，从配置中查找实际要检查的 atol/rtol 值。
+    根据标准尺度的 t key 和 dtype，从配置中查找实际要检查的 atol/rtol 值。
     """
-    precision_table = tolerance_config.get("precision_table", {}).get(datatype, {})
-    atol = precision_table.get(tolerance)
-    rtol = precision_table.get(tolerance)
+    precision_pair = tolerance_generator(t, dtype)
 
-    if atol is not None and rtol is not None:
+    rtol = float(f"{precision_pair[0]:.3g}")
+    atol = float(f"{precision_pair[1]:.3g}")
+
+    if rtol is not None and atol is not None:
         return [atol, rtol]
     else:
-        print(
-            f"Warning: No precision found for datatype={datatype}, tolerance={tolerance}."
-        )
+        print(f"Warning: No precision found for datatype={dtype}, tolerance={t}.")
         return None
 
 
@@ -127,39 +127,31 @@ def get_correctness(sample: dict, atol: str, rtol: str) -> bool:
 def calculate_s_scores(
     samples: list,
     negative_speedup_penalty: float = 0,
-    tolerance_config: dict = None,
     exec_failure_penalty: str = "0.1",
 ) -> dict:
     """
     使用一个标准的精度“尺子”来评估所有样本，并计算每个刻度上的 S(t) 分数。
-    错误惩罚 'exec_penalty' 是可配置的。
     """
-    if not tolerance_config:
-        print("Error: tolerance_config is required for this calculation logic.")
-        return {}
 
     s_scores = OrderedDict()
-
-    try:
-        ruler_keys = tolerance_config["precision_table"]["float32"].keys()
-        sorted_keys = sorted(ruler_keys, key=lambda k: float(k))
-    except KeyError:
-        print("Error: Could not establish standard ruler from tolerance_config.")
-        return {}
+    bigin = -10
+    end = 5
+    t_keys = []
+    for t in range(begin, end + 1):
+        t_keys.append(t)
 
     print(
         f"\nCalculating S(t) scores using penalty function: '{exec_failure_penalty}'..."
     )
 
     # 遍历“尺子”上的每一个刻度
-    for tolerance in sorted_keys:
-        ruler_key = int(re.search(r"[eE][-+]?\d+", tolerance).group(0)[1:])
+    for t_key in t_keys:
         if exec_failure_penalty == "logistic":
-            exec_penalty = sigmoid(np.log10(ruler_key))
+            exec_penalty = sigmoid(np.log10(t_key))
         elif exec_failure_penalty == "max-tanh":
-            exec_penalty = max(np.tanh(ruler_key), 0.1)
+            exec_penalty = max(np.tanh(t_key), 0.1)
         elif exec_failure_penalty == "step":
-            if ruler_key <= 0:
+            if t_key <= 0:
                 exec_penalty = 0.1
             else:
                 exec_penalty = 1
@@ -178,7 +170,7 @@ def calculate_s_scores(
                 compiled_dtypes = performance.get("datatype", {}).get("compiled", [])
                 if eager_dtypes == compiled_dtypes and eager_dtypes:
                     for dtype in eager_dtypes:
-                        atol, rtol = get_precision(dtype, tolerance, tolerance_config)
+                        atol, rtol = get_precision(dtype, t_key)
                         if get_correctness(sample, atol, rtol):
                             fail_type = None
                             break
@@ -201,10 +193,9 @@ def calculate_s_scores(
 
         if regularized_speedups:
             score = gmean(regularized_speedups)
-            s_scores[tolerance] = score
-            t_val = -np.log10(float(tolerance))
+            s_scores[t_key] = score
             print(
-                f"  - S(t) for tolerance={tolerance} (t={t_val:.1f}), penalty={exec_penalty:.4f}: {score:.4f}"
+                f"  - S(t) for tolerance={t_key}, penalty={exec_penalty:.4f}: {score:.4f}"
             )
 
     return s_scores
@@ -374,13 +365,9 @@ def main():
         return
 
     # 2. 分别计算每条曲线的 S 分数
-    tolerance_config = load_json_file(
-        "/work/GraphNet/graph_net/config/datatype_accuracy.json"
-    )
     GMRS_scores = {
         folder_name: calculate_s_scores(
             samples,
-            tolerance_config=tolerance_config,
             negative_speedup_penalty=args.negative_speedup_penalty,
             exec_failure_penalty=args.exec_failure_penalty,
         )

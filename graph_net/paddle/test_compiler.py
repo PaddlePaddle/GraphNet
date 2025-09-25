@@ -206,7 +206,7 @@ def check_outputs(args, expected_out, compiled_out):
         args, eager_dtypes, compiled_dtypes
     )
 
-    def regular_outputs(origin_outputs):
+    def transfer_to_float(origin_outputs):
         outputs = []
         for item in origin_outputs:
             if (
@@ -219,14 +219,19 @@ def check_outputs(args, expected_out, compiled_out):
         return outputs
 
     if type_match:
-        expected_out = regular_outputs(expected_out)
-        compiled_out = regular_outputs(compiled_out)
-
-        test_compiler_util.check_correctness(
+        test_compiler_util.check_equal(
             args,
             expected_out,
             compiled_out,
             cmp_equal_func=get_cmp_equal,
+        )
+
+        expected_out_fp32 = transfer_to_float(expected_out)
+        compiled_out_fp32 = transfer_to_float(compiled_out)
+        test_compiler_util.check_allclose(
+            args,
+            expected_out_fp32,
+            compiled_out_fp32,
             cmp_all_close_func=get_cmp_all_close,
             cmp_max_diff_func=get_cmp_max_diff,
             cmp_mean_diff_func=get_cmp_mean_diff,
@@ -239,8 +244,6 @@ def test_single_model(args):
     input_dict = get_input_dict(args)
     model = get_model(args)
     model.eval()
-
-    # num_eager_ops = count_number_of_ops(args, model, eager_mode=True)
 
     test_compiler_util.print_basic_config(
         args, get_hardward_name(args), get_compile_framework_version(args)
@@ -314,8 +317,11 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 
 def test_multi_models(args):
+    sample_idx = 0
+    failed_samples = []
     for model_path in path_utils.get_recursively_model_path(args.model_path):
-        cmd = "".join(
+        print(f"[{sample_idx}] test_compiler, model_path: {model_path}")
+        cmd = " ".join(
             [
                 sys.executable,
                 "-m graph_net.paddle.test_compiler",
@@ -329,7 +335,14 @@ def test_multi_models(args):
             ]
         )
         cmd_ret = os.system(cmd)
-        assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+        # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+        if cmd_ret != 0:
+            failed_samples.append(model_path)
+        sample_idx += 1
+
+    print(f"Totally {sample_idx} samples, failed {len(failed_samples)} samples.")
+    for model_path in failed_samples:
+        print(f"- {model_path}")
 
 
 def main(args):
@@ -379,13 +392,6 @@ if __name__ == "__main__":
         required=False,
         default="graph-net-test-compiler-log",
         help="Log prompt for performance log filtering.",
-    )
-    parser.add_argument(
-        "--output-dir",
-        type=str,
-        required=False,
-        default=None,
-        help="Directory to save the structured JSON result file.",
     )
     args = parser.parse_args()
     main(args=args)

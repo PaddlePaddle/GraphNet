@@ -149,97 +149,346 @@ def print_and_store_cmp(key, cmp_func, args, expected_out, compiled_out, **kwarg
     return cmp_ret
 
 
-def check_correctness(
+def check_equal(args, expected_out, compiled_out, cmp_equal_func):
+    print_and_store_cmp(
+        key="[equal]",
+        cmp_func=cmp_equal_func,
+        args=args,
+        expected_out=expected_out,
+        compiled_out=compiled_out,
+    )
+
+
+def check_allclose(
     args,
     expected_out,
     compiled_out,
-    cmp_equal_func,
     cmp_all_close_func,
     cmp_max_diff_func,
     cmp_mean_diff_func,
     cmp_diff_count_func,
 ):
     cmp_configs = [
-        ("[equal]", cmp_equal_func, {}),
-        ("[all_close_atol_1.00E-06_rtol_1.00E-10]", cmp_all_close_func, {"atol": 1.00E-06, "rtol": 1.00E-10}),
-        ("[all_close_atol_2.56E-04_rtol_1.00E-10]", cmp_all_close_func, {"atol": 2.56E-04, "rtol": 1.00E-10}),
-        ("[all_close_atol_1.69E-12_rtol_1.00E-10]", cmp_all_close_func, {"atol": 1.69E-12, "rtol": 1.00E-10}),
-        ("[all_close_atol_1.00E-14_rtol_1.00E-10]", cmp_all_close_func, {"atol": 1.00E-14, "rtol": 1.00E-10}),
-
-        ("[all_close_atol_3.98E-06_rtol_1.00E-09]", cmp_all_close_func, {"atol": 3.98E-06, "rtol": 1.00E-09}),
-        ("[all_close_atol_5.85E-04_rtol_1.00E-09]", cmp_all_close_func, {"atol": 5.85E-04, "rtol": 1.00E-09}),
-        ("[all_close_atol_2.54E-11_rtol_1.00E-09]", cmp_all_close_func, {"atol": 2.54E-11, "rtol": 1.00E-09}),
-        ("[all_close_atol_2.51E-13_rtol_1.00E-09]", cmp_all_close_func, {"atol": 2.51E-13, "rtol": 1.00E-09}),
-
-        ("[all_close_atol_1.58E-05_rtol_1.00E-08]", cmp_all_close_func, {"atol": 1.58E-05, "rtol": 1.00E-08}),
-        ("[all_close_atol_1.34E-03_rtol_1.00E-08]", cmp_all_close_func, {"atol": 1.34E-03, "rtol": 1.00E-08}),
-        ("[all_close_atol_3.82E-10_rtol_1.00E-08]", cmp_all_close_func, {"atol": 3.82E-10, "rtol": 1.00E-08}),
-        ("[all_close_atol_6.31E-12_rtol_1.00E-08]", cmp_all_close_func, {"atol": 6.31E-12, "rtol": 1.00E-08}),
-
-        ("[all_close_atol_6.31E-05_rtol_1.00E-07]", cmp_all_close_func, {"atol": 6.31E-05, "rtol": 1.00E-07}),
-        ("[all_close_atol_3.06E-03_rtol_1.00E-07]", cmp_all_close_func, {"atol": 3.06E-03, "rtol": 1.00E-07}),
-        ("[all_close_atol_5.75E-09_rtol_1.00E-07]", cmp_all_close_func, {"atol": 5.75E-09, "rtol": 1.00E-07}),
-        ("[all_close_atol_1.58E-10_rtol_1.00E-07]", cmp_all_close_func, {"atol": 1.58E-10, "rtol": 1.00E-07}),
-
-        ("[all_close_atol_2.51E-04_rtol_1.00E-06]", cmp_all_close_func, {"atol": 2.51E-04, "rtol": 1.00E-06}),
-        ("[all_close_atol_7.00E-03_rtol_1.00E-06]", cmp_all_close_func, {"atol": 7.00E-03, "rtol": 1.00E-06}),
-        ("[all_close_atol_8.65E-08_rtol_1.00E-06]", cmp_all_close_func, {"atol": 8.65E-08, "rtol": 1.00E-06}),
-        ("[all_close_atol_3.98E-09_rtol_1.00E-06]", cmp_all_close_func, {"atol": 3.98E-09, "rtol": 1.00E-06}),
-
-        ("[all_close_atol_1.00E-03_rtol_1.00E-05]", cmp_all_close_func, {"atol": 1.00E-03, "rtol": 1.00E-05}),
-        ("[all_close_atol_1.60E-02_rtol_1.00E-05]", cmp_all_close_func, {"atol": 1.60E-02, "rtol": 1.00E-05}),
-        ("[all_close_atol_1.30E-06_rtol_1.00E-05]", cmp_all_close_func, {"atol": 1.30E-06, "rtol": 1.00E-05}),
-        ("[all_close_atol_1.00E-07_rtol_1.00E-05]", cmp_all_close_func, {"atol": 1.00E-07, "rtol": 1.00E-05}),
-
-        ("[all_close_atol_3.98E-03_rtol_1.00E-04]", cmp_all_close_func, {"atol": 3.98E-03, "rtol": 1.00E-04}),
-        ("[all_close_atol_3.66E-02_rtol_1.00E-04]", cmp_all_close_func, {"atol": 3.66E-02, "rtol": 1.00E-04}),
-        ("[all_close_atol_1.96E-05_rtol_1.00E-04]", cmp_all_close_func, {"atol": 1.96E-05, "rtol": 1.00E-04}),
-        ("[all_close_atol_2.51E-06_rtol_1.00E-04]", cmp_all_close_func, {"atol": 2.51E-06, "rtol": 1.00E-04}),
-
-        ("[all_close_atol_1.58E-02_rtol_1.00E-03]", cmp_all_close_func, {"atol": 1.58E-02, "rtol": 1.00E-03}),
-        ("[all_close_atol_8.36E-02_rtol_1.00E-03]", cmp_all_close_func, {"atol": 8.36E-02, "rtol": 1.00E-03}),
-        ("[all_close_atol_2.94E-04_rtol_1.00E-03]", cmp_all_close_func, {"atol": 2.94E-04, "rtol": 1.00E-03}),
-        ("[all_close_atol_6.31E-05_rtol_1.00E-03]", cmp_all_close_func, {"atol": 6.31E-05, "rtol": 1.00E-03}),
-
-        ("[all_close_atol_6.31E-02_rtol_1.00E-02]", cmp_all_close_func, {"atol": 6.31E-02, "rtol": 1.00E-02}),
-        ("[all_close_atol_1.91E-01_rtol_1.00E-02]", cmp_all_close_func, {"atol": 1.91E-01, "rtol": 1.00E-02}),
-        ("[all_close_atol_4.42E-03_rtol_1.00E-02]", cmp_all_close_func, {"atol": 4.42E-03, "rtol": 1.00E-02}),
-        ("[all_close_atol_1.58E-03_rtol_1.00E-02]", cmp_all_close_func, {"atol": 1.58E-03, "rtol": 1.00E-02}),
-
-        ("[all_close_atol_2.51E-01_rtol_1.00E-01]", cmp_all_close_func, {"atol": 2.51E-01, "rtol": 1.00E-01}),
-        ("[all_close_atol_4.37E-01_rtol_1.00E-01]", cmp_all_close_func, {"atol": 4.37E-01, "rtol": 1.00E-01}),
-        ("[all_close_atol_6.65E-02_rtol_1.00E-01]", cmp_all_close_func, {"atol": 6.65E-02, "rtol": 1.00E-01}),
-        ("[all_close_atol_3.98E-02_rtol_1.00E-01]", cmp_all_close_func, {"atol": 3.98E-02, "rtol": 1.00E-01}),
-
-        ("[all_close_atol_1.00E+00_rtol_1.00E+00]", cmp_all_close_func, {"atol": 1.00E+00, "rtol": 1.00E+00}),
-        ("[all_close_atol_1.00E+00_rtol_1.00E+00]", cmp_all_close_func, {"atol": 1.00E+00, "rtol": 1.00E+00}),
-        ("[all_close_atol_1.00E+00_rtol_1.00E+00]", cmp_all_close_func, {"atol": 1.00E+00, "rtol": 1.00E+00}),
-        ("[all_close_atol_1.00E+00_rtol_1.00E+00]", cmp_all_close_func, {"atol": 1.00E+00, "rtol": 1.00E+00}),
-
-        ("[all_close_atol_3.98E+00_rtol_1.00E+01]", cmp_all_close_func, {"atol": 3.98E+00, "rtol": 1.00E+01}),
-        ("[all_close_atol_2.29E+00_rtol_1.00E+01]", cmp_all_close_func, {"atol": 2.29E+00, "rtol": 1.00E+01}),
-        ("[all_close_atol_1.50E+01_rtol_1.00E+01]", cmp_all_close_func, {"atol": 1.50E+01, "rtol": 1.00E+01}),
-        ("[all_close_atol_2.51E+01_rtol_1.00E+01]", cmp_all_close_func, {"atol": 2.51E+01, "rtol": 1.00E+01}),
-
-        ("[all_close_atol_1.58E+01_rtol_1.00E+02]", cmp_all_close_func, {"atol": 1.58E+01, "rtol": 1.00E+02}),
-        ("[all_close_atol_5.23E+00_rtol_1.00E+02]", cmp_all_close_func, {"atol": 5.23E+00, "rtol": 1.00E+02}),
-        ("[all_close_atol_2.26E+02_rtol_1.00E+02]", cmp_all_close_func, {"atol": 2.26E+02, "rtol": 1.00E+02}),
-        ("[all_close_atol_6.31E+02_rtol_1.00E+02]", cmp_all_close_func, {"atol": 6.31E+02, "rtol": 1.00E+02}),
-
-        ("[all_close_atol_6.31E+01_rtol_1.00E+03]", cmp_all_close_func, {"atol": 6.31E+01, "rtol": 1.00E+03}),
-        ("[all_close_atol_1.20E+01_rtol_1.00E+03]", cmp_all_close_func, {"atol": 1.20E+01, "rtol": 1.00E+03}),
-        ("[all_close_atol_3.40E+03_rtol_1.00E+03]", cmp_all_close_func, {"atol": 3.40E+03, "rtol": 1.00E+03}),
-        ("[all_close_atol_1.58E+04_rtol_1.00E+03]", cmp_all_close_func, {"atol": 1.58E+04, "rtol": 1.00E+03}),
-
-        ("[all_close_atol_2.51E+02_rtol_1.00E+04]", cmp_all_close_func, {"atol": 2.51E+02, "rtol": 1.00E+04}),
-        ("[all_close_atol_2.73E+01_rtol_1.00E+04]", cmp_all_close_func, {"atol": 2.73E+01, "rtol": 1.00E+04}),
-        ("[all_close_atol_5.11E+04_rtol_1.00E+04]", cmp_all_close_func, {"atol": 5.11E+04, "rtol": 1.00E+04}),
-        ("[all_close_atol_3.98E+05_rtol_1.00E+04]", cmp_all_close_func, {"atol": 3.98E+05, "rtol": 1.00E+04}),
-
-        ("[all_close_atol_1.00E+03_rtol_1.00E+05]", cmp_all_close_func, {"atol": 1.00E+03, "rtol": 1.00E+05}),
-        ("[all_close_atol_6.25E+01_rtol_1.00E+05]", cmp_all_close_func, {"atol": 6.25E+01, "rtol": 1.00E+05}),
-        ("[all_close_atol_7.69E+05_rtol_1.00E+05]", cmp_all_close_func, {"atol": 7.69E+05, "rtol": 1.00E+05}),
-        ("[all_close_atol_1.00E+07_rtol_1.00E+05]", cmp_all_close_func, {"atol": 1.00E+07, "rtol": 1.00E+05}),
+        (
+            "[all_close_atol_1.00E-06_rtol_1.00E-10]",
+            cmp_all_close_func,
+            {"atol": 1.00e-06, "rtol": 1.00e-10},
+        ),
+        (
+            "[all_close_atol_2.56E-04_rtol_1.00E-10]",
+            cmp_all_close_func,
+            {"atol": 2.56e-04, "rtol": 1.00e-10},
+        ),
+        (
+            "[all_close_atol_1.69E-12_rtol_1.00E-10]",
+            cmp_all_close_func,
+            {"atol": 1.69e-12, "rtol": 1.00e-10},
+        ),
+        (
+            "[all_close_atol_1.00E-14_rtol_1.00E-10]",
+            cmp_all_close_func,
+            {"atol": 1.00e-14, "rtol": 1.00e-10},
+        ),
+        (
+            "[all_close_atol_3.98E-06_rtol_1.00E-09]",
+            cmp_all_close_func,
+            {"atol": 3.98e-06, "rtol": 1.00e-09},
+        ),
+        (
+            "[all_close_atol_5.85E-04_rtol_1.00E-09]",
+            cmp_all_close_func,
+            {"atol": 5.85e-04, "rtol": 1.00e-09},
+        ),
+        (
+            "[all_close_atol_2.54E-11_rtol_1.00E-09]",
+            cmp_all_close_func,
+            {"atol": 2.54e-11, "rtol": 1.00e-09},
+        ),
+        (
+            "[all_close_atol_2.51E-13_rtol_1.00E-09]",
+            cmp_all_close_func,
+            {"atol": 2.51e-13, "rtol": 1.00e-09},
+        ),
+        (
+            "[all_close_atol_1.58E-05_rtol_1.00E-08]",
+            cmp_all_close_func,
+            {"atol": 1.58e-05, "rtol": 1.00e-08},
+        ),
+        (
+            "[all_close_atol_1.34E-03_rtol_1.00E-08]",
+            cmp_all_close_func,
+            {"atol": 1.34e-03, "rtol": 1.00e-08},
+        ),
+        (
+            "[all_close_atol_3.82E-10_rtol_1.00E-08]",
+            cmp_all_close_func,
+            {"atol": 3.82e-10, "rtol": 1.00e-08},
+        ),
+        (
+            "[all_close_atol_6.31E-12_rtol_1.00E-08]",
+            cmp_all_close_func,
+            {"atol": 6.31e-12, "rtol": 1.00e-08},
+        ),
+        (
+            "[all_close_atol_6.31E-05_rtol_1.00E-07]",
+            cmp_all_close_func,
+            {"atol": 6.31e-05, "rtol": 1.00e-07},
+        ),
+        (
+            "[all_close_atol_3.06E-03_rtol_1.00E-07]",
+            cmp_all_close_func,
+            {"atol": 3.06e-03, "rtol": 1.00e-07},
+        ),
+        (
+            "[all_close_atol_5.75E-09_rtol_1.00E-07]",
+            cmp_all_close_func,
+            {"atol": 5.75e-09, "rtol": 1.00e-07},
+        ),
+        (
+            "[all_close_atol_1.58E-10_rtol_1.00E-07]",
+            cmp_all_close_func,
+            {"atol": 1.58e-10, "rtol": 1.00e-07},
+        ),
+        (
+            "[all_close_atol_2.51E-04_rtol_1.00E-06]",
+            cmp_all_close_func,
+            {"atol": 2.51e-04, "rtol": 1.00e-06},
+        ),
+        (
+            "[all_close_atol_7.00E-03_rtol_1.00E-06]",
+            cmp_all_close_func,
+            {"atol": 7.00e-03, "rtol": 1.00e-06},
+        ),
+        (
+            "[all_close_atol_8.65E-08_rtol_1.00E-06]",
+            cmp_all_close_func,
+            {"atol": 8.65e-08, "rtol": 1.00e-06},
+        ),
+        (
+            "[all_close_atol_3.98E-09_rtol_1.00E-06]",
+            cmp_all_close_func,
+            {"atol": 3.98e-09, "rtol": 1.00e-06},
+        ),
+        (
+            "[all_close_atol_1.00E-03_rtol_1.00E-05]",
+            cmp_all_close_func,
+            {"atol": 1.00e-03, "rtol": 1.00e-05},
+        ),
+        (
+            "[all_close_atol_1.60E-02_rtol_1.00E-05]",
+            cmp_all_close_func,
+            {"atol": 1.60e-02, "rtol": 1.00e-05},
+        ),
+        (
+            "[all_close_atol_1.30E-06_rtol_1.00E-05]",
+            cmp_all_close_func,
+            {"atol": 1.30e-06, "rtol": 1.00e-05},
+        ),
+        (
+            "[all_close_atol_1.00E-07_rtol_1.00E-05]",
+            cmp_all_close_func,
+            {"atol": 1.00e-07, "rtol": 1.00e-05},
+        ),
+        (
+            "[all_close_atol_3.98E-03_rtol_1.00E-04]",
+            cmp_all_close_func,
+            {"atol": 3.98e-03, "rtol": 1.00e-04},
+        ),
+        (
+            "[all_close_atol_3.66E-02_rtol_1.00E-04]",
+            cmp_all_close_func,
+            {"atol": 3.66e-02, "rtol": 1.00e-04},
+        ),
+        (
+            "[all_close_atol_1.96E-05_rtol_1.00E-04]",
+            cmp_all_close_func,
+            {"atol": 1.96e-05, "rtol": 1.00e-04},
+        ),
+        (
+            "[all_close_atol_2.51E-06_rtol_1.00E-04]",
+            cmp_all_close_func,
+            {"atol": 2.51e-06, "rtol": 1.00e-04},
+        ),
+        (
+            "[all_close_atol_1.58E-02_rtol_1.00E-03]",
+            cmp_all_close_func,
+            {"atol": 1.58e-02, "rtol": 1.00e-03},
+        ),
+        (
+            "[all_close_atol_8.36E-02_rtol_1.00E-03]",
+            cmp_all_close_func,
+            {"atol": 8.36e-02, "rtol": 1.00e-03},
+        ),
+        (
+            "[all_close_atol_2.94E-04_rtol_1.00E-03]",
+            cmp_all_close_func,
+            {"atol": 2.94e-04, "rtol": 1.00e-03},
+        ),
+        (
+            "[all_close_atol_6.31E-05_rtol_1.00E-03]",
+            cmp_all_close_func,
+            {"atol": 6.31e-05, "rtol": 1.00e-03},
+        ),
+        (
+            "[all_close_atol_6.31E-02_rtol_1.00E-02]",
+            cmp_all_close_func,
+            {"atol": 6.31e-02, "rtol": 1.00e-02},
+        ),
+        (
+            "[all_close_atol_1.91E-01_rtol_1.00E-02]",
+            cmp_all_close_func,
+            {"atol": 1.91e-01, "rtol": 1.00e-02},
+        ),
+        (
+            "[all_close_atol_4.42E-03_rtol_1.00E-02]",
+            cmp_all_close_func,
+            {"atol": 4.42e-03, "rtol": 1.00e-02},
+        ),
+        (
+            "[all_close_atol_1.58E-03_rtol_1.00E-02]",
+            cmp_all_close_func,
+            {"atol": 1.58e-03, "rtol": 1.00e-02},
+        ),
+        (
+            "[all_close_atol_2.51E-01_rtol_1.00E-01]",
+            cmp_all_close_func,
+            {"atol": 2.51e-01, "rtol": 1.00e-01},
+        ),
+        (
+            "[all_close_atol_4.37E-01_rtol_1.00E-01]",
+            cmp_all_close_func,
+            {"atol": 4.37e-01, "rtol": 1.00e-01},
+        ),
+        (
+            "[all_close_atol_6.65E-02_rtol_1.00E-01]",
+            cmp_all_close_func,
+            {"atol": 6.65e-02, "rtol": 1.00e-01},
+        ),
+        (
+            "[all_close_atol_3.98E-02_rtol_1.00E-01]",
+            cmp_all_close_func,
+            {"atol": 3.98e-02, "rtol": 1.00e-01},
+        ),
+        (
+            "[all_close_atol_1.00E+00_rtol_1.00E+00]",
+            cmp_all_close_func,
+            {"atol": 1.00e00, "rtol": 1.00e00},
+        ),
+        (
+            "[all_close_atol_1.00E+00_rtol_1.00E+00]",
+            cmp_all_close_func,
+            {"atol": 1.00e00, "rtol": 1.00e00},
+        ),
+        (
+            "[all_close_atol_1.00E+00_rtol_1.00E+00]",
+            cmp_all_close_func,
+            {"atol": 1.00e00, "rtol": 1.00e00},
+        ),
+        (
+            "[all_close_atol_1.00E+00_rtol_1.00E+00]",
+            cmp_all_close_func,
+            {"atol": 1.00e00, "rtol": 1.00e00},
+        ),
+        (
+            "[all_close_atol_3.98E+00_rtol_1.00E+01]",
+            cmp_all_close_func,
+            {"atol": 3.98e00, "rtol": 1.00e01},
+        ),
+        (
+            "[all_close_atol_2.29E+00_rtol_1.00E+01]",
+            cmp_all_close_func,
+            {"atol": 2.29e00, "rtol": 1.00e01},
+        ),
+        (
+            "[all_close_atol_1.50E+01_rtol_1.00E+01]",
+            cmp_all_close_func,
+            {"atol": 1.50e01, "rtol": 1.00e01},
+        ),
+        (
+            "[all_close_atol_2.51E+01_rtol_1.00E+01]",
+            cmp_all_close_func,
+            {"atol": 2.51e01, "rtol": 1.00e01},
+        ),
+        (
+            "[all_close_atol_1.58E+01_rtol_1.00E+02]",
+            cmp_all_close_func,
+            {"atol": 1.58e01, "rtol": 1.00e02},
+        ),
+        (
+            "[all_close_atol_5.23E+00_rtol_1.00E+02]",
+            cmp_all_close_func,
+            {"atol": 5.23e00, "rtol": 1.00e02},
+        ),
+        (
+            "[all_close_atol_2.26E+02_rtol_1.00E+02]",
+            cmp_all_close_func,
+            {"atol": 2.26e02, "rtol": 1.00e02},
+        ),
+        (
+            "[all_close_atol_6.31E+02_rtol_1.00E+02]",
+            cmp_all_close_func,
+            {"atol": 6.31e02, "rtol": 1.00e02},
+        ),
+        (
+            "[all_close_atol_6.31E+01_rtol_1.00E+03]",
+            cmp_all_close_func,
+            {"atol": 6.31e01, "rtol": 1.00e03},
+        ),
+        (
+            "[all_close_atol_1.20E+01_rtol_1.00E+03]",
+            cmp_all_close_func,
+            {"atol": 1.20e01, "rtol": 1.00e03},
+        ),
+        (
+            "[all_close_atol_3.40E+03_rtol_1.00E+03]",
+            cmp_all_close_func,
+            {"atol": 3.40e03, "rtol": 1.00e03},
+        ),
+        (
+            "[all_close_atol_1.58E+04_rtol_1.00E+03]",
+            cmp_all_close_func,
+            {"atol": 1.58e04, "rtol": 1.00e03},
+        ),
+        (
+            "[all_close_atol_2.51E+02_rtol_1.00E+04]",
+            cmp_all_close_func,
+            {"atol": 2.51e02, "rtol": 1.00e04},
+        ),
+        (
+            "[all_close_atol_2.73E+01_rtol_1.00E+04]",
+            cmp_all_close_func,
+            {"atol": 2.73e01, "rtol": 1.00e04},
+        ),
+        (
+            "[all_close_atol_5.11E+04_rtol_1.00E+04]",
+            cmp_all_close_func,
+            {"atol": 5.11e04, "rtol": 1.00e04},
+        ),
+        (
+            "[all_close_atol_3.98E+05_rtol_1.00E+04]",
+            cmp_all_close_func,
+            {"atol": 3.98e05, "rtol": 1.00e04},
+        ),
+        (
+            "[all_close_atol_1.00E+03_rtol_1.00E+05]",
+            cmp_all_close_func,
+            {"atol": 1.00e03, "rtol": 1.00e05},
+        ),
+        (
+            "[all_close_atol_6.25E+01_rtol_1.00E+05]",
+            cmp_all_close_func,
+            {"atol": 6.25e01, "rtol": 1.00e05},
+        ),
+        (
+            "[all_close_atol_7.69E+05_rtol_1.00E+05]",
+            cmp_all_close_func,
+            {"atol": 7.69e05, "rtol": 1.00e05},
+        ),
+        (
+            "[all_close_atol_1.00E+07_rtol_1.00E+05]",
+            cmp_all_close_func,
+            {"atol": 1.00e07, "rtol": 1.00e05},
+        ),
         ("[max_diff]", cmp_max_diff_func, {}),
         ("[mean_diff]", cmp_mean_diff_func, {}),
     ]

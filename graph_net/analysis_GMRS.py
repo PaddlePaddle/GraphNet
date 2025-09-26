@@ -80,7 +80,7 @@ def scan_all_folders(benchmark_path: str) -> dict:
 
 
 # ---------- 2. 核心计算逻辑 ----------
-def get_correctness(dtype: str, t: str, sample: dict) -> bool:
+def get_correctness(dtype: str, t: int, sample: dict) -> bool:
     """
     根据标准尺度的 t key 和 dtype，从配置中查找实际的 atol/rtol 值，从而检查样本的正确性。
     """
@@ -95,8 +95,13 @@ def get_correctness(dtype: str, t: str, sample: dict) -> bool:
 
     correctness_data = sample.get("correctness", {})
     result = correctness_data.get(metric_key_to_check)
+    # if result is None:
+    #     print(f"Cannot find {metric_key_to_check} in correctness data. Sample keys: {correctness_data.keys()}")
 
-    return result == [1]
+    if isinstance(result, list) and result:
+        return all(r == 1 for r in result)
+    else:
+        return False  # 如果不是列表或者为空，则返回 False
 
 
 def fake_perf_degrad(t, fail_type, fpdb=0.1):
@@ -133,19 +138,41 @@ def calculate_s_scores(
     begin = -10
     end = 5
     t_keys = list(range(begin, end + 1))
+    total_samples = len(samples)
 
     print(
         f"\nCalculating S(t) scores for '{folder_name}' using penalty function: '{exec_failure_penalty}'..."
     )
 
+    def print_stat_info(t_key, correct_count, acc_failure_count, other_failure_count):
+        print(f"  - Details for tolerance={t_key}:")
+        if total_samples > 0:
+            correct_ratio = correct_count / total_samples
+            acc_failure_ratio = acc_failure_count / total_samples
+            other_failure_ratio = other_failure_count / total_samples
+            print(
+                f"    - Correct samples: {correct_count}/{total_samples} ({correct_ratio:.2%})"
+            )
+            print(
+                f"    - Accuracy failures: {acc_failure_count}/{total_samples} ({acc_failure_ratio:.2%})"
+            )
+            print(
+                f"    - Other failures: {other_failure_count}/{total_samples} ({other_failure_ratio:.2%})"
+            )
+        else:
+            print("    - No samples to analyze.")
+
     for t_key in t_keys:
         regularized_speedups = []
+        correct_count = 0
+        acc_failure_count = 0
+        other_failure_count = 0
+
         for sample in samples:
             # 直接从原始数据字典中获取性能和失败信息
             performance_data = sample.get("performance", {})
             fail_type = performance_data.get("failure")
             speedup = performance_data.get("speedup", {}).get("e2e")
-            is_correct = False
 
             # 如果没有严重失败，则检查精度
             if fail_type is None:
@@ -154,6 +181,7 @@ def calculate_s_scores(
                 compiled_dtypes = datatype_data.get("compiled", [])
 
                 # 只有当 eager 和 compiled 数据类型列表一致且不为空时，才进行正确性检查
+                is_correct = False
                 if eager_dtypes and eager_dtypes == compiled_dtypes:
                     for dtype in eager_dtypes:
                         if get_correctness(dtype, t_key, sample):
@@ -162,6 +190,14 @@ def calculate_s_scores(
 
                 if not is_correct:
                     fail_type = "accuracy"
+
+            # 记录失败类型计数
+            if is_correct:
+                correct_count += 1
+            elif fail_type == "accuracy":
+                acc_failure_count += 1
+            else:
+                other_failure_count += 1
 
             # 应用惩罚逻辑
             if fail_type is not None or speedup is None:
@@ -180,6 +216,9 @@ def calculate_s_scores(
 
         if regularized_speedups:
             s_scores[t_key] = gmean(regularized_speedups)
+            print_stat_info(
+                t_key, correct_count, acc_failure_count, other_failure_count
+            )
             print(
                 f"  - S(t) for tolerance={t_key}, penalty={exec_penalty:.4f}: {s_scores[t_key]:.4f}"
             )

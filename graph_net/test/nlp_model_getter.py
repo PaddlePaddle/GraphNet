@@ -229,7 +229,6 @@ def get_albert_model_and_inputs(model_name, text, dtype):
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.unk_token
 
-    # 4) 构造输入（支持 str 或 List[str]）
     enc = tokenizer(
         text,
         return_tensors="pd",
@@ -238,7 +237,6 @@ def get_albert_model_and_inputs(model_name, text, dtype):
         max_length=512,
     )
 
-    # 显式补 attention_mask（pad 处为 0）
     if "attention_mask" not in enc:
         input_ids = enc["input_ids"]
         enc["attention_mask"] = (input_ids != tokenizer.pad_token_id).astype("int64")

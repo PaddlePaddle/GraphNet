@@ -143,6 +143,7 @@ def fake_perf_degrad(t, fail_type, fpdb=0.1):
 
 def calculate_s_scores(
     samples: list,
+    folder_name: str,
     negative_speedup_penalty: float = 0,
     exec_failure_penalty: str = "0.1",
 ) -> dict:
@@ -158,7 +159,7 @@ def calculate_s_scores(
         t_keys.append(t)
 
     print(
-        f"\nCalculating S(t) scores using penalty function: '{exec_failure_penalty}'..."
+        f"\nCalculating S(t) scores for '{folder_name}' using penalty function: '{exec_failure_penalty}'..."
     )
 
     # 遍历“尺子”上的每一个刻度
@@ -201,6 +202,7 @@ def calculate_s_scores(
                     exec_penalty = fake_perf_degrad(t_key, fail_type, fpdb=0.1)
                 else:
                     exec_penalty = float(exec_failure_penalty)
+
                 regularized_speedup = exec_penalty
             else:
                 if speedup < 1:
@@ -236,15 +238,12 @@ def plot_results(GMRS_scores: dict, cli_args: argparse.Namespace):
     for idx, (folder_name, s_scores) in enumerate(GMRS_scores.items()):
         plot_points = []
 
-        for rtol_key, score in s_scores.items():
+        for t_key, score in s_scores.items():
             try:
-                x_val = np.log10(float(rtol_key))
-                all_x_coords.append(x_val)
-                plot_points.append({"x": x_val, "y": score, "label": rtol_key})
+                all_x_coords.append(t_key)
+                plot_points.append({"x": t_key, "y": score})
             except (ValueError, TypeError):
-                print(
-                    f"Warning: Could not parse rtol_key '{rtol_key}'. Skipping for plot."
-                )
+                print(f"Warning: Could not parse t_key '{t_key}'. Skipping for plot.")
                 continue
 
         if not plot_points:
@@ -347,6 +346,7 @@ def main():
     GMRS_scores = {
         folder_name: calculate_s_scores(
             samples,
+            folder_name,
             negative_speedup_penalty=args.negative_speedup_penalty,
             exec_failure_penalty=args.exec_failure_penalty,
         )

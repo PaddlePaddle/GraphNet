@@ -174,10 +174,10 @@ def calculate_s_scores(
 # ---------- 3. 绘图功能 ----------
 def plot_results(GMRS_scores: dict, cli_args: argparse.Namespace):
     """
-    绘制 S(t) 曲线，并附带显示全局参数和各曲线的统计数据。
+    绘制 S(t) 曲线
     """
     plt.style.use("seaborn-v0_8-whitegrid")
-    fig, ax = plt.subplots(figsize=(18, 10))  # 增加了图表尺寸以容纳更多信息
+    fig, ax = plt.subplots(figsize=(18, 10))
 
     prop_cycle = plt.rcParams["axes.prop_cycle"]
     colors = prop_cycle.by_key()["color"]
@@ -218,17 +218,6 @@ def plot_results(GMRS_scores: dict, cli_args: argparse.Namespace):
 
         # for p in plot_points:
         #     ax.text(p['x'], p['y'], f"{p['y']:.3f}", ha='center', va='bottom', fontsize=11, color=color)
-
-        # # 在曲线末端标注统计数据
-        # last_point = plot_points[-1]
-        # stats = summary_stats.get(folder_name)
-        # if stats:
-        #     stats_label = (f"  Correct: {stats['correct_ratio']:.1%}\n"
-        #                    f"  Slowdown (of correct): {stats['slowdown_ratio']:.1%}")
-        #     # 使用一个带半透明背景的文本框以提高可读性
-        #     ax.text(last_point['x'] + 0.2, last_point['y'], stats_label,
-        #             color=color, fontsize=10, ha='left', va='center',
-        #             bbox=dict(facecolor='white', alpha=0.6, edgecolor='none', boxstyle='round,pad=0.2'))
 
     penalty_p = cli_args.negative_speedup_penalty
     penalty_exec = cli_args.exec_failure_penalty

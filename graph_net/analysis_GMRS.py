@@ -112,6 +112,31 @@ def get_correctness(dtype: str, t: str, sample: dict) -> bool:
     return correctness_data.get(metric_key_to_check) == [1]
 
 
+def fake_perf_degrad(t, fail_type, fpdb=0.1):
+    """
+    根据容忍度 t 和失败类型，计算 fake performance degradation。
+
+    参数:
+        t (float): 容忍度阈值
+        fail_type (str): 失败类型
+        fpdb (float): Fake Performance Degradation Baseline，默认为 0.1
+
+    返回:
+        float: fake_perf_degrad 值 ∈ [fpdb, 1.0]
+    """
+    if fail_type == "compiled":
+        # 编译失败：只有 t >= 3 时才豁免（返回 1）
+        return fpdb + (1 - fpdb) * (1 if t >= 3 else 0)
+    elif fail_type == "eager":
+        # 执行崩溃（但编译成功）：t >= 2 时豁免
+        return fpdb + (1 - fpdb) * (1 if t >= 2 else 0)
+    elif fail_type == "accuracy":
+        # 精度失败（运行成功但结果错误）：t >= 1 时豁免
+        return fpdb + (1 - fpdb) * (1 if t >= 1 else 0)
+    else:
+        return Error
+
+
 def calculate_s_scores(
     samples: list,
     negative_speedup_penalty: float = 0,
@@ -134,20 +159,6 @@ def calculate_s_scores(
 
     # 遍历“尺子”上的每一个刻度
     for t_key in t_keys:
-        if exec_failure_penalty == "logistic":
-            exec_penalty = sigmoid(np.log10(t_key))
-        elif exec_failure_penalty == "max-tanh":
-            exec_penalty = max(np.tanh(t_key), 0.1)
-        elif exec_failure_penalty == "step":
-            if t_key <= 0:
-                exec_penalty = 0.1
-            else:
-                exec_penalty = 1
-        else:
-            exec_penalty = float(exec_failure_penalty)
-
-        regularized_speedups = []
-
         # 用当前刻度去衡量每一个样本
         for sample in samples:
             fail_type = sample.get("failure")
@@ -168,8 +179,23 @@ def calculate_s_scores(
             else:
                 fail_type = None
 
+            regularized_speedups = []
+
             # 应用惩罚逻辑
             if fail_type is not None:
+                if exec_failure_penalty == "logistic":
+                    exec_penalty = sigmoid(np.log10(t_key))
+                elif exec_failure_penalty == "max-tanh":
+                    exec_penalty = max(np.tanh(t_key), 0.1)
+                elif exec_failure_penalty == "step":
+                    if t_key <= 0:
+                        exec_penalty = 0.1
+                    else:
+                        exec_penalty = 1
+                elif exec_failure_penalty == "fake_perf_degrad":
+                    exec_penalty = fake_perf_degrad(t_key, fail_type, fpdb=0.1)
+                else:
+                    exec_penalty = float(exec_failure_penalty)
                 regularized_speedup = exec_penalty
             else:
                 if speedup < 1:
@@ -341,7 +367,7 @@ def main():
         type=str,
         default="0.1",
         help="Penalty for severe errors (e.g., correctness failure, crashes). \n"
-        "Can be 'logistic', 'max-tanh' or a constant number (e.g., '0.1').",
+        "Can be 'fake_perf_degrad', 'logistic', 'max-tanh' or a constant number (e.g., '0.1').",
     )
     args = parser.parse_args()
 

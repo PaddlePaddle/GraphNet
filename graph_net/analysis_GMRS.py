@@ -129,7 +129,7 @@ def calculate_s_scores(
     """
     s_scores = OrderedDict()
     begin = -10
-    end = 5
+    end = 3
     t_keys = list(range(begin, end + 1))
     total_samples = len(samples)
 
@@ -264,6 +264,14 @@ def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
             markersize=6,
         )
 
+    p = cli_args.negative_speedup_penalty
+    if cli_args.exec_failure_penalty == "fake_perf_degrad":
+        gamma = "b = 0.1"
+    else:
+        gamma = float(cli_args.exec_failure_penalty)
+    config = f"p = {p}, gamma = {gamma}"
+    fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
+
     ax.set_xlabel("t", fontsize=18)
     ax.set_ylabel("S(t)", fontsize=18)
     ax.tick_params(axis="both", which="major", labelsize=14)
@@ -293,7 +301,6 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
 
     all_x_coords = []
 
-    # 绘制每个文件夹的曲线
     for idx, (folder_name, s_scores) in enumerate(s_scores.items()):
         plot_points = []
 
@@ -325,16 +332,10 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
             markersize=6,
         )
 
-        # for p in plot_points:
-        #     ax.text(p['x'], p['y'], f"{p['y']:.3f}", ha='center', va='bottom', fontsize=12, color=color)
-
-    penalty_p = cli_args.negative_speedup_penalty
-    penalty_exec = cli_args.exec_failure_penalty
-    # config = (
-    #     f"Penalty Settings: exec_failure_penalty='{penalty_exec}', "
-    #     f"negative_speedup_penalty(p)={penalty_p}"
-    # )
-    # fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
+    p = cli_args.negative_speedup_penalty
+    gamma = cli_args.exec_failure_penalty
+    config = f"p = {p}, gamma = {gamma}"
+    fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
 
     ax.set_xlabel("t", fontsize=18)
     ax.set_ylabel("ES(t)", fontsize=18)

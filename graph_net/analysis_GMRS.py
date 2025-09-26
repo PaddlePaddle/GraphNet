@@ -85,12 +85,19 @@ def get_correctness(dtype: str, t: str, sample: dict) -> bool:
     根据标准尺度的 t key 和 dtype，从配置中查找实际的 atol/rtol 值，从而检查样本的正确性。
     """
     precision_pair = get_precision(t, dtype)
-    rtol = float(f"{precision_pair[0]:.3g}")
-    atol = float(f"{precision_pair[1]:.3g}")
+    atol, rtol = precision_pair[1], precision_pair[0]
 
-    metric_key_to_check = f"[all_close_atol_{atol}_rtol_{rtol}]"
+    # 使用 .2E 格式化，确保小数点后有两位，并使用大写E，匹配JSON日志格式。
+    # 例如：1e-10 会被格式化为 '1.00E-10'
+    metric_key_to_check = f"[all_close_atol_{atol:.2E}_rtol_{rtol:.2E}]"
+
+    # 获取 correctness 数据
     correctness_data = sample.get("correctness", {})
-    return correctness_data.get(metric_key_to_check) == [1]
+
+    # 查找并返回结果
+    result = correctness_data.get(metric_key_to_check)
+
+    return result == [1]
 
 
 def fake_perf_degrad(t, fail_type, fpdb=0.1):
@@ -228,7 +235,7 @@ def plot_results(GMRS_scores: dict, cli_args: argparse.Namespace):
         )
 
         # for p in plot_points:
-        #     ax.text(p['x'], p['y'], f"{p['y']:.3f}", ha='center', va='bottom', fontsize=11, color=color)
+        #     ax.text(p['x'], p['y'], f"{p['y']:.3f}", ha='center', va='bottom', fontsize=12, color=color)
 
     penalty_p = cli_args.negative_speedup_penalty
     penalty_exec = cli_args.exec_failure_penalty
@@ -236,9 +243,9 @@ def plot_results(GMRS_scores: dict, cli_args: argparse.Namespace):
         f"Penalty Settings: exec_failure_penalty='{penalty_exec}', "
         f"negative_speedup_penalty(p)={penalty_p}"
     )
-    fig.text(0.5, 0.9, config, ha="center", fontsize=12, style="italic")
+    fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
 
-    ax.set_xlabel("tolerance (log10 rtol)", fontsize=18)
+    ax.set_xlabel("tolerance", fontsize=18)
     ax.set_ylabel("GMRS(t,p) (Geometric Mean of Rectified Speedup)", fontsize=18)
     ax.tick_params(axis="both", which="major", labelsize=14)
 
@@ -250,7 +257,7 @@ def plot_results(GMRS_scores: dict, cli_args: argparse.Namespace):
     ax.xaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
     ax.yaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
 
-    ax.legend(title="Category", fontsize=12, loc="best")
+    ax.legend(fontsize=16, loc="best")
     plt.savefig("Eval_result.png", dpi=150)
     print("\nComparison plot saved to Eval_result.png")
 

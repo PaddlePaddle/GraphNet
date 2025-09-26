@@ -110,7 +110,7 @@ def calculate_s_scores(
     exec_failure_penalty: str = "0.1",
 ) -> dict:
     """
-    使用一个标准的精度“尺子”来评估所有样本，并计算每个刻度上的 S(t) 分数。
+    使用一个标准 tolerance 来评估所有样本，并计算每个刻度上的 S(t) 分数。
     """
     s_scores = OrderedDict()
     begin = -10

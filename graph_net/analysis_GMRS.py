@@ -23,8 +23,8 @@ def load_json_file(filepath: str) -> dict:
 
 def load_one_folder(folder_path: str) -> list:
     """
-    遍历 *单个* 文件夹下的所有 .json 文件，加载所有样本数据（包括失败的）。
-    返回的每条样本里额外记录 'folder_name'，用于后续多曲线区分。
+    遍历 *单个* 文件夹下的所有 .json 文件，加载所有原始数据。
+    返回一个包含原始数据字典的列表。
     """
     if not os.path.isdir(folder_path):
         return []
@@ -38,21 +38,7 @@ def load_one_folder(folder_path: str) -> list:
             filepath = os.path.join(folder_path, filename)
             data = load_json_file(filepath)
             if data:  # 如果读取数据成功
-                sample_data = {
-                    "folder_name": folder_name,
-                    "model": data.get("configuration", {}).get("model", "unknown"),
-                    "compiler": data.get("configuration", {}).get(
-                        "compiler", "unknown"
-                    ),
-                    "speedup": data.get("performance", {})
-                    .get("speedup", {})
-                    .get("e2e"),
-                    "failure": data.get("performance", {}).get("failure"),
-                    "correctness_metrics": data.get("correctness", {}),
-                    "performance": data.get("performance", {}),
-                }
-                samples.append(sample_data)
-
+                samples.append(data)  # 直接添加原始数据字典
     return samples
 
 
@@ -108,37 +94,18 @@ def get_correctness(dtype: str, t: str, sample: dict) -> bool:
     atol = float(f"{precision_pair[1]:.3g}")
 
     metric_key_to_check = f"[all_close_atol_{atol}_rtol_{rtol}]"
-    correctness_data = sample.get("correctness_metrics", {})
+    correctness_data = sample.get("correctness", {})
     return correctness_data.get(metric_key_to_check) == [1]
 
 
 def fake_perf_degrad(t, fail_type, fpdb=0.1):
     """
     根据容忍度 t 和失败类型，计算 fake performance degradation。
-
-    参数:
-        t (float): 容忍度阈值
-        fail_type (str): 失败类型
-        fpdb (float): Fake Performance Degradation Baseline，默认为 0.1
-
-    返回:
-        float: fake_perf_degrad 值 ∈ [fpdb, 1.0]
     """
-    # 适合旧版代码
     if fail_type == "accuracy":
         return fpdb + (1 - fpdb) * (1 if t >= 1 else 0)
     else:
         return fpdb + (1 - fpdb) * (1 if t >= 3 else 0)
-
-    # if fail_type == "compiled":
-    #     # 编译失败：只有 t >= 3 时才豁免（返回 1）
-    #     return fpdb + (1 - fpdb) * (1 if t >= 3 else 0)
-    # elif fail_type == "eager":
-    #     # 执行崩溃（但编译成功）：t >= 2 时豁免
-    #     return fpdb + (1 - fpdb) * (1 if t >= 2 else 0)
-    # elif fail_type == "accuracy":
-    #     # 精度失败（运行成功但结果错误）：t >= 1 时豁免
-    #     return fpdb + (1 - fpdb) * (1 if t >= 1 else 0)
 
 
 def calculate_s_scores(
@@ -150,67 +117,58 @@ def calculate_s_scores(
     """
     使用一个标准的精度“尺子”来评估所有样本，并计算每个刻度上的 S(t) 分数。
     """
-
     s_scores = OrderedDict()
     begin = -10
     end = 5
-    t_keys = []
-    for t in range(begin, end + 1):
-        t_keys.append(t)
+    t_keys = list(range(begin, end + 1))
 
     print(
         f"\nCalculating S(t) scores for '{folder_name}' using penalty function: '{exec_failure_penalty}'..."
     )
 
-    # 遍历“尺子”上的每一个刻度
     for t_key in t_keys:
         regularized_speedups = []
-        # 用当前刻度去衡量每一个样本
         for sample in samples:
-            fail_type = sample.get("failure")
-            if fail_type is not None:
-                performance = sample.get("performance", {})
-                eager_dtypes = performance.get("datatype", {}).get("eager", [])
-                compiled_dtypes = performance.get("datatype", {}).get("compiled", [])
-                if eager_dtypes == compiled_dtypes and eager_dtypes:
+            # 直接从原始数据字典中获取性能和失败信息
+            performance_data = sample.get("performance", {})
+            fail_type = performance_data.get("failure")
+            speedup = performance_data.get("speedup", {}).get("e2e")
+            is_correct = False
+
+            # 如果没有严重失败，则检查精度
+            if fail_type is None:
+                datatype_data = performance_data.get("datatype", {})
+                eager_dtypes = datatype_data.get("eager", [])
+                compiled_dtypes = datatype_data.get("compiled", [])
+
+                # 只有当 eager 和 compiled 数据类型列表一致且不为空时，才进行正确性检查
+                if eager_dtypes and eager_dtypes == compiled_dtypes:
                     for dtype in eager_dtypes:
                         if get_correctness(dtype, t_key, sample):
-                            fail_type = None
+                            is_correct = True
                             break
-                        else:
-                            fail_type = "accuracy"
-                else:
+
+                if not is_correct:
                     fail_type = "accuracy"
-            else:
-                fail_type = None
 
             # 应用惩罚逻辑
-            speedup = sample.get("speedup")
             if fail_type is not None or speedup is None:
-                if exec_failure_penalty == "logistic":
-                    exec_penalty = sigmoid(np.log10(t_key))
-                elif exec_failure_penalty == "max-tanh":
-                    exec_penalty = max(np.tanh(t_key), 0.1)
-                elif exec_failure_penalty == "step":
-                    if t_key <= 0:
-                        exec_penalty = 0.1
-                    else:
-                        exec_penalty = 1
-                elif exec_failure_penalty == "fake_perf_degrad":
-                    exec_penalty = fake_perf_degrad(t_key, fail_type, fpdb=0.1)
-                else:
-                    exec_penalty = float(exec_failure_penalty)
-
+                exec_penalty = fake_perf_degrad(t_key, fail_type, fpdb=0.1)
                 regularized_speedup = exec_penalty
             else:
                 if speedup < 1:
                     regularized_speedup = speedup ** (negative_speedup_penalty + 1)
                 else:
                     regularized_speedup = speedup
+
             regularized_speedups.append(regularized_speedup)
 
         if regularized_speedups:
             s_scores[t_key] = gmean(regularized_speedups)
+            if exec_failure_penalty == "fake_perf_degrad":
+                exec_penalty = fake_perf_degrad(t_key, fail_type, fpdb=0.1)
+            else:
+                exec_penalty = float(exec_failure_penalty)
             print(
                 f"  - S(t) for tolerance={t_key}, penalty={exec_penalty:.4f}: {s_scores[t_key]:.4f}"
             )
@@ -329,7 +287,7 @@ def main():
         type=str,
         default="0.1",
         help="Penalty for severe errors (e.g., correctness failure, crashes). \n"
-        "Can be 'fake_perf_degrad', 'logistic', 'max-tanh' or a constant number (e.g., '0.1').",
+        "Can be 'fake_perf_degrad' or a constant number (e.g., '0.1').",
     )
     args = parser.parse_args()
 

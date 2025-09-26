@@ -129,9 +129,13 @@ def parse_logs_to_json(log_file: str, output_dir: str):
 
     for run_key, data in all_runs_data.items():
         try:
+            path_parts = run_key.split(os.sep)
+            # The last part is the subgraph name, e.g., 'subgraph_4'
+            subgraph_name = path_parts[-1]
+            # The model name is extracted from the configuration
             model_name = data["configuration"]["model"]
             compiler_name = data["configuration"]["compiler"]
-            filename = f"{model_name}_{compiler_name}.json"
+            filename = f"{model_name}_{subgraph_name}_{compiler_name}.json"
             filepath = os.path.join(output_dir, filename)
 
             with open(filepath, "w", encoding="utf-8") as f:

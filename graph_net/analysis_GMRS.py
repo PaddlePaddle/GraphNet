@@ -164,11 +164,11 @@ def calculate_s_scores(
 
     # 遍历“尺子”上的每一个刻度
     for t_key in t_keys:
+        regularized_speedups = []
         # 用当前刻度去衡量每一个样本
         for sample in samples:
             fail_type = sample.get("failure")
             if fail_type is not None:
-                speedup = sample.get("speedup")
                 performance = sample.get("performance", {})
                 eager_dtypes = performance.get("datatype", {}).get("eager", [])
                 compiled_dtypes = performance.get("datatype", {}).get("compiled", [])
@@ -183,8 +183,6 @@ def calculate_s_scores(
                     fail_type = "accuracy"
             else:
                 fail_type = None
-
-            regularized_speedups = []
 
             # 应用惩罚逻辑
             speedup = sample.get("speedup")
@@ -212,10 +210,9 @@ def calculate_s_scores(
             regularized_speedups.append(regularized_speedup)
 
         if regularized_speedups:
-            score = gmean(regularized_speedups)
-            s_scores[t_key] = score
+            s_scores[t_key] = gmean(regularized_speedups)
             print(
-                f"  - S(t) for tolerance={t_key}, penalty={exec_penalty:.4f}: {score:.4f}"
+                f"  - S(t) for tolerance={t_key}, penalty={exec_penalty:.4f}: {s_scores[t_key]:.4f}"
             )
 
     return s_scores

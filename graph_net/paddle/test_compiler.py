@@ -318,12 +318,12 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 def test_multi_models(args):
     verified_samples = None
-    if args.verified_samples_path is not None:
-        assert os.path.isfile(args.verified_samples_path)
+    if args.verified_samples_list_path is not None:
+        assert os.path.isfile(args.verified_samples_list_path)
         graphnet_root = path_utils.get_graphnet_root()
         print(f"graphnet_root: {graphnet_root}")
         verified_samples = []
-        with open(args.verified_samples_path, "r") as f:
+        with open(args.verified_samples_list_path, "r") as f:
             for line in f.readlines():
                 verified_samples.append(os.path.join(graphnet_root, line.strip()))
 
@@ -406,7 +406,7 @@ if __name__ == "__main__":
         help="Log prompt for performance log filtering.",
     )
     parser.add_argument(
-        "--verified-samples-path",
+        "--verified-samples-list-path",
         type=str,
         required=False,
         default=None,

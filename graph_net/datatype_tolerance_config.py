@@ -1,4 +1,4 @@
-def tolerance_generator(t, dtype):
+def get_precision(t, dtype):
     if "float16" in dtype:
         return 10 ** (t * 3 / 5), 10**t
     elif "bfloat16" in dtype:

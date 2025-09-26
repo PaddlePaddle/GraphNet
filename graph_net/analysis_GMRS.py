@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import gmean
 from collections import OrderedDict
 from scipy.optimize import curve_fit
-from graph_net.datatype_tolerance_config import tolerance_generator
+from graph_net.datatype_tolerance_config import get_precision
 
 
 # ---------- 1. 数据加载与处理 ----------
@@ -99,26 +99,14 @@ def sigmoid(x):
     return 1 / (1 + np.exp(-x))
 
 
-def get_precision(dtype: str, t: str) -> list:
+def get_correctness(dtype: str, t: str, sample: dict) -> bool:
     """
-    根据标准尺度的 t key 和 dtype，从配置中查找实际要检查的 atol/rtol 值。
+    根据标准尺度的 t key 和 dtype，从配置中查找实际的 atol/rtol 值，从而检查样本的正确性。
     """
-    precision_pair = tolerance_generator(t, dtype)
-
+    precision_pair = get_precision(t, dtype)
     rtol = float(f"{precision_pair[0]:.3g}")
     atol = float(f"{precision_pair[1]:.3g}")
 
-    if rtol is not None and atol is not None:
-        return [atol, rtol]
-    else:
-        print(f"Warning: No precision found for datatype={dtype}, tolerance={t}.")
-        return None
-
-
-def get_correctness(sample: dict, atol: str, rtol: str) -> bool:
-    """
-    根据给定的实际 atol 和 rtol 值，检查样本的正确性字典。
-    """
     metric_key_to_check = f"[all_close_atol_{atol}_rtol_{rtol}]"
     correctness_data = sample.get("correctness_metrics", {})
     return correctness_data.get(metric_key_to_check) == [1]
@@ -170,8 +158,7 @@ def calculate_s_scores(
                 compiled_dtypes = performance.get("datatype", {}).get("compiled", [])
                 if eager_dtypes == compiled_dtypes and eager_dtypes:
                     for dtype in eager_dtypes:
-                        atol, rtol = get_precision(dtype, t_key)
-                        if get_correctness(sample, atol, rtol):
+                        if get_correctness(dtype, t_key, sample):
                             fail_type = None
                             break
                         else:

@@ -204,10 +204,9 @@ def calculate_s_scores(
             # 应用惩罚逻辑
             if fail_type is not None or speedup is None:
                 if exec_failure_penalty == "fake_perf_degrad":
-                    exec_penalty = fake_perf_degrad(t_key, fail_type, fpdb=0.1)
+                    regularized_speedup = fake_perf_degrad(t_key, fail_type, fpdb=0.1)
                 else:
-                    exec_penalty = float(exec_failure_penalty)
-                regularized_speedup = exec_penalty
+                    regularized_speedup = float(exec_failure_penalty)
             else:
                 if speedup < 1:
                     regularized_speedup = speedup ** (negative_speedup_penalty + 1)

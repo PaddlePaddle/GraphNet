@@ -124,17 +124,21 @@ def fake_perf_degrad(t, fail_type, fpdb=0.1):
     返回:
         float: fake_perf_degrad 值 ∈ [fpdb, 1.0]
     """
-    if fail_type == "compiled":
-        # 编译失败：只有 t >= 3 时才豁免（返回 1）
-        return fpdb + (1 - fpdb) * (1 if t >= 3 else 0)
-    elif fail_type == "eager":
-        # 执行崩溃（但编译成功）：t >= 2 时豁免
-        return fpdb + (1 - fpdb) * (1 if t >= 2 else 0)
-    elif fail_type == "accuracy":
-        # 精度失败（运行成功但结果错误）：t >= 1 时豁免
+    # 适合旧版代码
+    if fail_type == "accuracy":
         return fpdb + (1 - fpdb) * (1 if t >= 1 else 0)
     else:
-        return Error
+        return fpdb + (1 - fpdb) * (1 if t >= 3 else 0)
+
+    # if fail_type == "compiled":
+    #     # 编译失败：只有 t >= 3 时才豁免（返回 1）
+    #     return fpdb + (1 - fpdb) * (1 if t >= 3 else 0)
+    # elif fail_type == "eager":
+    #     # 执行崩溃（但编译成功）：t >= 2 时豁免
+    #     return fpdb + (1 - fpdb) * (1 if t >= 2 else 0)
+    # elif fail_type == "accuracy":
+    #     # 精度失败（运行成功但结果错误）：t >= 1 时豁免
+    #     return fpdb + (1 - fpdb) * (1 if t >= 1 else 0)
 
 
 def calculate_s_scores(
@@ -147,7 +151,7 @@ def calculate_s_scores(
     """
 
     s_scores = OrderedDict()
-    bigin = -10
+    begin = -10
     end = 5
     t_keys = []
     for t in range(begin, end + 1):
@@ -182,7 +186,8 @@ def calculate_s_scores(
             regularized_speedups = []
 
             # 应用惩罚逻辑
-            if fail_type is not None:
+            speedup = sample.get("speedup")
+            if fail_type is not None or speedup is None:
                 if exec_failure_penalty == "logistic":
                     exec_penalty = sigmoid(np.log10(t_key))
                 elif exec_failure_penalty == "max-tanh":
@@ -214,47 +219,8 @@ def calculate_s_scores(
     return s_scores
 
 
-def calculate_category_stats(all_results):
-    """
-    计算每个类别的汇总统计数据，用于在图上直接显示
-    """
-    summary_stats = {}
-    print("\nCalculating summary statistics for each category...")
-    for folder_name, samples in all_results.items():
-        total_samples = len(samples)
-        if total_samples == 0:
-            continue
-
-        correct_samples = 0
-        slowdown_among_correct = 0
-
-        for sample in samples:
-            performance = sample.get("performance", {})
-            eager_dtypes = performance.get("datatype", {}).get("eager", [])
-            compiled_dtypes = performance.get("datatype", {}).get("compiled", [])
-
-            if sample.get("failure") is not None and (eager_dtypes == compiled_dtypes):
-                correct_samples += 1
-                speedup = sample.get("speedup")
-                if speedup < 1:
-                    slowdown_among_correct += 1
-
-        correct_ratio = correct_samples / total_samples
-        slowdown_ratio = slowdown_among_correct / correct_samples
-
-        summary_stats[folder_name] = {
-            "correct_ratio": correct_ratio,
-            "slowdown_ratio": slowdown_ratio,
-        }
-        print(
-            f"  - {folder_name}: Correctness Ratio={correct_ratio:.1%}, Slowdown Ratio (of correct)={slowdown_ratio:.1%}"
-        )
-
-    return summary_stats
-
-
 # ---------- 3. 绘图功能 ----------
-def plot_results(GMRS_scores: dict, summary_stats: dict, cli_args: argparse.Namespace):
+def plot_results(GMRS_scores: dict, cli_args: argparse.Namespace):
     """
     绘制 S(t) 曲线，并附带显示全局参数和各曲线的统计数据。
     """
@@ -386,12 +352,10 @@ def main():
         )
         for folder_name, samples in all_results.items()
     }
-    # 计算每个类别的汇总统计数据
-    summary_stats = calculate_category_stats(all_results)
 
     # 3. 多曲线绘图 (传入汇总数据和命令行参数)
     if any(GMRS_scores.values()):
-        plot_results(GMRS_scores, summary_stats, args)
+        plot_results(GMRS_scores, args)
     else:
         print("No S(t) scores were calculated. Skipping plot generation.")
 

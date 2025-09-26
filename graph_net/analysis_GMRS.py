@@ -87,14 +87,13 @@ def get_correctness(dtype: str, t: str, sample: dict) -> bool:
     precision_pair = get_precision(t, dtype)
     atol, rtol = precision_pair[1], precision_pair[0]
 
-    # 使用 .2E 格式化，确保小数点后有两位，并使用大写E，匹配JSON日志格式。
-    # 例如：1e-10 会被格式化为 '1.00E-10'
-    metric_key_to_check = f"[all_close_atol_{atol:.2E}_rtol_{rtol:.2E}]"
+    if atol == 0 and rtol == 0:
+        metric_key_to_check = "[equal]"
+    else:
+        # 使用 .2E 格式化，确保小数点后有两位，并使用大写E，匹配JSON日志格式
+        metric_key_to_check = f"[all_close_atol_{atol:.2E}_rtol_{rtol:.2E}]"
 
-    # 获取 correctness 数据
     correctness_data = sample.get("correctness", {})
-
-    # 查找并返回结果
     result = correctness_data.get(metric_key_to_check)
 
     return result == [1]

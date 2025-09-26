@@ -97,10 +97,21 @@ def fake_perf_degrad(t, fail_type, fpdb=0.1):
     """
     根据容忍度 t 和失败类型，计算 fake performance degradation。
     """
+    # 适合旧版代码
     if fail_type == "accuracy":
         return fpdb + (1 - fpdb) * (1 if t >= 1 else 0)
     else:
         return fpdb + (1 - fpdb) * (1 if t >= 3 else 0)
+
+    # if fail_type == "compiled":
+    #     # 编译失败：只有 t >= 3 时才豁免（返回 1）
+    #     return fpdb + (1 - fpdb) * (1 if t >= 3 else 0)
+    # elif fail_type == "eager":
+    #     # 执行崩溃（但编译成功）：t >= 2 时豁免
+    #     return fpdb + (1 - fpdb) * (1 if t >= 2 else 0)
+    # elif fail_type == "accuracy":
+    #     # 精度失败（运行成功但结果错误）：t >= 1 时豁免
+    #     return fpdb + (1 - fpdb) * (1 if t >= 1 else 0)
 
 
 def calculate_s_scores(

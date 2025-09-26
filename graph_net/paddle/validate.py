@@ -49,7 +49,7 @@ def _extract_forward_source(model_path, class_name):
 def check_graph_hash(args):
     model_path = args.model_path
     file_path = f"{model_path}/graph_hash.txt"
-    if args.dump_graph_hash_key:
+    if not args.no_dump_graph_hash_key:
         model_str = _extract_forward_source(model_path, class_name="GraphModule")
         assert model_str is not None, f"model_str of {args.model_path} is None."
         new_hash_text = _get_sha_hash(model_str)
@@ -128,9 +128,9 @@ if __name__ == "__main__":
         help="whether check model graph redundancy",
     )
     parser.add_argument(
-        "--dump-graph-hash-key",
+        "--no-dump-graph-hash-key",
         action="store_true",
-        default=True,
+        default=False,
         help="Dump graph hash key",
     )
     parser.add_argument(

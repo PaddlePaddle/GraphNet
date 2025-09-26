@@ -1,0 +1,6 @@
+{
+    "framework": "paddle",
+    "model_name": "Cascade-FasterRCNN-ResNet50-vd-SSLDv2-FPN",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
+}

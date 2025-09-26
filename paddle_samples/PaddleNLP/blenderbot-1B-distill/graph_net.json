@@ -1,0 +1,6 @@
+{
+    "framework": "paddle",
+    "model_name": "blenderbot-1B-distill",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
+}

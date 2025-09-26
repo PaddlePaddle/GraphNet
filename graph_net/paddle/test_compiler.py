@@ -7,6 +7,7 @@ import os
 from dataclasses import dataclass
 from contextlib import contextmanager
 import time
+import math
 import numpy as np
 import random
 import platform
@@ -283,8 +284,16 @@ def test_single_model(args):
 
 
 def get_cmp_equal(expected_out, compiled_out):
+    def convert(x):
+        if x.dtype in [paddle.float16, paddle.bfloat16]:
+            return x.astype("float32")
+        elif x.dtype in [paddle.uint8, paddle.int8, paddle.int16]:
+            return x.astype("int32")
+        return x
+
     return " ".join(
-        str(int(paddle.equal_all(a, b))) for a, b in zip(expected_out, compiled_out)
+        str(int(paddle.equal_all(convert(a), convert(b))))
+        for a, b in zip(expected_out, compiled_out)
     )
 
 

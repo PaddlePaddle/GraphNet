@@ -80,9 +80,9 @@ def scan_all_folders(benchmark_path: str) -> dict:
 
 
 # ---------- 2. 核心计算逻辑 ----------
-def get_correctness(dtype: str, t: int, sample: dict) -> bool:
+def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> bool:
     """
-    根据标准尺度的 t key 和 dtype，从配置中查找实际的 atol/rtol 值，从而检查样本的正确性。
+    根据容忍度、数据类型和输出索引，从配置中查找实际的 atol/rtol 值，获取单个输出的正确性结果。
     """
     precision_pair = get_precision(t, dtype)
     atol, rtol = precision_pair[1], precision_pair[0]
@@ -93,15 +93,8 @@ def get_correctness(dtype: str, t: int, sample: dict) -> bool:
         # 使用 .2E 格式化，确保小数点后有两位，并使用大写E，匹配JSON日志格式
         metric_key_to_check = f"[all_close_atol_{atol:.2E}_rtol_{rtol:.2E}]"
 
-    correctness_data = sample.get("correctness", {})
     result = correctness_data.get(metric_key_to_check)
-    # if result is None:
-    #     print(f"Cannot find {metric_key_to_check} in correctness data. Sample keys: {correctness_data.keys()}")
-
-    if isinstance(result, list) and result:
-        return all(r == 1 for r in result)
-    else:
-        return False  # 如果不是列表或者为空，则返回 False
+    return bool(result[index])
 
 
 def fake_perf_degrad(t, fail_type, fpdb=0.1):
@@ -169,24 +162,33 @@ def calculate_s_scores(
         other_failure_count = 0
 
         for sample in samples:
-            # 直接从原始数据字典中获取性能和失败信息
             performance_data = sample.get("performance", {})
             fail_type = performance_data.get("failure")
             speedup = performance_data.get("speedup", {}).get("e2e")
 
             # 如果没有严重失败，则检查精度
+            is_correct = False
             if fail_type is None:
                 datatype_data = performance_data.get("datatype", {})
                 eager_dtypes = datatype_data.get("eager", [])
                 compiled_dtypes = datatype_data.get("compiled", [])
 
                 # 只有当 eager 和 compiled 数据类型列表一致且不为空时，才进行正确性检查
-                is_correct = False
                 if eager_dtypes and eager_dtypes == compiled_dtypes:
-                    for dtype in eager_dtypes:
-                        if get_correctness(dtype, t_key, sample):
-                            is_correct = True
-                            break
+                    correctness_data = sample.get("correctness", {})
+                    output_count = len(correctness_data.get("[equal]", []))
+
+                    results = []
+                    for i in range(output_count):
+                        if len(eager_dtypes) == output_count:
+                            dtype = eager_dtypes[i]
+                        else:
+                            dtype = eager_dtypes[0]
+                        results.append(
+                            get_correctness(dtype, t_key, correctness_data, i)
+                        )
+
+                    is_correct = all(results)
 
                 if not is_correct:
                     fail_type = "accuracy"
@@ -227,7 +229,7 @@ def calculate_s_scores(
 
 
 # ---------- 3. 绘图功能 ----------
-def plot_results(GMRS_scores: dict, cli_args: argparse.Namespace):
+def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
     """
     绘制 S(t) 曲线
     """
@@ -239,8 +241,60 @@ def plot_results(GMRS_scores: dict, cli_args: argparse.Namespace):
 
     all_x_coords = []
 
+    for idx, (folder_name, scores_dict) in enumerate(s_scores.items()):
+        plot_points = []
+        for t_key, score in scores_dict.items():
+            if t_key <= 0:
+                all_x_coords.append(t_key)
+                plot_points.append({"x": t_key, "y": score})
+
+        plot_points.sort(key=lambda p: p["x"])
+
+        x_vals = np.array([p["x"] for p in plot_points])
+        y_vals = np.array([p["y"] for p in plot_points])
+
+        color = colors[idx % len(colors)]
+        ax.plot(
+            x_vals,
+            y_vals,
+            "o-",
+            color=color,
+            label=folder_name,
+            linewidth=2,
+            markersize=6,
+        )
+
+    ax.set_xlabel("t", fontsize=18)
+    ax.set_ylabel("S(t)", fontsize=18)
+    ax.tick_params(axis="both", which="major", labelsize=14)
+
+    if all_x_coords:
+        x_min = int(np.floor(min(all_x_coords)))
+        x_max = int(np.ceil(max(all_x_coords)))
+        ax.set_xticks(np.arange(x_min, x_max + 1))
+
+    ax.xaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
+    ax.yaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
+
+    ax.legend(fontsize=16, loc="best")
+    plt.savefig("S_result.png", dpi=150)
+    print("\nComparison plot saved to S_result.png")
+
+
+def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
+    """
+    绘制 ES(t) 曲线
+    """
+    plt.style.use("seaborn-v0_8-whitegrid")
+    fig, ax = plt.subplots(figsize=(18, 10))
+
+    prop_cycle = plt.rcParams["axes.prop_cycle"]
+    colors = prop_cycle.by_key()["color"]
+
+    all_x_coords = []
+
     # 绘制每个文件夹的曲线
-    for idx, (folder_name, s_scores) in enumerate(GMRS_scores.items()):
+    for idx, (folder_name, s_scores) in enumerate(s_scores.items()):
         plot_points = []
 
         for t_key, score in s_scores.items():
@@ -276,27 +330,27 @@ def plot_results(GMRS_scores: dict, cli_args: argparse.Namespace):
 
     penalty_p = cli_args.negative_speedup_penalty
     penalty_exec = cli_args.exec_failure_penalty
-    config = (
-        f"Penalty Settings: exec_failure_penalty='{penalty_exec}', "
-        f"negative_speedup_penalty(p)={penalty_p}"
-    )
-    fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
+    # config = (
+    #     f"Penalty Settings: exec_failure_penalty='{penalty_exec}', "
+    #     f"negative_speedup_penalty(p)={penalty_p}"
+    # )
+    # fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
 
-    ax.set_xlabel("tolerance", fontsize=18)
-    ax.set_ylabel("GMRS(t,p) (Geometric Mean of Rectified Speedup)", fontsize=18)
+    ax.set_xlabel("t", fontsize=18)
+    ax.set_ylabel("ES(t)", fontsize=18)
     ax.tick_params(axis="both", which="major", labelsize=14)
 
     if all_x_coords:
         x_min = int(np.floor(min(all_x_coords)))
         x_max = int(np.ceil(max(all_x_coords)))
-        ax.set_xticks(np.arange(x_min, x_max + 2, 1))  # 扩展X轴范围以容纳末端文本
+        ax.set_xticks(np.arange(x_min, x_max + 1))
 
     ax.xaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
     ax.yaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
 
     ax.legend(fontsize=16, loc="best")
-    plt.savefig("Eval_result.png", dpi=150)
-    print("\nComparison plot saved to Eval_result.png")
+    plt.savefig("ES_result.png", dpi=150)
+    print("\nComparison plot saved to ES_result.png")
 
 
 # ---------- 4. 主程序入口 ----------
@@ -337,7 +391,7 @@ def main():
         return
 
     # 2. 分别计算每条曲线的 S 分数
-    GMRS_scores = {
+    s_scores = {
         folder_name: calculate_s_scores(
             samples,
             folder_name,
@@ -348,8 +402,9 @@ def main():
     }
 
     # 3. 多曲线绘图 (传入汇总数据和命令行参数)
-    if any(GMRS_scores.values()):
-        plot_results(GMRS_scores, args)
+    if any(s_scores.values()):
+        plot_S_results(s_scores, args)
+        plot_ES_results(s_scores, args)
     else:
         print("No S(t) scores were calculated. Skipping plot generation.")
 

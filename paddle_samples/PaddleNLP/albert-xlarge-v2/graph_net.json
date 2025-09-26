@@ -1,0 +1,6 @@
+{
+    "framework": "paddle",
+    "model_name": "albert-xlarge-v2",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
+}

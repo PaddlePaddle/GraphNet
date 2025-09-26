@@ -29,7 +29,7 @@ def load_one_folder(folder_path: str) -> list:
     if not os.path.isdir(folder_path):
         return []
 
-    folder_name = os.path.basename(folder_path)  # 用作曲线名称
+    folder_name = os.path.basename(folder_path)
     samples = []
     print(f"  - Loading JSON files from folder: {folder_path}")
 
@@ -37,8 +37,8 @@ def load_one_folder(folder_path: str) -> list:
         if filename.endswith(".json"):
             filepath = os.path.join(folder_path, filename)
             data = load_json_file(filepath)
-            if data:  # 如果读取数据成功
-                samples.append(data)  # 直接添加原始数据字典
+            if data:
+                samples.append(data)
     return samples
 
 
@@ -80,11 +80,6 @@ def scan_all_folders(benchmark_path: str) -> dict:
 
 
 # ---------- 2. 核心计算逻辑 ----------
-def sigmoid(x):
-    """Sigmoid 激活函数"""
-    return 1 / (1 + np.exp(-x))
-
-
 def get_correctness(dtype: str, t: str, sample: dict) -> bool:
     """
     根据标准尺度的 t key 和 dtype，从配置中查找实际的 atol/rtol 值，从而检查样本的正确性。

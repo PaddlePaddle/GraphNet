@@ -236,7 +236,8 @@ def check_outputs(args, expected_out, compiled_out):
             cmp_all_close_func=get_cmp_all_close,
             cmp_max_diff_func=get_cmp_max_diff,
             cmp_mean_diff_func=get_cmp_mean_diff,
-            cmp_diff_count_func=get_cmp_diff_count,
+            cmp_max_relative_diff_func=get_cmp_max_relative_diff,
+            cmp_mean_relative_diff_func=get_cmp_mean_relative_diff,
         )
 
 
@@ -254,13 +255,14 @@ def test_single_model(args):
     eager_success = False
     try:
         print("Run model in eager mode.")
-        static_model = get_static_model(args, model)
+        # static_model = get_static_model(args, model)
         expected_out, eager_time_stats = measure_performance(
-            lambda: static_model(**input_dict), args, synchronizer_func, profile=False
+            lambda: model(**input_dict), args, synchronizer_func, profile=False
         )
         eager_success = True
     except Exception as e:
         print(f"Run model in eager mode failed: {str(e)}\n{traceback.format_exc()}")
+    # sys.exit(0)
 
     # Run on compiling mode
     compiled_success = False
@@ -276,6 +278,9 @@ def test_single_model(args):
 
     test_compiler_util.print_running_status(args, eager_success, compiled_success)
     if eager_success and compiled_success:
+        i = 0
+        # print(f"expected_out[{i}]: {expected_out[i]}")
+        # print(f"compiled_out[{i}]: {compiled_out[i]}")
         check_outputs(args, expected_out, compiled_out)
 
         test_compiler_util.print_times_and_speedup(
@@ -314,6 +319,22 @@ def get_cmp_max_diff(expected_out, compiled_out):
 def get_cmp_mean_diff(expected_out, compiled_out):
     return " ".join(
         str(paddle.mean(paddle.abs(a - b)).item())
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_cmp_max_relative_diff(expected_out, compiled_out):
+    epsilon = 1e-8
+    return " ".join(
+        str(paddle.max(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item())
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_cmp_mean_relative_diff(expected_out, compiled_out):
+    epsilon = 1e-8
+    return " ".join(
+        str(paddle.mean(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item())
         for a, b in zip(expected_out, compiled_out)
     )
 

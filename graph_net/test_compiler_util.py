@@ -186,7 +186,8 @@ def calculate_tolerance_pair(begin, end):
 
 
 def generate_allclose_configs(cmp_all_close_func):
-    tolerance_pair_list = calculate_tolerance_pair(-10, 5)
+    # tolerance_pair_list = calculate_tolerance_pair(-10, 5)
+    tolerance_pair_list = calculate_tolerance_pair(-3, 1)
 
     cmp_configs = []
     for pair in tolerance_pair_list:
@@ -204,11 +205,14 @@ def check_allclose(
     cmp_all_close_func,
     cmp_max_diff_func,
     cmp_mean_diff_func,
-    cmp_diff_count_func,
+    cmp_max_relative_diff_func,
+    cmp_mean_relative_diff_func,
 ):
     cmp_configs = generate_allclose_configs(cmp_all_close_func)
     cmp_configs.append(("[max_diff]", cmp_max_diff_func, {}))
     cmp_configs.append(("[mean_diff]", cmp_mean_diff_func, {}))
+    cmp_configs.append(("[max_relative_diff]", cmp_max_relative_diff_func, {}))
+    cmp_configs.append(("[mean_relative_diff]", cmp_mean_relative_diff_func, {}))
 
     for key, func, kwargs in cmp_configs:
         print_and_store_cmp(

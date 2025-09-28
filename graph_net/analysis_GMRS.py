@@ -157,14 +157,24 @@ def calculate_s_scores(
                 eta = correct_negative_speedup_count / correct_count
             else:
                 eta = 0
+            if t_key < 1:
+                gamma = fpdb
+            elif t_key < 3:
+                gamma = (
+                    acc_failure_count * 1
+                    + (total_samples - correct_count - acc_failure_count) * fpdb
+                ) / (total_samples - correct_count)
+            else:
+                gamma = 1
 
             print(
-                f"    - alpha: {alpha:.2f} (Geometric mean speedup of correct samples)"
+                f"    - alpha: {alpha:.3f} (Geometric mean speedup of correct samples)"
             )
-            print(f"    - beta: {beta:.2f} (Geometric mean speedup of slowdown cases)")
-            print(f"    - lambda: {lambda_:.2f} (Fraction of correct samples)")
+            print(f"    - beta: {beta:.3f} (Geometric mean speedup of slowdown cases)")
+            print(f"    - gamma: {gamma} (Average error penalty)")
+            print(f"    - lambda: {lambda_:.3f} (Fraction of correct samples)")
             print(
-                f"    - eta: {eta:.2f} (Fraction of slowdown cases within correct samples)"
+                f"    - eta: {eta:.3f} (Fraction of slowdown cases within correct samples)"
             )
         else:
             print("    - No samples to analyze.")
@@ -283,7 +293,7 @@ def calculate_s_scores(
                 slowdown_speedups,
             )
             print(
-                f"  - S(t)={s_scores[t_key]:.2f}, ES(t)={s_scores_fake_degrad[t_key]:.2f} for tolerance={t_key}."
+                f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
             )
 
     return s_scores, s_scores_fake_degrad

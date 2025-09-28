@@ -431,14 +431,4 @@ class GraphModule(paddle.nn.Layer):
             unsqueeze_7,
         )
 
-        return (
-            split_0,
-            split_1,
-            split_2,
-            split_3,
-            split_4,
-            split_5,
-            split_6,
-            split_7,
-            layer_norm_0,
-        )
+        return layer_norm_0

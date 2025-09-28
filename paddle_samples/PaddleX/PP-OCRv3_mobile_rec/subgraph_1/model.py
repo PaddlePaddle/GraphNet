@@ -708,4 +708,4 @@ class GraphModule(paddle.nn.Layer):
             transpose_2,
         )
 
-        return rnn_0, split_0, split_1, add_0
+        return add_0

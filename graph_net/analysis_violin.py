@@ -96,7 +96,7 @@ def plot_violin(df, output_dir):
         data=df,
         order=category_order,
         showcaps=False,
-        boxprops={"facecolor": (0.5, 0.7, 1.0, 0.5), "edgecolor": "black"},
+        boxprops={"facecolor": (0.5, 0.7, 1.0, 0.5)},
         medianprops={"color": "red", "linewidth": 2},
         whiskerprops={"color": "black", "linewidth": 1.5},
         flierprops={"marker": ".", "markerfacecolor": "black"},
@@ -105,7 +105,8 @@ def plot_violin(df, output_dir):
     )
 
     ax.set_ylabel("log2(speedup)", fontsize=14)
-    ax.set_xlabel("")
+    ax.set(xlabel="")
+    ax.set_xticks(range(len(category_order)))
     ax.set_xticklabels(category_order, fontsize=14)
     sns.despine(trim=True, left=True)
 

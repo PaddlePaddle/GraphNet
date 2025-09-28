@@ -94,7 +94,9 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
         metric_key_to_check = f"[all_close_atol_{atol:.2E}_rtol_{rtol:.2E}]"
 
     result = correctness_data.get(metric_key_to_check)
-    return bool(result[index])
+    if isinstance(result, list) and len(result) > index:
+        return bool(result[index])
+    return False
 
 
 def fake_perf_degrad(t, fail_type, fpdb=0.1):
@@ -123,9 +125,9 @@ def calculate_s_scores(
     folder_name: str,
     negative_speedup_penalty: float = 0,
     fpdb: float = 0.1,
-) -> dict:
+) -> tuple:
     """
-    使用一个标准 tolerance 来评估所有样本，并计算每个刻度上的 S(t) 分数。
+    使用一个标准 tolerance 来评估所有样本，并计算每个刻度上的 S(t) 和 ES(t) 分数。
     """
     s_scores = OrderedDict()
     s_scores_fake_degrad = OrderedDict()
@@ -142,94 +144,130 @@ def calculate_s_scores(
         correct_count,
         acc_failure_count,
         other_failure_count,
-        negative_speedup_count,
+        correct_negative_speedup_count,
+        correct_speedups,
+        slowdown_speedups,
     ):
         print(f"  - Details for tolerance={t_key}:")
         if total_samples > 0:
-            correct_ratio = correct_count / total_samples
-            acc_failure_ratio = acc_failure_count / total_samples
-            other_failure_ratio = other_failure_count / total_samples
-            negative_speedup_ratio = negative_speedup_count / total_samples
+            alpha = gmean(correct_speedups) if correct_speedups else 0
+            beta = gmean(slowdown_speedups) if slowdown_speedups else 0
+            lambda_ = correct_count / total_samples
+            if correct_count > 0:
+                eta = correct_negative_speedup_count / correct_count
+            else:
+                eta = 0
+
             print(
-                f"    - Correct samples: {correct_count}/{total_samples} ({correct_ratio:.2%})"
+                f"    - alpha: {alpha:.2f} (Geometric mean speedup of correct samples)"
             )
+            print(f"    - beta: {beta:.2f} (Geometric mean speedup of slowdown cases)")
+            print(f"    - lambda: {lambda_:.2f} (Fraction of correct samples)")
             print(
-                f"    - Accuracy failures: {acc_failure_count}/{total_samples} ({acc_failure_ratio:.2%})"
-            )
-            print(
-                f"    - Other failures: {other_failure_count}/{total_samples} ({other_failure_ratio:.2%})"
-            )
-            print(
-                f"    - Negative speedup: {negative_speedup_count}/{total_samples} ({negative_speedup_ratio:.2%})"
+                f"    - eta: {eta:.2f} (Fraction of slowdown cases within correct samples)"
             )
         else:
             print("    - No samples to analyze.")
 
+    # ES曲线的阶梯状状态，初始化为'CORRECT'
+    es_status = ["CORRECT"] * total_samples
+
+    # 核心计算逻辑，处理两种惩罚模式
     for t_key in t_keys:
         regularized_speedups = []
         regularized_speedups_fake_degrad = []
         correct_count = 0
         acc_failure_count = 0
         other_failure_count = 0
-        negative_speedup_count = 0
+        correct_negative_speedup_count = 0
 
-        for sample in samples:
+        # 新增：用于计算 alpha 和 beta 的列表
+        correct_speedups = []
+        slowdown_speedups = []
+
+        for idx, sample in enumerate(samples):
             performance_data = sample.get("performance", {})
             fail_type = performance_data.get("failure")
             speedup = performance_data.get("speedup", {}).get("e2e")
 
-            # 如果没有严重失败，则检查精度
+            # 判定当前样本的真实状态（用于统计和S曲线）
             is_correct = False
             if fail_type is None:
                 datatype_data = performance_data.get("datatype", {})
                 eager_dtypes = datatype_data.get("eager", [])
                 compiled_dtypes = datatype_data.get("compiled", [])
-
-                # 只有当 eager 和 compiled 数据类型列表一致且不为空时，才进行正确性检查
-                if eager_dtypes and eager_dtypes == compiled_dtypes:
+                if (
+                    eager_dtypes
+                    and eager_dtypes == compiled_dtypes
+                    and len(eager_dtypes) > 0
+                ):
                     correctness_data = sample.get("correctness", {})
                     output_count = len(correctness_data.get("[equal]", []))
-
-                    results = []
-                    for i in range(output_count):
-                        if len(eager_dtypes) == output_count:
-                            dtype = eager_dtypes[i]
-                        else:
-                            dtype = eager_dtypes[0]
-                        results.append(
-                            get_correctness(dtype, t_key, correctness_data, i)
+                    if len(eager_dtypes) == output_count:
+                        is_correct = all(
+                            get_correctness(eager_dtypes[i], t_key, correctness_data, i)
+                            for i in range(output_count)
                         )
+                    if not is_correct:
+                        fail_type = "accuracy"
 
-                    is_correct = all(results)
-
-                if not is_correct:
-                    fail_type = "accuracy"
-
-            # 记录失败类型计数
+            # 统计信息
             if is_correct:
                 correct_count += 1
+                if speedup is not None:
+                    correct_speedups.append(speedup)
+                if speedup is not None and speedup < 1:
+                    correct_negative_speedup_count += 1
+                    slowdown_speedups.append(speedup)
             elif fail_type == "accuracy":
                 acc_failure_count += 1
             else:
                 other_failure_count += 1
 
-            # 记录负优化
-            if speedup is not None and speedup < 1:
-                negative_speedup_count += 1
-
-            # 应用惩罚逻辑
+            # S(t) 计算（基于原始状态）
             if fail_type is not None or speedup is None:
                 regularized_speedup = fpdb
-                reg_speedup_fake_degrad = fake_perf_degrad(t_key, fail_type, fpdb)
             else:
-                if speedup < 1:
-                    regularized_speedup = speedup ** (negative_speedup_penalty + 1)
-                    reg_speedup_fake_degrad = speedup ** (negative_speedup_penalty + 1)
-                else:
-                    regularized_speedup = speedup
-                    reg_speedup_fake_degrad = speedup
-
+                regularized_speedup = (
+                    speedup ** (negative_speedup_penalty + 1)
+                    if speedup < 1
+                    else speedup
+                )
             regularized_speedups.append(regularized_speedup)
+
+            # ES(t) 核心逻辑：基于状态变化
+            reg_speedup_fake_degrad = 0
+            if t_key < 1:
+                # 在 t < 1 时，ES行为与S相同
+                if fail_type is not None or speedup is None:
+                    reg_speedup_fake_degrad = fpdb
+                else:
+                    reg_speedup_fake_degrad = (
+                        speedup ** (negative_speedup_penalty + 1)
+                        if speedup < 1
+                        else speedup
+                    )
+            else:
+                # 在 t >= 1 时，ES开始应用阶梯状逻辑
+                if es_status[idx] == "CORRECT" and fail_type is not None:
+                    es_status[idx] = fail_type
+
+                if es_status[idx] == "accuracy":
+                    reg_speedup_fake_degrad = fake_perf_degrad(t_key, "accuracy", fpdb)
+                elif es_status[idx] is not None and es_status[idx] != "CORRECT":
+                    reg_speedup_fake_degrad = fake_perf_degrad(
+                        t_key, es_status[idx], fpdb
+                    )
+                else:  # Still in a "CORRECT" state
+                    if speedup is None:
+                        reg_speedup_fake_degrad = fpdb
+                    else:
+                        reg_speedup_fake_degrad = (
+                            speedup ** (negative_speedup_penalty + 1)
+                            if speedup < 1
+                            else speedup
+                        )
+
             regularized_speedups_fake_degrad.append(reg_speedup_fake_degrad)
 
         if regularized_speedups:
@@ -240,10 +278,12 @@ def calculate_s_scores(
                 correct_count,
                 acc_failure_count,
                 other_failure_count,
-                negative_speedup_count,
+                correct_negative_speedup_count,
+                correct_speedups,
+                slowdown_speedups,
             )
             print(
-                f"  - S(t)={s_scores[t_key]:.4f}, ES(t)={s_scores_fake_degrad[t_key]:.4f} for tolerance={t_key}."
+                f"  - S(t)={s_scores[t_key]:.2f}, ES(t)={s_scores_fake_degrad[t_key]:.2f} for tolerance={t_key}."
             )
 
     return s_scores, s_scores_fake_degrad
@@ -318,36 +358,65 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
 
     all_x_coords = []
 
-    for idx, (folder_name, s_scores) in enumerate(s_scores.items()):
+    for idx, (folder_name, scores_dict) in enumerate(s_scores.items()):
         plot_points = []
+        for (
+            t_key,
+            score_data,
+        ) in scores_dict.items():  # Change variable name to score_data
+            # Access the 'score' key from the nested dictionary
+            if isinstance(score_data, dict):
+                score = score_data["score"]
+            else:
+                score = score_data
 
-        for t_key, score in s_scores.items():
-            try:
-                all_x_coords.append(t_key)
-                plot_points.append({"x": t_key, "y": score})
-            except (ValueError, TypeError):
-                print(f"Warning: Could not parse t_key '{t_key}'. Skipping for plot.")
-                continue
+            all_x_coords.append(t_key)
+            plot_points.append({"x": t_key, "y": score})
 
-        if not plot_points:
-            print(f"Warning: No valid points to plot for folder '{folder_name}'.")
-            continue
-
+        # 按x值排序
         plot_points.sort(key=lambda p: p["x"])
 
         x_vals = np.array([p["x"] for p in plot_points])
         y_vals = np.array([p["y"] for p in plot_points])
 
         color = colors[idx % len(colors)]
-        ax.plot(
-            x_vals,
-            y_vals,
-            "o-",
-            color=color,
-            label=folder_name,
-            linewidth=2,
-            markersize=6,
-        )
+
+        # 找到 t=0 的索引
+        zero_index = np.where(x_vals == 0)[0][0] if 0 in x_vals else None
+
+        # 如果存在t=0的点，则分段绘制
+        if zero_index is not None:
+            # 绘制 t <= 0 的连续直线部分
+            ax.plot(
+                x_vals[: zero_index + 1],
+                y_vals[: zero_index + 1],
+                "o-",
+                color=color,
+                label=folder_name,
+                linewidth=2,
+                markersize=6,
+            )
+            # 绘制 t > 0 的阶梯状部分
+            ax.plot(
+                x_vals[zero_index:],
+                y_vals[zero_index:],
+                "o-",
+                color=color,
+                linewidth=2,
+                markersize=6,
+                drawstyle="steps-post",
+            )
+        else:
+            # 如果没有t=0，则整个曲线都使用常规直线
+            ax.plot(
+                x_vals,
+                y_vals,
+                "o-",
+                color=color,
+                label=folder_name,
+                linewidth=2,
+                markersize=6,
+            )
 
     p = cli_args.negative_speedup_penalty
     gamma = f"fake_perf_degrad (b={cli_args.fpdb})"

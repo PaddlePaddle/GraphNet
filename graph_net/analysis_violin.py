@@ -106,7 +106,7 @@ def plot_violin(df, output_dir):
 
     ax.set_ylabel("log2(speedup)", fontsize=14)
     ax.set_xlabel("")
-    ax.set_xticklabels(category_order, ha="right", fontsize=14)
+    ax.set_xticklabels(category_order, fontsize=14)
     sns.despine(trim=True, left=True)
 
     from matplotlib.lines import Line2D

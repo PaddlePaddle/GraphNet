@@ -335,8 +335,7 @@ def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
         )
 
     p = cli_args.negative_speedup_penalty
-    gamma = f"b = {cli_args.fpdb}"
-    config = f"p = {p}, gamma = {gamma}"
+    config = f"p = {p}, b = {cli_args.fpdb}"
     fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
 
     ax.set_xlabel("t", fontsize=18)
@@ -429,8 +428,7 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
             )
 
     p = cli_args.negative_speedup_penalty
-    gamma = f"fake_perf_degrad (b={cli_args.fpdb})"
-    config = f"p = {p}, gamma = {gamma}"
+    config = f"p = {p}, gamma = fake_perf_degrad (b={cli_args.fpdb})"
     fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
 
     ax.set_xlabel("t", fontsize=18)

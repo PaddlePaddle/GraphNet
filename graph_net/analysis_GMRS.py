@@ -122,27 +122,34 @@ def calculate_s_scores(
     samples: list,
     folder_name: str,
     negative_speedup_penalty: float = 0,
-    exec_failure_penalty: str = "0.1",
+    fpdb: float = 0.1,
 ) -> dict:
     """
     使用一个标准 tolerance 来评估所有样本，并计算每个刻度上的 S(t) 分数。
     """
     s_scores = OrderedDict()
+    s_scores_fake_degrad = OrderedDict()
+
     begin = -10
-    end = 3
+    end = 4
     t_keys = list(range(begin, end + 1))
     total_samples = len(samples)
 
-    print(
-        f"\nCalculating S(t) scores for '{folder_name}' using penalty function: '{exec_failure_penalty}'..."
-    )
+    print(f"\nCalculating S(t) scores for '{folder_name}'...")
 
-    def print_stat_info(t_key, correct_count, acc_failure_count, other_failure_count):
+    def print_stat_info(
+        t_key,
+        correct_count,
+        acc_failure_count,
+        other_failure_count,
+        negative_speedup_count,
+    ):
         print(f"  - Details for tolerance={t_key}:")
         if total_samples > 0:
             correct_ratio = correct_count / total_samples
             acc_failure_ratio = acc_failure_count / total_samples
             other_failure_ratio = other_failure_count / total_samples
+            negative_speedup_ratio = negative_speedup_count / total_samples
             print(
                 f"    - Correct samples: {correct_count}/{total_samples} ({correct_ratio:.2%})"
             )
@@ -152,14 +159,19 @@ def calculate_s_scores(
             print(
                 f"    - Other failures: {other_failure_count}/{total_samples} ({other_failure_ratio:.2%})"
             )
+            print(
+                f"    - Negative speedup: {negative_speedup_count}/{total_samples} ({negative_speedup_ratio:.2%})"
+            )
         else:
             print("    - No samples to analyze.")
 
     for t_key in t_keys:
         regularized_speedups = []
+        regularized_speedups_fake_degrad = []
         correct_count = 0
         acc_failure_count = 0
         other_failure_count = 0
+        negative_speedup_count = 0
 
         for sample in samples:
             performance_data = sample.get("performance", {})
@@ -201,30 +213,40 @@ def calculate_s_scores(
             else:
                 other_failure_count += 1
 
+            # 记录负优化
+            if speedup is not None and speedup < 1:
+                negative_speedup_count += 1
+
             # 应用惩罚逻辑
             if fail_type is not None or speedup is None:
-                if exec_failure_penalty == "fake_perf_degrad":
-                    regularized_speedup = fake_perf_degrad(t_key, fail_type, fpdb=0.1)
-                else:
-                    regularized_speedup = float(exec_failure_penalty)
+                regularized_speedup = fpdb
+                reg_speedup_fake_degrad = fake_perf_degrad(t_key, fail_type, fpdb)
             else:
                 if speedup < 1:
                     regularized_speedup = speedup ** (negative_speedup_penalty + 1)
+                    reg_speedup_fake_degrad = speedup ** (negative_speedup_penalty + 1)
                 else:
                     regularized_speedup = speedup
+                    reg_speedup_fake_degrad = speedup
 
             regularized_speedups.append(regularized_speedup)
+            regularized_speedups_fake_degrad.append(reg_speedup_fake_degrad)
 
         if regularized_speedups:
             s_scores[t_key] = gmean(regularized_speedups)
+            s_scores_fake_degrad[t_key] = gmean(regularized_speedups_fake_degrad)
             print_stat_info(
-                t_key, correct_count, acc_failure_count, other_failure_count
+                t_key,
+                correct_count,
+                acc_failure_count,
+                other_failure_count,
+                negative_speedup_count,
             )
             print(
-                f"  - S(t) for tolerance={t_key}, penalty={exec_penalty:.4f}: {s_scores[t_key]:.4f}"
+                f"  - S(t)={s_scores[t_key]:.4f}, ES(t)={s_scores_fake_degrad[t_key]:.4f} for tolerance={t_key}."
             )
 
-    return s_scores
+    return s_scores, s_scores_fake_degrad
 
 
 # ---------- 3. 绘图功能 ----------
@@ -243,9 +265,8 @@ def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
     for idx, (folder_name, scores_dict) in enumerate(s_scores.items()):
         plot_points = []
         for t_key, score in scores_dict.items():
-            if t_key <= 0:
-                all_x_coords.append(t_key)
-                plot_points.append({"x": t_key, "y": score})
+            all_x_coords.append(t_key)
+            plot_points.append({"x": t_key, "y": score})
 
         plot_points.sort(key=lambda p: p["x"])
 
@@ -264,10 +285,7 @@ def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
         )
 
     p = cli_args.negative_speedup_penalty
-    if cli_args.exec_failure_penalty == "fake_perf_degrad":
-        gamma = "b = 0.1"
-    else:
-        gamma = float(cli_args.exec_failure_penalty)
+    gamma = f"b = {cli_args.fpdb}"
     config = f"p = {p}, gamma = {gamma}"
     fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
 
@@ -332,7 +350,7 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
         )
 
     p = cli_args.negative_speedup_penalty
-    gamma = cli_args.exec_failure_penalty
+    gamma = f"fake_perf_degrad (b={cli_args.fpdb})"
     config = f"p = {p}, gamma = {gamma}"
     fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
 
@@ -376,11 +394,10 @@ def main():
         help="Penalty power (p) for negative speedup (speedup < 1). Formula: speedup**(p+1). Default: 0.0.",
     )
     parser.add_argument(
-        "--exec-failure-penalty",
+        "--fpdb",
         type=str,
         default="0.1",
-        help="Penalty for severe errors (e.g., correctness failure, crashes). \n"
-        "Can be 'fake_perf_degrad' or a constant number (e.g., '0.1').",
+        help="Base penalty for severe errors (e.g., correctness failure, crashes).",
     )
     args = parser.parse_args()
 
@@ -391,20 +408,23 @@ def main():
         return
 
     # 2. 分别计算每条曲线的 S 分数
-    s_scores = {
-        folder_name: calculate_s_scores(
+    all_s_scores = {}
+    all_s_scores_fake_degrad = {}
+
+    for folder_name, samples in all_results.items():
+        s_scores, s_scores_fake_degrad = calculate_s_scores(
             samples,
             folder_name,
             negative_speedup_penalty=args.negative_speedup_penalty,
-            exec_failure_penalty=args.exec_failure_penalty,
+            fpdb=float(args.fpdb),
         )
-        for folder_name, samples in all_results.items()
-    }
+        all_s_scores[folder_name] = s_scores
+        all_s_scores_fake_degrad[folder_name] = s_scores_fake_degrad
 
     # 3. 多曲线绘图 (传入汇总数据和命令行参数)
-    if any(s_scores.values()):
-        plot_S_results(s_scores, args)
-        plot_ES_results(s_scores, args)
+    if any(all_s_scores.values()):
+        plot_S_results(all_s_scores, args)
+        plot_ES_results(all_s_scores_fake_degrad, args)
     else:
         print("No S(t) scores were calculated. Skipping plot generation.")
 

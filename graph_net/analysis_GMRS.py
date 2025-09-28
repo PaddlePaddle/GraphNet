@@ -395,8 +395,8 @@ def main():
     )
     parser.add_argument(
         "--fpdb",
-        type=str,
-        default="0.1",
+        type=float,
+        default=0.1,
         help="Base penalty for severe errors (e.g., correctness failure, crashes).",
     )
     args = parser.parse_args()
@@ -416,7 +416,7 @@ def main():
             samples,
             folder_name,
             negative_speedup_penalty=args.negative_speedup_penalty,
-            fpdb=float(args.fpdb),
+            fpdb=args.fpdb,
         )
         all_s_scores[folder_name] = s_scores
         all_s_scores_fake_degrad[folder_name] = s_scores_fake_degrad

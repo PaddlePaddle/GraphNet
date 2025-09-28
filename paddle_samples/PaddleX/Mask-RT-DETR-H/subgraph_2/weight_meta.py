@@ -2,10 +2,8 @@ class Program_weight_tensor_parameter_0:
     name = "parameter_0"
     shape = [2048]
     dtype = "float32"
-    min_val = float("-6.02875")
-    max_val = float("2.04684")
-    mean = float("-3.3456")
-    std = float("0.919409")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -13,10 +11,8 @@ class Program_weight_tensor_parameter_1:
     name = "parameter_1"
     shape = [2048]
     dtype = "float32"
-    min_val = float("0.133301")
-    max_val = float("6.26299")
-    mean = float("2.63817")
-    std = float("0.691997")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -24,10 +20,8 @@ class Program_weight_tensor_parameter_2:
     name = "parameter_2"
     shape = [2048]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.400154")
-    mean = float("0.012049")
-    std = float("0.0127459")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -35,10 +29,8 @@ class Program_weight_tensor_parameter_3:
     name = "parameter_3"
     shape = [2048]
     dtype = "float32"
-    min_val = float("-1.59759")
-    max_val = float("0.476")
-    mean = float("-0.205248")
-    std = float("0.0980293")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -112,10 +104,8 @@ class Program_weight_tensor_parameter_10:
     name = "parameter_10"
     shape = [768]
     dtype = "float32"
-    min_val = float("-2.34212")
-    max_val = float("2.77764")
-    mean = float("-0.530575")
-    std = float("0.354592")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -123,10 +113,8 @@ class Program_weight_tensor_parameter_11:
     name = "parameter_11"
     shape = [768]
     dtype = "float32"
-    min_val = float("0.479796")
-    max_val = float("3.13105")
-    mean = float("0.982094")
-    std = float("0.336856")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -134,10 +122,8 @@ class Program_weight_tensor_parameter_12:
     name = "parameter_12"
     shape = [768]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0507316")
-    mean = float("0.00857916")
-    std = float("0.00516928")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -145,10 +131,8 @@ class Program_weight_tensor_parameter_13:
     name = "parameter_13"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.312808")
-    max_val = float("0.0481325")
-    mean = float("-0.0277897")
-    std = float("0.0412547")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -167,10 +151,8 @@ class Program_weight_tensor_parameter_15:
     name = "parameter_15"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.916882")
-    max_val = float("0.986754")
-    mean = float("0.00462468")
-    std = float("0.291515")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -178,10 +160,8 @@ class Program_weight_tensor_parameter_16:
     name = "parameter_16"
     shape = [768]
     dtype = "float32"
-    min_val = float("0.505872")
-    max_val = float("1.05533")
-    mean = float("0.958323")
-    std = float("0.0758978")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -189,10 +169,8 @@ class Program_weight_tensor_parameter_17:
     name = "parameter_17"
     shape = [768]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0213205")
-    mean = float("0.00136932")
-    std = float("0.00162743")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -200,10 +178,8 @@ class Program_weight_tensor_parameter_18:
     name = "parameter_18"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.0874753")
-    max_val = float("0.108931")
-    mean = float("0.000127971")
-    std = float("0.0264265")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -222,10 +198,8 @@ class Program_weight_tensor_parameter_20:
     name = "parameter_20"
     shape = [768]
     dtype = "float32"
-    min_val = float("-8.8364")
-    max_val = float("0.590529")
-    mean = float("-0.547908")
-    std = float("0.438608")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -233,10 +207,8 @@ class Program_weight_tensor_parameter_21:
     name = "parameter_21"
     shape = [768]
     dtype = "float32"
-    min_val = float("0.152341")
-    max_val = float("5.4483")
-    mean = float("0.44571")
-    std = float("0.237303")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -244,10 +216,8 @@ class Program_weight_tensor_parameter_22:
     name = "parameter_22"
     shape = [768]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.154613")
-    mean = float("0.0109138")
-    std = float("0.00893454")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -255,10 +225,8 @@ class Program_weight_tensor_parameter_23:
     name = "parameter_23"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.462726")
-    max_val = float("0.285645")
-    mean = float("-0.0240623")
-    std = float("0.0489587")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -277,10 +245,8 @@ class Program_weight_tensor_parameter_25:
     name = "parameter_25"
     shape = [768]
     dtype = "float32"
-    min_val = float("-1.41623")
-    max_val = float("1.11302")
-    mean = float("-0.00197006")
-    std = float("0.362983")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -288,10 +254,8 @@ class Program_weight_tensor_parameter_26:
     name = "parameter_26"
     shape = [768]
     dtype = "float32"
-    min_val = float("0.366351")
-    max_val = float("1.77062")
-    mean = float("0.935815")
-    std = float("0.111635")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -299,10 +263,8 @@ class Program_weight_tensor_parameter_27:
     name = "parameter_27"
     shape = [768]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.104064")
-    mean = float("0.00775345")
-    std = float("0.00772286")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -310,10 +272,8 @@ class Program_weight_tensor_parameter_28:
     name = "parameter_28"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.460784")
-    max_val = float("0.334937")
-    mean = float("-0.00908566")
-    std = float("0.0999027")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -772,10 +732,8 @@ class Program_weight_tensor_parameter_70:
     name = "parameter_70"
     shape = [2048]
     dtype = "float32"
-    min_val = float("-6.00723")
-    max_val = float("0.768522")
-    mean = float("-3.35713")
-    std = float("0.794527")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -783,10 +741,8 @@ class Program_weight_tensor_parameter_71:
     name = "parameter_71"
     shape = [2048]
     dtype = "float32"
-    min_val = float("0.0147206")
-    max_val = float("3.18222")
-    mean = float("1.92244")
-    std = float("0.390279")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -794,10 +750,8 @@ class Program_weight_tensor_parameter_72:
     name = "parameter_72"
     shape = [2048]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.153574")
-    mean = float("0.0192254")
-    std = float("0.00727823")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -805,10 +759,8 @@ class Program_weight_tensor_parameter_73:
     name = "parameter_73"
     shape = [2048]
     dtype = "float32"
-    min_val = float("-1.20542")
-    max_val = float("1.28784")
-    mean = float("-0.184501")
-    std = float("0.092635")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -882,10 +834,8 @@ class Program_weight_tensor_parameter_80:
     name = "parameter_80"
     shape = [768]
     dtype = "float32"
-    min_val = float("-1.04309")
-    max_val = float("1.50765")
-    mean = float("-0.539638")
-    std = float("0.201032")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -893,10 +843,8 @@ class Program_weight_tensor_parameter_81:
     name = "parameter_81"
     shape = [768]
     dtype = "float32"
-    min_val = float("0.25565")
-    max_val = float("1.18527")
-    mean = float("0.640392")
-    std = float("0.16912")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -904,10 +852,8 @@ class Program_weight_tensor_parameter_82:
     name = "parameter_82"
     shape = [768]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0342712")
-    mean = float("0.00762685")
-    std = float("0.00469026")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -915,10 +861,8 @@ class Program_weight_tensor_parameter_83:
     name = "parameter_83"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.219216")
-    max_val = float("0.0680168")
-    mean = float("-0.0225054")
-    std = float("0.0283715")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -937,10 +881,8 @@ class Program_weight_tensor_parameter_85:
     name = "parameter_85"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.93665")
-    max_val = float("0.768097")
-    mean = float("-0.00466756")
-    std = float("0.253513")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -948,10 +890,8 @@ class Program_weight_tensor_parameter_86:
     name = "parameter_86"
     shape = [768]
     dtype = "float32"
-    min_val = float("0.458226")
-    max_val = float("1.01037")
-    mean = float("0.966869")
-    std = float("0.0581992")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -959,10 +899,8 @@ class Program_weight_tensor_parameter_87:
     name = "parameter_87"
     shape = [768]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.00983688")
-    mean = float("0.00125246")
-    std = float("0.000988338")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -970,10 +908,8 @@ class Program_weight_tensor_parameter_88:
     name = "parameter_88"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.212531")
-    max_val = float("0.417426")
-    mean = float("9.11002e-06")
-    std = float("0.0667932")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -992,10 +928,8 @@ class Program_weight_tensor_parameter_90:
     name = "parameter_90"
     shape = [768]
     dtype = "float32"
-    min_val = float("-1.29353")
-    max_val = float("1.20471")
-    mean = float("-0.417212")
-    std = float("0.332192")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1003,10 +937,8 @@ class Program_weight_tensor_parameter_91:
     name = "parameter_91"
     shape = [768]
     dtype = "float32"
-    min_val = float("0.116249")
-    max_val = float("1.08286")
-    mean = float("0.424593")
-    std = float("0.12885")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1014,10 +946,8 @@ class Program_weight_tensor_parameter_92:
     name = "parameter_92"
     shape = [768]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0492694")
-    mean = float("0.0099157")
-    std = float("0.00691799")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1025,10 +955,8 @@ class Program_weight_tensor_parameter_93:
     name = "parameter_93"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.413083")
-    max_val = float("0.0539112")
-    mean = float("-0.0179932")
-    std = float("0.0391317")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1047,10 +975,8 @@ class Program_weight_tensor_parameter_95:
     name = "parameter_95"
     shape = [768]
     dtype = "float32"
-    min_val = float("-1.17543")
-    max_val = float("1.01763")
-    mean = float("0.00946797")
-    std = float("0.266142")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1058,10 +984,8 @@ class Program_weight_tensor_parameter_96:
     name = "parameter_96"
     shape = [768]
     dtype = "float32"
-    min_val = float("0.344424")
-    max_val = float("1.08632")
-    mean = float("0.965718")
-    std = float("0.0791056")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1069,10 +993,8 @@ class Program_weight_tensor_parameter_97:
     name = "parameter_97"
     shape = [768]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0312129")
-    mean = float("0.00252055")
-    std = float("0.00251394")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1080,10 +1002,8 @@ class Program_weight_tensor_parameter_98:
     name = "parameter_98"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.115482")
-    max_val = float("0.114867")
-    mean = float("0.000639263")
-    std = float("0.036113")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1102,10 +1022,8 @@ class Program_weight_tensor_parameter_100:
     name = "parameter_100"
     shape = [768]
     dtype = "float32"
-    min_val = float("-1.49154")
-    max_val = float("0.866777")
-    mean = float("-0.737781")
-    std = float("0.309217")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1113,10 +1031,8 @@ class Program_weight_tensor_parameter_101:
     name = "parameter_101"
     shape = [768]
     dtype = "float32"
-    min_val = float("0.10543")
-    max_val = float("1.23074")
-    mean = float("0.689014")
-    std = float("0.126179")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1124,10 +1040,8 @@ class Program_weight_tensor_parameter_102:
     name = "parameter_102"
     shape = [768]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0329856")
-    mean = float("0.0130104")
-    std = float("0.00388351")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1135,10 +1049,8 @@ class Program_weight_tensor_parameter_103:
     name = "parameter_103"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.394623")
-    max_val = float("0.116327")
-    mean = float("-0.0568526")
-    std = float("0.0592094")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1157,10 +1069,8 @@ class Program_weight_tensor_parameter_105:
     name = "parameter_105"
     shape = [768]
     dtype = "float32"
-    min_val = float("-1.18772")
-    max_val = float("1.0614")
-    mean = float("0.00185328")
-    std = float("0.431849")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1168,10 +1078,8 @@ class Program_weight_tensor_parameter_106:
     name = "parameter_106"
     shape = [768]
     dtype = "float32"
-    min_val = float("0.394394")
-    max_val = float("1.02803")
-    mean = float("0.906659")
-    std = float("0.124342")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1179,10 +1087,8 @@ class Program_weight_tensor_parameter_107:
     name = "parameter_107"
     shape = [768]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0516168")
-    mean = float("0.00915334")
-    std = float("0.00466038")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1190,10 +1096,8 @@ class Program_weight_tensor_parameter_108:
     name = "parameter_108"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.359003")
-    max_val = float("0.376765")
-    mean = float("-0.0052223")
-    std = float("0.137768")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1542,10 +1446,8 @@ class Program_weight_tensor_parameter_140:
     name = "parameter_140"
     shape = [2048]
     dtype = "float32"
-    min_val = float("-6.32405")
-    max_val = float("1.261")
-    mean = float("-3.51769")
-    std = float("0.993009")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1553,10 +1455,8 @@ class Program_weight_tensor_parameter_141:
     name = "parameter_141"
     shape = [2048]
     dtype = "float32"
-    min_val = float("-0.0740162")
-    max_val = float("3.81419")
-    mean = float("2.36424")
-    std = float("0.327099")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1564,10 +1464,8 @@ class Program_weight_tensor_parameter_142:
     name = "parameter_142"
     shape = [2048]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("3.58804")
-    mean = float("0.236245")
-    std = float("0.142441")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1575,10 +1473,8 @@ class Program_weight_tensor_parameter_143:
     name = "parameter_143"
     shape = [2048]
     dtype = "float32"
-    min_val = float("-2.33954")
-    max_val = float("1.94824")
-    mean = float("-0.62086")
-    std = float("0.29038")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1872,10 +1768,8 @@ class Program_weight_tensor_parameter_170:
     name = "parameter_170"
     shape = [768]
     dtype = "float32"
-    min_val = float("-2.31254")
-    max_val = float("1.53374")
-    mean = float("-0.72033")
-    std = float("0.484384")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1883,10 +1777,8 @@ class Program_weight_tensor_parameter_171:
     name = "parameter_171"
     shape = [768]
     dtype = "float32"
-    min_val = float("0.316557")
-    max_val = float("1.3165")
-    mean = float("0.816387")
-    std = float("0.161207")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1894,10 +1786,8 @@ class Program_weight_tensor_parameter_172:
     name = "parameter_172"
     shape = [768]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0890471")
-    mean = float("0.0196407")
-    std = float("0.00996374")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1905,10 +1795,8 @@ class Program_weight_tensor_parameter_173:
     name = "parameter_173"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.43557")
-    max_val = float("0.160097")
-    mean = float("-0.0693601")
-    std = float("0.0866727")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1927,10 +1815,8 @@ class Program_weight_tensor_parameter_175:
     name = "parameter_175"
     shape = [768]
     dtype = "float32"
-    min_val = float("-1.12139")
-    max_val = float("1.01675")
-    mean = float("-0.0186056")
-    std = float("0.470059")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1938,10 +1824,8 @@ class Program_weight_tensor_parameter_176:
     name = "parameter_176"
     shape = [768]
     dtype = "float32"
-    min_val = float("0.390081")
-    max_val = float("1.18602")
-    mean = float("0.893903")
-    std = float("0.137692")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1949,10 +1833,8 @@ class Program_weight_tensor_parameter_177:
     name = "parameter_177"
     shape = [768]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.126699")
-    mean = float("0.0182926")
-    std = float("0.0102319")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -1960,10 +1842,8 @@ class Program_weight_tensor_parameter_178:
     name = "parameter_178"
     shape = [768]
     dtype = "float32"
-    min_val = float("-0.462572")
-    max_val = float("0.361615")
-    mean = float("-0.00234145")
-    std = float("0.140691")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2367,10 +2247,8 @@ class Program_weight_tensor_parameter_215:
     name = "parameter_215"
     shape = [1024]
     dtype = "float32"
-    min_val = float("-2.85268")
-    max_val = float("1.23029")
-    mean = float("-1.02925")
-    std = float("0.67681")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2378,10 +2256,8 @@ class Program_weight_tensor_parameter_216:
     name = "parameter_216"
     shape = [1024]
     dtype = "float32"
-    min_val = float("-0.00307949")
-    max_val = float("3.91665")
-    mean = float("1.42533")
-    std = float("0.701201")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2389,10 +2265,8 @@ class Program_weight_tensor_parameter_217:
     name = "parameter_217"
     shape = [1024]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0489253")
-    mean = float("0.0164159")
-    std = float("0.00669154")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2400,10 +2274,8 @@ class Program_weight_tensor_parameter_218:
     name = "parameter_218"
     shape = [1024]
     dtype = "float32"
-    min_val = float("-0.668899")
-    max_val = float("0.707967")
-    mean = float("-0.0157229")
-    std = float("0.190859")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2477,10 +2349,8 @@ class Program_weight_tensor_parameter_225:
     name = "parameter_225"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.619955")
-    max_val = float("0.331685")
-    mean = float("-0.112102")
-    std = float("0.0507726")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2488,10 +2358,8 @@ class Program_weight_tensor_parameter_226:
     name = "parameter_226"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.589777")
-    max_val = float("1.17238")
-    mean = float("0.960178")
-    std = float("0.059484")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2499,10 +2367,8 @@ class Program_weight_tensor_parameter_227:
     name = "parameter_227"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0486168")
-    mean = float("0.00208144")
-    std = float("0.00444777")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2510,10 +2376,8 @@ class Program_weight_tensor_parameter_228:
     name = "parameter_228"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.0774752")
-    max_val = float("0.0127397")
-    mean = float("-0.00158269")
-    std = float("0.00764443")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2532,10 +2396,8 @@ class Program_weight_tensor_parameter_230:
     name = "parameter_230"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.428575")
-    max_val = float("0.347853")
-    mean = float("-0.00129584")
-    std = float("0.0489605")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2543,10 +2405,8 @@ class Program_weight_tensor_parameter_231:
     name = "parameter_231"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.904556")
-    max_val = float("0.999991")
-    mean = float("0.99849")
-    std = float("0.00714308")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2554,10 +2414,8 @@ class Program_weight_tensor_parameter_232:
     name = "parameter_232"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0220673")
-    mean = float("0.000786359")
-    std = float("0.00177923")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2565,10 +2423,8 @@ class Program_weight_tensor_parameter_233:
     name = "parameter_233"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.380336")
-    max_val = float("0.100021")
-    mean = float("-0.00159846")
-    std = float("0.0304716")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2587,10 +2443,8 @@ class Program_weight_tensor_parameter_235:
     name = "parameter_235"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.60483")
-    max_val = float("0.569505")
-    mean = float("-0.185332")
-    std = float("0.0834975")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2598,10 +2452,8 @@ class Program_weight_tensor_parameter_236:
     name = "parameter_236"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.593388")
-    max_val = float("1.06422")
-    mean = float("0.909871")
-    std = float("0.0606506")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2609,10 +2461,8 @@ class Program_weight_tensor_parameter_237:
     name = "parameter_237"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0335204")
-    mean = float("0.00458885")
-    std = float("0.00600454")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2620,10 +2470,8 @@ class Program_weight_tensor_parameter_238:
     name = "parameter_238"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.326132")
-    max_val = float("0.0472836")
-    mean = float("-0.00181255")
-    std = float("0.0204698")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2642,10 +2490,8 @@ class Program_weight_tensor_parameter_240:
     name = "parameter_240"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.02429")
-    max_val = float("0.486645")
-    mean = float("-0.00589264")
-    std = float("0.102723")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2653,10 +2499,8 @@ class Program_weight_tensor_parameter_241:
     name = "parameter_241"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.158761")
-    max_val = float("1.00002")
-    mean = float("0.992883")
-    std = float("0.0584612")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2664,10 +2508,8 @@ class Program_weight_tensor_parameter_242:
     name = "parameter_242"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0183472")
-    mean = float("0.00197572")
-    std = float("0.00278309")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2675,10 +2517,8 @@ class Program_weight_tensor_parameter_243:
     name = "parameter_243"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.12072")
-    max_val = float("0.313466")
-    mean = float("0.0039023")
-    std = float("0.0399347")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2697,10 +2537,8 @@ class Program_weight_tensor_parameter_245:
     name = "parameter_245"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.38216")
-    max_val = float("0.735153")
-    mean = float("-0.315995")
-    std = float("0.194876")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2708,10 +2546,8 @@ class Program_weight_tensor_parameter_246:
     name = "parameter_246"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.573397")
-    max_val = float("1.25242")
-    mean = float("0.815047")
-    std = float("0.0967541")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2719,10 +2555,8 @@ class Program_weight_tensor_parameter_247:
     name = "parameter_247"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0335497")
-    mean = float("0.0125181")
-    std = float("0.00571097")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2730,10 +2564,8 @@ class Program_weight_tensor_parameter_248:
     name = "parameter_248"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.2489")
-    max_val = float("0.0222329")
-    mean = float("-0.00931996")
-    std = float("0.0203293")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2752,10 +2584,8 @@ class Program_weight_tensor_parameter_250:
     name = "parameter_250"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.22469")
-    max_val = float("0.625611")
-    mean = float("-0.00585968")
-    std = float("0.130034")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2763,10 +2593,8 @@ class Program_weight_tensor_parameter_251:
     name = "parameter_251"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.327537")
-    max_val = float("1.00159")
-    mean = float("0.991514")
-    std = float("0.0398472")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2774,10 +2602,8 @@ class Program_weight_tensor_parameter_252:
     name = "parameter_252"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0171713")
-    mean = float("0.00395245")
-    std = float("0.00230961")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -2785,10 +2611,8 @@ class Program_weight_tensor_parameter_253:
     name = "parameter_253"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.344716")
-    max_val = float("0.370186")
-    mean = float("0.00312515")
-    std = float("0.072694")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3137,10 +2961,8 @@ class Program_weight_tensor_parameter_285:
     name = "parameter_285"
     shape = [1024]
     dtype = "float32"
-    min_val = float("-2.78581")
-    max_val = float("0.825521")
-    mean = float("-0.988776")
-    std = float("0.538047")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3148,10 +2970,8 @@ class Program_weight_tensor_parameter_286:
     name = "parameter_286"
     shape = [1024]
     dtype = "float32"
-    min_val = float("0.00921835")
-    max_val = float("2.43077")
-    mean = float("0.945345")
-    std = float("0.397381")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3159,10 +2979,8 @@ class Program_weight_tensor_parameter_287:
     name = "parameter_287"
     shape = [1024]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0933851")
-    mean = float("0.0177241")
-    std = float("0.0118281")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3170,10 +2988,8 @@ class Program_weight_tensor_parameter_288:
     name = "parameter_288"
     shape = [1024]
     dtype = "float32"
-    min_val = float("-0.418957")
-    max_val = float("0.27246")
-    mean = float("-0.0671528")
-    std = float("0.0935839")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3247,10 +3063,8 @@ class Program_weight_tensor_parameter_295:
     name = "parameter_295"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.23048")
-    max_val = float("0.37497")
-    mean = float("-0.173603")
-    std = float("0.130103")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3258,10 +3072,8 @@ class Program_weight_tensor_parameter_296:
     name = "parameter_296"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.55437")
-    max_val = float("1.73198")
-    mean = float("0.93303")
-    std = float("0.142159")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3269,10 +3081,8 @@ class Program_weight_tensor_parameter_297:
     name = "parameter_297"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.061027")
-    mean = float("0.00441218")
-    std = float("0.0093942")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3280,10 +3090,8 @@ class Program_weight_tensor_parameter_298:
     name = "parameter_298"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.372025")
-    max_val = float("0.0302845")
-    mean = float("-0.0217604")
-    std = float("0.0683445")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3302,10 +3110,8 @@ class Program_weight_tensor_parameter_300:
     name = "parameter_300"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.918873")
-    max_val = float("0.974281")
-    mean = float("0.00649532")
-    std = float("0.22806")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3313,10 +3119,8 @@ class Program_weight_tensor_parameter_301:
     name = "parameter_301"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.471368")
-    max_val = float("1.00454")
-    mean = float("0.971339")
-    std = float("0.0903976")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3324,10 +3128,8 @@ class Program_weight_tensor_parameter_302:
     name = "parameter_302"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0179594")
-    mean = float("0.00133628")
-    std = float("0.00299823")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3335,10 +3137,8 @@ class Program_weight_tensor_parameter_303:
     name = "parameter_303"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.250911")
-    max_val = float("0.220264")
-    mean = float("0.000726199")
-    std = float("0.0470055")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3357,10 +3157,8 @@ class Program_weight_tensor_parameter_305:
     name = "parameter_305"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.467801")
-    max_val = float("0.667954")
-    mean = float("-0.13405")
-    std = float("0.139241")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3368,10 +3166,8 @@ class Program_weight_tensor_parameter_306:
     name = "parameter_306"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.266723")
-    max_val = float("1.04693")
-    mean = float("0.815416")
-    std = float("0.181353")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3379,10 +3175,8 @@ class Program_weight_tensor_parameter_307:
     name = "parameter_307"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0839201")
-    mean = float("0.00650826")
-    std = float("0.0120734")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3390,10 +3184,8 @@ class Program_weight_tensor_parameter_308:
     name = "parameter_308"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.0583538")
-    max_val = float("0.436964")
-    mean = float("0.00016479")
-    std = float("0.0244594")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3412,10 +3204,8 @@ class Program_weight_tensor_parameter_310:
     name = "parameter_310"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.843491")
-    max_val = float("1.3637")
-    mean = float("-0.00475895")
-    std = float("0.105593")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3423,10 +3213,8 @@ class Program_weight_tensor_parameter_311:
     name = "parameter_311"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.249357")
-    max_val = float("1.04352")
-    mean = float("0.99581")
-    std = float("0.0459304")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3434,10 +3222,8 @@ class Program_weight_tensor_parameter_312:
     name = "parameter_312"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0457216")
-    mean = float("0.00286262")
-    std = float("0.00538402")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3445,10 +3231,8 @@ class Program_weight_tensor_parameter_313:
     name = "parameter_313"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.458596")
-    max_val = float("0.434497")
-    mean = float("-0.00203507")
-    std = float("0.0696079")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3467,10 +3251,8 @@ class Program_weight_tensor_parameter_315:
     name = "parameter_315"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.04527")
-    max_val = float("1.25781")
-    mean = float("-0.203597")
-    std = float("0.278061")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3478,10 +3260,8 @@ class Program_weight_tensor_parameter_316:
     name = "parameter_316"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.331978")
-    max_val = float("1.02326")
-    mean = float("0.759039")
-    std = float("0.166429")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3489,10 +3269,8 @@ class Program_weight_tensor_parameter_317:
     name = "parameter_317"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0551233")
-    mean = float("0.0101135")
-    std = float("0.0108763")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3500,10 +3278,8 @@ class Program_weight_tensor_parameter_318:
     name = "parameter_318"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.414328")
-    max_val = float("0.132653")
-    mean = float("0.000817394")
-    std = float("0.0304048")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3522,10 +3298,8 @@ class Program_weight_tensor_parameter_320:
     name = "parameter_320"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.0115")
-    max_val = float("0.790267")
-    mean = float("-0.00810195")
-    std = float("0.162451")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3533,10 +3307,8 @@ class Program_weight_tensor_parameter_321:
     name = "parameter_321"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.311023")
-    max_val = float("1.03123")
-    mean = float("0.986599")
-    std = float("0.0614752")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3544,10 +3316,8 @@ class Program_weight_tensor_parameter_322:
     name = "parameter_322"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0449679")
-    mean = float("0.00673038")
-    std = float("0.0080543")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3555,10 +3325,8 @@ class Program_weight_tensor_parameter_323:
     name = "parameter_323"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.217325")
-    max_val = float("0.216915")
-    mean = float("-0.00232955")
-    std = float("0.0635374")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3577,10 +3345,8 @@ class Program_weight_tensor_parameter_325:
     name = "parameter_325"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.91772")
-    max_val = float("1.16166")
-    mean = float("-0.310701")
-    std = float("0.388645")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3588,10 +3354,8 @@ class Program_weight_tensor_parameter_326:
     name = "parameter_326"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.400938")
-    max_val = float("1.42672")
-    mean = float("0.749588")
-    std = float("0.190152")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3599,10 +3363,8 @@ class Program_weight_tensor_parameter_327:
     name = "parameter_327"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0620675")
-    mean = float("0.0189529")
-    std = float("0.0100422")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3610,10 +3372,8 @@ class Program_weight_tensor_parameter_328:
     name = "parameter_328"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.335444")
-    max_val = float("0.0582744")
-    mean = float("-0.0526138")
-    std = float("0.0797602")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3632,10 +3392,8 @@ class Program_weight_tensor_parameter_330:
     name = "parameter_330"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.896011")
-    max_val = float("0.958473")
-    mean = float("-0.00774248")
-    std = float("0.337817")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3643,10 +3401,8 @@ class Program_weight_tensor_parameter_331:
     name = "parameter_331"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.545894")
-    max_val = float("1.02402")
-    mean = float("0.939446")
-    std = float("0.113256")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3654,10 +3410,8 @@ class Program_weight_tensor_parameter_332:
     name = "parameter_332"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0416399")
-    mean = float("0.0102267")
-    std = float("0.00581862")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3665,10 +3419,8 @@ class Program_weight_tensor_parameter_333:
     name = "parameter_333"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.181445")
-    max_val = float("0.193165")
-    mean = float("0.00230441")
-    std = float("0.061951")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3907,10 +3659,8 @@ class Program_weight_tensor_parameter_355:
     name = "parameter_355"
     shape = [1024]
     dtype = "float32"
-    min_val = float("-2.78794")
-    max_val = float("0.836757")
-    mean = float("-0.861169")
-    std = float("0.496022")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3918,10 +3668,8 @@ class Program_weight_tensor_parameter_356:
     name = "parameter_356"
     shape = [1024]
     dtype = "float32"
-    min_val = float("0.0309497")
-    max_val = float("1.79573")
-    mean = float("0.718843")
-    std = float("0.360826")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3929,10 +3677,8 @@ class Program_weight_tensor_parameter_357:
     name = "parameter_357"
     shape = [1024]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0636715")
-    mean = float("0.0162531")
-    std = float("0.0123028")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -3940,10 +3686,8 @@ class Program_weight_tensor_parameter_358:
     name = "parameter_358"
     shape = [1024]
     dtype = "float32"
-    min_val = float("-0.382342")
-    max_val = float("0.106733")
-    mean = float("-0.0966152")
-    std = float("0.0836567")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4017,10 +3761,8 @@ class Program_weight_tensor_parameter_365:
     name = "parameter_365"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.758035")
-    max_val = float("0.42791")
-    mean = float("-0.295909")
-    std = float("0.124586")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4028,10 +3770,8 @@ class Program_weight_tensor_parameter_366:
     name = "parameter_366"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.537482")
-    max_val = float("1.52524")
-    mean = float("0.831137")
-    std = float("0.11987")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4039,10 +3779,8 @@ class Program_weight_tensor_parameter_367:
     name = "parameter_367"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.033751")
-    mean = float("0.00982148")
-    std = float("0.00629586")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4050,10 +3788,8 @@ class Program_weight_tensor_parameter_368:
     name = "parameter_368"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.259199")
-    max_val = float("0.0102896")
-    mean = float("-0.017328")
-    std = float("0.0336578")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4072,10 +3808,8 @@ class Program_weight_tensor_parameter_370:
     name = "parameter_370"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.822686")
-    max_val = float("0.813083")
-    mean = float("0.00066917")
-    std = float("0.185657")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4083,10 +3817,8 @@ class Program_weight_tensor_parameter_371:
     name = "parameter_371"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.596525")
-    max_val = float("1.00067")
-    mean = float("0.981311")
-    std = float("0.0538118")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4094,10 +3826,8 @@ class Program_weight_tensor_parameter_372:
     name = "parameter_372"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0136974")
-    mean = float("0.002532")
-    std = float("0.00184032")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4105,10 +3835,8 @@ class Program_weight_tensor_parameter_373:
     name = "parameter_373"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.280111")
-    max_val = float("0.192272")
-    mean = float("-0.00379924")
-    std = float("0.0661599")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4127,10 +3855,8 @@ class Program_weight_tensor_parameter_375:
     name = "parameter_375"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.985")
-    max_val = float("1.36465")
-    mean = float("-0.393192")
-    std = float("0.291411")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4138,10 +3864,8 @@ class Program_weight_tensor_parameter_376:
     name = "parameter_376"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.270569")
-    max_val = float("1.21572")
-    mean = float("0.687291")
-    std = float("0.113221")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4149,10 +3873,8 @@ class Program_weight_tensor_parameter_377:
     name = "parameter_377"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0501366")
-    mean = float("0.0138924")
-    std = float("0.00775036")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4160,10 +3882,8 @@ class Program_weight_tensor_parameter_378:
     name = "parameter_378"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.14616")
-    max_val = float("0.034038")
-    mean = float("-0.00505116")
-    std = float("0.0157603")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4182,10 +3902,8 @@ class Program_weight_tensor_parameter_380:
     name = "parameter_380"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.648872")
-    max_val = float("0.602864")
-    mean = float("-0.00768249")
-    std = float("0.089613")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4193,10 +3911,8 @@ class Program_weight_tensor_parameter_381:
     name = "parameter_381"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.76315")
-    max_val = float("1.01362")
-    mean = float("0.995981")
-    std = float("0.0192674")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4204,10 +3920,8 @@ class Program_weight_tensor_parameter_382:
     name = "parameter_382"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0266688")
-    mean = float("0.0042657")
-    std = float("0.00248847")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4215,10 +3929,8 @@ class Program_weight_tensor_parameter_383:
     name = "parameter_383"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.124595")
-    max_val = float("0.103336")
-    mean = float("-0.00197739")
-    std = float("0.0352351")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4237,10 +3949,8 @@ class Program_weight_tensor_parameter_385:
     name = "parameter_385"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.47047")
-    max_val = float("0.863901")
-    mean = float("-0.600621")
-    std = float("0.310705")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4248,10 +3958,8 @@ class Program_weight_tensor_parameter_386:
     name = "parameter_386"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.433431")
-    max_val = float("1.15416")
-    mean = float("0.783202")
-    std = float("0.127062")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4259,10 +3967,8 @@ class Program_weight_tensor_parameter_387:
     name = "parameter_387"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0313349")
-    mean = float("0.0173536")
-    std = float("0.00477733")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4270,10 +3976,8 @@ class Program_weight_tensor_parameter_388:
     name = "parameter_388"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.256585")
-    max_val = float("0.0551368")
-    mean = float("-0.0259541")
-    std = float("0.0449046")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4292,10 +3996,8 @@ class Program_weight_tensor_parameter_390:
     name = "parameter_390"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.904249")
-    max_val = float("0.889027")
-    mean = float("0.00314295")
-    std = float("0.259753")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4303,10 +4005,8 @@ class Program_weight_tensor_parameter_391:
     name = "parameter_391"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.455535")
-    max_val = float("1.00434")
-    mean = float("0.963189")
-    std = float("0.0844508")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4314,10 +4014,8 @@ class Program_weight_tensor_parameter_392:
     name = "parameter_392"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0244614")
-    mean = float("0.0111084")
-    std = float("0.0035336")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4325,10 +4023,8 @@ class Program_weight_tensor_parameter_393:
     name = "parameter_393"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.204954")
-    max_val = float("0.260812")
-    mean = float("-0.00451782")
-    std = float("0.0895154")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4677,10 +4373,8 @@ class Program_weight_tensor_parameter_425:
     name = "parameter_425"
     shape = [1024]
     dtype = "float32"
-    min_val = float("-2.19311")
-    max_val = float("2.83095")
-    mean = float("-0.672822")
-    std = float("0.493743")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4688,10 +4382,8 @@ class Program_weight_tensor_parameter_426:
     name = "parameter_426"
     shape = [1024]
     dtype = "float32"
-    min_val = float("0.0387123")
-    max_val = float("2.88284")
-    mean = float("0.59968")
-    std = float("0.278697")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4699,10 +4391,8 @@ class Program_weight_tensor_parameter_427:
     name = "parameter_427"
     shape = [1024]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.162366")
-    mean = float("0.0210705")
-    std = float("0.0206584")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4710,10 +4400,8 @@ class Program_weight_tensor_parameter_428:
     name = "parameter_428"
     shape = [1024]
     dtype = "float32"
-    min_val = float("-0.439666")
-    max_val = float("0.475118")
-    mean = float("-0.0712253")
-    std = float("0.0855629")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4787,10 +4475,8 @@ class Program_weight_tensor_parameter_435:
     name = "parameter_435"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.34052")
-    max_val = float("1.01283")
-    mean = float("-0.372967")
-    std = float("0.410802")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4798,10 +4484,8 @@ class Program_weight_tensor_parameter_436:
     name = "parameter_436"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.505586")
-    max_val = float("1.70489")
-    mean = float("0.867308")
-    std = float("0.188891")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4809,10 +4493,8 @@ class Program_weight_tensor_parameter_437:
     name = "parameter_437"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0418091")
-    mean = float("0.0169613")
-    std = float("0.00628467")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4820,10 +4502,8 @@ class Program_weight_tensor_parameter_438:
     name = "parameter_438"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.346943")
-    max_val = float("0.0475054")
-    mean = float("-0.0330753")
-    std = float("0.0691098")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4842,10 +4522,8 @@ class Program_weight_tensor_parameter_440:
     name = "parameter_440"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.03844")
-    max_val = float("1.05033")
-    mean = float("-0.00300752")
-    std = float("0.325516")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4853,10 +4531,8 @@ class Program_weight_tensor_parameter_441:
     name = "parameter_441"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.492395")
-    max_val = float("1.01379")
-    mean = float("0.94516")
-    std = float("0.113048")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4864,10 +4540,8 @@ class Program_weight_tensor_parameter_442:
     name = "parameter_442"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0204982")
-    mean = float("0.00604107")
-    std = float("0.00262328")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -4875,10 +4549,8 @@ class Program_weight_tensor_parameter_443:
     name = "parameter_443"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.309325")
-    max_val = float("0.282651")
-    mean = float("-0.00315443")
-    std = float("0.0630903")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5447,10 +5119,8 @@ class Program_weight_tensor_parameter_495:
     name = "parameter_495"
     shape = [1024]
     dtype = "float32"
-    min_val = float("-3.35226")
-    max_val = float("2.24098")
-    mean = float("-0.552909")
-    std = float("0.538912")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5458,10 +5128,8 @@ class Program_weight_tensor_parameter_496:
     name = "parameter_496"
     shape = [1024]
     dtype = "float32"
-    min_val = float("0.0126463")
-    max_val = float("2.17443")
-    mean = float("0.499326")
-    std = float("0.278602")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5469,10 +5137,8 @@ class Program_weight_tensor_parameter_497:
     name = "parameter_497"
     shape = [1024]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.144416")
-    mean = float("0.0154398")
-    std = float("0.0148395")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5480,10 +5146,8 @@ class Program_weight_tensor_parameter_498:
     name = "parameter_498"
     shape = [1024]
     dtype = "float32"
-    min_val = float("-0.366399")
-    max_val = float("0.275003")
-    mean = float("-0.061634")
-    std = float("0.0730576")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5502,10 +5166,8 @@ class Program_weight_tensor_parameter_500:
     name = "parameter_500"
     shape = [512]
     dtype = "float32"
-    min_val = float("-9.15026")
-    max_val = float("0.888656")
-    mean = float("-1.38373")
-    std = float("0.979837")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5513,10 +5175,8 @@ class Program_weight_tensor_parameter_501:
     name = "parameter_501"
     shape = [512]
     dtype = "float32"
-    min_val = float("0.028597")
-    max_val = float("4.52144")
-    mean = float("1.12282")
-    std = float("0.351522")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5524,10 +5184,8 @@ class Program_weight_tensor_parameter_502:
     name = "parameter_502"
     shape = [512]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("1.19436")
-    mean = float("0.183862")
-    std = float("0.103608")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5535,10 +5193,8 @@ class Program_weight_tensor_parameter_503:
     name = "parameter_503"
     shape = [512]
     dtype = "float32"
-    min_val = float("-1.08046")
-    max_val = float("0.867303")
-    mean = float("-0.244011")
-    std = float("0.281589")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5887,10 +5543,8 @@ class Program_weight_tensor_parameter_535:
     name = "parameter_535"
     shape = [384]
     dtype = "float32"
-    min_val = float("-6.62375")
-    max_val = float("1.8879")
-    mean = float("-0.594769")
-    std = float("0.717446")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5898,10 +5552,8 @@ class Program_weight_tensor_parameter_536:
     name = "parameter_536"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.34901")
-    max_val = float("6.15017")
-    mean = float("0.935513")
-    std = float("0.426921")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5909,10 +5561,8 @@ class Program_weight_tensor_parameter_537:
     name = "parameter_537"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.123478")
-    mean = float("0.022401")
-    std = float("0.0116288")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5920,10 +5570,8 @@ class Program_weight_tensor_parameter_538:
     name = "parameter_538"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.713519")
-    max_val = float("0.0834251")
-    mean = float("-0.021458")
-    std = float("0.0698012")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5942,10 +5590,8 @@ class Program_weight_tensor_parameter_540:
     name = "parameter_540"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.39092")
-    max_val = float("1.68024")
-    mean = float("-0.0160853")
-    std = float("0.407792")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5953,10 +5599,8 @@ class Program_weight_tensor_parameter_541:
     name = "parameter_541"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.347963")
-    max_val = float("1.36518")
-    mean = float("0.928631")
-    std = float("0.111954")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5964,10 +5608,8 @@ class Program_weight_tensor_parameter_542:
     name = "parameter_542"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.219351")
-    mean = float("0.0251069")
-    std = float("0.0183334")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -5975,10 +5617,8 @@ class Program_weight_tensor_parameter_543:
     name = "parameter_543"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.513325")
-    max_val = float("0.517913")
-    mean = float("0.00736658")
-    std = float("0.155468")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6107,10 +5747,8 @@ class Program_weight_tensor_parameter_555:
     name = "parameter_555"
     shape = [384]
     dtype = "float32"
-    min_val = float("-3.82141")
-    max_val = float("2.06195")
-    mean = float("-0.840156")
-    std = float("0.68857")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6118,10 +5756,8 @@ class Program_weight_tensor_parameter_556:
     name = "parameter_556"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.126715")
-    max_val = float("2.70787")
-    mean = float("1.32547")
-    std = float("0.258224")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6129,10 +5765,8 @@ class Program_weight_tensor_parameter_557:
     name = "parameter_557"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.3572")
-    mean = float("0.0523164")
-    std = float("0.0302626")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6140,10 +5774,8 @@ class Program_weight_tensor_parameter_558:
     name = "parameter_558"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.60045")
-    max_val = float("0.0898461")
-    mean = float("-0.0649824")
-    std = float("0.122847")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6162,10 +5794,8 @@ class Program_weight_tensor_parameter_560:
     name = "parameter_560"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.12801")
-    max_val = float("2.22821")
-    mean = float("-0.00714435")
-    std = float("0.417224")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6173,10 +5803,8 @@ class Program_weight_tensor_parameter_561:
     name = "parameter_561"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.459056")
-    max_val = float("1.23432")
-    mean = float("0.988695")
-    std = float("0.105711")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6184,10 +5812,8 @@ class Program_weight_tensor_parameter_562:
     name = "parameter_562"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.256611")
-    mean = float("0.0790192")
-    std = float("0.0429598")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6195,10 +5821,8 @@ class Program_weight_tensor_parameter_563:
     name = "parameter_563"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.658794")
-    max_val = float("0.519341")
-    mean = float("0.0101198")
-    std = float("0.175763")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6272,10 +5896,8 @@ class Program_weight_tensor_parameter_570:
     name = "parameter_570"
     shape = [512]
     dtype = "float32"
-    min_val = float("-5.97527")
-    max_val = float("3.36817")
-    mean = float("-0.454489")
-    std = float("1.54982")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6283,10 +5905,8 @@ class Program_weight_tensor_parameter_571:
     name = "parameter_571"
     shape = [512]
     dtype = "float32"
-    min_val = float("0.0980281")
-    max_val = float("3.83154")
-    mean = float("1.70112")
-    std = float("0.515052")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6294,10 +5914,8 @@ class Program_weight_tensor_parameter_572:
     name = "parameter_572"
     shape = [512]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("9.43792")
-    mean = float("1.27804")
-    std = float("0.999642")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6305,10 +5923,8 @@ class Program_weight_tensor_parameter_573:
     name = "parameter_573"
     shape = [512]
     dtype = "float32"
-    min_val = float("-2.06068")
-    max_val = float("1.57997")
-    mean = float("-0.165118")
-    std = float("0.453666")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6327,10 +5943,8 @@ class Program_weight_tensor_parameter_575:
     name = "parameter_575"
     shape = [384]
     dtype = "float32"
-    min_val = float("-5.0912")
-    max_val = float("2.8551")
-    mean = float("-0.686916")
-    std = float("0.818307")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6338,10 +5952,8 @@ class Program_weight_tensor_parameter_576:
     name = "parameter_576"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.0632834")
-    max_val = float("5.92293")
-    mean = float("1.06757")
-    std = float("0.54138")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6349,10 +5961,8 @@ class Program_weight_tensor_parameter_577:
     name = "parameter_577"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.22133")
-    mean = float("0.0167223")
-    std = float("0.0171362")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6360,10 +5970,8 @@ class Program_weight_tensor_parameter_578:
     name = "parameter_578"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.72434")
-    max_val = float("0.168278")
-    mean = float("-0.0547896")
-    std = float("0.109248")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6382,10 +5990,8 @@ class Program_weight_tensor_parameter_580:
     name = "parameter_580"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.47833")
-    max_val = float("1.52298")
-    mean = float("0.0187591")
-    std = float("0.47385")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6393,10 +5999,8 @@ class Program_weight_tensor_parameter_581:
     name = "parameter_581"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.250339")
-    max_val = float("1.21879")
-    mean = float("0.904241")
-    std = float("0.134695")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6404,10 +6008,8 @@ class Program_weight_tensor_parameter_582:
     name = "parameter_582"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.107273")
-    mean = float("0.00724626")
-    std = float("0.0104993")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6415,10 +6017,8 @@ class Program_weight_tensor_parameter_583:
     name = "parameter_583"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.391989")
-    max_val = float("0.41958")
-    mean = float("0.00433524")
-    std = float("0.107623")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6437,10 +6037,8 @@ class Program_weight_tensor_parameter_585:
     name = "parameter_585"
     shape = [384]
     dtype = "float32"
-    min_val = float("-9.62536")
-    max_val = float("2.41414")
-    mean = float("-0.753708")
-    std = float("0.791845")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6448,10 +6046,8 @@ class Program_weight_tensor_parameter_586:
     name = "parameter_586"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.0292768")
-    max_val = float("3.25687")
-    mean = float("0.804793")
-    std = float("0.268615")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6459,10 +6055,8 @@ class Program_weight_tensor_parameter_587:
     name = "parameter_587"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.263896")
-    mean = float("0.0212723")
-    std = float("0.0239064")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6470,10 +6064,8 @@ class Program_weight_tensor_parameter_588:
     name = "parameter_588"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.78096")
-    max_val = float("0.167778")
-    mean = float("-0.0500985")
-    std = float("0.138996")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6492,10 +6084,8 @@ class Program_weight_tensor_parameter_590:
     name = "parameter_590"
     shape = [384]
     dtype = "float32"
-    min_val = float("-2.62324")
-    max_val = float("1.61106")
-    mean = float("-0.0278203")
-    std = float("0.44638")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6503,10 +6093,8 @@ class Program_weight_tensor_parameter_591:
     name = "parameter_591"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.130641")
-    max_val = float("1.5149")
-    mean = float("0.929578")
-    std = float("0.128206")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6514,10 +6102,8 @@ class Program_weight_tensor_parameter_592:
     name = "parameter_592"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.134804")
-    mean = float("0.0122858")
-    std = float("0.0120572")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6525,10 +6111,8 @@ class Program_weight_tensor_parameter_593:
     name = "parameter_593"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.422776")
-    max_val = float("0.424296")
-    mean = float("-0.00245967")
-    std = float("0.107503")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6547,10 +6131,8 @@ class Program_weight_tensor_parameter_595:
     name = "parameter_595"
     shape = [384]
     dtype = "float32"
-    min_val = float("-6.14677")
-    max_val = float("2.21376")
-    mean = float("-0.815328")
-    std = float("0.804536")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6558,10 +6140,8 @@ class Program_weight_tensor_parameter_596:
     name = "parameter_596"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.176633")
-    max_val = float("2.71231")
-    mean = float("0.969152")
-    std = float("0.28397")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6569,10 +6149,8 @@ class Program_weight_tensor_parameter_597:
     name = "parameter_597"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.130309")
-    mean = float("0.0256156")
-    std = float("0.0143696")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6580,10 +6158,8 @@ class Program_weight_tensor_parameter_598:
     name = "parameter_598"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.669439")
-    max_val = float("0.392648")
-    mean = float("-0.0678986")
-    std = float("0.0956683")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6602,10 +6178,8 @@ class Program_weight_tensor_parameter_600:
     name = "parameter_600"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.09185")
-    max_val = float("2.05418")
-    mean = float("-0.0185237")
-    std = float("0.472827")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6613,10 +6187,8 @@ class Program_weight_tensor_parameter_601:
     name = "parameter_601"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.289958")
-    max_val = float("1.08925")
-    mean = float("0.904831")
-    std = float("0.114834")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6624,10 +6196,8 @@ class Program_weight_tensor_parameter_602:
     name = "parameter_602"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.119971")
-    mean = float("0.0220766")
-    std = float("0.0104983")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6635,10 +6205,8 @@ class Program_weight_tensor_parameter_603:
     name = "parameter_603"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.525113")
-    max_val = float("0.37704")
-    mean = float("-0.00540302")
-    std = float("0.0959576")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6657,10 +6225,8 @@ class Program_weight_tensor_parameter_605:
     name = "parameter_605"
     shape = [384]
     dtype = "float32"
-    min_val = float("-3.10966")
-    max_val = float("1.42706")
-    mean = float("-0.734824")
-    std = float("0.706686")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6668,10 +6234,8 @@ class Program_weight_tensor_parameter_606:
     name = "parameter_606"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.0097252")
-    max_val = float("2.44973")
-    mean = float("1.02857")
-    std = float("0.316311")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6679,10 +6243,8 @@ class Program_weight_tensor_parameter_607:
     name = "parameter_607"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.200284")
-    mean = float("0.0295838")
-    std = float("0.02188")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6690,10 +6252,8 @@ class Program_weight_tensor_parameter_608:
     name = "parameter_608"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.997908")
-    max_val = float("0.0980724")
-    mean = float("-0.0491481")
-    std = float("0.112503")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6712,10 +6272,8 @@ class Program_weight_tensor_parameter_610:
     name = "parameter_610"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.70222")
-    max_val = float("1.51393")
-    mean = float("0.00593017")
-    std = float("0.491115")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6723,10 +6281,8 @@ class Program_weight_tensor_parameter_611:
     name = "parameter_611"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.32249")
-    max_val = float("1.61373")
-    mean = float("0.922962")
-    std = float("0.13359")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6734,10 +6290,8 @@ class Program_weight_tensor_parameter_612:
     name = "parameter_612"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.376759")
-    mean = float("0.0419167")
-    std = float("0.0264236")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6745,10 +6299,8 @@ class Program_weight_tensor_parameter_613:
     name = "parameter_613"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.596067")
-    max_val = float("0.633534")
-    mean = float("-0.000325139")
-    std = float("0.206135")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6767,10 +6319,8 @@ class Program_weight_tensor_parameter_615:
     name = "parameter_615"
     shape = [384]
     dtype = "float32"
-    min_val = float("-4.31327")
-    max_val = float("1.78103")
-    mean = float("-0.644769")
-    std = float("0.837208")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6778,10 +6328,8 @@ class Program_weight_tensor_parameter_616:
     name = "parameter_616"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.104233")
-    max_val = float("2.65896")
-    mean = float("1.17845")
-    std = float("0.34782")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6789,10 +6337,8 @@ class Program_weight_tensor_parameter_617:
     name = "parameter_617"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.262351")
-    mean = float("0.0352792")
-    std = float("0.0263319")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6800,10 +6346,8 @@ class Program_weight_tensor_parameter_618:
     name = "parameter_618"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.794337")
-    max_val = float("0.230337")
-    mean = float("-0.0864548")
-    std = float("0.14682")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6822,10 +6366,8 @@ class Program_weight_tensor_parameter_620:
     name = "parameter_620"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.69948")
-    max_val = float("1.69671")
-    mean = float("0.00497873")
-    std = float("0.538745")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6833,10 +6375,8 @@ class Program_weight_tensor_parameter_621:
     name = "parameter_621"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.577276")
-    max_val = float("1.40914")
-    mean = float("0.930968")
-    std = float("0.111309")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6844,10 +6384,8 @@ class Program_weight_tensor_parameter_622:
     name = "parameter_622"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.413451")
-    mean = float("0.0961778")
-    std = float("0.0612155")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6855,10 +6393,8 @@ class Program_weight_tensor_parameter_623:
     name = "parameter_623"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.08882")
-    max_val = float("0.754419")
-    mean = float("0.0149714")
-    std = float("0.29444")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6877,10 +6413,8 @@ class Program_weight_tensor_parameter_625:
     name = "parameter_625"
     shape = [384]
     dtype = "float32"
-    min_val = float("-5.57815")
-    max_val = float("3.7858")
-    mean = float("-0.780479")
-    std = float("1.27498")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6888,10 +6422,8 @@ class Program_weight_tensor_parameter_626:
     name = "parameter_626"
     shape = [384]
     dtype = "float32"
-    min_val = float("-2.43285")
-    max_val = float("3.27876")
-    mean = float("1.52448")
-    std = float("0.522532")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6899,10 +6431,8 @@ class Program_weight_tensor_parameter_627:
     name = "parameter_627"
     shape = [384]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.30699")
-    mean = float("0.0558577")
-    std = float("0.0396163")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6910,10 +6440,8 @@ class Program_weight_tensor_parameter_628:
     name = "parameter_628"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.979232")
-    max_val = float("0.129805")
-    mean = float("-0.0890553")
-    std = float("0.139319")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6932,10 +6460,8 @@ class Program_weight_tensor_parameter_630:
     name = "parameter_630"
     shape = [384]
     dtype = "float32"
-    min_val = float("-1.99908")
-    max_val = float("2.01981")
-    mean = float("0.0343351")
-    std = float("0.554102")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -6943,21 +6469,17 @@ class Program_weight_tensor_parameter_631:
     name = "parameter_631"
     shape = [384]
     dtype = "float32"
-    min_val = float("0.627927")
-    max_val = float("1.74593")
-    mean = float("1.00979")
-    std = float("0.140443")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
 class Program_weight_tensor_parameter_632:
     name = "parameter_632"
     shape = [384]
+    min_val = float("0")
+    max_val = float("0.5")
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("2.6336")
-    mean = float("0.482698")
-    std = float("0.319944")
     data = None
 
 
@@ -6965,10 +6487,8 @@ class Program_weight_tensor_parameter_633:
     name = "parameter_633"
     shape = [384]
     dtype = "float32"
-    min_val = float("-0.000661074")
-    max_val = float("0.000738643")
-    mean = float("1.00249e-05")
-    std = float("0.000151272")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7042,10 +6562,8 @@ class Program_weight_tensor_parameter_640:
     name = "parameter_640"
     shape = [512]
     dtype = "float32"
-    min_val = float("-4.03567")
-    max_val = float("2.76137")
-    mean = float("-1.11035")
-    std = float("0.866017")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7053,10 +6571,8 @@ class Program_weight_tensor_parameter_641:
     name = "parameter_641"
     shape = [512]
     dtype = "float32"
-    min_val = float("-0.629023")
-    max_val = float("4.36519")
-    mean = float("1.53681")
-    std = float("1.06297")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7064,10 +6580,8 @@ class Program_weight_tensor_parameter_642:
     name = "parameter_642"
     shape = [512]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.426344")
-    mean = float("0.109798")
-    std = float("0.0662808")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7075,10 +6589,8 @@ class Program_weight_tensor_parameter_643:
     name = "parameter_643"
     shape = [512]
     dtype = "float32"
-    min_val = float("-0.750763")
-    max_val = float("0.881377")
-    mean = float("0.0381544")
-    std = float("0.244931")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7097,10 +6609,8 @@ class Program_weight_tensor_parameter_645:
     name = "parameter_645"
     shape = [256]
     dtype = "float32"
-    min_val = float("-4.48581")
-    max_val = float("3.05696")
-    mean = float("-0.931333")
-    std = float("1.1085")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7108,10 +6618,8 @@ class Program_weight_tensor_parameter_646:
     name = "parameter_646"
     shape = [256]
     dtype = "float32"
-    min_val = float("-0.102443")
-    max_val = float("2.94612")
-    mean = float("1.41477")
-    std = float("0.37017")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7119,10 +6627,8 @@ class Program_weight_tensor_parameter_647:
     name = "parameter_647"
     shape = [256]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.885162")
-    mean = float("0.27627")
-    std = float("0.146424")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7130,10 +6636,8 @@ class Program_weight_tensor_parameter_648:
     name = "parameter_648"
     shape = [256]
     dtype = "float32"
-    min_val = float("-0.988304")
-    max_val = float("1.10911")
-    mean = float("-0.23127")
-    std = float("0.332345")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7152,10 +6656,8 @@ class Program_weight_tensor_parameter_650:
     name = "parameter_650"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.12124")
-    max_val = float("0.969518")
-    mean = float("-0.284957")
-    std = float("0.399113")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7163,10 +6665,8 @@ class Program_weight_tensor_parameter_651:
     name = "parameter_651"
     shape = [192]
     dtype = "float32"
-    min_val = float("0.340123")
-    max_val = float("1.40301")
-    mean = float("0.874344")
-    std = float("0.218882")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7174,10 +6674,8 @@ class Program_weight_tensor_parameter_652:
     name = "parameter_652"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.0588572")
-    mean = float("0.0156116")
-    std = float("0.00799267")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7185,10 +6683,8 @@ class Program_weight_tensor_parameter_653:
     name = "parameter_653"
     shape = [192]
     dtype = "float32"
-    min_val = float("-0.353528")
-    max_val = float("0.167093")
-    mean = float("-0.0838453")
-    std = float("0.0835376")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7207,10 +6703,8 @@ class Program_weight_tensor_parameter_655:
     name = "parameter_655"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.47809")
-    max_val = float("0.575819")
-    mean = float("-0.644583")
-    std = float("0.371058")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7218,10 +6712,8 @@ class Program_weight_tensor_parameter_656:
     name = "parameter_656"
     shape = [192]
     dtype = "float32"
-    min_val = float("0.228849")
-    max_val = float("1.04998")
-    mean = float("0.652621")
-    std = float("0.173004")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7229,10 +6721,8 @@ class Program_weight_tensor_parameter_657:
     name = "parameter_657"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.113184")
-    mean = float("0.04474")
-    std = float("0.0206481")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7240,10 +6730,8 @@ class Program_weight_tensor_parameter_658:
     name = "parameter_658"
     shape = [192]
     dtype = "float32"
-    min_val = float("-0.527128")
-    max_val = float("0.375965")
-    mean = float("-0.19517")
-    std = float("0.176366")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7482,10 +6970,8 @@ class Program_weight_tensor_parameter_680:
     name = "parameter_680"
     shape = [512]
     dtype = "float32"
-    min_val = float("-2.43239")
-    max_val = float("1.2763")
-    mean = float("-0.516888")
-    std = float("0.51887")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7493,10 +6979,8 @@ class Program_weight_tensor_parameter_681:
     name = "parameter_681"
     shape = [512]
     dtype = "float32"
-    min_val = float("-0.137592")
-    max_val = float("2.11322")
-    mean = float("0.712093")
-    std = float("0.371593")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7504,10 +6988,8 @@ class Program_weight_tensor_parameter_682:
     name = "parameter_682"
     shape = [512]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.461096")
-    mean = float("0.102961")
-    std = float("0.0766426")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7515,10 +6997,8 @@ class Program_weight_tensor_parameter_683:
     name = "parameter_683"
     shape = [512]
     dtype = "float32"
-    min_val = float("-1.05185")
-    max_val = float("0.677856")
-    mean = float("-0.0708234")
-    std = float("0.204381")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7537,10 +7017,8 @@ class Program_weight_tensor_parameter_685:
     name = "parameter_685"
     shape = [256]
     dtype = "float32"
-    min_val = float("-3.60693")
-    max_val = float("3.35021")
-    mean = float("-0.845094")
-    std = float("0.908283")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7548,10 +7026,8 @@ class Program_weight_tensor_parameter_686:
     name = "parameter_686"
     shape = [256]
     dtype = "float32"
-    min_val = float("-0.0420502")
-    max_val = float("2.87864")
-    mean = float("1.55136")
-    std = float("0.419165")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7559,10 +7035,8 @@ class Program_weight_tensor_parameter_687:
     name = "parameter_687"
     shape = [256]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.771457")
-    mean = float("0.308946")
-    std = float("0.137506")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7570,10 +7044,8 @@ class Program_weight_tensor_parameter_688:
     name = "parameter_688"
     shape = [256]
     dtype = "float32"
-    min_val = float("-0.960307")
-    max_val = float("1.27096")
-    mean = float("-0.15816")
-    std = float("0.297947")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7647,10 +7119,8 @@ class Program_weight_tensor_parameter_695:
     name = "parameter_695"
     shape = [192]
     dtype = "float32"
-    min_val = float("-2.55196")
-    max_val = float("0.78572")
-    mean = float("-1.13474")
-    std = float("0.705524")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7658,10 +7128,8 @@ class Program_weight_tensor_parameter_696:
     name = "parameter_696"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.23526")
-    max_val = float("1.94337")
-    mean = float("1.12113")
-    std = float("0.496984")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7669,10 +7137,8 @@ class Program_weight_tensor_parameter_697:
     name = "parameter_697"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.156537")
-    mean = float("0.0778711")
-    std = float("0.0369912")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7680,10 +7146,8 @@ class Program_weight_tensor_parameter_698:
     name = "parameter_698"
     shape = [192]
     dtype = "float32"
-    min_val = float("-0.893703")
-    max_val = float("0.48787")
-    mean = float("-0.162734")
-    std = float("0.199608")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7702,10 +7166,8 @@ class Program_weight_tensor_parameter_700:
     name = "parameter_700"
     shape = [192]
     dtype = "float32"
-    min_val = float("-3.02727")
-    max_val = float("1.48463")
-    mean = float("-1.03456")
-    std = float("0.812798")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7713,10 +7175,8 @@ class Program_weight_tensor_parameter_701:
     name = "parameter_701"
     shape = [192]
     dtype = "float32"
-    min_val = float("-0.033131")
-    max_val = float("1.75359")
-    mean = float("1.09079")
-    std = float("0.50167")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7724,10 +7184,8 @@ class Program_weight_tensor_parameter_702:
     name = "parameter_702"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.350314")
-    mean = float("0.122504")
-    std = float("0.0714971")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7735,10 +7193,8 @@ class Program_weight_tensor_parameter_703:
     name = "parameter_703"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.24238")
-    max_val = float("0.29976")
-    mean = float("-0.292278")
-    std = float("0.251875")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7757,10 +7213,8 @@ class Program_weight_tensor_parameter_705:
     name = "parameter_705"
     shape = [192]
     dtype = "float32"
-    min_val = float("-3.10172")
-    max_val = float("1.92733")
-    mean = float("-1.30737")
-    std = float("0.871861")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7768,10 +7222,8 @@ class Program_weight_tensor_parameter_706:
     name = "parameter_706"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.59619")
-    max_val = float("1.89469")
-    mean = float("1.39313")
-    std = float("0.410176")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7779,10 +7231,8 @@ class Program_weight_tensor_parameter_707:
     name = "parameter_707"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.526831")
-    mean = float("0.245715")
-    std = float("0.0985638")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7790,10 +7240,8 @@ class Program_weight_tensor_parameter_708:
     name = "parameter_708"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.11409")
-    max_val = float("1.01653")
-    mean = float("-0.403819")
-    std = float("0.290114")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7812,10 +7260,8 @@ class Program_weight_tensor_parameter_710:
     name = "parameter_710"
     shape = [192]
     dtype = "float32"
-    min_val = float("-3.34724")
-    max_val = float("1.11554")
-    mean = float("-1.17341")
-    std = float("0.784844")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7823,10 +7269,8 @@ class Program_weight_tensor_parameter_711:
     name = "parameter_711"
     shape = [192]
     dtype = "float32"
-    min_val = float("-0.0916034")
-    max_val = float("2.30487")
-    mean = float("1.45508")
-    std = float("0.535461")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7834,10 +7278,8 @@ class Program_weight_tensor_parameter_712:
     name = "parameter_712"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("1.64154")
-    mean = float("0.508311")
-    std = float("0.278294")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7845,10 +7287,8 @@ class Program_weight_tensor_parameter_713:
     name = "parameter_713"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.82948")
-    max_val = float("1.74113")
-    mean = float("-0.507627")
-    std = float("0.458967")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7867,10 +7307,8 @@ class Program_weight_tensor_parameter_715:
     name = "parameter_715"
     shape = [192]
     dtype = "float32"
-    min_val = float("-4.12651")
-    max_val = float("2.86451")
-    mean = float("-1.09785")
-    std = float("0.96803")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7878,10 +7316,8 @@ class Program_weight_tensor_parameter_716:
     name = "parameter_716"
     shape = [192]
     dtype = "float32"
-    min_val = float("0.0284117")
-    max_val = float("3.33946")
-    mean = float("1.67913")
-    std = float("0.533743")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7889,10 +7325,8 @@ class Program_weight_tensor_parameter_717:
     name = "parameter_717"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("1.95508")
-    mean = float("0.515791")
-    std = float("0.411476")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7900,10 +7334,8 @@ class Program_weight_tensor_parameter_718:
     name = "parameter_718"
     shape = [192]
     dtype = "float32"
-    min_val = float("-2.5758")
-    max_val = float("0.760284")
-    mean = float("-0.396274")
-    std = float("0.445969")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7922,10 +7354,8 @@ class Program_weight_tensor_parameter_720:
     name = "parameter_720"
     shape = [512]
     dtype = "float32"
-    min_val = float("-6.67502")
-    max_val = float("1.68353")
-    mean = float("-0.534787")
-    std = float("0.85172")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7933,10 +7363,8 @@ class Program_weight_tensor_parameter_721:
     name = "parameter_721"
     shape = [512]
     dtype = "float32"
-    min_val = float("-0.110184")
-    max_val = float("3.81066")
-    mean = float("0.90869")
-    std = float("0.420355")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7944,10 +7372,8 @@ class Program_weight_tensor_parameter_722:
     name = "parameter_722"
     shape = [512]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("5.79769")
-    mean = float("0.6142")
-    std = float("0.56671")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7955,10 +7381,8 @@ class Program_weight_tensor_parameter_723:
     name = "parameter_723"
     shape = [512]
     dtype = "float32"
-    min_val = float("-5.79499")
-    max_val = float("11.5518")
-    mean = float("-0.0498505")
-    std = float("1.2246")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7977,10 +7401,8 @@ class Program_weight_tensor_parameter_725:
     name = "parameter_725"
     shape = [256]
     dtype = "float32"
-    min_val = float("-4.26395")
-    max_val = float("6.46441")
-    mean = float("0.178216")
-    std = float("1.94351")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7988,10 +7410,8 @@ class Program_weight_tensor_parameter_726:
     name = "parameter_726"
     shape = [256]
     dtype = "float32"
-    min_val = float("-1.48785")
-    max_val = float("3.17303")
-    mean = float("1.89492")
-    std = float("0.501457")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -7999,10 +7419,8 @@ class Program_weight_tensor_parameter_727:
     name = "parameter_727"
     shape = [256]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("14.0819")
-    mean = float("1.42759")
-    std = float("1.68766")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8010,10 +7428,8 @@ class Program_weight_tensor_parameter_728:
     name = "parameter_728"
     shape = [256]
     dtype = "float32"
-    min_val = float("-1.98599")
-    max_val = float("1.75012")
-    mean = float("-0.187323")
-    std = float("0.472079")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8032,10 +7448,8 @@ class Program_weight_tensor_parameter_730:
     name = "parameter_730"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.58532")
-    max_val = float("1.29785")
-    mean = float("-0.580955")
-    std = float("0.440634")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8043,10 +7457,8 @@ class Program_weight_tensor_parameter_731:
     name = "parameter_731"
     shape = [192]
     dtype = "float32"
-    min_val = float("-0.0122208")
-    max_val = float("2.09177")
-    mean = float("1.0639")
-    std = float("0.39685")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8054,10 +7466,8 @@ class Program_weight_tensor_parameter_732:
     name = "parameter_732"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.168289")
-    mean = float("0.0466648")
-    std = float("0.0295503")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8065,10 +7475,8 @@ class Program_weight_tensor_parameter_733:
     name = "parameter_733"
     shape = [192]
     dtype = "float32"
-    min_val = float("-0.5113")
-    max_val = float("0.218917")
-    mean = float("-0.124292")
-    std = float("0.1341")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8087,10 +7495,8 @@ class Program_weight_tensor_parameter_735:
     name = "parameter_735"
     shape = [192]
     dtype = "float32"
-    min_val = float("-2.83408")
-    max_val = float("0.853324")
-    mean = float("-0.963689")
-    std = float("0.500211")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8098,10 +7504,8 @@ class Program_weight_tensor_parameter_736:
     name = "parameter_736"
     shape = [192]
     dtype = "float32"
-    min_val = float("-0.704389")
-    max_val = float("1.84947")
-    mean = float("1.01491")
-    std = float("0.403139")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8109,10 +7513,8 @@ class Program_weight_tensor_parameter_737:
     name = "parameter_737"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.477223")
-    mean = float("0.18042")
-    std = float("0.0852597")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8120,10 +7522,8 @@ class Program_weight_tensor_parameter_738:
     name = "parameter_738"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.59291")
-    max_val = float("0.915796")
-    mean = float("-0.258211")
-    std = float("0.221428")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8142,10 +7542,8 @@ class Program_weight_tensor_parameter_740:
     name = "parameter_740"
     shape = [192]
     dtype = "float32"
-    min_val = float("-3.06694")
-    max_val = float("1.40073")
-    mean = float("-1.12555")
-    std = float("0.778515")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8153,10 +7551,8 @@ class Program_weight_tensor_parameter_741:
     name = "parameter_741"
     shape = [192]
     dtype = "float32"
-    min_val = float("0.0178483")
-    max_val = float("2.51452")
-    mean = float("1.43909")
-    std = float("0.525212")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8164,10 +7560,8 @@ class Program_weight_tensor_parameter_742:
     name = "parameter_742"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.335179")
-    mean = float("0.15836")
-    std = float("0.076256")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8175,10 +7569,8 @@ class Program_weight_tensor_parameter_743:
     name = "parameter_743"
     shape = [192]
     dtype = "float32"
-    min_val = float("-0.899598")
-    max_val = float("0.769461")
-    mean = float("-0.334264")
-    std = float("0.253239")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8197,10 +7589,8 @@ class Program_weight_tensor_parameter_745:
     name = "parameter_745"
     shape = [192]
     dtype = "float32"
-    min_val = float("-3.13984")
-    max_val = float("1.01879")
-    mean = float("-0.920048")
-    std = float("0.898444")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8208,10 +7598,8 @@ class Program_weight_tensor_parameter_746:
     name = "parameter_746"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.3022")
-    max_val = float("2.20211")
-    mean = float("1.24467")
-    std = float("0.423119")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8219,10 +7607,8 @@ class Program_weight_tensor_parameter_747:
     name = "parameter_747"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("1.18217")
-    mean = float("0.45651")
-    std = float("0.280366")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8230,10 +7616,8 @@ class Program_weight_tensor_parameter_748:
     name = "parameter_748"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.90483")
-    max_val = float("0.587365")
-    mean = float("-0.344395")
-    std = float("0.346719")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8252,10 +7636,8 @@ class Program_weight_tensor_parameter_750:
     name = "parameter_750"
     shape = [192]
     dtype = "float32"
-    min_val = float("-4.17694")
-    max_val = float("1.03617")
-    mean = float("-0.908937")
-    std = float("0.958807")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8263,10 +7645,8 @@ class Program_weight_tensor_parameter_751:
     name = "parameter_751"
     shape = [192]
     dtype = "float32"
-    min_val = float("-0.0391092")
-    max_val = float("3.04911")
-    mean = float("1.54911")
-    std = float("0.460003")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8274,10 +7654,8 @@ class Program_weight_tensor_parameter_752:
     name = "parameter_752"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("2.02588")
-    mean = float("0.801614")
-    std = float("0.453777")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8285,10 +7663,8 @@ class Program_weight_tensor_parameter_753:
     name = "parameter_753"
     shape = [192]
     dtype = "float32"
-    min_val = float("-2.98239")
-    max_val = float("2.5168")
-    mean = float("-0.623865")
-    std = float("0.524081")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8307,10 +7683,8 @@ class Program_weight_tensor_parameter_755:
     name = "parameter_755"
     shape = [192]
     dtype = "float32"
-    min_val = float("-4.56179")
-    max_val = float("2.03553")
-    mean = float("-0.69225")
-    std = float("1.29407")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8318,10 +7692,8 @@ class Program_weight_tensor_parameter_756:
     name = "parameter_756"
     shape = [192]
     dtype = "float32"
-    min_val = float("0.179058")
-    max_val = float("2.91096")
-    mean = float("1.61512")
-    std = float("0.458533")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8329,10 +7701,8 @@ class Program_weight_tensor_parameter_757:
     name = "parameter_757"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("14.167")
-    mean = float("3.09957")
-    std = float("2.22981")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8340,10 +7710,8 @@ class Program_weight_tensor_parameter_758:
     name = "parameter_758"
     shape = [192]
     dtype = "float32"
-    min_val = float("-3.01192")
-    max_val = float("1.61875")
-    mean = float("-0.384589")
-    std = float("0.853356")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8362,10 +7730,8 @@ class Program_weight_tensor_parameter_760:
     name = "parameter_760"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.92404")
-    max_val = float("2.41452")
-    mean = float("-0.0108672")
-    std = float("0.653491")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8373,10 +7739,8 @@ class Program_weight_tensor_parameter_761:
     name = "parameter_761"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.66205")
-    max_val = float("2.51476")
-    mean = float("1.14056")
-    std = float("0.856593")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8384,10 +7748,8 @@ class Program_weight_tensor_parameter_762:
     name = "parameter_762"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("4.89301")
-    mean = float("0.267996")
-    std = float("0.507379")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8395,10 +7757,8 @@ class Program_weight_tensor_parameter_763:
     name = "parameter_763"
     shape = [192]
     dtype = "float32"
-    min_val = float("-2.2539")
-    max_val = float("2.2706")
-    mean = float("0.0102132")
-    std = float("0.588098")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8417,10 +7777,8 @@ class Program_weight_tensor_parameter_765:
     name = "parameter_765"
     shape = [192]
     dtype = "float32"
-    min_val = float("-4.001")
-    max_val = float("4.32997")
-    mean = float("0.092304")
-    std = float("1.56519")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8428,10 +7786,8 @@ class Program_weight_tensor_parameter_766:
     name = "parameter_766"
     shape = [192]
     dtype = "float32"
-    min_val = float("-5.32027")
-    max_val = float("6.53659")
-    mean = float("1.37862")
-    std = float("1.74128")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8439,10 +7795,8 @@ class Program_weight_tensor_parameter_767:
     name = "parameter_767"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("1.02014")
-    mean = float("0.184519")
-    std = float("0.20632")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8450,10 +7804,8 @@ class Program_weight_tensor_parameter_768:
     name = "parameter_768"
     shape = [192]
     dtype = "float32"
-    min_val = float("-1.21866")
-    max_val = float("1.88901")
-    mean = float("0.116158")
-    std = float("0.375857")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8472,10 +7824,8 @@ class Program_weight_tensor_parameter_770:
     name = "parameter_770"
     shape = [96]
     dtype = "float32"
-    min_val = float("-4.78208")
-    max_val = float("3.79562")
-    mean = float("-0.507752")
-    std = float("1.57074")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8483,10 +7833,8 @@ class Program_weight_tensor_parameter_771:
     name = "parameter_771"
     shape = [96]
     dtype = "float32"
-    min_val = float("0.149152")
-    max_val = float("4.16006")
-    mean = float("1.68551")
-    std = float("0.652752")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8494,10 +7842,8 @@ class Program_weight_tensor_parameter_772:
     name = "parameter_772"
     shape = [96]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("2.3123")
-    mean = float("0.887126")
-    std = float("0.482269")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8505,10 +7851,8 @@ class Program_weight_tensor_parameter_773:
     name = "parameter_773"
     shape = [96]
     dtype = "float32"
-    min_val = float("-1.81806")
-    max_val = float("1.5473")
-    mean = float("-0.0880405")
-    std = float("0.606225")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8582,10 +7926,8 @@ class Program_weight_tensor_parameter_780:
     name = "parameter_780"
     shape = [96]
     dtype = "float32"
-    min_val = float("-3.7972")
-    max_val = float("1.10245")
-    mean = float("-1.20865")
-    std = float("0.852679")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8593,10 +7935,8 @@ class Program_weight_tensor_parameter_781:
     name = "parameter_781"
     shape = [96]
     dtype = "float32"
-    min_val = float("0.660304")
-    max_val = float("1.93825")
-    mean = float("1.42635")
-    std = float("0.274784")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8604,10 +7944,8 @@ class Program_weight_tensor_parameter_782:
     name = "parameter_782"
     shape = [96]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.851576")
-    mean = float("0.315062")
-    std = float("0.13553")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8615,10 +7953,8 @@ class Program_weight_tensor_parameter_783:
     name = "parameter_783"
     shape = [96]
     dtype = "float32"
-    min_val = float("-1.90943")
-    max_val = float("0.886598")
-    mean = float("-0.215533")
-    std = float("0.452615")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8692,10 +8028,8 @@ class Program_weight_tensor_parameter_790:
     name = "parameter_790"
     shape = [96]
     dtype = "float32"
-    min_val = float("-3.65384")
-    max_val = float("2.02622")
-    mean = float("-0.95719")
-    std = float("0.965357")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8703,10 +8037,8 @@ class Program_weight_tensor_parameter_791:
     name = "parameter_791"
     shape = [96]
     dtype = "float32"
-    min_val = float("0.292533")
-    max_val = float("3.75029")
-    mean = float("2.08579")
-    std = float("0.554745")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8714,10 +8046,8 @@ class Program_weight_tensor_parameter_792:
     name = "parameter_792"
     shape = [96]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("2.23458")
-    mean = float("1.06085")
-    std = float("0.403572")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8725,10 +8055,8 @@ class Program_weight_tensor_parameter_793:
     name = "parameter_793"
     shape = [96]
     dtype = "float32"
-    min_val = float("-1.73468")
-    max_val = float("1.40785")
-    mean = float("-0.421332")
-    std = float("0.488809")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8857,10 +8185,8 @@ class Program_weight_tensor_parameter_805:
     name = "parameter_805"
     shape = [192]
     dtype = "float32"
-    min_val = float("-6.23303")
-    max_val = float("2.58592")
-    mean = float("-0.193396")
-    std = float("1.27444")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8868,10 +8194,8 @@ class Program_weight_tensor_parameter_806:
     name = "parameter_806"
     shape = [192]
     dtype = "float32"
-    min_val = float("-3.41103")
-    max_val = float("2.98884")
-    mean = float("0.821382")
-    std = float("0.798631")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8879,10 +8203,8 @@ class Program_weight_tensor_parameter_807:
     name = "parameter_807"
     shape = [192]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("6.52431")
-    mean = float("0.880581")
-    std = float("1.12265")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8890,10 +8212,8 @@ class Program_weight_tensor_parameter_808:
     name = "parameter_808"
     shape = [192]
     dtype = "float32"
-    min_val = float("-7.79178")
-    max_val = float("5.47127")
-    mean = float("0.136375")
-    std = float("2.14591")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8912,10 +8232,8 @@ class Program_weight_tensor_parameter_810:
     name = "parameter_810"
     shape = [96]
     dtype = "float32"
-    min_val = float("-5.45435")
-    max_val = float("8.3061")
-    mean = float("0.926562")
-    std = float("3.30916")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8923,10 +8241,8 @@ class Program_weight_tensor_parameter_811:
     name = "parameter_811"
     shape = [96]
     dtype = "float32"
-    min_val = float("-0.0517751")
-    max_val = float("3.56302")
-    mean = float("1.59662")
-    std = float("0.854651")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8934,10 +8250,8 @@ class Program_weight_tensor_parameter_812:
     name = "parameter_812"
     shape = [96]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("8.39721")
-    mean = float("1.80391")
-    std = float("2.02088")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8945,10 +8259,8 @@ class Program_weight_tensor_parameter_813:
     name = "parameter_813"
     shape = [96]
     dtype = "float32"
-    min_val = float("-2.82437")
-    max_val = float("4.20739")
-    mean = float("-0.0530994")
-    std = float("1.24187")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8967,10 +8279,8 @@ class Program_weight_tensor_parameter_815:
     name = "parameter_815"
     shape = [96]
     dtype = "float32"
-    min_val = float("-1.33297")
-    max_val = float("0.836777")
-    mean = float("-0.46653")
-    std = float("0.347639")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8978,10 +8288,8 @@ class Program_weight_tensor_parameter_816:
     name = "parameter_816"
     shape = [96]
     dtype = "float32"
-    min_val = float("-0.212284")
-    max_val = float("1.71269")
-    mean = float("0.517341")
-    std = float("0.352462")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -8989,10 +8297,8 @@ class Program_weight_tensor_parameter_817:
     name = "parameter_817"
     shape = [96]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.139975")
-    mean = float("0.0142863")
-    std = float("0.0295376")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9000,10 +8306,8 @@ class Program_weight_tensor_parameter_818:
     name = "parameter_818"
     shape = [96]
     dtype = "float32"
-    min_val = float("-0.574552")
-    max_val = float("0.179861")
-    mean = float("-0.0345899")
-    std = float("0.122907")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9022,10 +8326,8 @@ class Program_weight_tensor_parameter_820:
     name = "parameter_820"
     shape = [96]
     dtype = "float32"
-    min_val = float("-1.54108")
-    max_val = float("1.12675")
-    mean = float("-0.611319")
-    std = float("0.45178")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9033,10 +8335,8 @@ class Program_weight_tensor_parameter_821:
     name = "parameter_821"
     shape = [96]
     dtype = "float32"
-    min_val = float("-0.0465636")
-    max_val = float("1.54308")
-    mean = float("0.494561")
-    std = float("0.41071")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9044,10 +8344,8 @@ class Program_weight_tensor_parameter_822:
     name = "parameter_822"
     shape = [96]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.23192")
-    mean = float("0.0300205")
-    std = float("0.0477812")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9055,10 +8353,8 @@ class Program_weight_tensor_parameter_823:
     name = "parameter_823"
     shape = [96]
     dtype = "float32"
-    min_val = float("-1.53194")
-    max_val = float("0.49471")
-    mean = float("-0.130155")
-    std = float("0.360526")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9077,10 +8373,8 @@ class Program_weight_tensor_parameter_825:
     name = "parameter_825"
     shape = [96]
     dtype = "float32"
-    min_val = float("-1.88164")
-    max_val = float("1.69736")
-    mean = float("-0.585847")
-    std = float("0.655912")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9088,10 +8382,8 @@ class Program_weight_tensor_parameter_826:
     name = "parameter_826"
     shape = [96]
     dtype = "float32"
-    min_val = float("-1.07783")
-    max_val = float("2.04367")
-    mean = float("0.428136")
-    std = float("0.652511")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9099,10 +8391,8 @@ class Program_weight_tensor_parameter_827:
     name = "parameter_827"
     shape = [96]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.28061")
-    mean = float("0.0597533")
-    std = float("0.0762581")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9110,10 +8400,8 @@ class Program_weight_tensor_parameter_828:
     name = "parameter_828"
     shape = [96]
     dtype = "float32"
-    min_val = float("-0.789212")
-    max_val = float("0.426868")
-    mean = float("-0.0814294")
-    std = float("0.197678")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9132,10 +8420,8 @@ class Program_weight_tensor_parameter_830:
     name = "parameter_830"
     shape = [96]
     dtype = "float32"
-    min_val = float("-7.38157")
-    max_val = float("1.21593")
-    mean = float("-0.92682")
-    std = float("0.930168")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9143,10 +8429,8 @@ class Program_weight_tensor_parameter_831:
     name = "parameter_831"
     shape = [96]
     dtype = "float32"
-    min_val = float("-3.60974")
-    max_val = float("2.41462")
-    mean = float("0.448131")
-    std = float("0.945457")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9154,10 +8438,8 @@ class Program_weight_tensor_parameter_832:
     name = "parameter_832"
     shape = [96]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.561981")
-    mean = float("0.114256")
-    std = float("0.148957")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9165,10 +8447,8 @@ class Program_weight_tensor_parameter_833:
     name = "parameter_833"
     shape = [96]
     dtype = "float32"
-    min_val = float("-1.78935")
-    max_val = float("0.870772")
-    mean = float("-0.0851066")
-    std = float("0.350551")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9187,10 +8467,8 @@ class Program_weight_tensor_parameter_835:
     name = "parameter_835"
     shape = [96]
     dtype = "float32"
-    min_val = float("-3.48068")
-    max_val = float("1.79505")
-    mean = float("-0.790033")
-    std = float("0.91524")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9198,10 +8476,8 @@ class Program_weight_tensor_parameter_836:
     name = "parameter_836"
     shape = [96]
     dtype = "float32"
-    min_val = float("-2.52399")
-    max_val = float("2.65479")
-    mean = float("0.500022")
-    std = float("0.84632")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9209,10 +8485,8 @@ class Program_weight_tensor_parameter_837:
     name = "parameter_837"
     shape = [96]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("0.909373")
-    mean = float("0.196086")
-    std = float("0.261477")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9220,10 +8494,8 @@ class Program_weight_tensor_parameter_838:
     name = "parameter_838"
     shape = [96]
     dtype = "float32"
-    min_val = float("-1.57592")
-    max_val = float("1.07714")
-    mean = float("-0.106877")
-    std = float("0.336684")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9242,10 +8514,8 @@ class Program_weight_tensor_parameter_840:
     name = "parameter_840"
     shape = [96]
     dtype = "float32"
-    min_val = float("-4.92207")
-    max_val = float("3.34141")
-    mean = float("-1.03978")
-    std = float("1.53523")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9253,10 +8523,8 @@ class Program_weight_tensor_parameter_841:
     name = "parameter_841"
     shape = [96]
     dtype = "float32"
-    min_val = float("-0.260154")
-    max_val = float("3.35198")
-    mean = float("1.05389")
-    std = float("0.793198")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9264,10 +8532,8 @@ class Program_weight_tensor_parameter_842:
     name = "parameter_842"
     shape = [96]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("8.7062")
-    mean = float("1.2748")
-    std = float("1.52474")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9275,10 +8541,8 @@ class Program_weight_tensor_parameter_843:
     name = "parameter_843"
     shape = [96]
     dtype = "float32"
-    min_val = float("-12.8506")
-    max_val = float("2.01478")
-    mean = float("-0.330935")
-    std = float("1.88438")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9297,10 +8561,8 @@ class Program_weight_tensor_parameter_845:
     name = "parameter_845"
     shape = [96]
     dtype = "float32"
-    min_val = float("-5.76699")
-    max_val = float("6.61611")
-    mean = float("0.426449")
-    std = float("2.75379")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9308,10 +8570,8 @@ class Program_weight_tensor_parameter_846:
     name = "parameter_846"
     shape = [96]
     dtype = "float32"
-    min_val = float("0.534115")
-    max_val = float("5.19187")
-    mean = float("2.35173")
-    std = float("0.919556")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9319,10 +8579,8 @@ class Program_weight_tensor_parameter_847:
     name = "parameter_847"
     shape = [96]
     dtype = "float32"
-    min_val = float("5.60519e-45")
-    max_val = float("6.74382")
-    mean = float("1.69462")
-    std = float("1.40051")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 
@@ -9330,10 +8588,8 @@ class Program_weight_tensor_parameter_848:
     name = "parameter_848"
     shape = [96]
     dtype = "float32"
-    min_val = float("-8.10012")
-    max_val = float("9.30155")
-    mean = float("-0.470258")
-    std = float("3.89899")
+    min_val = float("0")
+    max_val = float("0.5")
     data = None
 
 

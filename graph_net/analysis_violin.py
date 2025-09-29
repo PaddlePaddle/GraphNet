@@ -76,8 +76,7 @@ def plot_violin(df, output_dir):
         return
 
     category_order = sorted(df["Category"].unique())
-    fig_width = max(12, 1.5 * len(category_order))
-    plt.figure(figsize=(fig_width, 8))
+    plt.figure(figsize=(14, 8))
     sns.set_theme(style="whitegrid")
 
     ax = sns.violinplot(
@@ -96,18 +95,17 @@ def plot_violin(df, output_dir):
         data=df,
         order=category_order,
         showcaps=False,
-        boxprops={"facecolor": (0.5, 0.7, 1.0, 0.5)},
+        boxprops={"facecolor": "cornflowerblue", "alpha": 0.7},
         medianprops={"color": "red", "linewidth": 2},
-        whiskerprops={"color": "black", "linewidth": 1.5},
         flierprops={"marker": ".", "markerfacecolor": "black"},
         width=0.1,
         ax=ax,
     )
 
-    ax.set_ylabel("log2(speedup)", fontsize=14)
+    ax.set_ylabel("log2(speedup)", fontsize=18)
     ax.set(xlabel="")
     ax.set_xticks(range(len(category_order)))
-    ax.set_xticklabels(category_order, fontsize=14)
+    ax.set_xticklabels(category_order, fontsize=18)
     sns.despine(trim=True, left=True)
 
     from matplotlib.lines import Line2D
@@ -116,7 +114,7 @@ def plot_violin(df, output_dir):
         Line2D([0], [0], color="red", lw=2, label="Median"),
         Line2D([0], [0], marker=".", color="black", lw=0, label="Outliers"),
     ]
-    ax.legend(handles=legend_elements, loc="best")
+    ax.legend(handles=legend_elements, fontsize=16, loc="best")
 
     output_file = os.path.join(output_dir, "Violin_Eval_Result.png")
     plt.savefig(output_file, dpi=300, bbox_inches="tight")

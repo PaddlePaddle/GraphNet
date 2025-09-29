@@ -9,11 +9,6 @@ from collections import OrderedDict
 from scipy.optimize import curve_fit
 from graph_net.datatype_tolerance_config import get_precision
 
-import matplotlib as mpl
-
-mpl.rcParams["font.family"] = "serif"
-mpl.rcParams["font.serif"] = ["Times New Roman"]
-
 
 # ---------- 1. 数据加载与处理 ----------
 def load_json_file(filepath: str) -> dict:
@@ -171,6 +166,17 @@ def calculate_s_scores(
             else:
                 gamma = 1
 
+            expected_s = (
+                alpha**lambda_
+                * beta ** (lambda_ * eta * negative_speedup_penalty)
+                * fpdb ** (1 - lambda_)
+            )
+            expected_es = (
+                alpha**lambda_
+                * beta ** (lambda_ * eta * negative_speedup_penalty)
+                * gamma ** (1 - lambda_)
+            )
+
             print(
                 f"    - alpha: {alpha:.3f} (Geometric mean speedup of correct samples)"
             )
@@ -180,6 +186,7 @@ def calculate_s_scores(
             print(
                 f"    - eta: {eta:.3f} (Fraction of slowdown cases within correct samples)"
             )
+            print(f"    - S({t_key}): {expected_s}, ES({t_key}): {expected_es}")
         else:
             print("    - No samples to analyze.")
 
@@ -300,14 +307,14 @@ def calculate_s_scores(
                 correct_speedups,
                 slowdown_speedups,
             )
-            if t_key <= 0:
-                print(
-                    f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
-                )
-            else:
-                print(
-                    f"  - S(t)=-, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
-                )
+            # if t_key <= 0:
+            #     print(
+            #         f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
+            #     )
+            # else:
+            #     print(
+            #         f"  - S(t)=-, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
+            #     )
 
     print(f"    - pi: {pi:.3f}")
 
@@ -320,7 +327,7 @@ def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
     绘制 S(t) 曲线
     """
     plt.style.use("seaborn-v0_8-whitegrid")
-    fig, ax = plt.subplots(figsize=(16, 8))
+    fig, ax = plt.subplots(figsize=(14, 8))
 
     prop_cycle = plt.rcParams["axes.prop_cycle"]
     colors = prop_cycle.by_key()["color"]
@@ -363,11 +370,11 @@ def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
         x_max = int(np.ceil(max(all_x_coords)))
         ax.set_xticks(np.arange(x_min, x_max + 1))
 
-    ax.xaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
-    ax.yaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
+    ax.xaxis.grid(True, which="major", lw=0.8, ls=":", color="grey", alpha=0.5)
+    ax.yaxis.grid(True, which="major", lw=0.8, ls=":", color="grey", alpha=0.5)
 
     ax.legend(fontsize=16, loc="best")
-    plt.savefig("S_result.png", dpi=150)
+    plt.savefig("S_result.png", dpi=300, bbox_inches="tight")
     print("\nComparison plot saved to S_result.png")
 
 
@@ -376,7 +383,7 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
     绘制 ES(t) 曲线
     """
     plt.style.use("seaborn-v0_8-whitegrid")
-    fig, ax = plt.subplots(figsize=(16, 8))
+    fig, ax = plt.subplots(figsize=(14, 8))
 
     prop_cycle = plt.rcParams["axes.prop_cycle"]
     colors = prop_cycle.by_key()["color"]
@@ -460,7 +467,7 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
     ax.yaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
 
     ax.legend(fontsize=16, loc="best")
-    plt.savefig("ES_result.png", dpi=150)
+    plt.savefig("ES_result.png", dpi=300, bbox_inches="tight")
     print("\nComparison plot saved to ES_result.png")
 
 

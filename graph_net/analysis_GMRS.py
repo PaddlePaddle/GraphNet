@@ -9,6 +9,11 @@ from collections import OrderedDict
 from scipy.optimize import curve_fit
 from graph_net.datatype_tolerance_config import get_precision
 
+import matplotlib as mpl
+
+mpl.rcParams["font.family"] = "serif"
+mpl.rcParams["font.serif"] = ["Times New Roman"]
+
 
 # ---------- 1. 数据加载与处理 ----------
 def load_json_file(filepath: str) -> dict:
@@ -105,9 +110,9 @@ def fake_perf_degrad(t, fail_type, fpdb=0.1):
     """
     # 适合旧版代码
     if fail_type == "accuracy":
-        return fpdb + (1 - fpdb) * (1 if t >= 1 else 0)
+        return fpdb if t < 1 else 1
     else:
-        return fpdb + (1 - fpdb) * (1 if t >= 3 else 0)
+        return fpdb if t < 3 else 1
 
     # if fail_type == "compiled":
     #     # 编译失败：只有 t >= 3 时才豁免（返回 1）
@@ -143,27 +148,26 @@ def calculate_s_scores(
         t_key,
         correct_count,
         acc_failure_count,
-        other_failure_count,
+        pi,
         correct_negative_speedup_count,
         correct_speedups,
         slowdown_speedups,
     ):
         print(f"  - Details for tolerance={t_key}:")
         if total_samples > 0:
-            alpha = gmean(correct_speedups) if correct_speedups else 0
-            beta = gmean(slowdown_speedups) if slowdown_speedups else 0
-            lambda_ = correct_count / total_samples
-            if correct_count > 0:
-                eta = correct_negative_speedup_count / correct_count
-            else:
-                eta = 0
+            alpha = gmean(correct_speedups) if correct_speedups else 1
+            beta = gmean(slowdown_speedups) if slowdown_speedups else 1
+            lambda_ = correct_count / total_samples if total_samples > 0 else 0
+            eta = (
+                correct_negative_speedup_count / correct_count
+                if correct_count > 0
+                else 0
+            )
+
             if t_key < 1:
                 gamma = fpdb
             elif t_key < 3:
-                gamma = (
-                    acc_failure_count * 1
-                    + (total_samples - correct_count - acc_failure_count) * fpdb
-                ) / (total_samples - correct_count)
+                gamma = fpdb**pi
             else:
                 gamma = 1
 
@@ -171,7 +175,7 @@ def calculate_s_scores(
                 f"    - alpha: {alpha:.3f} (Geometric mean speedup of correct samples)"
             )
             print(f"    - beta: {beta:.3f} (Geometric mean speedup of slowdown cases)")
-            print(f"    - gamma: {gamma} (Average error penalty)")
+            print(f"    - gamma: {gamma:.3f} (Average error penalty)")
             print(f"    - lambda: {lambda_:.3f} (Fraction of correct samples)")
             print(
                 f"    - eta: {eta:.3f} (Fraction of slowdown cases within correct samples)"
@@ -182,13 +186,15 @@ def calculate_s_scores(
     # ES曲线的阶梯状状态，初始化为'CORRECT'
     es_status = ["CORRECT"] * total_samples
 
+    # pi is a constant for t > 0 for each group
+    pi = 0.0
+
     # 核心计算逻辑，处理两种惩罚模式
     for t_key in t_keys:
-        regularized_speedups = []
-        regularized_speedups_fake_degrad = []
+        rectified_speedups = []
+        rectified_speedups_fake_degrad = []
         correct_count = 0
         acc_failure_count = 0
-        other_failure_count = 0
         correct_negative_speedup_count = 0
 
         # 新增：用于计算 alpha 和 beta 的列表
@@ -229,10 +235,9 @@ def calculate_s_scores(
                 if speedup is not None and speedup < 1:
                     correct_negative_speedup_count += 1
                     slowdown_speedups.append(speedup)
-            elif fail_type == "accuracy":
+
+            if fail_type == "accuracy":
                 acc_failure_count += 1
-            else:
-                other_failure_count += 1
 
             # S(t) 计算（基于原始状态）
             if fail_type is not None or speedup is None:
@@ -243,16 +248,16 @@ def calculate_s_scores(
                     if speedup < 1
                     else speedup
                 )
-            regularized_speedups.append(regularized_speedup)
+            rectified_speedups.append(regularized_speedup)
 
             # ES(t) 核心逻辑：基于状态变化
-            reg_speedup_fake_degrad = 0
+            rec_speedup_fake_degrad = 0
             if t_key < 1:
                 # 在 t < 1 时，ES行为与S相同
                 if fail_type is not None or speedup is None:
-                    reg_speedup_fake_degrad = fpdb
+                    rec_speedup_fake_degrad = fpdb
                 else:
-                    reg_speedup_fake_degrad = (
+                    rec_speedup_fake_degrad = (
                         speedup ** (negative_speedup_penalty + 1)
                         if speedup < 1
                         else speedup
@@ -263,38 +268,48 @@ def calculate_s_scores(
                     es_status[idx] = fail_type
 
                 if es_status[idx] == "accuracy":
-                    reg_speedup_fake_degrad = fake_perf_degrad(t_key, "accuracy", fpdb)
+                    rec_speedup_fake_degrad = fake_perf_degrad(t_key, "accuracy", fpdb)
                 elif es_status[idx] is not None and es_status[idx] != "CORRECT":
-                    reg_speedup_fake_degrad = fake_perf_degrad(
+                    rec_speedup_fake_degrad = fake_perf_degrad(
                         t_key, es_status[idx], fpdb
                     )
                 else:  # Still in a "CORRECT" state
                     if speedup is None:
-                        reg_speedup_fake_degrad = fpdb
+                        rec_speedup_fake_degrad = fpdb
                     else:
-                        reg_speedup_fake_degrad = (
+                        rec_speedup_fake_degrad = (
                             speedup ** (negative_speedup_penalty + 1)
                             if speedup < 1
                             else speedup
                         )
 
-            regularized_speedups_fake_degrad.append(reg_speedup_fake_degrad)
+            rectified_speedups_fake_degrad.append(rec_speedup_fake_degrad)
 
-        if regularized_speedups:
-            s_scores[t_key] = gmean(regularized_speedups)
-            s_scores_fake_degrad[t_key] = gmean(regularized_speedups_fake_degrad)
+        if t_key == 0:
+            pi = acc_failure_count / (total_samples - correct_count)
+
+        if rectified_speedups:
+            s_scores[t_key] = gmean(rectified_speedups)
+            s_scores_fake_degrad[t_key] = gmean(rectified_speedups_fake_degrad)
             print_stat_info(
                 t_key,
                 correct_count,
                 acc_failure_count,
-                other_failure_count,
+                pi,
                 correct_negative_speedup_count,
                 correct_speedups,
                 slowdown_speedups,
             )
-            print(
-                f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
-            )
+            if t_key <= 0:
+                print(
+                    f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
+                )
+            else:
+                print(
+                    f"  - S(t)=-, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
+                )
+
+    print(f"    - pi: {pi:.3f}")
 
     return s_scores, s_scores_fake_degrad
 
@@ -305,7 +320,7 @@ def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
     绘制 S(t) 曲线
     """
     plt.style.use("seaborn-v0_8-whitegrid")
-    fig, ax = plt.subplots(figsize=(18, 10))
+    fig, ax = plt.subplots(figsize=(16, 8))
 
     prop_cycle = plt.rcParams["axes.prop_cycle"]
     colors = prop_cycle.by_key()["color"]
@@ -315,8 +330,9 @@ def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
     for idx, (folder_name, scores_dict) in enumerate(s_scores.items()):
         plot_points = []
         for t_key, score in scores_dict.items():
-            all_x_coords.append(t_key)
-            plot_points.append({"x": t_key, "y": score})
+            if t_key <= 0:
+                all_x_coords.append(t_key)
+                plot_points.append({"x": t_key, "y": score})
 
         plot_points.sort(key=lambda p: p["x"])
 
@@ -360,7 +376,7 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
     绘制 ES(t) 曲线
     """
     plt.style.use("seaborn-v0_8-whitegrid")
-    fig, ax = plt.subplots(figsize=(18, 10))
+    fig, ax = plt.subplots(figsize=(16, 8))
 
     prop_cycle = plt.rcParams["axes.prop_cycle"]
     colors = prop_cycle.by_key()["color"]

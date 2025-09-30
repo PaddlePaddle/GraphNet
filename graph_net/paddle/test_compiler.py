@@ -255,9 +255,9 @@ def test_single_model(args):
     eager_success = False
     try:
         print("Run model in eager mode.")
-        static_model = get_static_model(args, model)
+        # static_model = get_static_model(args, model)
         expected_out, eager_time_stats = measure_performance(
-            lambda: static_model(**input_dict), args, synchronizer_func, profile=False
+            lambda: model(**input_dict), args, synchronizer_func, profile=False
         )
         eager_success = True
     except Exception as e:

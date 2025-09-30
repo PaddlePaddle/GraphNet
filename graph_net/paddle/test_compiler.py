@@ -36,10 +36,10 @@ def get_hardward_name(args):
 
 def get_compile_framework_version(args):
     if args.compiler == "cinn":
-        compile_framework_version = paddle.__version__
-    else:
-        compile_framework_version = "unknown"
-    return compile_framework_version
+        return paddle.__version__
+    if args.compiler == "nope":
+        return "nope-baseline"
+    return "unknown"
 
 
 def load_class_from_file(file_path: str, class_name: str):
@@ -92,6 +92,8 @@ def get_input_spec(args):
 
 
 def get_compiled_model(args, model):
+    if args.compiler == "nope":
+        return model
     input_spec = get_input_spec(args)
     build_strategy = paddle.static.BuildStrategy()
     compiled_model = paddle.jit.to_static(
@@ -385,7 +387,7 @@ def test_multi_models(args):
 
 def main(args):
     assert os.path.isdir(args.model_path)
-    assert args.compiler == "cinn"
+    assert args.compiler in {"cinn", "nope"}
 
     initalize_seed = 123
     set_seed(random_seed=initalize_seed)

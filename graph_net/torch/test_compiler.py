@@ -20,6 +20,8 @@ from graph_net.torch.backend.xla_backend import XlaBackend
 from graph_net.torch.backend.inductor_backend import InductorBackend
 from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
+from graph_net.torch.backend.nope_backend import NopeBackend
+from graph_net.test_compiler_util import generate_allclose_configs
 
 registry_backend = {
     "tvm": TvmBackend(),
@@ -27,6 +29,7 @@ registry_backend = {
     "inductor": InductorBackend(),
     "tensorrt": TensorRTBackend(),
     "bladedisc": BladeDISCBackend(),
+    "nope": NopeBackend(),
 }
 
 
@@ -178,12 +181,6 @@ def test_single_model(args):
     compiler = get_compiler_backend(args)
     input_dict = get_input_dict(args)
     model = get_model(args, args.device)
-    if args.compiler == "xla":
-        xla_model = get_model(args, "xla")
-        compiled_model = compiler(xla_model)
-    else:
-        compiled_model = compiler(model)
-
     model_path = os.path.normpath(args.model_path)
     print(f"{args.log_prompt} [Processing] {model_path}", file=sys.stderr, flush=True)
     model_name = os.path.basename(model_path)
@@ -229,7 +226,10 @@ def test_single_model(args):
         flush=True,
     )
 
-    failure = False
+    eager_failure = False
+    expected_out = None
+    eager_types = []
+    eager_stats = {}
 
     try:
         eager_model_call = lambda: model(**input_dict)
@@ -254,6 +254,21 @@ def test_single_model(args):
             file=sys.stderr,
             flush=True,
         )
+    except (TypeError, RuntimeError) as e:
+        print(f"Eager model execution failed: {str(e)}", file=sys.stderr)
+        eager_failure = True
+
+    compiled_failure = False
+    compiled_model = None
+    compiled_types = []
+    compiled_stats = {}
+
+    try:
+        if args.compiler == "xla":
+            xla_model = get_model(args, "xla")
+            compiled_model = compiler(xla_model)
+        else:
+            compiled_model = compiler(model)
 
         compiled_model_call = lambda: compiled_model(**input_dict)
         compiled_stats = measure_performance(compiled_model_call, args, compiler)
@@ -262,6 +277,7 @@ def test_single_model(args):
             file=sys.stderr,
             flush=True,
         )
+
         compiled_out = compiled_model_call()
         if not isinstance(compiled_out, tuple):
             compiled_out = (compiled_out,)
@@ -288,20 +304,26 @@ def test_single_model(args):
             f"{args.log_prompt} [DataType] eager:{eager_types} compiled:{compiled_types} match:{type_match}",
             file=sys.stderr,
         )
-        if not type_match:
-            failure = True
-        else:
-            compare_correctness(expected_out, compiled_out, args)
-    except (TypeError, RuntimeError) as e:
-        print(f"Model execution failed: {str(e)}", file=sys.stderr)
-        failure = True
+        # "datatype not match" is recognized as a large loss in analysis process later,
+        # and is not recognized as a failure here.
 
-    e2e_speedup = 0
-    gpu_speedup = 0
-    if failure:
+        compare_correctness(expected_out, compiled_out, args)
+
+    except (TypeError, RuntimeError) as e:
+        print(f"Compiled model execution failed: {str(e)}", file=sys.stderr)
+        compiled_failure = True
+
+    if eager_failure:
         print(f"{args.log_prompt} [Result] status: failed", file=sys.stderr, flush=True)
         print(
-            f"{args.log_prompt} [Fail due to compile error or datatype do not match.]",
+            f"{args.log_prompt} [Fail due to eager model execution error.]",
+            file=sys.stderr,
+            flush=True,
+        )
+    elif compiled_failure:
+        print(f"{args.log_prompt} [Result] status: failed", file=sys.stderr, flush=True)
+        print(
+            f"{args.log_prompt} [Fail due to compiled model execution error.]",
             file=sys.stderr,
             flush=True,
         )
@@ -309,6 +331,10 @@ def test_single_model(args):
         print(
             f"{args.log_prompt} [Result] status: success", file=sys.stderr, flush=True
         )
+
+        e2e_speedup = 0
+        gpu_speedup = 0
+
         eager_e2e_time_ms = eager_stats.get("e2e", {}).get("mean", 0)
         compiled_e2e_time_ms = compiled_stats.get("e2e", {}).get("mean", 0)
 
@@ -348,21 +374,23 @@ def print_and_store_cmp(key, cmp_func, args, expected_out, compiled_out, **kwarg
 
 
 def compare_correctness(expected_out, compiled_out, args):
-    cmp_configs = [
-        ("[equal]", get_cmp_equal, {}),
-        ("[all_close_atol8_rtol8]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-8}),
-        ("[all_close_atol8_rtol5]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-5}),
-        ("[all_close_atol5_rtol5]", get_cmp_all_close, {"atol": 1e-5, "rtol": 1e-5}),
-        ("[all_close_atol3_rtol2]", get_cmp_all_close, {"atol": 1e-3, "rtol": 1e-2}),
-        ("[all_close_atol2_rtol1]", get_cmp_all_close, {"atol": 1e-2, "rtol": 1e-1}),
-        ("[max_diff]", get_cmp_max_diff, {}),
-        ("[mean_diff]", get_cmp_mean_diff, {}),
-        ("[diff_count_atol8_rtol8]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-8}),
-        ("[diff_count_atol8_rtol5]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-5}),
-        ("[diff_count_atol5_rtol5]", get_cmp_diff_count, {"atol": 1e-5, "rtol": 1e-5}),
-        ("[diff_count_atol3_rtol2]", get_cmp_diff_count, {"atol": 1e-3, "rtol": 1e-2}),
-        ("[diff_count_atol2_rtol1]", get_cmp_diff_count, {"atol": 1e-2, "rtol": 1e-1}),
-    ]
+    # cmp_configs = [
+    #     ("[equal]", get_cmp_equal, {}),
+    #     ("[all_close_atol8_rtol8]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-8}),
+    #     ("[all_close_atol8_rtol5]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-5}),
+    #     ("[all_close_atol5_rtol5]", get_cmp_all_close, {"atol": 1e-5, "rtol": 1e-5}),
+    #     ("[all_close_atol3_rtol2]", get_cmp_all_close, {"atol": 1e-3, "rtol": 1e-2}),
+    #     ("[all_close_atol2_rtol1]", get_cmp_all_close, {"atol": 1e-2, "rtol": 1e-1}),
+    #     ("[max_diff]", get_cmp_max_diff, {}),
+    #     ("[mean_diff]", get_cmp_mean_diff, {}),
+    #     ("[diff_count_atol8_rtol8]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-8}),
+    #     ("[diff_count_atol8_rtol5]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-5}),
+    #     ("[diff_count_atol5_rtol5]", get_cmp_diff_count, {"atol": 1e-5, "rtol": 1e-5}),
+    #     ("[diff_count_atol3_rtol2]", get_cmp_diff_count, {"atol": 1e-3, "rtol": 1e-2}),
+    #     ("[diff_count_atol2_rtol1]", get_cmp_diff_count, {"atol": 1e-2, "rtol": 1e-1}),
+    # ]
+    cmp_configs = generate_allclose_configs(get_cmp_all_close)
+    cmp_configs.append(("[equal]", get_cmp_equal, {}))
 
     for key, func, kwargs in cmp_configs:
         print_and_store_cmp(

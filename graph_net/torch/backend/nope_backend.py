@@ -1,4 +1,3 @@
-# graph_net/torch/backend/nope_backend.py
 import torch
 from .graph_compiler_backend import GraphCompilerBackend
 

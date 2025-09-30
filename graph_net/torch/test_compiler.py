@@ -142,7 +142,7 @@ def measure_performance(model_call, args, compiler):
             e2e_times.append(duration_box.value)
             gpu_times.append(gpu_time_ms)
             print(
-                f"Trial {i + 1}: e2e={duration_box.value:.2f} ms, gpu={gpu_time_ms:.3g} ms",
+                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms, gpu={gpu_time_ms:.5f} ms",
                 file=sys.stderr,
                 flush=True,
             )
@@ -164,7 +164,7 @@ def measure_performance(model_call, args, compiler):
             with naive_timer(duration_box, compiler.synchronize):
                 model_call()
             print(
-                f"Trial {i + 1}: e2e={duration_box.value:.2f} ms",
+                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms",
                 file=sys.stderr,
                 flush=True,
             )

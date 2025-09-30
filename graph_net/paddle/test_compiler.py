@@ -255,14 +255,13 @@ def test_single_model(args):
     eager_success = False
     try:
         print("Run model in eager mode.")
-        # static_model = get_static_model(args, model)
+        static_model = get_static_model(args, model)
         expected_out, eager_time_stats = measure_performance(
-            lambda: model(**input_dict), args, synchronizer_func, profile=False
+            lambda: static_model(**input_dict), args, synchronizer_func, profile=False
         )
         eager_success = True
     except Exception as e:
         print(f"Run model in eager mode failed: {str(e)}\n{traceback.format_exc()}")
-    # sys.exit(0)
 
     # Run on compiling mode
     compiled_success = False
@@ -278,9 +277,6 @@ def test_single_model(args):
 
     test_compiler_util.print_running_status(args, eager_success, compiled_success)
     if eager_success and compiled_success:
-        i = 0
-        # print(f"expected_out[{i}]: {expected_out[i]}")
-        # print(f"compiled_out[{i}]: {compiled_out[i]}")
         check_outputs(args, expected_out, compiled_out)
 
         test_compiler_util.print_times_and_speedup(

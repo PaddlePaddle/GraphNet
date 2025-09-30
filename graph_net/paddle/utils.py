@@ -122,7 +122,7 @@ def load_converted_list_from_text(file_path):
     return [*weight_info, *input_info]
 
 
-def ConvertToValidNumber(data_type, value):
+def convert_to_valid_number(data_type, value):
     if value is not None and data_type in [
         paddle.float32,
         paddle.float16,
@@ -160,10 +160,10 @@ def convert_meta_classes_to_tensors(file_path):
                 "shape": attrs.get("shape", []),
                 "dtype": data_type,
                 "device": attrs.get("device", "gpu"),
-                "mean": ConvertToValidNumber(data_type, attrs.get("mean", None)),
-                "std": ConvertToValidNumber(data_type, attrs.get("std", None)),
-                "min_val": ConvertToValidNumber(data_type, attrs.get("min_val", 0)),
-                "max_val": ConvertToValidNumber(data_type, attrs.get("max_val", 2)),
+                "mean": convert_to_valid_number(data_type, attrs.get("mean", None)),
+                "std": convert_to_valid_number(data_type, attrs.get("std", None)),
+                "min_val": convert_to_valid_number(data_type, attrs.get("min_val", 0)),
+                "max_val": convert_to_valid_number(data_type, attrs.get("max_val", 2)),
             },
             "data": data_value,
             "name": attrs.get("name"),

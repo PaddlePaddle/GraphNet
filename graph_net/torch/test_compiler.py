@@ -20,6 +20,7 @@ from graph_net.torch.backend.xla_backend import XlaBackend
 from graph_net.torch.backend.inductor_backend import InductorBackend
 from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
+from graph_net.torch.backend.nope_backend import NopeBackend
 from graph_net.test_compiler_util import generate_allclose_configs
 
 registry_backend = {
@@ -28,6 +29,7 @@ registry_backend = {
     "inductor": InductorBackend(),
     "tensorrt": TensorRTBackend(),
     "bladedisc": BladeDISCBackend(),
+    "nope": NopeBackend(),
 }
 
 
@@ -143,7 +145,7 @@ def measure_performance(model_call, args, compiler):
             e2e_times.append(duration_box.value)
             gpu_times.append(gpu_time_ms)
             print(
-                f"Trial {i + 1}: e2e={duration_box.value:.2f} ms, gpu={gpu_time_ms:.3g} ms",
+                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms, gpu={gpu_time_ms:.5f} ms",
                 file=sys.stderr,
                 flush=True,
             )
@@ -165,7 +167,7 @@ def measure_performance(model_call, args, compiler):
             with naive_timer(duration_box, compiler.synchronize):
                 model_call()
             print(
-                f"Trial {i + 1}: e2e={duration_box.value:.2f} ms",
+                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms",
                 file=sys.stderr,
                 flush=True,
             )

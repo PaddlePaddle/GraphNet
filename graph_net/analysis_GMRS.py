@@ -142,28 +142,51 @@ def calculate_s_scores(
     def print_stat_info(
         t_key,
         correct_count,
+        final_correct_count,
         acc_failure_count,
         pi,
         correct_negative_speedup_count,
+        final_correct_negative_speedup_count,
         correct_speedups,
         slowdown_speedups,
+        final_correct_speedups,
+        final_slowdown_speedups,
     ):
         print(f"  - Details for tolerance={t_key}:")
         if total_samples > 0:
-            alpha = gmean(correct_speedups) if correct_speedups else 1
-            beta = gmean(slowdown_speedups) if slowdown_speedups else 1
-            lambda_ = correct_count / total_samples if total_samples > 0 else 0
-            eta = (
-                correct_negative_speedup_count / correct_count
-                if correct_count > 0
-                else 0
-            )
-
             if t_key < 1:
+                alpha = gmean(correct_speedups) if correct_speedups else 1
+                beta = gmean(slowdown_speedups) if slowdown_speedups else 1
+                lambda_ = correct_count / total_samples if total_samples > 0 else 0
+                eta = (
+                    correct_negative_speedup_count / correct_count
+                    if correct_count > 0
+                    else 0
+                )
                 gamma = fpdb
             elif t_key < 3:
+                alpha = gmean(final_correct_speedups) if final_correct_speedups else 1
+                beta = gmean(final_slowdown_speedups) if final_slowdown_speedups else 1
+                lambda_ = (
+                    final_correct_count / total_samples if total_samples > 0 else 0
+                )
+                eta = (
+                    final_correct_negative_speedup_count / final_correct_count
+                    if final_correct_count > 0
+                    else 0
+                )
                 gamma = fpdb**pi
             else:
+                alpha = gmean(final_correct_speedups) if final_correct_speedups else 1
+                beta = gmean(final_slowdown_speedups) if final_slowdown_speedups else 1
+                lambda_ = (
+                    final_correct_count / total_samples if total_samples > 0 else 0
+                )
+                eta = (
+                    final_correct_negative_speedup_count / final_correct_count
+                    if final_correct_count > 0
+                    else 0
+                )
                 gamma = 1
 
             expected_s = (
@@ -190,11 +213,18 @@ def calculate_s_scores(
         else:
             print("    - No samples to analyze.")
 
+        return expected_s, expected_es
+
     # ES曲线的阶梯状状态，初始化为'CORRECT'
     es_status = ["CORRECT"] * total_samples
 
     # pi is a constant for t > 0 for each group
     pi = 0.0
+
+    final_correct_count = 0
+    final_correct_negative_speedup_count = 0
+    final_correct_speedups = []
+    final_slowdown_speedups = []
 
     # 核心计算逻辑，处理两种惩罚模式
     for t_key in t_keys:
@@ -292,29 +322,32 @@ def calculate_s_scores(
 
             rectified_speedups_fake_degrad.append(rec_speedup_fake_degrad)
 
-        if t_key == 0:
+        if t_key == 1:
             pi = acc_failure_count / (total_samples - correct_count)
+            final_correct_count = correct_count
+            final_correct_negative_speedup_count = correct_negative_speedup_count
+            final_correct_speedups = correct_speedups
+            final_slowdown_speedups = slowdown_speedups
 
         if rectified_speedups:
-            s_scores[t_key] = gmean(rectified_speedups)
-            s_scores_fake_degrad[t_key] = gmean(rectified_speedups_fake_degrad)
-            print_stat_info(
+            # s_scores[t_key] = gmean(rectified_speedups)
+            # s_scores_fake_degrad[t_key] = gmean(rectified_speedups_fake_degrad)
+            s_scores[t_key], s_scores_fake_degrad[t_key] = print_stat_info(
                 t_key,
                 correct_count,
+                final_correct_count,
                 acc_failure_count,
                 pi,
                 correct_negative_speedup_count,
+                final_correct_negative_speedup_count,
                 correct_speedups,
                 slowdown_speedups,
+                final_correct_speedups,
+                final_slowdown_speedups,
             )
-            # if t_key <= 0:
-            #     print(
-            #         f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
-            #     )
-            # else:
-            #     print(
-            #         f"  - S(t)=-, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
-            #     )
+            # print(
+            #     f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
+            # )
 
     print(f"    - pi: {pi:.3f}")
 

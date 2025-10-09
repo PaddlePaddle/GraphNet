@@ -142,52 +142,26 @@ def calculate_s_scores(
     def print_stat_info(
         t_key,
         correct_count,
-        final_correct_count,
         acc_failure_count,
         pi,
         correct_negative_speedup_count,
-        final_correct_negative_speedup_count,
         correct_speedups,
         slowdown_speedups,
-        final_correct_speedups,
-        final_slowdown_speedups,
     ):
         print(f"  - Details for tolerance={t_key}:")
         if total_samples > 0:
-            if t_key < 1:
-                alpha = gmean(correct_speedups) if correct_speedups else 1
-                beta = gmean(slowdown_speedups) if slowdown_speedups else 1
-                lambda_ = correct_count / total_samples if total_samples > 0 else 0
-                eta = (
-                    correct_negative_speedup_count / correct_count
-                    if correct_count > 0
-                    else 0
-                )
-                gamma = fpdb
-            elif t_key < 3:
-                alpha = gmean(final_correct_speedups) if final_correct_speedups else 1
-                beta = gmean(final_slowdown_speedups) if final_slowdown_speedups else 1
-                lambda_ = (
-                    final_correct_count / total_samples if total_samples > 0 else 0
-                )
-                eta = (
-                    final_correct_negative_speedup_count / final_correct_count
-                    if final_correct_count > 0
-                    else 0
-                )
-                gamma = fpdb**pi
-            else:
-                alpha = gmean(final_correct_speedups) if final_correct_speedups else 1
-                beta = gmean(final_slowdown_speedups) if final_slowdown_speedups else 1
-                lambda_ = (
-                    final_correct_count / total_samples if total_samples > 0 else 0
-                )
-                eta = (
-                    final_correct_negative_speedup_count / final_correct_count
-                    if final_correct_count > 0
-                    else 0
-                )
-                gamma = 1
+            alpha = gmean(correct_speedups) if correct_speedups else 1
+            beta = gmean(slowdown_speedups) if slowdown_speedups else 1
+            lambda_ = correct_count / total_samples if total_samples > 0 else 0
+            eta = (
+                correct_negative_speedup_count / correct_count
+                if correct_count > 0
+                else 0
+            )
+            indicator = [1 if t_key < 1 else 0, 1 if t_key < 3 else 0]
+            gamma = fpdb ** (
+                sum(pi[i] * indicator[i] for i in range(len(pi))) / len(pi)
+            )
 
             expected_s = (
                 alpha**lambda_
@@ -218,8 +192,8 @@ def calculate_s_scores(
     # ES曲线的阶梯状状态，初始化为'CORRECT'
     es_status = ["CORRECT"] * total_samples
 
-    # pi is a constant for t > 0 for each group
-    pi = 0.0
+    # pi is a list of constant for t > 0 for each group
+    pi = [1, 1]
 
     final_correct_count = 0
     final_correct_negative_speedup_count = 0
@@ -304,9 +278,8 @@ def calculate_s_scores(
                 if es_status[idx] == "CORRECT" and fail_type is not None:
                     es_status[idx] = fail_type
 
-                if es_status[idx] == "accuracy":
-                    rec_speedup_fake_degrad = fake_perf_degrad(t_key, "accuracy", fpdb)
-                elif es_status[idx] is not None and es_status[idx] != "CORRECT":
+                if es_status[idx] is not None and es_status[idx] != "CORRECT":
+                    # print(f"sample: {sample.get('configuration').get('model')}, error type: {es_status[idx]}")
                     rec_speedup_fake_degrad = fake_perf_degrad(
                         t_key, es_status[idx], fpdb
                     )
@@ -323,11 +296,12 @@ def calculate_s_scores(
             rectified_speedups_fake_degrad.append(rec_speedup_fake_degrad)
 
         if t_key == 1:
-            pi = (
+            pi[0] = (
                 acc_failure_count / (total_samples - correct_count)
                 if (total_samples - correct_count) != 0
                 else 0
             )
+            pi[1] = 1
             final_correct_count = correct_count
             final_correct_negative_speedup_count = correct_negative_speedup_count
             final_correct_speedups = correct_speedups
@@ -336,24 +310,31 @@ def calculate_s_scores(
         if rectified_speedups:
             # s_scores[t_key] = gmean(rectified_speedups)
             # s_scores_fake_degrad[t_key] = gmean(rectified_speedups_fake_degrad)
-            s_scores[t_key], s_scores_fake_degrad[t_key] = print_stat_info(
-                t_key,
-                correct_count,
-                final_correct_count,
-                acc_failure_count,
-                pi,
-                correct_negative_speedup_count,
-                final_correct_negative_speedup_count,
-                correct_speedups,
-                slowdown_speedups,
-                final_correct_speedups,
-                final_slowdown_speedups,
-            )
+            if t_key < 1:
+                s_scores[t_key], s_scores_fake_degrad[t_key] = print_stat_info(
+                    t_key,
+                    correct_count,
+                    acc_failure_count,
+                    pi,
+                    correct_negative_speedup_count,
+                    correct_speedups,
+                    slowdown_speedups,
+                )
+            else:
+                s_scores[t_key], s_scores_fake_degrad[t_key] = print_stat_info(
+                    t_key,
+                    final_correct_count,
+                    acc_failure_count,
+                    pi,
+                    final_correct_negative_speedup_count,
+                    final_correct_speedups,
+                    final_slowdown_speedups,
+                )
             # print(
             #     f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
             # )
 
-    print(f"    - pi: {pi:.3f}")
+    print(f"    - pi: {pi}")
 
     return s_scores, s_scores_fake_degrad
 

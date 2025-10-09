@@ -323,7 +323,11 @@ def calculate_s_scores(
             rectified_speedups_fake_degrad.append(rec_speedup_fake_degrad)
 
         if t_key == 1:
-            pi = acc_failure_count / (total_samples - correct_count)
+            pi = (
+                acc_failure_count / (total_samples - correct_count)
+                if (total_samples - correct_count) != 0
+                else 0
+            )
             final_correct_count = correct_count
             final_correct_negative_speedup_count = correct_negative_speedup_count
             final_correct_speedups = correct_speedups

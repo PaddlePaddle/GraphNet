@@ -135,7 +135,10 @@ def parse_logs_to_json(log_file: str, output_dir: str):
             # The model name is extracted from the configuration
             model_name = data["configuration"]["model"]
             compiler_name = data["configuration"]["compiler"]
-            filename = f"{model_name}_{subgraph_name}_{compiler_name}.json"
+            # for PyTorch
+            filename = f"{model_name}_{compiler_name}.json"
+            # for Paddle
+            # filename = f"{model_name}_{subgraph_name}_{compiler_name}.json"
             filepath = os.path.join(output_dir, filename)
 
             with open(filepath, "w", encoding="utf-8") as f:

@@ -163,16 +163,16 @@ def calculate_s_scores(
                 sum(pi[i] * indicator[i] for i in range(len(pi))) / len(pi)
             )
 
-            expected_s = (
-                alpha**lambda_
-                * beta ** (lambda_ * eta * negative_speedup_penalty)
-                * fpdb ** (1 - lambda_)
-            )
-            expected_es = (
-                alpha**lambda_
-                * beta ** (lambda_ * eta * negative_speedup_penalty)
-                * gamma ** (1 - lambda_)
-            )
+            # expected_s = (
+            #     alpha**lambda_
+            #     * beta ** (lambda_ * eta * negative_speedup_penalty)
+            #     * fpdb ** (1 - lambda_)
+            # )
+            # expected_es = (
+            #     alpha**lambda_
+            #     * beta ** (lambda_ * eta * negative_speedup_penalty)
+            #     * gamma ** (1 - lambda_)
+            # )
 
             print(
                 f"    - alpha: {alpha:.3f} (Geometric mean speedup of correct samples)"
@@ -183,11 +183,11 @@ def calculate_s_scores(
             print(
                 f"    - eta: {eta:.3f} (Fraction of slowdown cases within correct samples)"
             )
-            print(f"    - S({t_key}): {expected_s}, ES({t_key}): {expected_es}")
+            # print(f"    - S({t_key}): {expected_s}, ES({t_key}): {expected_es}")
         else:
             print("    - No samples to analyze.")
 
-        return expected_s, expected_es
+        # return expected_s, expected_es
 
     # ES曲线的阶梯状状态，初始化为'CORRECT'
     es_status = ["CORRECT"] * total_samples
@@ -279,20 +279,16 @@ def calculate_s_scores(
                     es_status[idx] = fail_type
 
                 if es_status[idx] is not None and es_status[idx] != "CORRECT":
-                    # print(f"sample: {sample.get('configuration').get('model')}, error type: {es_status[idx]}")
                     rec_speedup_fake_degrad = fake_perf_degrad(
                         t_key, es_status[idx], fpdb
                     )
+                    # print(f"sample: {sample.get('configuration').get('model')}, error type: {es_status[idx]}, rec_speedup_fake_degrad: {rec_speedup_fake_degrad}")
                 else:  # Still in a "CORRECT" state
-                    if speedup is None:
-                        rec_speedup_fake_degrad = fpdb
-                    else:
-                        rec_speedup_fake_degrad = (
-                            speedup ** (negative_speedup_penalty + 1)
-                            if speedup < 1
-                            else speedup
-                        )
-
+                    rec_speedup_fake_degrad = (
+                        speedup ** (negative_speedup_penalty + 1)
+                        if speedup < 1
+                        else speedup
+                    )
             rectified_speedups_fake_degrad.append(rec_speedup_fake_degrad)
 
         if t_key == 1:
@@ -301,17 +297,17 @@ def calculate_s_scores(
                 if (total_samples - correct_count) != 0
                 else 0
             )
-            pi[1] = 1
+            pi[1] = 1 - pi[0]
             final_correct_count = correct_count
             final_correct_negative_speedup_count = correct_negative_speedup_count
             final_correct_speedups = correct_speedups
             final_slowdown_speedups = slowdown_speedups
 
         if rectified_speedups:
-            # s_scores[t_key] = gmean(rectified_speedups)
-            # s_scores_fake_degrad[t_key] = gmean(rectified_speedups_fake_degrad)
+            s_scores[t_key] = gmean(rectified_speedups)
+            s_scores_fake_degrad[t_key] = gmean(rectified_speedups_fake_degrad)
             if t_key < 1:
-                s_scores[t_key], s_scores_fake_degrad[t_key] = print_stat_info(
+                print_stat_info(
                     t_key,
                     correct_count,
                     acc_failure_count,
@@ -321,7 +317,7 @@ def calculate_s_scores(
                     slowdown_speedups,
                 )
             else:
-                s_scores[t_key], s_scores_fake_degrad[t_key] = print_stat_info(
+                print_stat_info(
                     t_key,
                     final_correct_count,
                     acc_failure_count,
@@ -330,9 +326,9 @@ def calculate_s_scores(
                     final_correct_speedups,
                     final_slowdown_speedups,
                 )
-            # print(
-            #     f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
-            # )
+            print(
+                f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
+            )
 
     print(f"    - pi: {pi}")
 

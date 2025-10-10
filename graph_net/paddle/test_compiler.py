@@ -307,16 +307,23 @@ def get_cmp_all_close(expected_out, compiled_out, atol, rtol):
     )
 
 
+def get_format_str(f):
+    if (abs(f) > 1e5 or abs(f) < 1e-5) and abs(f) != 0.0:
+        return str(f"{f:.5E}")
+    else:
+        return str(f"{f:.5f}")
+
+
 def get_cmp_max_diff(expected_out, compiled_out):
     return " ".join(
-        str(paddle.max(paddle.abs(a - b)).item())
+        get_format_str(paddle.max(paddle.abs(a - b)).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_mean_diff(expected_out, compiled_out):
     return " ".join(
-        str(paddle.mean(paddle.abs(a - b)).item())
+        get_format_str(paddle.mean(paddle.abs(a - b)).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
@@ -324,7 +331,7 @@ def get_cmp_mean_diff(expected_out, compiled_out):
 def get_cmp_max_relative_diff(expected_out, compiled_out):
     epsilon = 1e-8
     return " ".join(
-        str(paddle.max(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item())
+        get_format_str(paddle.max(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
@@ -332,7 +339,9 @@ def get_cmp_max_relative_diff(expected_out, compiled_out):
 def get_cmp_mean_relative_diff(expected_out, compiled_out):
     epsilon = 1e-8
     return " ".join(
-        str(paddle.mean(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item())
+        get_format_str(
+            paddle.mean(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item()
+        )
         for a, b in zip(expected_out, compiled_out)
     )
 

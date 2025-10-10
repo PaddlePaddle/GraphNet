@@ -213,15 +213,11 @@ def replay_tensor(info):
         ).to(device)
     else:
         if mean is not None and std is not None:
-            return (
-                paddle.clip(
-                    paddle.normal(shape=shape, mean=mean, std=std),
-                    min=min_val,
-                    max=max_val,
-                )
-                .to(dtype)
-                .to(device)
+            tensor = paddle.empty(shape=shape, dtype=dtype)
+            paddle.nn.init.trunc_normal_(
+                tensor=tensor, mean=mean, std=std, a=min_val, b=max_val
             )
+            return tensor.to(dtype).to(device)
         else:
             return (
                 paddle.uniform(shape=shape, dtype="float32", min=min_val, max=max_val)

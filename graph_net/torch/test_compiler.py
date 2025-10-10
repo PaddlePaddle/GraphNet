@@ -449,12 +449,12 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 def test_multi_models(args):
     test_samples = None
-    if args.samples_list is not None:
-        assert os.path.isfile(args.samples_list)
+    if args.allow_list is not None:
+        assert os.path.isfile(args.allow_list)
         graphnet_root = path_utils.get_graphnet_root()
         print(f"graphnet_root: {graphnet_root}")
         test_samples = []
-        with open(args.samples_list, "r") as f:
+        with open(args.allow_list, "r") as f:
             for line in f.readlines():
                 test_samples.append(os.path.join(graphnet_root, line.strip()))
 
@@ -553,7 +553,7 @@ if __name__ == "__main__":
         help="Log prompt for performance log filtering.",
     )
     parser.add_argument(
-        "--samples-list",
+        "--allow-list",
         type=str,
         required=False,
         default=None,

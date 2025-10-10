@@ -392,8 +392,9 @@ def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
     ax.yaxis.grid(True, which="major", lw=0.8, ls=":", color="grey", alpha=0.5)
 
     ax.legend(fontsize=16, loc="best")
-    plt.savefig("S_result.png", dpi=300, bbox_inches="tight")
-    print("\nComparison plot saved to S_result.png")
+    output_file = os.path.join(cli_args.output_dir, "S_result.png")
+    plt.savefig(output_file, dpi=300, bbox_inches="tight")
+    print(f"\nComparison plot saved to {output_file}")
 
 
 def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
@@ -485,8 +486,9 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
     ax.yaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
 
     ax.legend(fontsize=16, loc="best")
-    plt.savefig("ES_result.png", dpi=300, bbox_inches="tight")
-    print("\nComparison plot saved to ES_result.png")
+    output_file = os.path.join(cli_args.output_dir, "ES_result.png")
+    plt.savefig(output_file, dpi=300, bbox_inches="tight")
+    print(f"\nComparison plot saved to {output_file}")
 
 
 # ---------- 4. 主程序入口 ----------
@@ -504,6 +506,12 @@ def main():
         type=str,
         required=True,
         help="Path to the directory containing sub-folders of benchmark JSON files.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default="analysis_results",
+        help="Output directory path for saving plots. Default: analysis_results",
     )
     parser.add_argument(
         "--negative-speedup-penalty",
@@ -541,6 +549,7 @@ def main():
 
     # 3. 多曲线绘图 (传入汇总数据和命令行参数)
     if any(all_s_scores.values()):
+        os.makedirs(args.output_dir, exist_ok=True)
         plot_S_results(all_s_scores, args)
         plot_ES_results(all_s_scores_fake_degrad, args)
     else:

@@ -173,7 +173,7 @@ if __name__ == "__main__":
         "--output-dir",
         type=str,
         default="analysis_results",
-        help="Directory where the output plot will be saved.",
+        help="Output directory path for saving plots. Default: analysis_results",
     )
     args = parser.parse_args()
     analysis(args)

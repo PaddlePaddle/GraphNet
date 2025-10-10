@@ -189,9 +189,6 @@ def calculate_s_scores(
 
         # return expected_s, expected_es
 
-    # ES曲线的阶梯状状态，初始化为'CORRECT'
-    es_status = ["CORRECT"] * total_samples
-
     # pi is a list of constant for t > 0 for each group
     pi = [1, 1]
 
@@ -267,6 +264,7 @@ def calculate_s_scores(
                 # 在 t < 1 时，ES行为与S相同
                 if fail_type is not None or speedup is None:
                     rec_speedup_fake_degrad = fpdb
+                    # print(f"sample: {sample.get('configuration').get('model')}, fail_type: {fail_type}, rec_speedup_fake_degrad: {rec_speedup_fake_degrad}")
                 else:
                     rec_speedup_fake_degrad = (
                         speedup ** (negative_speedup_penalty + 1)
@@ -275,10 +273,16 @@ def calculate_s_scores(
                     )
             else:
                 # 在 t >= 1 时，ES开始应用阶梯状逻辑
+                # ES曲线的阶梯状状态，初始化为'CORRECT'
+                es_status = ["CORRECT"] * total_samples
                 if es_status[idx] == "CORRECT" and fail_type is not None:
                     es_status[idx] = fail_type
 
-                if es_status[idx] is not None and es_status[idx] != "CORRECT":
+                if (
+                    es_status[idx] is not None
+                    and es_status[idx] != "CORRECT"
+                    or speedup is None
+                ):
                     rec_speedup_fake_degrad = fake_perf_degrad(
                         t_key, es_status[idx], fpdb
                     )

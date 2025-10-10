@@ -13,8 +13,6 @@ import importlib
 
 kLiteralTensorSize = 64
 
-kLiteralTensorSize = 64
-
 
 def apply_templates(forward_code: str) -> str:
     tab = "    "

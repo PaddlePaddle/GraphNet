@@ -22,6 +22,7 @@ from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
 from graph_net.torch.backend.nope_backend import NopeBackend
 from graph_net.test_compiler_util import generate_allclose_configs
+from graph_net import path_utils
 
 registry_backend = {
     "tvm": TvmBackend(),
@@ -445,28 +446,44 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 
 def test_multi_models(args):
-    for model_path in get_recursively_model_path(args.model_path):
-        cmd_list = [
-            sys.executable,
-            "-m",
-            "graph_net.torch.test_compiler",
-            "--model-path",
-            model_path,
-            "--compiler",
-            args.compiler,
-            "--warmup",
-            str(args.warmup),
-            "--trials",
-            str(args.trials),
-            "--log-prompt",
-            args.log_prompt,
-            "--device",
-            args.device,
-        ]
+    verified_samples = None
+    if args.verified_samples_list_path is not None:
+        assert os.path.isfile(args.verified_samples_list_path)
+        graphnet_root = path_utils.get_graphnet_root()
+        print(f"graphnet_root: {graphnet_root}")
+        verified_samples = []
+        with open(args.verified_samples_list_path, "r") as f:
+            for line in f.readlines():
+                verified_samples.append(os.path.join(graphnet_root, line.strip()))
 
-        cmd = " ".join(cmd_list)
-        cmd_ret = os.system(cmd)
-        assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+    sample_idx = 0
+    failed_samples = []
+    for model_path in path_utils.get_recursively_model_path(args.model_path):
+        if verified_samples is None or os.path.abspath(model_path) in verified_samples:
+            print(f"[{sample_idx}] test_compiler, model_path: {model_path}")
+            cmd = " ".join(
+                [
+                    sys.executable,
+                    "-m graph_net.torch.test_compiler",
+                    f"--model-path {model_path}",
+                    f"--compiler {args.compiler}",
+                    f"--device {args.device}",
+                    f"--warmup {args.warmup}",
+                    f"--trials {args.trials}",
+                    f"--log-prompt {args.log_prompt}",
+                ]
+            )
+            cmd_ret = os.system(cmd)
+            # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+            if cmd_ret != 0:
+                failed_samples.append(model_path)
+            sample_idx += 1
+
+    print(
+        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples."
+    )
+    for model_path in failed_samples:
+        print(f"- {model_path}")
 
 
 def get_recursively_model_path(root_dir):
@@ -532,6 +549,13 @@ if __name__ == "__main__":
         required=False,
         default="graph-net-test-compiler-log",
         help="Log prompt for performance log filtering.",
+    )
+    parser.add_argument(
+        "--verified-samples-list-path",
+        type=str,
+        required=False,
+        default=None,
+        help="Path to list of verified samples, each line contains a sample path",
     )
     args = parser.parse_args()
     main(args=args)

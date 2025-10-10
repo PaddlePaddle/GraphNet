@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from scipy.stats import gmean
 from collections import OrderedDict
 from scipy.optimize import curve_fit
-from graph_net.datatype_tolerance_config import get_precision
+from graph_net.config.datatype_tolerance_config import get_precision
 
 
 # ---------- 1. Data Loading and Processing ----------

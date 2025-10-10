@@ -10,9 +10,11 @@ from scipy.optimize import curve_fit
 from graph_net.datatype_tolerance_config import get_precision
 
 
-# ---------- 1. 数据加载与处理 ----------
+# ---------- 1. Data Loading and Processing ----------
 def load_json_file(filepath: str) -> dict:
-    """安全地加载 JSON 文件并返回数据，若加载失败则返回空字典"""
+    """
+    Safely load a JSON file and return data, return an empty dictionary if loading fails.
+    """
     try:
         with open(filepath, "r", encoding="utf-8") as f:
             return json.load(f)
@@ -23,8 +25,8 @@ def load_json_file(filepath: str) -> dict:
 
 def load_one_folder(folder_path: str) -> list:
     """
-    遍历 *单个* 文件夹下的所有 .json 文件，加载所有原始数据。
-    返回一个包含原始数据字典的列表。
+    Traverse all .json files in a *single* folder and load all raw data.
+    Returns a list of raw data dictionaries.
     """
     if not os.path.isdir(folder_path):
         return []
@@ -44,10 +46,10 @@ def load_one_folder(folder_path: str) -> list:
 
 def scan_all_folders(benchmark_path: str) -> dict:
     """
-    统一入口：
-      - 如果 benchmark_path 下直接有 .json → 当成单条曲线（曲线名用目录名）。
-      - 否则退回到“子目录=曲线”的老逻辑。
-    返回 dict[folder_name] -> list_of_samples
+    Unified entry point:
+      - If there are .json files directly under benchmark_path → treat them as a single curve (curve name is the directory name).
+      - Otherwise, fallback to the old logic where subdirectories represent curves.
+    Returns dict[folder_name] -> list_of_samples
     """
     if not os.path.isdir(benchmark_path):
         print(f"Error: Provided path '{benchmark_path}' is not a valid directory.")
@@ -55,9 +57,9 @@ def scan_all_folders(benchmark_path: str) -> dict:
 
     print(f"Scanning '{benchmark_path}' ...")
 
-    # 先尝试扁平结构，直接读取 JSON
+    # Try flat structure, directly read JSON
     flat_samples = load_one_folder(benchmark_path)
-    if flat_samples:  # ≥1 个 json 被成功加载
+    if flat_samples:  # ≥1 JSON loaded successfully
         folder_name = os.path.basename(benchmark_path) or "benchmark"
         print(
             f"  - Detected flat structure → 1 curve '{folder_name}' "
@@ -65,7 +67,7 @@ def scan_all_folders(benchmark_path: str) -> dict:
         )
         return {folder_name: flat_samples}
 
-    # 退回到子目录为曲线的逻辑
+    # Fall back to subdirectories as curves logic
     all_results = {}
     print("  - No JSON files found at top level → scanning sub-folders.")
     for entry in os.listdir(benchmark_path):
@@ -79,10 +81,10 @@ def scan_all_folders(benchmark_path: str) -> dict:
     return all_results
 
 
-# ---------- 2. 核心计算逻辑 ----------
+# ---------- 2. Core Calculation Logic ----------
 def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> bool:
     """
-    根据容忍度、数据类型和输出索引，从配置中查找实际的 atol/rtol 值，获取单个输出的正确性结果。
+    Based on tolerance, data type, and output index, find the actual atol/rtol values from the config and get the correctness result for a single output.
     """
     precision_pair = get_precision(t, dtype)
     atol, rtol = precision_pair[1], precision_pair[0]
@@ -90,7 +92,7 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
     if atol == 0 and rtol == 0:
         metric_key_to_check = "[equal]"
     else:
-        # 使用 .2E 格式化，确保小数点后有两位，并使用大写E，匹配JSON日志格式
+        # Use .2E format to ensure two decimal places and use uppercase E to match JSON log format
         metric_key_to_check = f"[all_close_atol_{atol:.2E}_rtol_{rtol:.2E}]"
 
     result = correctness_data.get(metric_key_to_check)
@@ -101,22 +103,21 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
 
 def fake_perf_degrad(t, fail_type, fpdb=0.1):
     """
-    根据容忍度 t 和失败类型，计算 fake performance degradation。
+    Calculate fake performance degradation based on tolerance t and failure type.
     """
-    # 适合旧版代码
     if fail_type == "accuracy":
         return fpdb if t < 1 else 1
     else:
         return fpdb if t < 3 else 1
 
     # if fail_type == "compiled":
-    #     # 编译失败：只有 t >= 3 时才豁免（返回 1）
+    #     # Compilation failure: only exempt if t >= 3 (return 1)
     #     return fpdb + (1 - fpdb) * (1 if t >= 3 else 0)
     # elif fail_type == "eager":
-    #     # 执行崩溃（但编译成功）：t >= 2 时豁免
+    #     # Execution crash (but compilation succeeded): exempt if t >= 2
     #     return fpdb + (1 - fpdb) * (1 if t >= 2 else 0)
     # elif fail_type == "accuracy":
-    #     # 精度失败（运行成功但结果错误）：t >= 1 时豁免
+    #     # Accuracy failure (execution succeeded but result wrong): exempt if t >= 1
     #     return fpdb + (1 - fpdb) * (1 if t >= 1 else 0)
 
 
@@ -127,7 +128,7 @@ def calculate_s_scores(
     fpdb: float = 0.1,
 ) -> tuple:
     """
-    使用一个标准 tolerance 来评估所有样本，并计算每个刻度上的 S(t) 和 ES(t) 分数。
+    Use a standard tolerance to evaluate all samples and calculate S(t) and ES(t) scores for each tolerance level.
     """
     s_scores = OrderedDict()
     s_scores_fake_degrad = OrderedDict()
@@ -189,7 +190,7 @@ def calculate_s_scores(
 
         # return expected_s, expected_es
 
-    # pi is a list of constant for t > 0 for each group
+    # pi is a list of constants for t > 0 for each group
     pi = [1, 1]
 
     final_correct_count = 0
@@ -197,15 +198,12 @@ def calculate_s_scores(
     final_correct_speedups = []
     final_slowdown_speedups = []
 
-    # 核心计算逻辑，处理两种惩罚模式
     for t_key in t_keys:
         rectified_speedups = []
         rectified_speedups_fake_degrad = []
         correct_count = 0
         acc_failure_count = 0
         correct_negative_speedup_count = 0
-
-        # 新增：用于计算 alpha 和 beta 的列表
         correct_speedups = []
         slowdown_speedups = []
 
@@ -214,7 +212,7 @@ def calculate_s_scores(
             fail_type = performance_data.get("failure")
             speedup = performance_data.get("speedup", {}).get("e2e")
 
-            # 判定当前样本的真实状态（用于统计和S曲线）
+            # Determine the true state of the current sample (for statistics and S curve)
             is_correct = False
             if fail_type is None:
                 datatype_data = performance_data.get("datatype", {})
@@ -235,7 +233,7 @@ def calculate_s_scores(
                     if not is_correct:
                         fail_type = "accuracy"
 
-            # 统计信息
+            # Collect statistics
             if is_correct:
                 correct_count += 1
                 if speedup is not None:
@@ -247,7 +245,7 @@ def calculate_s_scores(
             if fail_type == "accuracy":
                 acc_failure_count += 1
 
-            # S(t) 计算（基于原始状态）
+            # S(t) calculation
             if fail_type is not None or speedup is None:
                 regularized_speedup = fpdb
             else:
@@ -258,10 +256,10 @@ def calculate_s_scores(
                 )
             rectified_speedups.append(regularized_speedup)
 
-            # ES(t) 核心逻辑：基于状态变化
+            # ES(t) calculation: based on state change
             rec_speedup_fake_degrad = 0
             if t_key < 1:
-                # 在 t < 1 时，ES行为与S相同
+                # When t < 1, ES behaves the same as S
                 if fail_type is not None or speedup is None:
                     rec_speedup_fake_degrad = fpdb
                     # print(f"sample: {sample.get('configuration').get('model')}, fail_type: {fail_type}, rec_speedup_fake_degrad: {rec_speedup_fake_degrad}")
@@ -272,8 +270,8 @@ def calculate_s_scores(
                         else speedup
                     )
             else:
-                # 在 t >= 1 时，ES开始应用阶梯状逻辑
-                # ES曲线的阶梯状状态，初始化为'CORRECT'
+                # When t >= 1, ES starts applying stepwise logic
+                # ES curve's stepwise state, initialized as 'CORRECT'
                 es_status = ["CORRECT"] * total_samples
                 if es_status[idx] == "CORRECT" and fail_type is not None:
                     es_status[idx] = fail_type
@@ -339,10 +337,10 @@ def calculate_s_scores(
     return s_scores, s_scores_fake_degrad
 
 
-# ---------- 3. 绘图功能 ----------
+# ---------- 3. Plotting Functions ----------
 def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
     """
-    绘制 S(t) 曲线
+    Plot S(t) curve
     """
     plt.style.use("seaborn-v0_8-whitegrid")
     fig, ax = plt.subplots(figsize=(14, 8))
@@ -399,7 +397,7 @@ def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
 
 def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
     """
-    绘制 ES(t) 曲线
+    Plot ES(t) curve
     """
     plt.style.use("seaborn-v0_8-whitegrid")
     fig, ax = plt.subplots(figsize=(14, 8))
@@ -424,7 +422,7 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
             all_x_coords.append(t_key)
             plot_points.append({"x": t_key, "y": score})
 
-        # 按x值排序
+        # Sort by x value
         plot_points.sort(key=lambda p: p["x"])
 
         x_vals = np.array([p["x"] for p in plot_points])
@@ -432,12 +430,12 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
 
         color = colors[idx % len(colors)]
 
-        # 找到 t=0 的索引
+        # Find index where t=0
         zero_index = np.where(x_vals == 0)[0][0] if 0 in x_vals else None
 
-        # 如果存在t=0的点，则分段绘制
+        # If t=0 exists, plot in segments
         if zero_index is not None:
-            # 绘制 t <= 0 的连续直线部分
+            # Plot continuous line for t <= 0
             ax.plot(
                 x_vals[: zero_index + 1],
                 y_vals[: zero_index + 1],
@@ -447,7 +445,7 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
                 linewidth=2,
                 markersize=6,
             )
-            # 绘制 t > 0 的阶梯状部分
+            # Plot stepwise portion for t > 0
             ax.plot(
                 x_vals[zero_index:],
                 y_vals[zero_index:],
@@ -458,7 +456,7 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
                 drawstyle="steps-post",
             )
         else:
-            # 如果没有t=0，则整个曲线都使用常规直线
+            # If no t=0, plot the entire curve as a regular line
             ax.plot(
                 x_vals,
                 y_vals,
@@ -491,10 +489,10 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
     print(f"\nComparison plot saved to {output_file}")
 
 
-# ---------- 4. 主程序入口 ----------
+# ---------- 4. Main Program Entry ----------
 def main():
     """
-    主执行函数。
+    Main execution function.
     """
     parser = argparse.ArgumentParser(
         description="Load benchmark JSON records from multiple sub-folders, "
@@ -527,13 +525,13 @@ def main():
     )
     args = parser.parse_args()
 
-    # 1. 扫描所有子目录
+    # 1. Scan all subdirectories
     all_results = scan_all_folders(args.benchmark_path)
     if not all_results:
         print("No valid data found. Exiting.")
         return
 
-    # 2. 分别计算每条曲线的 S 分数
+    # 2. Calculate S scores for each curve
     all_s_scores = {}
     all_s_scores_fake_degrad = {}
 
@@ -547,7 +545,7 @@ def main():
         all_s_scores[folder_name] = s_scores
         all_s_scores_fake_degrad[folder_name] = s_scores_fake_degrad
 
-    # 3. 多曲线绘图 (传入汇总数据和命令行参数)
+    # 3. Plot S and ES curves
     if any(all_s_scores.values()):
         os.makedirs(args.output_dir, exist_ok=True)
         plot_S_results(all_s_scores, args)

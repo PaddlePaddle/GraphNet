@@ -6,9 +6,10 @@ def check_completeness(samples_dir):
     samples_missing_hash = []
     samples_missing_json = []
     samples_missing_meta = []
+    samples_missing_model = []
     for root, dirs, files in os.walk(samples_dir):
+        model_path = root
         if "shape_patches_" not in root and "model.py" in files:
-            model_path = root
             if not os.path.exists(os.path.join(model_path, "graph_hash.txt")):
                 samples_missing_hash.append(model_path)
             if not os.path.exists(os.path.join(model_path, "graph_net.json")):
@@ -17,11 +18,14 @@ def check_completeness(samples_dir):
                 os.path.join(model_path, "input_meta.py")
             ) or not os.path.exists(os.path.join(model_path, "weight_meta.py")):
                 samples_missing_meta.append(model_path)
+        if "graph_net.json" in files and "model.py" not in files:
+            samples_missing_model.append(model_path)
 
     all_samples_complete = (
         len(samples_missing_hash) == 0
         and len(samples_missing_json) == 0
         and len(samples_missing_meta) == 0
+        and len(samples_missing_model) == 0
     )
 
     if not all_samples_complete:
@@ -39,6 +43,11 @@ def check_completeness(samples_dir):
         )
         for model_path in samples_missing_meta:
             print(f"  - {model_path}")
+
+        print(f"4. {len(samples_missing_model)} samples missing model.py")
+        for model_path in samples_missing_model:
+            print(f"  - {model_path}")
+
         print()
 
     return all_samples_complete

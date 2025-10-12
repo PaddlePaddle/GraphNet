@@ -526,7 +526,7 @@ class GraphModule(paddle.nn.Layer):
         data_1,
     ):
         # pd_op.assign: (1x22xi64) <- (1x22xi64)
-        assign_0 = data_0
+        assign_0 = paddle._C_ops.assign(data_0)
 
         # pd_op.flatten: (22xi64) <- (1x22xi64)
         flatten_0 = paddle._C_ops.flatten(assign_0, 0, 1)

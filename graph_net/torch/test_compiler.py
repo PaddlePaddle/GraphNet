@@ -21,7 +21,7 @@ from graph_net.torch.backend.inductor_backend import InductorBackend
 from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
 from graph_net.torch.backend.nope_backend import NopeBackend
-from graph_net.test_compiler_util import generate_allclose_configs
+from graph_net import test_compiler_util
 
 registry_backend = {
     "tvm": TvmBackend(),
@@ -374,33 +374,21 @@ def print_and_store_cmp(key, cmp_func, args, expected_out, compiled_out, **kwarg
 
 
 def compare_correctness(expected_out, compiled_out, args):
-    # cmp_configs = [
-    #     ("[equal]", get_cmp_equal, {}),
-    #     ("[all_close_atol8_rtol8]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-8}),
-    #     ("[all_close_atol8_rtol5]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-5}),
-    #     ("[all_close_atol5_rtol5]", get_cmp_all_close, {"atol": 1e-5, "rtol": 1e-5}),
-    #     ("[all_close_atol3_rtol2]", get_cmp_all_close, {"atol": 1e-3, "rtol": 1e-2}),
-    #     ("[all_close_atol2_rtol1]", get_cmp_all_close, {"atol": 1e-2, "rtol": 1e-1}),
-    #     ("[max_diff]", get_cmp_max_diff, {}),
-    #     ("[mean_diff]", get_cmp_mean_diff, {}),
-    #     ("[diff_count_atol8_rtol8]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-8}),
-    #     ("[diff_count_atol8_rtol5]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-5}),
-    #     ("[diff_count_atol5_rtol5]", get_cmp_diff_count, {"atol": 1e-5, "rtol": 1e-5}),
-    #     ("[diff_count_atol3_rtol2]", get_cmp_diff_count, {"atol": 1e-3, "rtol": 1e-2}),
-    #     ("[diff_count_atol2_rtol1]", get_cmp_diff_count, {"atol": 1e-2, "rtol": 1e-1}),
-    # ]
-    cmp_configs = generate_allclose_configs(get_cmp_all_close)
-    cmp_configs.append(("[equal]", get_cmp_equal, {}))
+    test_compiler_util.check_equal(
+        args,
+        expected_out,
+        compiled_out,
+        cmp_equal_func=get_cmp_equal,
+    )
 
-    for key, func, kwargs in cmp_configs:
-        print_and_store_cmp(
-            key=key,
-            cmp_func=func,
-            args=args,
-            expected_out=expected_out,
-            compiled_out=compiled_out,
-            **kwargs,
-        )
+    test_compiler_util.check_allclose(
+        args,
+        expected_out,
+        compiled_out,
+        cmp_all_close_func=get_cmp_all_close,
+        cmp_max_diff_func=get_cmp_max_diff,
+        cmp_mean_diff_func=get_cmp_mean_diff,
+    )
 
 
 def get_cmp_equal(expected_out, compiled_out):

@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from contextlib import contextmanager
 import time
 import json
+import random
 import numpy as np
 import platform
 from graph_net.torch.backend.graph_compiler_backend import GraphCompilerBackend
@@ -31,6 +32,15 @@ registry_backend = {
     "bladedisc": BladeDISCBackend(),
     "nope": NopeBackend(),
 }
+
+
+def set_seed(random_seed):
+    random.seed(random_seed)
+    np.random.seed(random_seed)
+    torch.manual_seed(random_seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(random_seed)
+        torch.cuda.manual_seed_all(random_seed)
 
 
 def load_class_from_file(
@@ -226,6 +236,7 @@ def test_single_model(args):
         flush=True,
     )
 
+    runtime_seed = 1024
     eager_failure = False
     expected_out = None
     eager_types = []
@@ -239,6 +250,8 @@ def test_single_model(args):
             file=sys.stderr,
             flush=True,
         )
+
+        torch.manual_seed(runtime_seed)
         expected_out = eager_model_call()
         if not isinstance(expected_out, tuple):
             expected_out = (expected_out,)
@@ -270,6 +283,7 @@ def test_single_model(args):
         else:
             compiled_model = compiler(model)
 
+        torch.manual_seed(runtime_seed)
         compiled_model_call = lambda: compiled_model(**input_dict)
         compiled_stats = measure_performance(compiled_model_call, args, compiler)
         print(
@@ -480,6 +494,9 @@ def is_single_model_dir(model_dir):
 
 def main(args):
     assert os.path.isdir(args.model_path)
+
+    initalize_seed = 123
+    set_seed(random_seed=initalize_seed)
     if is_single_model_dir(args.model_path):
         test_single_model(args)
     else:

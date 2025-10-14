@@ -164,16 +164,16 @@ def calculate_s_scores(
                 sum(pi[i] * indicator[i] for i in range(len(pi))) / len(pi)
             )
 
-            # expected_s = (
-            #     alpha**lambda_
-            #     * beta ** (lambda_ * eta * negative_speedup_penalty)
-            #     * fpdb ** (1 - lambda_)
-            # )
-            # expected_es = (
-            #     alpha**lambda_
-            #     * beta ** (lambda_ * eta * negative_speedup_penalty)
-            #     * gamma ** (1 - lambda_)
-            # )
+            expected_s = (
+                alpha**lambda_
+                * beta ** (lambda_ * eta * negative_speedup_penalty)
+                * fpdb ** (1 - lambda_)
+            )
+            expected_es = (
+                alpha**lambda_
+                * beta ** (lambda_ * eta * negative_speedup_penalty)
+                * gamma ** (1 - lambda_)
+            )
 
             print(
                 f"    - alpha: {alpha:.3f} (Geometric mean speedup of correct samples)"
@@ -184,11 +184,10 @@ def calculate_s_scores(
             print(
                 f"    - eta: {eta:.3f} (Fraction of slowdown cases within correct samples)"
             )
-            # print(f"    - S({t_key}): {expected_s}, ES({t_key}): {expected_es}")
         else:
             print("    - No samples to analyze.")
 
-        # return expected_s, expected_es
+        return expected_s, expected_es
 
     # pi is a list of constants for t > 0 for each group
     pi = [1, 1]
@@ -308,8 +307,11 @@ def calculate_s_scores(
         if rectified_speedups:
             s_scores[t_key] = gmean(rectified_speedups)
             s_scores_fake_degrad[t_key] = gmean(rectified_speedups_fake_degrad)
+            print(
+                f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key} from micro level."
+            )
             if t_key < 1:
-                print_stat_info(
+                s_scores[t_key], s_scores_fake_degrad[t_key] = print_stat_info(
                     t_key,
                     correct_count,
                     acc_failure_count,
@@ -319,7 +321,7 @@ def calculate_s_scores(
                     slowdown_speedups,
                 )
             else:
-                print_stat_info(
+                s_scores[t_key], s_scores_fake_degrad[t_key] = print_stat_info(
                     t_key,
                     final_correct_count,
                     acc_failure_count,
@@ -329,7 +331,7 @@ def calculate_s_scores(
                     final_slowdown_speedups,
                 )
             print(
-                f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key}."
+                f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key} from macro level."
             )
 
     print(f"    - pi: {pi}")
@@ -468,7 +470,7 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
             )
 
     p = cli_args.negative_speedup_penalty
-    config = f"p = {p}, gamma = fake_perf_degrad (b={cli_args.fpdb})"
+    config = f"p = {p}, b = {cli_args.fpdb}"
     fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
 
     ax.set_xlabel("t", fontsize=18)

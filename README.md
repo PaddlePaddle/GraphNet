@@ -99,7 +99,7 @@ python -m graph_net.torch.test_compiler \
   --trials /times/to/test/ \
   > $GRAPH_NET_BENCHMARK_PATH/log.log 2>&1
 
-# Note: if --compiler is omitted, PyTorch’s built-in compiler is used by default
+# Note: If --compiler is omitted, PyTorch’s built-in compiler is used by default.
 ```
 
 After executing, `graph_net.torch.test_compiler` will:
@@ -114,24 +114,31 @@ This step is to extract information (including failure) from logs in benchmark.
 All the information will be saved to multiple `model_compiler.json` files via:
 
 ```bash
-python -m graph_net.torch.log2json \
+python -m graph_net.log2json \
   --log-file $GRAPH_NET_BENCHMARK_PATH/log.log \
-  --output-dir $GRAPH_NET_BENCHMARK_PATH
+  --output-dir $GRAPH_NET_BENCHMARK_PATH/JSON_results/
 ```
 
 **Step 3: Analysis**
 
-After processing, we provide `graph_net/analysis.py` to generate [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on the JSON results.
+After processing, we provide `graph_net.violin_analysis` to generate [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) and `graph_net.S_analysis` to generate S and ES plot based on the JSON results.
 
 ```bash
-python -m graph_net.analysis \
-  --benchmark-path /path/to/read/JSON/result/file/ \
-  --output-dir /path/to/save/output/figures/
+python -m graph_net.violin_analysis \
+  --benchmark-path $GRAPH_NET_BENCHMARK_PATH/JSON_results/ \
+  --output-dir $GRAPH_NET_BENCHMARK_PATH
+
+python -m graph_net.S_analysis \
+  --benchmark-path $GRAPH_NET_BENCHMARK_PATH/JSON_results/ \
+  --output-dir $GRAPH_NET_BENCHMARK_PATH \
+  --negative-speedup-penalty penalty/power/for/negative/speedup \
+  --fpdb base/penalty/for/severe/errors
+
+# Note: If --negative-speedup-penalty is omitted, p=0 is used by default.
+# If --fpdb, b=0.1 is used by default.
 ```
 
-After executing, one summary plot of results on all compilers, as well as multiple sub-plots of results in categories (model tasks, Library...) on a single compiler will be exported. 
-
-The script is designed to process a file structure as `/benchmark_path/compiler_name/category_name/` (for example `/benchmark_logs/paddle/nlp/`), and items on x-axis are identified by name of the folders. So you can modify  `read_all_speedups` function to fit the benchmark settings on your demand.
+The scripts are designed to process a file structure as `/benchmark_path/category_name/`, and items on x-axis are identified by name of the sub-directories. After executing, several summary plots of result in categories (model tasks, libraries...) will be exported to `$GRAPH_NET_BENCHMARK_PATH`.
 
 ## 📌 Roadmap
 

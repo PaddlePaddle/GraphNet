@@ -325,6 +325,8 @@ def test_single_model(args):
         # "datatype not match" is recognized as a large loss in analysis process later,
         # and is not recognized as a failure here.
 
+        # print(f"eager out: {expected_out}")
+        # print(f"compiled out: {compiled_out}")
         compare_correctness(expected_out, compiled_out, args)
 
     except (TypeError, RuntimeError) as e:
@@ -451,28 +453,44 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 
 def test_multi_models(args):
-    for model_path in get_recursively_model_path(args.model_path):
-        cmd_list = [
-            sys.executable,
-            "-m",
-            "graph_net.torch.test_compiler",
-            "--model-path",
-            model_path,
-            "--compiler",
-            args.compiler,
-            "--warmup",
-            str(args.warmup),
-            "--trials",
-            str(args.trials),
-            "--log-prompt",
-            args.log_prompt,
-            "--device",
-            args.device,
-        ]
+    test_samples = None
+    if args.allow_list is not None:
+        assert os.path.isfile(args.allow_list)
+        graphnet_root = path_utils.get_graphnet_root()
+        print(f"graphnet_root: {graphnet_root}")
+        test_samples = []
+        with open(args.allow_list, "r") as f:
+            for line in f.readlines():
+                test_samples.append(os.path.join(graphnet_root, line.strip()))
 
-        cmd = " ".join(cmd_list)
-        cmd_ret = os.system(cmd)
-        assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+    sample_idx = 0
+    failed_samples = []
+    for model_path in path_utils.get_recursively_model_path(args.model_path):
+        if test_samples is None or os.path.abspath(model_path) in test_samples:
+            print(f"[{sample_idx}] test_compiler, model_path: {model_path}")
+            cmd = " ".join(
+                [
+                    sys.executable,
+                    "-m graph_net.torch.test_compiler",
+                    f"--model-path {model_path}",
+                    f"--compiler {args.compiler}",
+                    f"--device {args.device}",
+                    f"--warmup {args.warmup}",
+                    f"--trials {args.trials}",
+                    f"--log-prompt {args.log_prompt}",
+                ]
+            )
+            cmd_ret = os.system(cmd)
+            # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+            if cmd_ret != 0:
+                failed_samples.append(model_path)
+            sample_idx += 1
+
+    print(
+        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples."
+    )
+    for model_path in failed_samples:
+        print(f"- {model_path}")
 
 
 def get_recursively_model_path(root_dir):
@@ -541,6 +559,13 @@ if __name__ == "__main__":
         required=False,
         default="graph-net-test-compiler-log",
         help="Log prompt for performance log filtering.",
+    )
+    parser.add_argument(
+        "--allow-list",
+        type=str,
+        required=False,
+        default=None,
+        help="Path to samples list, each line contains a sample path",
     )
     args = parser.parse_args()
     main(args=args)

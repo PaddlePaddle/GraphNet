@@ -22,7 +22,10 @@ from graph_net.torch.backend.inductor_backend import InductorBackend
 from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
 from graph_net.torch.backend.nope_backend import NopeBackend
+from graph_net.torch.backend.unstable_to_stable_backend import UnstableToStableBackend
+from graph_net.test_compiler_util import generate_allclose_configs
 from graph_net import test_compiler_util
+
 
 registry_backend = {
     "tvm": TvmBackend(),
@@ -31,6 +34,7 @@ registry_backend = {
     "tensorrt": TensorRTBackend(),
     "bladedisc": BladeDISCBackend(),
     "nope": NopeBackend(),
+    "unstable_to_stable": UnstableToStableBackend(),
 }
 
 
@@ -225,7 +229,7 @@ def test_single_model(args):
     )
 
     version_str = "unknown"
-    if args.compiler == "inductor":
+    if args.compiler in ["inductor", "unstable_to_stable"]:
         version_str = torch.__version__
     elif args.compiler in ["tvm", "xla", "tensorrt", "bladedisc"]:
         # Assuming compiler object has a version attribute

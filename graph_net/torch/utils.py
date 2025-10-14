@@ -260,6 +260,7 @@ def extract_dynamic_shapes(example_inputs):
 
 
 def replay_tensor(info):
+    name = info["name"]
     device = info["info"]["device"]
     dtype = info["info"]["dtype"]
     shape = info["info"]["shape"]
@@ -270,7 +271,11 @@ def replay_tensor(info):
         return info["data"].to(device)
     if dtype is torch.bool:
         return (torch.randn(size=shape) > 0.5).to(dtype).to(device)
-    return torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean
+    tensor = torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean
+    # TODO(Xreki): remove this ugly code, and change the weight_meta instead.
+    if name.startswith("L_self_modules") and "buffers_running_var" in name:
+        tensor = torch.clip(tensor, min=0)
+    return tensor
 
 
 def modify_code_by_device(code, new_device_str):

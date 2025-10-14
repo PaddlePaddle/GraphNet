@@ -180,7 +180,11 @@ def measure_performance(model_call, args, synchronizer_func, profile=False):
             duration_box = test_compiler_util.DurationBox(-1)
             with test_compiler_util.naive_timer(duration_box, synchronizer_func):
                 model_call()
-            print(f"Trial {i + 1}: e2e={duration_box.value:.4f} ms")
+            print(
+                f"Trial {i + 1}: e2e={duration_box.value:.4f} ms",
+                file=sys.stderr,
+                flush=True,
+            )
             e2e_times.append(duration_box.value)
         stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
 
@@ -256,26 +260,34 @@ def test_single_model(args):
     # Run on eager mode
     eager_success = False
     try:
-        print("Run model in eager mode.")
+        print("Run model in eager mode.", file=sys.stderr, flush=True)
         static_model = get_static_model(args, model)
         expected_out, eager_time_stats = measure_performance(
             lambda: static_model(**input_dict), args, synchronizer_func, profile=False
         )
         eager_success = True
     except Exception as e:
-        print(f"Run model in eager mode failed: {str(e)}\n{traceback.format_exc()}")
+        print(
+            f"Run model in eager mode failed: {str(e)}\n{traceback.format_exc()}",
+            file=sys.stderr,
+            flush=True,
+        )
 
     # Run on compiling mode
     compiled_success = False
     try:
-        print("Run model in compiled mode.")
+        print("Run model in compiled mode.", file=sys.stderr, flush=True)
         compiled_model = get_compiled_model(args, model)
         compiled_out, compiled_time_stats = measure_performance(
             lambda: compiled_model(**input_dict), args, synchronizer_func, profile=False
         )
         compiled_success = True
     except Exception as e:
-        print(f"Run model in compiled mode failed: {str(e)}\n{traceback.format_exc()}")
+        print(
+            f"Run model in compiled mode failed: {str(e)}\n{traceback.format_exc()}",
+            file=sys.stderr,
+            flush=True,
+        )
 
     test_compiler_util.print_running_status(args, eager_success, compiled_success)
     if eager_success and compiled_success:
@@ -307,16 +319,23 @@ def get_cmp_all_close(expected_out, compiled_out, atol, rtol):
     )
 
 
+def get_format_str(f):
+    if (abs(f) > 1e5 or abs(f) < 1e-5) and abs(f) != 0.0:
+        return str(f"{f:.5E}")
+    else:
+        return str(f"{f:.5f}")
+
+
 def get_cmp_max_diff(expected_out, compiled_out):
     return " ".join(
-        str(paddle.max(paddle.abs(a - b)).item())
+        get_format_str(paddle.max(paddle.abs(a - b)).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_mean_diff(expected_out, compiled_out):
     return " ".join(
-        str(paddle.mean(paddle.abs(a - b)).item())
+        get_format_str(paddle.mean(paddle.abs(a - b)).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
@@ -324,7 +343,7 @@ def get_cmp_mean_diff(expected_out, compiled_out):
 def get_cmp_max_relative_diff(expected_out, compiled_out):
     epsilon = 1e-8
     return " ".join(
-        str(paddle.max(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item())
+        get_format_str(paddle.max(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
@@ -332,7 +351,9 @@ def get_cmp_max_relative_diff(expected_out, compiled_out):
 def get_cmp_mean_relative_diff(expected_out, compiled_out):
     epsilon = 1e-8
     return " ".join(
-        str(paddle.mean(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item())
+        get_format_str(
+            paddle.mean(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item()
+        )
         for a, b in zip(expected_out, compiled_out)
     )
 
@@ -349,17 +370,21 @@ def test_multi_models(args):
     if args.allow_list is not None:
         assert os.path.isfile(args.allow_list)
         graphnet_root = path_utils.get_graphnet_root()
-        print(f"graphnet_root: {graphnet_root}")
-        test_samples = []
-        with open(args.allow_list, "r") as f:
+        print(f"graphnet_root: {graphnet_root}", file=sys.stderr, flush=True)
+        verified_samples = []
+        with open(args.verified_samples_list_path, "r") as f:
             for line in f.readlines():
                 test_samples.append(os.path.join(graphnet_root, line.strip()))
 
     sample_idx = 0
     failed_samples = []
     for model_path in path_utils.get_recursively_model_path(args.model_path):
-        if test_samples is None or os.path.abspath(model_path) in test_samples:
-            print(f"[{sample_idx}] test_compiler, model_path: {model_path}")
+        if verified_samples is None or os.path.abspath(model_path) in verified_samples:
+            print(
+                f"[{sample_idx}] test_compiler, model_path: {model_path}",
+                file=sys.stderr,
+                flush=True,
+            )
             cmd = " ".join(
                 [
                     sys.executable,
@@ -379,10 +404,12 @@ def test_multi_models(args):
             sample_idx += 1
 
     print(
-        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples."
+        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples.",
+        file=sys.stderr,
+        flush=True,
     )
     for model_path in failed_samples:
-        print(f"- {model_path}")
+        print(f"- {model_path}", file=sys.stderr, flush=True)
 
 
 def main(args):

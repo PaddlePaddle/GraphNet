@@ -134,6 +134,8 @@ def check_output_datatype(args, eager_dtypes, compiled_dtypes):
     )
 
     # datatype check
+    # "datatype not match" is recognized as a large loss in analysis process later,
+    # and is not recognized as a failure here.
     type_match = check_type_match(eager_dtypes, compiled_dtypes)
     print_with_log_prompt(
         "[DataType]",

@@ -35,10 +35,8 @@ def get_hardward_name(args):
 
 
 def get_compile_framework_version(args):
-    if args.compiler == "cinn":
+    if args.compiler in ["cinn", "nope"]:
         return paddle.__version__
-    if args.compiler == "nope":
-        return "nope-baseline"
     return "unknown"
 
 

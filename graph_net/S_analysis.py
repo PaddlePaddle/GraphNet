@@ -190,7 +190,7 @@ def calculate_s_scores(
         return expected_s, expected_es
 
     # pi is a list of constants for t > 0 for each group
-    pi = [0, 0]
+    pi = [1, 1]
 
     final_correct_count = 0
     final_correct_negative_speedup_count = 0

@@ -160,8 +160,10 @@ def calculate_s_scores(
                 else 0
             )
             indicator = [1 if t_key < 1 else 0, 1 if t_key < 3 else 0]
-            gamma = fpdb ** (
-                sum(pi[i] * indicator[i] for i in range(len(pi))) / len(pi)
+            gamma = (
+                fpdb ** sum(pi[i] * indicator[i] for i in range(len(pi)))
+                if t_key >= 1
+                else fpdb
             )
 
             expected_s = (
@@ -190,7 +192,7 @@ def calculate_s_scores(
         return expected_s, expected_es
 
     # pi is a list of constants for t > 0 for each group
-    pi = [1, 1]
+    pi = [0, 0]
 
     final_correct_count = 0
     final_correct_negative_speedup_count = 0
@@ -311,7 +313,7 @@ def calculate_s_scores(
                 f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key} from micro level."
             )
             if t_key < 1:
-                s_scores[t_key], s_scores_fake_degrad[t_key] = print_stat_info(
+                expected_s, expected_es = print_stat_info(
                     t_key,
                     correct_count,
                     acc_failure_count,
@@ -321,7 +323,7 @@ def calculate_s_scores(
                     slowdown_speedups,
                 )
             else:
-                s_scores[t_key], s_scores_fake_degrad[t_key] = print_stat_info(
+                expected_s, expected_es = print_stat_info(
                     t_key,
                     final_correct_count,
                     acc_failure_count,
@@ -331,7 +333,7 @@ def calculate_s_scores(
                     final_slowdown_speedups,
                 )
             print(
-                f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key} from macro level."
+                f"  - S(t)={expected_s:.3f}, ES(t)={expected_es:.3f} for tolerance={t_key} from macro level."
             )
 
     print(f"    - pi: {pi}")

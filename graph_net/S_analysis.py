@@ -101,22 +101,22 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
     return False
 
 
-def fake_perf_degrad(t, fail_type, fpdb=0.1):
+def fake_perf_degrad(t, error_code, fpdb=0.1):
     """
-    Calculate fake performance degradation based on tolerance t and failure type.
+    Calculate fake performance degradation based on tolerance t and error code.
     """
-    if fail_type == "accuracy":
+    if error_code == "accuracy":
         return fpdb if t < 1 else 1
     else:
         return fpdb if t < 3 else 1
 
-    # if fail_type == "compiled":
+    # if error_code == "compiled":
     #     # Compilation failure: only exempt if t >= 3 (return 1)
     #     return fpdb + (1 - fpdb) * (1 if t >= 3 else 0)
-    # elif fail_type == "eager":
+    # elif error_code == "eager":
     #     # Execution crash (but compilation succeeded): exempt if t >= 2
     #     return fpdb + (1 - fpdb) * (1 if t >= 2 else 0)
-    # elif fail_type == "accuracy":
+    # elif error_code == "accuracy":
     #     # Accuracy failure (execution succeeded but result wrong): exempt if t >= 1
     #     return fpdb + (1 - fpdb) * (1 if t >= 1 else 0)
 

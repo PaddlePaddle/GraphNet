@@ -34,10 +34,11 @@ def parse_logs_to_json(log_file: str, output_dir: str):
         "datatype": re.compile(r"\[Datatype\]\[(\w+)\]: (.+)"),
         "correctness": re.compile(r"\[Correctness\](\[.+\]): (.+)"),
         "result_status": re.compile(r"\[Result\] status: (.+)"),
+        "failure": re.compile(r"\[Fail due to (.+)\.\]"),
         "speedup": re.compile(r"\[Speedup\]\[(\w+)\]: (.+)"),
     }
 
-    for line in lines:
+    for i, line in enumerate(lines):
         # Check for the start of a new model run
         processing_match = patterns["processing"].search(line)
         if processing_match:
@@ -97,11 +98,20 @@ def parse_logs_to_json(log_file: str, output_dir: str):
             data["correctness"][key.strip()] = values
             continue
 
+        # Look for the status, and if it's "failed", look ahead to the next line.
         result_status_match = patterns["result_status"].search(line)
         if result_status_match:
             status = result_status_match.group(1).strip()
-            if status == "failed":
-                data["performance"]["failure"] = "True"
+            if status == "failed" and (i + 1) < len(lines):
+                error_reason_match = patterns["failure"].search(lines[i + 1])
+                if error_reason_match:
+                    reason = error_reason_match.group(1).lower()
+                    if "eager" in reason:
+                        data["performance"]["failure"] = "eager"
+                    elif "compiled" in reason:
+                        data["performance"]["failure"] = "compiled"
+                    else:
+                        data["performance"]["failure"] = "other"
             continue
 
         speedup_match = patterns["speedup"].search(line)
@@ -119,9 +129,16 @@ def parse_logs_to_json(log_file: str, output_dir: str):
 
     for run_key, data in all_runs_data.items():
         try:
+            path_parts = run_key.split(os.sep)
+            # The last part is the subgraph name, e.g., 'subgraph_4'
+            subgraph_name = path_parts[-1]
+            # The model name is extracted from the configuration
             model_name = data["configuration"]["model"]
             compiler_name = data["configuration"]["compiler"]
+            # for PyTorch
             filename = f"{model_name}_{compiler_name}.json"
+            # for Paddle
+            # filename = f"{model_name}_{subgraph_name}_{compiler_name}.json"
             filepath = os.path.join(output_dir, filename)
 
             with open(filepath, "w", encoding="utf-8") as f:

@@ -109,41 +109,39 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_patch_embed1_mo
     shape = [32]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.057
-    std = 0.097
     data = [
-        0.008679,
-        0.068203,
-        0.278992,
-        0.242473,
-        0.063812,
-        0.000295,
-        0.009019,
-        0.082137,
-        0.009187,
-        0.337933,
-        0.001437,
-        0.000630,
-        0.058658,
-        0.025440,
-        0.001868,
-        0.122884,
-        0.315453,
-        0.014938,
-        0.002086,
-        0.006910,
-        0.001044,
-        0.068529,
-        0.030413,
-        0.002386,
-        0.001662,
-        0.022674,
-        0.001405,
-        0.001309,
-        0.001083,
-        0.037178,
-        0.000210,
-        0.008762,
+        1.008679,
+        1.068203,
+        1.278992,
+        1.242473,
+        1.063812,
+        1.000295,
+        1.009019,
+        1.082137,
+        1.009187,
+        1.337933,
+        1.001437,
+        1.000630,
+        1.058658,
+        1.025440,
+        1.001868,
+        1.122884,
+        1.315453,
+        1.014938,
+        1.002086,
+        1.006910,
+        1.001044,
+        1.068529,
+        1.030413,
+        1.002386,
+        1.001662,
+        1.022674,
+        1.001405,
+        1.001309,
+        1.001083,
+        1.037178,
+        1.000210,
+        1.008762,
     ]
 
 
@@ -318,7 +316,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block1_modules_
     shape = [64]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.102
+    mean = 1.102
     std = 0.533
     data = None
 
@@ -568,7 +566,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block1_modules_
     shape = [64]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.160
+    mean = 1.160
     std = 0.369
     data = None
 
@@ -678,7 +676,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block1_modules_
     shape = [64]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.184
+    mean = 1.184
     std = 0.390
     data = None
 
@@ -928,7 +926,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block1_modules_
     shape = [64]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.240
+    mean = 1.240
     std = 0.615
     data = None
 
@@ -1038,7 +1036,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block1_modules_
     shape = [64]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.306
+    mean = 1.306
     std = 0.678
     data = None
 
@@ -1288,7 +1286,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block1_modules_
     shape = [64]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.789
+    mean = 1.789
     std = 1.994
     data = None
 
@@ -1432,7 +1430,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_patch_embed2_mo
     shape = [128]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.316
+    mean = 1.316
     std = 0.333
     data = None
 
@@ -1484,7 +1482,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block2_modules_
     shape = [128]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.274
+    mean = 1.274
     std = 0.589
     data = None
 
@@ -1734,7 +1732,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block2_modules_
     shape = [128]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.337
+    mean = 1.337
     std = 0.705
     data = None
 
@@ -1844,7 +1842,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block2_modules_
     shape = [128]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.335
+    mean = 1.335
     std = 0.698
     data = None
 
@@ -2094,7 +2092,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block2_modules_
     shape = [128]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.435
+    mean = 1.435
     std = 0.874
     data = None
 
@@ -2204,7 +2202,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block2_modules_
     shape = [128]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.478
+    mean = 1.478
     std = 0.885
     data = None
 
@@ -2454,7 +2452,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block2_modules_
     shape = [128]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.623
+    mean = 1.623
     std = 1.154
     data = None
 
@@ -2564,7 +2562,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block2_modules_
     shape = [128]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.677
+    mean = 1.677
     std = 1.146
     data = None
 
@@ -3370,7 +3368,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     shape = [320]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.478
+    mean = 1.478
     std = 1.318
     data = None
 
@@ -3620,7 +3618,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     shape = [320]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.509
+    mean = 1.509
     std = 1.382
     data = None
 
@@ -3730,7 +3728,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     shape = [320]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.509
+    mean = 1.509
     std = 1.378
     data = None
 
@@ -3980,7 +3978,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     shape = [320]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.530
+    mean = 1.530
     std = 1.389
     data = None
 
@@ -4090,7 +4088,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     shape = [320]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.526
+    mean = 1.526
     std = 1.367
     data = None
 
@@ -4340,7 +4338,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     shape = [320]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.553
+    mean = 1.553
     std = 1.400
     data = None
 
@@ -4450,7 +4448,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     shape = [320]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.556
+    mean = 1.556
     std = 1.396
     data = None
 
@@ -4700,7 +4698,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     shape = [320]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.598
+    mean = 1.598
     std = 1.458
     data = None
 
@@ -4810,7 +4808,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     shape = [320]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.608
+    mean = 1.608
     std = 1.468
     data = None
 
@@ -5060,7 +5058,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     shape = [320]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.672
+    mean = 1.672
     std = 1.600
     data = None
 
@@ -5170,7 +5168,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     shape = [320]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.693
+    mean = 1.693
     std = 1.624
     data = None
 
@@ -5420,7 +5418,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     shape = [320]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.827
+    mean = 1.827
     std = 1.965
     data = None
 
@@ -5530,7 +5528,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     shape = [320]
     dtype = "torch.float32"
     device = "cuda:0"
-    mean = 0.881
+    mean = 1.881
     std = 2.155
     data = None
 
@@ -6861,7 +6859,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 2.574
-    std = 16.078
+    std = 1.078
     data = None
 
 
@@ -6971,7 +6969,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 2.648
-    std = 16.451
+    std = 1.451
     data = None
 
 
@@ -7221,7 +7219,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 2.653
-    std = 14.917
+    std = 1.917
     data = None
 
 
@@ -7331,7 +7329,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 2.767
-    std = 15.624
+    std = 1.624
     data = None
 
 
@@ -7581,7 +7579,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 3.754
-    std = 28.198
+    std = 1.198
     data = None
 
 
@@ -7691,7 +7689,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 3.870
-    std = 28.582
+    std = 1.582
     data = None
 
 
@@ -7941,7 +7939,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 4.828
-    std = 42.190
+    std = 1.190
     data = None
 
 
@@ -8051,7 +8049,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 4.977
-    std = 42.625
+    std = 1.625
     data = None
 
 
@@ -8301,7 +8299,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 5.812
-    std = 53.249
+    std = 1.249
     data = None
 
 
@@ -8411,7 +8409,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 5.933
-    std = 52.848
+    std = 1.848
     data = None
 
 
@@ -8661,7 +8659,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 6.765
-    std = 62.515
+    std = 1.515
     data = None
 
 
@@ -8771,7 +8769,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 6.907
-    std = 62.191
+    std = 1.191
     data = None
 
 
@@ -9021,7 +9019,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 8.145
-    std = 77.740
+    std = 1.740
     data = None
 
 
@@ -9131,7 +9129,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 8.331
-    std = 77.721
+    std = 1.721
     data = None
 
 
@@ -9381,7 +9379,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 9.434
-    std = 90.438
+    std = 1.438
     data = None
 
 
@@ -9491,7 +9489,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 9.652
-    std = 89.882
+    std = 1.882
     data = None
 
 
@@ -9741,7 +9739,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 11.188
-    std = 108.454
+    std = 1.454
     data = None
 
 
@@ -9851,7 +9849,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 11.426
-    std = 107.622
+    std = 1.622
     data = None
 
 
@@ -10101,7 +10099,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 13.079
-    std = 126.864
+    std = 1.864
     data = None
 
 
@@ -10211,7 +10209,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 13.309
-    std = 125.796
+    std = 1.796
     data = None
 
 
@@ -10461,7 +10459,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 14.911
-    std = 141.205
+    std = 1.205
     data = None
 
 
@@ -10571,7 +10569,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 15.227
-    std = 140.671
+    std = 1.671
     data = None
 
 
@@ -10821,7 +10819,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 16.685
-    std = 152.359
+    std = 1.359
     data = None
 
 
@@ -10931,7 +10929,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 16.960
-    std = 150.580
+    std = 1.580
     data = None
 
 
@@ -11181,7 +11179,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 20.252
-    std = 188.848
+    std = 1.848
     data = None
 
 
@@ -11291,7 +11289,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 20.352
-    std = 182.794
+    std = 1.794
     data = None
 
 
@@ -11541,7 +11539,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 26.550
-    std = 264.224
+    std = 2.224
     data = None
 
 
@@ -11651,7 +11649,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 26.334
-    std = 252.677
+    std = 2.677
     data = None
 
 
@@ -11901,7 +11899,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 32.828
-    std = 326.406
+    std = 3.406
     data = None
 
 
@@ -12011,7 +12009,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 32.379
-    std = 307.781
+    std = 3.781
     data = None
 
 
@@ -12261,7 +12259,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 42.073
-    std = 429.485
+    std = 4.485
     data = None
 
 
@@ -12371,7 +12369,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 44.674
-    std = 461.903
+    std = 4.903
     data = None
 
 
@@ -12621,7 +12619,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 70.722
-    std = 845.178
+    std = 8.178
     data = None
 
 
@@ -12731,7 +12729,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 98.946
-    std = 1335.225
+    std = 13.225
     data = None
 
 
@@ -12981,7 +12979,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block3_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 356.153
-    std = 5729.401
+    std = 5.401
     data = None
 
 
@@ -13427,7 +13425,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block4_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 5.474
-    std = 103.566
+    std = 1.566
     data = None
 
 
@@ -13537,7 +13535,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block4_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 6.726
-    std = 124.595
+    std = 1.595
     data = None
 
 
@@ -13787,7 +13785,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block4_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 12.737
-    std = 241.009
+    std = 2.009
     data = None
 
 
@@ -13897,7 +13895,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block4_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 19.245
-    std = 337.131
+    std = 3.131
     data = None
 
 
@@ -14147,7 +14145,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_block4_modules_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 32.098
-    std = 588.391
+    std = 5.391
     data = None
 
 

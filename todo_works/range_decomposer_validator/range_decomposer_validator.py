@@ -40,7 +40,7 @@ class ComposedModel(nn.Module):
         return (current_args,)
 
 
-class RangeDecomposerValidator:
+class RangeDecomposerValidatorBackend:
     def _load_model_instance(self, path: str, device: str) -> torch.nn.Module:
         class_name = "GraphModule"
         model_file = os.path.join(path, "model.py")
@@ -69,7 +69,7 @@ class RangeDecomposerValidator:
                 subgraph_paths.append(full_path)
 
         print(
-            f"[RangeDecomposerValidator] Found subgraphs: {[os.path.basename(p) for p in subgraph_paths]}"
+            f"[RangeDecomposerValidatorBackend] Found subgraphs: {[os.path.basename(p) for p in subgraph_paths]}"
         )
 
         submodule_instances = []
@@ -79,7 +79,9 @@ class RangeDecomposerValidator:
             instance = self._load_model_instance(path, device)
             submodule_instances.append(instance)
             dir_name = os.path.basename(path)
-            print(f"[RangeDecomposerValidator] Loaded and instantiated '{dir_name}'")
+            print(
+                f"[RangeDecomposerValidatorBackend] Loaded and instantiated '{dir_name}'"
+            )
 
         composed_model = ComposedModel(submodule_instances)
         return composed_model.eval()

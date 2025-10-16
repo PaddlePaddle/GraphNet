@@ -74,7 +74,7 @@ class Program_weight_tensor_meta_L_self_modules_stem_modules_stem1_modules_lab_p
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -84,7 +84,7 @@ class Program_weight_tensor_meta_L_self_modules_stem_modules_stem1_modules_lab_p
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -144,7 +144,7 @@ class Program_weight_tensor_meta_L_self_modules_stem_modules_stem2a_modules_lab_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -154,7 +154,7 @@ class Program_weight_tensor_meta_L_self_modules_stem_modules_stem2a_modules_lab_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -214,7 +214,7 @@ class Program_weight_tensor_meta_L_self_modules_stem_modules_stem2b_modules_lab_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -224,7 +224,7 @@ class Program_weight_tensor_meta_L_self_modules_stem_modules_stem2b_modules_lab_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -284,7 +284,7 @@ class Program_weight_tensor_meta_L_self_modules_stem_modules_stem3_modules_lab_p
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -294,7 +294,7 @@ class Program_weight_tensor_meta_L_self_modules_stem_modules_stem3_modules_lab_p
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -354,7 +354,7 @@ class Program_weight_tensor_meta_L_self_modules_stem_modules_stem4_modules_lab_p
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -364,7 +364,7 @@ class Program_weight_tensor_meta_L_self_modules_stem_modules_stem4_modules_lab_p
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -424,7 +424,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_0_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -434,7 +434,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_0_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -494,7 +494,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_0_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -504,7 +504,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_0_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -564,7 +564,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_0_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -574,7 +574,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_0_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -634,7 +634,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_0_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -644,7 +644,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_0_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -704,7 +704,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_0_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -714,7 +714,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_0_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -826,7 +826,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_1_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -836,7 +836,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_1_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -896,7 +896,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_1_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -906,7 +906,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_1_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -966,7 +966,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_1_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -976,7 +976,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_1_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1036,7 +1036,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_1_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1046,7 +1046,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_1_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1106,7 +1106,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_1_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1116,7 +1116,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_1_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1278,7 +1278,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1288,7 +1288,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1398,7 +1398,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1408,7 +1408,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1518,7 +1518,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1528,7 +1528,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1588,7 +1588,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1598,7 +1598,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1658,7 +1658,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1668,7 +1668,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1778,7 +1778,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1788,7 +1788,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1898,7 +1898,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -1908,7 +1908,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2018,7 +2018,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2028,7 +2028,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2088,7 +2088,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2098,7 +2098,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2158,7 +2158,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2168,7 +2168,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_2_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2330,7 +2330,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_3_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2340,7 +2340,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_3_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2450,7 +2450,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_3_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2460,7 +2460,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_3_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2570,7 +2570,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_3_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2580,7 +2580,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_3_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2640,7 +2640,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_3_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2650,7 +2650,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_3_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2710,7 +2710,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_3_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2720,7 +2720,7 @@ class Program_weight_tensor_meta_L_self_modules_stages_modules_3_modules_blocks_
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2740,7 +2740,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_last_conv_modules_2
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 1.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 
@@ -2750,7 +2750,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_last_conv_modules_2
     dtype = "torch.float32"
     device = "cuda:0"
     mean = 0.000
-    std = float("nan")
+    std = 5.000
     data = None
 
 

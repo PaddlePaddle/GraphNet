@@ -72,14 +72,16 @@ python -m graph_net.log2json \
 
 **Step 3: Analysis**
 
-Use `graph_net.violin_analysis` to generate [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) and `graph_net.S_analysis` to generate S and ES plot based on the JSON results.
+Use the three scripts `graph_net.plot_St`, `graph_net.plot_ESt` and `graph_net.plot_violin` to generate St plot, ESt plot, and [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on the JSON results.
 
 ```bash
-python -m graph_net.violin_analysis \
+python -m graph_net.plot_St \
   --benchmark-path $GRAPH_NET_BENCHMARK_PATH/JSON_results/ \
-  --output-dir $GRAPH_NET_BENCHMARK_PATH
+  --output-dir $GRAPH_NET_BENCHMARK_PATH \
+  --negative-speedup-penalty penalty/power/for/negative/speedup \
+  --fpdb base/penalty/for/severe/errors
 
-python -m graph_net.S_analysis \
+python -m graph_net.plot_ESt \
   --benchmark-path $GRAPH_NET_BENCHMARK_PATH/JSON_results/ \
   --output-dir $GRAPH_NET_BENCHMARK_PATH \
   --negative-speedup-penalty penalty/power/for/negative/speedup \
@@ -87,6 +89,10 @@ python -m graph_net.S_analysis \
 
 # Note: If --negative-speedup-penalty is omitted, p=0 is used by default.
 # If --fpdb, b=0.1 is used by default.
+
+python -m graph_net.plot_violin \
+  --benchmark-path $GRAPH_NET_BENCHMARK_PATH/JSON_results/ \
+  --output-dir $GRAPH_NET_BENCHMARK_PATH
 ```
 
 The scripts are designed to process a file structure as `/benchmark_path/category_name/`, and items on x-axis are identified by name of the sub-directories. After executing, several summary plots of result in categories (model tasks, libraries...) will be exported to `$GRAPH_NET_BENCHMARK_PATH`.

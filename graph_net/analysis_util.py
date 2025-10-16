@@ -1,16 +1,77 @@
 import os
 import json
-import argparse
-import re
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.stats import gmean
-from collections import OrderedDict
-from scipy.optimize import curve_fit
+from collections import OrderedDict, defaultdict
 from graph_net.config.datatype_tolerance_config import get_precision
 
 
-# ---------- 1. Data Loading and Processing ----------
+def extract_speedup_data_from_subdirs(benchmark_path: str) -> dict:
+    """
+    Reads speedup data from JSON files within each immediate subdirectory of the benchmark_path.
+    Each subdirectory is treated as a separate category.
+    Returns a dictionary mapping {subdir_name: [speedup_values]}.
+    """
+    data_by_subdir = defaultdict(list)
+
+    if not os.path.exists(benchmark_path):
+        print(f"Error: Path does not exist -> {benchmark_path}")
+        return {}
+
+    try:
+        subdirs = [
+            d
+            for d in os.listdir(benchmark_path)
+            if os.path.isdir(os.path.join(benchmark_path, d))
+        ]
+    except FileNotFoundError:
+        print(f"Error: Benchmark path not found -> {benchmark_path}")
+        return {}
+
+    if not subdirs:
+        print(f"Warning: No subdirectories found in -> {benchmark_path}")
+        return {}
+
+    print(f"Found subdirectories to process: {', '.join(subdirs)}")
+
+    for subdir_name in subdirs:
+        current_dir_path = os.path.join(benchmark_path, subdir_name)
+        # Using scan_all_folders and load_one_folder could be an alternative,
+        # but os.walk is also robust for nested directories if needed in the future.
+        for root, _, files in os.walk(current_dir_path):
+            for file in files:
+                if file.endswith(".json"):
+                    json_file = os.path.join(root, file)
+                    try:
+                        with open(json_file, "r") as f:
+                            data = json.load(f)
+                            performance = data.get("performance", {})
+                            if not performance:
+                                continue
+
+                            speedup_data = performance.get("speedup")
+                            if isinstance(speedup_data, dict):
+                                # Prioritize 'e2e' speedup, fallback to 'gpu'
+                                if "e2e" in speedup_data:
+                                    data_by_subdir[subdir_name].append(
+                                        speedup_data["e2e"]
+                                    )
+                                elif "gpu" in speedup_data:
+                                    data_by_subdir[subdir_name].append(
+                                        speedup_data["gpu"]
+                                    )
+                            elif isinstance(speedup_data, (float, int)):
+                                data_by_subdir[subdir_name].append(speedup_data)
+
+                    except (json.JSONDecodeError, KeyError) as e:
+                        print(
+                            f"Warning: Failed to read or parse file -> {json_file}, Error: {e}"
+                        )
+                        continue
+
+    return data_by_subdir
+
+
 def load_json_file(filepath: str) -> dict:
     """
     Safely load a JSON file and return data, return an empty dictionary if loading fails.
@@ -81,7 +142,6 @@ def scan_all_folders(benchmark_path: str) -> dict:
     return all_results
 
 
-# ---------- 2. Core Calculation Logic ----------
 def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> bool:
     """
     Based on tolerance, data type, and output index, find the actual atol/rtol values from the config and get the correctness result for a single output.
@@ -339,224 +399,4 @@ def calculate_s_scores(
     print(f"    - pi: {pi}")
 
     return s_scores, s_scores_fake_degrad
-
-
-# ---------- 3. Plotting Functions ----------
-def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
-    """
-    Plot S(t) curve
-    """
-    plt.style.use("seaborn-v0_8-whitegrid")
-    fig, ax = plt.subplots(figsize=(14, 8))
-
-    prop_cycle = plt.rcParams["axes.prop_cycle"]
-    colors = prop_cycle.by_key()["color"]
-
-    all_x_coords = []
-
-    for idx, (folder_name, scores_dict) in enumerate(s_scores.items()):
-        plot_points = []
-        for t_key, score in scores_dict.items():
-            if t_key <= 0:
-                all_x_coords.append(t_key)
-                plot_points.append({"x": t_key, "y": score})
-
-        plot_points.sort(key=lambda p: p["x"])
-
-        x_vals = np.array([p["x"] for p in plot_points])
-        y_vals = np.array([p["y"] for p in plot_points])
-
-        color = colors[idx % len(colors)]
-        ax.plot(
-            x_vals,
-            y_vals,
-            "o-",
-            color=color,
-            label=folder_name,
-            linewidth=2,
-            markersize=6,
-        )
-
-    p = cli_args.negative_speedup_penalty
-    config = f"p = {p}, b = {cli_args.fpdb}"
-    fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
-
-    ax.set_xlabel("t", fontsize=18)
-    ax.set_ylabel("S(t)", fontsize=18)
-    ax.tick_params(axis="both", which="major", labelsize=14)
-
-    if all_x_coords:
-        x_min = int(np.floor(min(all_x_coords)))
-        x_max = int(np.ceil(max(all_x_coords)))
-        ax.set_xticks(np.arange(x_min, x_max + 1))
-
-    ax.xaxis.grid(True, which="major", lw=0.8, ls=":", color="grey", alpha=0.5)
-    ax.yaxis.grid(True, which="major", lw=0.8, ls=":", color="grey", alpha=0.5)
-
-    ax.legend(fontsize=16, loc="best")
-    output_file = os.path.join(cli_args.output_dir, "S_result.png")
-    plt.savefig(output_file, dpi=300, bbox_inches="tight")
-    print(f"\nComparison plot saved to {output_file}")
-
-
-def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
-    """
-    Plot ES(t) curve
-    """
-    plt.style.use("seaborn-v0_8-whitegrid")
-    fig, ax = plt.subplots(figsize=(14, 8))
-
-    prop_cycle = plt.rcParams["axes.prop_cycle"]
-    colors = prop_cycle.by_key()["color"]
-
-    all_x_coords = []
-
-    for idx, (folder_name, scores_dict) in enumerate(s_scores.items()):
-        plot_points = []
-        for (
-            t_key,
-            score_data,
-        ) in scores_dict.items():  # Change variable name to score_data
-            # Access the 'score' key from the nested dictionary
-            if isinstance(score_data, dict):
-                score = score_data["score"]
-            else:
-                score = score_data
-
-            all_x_coords.append(t_key)
-            plot_points.append({"x": t_key, "y": score})
-
-        # Sort by x value
-        plot_points.sort(key=lambda p: p["x"])
-
-        x_vals = np.array([p["x"] for p in plot_points])
-        y_vals = np.array([p["y"] for p in plot_points])
-
-        color = colors[idx % len(colors)]
-
-        # Find index where t=0
-        zero_index = np.where(x_vals == 0)[0][0] if 0 in x_vals else None
-
-        # If t=0 exists, plot in segments
-        if zero_index is not None:
-            # Plot continuous line for t <= 0
-            ax.plot(
-                x_vals[: zero_index + 1],
-                y_vals[: zero_index + 1],
-                "o-",
-                color=color,
-                label=folder_name,
-                linewidth=2,
-                markersize=6,
-            )
-            # Plot stepwise portion for t > 0
-            ax.plot(
-                x_vals[zero_index:],
-                y_vals[zero_index:],
-                "o-",
-                color=color,
-                linewidth=2,
-                markersize=6,
-                drawstyle="steps-post",
-            )
-        else:
-            # If no t=0, plot the entire curve as a regular line
-            ax.plot(
-                x_vals,
-                y_vals,
-                "o-",
-                color=color,
-                label=folder_name,
-                linewidth=2,
-                markersize=6,
-            )
-
-    p = cli_args.negative_speedup_penalty
-    config = f"p = {p}, b = {cli_args.fpdb}"
-    fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
-
-    ax.set_xlabel("t", fontsize=18)
-    ax.set_ylabel("ES(t)", fontsize=18)
-    ax.tick_params(axis="both", which="major", labelsize=14)
-
-    if all_x_coords:
-        x_min = int(np.floor(min(all_x_coords)))
-        x_max = int(np.ceil(max(all_x_coords)))
-        ax.set_xticks(np.arange(x_min, x_max + 1))
-
-    ax.xaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
-    ax.yaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
-
-    ax.legend(fontsize=16, loc="best")
-    output_file = os.path.join(cli_args.output_dir, "ES_result.png")
-    plt.savefig(output_file, dpi=300, bbox_inches="tight")
-    print(f"\nComparison plot saved to {output_file}")
-
-
-# ---------- 4. Main Program Entry ----------
-def main():
-    """
-    Main execution function.
-    """
-    parser = argparse.ArgumentParser(
-        description="Load benchmark JSON records from multiple sub-folders, "
-        "calculate aggregated S(t) scores, and plot multi-curve results.",
-        formatter_class=argparse.RawTextHelpFormatter,
-    )
-    parser.add_argument(
-        "--benchmark-path",
-        type=str,
-        required=True,
-        help="Path to the directory containing sub-folders of benchmark JSON files.",
-    )
-    parser.add_argument(
-        "--output-dir",
-        type=str,
-        default="analysis_results",
-        help="Output directory path for saving plots. Default: analysis_results",
-    )
-    parser.add_argument(
-        "--negative-speedup-penalty",
-        type=float,
-        default=0.0,
-        help="Penalty power (p) for negative speedup (speedup < 1). Formula: speedup**(p+1). Default: 0.0.",
-    )
-    parser.add_argument(
-        "--fpdb",
-        type=float,
-        default=0.1,
-        help="Base penalty for severe errors (e.g., correctness failure, crashes).",
-    )
-    args = parser.parse_args()
-
-    # 1. Scan all subdirectories
-    all_results = scan_all_folders(args.benchmark_path)
-    if not all_results:
-        print("No valid data found. Exiting.")
-        return
-
-    # 2. Calculate S scores for each curve
-    all_s_scores = {}
-    all_s_scores_fake_degrad = {}
-
-    for folder_name, samples in all_results.items():
-        s_scores, s_scores_fake_degrad = calculate_s_scores(
-            samples,
-            folder_name,
-            negative_speedup_penalty=args.negative_speedup_penalty,
-            fpdb=args.fpdb,
-        )
-        all_s_scores[folder_name] = s_scores
-        all_s_scores_fake_degrad[folder_name] = s_scores_fake_degrad
-
-    # 3. Plot S and ES curves
-    if any(all_s_scores.values()):
-        os.makedirs(args.output_dir, exist_ok=True)
-        plot_S_results(all_s_scores, args)
-        plot_ES_results(all_s_scores_fake_degrad, args)
-    else:
-        print("No S(t) scores were calculated. Skipping plot generation.")
-
-
-if __name__ == "__main__":
-    main()
+    return s_scores, es_scores

@@ -271,6 +271,10 @@ def replay_tensor(info):
         return info["data"].to(device)
     if dtype is torch.bool:
         return (torch.randn(size=shape) > 0.5).to(dtype).to(device)
+    if std is None:
+        std = 0.1
+    if mean is None:
+        mean = 0
     tensor = torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean
     # TODO(Xreki): remove this ugly code, and change the weight_meta instead.
     if name.startswith("L_self_modules") and "buffers_running_var" in name:

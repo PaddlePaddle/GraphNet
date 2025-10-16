@@ -1,0 +1,13 @@
+samples/transformers-auto-model/EleutherAI_pythia-1b
+samples/transformers-auto-model/HuggingFaceTB/SmolLM3-3B
+samples/transformers-auto-model/TinyLlama/TinyLlama-1.1B-Chat-v0.4
+samples/transformers-auto-model/baidu/ERNIE-4.5-0.3B-PT
+samples/transformers-auto-model/deepseek-ai/deepseek-coder-1.3b-base
+samples/transformers-auto-model/google/gemma-1.1-2b-it
+samples/transformers-auto-model/google/gemma-2b-it
+samples/transformers-auto-model/google/gemma-3-1b-it
+samples/transformers-auto-model/google/gemma-3-270m
+samples/transformers-auto-model/microsoft/Phi-3-mini-4k-instruct
+samples/transformers-auto-model/microsoft/phi-1
+samples/transformers-auto-model/microsoft/phi-1_5
+samples/transformers-auto-model/microsoft/phi-2

@@ -6,14 +6,17 @@ from .graph_compiler_backend import GraphCompilerBackend
 
 
 class UnstableToStableBackend(GraphCompilerBackend):
-    def __call__(self, model, model_path):
+    def __call__(self, model):
         # Perform unstable API check before running the model
         unstable_api = os.getenv("DISALLOWED_UNSTABLE_API", "").strip()
         self.unstable_api = unstable_api
-        self.model_path = model_path
-        self.unstable_to_stable(model)
-        self.check_unstable_api(model)
-        return self.model
+
+        def my_backend(gm, sample_inputs):
+            gm = self.unstable_to_stable(gm)
+            self.check_unstable_api(gm)
+            return gm.forward
+
+        return torch.compile(backend=my_backend)(model)
 
     """
     TODO: Implement logic to convert unstable APIs in `self.model` into their stable counterparts.
@@ -26,10 +29,11 @@ class UnstableToStableBackend(GraphCompilerBackend):
     **Stable API reference link:**
     """
 
-    def unstable_to_stable(self, model):
-        return
+    def unstable_to_stable(self, gm):
+        # TODO
+        return gm
 
-    def check_unstable_api(self, model):
+    def check_unstable_api(self, gm):
         """
         Check whether gm contains the API specified in the environment
         variable DISALLOWED_UNSTABLE_API. If it does, raise an exception and stop
@@ -40,20 +44,7 @@ class UnstableToStableBackend(GraphCompilerBackend):
         Do NOT modify, remove, or bypass this check under any circumstances.
         """
 
-        # from torch.fx import symbolic_trace
-
-        # try:
-        #     # Convert the model into a static computation graph (FX IR)
-        #     traced = symbolic_trace(self.model)
-        #     graph_text = str(traced.graph)
-        # except Exception as e:
-        #     # In case tracing fails, fallback to textual model dump
-        #     graph_text = str(*(self.model))
-
-        print(f"model path is: {self.model_path}")
-        model_file_path = self.model_path + "model.py"
-        with open(model_file_path, "r", encoding="utf-8") as f:
-            graph_text = f.read()
+        graph_text = gm.code
         # Search for the unstable API substring
         if self.unstable_api in graph_text:
             count = graph_text.count(self.unstable_api)

@@ -1,0 +1,3 @@
+samples/transformers-auto-model/google/fnet-base
+samples/transformers-auto-model/google_fnet-base
+samples/transformers-auto-model/hf-tiny-model-private_tiny-random-FNetForSequenceClassification

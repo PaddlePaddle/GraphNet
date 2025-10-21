@@ -1,0 +1,10 @@
+samples/transformers-auto-model/AceInstruct-1.5B
+samples/transformers-auto-model/AlphaMaze-v0.2-1.5B
+samples/transformers-auto-model/Biggie-SmoLlm-0.4B
+samples/transformers-auto-model/EXAONE-4.0-1.2B
+samples/transformers-auto-model/SmolLM3-3B
+samples/transformers-auto-model/ZR1-1.5B
+samples/transformers-auto-model/gemma-3-1b-pt
+samples/transformers-auto-model/jhu-clsp_ettin-decoder-150m
+samples/transformers-auto-model/jinaai_jina-reranker-m0
+samples/transformers-auto-model/openai_whisper-base

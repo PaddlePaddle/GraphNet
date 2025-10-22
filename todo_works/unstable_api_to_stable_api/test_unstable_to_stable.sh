@@ -39,7 +39,7 @@ while IFS= read -r model_path; do
   echo ">>> Running model: $model_path" 
 
   python -m graph_net.torch.test_compiler \
-    --model-path "/root/GraphNet/${model_path}/" \
+    --model-path "${model_path}/" \
     --compiler unstable_to_stable \
     >> "$log_file" 2>&1
 

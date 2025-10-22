@@ -1,2 +1,0 @@
-export DISALLOWED_UNSTABLE_API="_add_batch_dim"
-bash todo_works/unstable_api_to_stable_api/test_unstable_to_stable.sh

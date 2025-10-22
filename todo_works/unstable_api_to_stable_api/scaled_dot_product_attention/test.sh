@@ -1,2 +1,0 @@
-export DISALLOWED_UNSTABLE_API="scaled_dot_product_attention"
-bash todo_works/unstable_api_to_stable_api/test_unstable_to_stable.sh

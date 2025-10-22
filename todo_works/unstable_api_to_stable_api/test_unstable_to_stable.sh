@@ -7,14 +7,8 @@ if [ -z "$DISALLOWED_UNSTABLE_API" ]; then
   exit 1
 fi
 
-if [ -z "$GRAPH_NET_WORKSPACE" ]; then
-  echo "❌ 环境变量 GRAPH_NET_WORKSPACE 未设置！"
-  echo "请使用： export GRAPH_NET_WORKSPACE=/path/to/GraphNet"
-  exit 1
-fi
-
 # === 配置区 ===
-root_dir="${GRAPH_NET_WORKSPACE}/todo_works/unstable_api_to_stable_api/${DISALLOWED_UNSTABLE_API}"
+root_dir="todo_works/unstable_api_to_stable_api/${DISALLOWED_UNSTABLE_API}"
 file_list="${root_dir}/${DISALLOWED_UNSTABLE_API}_files.txt"
 log_file="${root_dir}/log.log"
 json_output_dir="${root_dir}/JSON_results"

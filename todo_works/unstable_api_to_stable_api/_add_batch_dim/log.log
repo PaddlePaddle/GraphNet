@@ -1,0 +1,52 @@
+Unable to import quantization op. Please install modelopt library (https://github.com/NVIDIA/TensorRT-Model-Optimizer?tab=readme-ov-file#installation) to add support for compiling quantized models
+TensorRT-LLM is not installed. Please install TensorRT-LLM or set TRTLLM_PLUGINS_PATH to the directory containing libnvinfer_plugin_tensorrt_llm.so to use converters for torch.distributed ops
+[10/22/2025-06:29:03] [TRT] [W] Functionality provided through tensorrt.plugin module is experimental.
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/work/GraphNet/graph_net/torch/test_compiler.py", line 576, in <module>
+    main(args=args)
+  File "/work/GraphNet/graph_net/torch/test_compiler.py", line 523, in main
+    assert os.path.isdir(args.model_path)
+AssertionError
+Unable to import quantization op. Please install modelopt library (https://github.com/NVIDIA/TensorRT-Model-Optimizer?tab=readme-ov-file#installation) to add support for compiling quantized models
+TensorRT-LLM is not installed. Please install TensorRT-LLM or set TRTLLM_PLUGINS_PATH to the directory containing libnvinfer_plugin_tensorrt_llm.so to use converters for torch.distributed ops
+[10/22/2025-06:29:10] [TRT] [W] Functionality provided through tensorrt.plugin module is experimental.
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/work/GraphNet/graph_net/torch/test_compiler.py", line 576, in <module>
+    main(args=args)
+  File "/work/GraphNet/graph_net/torch/test_compiler.py", line 523, in main
+    assert os.path.isdir(args.model_path)
+AssertionError
+Unable to import quantization op. Please install modelopt library (https://github.com/NVIDIA/TensorRT-Model-Optimizer?tab=readme-ov-file#installation) to add support for compiling quantized models
+TensorRT-LLM is not installed. Please install TensorRT-LLM or set TRTLLM_PLUGINS_PATH to the directory containing libnvinfer_plugin_tensorrt_llm.so to use converters for torch.distributed ops
+[10/22/2025-06:29:18] [TRT] [W] Functionality provided through tensorrt.plugin module is experimental.
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/work/GraphNet/graph_net/torch/test_compiler.py", line 576, in <module>
+    main(args=args)
+  File "/work/GraphNet/graph_net/torch/test_compiler.py", line 523, in main
+    assert os.path.isdir(args.model_path)
+AssertionError
+Unable to import quantization op. Please install modelopt library (https://github.com/NVIDIA/TensorRT-Model-Optimizer?tab=readme-ov-file#installation) to add support for compiling quantized models
+TensorRT-LLM is not installed. Please install TensorRT-LLM or set TRTLLM_PLUGINS_PATH to the directory containing libnvinfer_plugin_tensorrt_llm.so to use converters for torch.distributed ops
+[10/22/2025-06:29:26] [TRT] [W] Functionality provided through tensorrt.plugin module is experimental.
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/work/GraphNet/graph_net/torch/test_compiler.py", line 576, in <module>
+    main(args=args)
+  File "/work/GraphNet/graph_net/torch/test_compiler.py", line 523, in main
+    assert os.path.isdir(args.model_path)
+AssertionError

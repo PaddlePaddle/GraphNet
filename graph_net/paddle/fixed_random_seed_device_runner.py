@@ -28,7 +28,17 @@ def get_hardware_name(device):
 
 
 def load_model(model_path):
-    """动态加载模型"""
+    if os.path.isdir(model_path):
+        model_dirs = []
+        for root, dirs, files in os.walk(model_path):
+            if "model.py" in files:
+                model_dirs.append(root)
+        
+        if not model_dirs:
+            raise FileNotFoundError(f"No valid model directories found in {model_path}")
+        
+        model_path = model_dirs[0]
+    
     from importlib.util import spec_from_loader, module_from_spec
     
     model_file = f"{model_path}/model.py"
@@ -45,7 +55,17 @@ def load_model(model_path):
 
 
 def get_input_dict(model_path):
-    """获取输入字典 - 与test_compiler.py保持一致"""
+    if os.path.isdir(model_path):
+        model_dirs = []
+        for root, dirs, files in os.walk(model_path):
+            if "model.py" in files:
+                model_dirs.append(root)
+        
+        if not model_dirs:
+            raise FileNotFoundError(f"No valid model directories found in {model_path}")
+        
+        model_path = model_dirs[0]
+    
     inputs_params = utils.load_converted_from_text(model_path)
     params = inputs_params["weight_info"]
     inputs = inputs_params["input_info"]
@@ -54,7 +74,17 @@ def get_input_dict(model_path):
 
 
 def get_input_spec(model_path):
-    """获取输入规范 - 与test_compiler.py保持一致"""
+    if os.path.isdir(model_path):
+        model_dirs = []
+        for root, dirs, files in os.walk(model_path):
+            if "model.py" in files:
+                model_dirs.append(root)
+        
+        if not model_dirs:
+            raise FileNotFoundError(f"No valid model directories found in {model_path}")
+        
+        model_path = model_dirs[0]
+    
     inputs_params_list = utils.load_converted_list_from_text(model_path)
     input_spec = [None] * len(inputs_params_list)
     for i, v in enumerate(inputs_params_list):
@@ -65,7 +95,6 @@ def get_input_spec(model_path):
 
 
 def get_compiled_model(model, compiler, model_path):
-    """获取编译后的模型"""
     if compiler == "nope":
         return model
     input_spec = get_input_spec(model_path)
@@ -81,13 +110,10 @@ def get_compiled_model(model, compiler, model_path):
 
 
 def measure_performance(model_call, synchronizer_func, warmup, trials):
-    """测量性能 - 简化版本"""
-    # Warmup runs
     for _ in range(warmup):
         model_call()
     synchronizer_func()
 
-    # 性能测试
     e2e_times = []
     for i in range(trials):
         duration_box = test_compiler_util.DurationBox(-1)
@@ -100,7 +126,6 @@ def measure_performance(model_call, synchronizer_func, warmup, trials):
 
 
 def main():
-    """命令行接口 - 简化的单模型测试"""
     parser = argparse.ArgumentParser(description="Test device performance with fixed random seeds")
     parser.add_argument(
         "--model-path",
@@ -139,10 +164,8 @@ def main():
     
     args = parser.parse_args()
     
-    # 设置固定随机种子
     set_seed(123)
     
-    # 打印基本配置信息
     print(f"[Config] device: {args.device}")
     print(f"[Config] compiler: {args.compiler}")
     print(f"[Config] hardware: {get_hardware_name(args.device)}")
@@ -150,12 +173,10 @@ def main():
     print(f"[Config] warmup: {args.warmup}")
     print(f"[Config] trials: {args.trials}")
 
-    # 运行测试
     success = False
     try:
         synchronizer_func = paddle.device.synchronize
         
-        # 获取输入数据和模型
         input_dict = get_input_dict(args.model_path)
         model = load_model(args.model_path)
         model.eval()
@@ -166,7 +187,6 @@ def main():
         else:
             compiled_model = get_compiled_model(model, args.compiler, args.model_path)
         
-        # 测量性能
         time_stats = measure_performance(
             lambda: compiled_model(**input_dict), 
             synchronizer_func, 
@@ -175,7 +195,6 @@ def main():
         )
         success = True
         
-        # 打印结果（不保存到文件，直接输出到控制台）
         print(f"[Result] model_path: {args.model_path}")
         print(f"[Result] compiler: {args.compiler}")
         print(f"[Result] device: {args.device}")

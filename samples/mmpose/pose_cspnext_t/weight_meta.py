@@ -391,6 +391,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_0_
         0.249552,
         0.383776,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_0_modules_bn_parameters_weight_:
@@ -499,6 +500,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_1_
         0.254918,
         0.818401,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_1_modules_bn_parameters_weight_:
@@ -631,6 +633,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_2_
         20.218102,
         9.101660,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_2_modules_bn_parameters_weight_:
@@ -831,6 +834,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_
         281.070892,
         266.847687,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_0_modules_bn_parameters_weight_:
@@ -1033,6 +1037,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_
         18.568045,
         46.669567,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_1_modules_short_conv_modules_bn_parameters_weight_:
@@ -1183,6 +1188,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_
         13.966547,
         33.168510,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_1_modules_main_conv_modules_bn_parameters_weight_:
@@ -1333,6 +1339,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_
         0.931616,
         0.931968,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_1_modules_blocks_modules_0_modules_conv1_modules_bn_parameters_weight_:
@@ -2084,6 +2091,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_
         0.557093,
         0.041394,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_1_modules_blocks_modules_0_modules_conv2_modules_depthwise_conv_modules_bn_parameters_weight_:
@@ -2811,6 +2819,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_
         0.709117,
         1.995489,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_1_modules_blocks_modules_0_modules_conv2_modules_pointwise_conv_modules_bn_parameters_weight_:
@@ -3078,6 +3087,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_
         0.109788,
         0.099610,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage1_modules_1_modules_final_conv_modules_bn_parameters_weight_:
@@ -3420,6 +3430,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_
         3.729014,
         2.179824,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_0_modules_bn_parameters_weight_:
@@ -3766,6 +3777,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_
         0.498384,
         0.521338,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_1_modules_short_conv_modules_bn_parameters_weight_:
@@ -4012,6 +4024,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_
         0.991731,
         0.701849,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_1_modules_main_conv_modules_bn_parameters_weight_:
@@ -4258,6 +4271,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_
         1.239428,
         0.410914,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_1_modules_blocks_modules_0_modules_conv1_modules_bn_parameters_weight_:
@@ -4504,6 +4518,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_
         2.908040,
         0.072362,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_1_modules_blocks_modules_0_modules_conv2_modules_depthwise_conv_modules_bn_parameters_weight_:
@@ -4750,6 +4765,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_
         0.045915,
         0.055725,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_1_modules_blocks_modules_0_modules_conv2_modules_pointwise_conv_modules_bn_parameters_weight_:
@@ -5209,6 +5225,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_
         0.068126,
         0.041888,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage2_modules_1_modules_final_conv_modules_bn_parameters_weight_:
@@ -5839,6 +5856,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_
         3.859542,
         3.675838,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_0_modules_bn_parameters_weight_:
@@ -6473,6 +6491,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_
         1.575145,
         1.353147,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_1_modules_short_conv_modules_bn_parameters_weight_:
@@ -6911,6 +6930,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_
         1.185425,
         1.301938,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_1_modules_main_conv_modules_bn_parameters_weight_:
@@ -7349,6 +7369,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_
         0.484519,
         0.547940,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_1_modules_blocks_modules_0_modules_conv1_modules_bn_parameters_weight_:
@@ -7787,6 +7808,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_
         0.052662,
         0.157662,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_1_modules_blocks_modules_0_modules_conv2_modules_depthwise_conv_modules_bn_parameters_weight_:
@@ -8225,6 +8247,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_
         0.592218,
         3.154886,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_1_modules_blocks_modules_0_modules_conv2_modules_pointwise_conv_modules_bn_parameters_weight_:
@@ -9068,6 +9091,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_
         0.176808,
         0.176454,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage3_modules_1_modules_final_conv_modules_bn_parameters_weight_:
@@ -10274,6 +10298,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_
         7.819320,
         10.717925,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_0_modules_bn_parameters_weight_:
@@ -11484,6 +11509,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_
         3.064765,
         3.257612,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_1_modules_conv1_modules_bn_parameters_weight_:
@@ -12690,6 +12716,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_
         42.244362,
         37.570076,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_1_modules_conv2_modules_bn_parameters_weight_:
@@ -13896,6 +13923,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_
         0.495926,
         0.596386,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_2_modules_short_conv_modules_bn_parameters_weight_:
@@ -14718,6 +14746,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_
         0.371762,
         0.503563,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_2_modules_main_conv_modules_bn_parameters_weight_:
@@ -15540,6 +15569,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_
         5.432650,
         4.003856,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_2_modules_blocks_modules_0_modules_conv1_modules_bn_parameters_weight_:
@@ -16362,6 +16392,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_
         0.342135,
         0.039628,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_2_modules_blocks_modules_0_modules_conv2_modules_depthwise_conv_modules_bn_parameters_weight_:
@@ -17184,6 +17215,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_
         2.017982,
         2.065394,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_2_modules_blocks_modules_0_modules_conv2_modules_pointwise_conv_modules_bn_parameters_weight_:
@@ -18795,6 +18827,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_
         0.529690,
         0.550784,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stage4_modules_2_modules_final_conv_modules_bn_parameters_weight_:
@@ -20129,6 +20162,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modul
         2.545356,
         5.407154,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modules_1_parameters_weight_:
@@ -21207,6 +21241,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modul
         1.531536,
         1.372236,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modules_4_parameters_weight_:
@@ -22285,6 +22320,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modul
         5.350484,
         2.235182,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modules_7_parameters_weight_:

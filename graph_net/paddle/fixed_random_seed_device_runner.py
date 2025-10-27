@@ -8,6 +8,8 @@ import traceback
 import argparse
 import sys
 from pathlib import Path
+import json
+from contextlib import redirect_stdout, redirect_stderr
 
 from graph_net.paddle import utils
 from graph_net import test_compiler_util
@@ -111,8 +113,12 @@ def get_compiled_model(model, compiler, model_path):
 
 
 def measure_performance(model_call, synchronizer_func, warmup, trials):
-    for _ in range(warmup):
-        model_call()
+    outputs = None
+    for i in range(warmup):
+        out_run = model_call()
+        if i == 0:
+            outputs = out_run
+    
     synchronizer_func()
 
     e2e_times = []
@@ -121,21 +127,44 @@ def measure_performance(model_call, synchronizer_func, warmup, trials):
         with test_compiler_util.naive_timer(duration_box, synchronizer_func):
             model_call()
         e2e_times.append(duration_box.value)
-        print(f"Trial {i + 1}: e2e={duration_box.value:.4f} ms")
+        # This print will be captured by the log redirect in main
+        print(f"Trial {i + 1}: e2e={duration_box.value:.4f} ms", flush=True)
 
-    return test_compiler_util.get_timing_stats(e2e_times)
+    return outputs, test_compiler_util.get_timing_stats(e2e_times)
+
+
+def save_outputs_to_json(outputs, file_path):
+    """
+    Serializes paddle tensor outputs to a JSON file.
+    """
+    if isinstance(outputs, paddle.Tensor):
+        outputs = [outputs]
+    
+    serializable_outputs = []
+    if outputs is not None:
+        for tensor in outputs:
+            if tensor is not None:
+                # Convert tensor to numpy array, then to nested Python list
+                serializable_outputs.append(tensor.numpy().tolist())
+            else:
+                serializable_outputs.append(None)
+    
+    with open(file_path, 'w', encoding='utf-8') as f:
+        json.dump(serializable_outputs, f, indent=4)
 
 
 def test_single_model(args, model_path):
     set_seed(123)
     
-    print(f"[Config] device: {args.device}")
-    print(f"[Config] compiler: {args.compiler}")
-    print(f"[Config] hardware: {get_hardware_name(args.device)}")
-    print(f"[Config] framework_version: {paddle.__version__}")
-    print(f"[Config] warmup: {args.warmup}")
-    print(f"[Config] trials: {args.trials}")
+    # These prints will be captured by the log redirect in main
+    print(f"[Config] device: {args.device}", flush=True)
+    print(f"[Config] compiler: {args.compiler}", flush=True)
+    print(f"[Config] hardware: {get_hardware_name(args.device)}", flush=True)
+    print(f"[Config] framework_version: {paddle.__version__}", flush=True)
+    print(f"[Config] warmup: {args.warmup}", flush=True)
+    print(f"[Config] trials: {args.trials}", flush=True)
 
+    outputs = None
     success = False
     try:
         synchronizer_func = paddle.device.synchronize
@@ -144,13 +173,13 @@ def test_single_model(args, model_path):
         model = load_model(model_path)
         model.eval()
 
-        print(f"Run model with compiler: {args.compiler}")
+        print(f"Run model with compiler: {args.compiler}", flush=True)
         if args.compiler == "nope":
             compiled_model = model
         else:
             compiled_model = get_compiled_model(model, args.compiler, model_path)
         
-        time_stats = measure_performance(
+        outputs, time_stats = measure_performance(
             lambda: compiled_model(**input_dict), 
             synchronizer_func, 
             args.warmup, 
@@ -158,18 +187,18 @@ def test_single_model(args, model_path):
         )
         success = True
         
-        print(f"[Result] model_path: {model_path}")
-        print(f"[Result] compiler: {args.compiler}")
-        print(f"[Result] device: {args.device}")
-        print(f"[Result] e2e_mean: {time_stats['mean']:.5f}")
-        print(f"[Result] e2e_std: {time_stats['std']:.5f}")
+        print(f"[Result] model_path: {model_path}", flush=True)
+        print(f"[Result] compiler: {args.compiler}", flush=True)
+        print(f"[Result] device: {args.device}", flush=True)
+        print(f"[Result] e2e_mean: {time_stats['mean']:.5f}", flush=True)
+        print(f"[Result] e2e_std: {time_stats['std']:.5f}", flush=True)
         
     except Exception as e:
-        print(f"Run model failed: {str(e)}")
-        print(traceback.format_exc())
-        return False
+        print(f"Run model failed: {str(e)}", flush=True)
+        print(traceback.format_exc(), flush=True)
+        return False, None
 
-    return success
+    return success, outputs
 
 
 def main():
@@ -215,8 +244,17 @@ def main():
         default=None,
         help="Path to allow list file"
     )
+    parser.add_argument(
+        "--test-device-path",
+        type=str,
+        required=True,
+        help="Path to save logs and output json files"
+    )
     
     args = parser.parse_args()
+    
+    # Create the output directory if it doesn't exist
+    os.makedirs(args.test_device_path, exist_ok=True)
     
     test_samples = []
     if args.allow_list is not None:
@@ -231,15 +269,46 @@ def main():
     sample_idx = 0
     failed_samples = []
     
+    # --- MODIFICATION START ---
+    # Store the root path object
+    root_path_obj = Path(args.model_path)
+    # --- MODIFICATION END ---
+    
     for model_path in path_utils.get_recursively_model_path(args.model_path):
         if not test_samples or os.path.abspath(model_path) in test_samples:
-            print(f"[{sample_idx}] fixed_random_seed_device_runner, model_path: {model_path}")
             
-            success = test_single_model(args, model_path)
-            if not success:
-                failed_samples.append(model_path)
+            # --- MODIFICATION START ---
+            # Get relative path from the root model_path
+            relative_path = Path(model_path).relative_to(root_path_obj)
+            # Replace path separators (like / or \) with _ to create a flat file name
+            model_name = str(relative_path).replace(os.path.sep, "_")
+            # --- MODIFICATION END ---
+            
+            log_file_path = os.path.join(args.test_device_path, f"{model_name}.log")
+            json_file_path = os.path.join(args.test_device_path, f"{model_name}_outputs.json")
+
+            # --- Redirect stdout/stderr to log file ---
+            with open(log_file_path, 'w', encoding='utf-8') as log_f:
+                with redirect_stdout(log_f), redirect_stderr(log_f):
+                    
+                    print(f"[{sample_idx}] fixed_random_seed_device_runner, model_path: {model_path}", flush=True)
+                    
+                    success, outputs = test_single_model(args, model_path)
+                    
+                    if not success:
+                        failed_samples.append(model_path)
+                    else:
+                        # Save outputs to JSON
+                        try:
+                            save_outputs_to_json(outputs, json_file_path)
+                        except Exception as e:
+                            print(f"Failed to save outputs to JSON {json_file_path}: {str(e)}", flush=True)
+                            print(traceback.format_exc(), flush=True)
+                            failed_samples.append(model_path) # Count as failure
+
             sample_idx += 1
 
+    # --- Print final summary to console ---
     print(f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples.")
     for model_path in failed_samples:
         print(f"- {model_path}")

@@ -157,6 +157,11 @@ function summary_problems() {
 
 function main() {
   check_paths_without_spaces
+  python --version
+  which python3.10
+  pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu126
+  python -c "import torch; print(torch.__version__)"
+  exit
   prepare_torch_env
   check_validation_info=$(check_torch_validation)
   check_validation_code=$?

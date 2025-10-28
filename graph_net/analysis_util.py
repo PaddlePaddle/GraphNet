@@ -291,8 +291,8 @@ def calculate_s_scores(
                             get_correctness(eager_dtypes[i], t_key, correctness_data, i)
                             for i in range(output_count)
                         )
-                    if not is_correct:
-                        fail_type = "accuracy"
+                if not is_correct:
+                    fail_type = "accuracy"
 
             # Collect statistics
             if is_correct:

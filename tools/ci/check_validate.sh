@@ -35,13 +35,13 @@ function prepare_torch_env() {
     LOG "[INFO] Device Id: ${CUDA_VISIBLE_DEVICES}"
     # Update pip
     LOG "[INFO] Update pip ..."
-    env http_proxy="" https_proxy="" pip install -U pip > /dev/null
+    env http_proxy="" https_proxy="" python3.10 -m pip install -U pip > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
     # install torch
-    pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu126 > /dev/null
+    python3.10 -m pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu126 > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Install torch2.9.0 failed!" && exit -1
   else
-    python ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
+    python3.10 ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
     LOG "[INFO] This pull request doesn't change any torch samples, skip the CI."
   fi
 }
@@ -53,16 +53,16 @@ function prepare_paddle_env() {
     LOG "[INFO] Device Id: ${CUDA_VISIBLE_DEVICES}"
     # Update pip
     LOG "[INFO] Update pip ..."
-    env http_proxy="" https_proxy="" pip install -U pip > /dev/null
+    env http_proxy="" https_proxy="" python3.10 -m pip install -U pip > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
     # install paddle
-    pip install astor
+    python3.10 -m pip install astor
     LOG "[INFO] Install paddlepaddle-develop ..."
-    python -m pip install --pre paddlepaddle-gpu -i https://www.paddlepaddle.org.cn/packages/nightly/cu118/ > /dev/null
+    python3.10 -m pip install --pre paddlepaddle-gpu -i https://www.paddlepaddle.org.cn/packages/nightly/cu118/ > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Install paddlepaddle-develop failed!" && exit -1
-    python -c "import paddle; print('[PaddlePaddle Commit]', paddle.version.commit)"
+    python3.10 -c "import paddle; print('[PaddlePaddle Commit]', paddle.version.commit)"
   else
-    python ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
+    python3.10 ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
     LOG "[INFO] This pull request doesn't change any paddle samples, skip the CI."
   fi
 }
@@ -89,7 +89,7 @@ function check_torch_validation() {
   fail_name=()
   for model_path in ${MODIFIED_MODEL_PATHS[@]}
   do
-    python -m graph_net.torch.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} >&2
+    python3.10 -m graph_net.torch.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} >&2
     [ $? -ne 0 ] && fail_name[${#fail_name[@]}]="${model_path}"
   done
   local failed_cnt=${#fail_name[@]}
@@ -125,7 +125,7 @@ function check_paddle_validation() {
   fail_name=()
   for model_path in ${MODIFIED_MODEL_PATHS[@]}
   do
-    python -m graph_net.paddle.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} >&2
+    python3.10 -m graph_net.paddle.validate --model-path ${GRAPH_NET_EXTRACT_WORKSPACE}/${model_path} >&2
     [ $? -ne 0 ] && fail_name[${#fail_name[@]}]="${model_path}"
   done
   local failed_cnt=${#fail_name[@]}
@@ -165,7 +165,7 @@ function main() {
   check_validation_info=$(check_paddle_validation)
   check_validation_code=$?
   summary_problems $check_validation_code "$check_validation_info"
-  python ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
+  python3.10 ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
   LOG "[INFO] check_validation run success and no error!"
 }
 

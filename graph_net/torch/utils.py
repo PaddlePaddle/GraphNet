@@ -300,12 +300,13 @@ def replay_tensor(info):
     if "max_val" in info["info"]:
         max_val = info["info"]["max_val"]
         tensor = torch.clamp(tensor, max=max_val)
-    
+
     # Additional numerical stability checks
     if dtype.is_floating_point:
         # Replace any inf or nan values with small random values
-        tensor = torch.where(torch.isfinite(tensor), tensor, 
-                           torch.randn_like(tensor) * 0.01)
+        tensor = torch.where(
+            torch.isfinite(tensor), tensor, torch.randn_like(tensor) * 0.01
+        )
         # Ensure no extremely large values
         tensor = torch.clamp(tensor, min=-100.0, max=100.0)
 

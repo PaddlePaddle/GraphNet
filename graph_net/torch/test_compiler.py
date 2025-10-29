@@ -23,8 +23,12 @@ from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
 from graph_net.torch.backend.nope_backend import NopeBackend
 from graph_net.torch.backend.unstable_to_stable_backend import UnstableToStableBackend
+from todo_works.range_decomposer_validator.range_decomposer_validator import (
+    RangeDecomposerValidatorBackend,
+)
 from graph_net.test_compiler_util import generate_allclose_configs
 from graph_net import test_compiler_util
+from graph_net import path_utils
 
 
 registry_backend = {
@@ -35,6 +39,7 @@ registry_backend = {
     "bladedisc": BladeDISCBackend(),
     "nope": NopeBackend(),
     "unstable_to_stable": UnstableToStableBackend(),
+    "range_decomposer_validator": RangeDecomposerValidatorBackend(),
 }
 
 

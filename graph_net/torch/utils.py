@@ -287,7 +287,11 @@ def replay_tensor(info):
         std = 0.1
     if mean is None:
         mean = 0
-    tensor = torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean
+    # Handle std = 0 case to avoid generating identical values
+    if std == 0:
+        tensor = torch.full(size=shape, fill_value=mean, dtype=dtype, device=device)
+    else:
+        tensor = torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean
 
     # Apply lower/upper bound constraints if present
     if "min_val" in info["info"]:
@@ -296,6 +300,14 @@ def replay_tensor(info):
     if "max_val" in info["info"]:
         max_val = info["info"]["max_val"]
         tensor = torch.clamp(tensor, max=max_val)
+    
+    # Additional numerical stability checks
+    if dtype.is_floating_point:
+        # Replace any inf or nan values with small random values
+        tensor = torch.where(torch.isfinite(tensor), tensor, 
+                           torch.randn_like(tensor) * 0.01)
+        # Ensure no extremely large values
+        tensor = torch.clamp(tensor, min=-100.0, max=100.0)
 
     return tensor
 

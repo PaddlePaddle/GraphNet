@@ -1,0 +1,2 @@
+samples/transformers-auto-model/IDEA-Research_grounding-dino-base
+samples/transformers-auto-model/fushh7_llmdet_swin_tiny_hf

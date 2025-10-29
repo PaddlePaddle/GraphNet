@@ -96,6 +96,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -146,6 +147,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -196,6 +198,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -446,6 +449,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -496,6 +500,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -546,6 +551,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -756,6 +762,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -806,6 +813,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -856,6 +864,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -1066,6 +1075,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -1116,6 +1126,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -1166,6 +1177,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -1376,6 +1388,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_3_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -1426,6 +1439,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_3_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -1476,6 +1490,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_3_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -1736,6 +1751,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -1786,6 +1802,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -1836,6 +1853,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -2046,6 +2064,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -2096,6 +2115,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -2146,6 +2166,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -2356,6 +2377,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -2406,6 +2428,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -2456,6 +2479,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -2666,6 +2690,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -2716,6 +2741,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -2766,6 +2792,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -2976,6 +3003,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -3026,6 +3054,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -3076,6 +3105,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -3286,6 +3316,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -3336,6 +3367,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -3386,6 +3418,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -3596,6 +3629,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -3646,6 +3680,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -3696,6 +3731,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -3906,6 +3942,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -3956,6 +3993,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -4006,6 +4044,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -4216,6 +4255,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -4266,6 +4306,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -4316,6 +4357,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -4526,6 +4568,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_9_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -4576,6 +4619,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_9_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -4626,6 +4670,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_9_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -4836,6 +4881,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_10_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -4886,6 +4932,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_10_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -4936,6 +4983,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_10_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -5146,6 +5194,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_11_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -5196,6 +5245,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_11_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -5246,6 +5296,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_11_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -5456,6 +5507,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_12_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -5506,6 +5558,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_12_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -5556,6 +5609,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_12_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -5766,6 +5820,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_13_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -5816,6 +5871,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_13_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -5866,6 +5922,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_13_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -6076,6 +6133,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_14_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -6126,6 +6184,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_14_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -6176,6 +6235,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_14_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -6386,6 +6446,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_15_modules_attention_modules_attention_modules_convolution_projection_key_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -6436,6 +6497,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_15_modules_attention_modules_attention_modules_convolution_projection_query_modules_convolution_projection_modules_normalization_parameters_weight_:
@@ -6486,6 +6548,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_15_modules_attention_modules_attention_modules_convolution_projection_value_modules_convolution_projection_modules_normalization_parameters_weight_:

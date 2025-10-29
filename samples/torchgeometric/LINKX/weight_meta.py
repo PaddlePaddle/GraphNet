@@ -1240,6 +1240,7 @@ class Program_weight_tensor_meta_L_self_modules_final_mlp_modules_norms_modules_
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_final_mlp_modules_norms_modules_0_modules_module_parameters_weight_:
@@ -1945,6 +1946,7 @@ class Program_weight_tensor_meta_L_self_modules_final_mlp_modules_norms_modules_
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_final_mlp_modules_norms_modules_1_modules_module_parameters_weight_:
@@ -2650,6 +2652,7 @@ class Program_weight_tensor_meta_L_self_modules_final_mlp_modules_norms_modules_
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_final_mlp_modules_norms_modules_2_modules_module_parameters_weight_:
@@ -3355,6 +3358,7 @@ class Program_weight_tensor_meta_L_self_modules_final_mlp_modules_norms_modules_
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_final_mlp_modules_norms_modules_3_modules_module_parameters_weight_:

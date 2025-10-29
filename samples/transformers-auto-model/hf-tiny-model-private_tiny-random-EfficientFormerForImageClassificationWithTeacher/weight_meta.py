@@ -121,6 +121,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_patch_em
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_patch_embed_modules_batchnorm_before_parameters_weight_:
@@ -378,6 +379,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_patch_em
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_patch_embed_modules_batchnorm_after_parameters_weight_:
@@ -654,6 +656,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_0_modules_meta4D_layers_modules_blocks_modules_0_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -861,6 +864,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_0_modules_meta4D_layers_modules_blocks_modules_0_modules_mlp_modules_batchnorm_after_parameters_weight_:
@@ -1137,6 +1141,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_0_modules_meta4D_layers_modules_blocks_modules_1_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -1344,6 +1349,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_0_modules_meta4D_layers_modules_blocks_modules_1_modules_mlp_modules_batchnorm_after_parameters_weight_:
@@ -1620,6 +1626,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_0_modules_meta4D_layers_modules_blocks_modules_2_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -1827,6 +1834,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_0_modules_meta4D_layers_modules_blocks_modules_2_modules_mlp_modules_batchnorm_after_parameters_weight_:
@@ -1985,6 +1993,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_1_modules_norm_parameters_weight_:
@@ -2065,6 +2074,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_2_modules_meta4D_layers_modules_blocks_modules_0_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -2125,6 +2135,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_2_modules_meta4D_layers_modules_blocks_modules_0_modules_mlp_modules_batchnorm_after_parameters_weight_:
@@ -2205,6 +2216,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_2_modules_meta4D_layers_modules_blocks_modules_1_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -2265,6 +2277,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_2_modules_meta4D_layers_modules_blocks_modules_1_modules_mlp_modules_batchnorm_after_parameters_weight_:
@@ -2325,6 +2338,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_3_modules_norm_parameters_weight_:
@@ -2405,6 +2419,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_4_modules_meta4D_layers_modules_blocks_modules_0_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -2465,6 +2480,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_4_modules_meta4D_layers_modules_blocks_modules_0_modules_mlp_modules_batchnorm_after_parameters_weight_:
@@ -2545,6 +2561,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_4_modules_meta4D_layers_modules_blocks_modules_1_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -2605,6 +2622,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_4_modules_meta4D_layers_modules_blocks_modules_1_modules_mlp_modules_batchnorm_after_parameters_weight_:
@@ -2685,6 +2703,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_4_modules_meta4D_layers_modules_blocks_modules_2_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -2745,6 +2764,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_4_modules_meta4D_layers_modules_blocks_modules_2_modules_mlp_modules_batchnorm_after_parameters_weight_:
@@ -2825,6 +2845,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_4_modules_meta4D_layers_modules_blocks_modules_3_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -2885,6 +2906,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_4_modules_meta4D_layers_modules_blocks_modules_3_modules_mlp_modules_batchnorm_after_parameters_weight_:
@@ -2965,6 +2987,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_4_modules_meta4D_layers_modules_blocks_modules_4_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -3025,6 +3048,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_4_modules_meta4D_layers_modules_blocks_modules_4_modules_mlp_modules_batchnorm_after_parameters_weight_:
@@ -3105,6 +3129,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_4_modules_meta4D_layers_modules_blocks_modules_5_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -3165,6 +3190,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_4_modules_meta4D_layers_modules_blocks_modules_5_modules_mlp_modules_batchnorm_after_parameters_weight_:
@@ -3225,6 +3251,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_intermediate_stages_modules_5_modules_norm_parameters_weight_:
@@ -3305,6 +3332,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_last_stage_modules_meta4D_layers_modules_blocks_modules_0_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -3365,6 +3393,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_last_stage_modules_meta4D_layers_modules_blocks_modules_0_modules_mlp_modules_batchnorm_after_parameters_weight_:
@@ -3445,6 +3474,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_last_stage_modules_meta4D_layers_modules_blocks_modules_1_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -3505,6 +3535,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_last_stage_modules_meta4D_layers_modules_blocks_modules_1_modules_mlp_modules_batchnorm_after_parameters_weight_:
@@ -3585,6 +3616,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_last_stage_modules_meta4D_layers_modules_blocks_modules_2_modules_mlp_modules_batchnorm_before_parameters_weight_:
@@ -3645,6 +3677,7 @@ class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_efficientformer_modules_encoder_modules_last_stage_modules_meta4D_layers_modules_blocks_modules_2_modules_mlp_modules_batchnorm_after_parameters_weight_:

@@ -221,7 +221,12 @@ def convert_meta_classes_to_tensors(file_path):
         data_type = getattr(torch, attrs.get("dtype", "torch.float").split(".")[-1])
         shape = attrs.get("shape", [])
 
-        if "min_val" in attrs and "max_val" in attrs:
+        if "min_val" in attrs and "max_val" in attrs and data_type in [
+            torch.int8,
+            torch.int16,
+            torch.int32,
+            torch.int64,
+        ]:
             min_val = attrs["min_val"]
             max_val = attrs["max_val"]
             # torch.randint's upper bound is exclusive, so add 1
@@ -242,9 +247,11 @@ def convert_meta_classes_to_tensors(file_path):
             "mean": attrs.get("mean", 0.0),
             "std": attrs.get("std", 1.0),
         }
-        # Include min_val if present (for batch_norm running_var constraints)
+        # Include constraints if present (floats will be clamped in replay_tensor)
         if "min_val" in attrs:
             info_dict["min_val"] = attrs["min_val"]
+        if "max_val" in attrs:
+            info_dict["max_val"] = attrs["max_val"]
 
         yield {
             "info": info_dict,
@@ -282,10 +289,13 @@ def replay_tensor(info):
         mean = 0
     tensor = torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean
 
-    # Apply min_val constraint if present (for batch_norm running_var)
+    # Apply lower/upper bound constraints if present
     if "min_val" in info["info"]:
         min_val = info["info"]["min_val"]
         tensor = torch.clamp(tensor, min=min_val)
+    if "max_val" in info["info"]:
+        max_val = info["info"]["max_val"]
+        tensor = torch.clamp(tensor, max=max_val)
 
     return tensor
 

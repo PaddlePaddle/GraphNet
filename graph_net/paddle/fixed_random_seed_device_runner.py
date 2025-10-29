@@ -127,7 +127,6 @@ def measure_performance(model_call, synchronizer_func, warmup, trials):
         with test_compiler_util.naive_timer(duration_box, synchronizer_func):
             model_call()
         e2e_times.append(duration_box.value)
-        # This print will be captured by the log redirect in main
         print(f"Trial {i + 1}: e2e={duration_box.value:.4f} ms", flush=True)
 
     return outputs, test_compiler_util.get_timing_stats(e2e_times)
@@ -144,7 +143,6 @@ def save_outputs_to_json(outputs, file_path):
     if outputs is not None:
         for tensor in outputs:
             if tensor is not None:
-                # Convert tensor to numpy array, then to nested Python list
                 serializable_outputs.append(tensor.numpy().tolist())
             else:
                 serializable_outputs.append(None)
@@ -156,7 +154,6 @@ def save_outputs_to_json(outputs, file_path):
 def test_single_model(args, model_path):
     set_seed(123)
 
-    # These prints will be captured by the log redirect in main
     print(f"[Config] device: {args.device}", flush=True)
     print(f"[Config] compiler: {args.compiler}", flush=True)
     print(f"[Config] hardware: {get_hardware_name(args.device)}", flush=True)
@@ -244,7 +241,6 @@ def main():
 
     args = parser.parse_args()
 
-    # Create the output directory if it doesn't exist
     os.makedirs(args.test_device_path, exist_ok=True)
 
     test_samples = []
@@ -260,26 +256,20 @@ def main():
     sample_idx = 0
     failed_samples = []
 
-    # --- MODIFICATION START ---
-    # Store the root path object
     root_path_obj = Path(args.model_path)
-    # --- MODIFICATION END ---
 
     for model_path in path_utils.get_recursively_model_path(args.model_path):
         if not test_samples or os.path.abspath(model_path) in test_samples:
-            # --- MODIFICATION START ---
             # Get relative path from the root model_path
             relative_path = Path(model_path).relative_to(root_path_obj)
             # Replace path separators (like / or \) with _ to create a flat file name
             model_name = str(relative_path).replace(os.path.sep, "_")
-            # --- MODIFICATION END ---
 
             log_file_path = os.path.join(args.test_device_path, f"{model_name}.log")
             json_file_path = os.path.join(
                 args.test_device_path, f"{model_name}_outputs.json"
             )
 
-            # --- Redirect stdout/stderr to log file ---
             with open(log_file_path, "w", encoding="utf-8") as log_f:
                 with redirect_stdout(log_f), redirect_stderr(log_f):
                     print(
@@ -292,7 +282,6 @@ def main():
                     if not success:
                         failed_samples.append(model_path)
                     else:
-                        # Save outputs to JSON
                         try:
                             save_outputs_to_json(outputs, json_file_path)
                         except Exception as e:
@@ -305,7 +294,6 @@ def main():
 
             sample_idx += 1
 
-    # --- Print final summary to console ---
     print(
         f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples."
     )

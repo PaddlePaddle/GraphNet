@@ -3122,6 +3122,7 @@ class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_channel
     mean = 9.628
     std = 2.451
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_channel_proj_modules_0_modules_bn_parameters_weight_:
@@ -3172,6 +3173,7 @@ class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_channel
     mean = 10.772
     std = 2.383
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_channel_proj_modules_1_modules_bn_parameters_weight_:
@@ -3222,6 +3224,7 @@ class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_channel
     mean = 9.240
     std = 1.812
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_channel_proj_modules_2_modules_bn_parameters_weight_:
@@ -3272,6 +3275,7 @@ class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_channel
     mean = 6.713
     std = 1.522
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_channel_proj_modules_3_modules_bn_parameters_weight_:
@@ -3322,6 +3326,7 @@ class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_feat_ex
     mean = 1.440
     std = 0.204
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_feat_extract_modules_0_modules_bn_parameters_weight_:
@@ -3372,6 +3377,7 @@ class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_feat_ex
     mean = 2.617
     std = 0.435
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_feat_extract_modules_1_modules_bn_parameters_weight_:
@@ -3422,6 +3428,7 @@ class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_feat_ex
     mean = 3.541
     std = 0.517
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_feat_extract_modules_2_modules_bn_parameters_weight_:
@@ -3472,6 +3479,7 @@ class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_feat_ex
     mean = 4.385
     std = 0.715
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_neck_modules_mla_modules_feat_extract_modules_3_modules_bn_parameters_weight_:
@@ -3522,6 +3530,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_mod
     mean = 4.484
     std = 0.820
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_modules_0_modules_0_modules_bn_parameters_weight_:
@@ -3572,6 +3581,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_mod
     mean = 1.718
     std = 0.342
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_modules_0_modules_1_modules_bn_parameters_weight_:
@@ -3622,6 +3632,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_mod
     mean = 3.836
     std = 0.753
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_modules_1_modules_0_modules_bn_parameters_weight_:
@@ -3672,6 +3683,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_mod
     mean = 1.485
     std = 0.261
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_modules_1_modules_1_modules_bn_parameters_weight_:
@@ -3722,6 +3734,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_mod
     mean = 3.874
     std = 0.774
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_modules_2_modules_0_modules_bn_parameters_weight_:
@@ -3772,6 +3785,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_mod
     mean = 1.411
     std = 0.334
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_modules_2_modules_1_modules_bn_parameters_weight_:
@@ -3822,6 +3836,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_mod
     mean = 3.584
     std = 0.742
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_modules_3_modules_0_modules_bn_parameters_weight_:
@@ -3872,6 +3887,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_mod
     mean = 1.336
     std = 0.299
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_modules_3_modules_1_modules_bn_parameters_weight_:

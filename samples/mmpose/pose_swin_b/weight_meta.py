@@ -70221,6 +70221,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modul
         7.723529,
         6.756440,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modules_1_parameters_weight_:
@@ -71299,6 +71300,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modul
         2.112435,
         1.076214,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modules_4_parameters_weight_:
@@ -72377,6 +72379,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modul
         2.695297,
         2.961512,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modules_7_parameters_weight_:

@@ -11,11 +11,11 @@
 
 **GraphNet** is a large-scale dataset of deep learning **computation graphs**, built as a standard benchmark for **tensor compiler** optimization. It provides over 2.7K computation graphs extracted from state-of-the-art deep learning models spanning diverse tasks and ML frameworks. With standardized formats and rich metadata, GraphNet enables fair comparison and reproducible evaluation of the general optimization capabilities of tensor compilers, thereby supporting advanced research such as AI for System on compilers.
 
-## News
+## 📣 News
 - [2025-10-14] ✨ Our technical report is out: a detailed study of dataset construction and compiler benchmarking, introducing the novel performance metrics Speedup Score S(t) and Error-aware Speedup Score ES(t). [📘 GraphNet: A Large-Scale Computational Graph Dataset for Tensor Compiler Research](./GraphNet_technical_report.pdf)
 - [2025-8-20] 🚀 The second round of [open contribution tasks](https://github.com/PaddlePaddle/Paddle/issues/74773) was released. (completed ✅)
 - [2025-7-30] 🚀 The first round of [open contribution tasks](https://github.com/PaddlePaddle/GraphNet/issues/44) was released.  (completed ✅)
-## Benchmark Results
+## 📊 Benchmark Results
 We evaluate two representative tensor compiler backends, CINN (PaddlePaddle) and TorchInductor (PyTorch), on GraphNet's NLP and CV subsets. The evaluation adopts two quantitative metrics proposed in the [Technical Report](./GraphNet_technical_report.pdf):
 - **Speedup Score** S(t) — evaluates compiler performance under varying numerical tolerance levels.
 <div align="center">
@@ -28,7 +28,7 @@ We evaluate two representative tensor compiler backends, CINN (PaddlePaddle) and
 
 </div>
 
-## Quick Start
+## ⚡ Quick Start
 This section shows how to evaluate tensor compilers and reproduce benchmark results (for compiler users and developers),
 as well as how to contribute new computation graphs (for GraphNet contributors).
 
@@ -97,12 +97,12 @@ python -m graph_net.plot_violin \
 
 The scripts are designed to process a file structure as `/benchmark_path/category_name/`, and items on x-axis are identified by name of the sub-directories. After executing, several summary plots of result in categories (model tasks, libraries...) will be exported to `$GRAPH_NET_BENCHMARK_PATH`.
 
-## 🧱 Construction & Contribution Guide
+### 🧱 Construction & Contribution Guide
 Want to understand how GraphNet is built or contribute new samples?
 Check out the [Construction Guide](./docs/README_contribute.md) for details on the extraction and validation workflow.
 
 
-## Future Roadmap
+## 🚀 Future Roadmap
 
 1. Scale GraphNet to 10K+ graphs.
 2. Further annotate GraphNet samples into more granular sub-categories
@@ -136,7 +136,7 @@ GraphNet is released under the [MIT License](./LICENSE).
 If you find this project helpful, please cite:
 
 ```bibtex
-@article{li2025graphnet,
+@misc{li2025graphnet,
   title     = {GraphNet: A Large-Scale Computational Graph Dataset for Tensor Compiler Research},
   author    = {Xinqi Li and Yiqun Liu and Shan Jiang and Enrong Zheng and Huaijin Zheng and Wenhao Dai and Haodong Deng and Dianhai Yu and Yanjun Ma},
   year      = {2025},

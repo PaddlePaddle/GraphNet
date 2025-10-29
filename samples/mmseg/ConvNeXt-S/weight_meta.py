@@ -3588,6 +3588,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_lateral_conv
     mean = 0.052
     std = 0.013
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_lateral_convs_modules_0_modules_bn_parameters_weight_:
@@ -3638,6 +3639,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_lateral_conv
     mean = 0.023
     std = 0.007
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_lateral_convs_modules_1_modules_bn_parameters_weight_:
@@ -3688,6 +3690,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_lateral_conv
     mean = 0.046
     std = 0.007
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_lateral_convs_modules_2_modules_bn_parameters_weight_:
@@ -3738,6 +3741,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_psp_modules_
     mean = 0.121
     std = 0.020
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_psp_modules_modules_0_modules_1_modules_bn_parameters_weight_:
@@ -3788,6 +3792,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_psp_modules_
     mean = 0.188
     std = 0.030
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_psp_modules_modules_1_modules_1_modules_bn_parameters_weight_:
@@ -3838,6 +3843,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_psp_modules_
     mean = 0.237
     std = 0.034
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_psp_modules_modules_2_modules_1_modules_bn_parameters_weight_:
@@ -3888,6 +3894,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_psp_modules_
     mean = 0.344
     std = 0.058
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_psp_modules_modules_3_modules_1_modules_bn_parameters_weight_:
@@ -3944,6 +3951,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_bottleneck_m
     mean = 48.934
     std = 6.799
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_bottleneck_modules_bn_parameters_weight_:
@@ -3994,6 +4002,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_fpn_convs_mo
     mean = 19.091
     std = 3.889
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_fpn_convs_modules_0_modules_bn_parameters_weight_:
@@ -4044,6 +4053,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_fpn_convs_mo
     mean = 14.204
     std = 2.340
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_fpn_convs_modules_1_modules_bn_parameters_weight_:
@@ -4094,6 +4104,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_fpn_convs_mo
     mean = 10.082
     std = 1.361
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_fpn_convs_modules_2_modules_bn_parameters_weight_:
@@ -4144,6 +4155,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_fpn_bottlene
     mean = 33.300
     std = 7.216
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_fpn_bottleneck_modules_bn_parameters_weight_:

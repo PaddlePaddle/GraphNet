@@ -70,6 +70,7 @@ class Program_weight_tensor_meta_L_self_modules_conv_stem_modules_normalization_
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_conv_stem_modules_normalization_parameters_weight_:
@@ -154,6 +155,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_0_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_0_modules_layer_modules_0_modules_expand_1x1_modules_normalization_parameters_weight_:
@@ -204,6 +206,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_0_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_0_modules_layer_modules_0_modules_conv_3x3_modules_normalization_parameters_weight_:
@@ -320,6 +323,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_0_
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_0_modules_layer_modules_0_modules_reduce_1x1_modules_normalization_parameters_weight_:
@@ -436,6 +440,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_modules_layer_modules_0_modules_expand_1x1_modules_normalization_parameters_weight_:
@@ -486,6 +491,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_modules_layer_modules_0_modules_conv_3x3_modules_normalization_parameters_weight_:
@@ -536,6 +542,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_modules_layer_modules_0_modules_reduce_1x1_modules_normalization_parameters_weight_:
@@ -586,6 +593,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_modules_layer_modules_1_modules_expand_1x1_modules_normalization_parameters_weight_:
@@ -636,6 +644,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_modules_layer_modules_1_modules_conv_3x3_modules_normalization_parameters_weight_:
@@ -686,6 +695,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_modules_layer_modules_1_modules_reduce_1x1_modules_normalization_parameters_weight_:
@@ -736,6 +746,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_modules_layer_modules_2_modules_expand_1x1_modules_normalization_parameters_weight_:
@@ -786,6 +797,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_modules_layer_modules_2_modules_conv_3x3_modules_normalization_parameters_weight_:
@@ -836,6 +848,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_1_modules_layer_modules_2_modules_reduce_1x1_modules_normalization_parameters_weight_:
@@ -886,6 +899,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_2_modules_downsampling_layer_modules_expand_1x1_modules_normalization_parameters_weight_:
@@ -936,6 +950,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_2_modules_downsampling_layer_modules_conv_3x3_modules_normalization_parameters_weight_:
@@ -986,6 +1001,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_2_modules_downsampling_layer_modules_reduce_1x1_modules_normalization_parameters_weight_:
@@ -1036,6 +1052,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_2_modules_conv_kxk_modules_normalization_parameters_weight_:
@@ -1436,6 +1453,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_2_modules_conv_projection_modules_normalization_parameters_weight_:
@@ -1486,6 +1504,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_2_modules_fusion_modules_normalization_parameters_weight_:
@@ -1536,6 +1555,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_3_modules_downsampling_layer_modules_expand_1x1_modules_normalization_parameters_weight_:
@@ -1586,6 +1606,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_3_modules_downsampling_layer_modules_conv_3x3_modules_normalization_parameters_weight_:
@@ -1636,6 +1657,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_3_modules_downsampling_layer_modules_reduce_1x1_modules_normalization_parameters_weight_:
@@ -1686,6 +1708,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_3_modules_conv_kxk_modules_normalization_parameters_weight_:
@@ -2406,6 +2429,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_3_modules_conv_projection_modules_normalization_parameters_weight_:
@@ -2456,6 +2480,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_3_modules_fusion_modules_normalization_parameters_weight_:
@@ -2506,6 +2531,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_4_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_4_modules_downsampling_layer_modules_expand_1x1_modules_normalization_parameters_weight_:
@@ -2556,6 +2582,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_4_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_4_modules_downsampling_layer_modules_conv_3x3_modules_normalization_parameters_weight_:
@@ -2606,6 +2633,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_4_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_4_modules_downsampling_layer_modules_reduce_1x1_modules_normalization_parameters_weight_:
@@ -2656,6 +2684,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_4_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_4_modules_conv_kxk_modules_normalization_parameters_weight_:
@@ -3216,6 +3245,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_4_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_4_modules_conv_projection_modules_normalization_parameters_weight_:
@@ -3266,6 +3296,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_4_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_layer_modules_4_modules_fusion_modules_normalization_parameters_weight_:
@@ -3316,6 +3347,7 @@ class Program_weight_tensor_meta_L_self_modules_conv_1x1_exp_modules_normalizati
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_conv_1x1_exp_modules_normalization_parameters_weight_:

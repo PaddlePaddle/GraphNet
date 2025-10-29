@@ -362,6 +362,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_0_modules_con
     mean = 51.283
     std = 56.176
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_0_modules_conv_modules_batch_norm_parameters_weight_:
@@ -758,6 +759,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_1_modules_con
     mean = 76.702
     std = 188.565
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_1_modules_conv_modules_batch_norm_parameters_weight_:
@@ -1154,6 +1156,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_2_modules_con
     mean = 35.836
     std = 74.587
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_2_modules_conv_modules_batch_norm_parameters_weight_:
@@ -1550,6 +1553,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_3_modules_con
     mean = 27.022
     std = 54.464
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_3_modules_conv_modules_batch_norm_parameters_weight_:
@@ -1946,6 +1950,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_4_modules_con
     mean = 36.962
     std = 52.496
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_4_modules_conv_modules_batch_norm_parameters_weight_:
@@ -2342,6 +2347,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_5_modules_con
     mean = 37.977
     std = 57.210
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_5_modules_conv_modules_batch_norm_parameters_weight_:
@@ -2738,6 +2744,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_6_modules_con
     mean = 55.891
     std = 108.919
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_6_modules_conv_modules_batch_norm_parameters_weight_:
@@ -3134,6 +3141,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_7_modules_con
     mean = 75.086
     std = 115.158
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_7_modules_conv_modules_batch_norm_parameters_weight_:
@@ -3530,6 +3538,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_8_modules_con
     mean = 65.710
     std = 92.009
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_8_modules_conv_modules_batch_norm_parameters_weight_:
@@ -3926,6 +3935,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_9_modules_con
     mean = 58.314
     std = 85.034
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_9_modules_conv_modules_batch_norm_parameters_weight_:
@@ -4322,6 +4332,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_10_modules_co
     mean = 48.929
     std = 68.348
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_10_modules_conv_modules_batch_norm_parameters_weight_:
@@ -4718,6 +4729,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_11_modules_co
     mean = 55.256
     std = 147.238
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_11_modules_conv_modules_batch_norm_parameters_weight_:
@@ -5114,6 +5126,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_12_modules_co
     mean = 40.740
     std = 64.690
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_12_modules_conv_modules_batch_norm_parameters_weight_:
@@ -5510,6 +5523,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_13_modules_co
     mean = 33.139
     std = 53.482
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_13_modules_conv_modules_batch_norm_parameters_weight_:
@@ -5906,6 +5920,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_14_modules_co
     mean = 29.061
     std = 66.711
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_14_modules_conv_modules_batch_norm_parameters_weight_:
@@ -6302,6 +6317,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_15_modules_co
     mean = 21.017
     std = 50.214
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_15_modules_conv_modules_batch_norm_parameters_weight_:
@@ -6698,6 +6714,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_16_modules_co
     mean = 17.481
     std = 41.826
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_16_modules_conv_modules_batch_norm_parameters_weight_:
@@ -7094,6 +7111,7 @@ class Program_weight_tensor_meta_L_instance_modules_layers_modules_17_modules_co
     mean = 86.786
     std = 252.434
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_instance_modules_layers_modules_17_modules_conv_modules_batch_norm_parameters_weight_:

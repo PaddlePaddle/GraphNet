@@ -66,3 +66,22 @@ python -m graph_net.torch.validate \
 ```
 
 All the **construction constraints** will be examined automatically. After passing validation, a unique `graph_hash.txt` will be generated and later checked in CI procedure to avoid redundant.
+
+## 📁 Repository Structure
+This repository is organized as follows:
+
+| Directory | Description |
+|------------|--------------|
+| **graph_net/** | Core module for graph extraction, validation, and benchmarking |
+| **paddle_samples/** | Computation graph samples extracted from PaddlePaddle |
+| **samples/** | Computation graph samples extracted from PyTorch |
+| **docs/** | Technical documents and contributor guides|
+
+Below is the structure of the **graph_net/**:
+```text
+graph_net/
+ ├─ config/    # Config files, params
+ ├─ paddle/    # PaddlePaddle graph extraction & validation
+ ├─ torch/     # PyTorch graph extraction & validation
+ ├─ test/      # Unit tests and example scripts
+ └─ *.py       # Benchmark & analysis scripts 

@@ -56,6 +56,7 @@ class Program_weight_tensor_meta_L_self_modules_conv1_modules_bn_buffers_running
     mean = 1.610
     std = 1.743
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_conv1_modules_bn_parameters_weight_:
@@ -106,6 +107,7 @@ class Program_weight_tensor_meta_L_self_modules_conv2_modules_bn_buffers_running
     mean = 3.494
     std = 1.983
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_conv2_modules_bn_parameters_weight_:
@@ -156,6 +158,7 @@ class Program_weight_tensor_meta_L_self_modules_conv3_modules_bn_buffers_running
     mean = 1.704
     std = 1.524
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_conv3_modules_bn_parameters_weight_:
@@ -206,6 +209,7 @@ class Program_weight_tensor_meta_L_self_modules_inception3a_modules_branch1_modu
     mean = 1.533
     std = 0.936
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception3a_modules_branch1_modules_bn_parameters_weight_:
@@ -256,6 +260,7 @@ class Program_weight_tensor_meta_L_self_modules_inception3a_modules_branch2_modu
     mean = 1.168
     std = 0.502
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception3a_modules_branch2_modules_0_modules_bn_parameters_weight_:
@@ -306,6 +311,7 @@ class Program_weight_tensor_meta_L_self_modules_inception3a_modules_branch2_modu
     mean = 1.439
     std = 0.437
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception3a_modules_branch2_modules_1_modules_bn_parameters_weight_:
@@ -356,6 +362,7 @@ class Program_weight_tensor_meta_L_self_modules_inception3a_modules_branch3_modu
     mean = 2.107
     std = 2.371
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception3a_modules_branch3_modules_0_modules_bn_parameters_weight_:
@@ -406,6 +413,7 @@ class Program_weight_tensor_meta_L_self_modules_inception3a_modules_branch3_modu
     mean = 0.820
     std = 0.722
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception3a_modules_branch3_modules_1_modules_bn_parameters_weight_:
@@ -456,6 +464,7 @@ class Program_weight_tensor_meta_L_self_modules_inception3a_modules_branch4_modu
     mean = 1.275
     std = 0.613
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception3a_modules_branch4_modules_1_modules_bn_parameters_weight_:
@@ -506,6 +515,7 @@ class Program_weight_tensor_meta_L_self_modules_inception3b_modules_branch1_modu
     mean = 0.752
     std = 0.403
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception3b_modules_branch1_modules_bn_parameters_weight_:
@@ -556,6 +566,7 @@ class Program_weight_tensor_meta_L_self_modules_inception3b_modules_branch2_modu
     mean = 0.693
     std = 0.190
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception3b_modules_branch2_modules_0_modules_bn_parameters_weight_:
@@ -606,6 +617,7 @@ class Program_weight_tensor_meta_L_self_modules_inception3b_modules_branch2_modu
     mean = 0.810
     std = 0.181
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception3b_modules_branch2_modules_1_modules_bn_parameters_weight_:
@@ -656,6 +668,7 @@ class Program_weight_tensor_meta_L_self_modules_inception3b_modules_branch3_modu
     mean = 0.679
     std = 0.225
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception3b_modules_branch3_modules_0_modules_bn_parameters_weight_:
@@ -706,6 +719,7 @@ class Program_weight_tensor_meta_L_self_modules_inception3b_modules_branch3_modu
     mean = 0.699
     std = 0.147
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception3b_modules_branch3_modules_1_modules_bn_parameters_weight_:
@@ -756,6 +770,7 @@ class Program_weight_tensor_meta_L_self_modules_inception3b_modules_branch4_modu
     mean = 1.177
     std = 0.800
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception3b_modules_branch4_modules_1_modules_bn_parameters_weight_:
@@ -806,6 +821,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4a_modules_branch1_modu
     mean = 1.091
     std = 0.669
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4a_modules_branch1_modules_bn_parameters_weight_:
@@ -856,6 +872,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4a_modules_branch2_modu
     mean = 1.267
     std = 0.616
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4a_modules_branch2_modules_0_modules_bn_parameters_weight_:
@@ -906,6 +923,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4a_modules_branch2_modu
     mean = 0.987
     std = 0.370
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4a_modules_branch2_modules_1_modules_bn_parameters_weight_:
@@ -956,6 +974,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4a_modules_branch3_modu
     mean = 3.630
     std = 3.206
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4a_modules_branch3_modules_0_modules_bn_parameters_weight_:
@@ -1006,6 +1025,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4a_modules_branch3_modu
     mean = 1.186
     std = 0.471
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4a_modules_branch3_modules_1_modules_bn_parameters_weight_:
@@ -1056,6 +1076,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4a_modules_branch4_modu
     mean = 1.788
     std = 1.049
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4a_modules_branch4_modules_1_modules_bn_parameters_weight_:
@@ -1106,6 +1127,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4b_modules_branch1_modu
     mean = 0.704
     std = 0.432
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4b_modules_branch1_modules_bn_parameters_weight_:
@@ -1156,6 +1178,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4b_modules_branch2_modu
     mean = 0.609
     std = 0.179
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4b_modules_branch2_modules_0_modules_bn_parameters_weight_:
@@ -1206,6 +1229,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4b_modules_branch2_modu
     mean = 0.712
     std = 0.244
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4b_modules_branch2_modules_1_modules_bn_parameters_weight_:
@@ -1256,6 +1280,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4b_modules_branch3_modu
     mean = 0.860
     std = 0.559
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4b_modules_branch3_modules_0_modules_bn_parameters_weight_:
@@ -1306,6 +1331,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4b_modules_branch3_modu
     mean = 0.643
     std = 0.385
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4b_modules_branch3_modules_1_modules_bn_parameters_weight_:
@@ -1356,6 +1382,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4b_modules_branch4_modu
     mean = 1.138
     std = 0.371
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4b_modules_branch4_modules_1_modules_bn_parameters_weight_:
@@ -1406,6 +1433,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4c_modules_branch1_modu
     mean = 0.826
     std = 0.304
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4c_modules_branch1_modules_bn_parameters_weight_:
@@ -1456,6 +1484,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4c_modules_branch2_modu
     mean = 0.635
     std = 0.225
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4c_modules_branch2_modules_0_modules_bn_parameters_weight_:
@@ -1506,6 +1535,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4c_modules_branch2_modu
     mean = 0.625
     std = 0.215
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4c_modules_branch2_modules_1_modules_bn_parameters_weight_:
@@ -1556,6 +1586,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4c_modules_branch3_modu
     mean = 0.679
     std = 0.317
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4c_modules_branch3_modules_0_modules_bn_parameters_weight_:
@@ -1606,6 +1637,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4c_modules_branch3_modu
     mean = 0.343
     std = 0.206
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4c_modules_branch3_modules_1_modules_bn_parameters_weight_:
@@ -1656,6 +1688,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4c_modules_branch4_modu
     mean = 1.298
     std = 0.455
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4c_modules_branch4_modules_1_modules_bn_parameters_weight_:
@@ -1706,6 +1739,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4d_modules_branch1_modu
     mean = 0.832
     std = 0.258
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4d_modules_branch1_modules_bn_parameters_weight_:
@@ -1756,6 +1790,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4d_modules_branch2_modu
     mean = 0.578
     std = 0.155
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4d_modules_branch2_modules_0_modules_bn_parameters_weight_:
@@ -1806,6 +1841,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4d_modules_branch2_modu
     mean = 0.681
     std = 0.198
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4d_modules_branch2_modules_1_modules_bn_parameters_weight_:
@@ -1856,6 +1892,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4d_modules_branch3_modu
     mean = 0.724
     std = 0.396
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4d_modules_branch3_modules_0_modules_bn_parameters_weight_:
@@ -1906,6 +1943,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4d_modules_branch3_modu
     mean = 0.573
     std = 0.358
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4d_modules_branch3_modules_1_modules_bn_parameters_weight_:
@@ -1956,6 +1994,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4d_modules_branch4_modu
     mean = 1.367
     std = 0.410
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4d_modules_branch4_modules_1_modules_bn_parameters_weight_:
@@ -2006,6 +2045,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4e_modules_branch1_modu
     mean = 0.338
     std = 0.102
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4e_modules_branch1_modules_bn_parameters_weight_:
@@ -2056,6 +2096,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4e_modules_branch2_modu
     mean = 0.421
     std = 0.106
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4e_modules_branch2_modules_0_modules_bn_parameters_weight_:
@@ -2106,6 +2147,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4e_modules_branch2_modu
     mean = 0.452
     std = 0.110
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4e_modules_branch2_modules_1_modules_bn_parameters_weight_:
@@ -2156,6 +2198,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4e_modules_branch3_modu
     mean = 0.755
     std = 0.234
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4e_modules_branch3_modules_0_modules_bn_parameters_weight_:
@@ -2206,6 +2249,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4e_modules_branch3_modu
     mean = 0.667
     std = 0.445
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4e_modules_branch3_modules_1_modules_bn_parameters_weight_:
@@ -2256,6 +2300,7 @@ class Program_weight_tensor_meta_L_self_modules_inception4e_modules_branch4_modu
     mean = 1.091
     std = 0.371
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception4e_modules_branch4_modules_1_modules_bn_parameters_weight_:
@@ -2306,6 +2351,7 @@ class Program_weight_tensor_meta_L_self_modules_inception5a_modules_branch1_modu
     mean = 0.197
     std = 0.038
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception5a_modules_branch1_modules_bn_parameters_weight_:
@@ -2356,6 +2402,7 @@ class Program_weight_tensor_meta_L_self_modules_inception5a_modules_branch2_modu
     mean = 0.481
     std = 0.241
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception5a_modules_branch2_modules_0_modules_bn_parameters_weight_:
@@ -2406,6 +2453,7 @@ class Program_weight_tensor_meta_L_self_modules_inception5a_modules_branch2_modu
     mean = 0.563
     std = 0.326
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception5a_modules_branch2_modules_1_modules_bn_parameters_weight_:
@@ -2456,6 +2504,7 @@ class Program_weight_tensor_meta_L_self_modules_inception5a_modules_branch3_modu
     mean = 0.622
     std = 0.119
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception5a_modules_branch3_modules_0_modules_bn_parameters_weight_:
@@ -2506,6 +2555,7 @@ class Program_weight_tensor_meta_L_self_modules_inception5a_modules_branch3_modu
     mean = 0.494
     std = 0.180
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception5a_modules_branch3_modules_1_modules_bn_parameters_weight_:
@@ -2556,6 +2606,7 @@ class Program_weight_tensor_meta_L_self_modules_inception5a_modules_branch4_modu
     mean = 1.989
     std = 1.104
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception5a_modules_branch4_modules_1_modules_bn_parameters_weight_:
@@ -2606,6 +2657,7 @@ class Program_weight_tensor_meta_L_self_modules_inception5b_modules_branch1_modu
     mean = 0.045
     std = 0.002
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception5b_modules_branch1_modules_bn_parameters_weight_:
@@ -2656,6 +2708,7 @@ class Program_weight_tensor_meta_L_self_modules_inception5b_modules_branch2_modu
     mean = 0.583
     std = 0.443
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception5b_modules_branch2_modules_0_modules_bn_parameters_weight_:
@@ -2706,6 +2759,7 @@ class Program_weight_tensor_meta_L_self_modules_inception5b_modules_branch2_modu
     mean = 0.035
     std = 0.002
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception5b_modules_branch2_modules_1_modules_bn_parameters_weight_:
@@ -2756,6 +2810,7 @@ class Program_weight_tensor_meta_L_self_modules_inception5b_modules_branch3_modu
     mean = 0.462
     std = 0.165
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception5b_modules_branch3_modules_0_modules_bn_parameters_weight_:
@@ -2806,6 +2861,7 @@ class Program_weight_tensor_meta_L_self_modules_inception5b_modules_branch3_modu
     mean = 0.024
     std = 0.002
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception5b_modules_branch3_modules_1_modules_bn_parameters_weight_:
@@ -2856,6 +2912,7 @@ class Program_weight_tensor_meta_L_self_modules_inception5b_modules_branch4_modu
     mean = 0.202
     std = 0.005
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_inception5b_modules_branch4_modules_1_modules_bn_parameters_weight_:

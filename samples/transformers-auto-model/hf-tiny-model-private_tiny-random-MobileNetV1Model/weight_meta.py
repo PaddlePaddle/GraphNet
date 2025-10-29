@@ -74,6 +74,7 @@ class Program_weight_tensor_meta_L_self_modules_conv_stem_modules_normalization_
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_conv_stem_modules_normalization_parameters_weight_:
@@ -200,6 +201,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_0_modules_normaliz
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_0_modules_normalization_parameters_weight_:
@@ -342,6 +344,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_1_modules_normaliz
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_1_modules_normalization_parameters_weight_:
@@ -500,6 +503,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_2_modules_normaliz
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_2_modules_normalization_parameters_weight_:
@@ -690,6 +694,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_3_modules_normaliz
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_3_modules_normalization_parameters_weight_:
@@ -912,6 +917,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_4_modules_normaliz
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_4_modules_normalization_parameters_weight_:
@@ -1134,6 +1140,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_5_modules_normaliz
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_5_modules_normalization_parameters_weight_:
@@ -1356,6 +1363,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_6_modules_normaliz
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_6_modules_normalization_parameters_weight_:
@@ -1512,6 +1520,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_7_modules_normaliz
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_7_modules_normalization_parameters_weight_:
@@ -1602,6 +1611,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_8_modules_normaliz
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_8_modules_normalization_parameters_weight_:
@@ -1692,6 +1702,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_9_modules_normaliz
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_9_modules_normalization_parameters_weight_:
@@ -1782,6 +1793,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_10_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_10_modules_normalization_parameters_weight_:
@@ -1872,6 +1884,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_11_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_11_modules_normalization_parameters_weight_:
@@ -1962,6 +1975,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_12_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_12_modules_normalization_parameters_weight_:
@@ -2052,6 +2066,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_13_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_13_modules_normalization_parameters_weight_:
@@ -2142,6 +2157,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_14_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_14_modules_normalization_parameters_weight_:
@@ -2232,6 +2248,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_15_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_15_modules_normalization_parameters_weight_:
@@ -2322,6 +2339,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_16_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_16_modules_normalization_parameters_weight_:
@@ -2412,6 +2430,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_17_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_17_modules_normalization_parameters_weight_:
@@ -2502,6 +2521,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_18_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_18_modules_normalization_parameters_weight_:
@@ -2592,6 +2612,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_19_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_19_modules_normalization_parameters_weight_:
@@ -2682,6 +2703,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_20_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_20_modules_normalization_parameters_weight_:
@@ -2772,6 +2794,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_21_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_21_modules_normalization_parameters_weight_:
@@ -2862,6 +2885,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_22_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_22_modules_normalization_parameters_weight_:
@@ -2952,6 +2976,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_23_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_23_modules_normalization_parameters_weight_:
@@ -3042,6 +3067,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_24_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_24_modules_normalization_parameters_weight_:
@@ -3132,6 +3158,7 @@ class Program_weight_tensor_meta_L_self_modules_layer_modules_25_modules_normali
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_layer_modules_25_modules_normalization_parameters_weight_:

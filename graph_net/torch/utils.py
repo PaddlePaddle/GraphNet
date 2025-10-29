@@ -235,14 +235,19 @@ def convert_meta_classes_to_tensors(file_path):
                 data_value = torch.tensor(attrs["data"], dtype=data_type).reshape(
                     attrs.get("shape"), []
                 )
+        info_dict = {
+            "shape": attrs.get("shape", []),
+            "dtype": data_type,
+            "device": attrs.get("device", "cpu"),
+            "mean": attrs.get("mean", 0.0),
+            "std": attrs.get("std", 1.0),
+        }
+        # Include min_val if present (for batch_norm running_var constraints)
+        if "min_val" in attrs:
+            info_dict["min_val"] = attrs["min_val"]
+
         yield {
-            "info": {
-                "shape": attrs.get("shape", []),
-                "dtype": data_type,
-                "device": attrs.get("device", "cpu"),
-                "mean": attrs.get("mean", 0.0),
-                "std": attrs.get("std", 1.0),
-            },
+            "info": info_dict,
             "data": data_value,
             "name": attrs.get("name"),
         }
@@ -276,9 +281,12 @@ def replay_tensor(info):
     if mean is None:
         mean = 0
     tensor = torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean
-    # TODO(Xreki): remove this ugly code, and change the weight_meta instead.
-    if name.startswith("L_self_modules") and "buffers_running_var" in name:
-        tensor = torch.clip(tensor, min=0)
+
+    # Apply min_val constraint if present (for batch_norm running_var)
+    if "min_val" in info["info"]:
+        min_val = info["info"]["min_val"]
+        tensor = torch.clamp(tensor, min=min_val)
+
     return tensor
 
 

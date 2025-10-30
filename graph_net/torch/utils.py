@@ -221,12 +221,17 @@ def convert_meta_classes_to_tensors(file_path):
         data_type = getattr(torch, attrs.get("dtype", "torch.float").split(".")[-1])
         shape = attrs.get("shape", [])
 
-        if "min_val" in attrs and "max_val" in attrs and data_type in [
-            torch.int8,
-            torch.int16,
-            torch.int32,
-            torch.int64,
-        ]:
+        if (
+            "min_val" in attrs
+            and "max_val" in attrs
+            and data_type
+            in [
+                torch.int8,
+                torch.int16,
+                torch.int32,
+                torch.int64,
+            ]
+        ):
             min_val = attrs["min_val"]
             max_val = attrs["max_val"]
             # torch.randint's upper bound is exclusive, so add 1

@@ -261,9 +261,9 @@ def test_single_model(args):
     eager_success = False
     try:
         print("Run model in eager mode.", file=sys.stderr, flush=True)
-        static_model = get_static_model(args, model)
+        # static_model = get_static_model(args, model)
         expected_out, eager_time_stats = measure_performance(
-            lambda: static_model(**input_dict), args, synchronizer_func, profile=False
+            lambda: model(**input_dict), args, synchronizer_func, profile=False
         )
         eager_success = True
     except Exception as e:
@@ -371,15 +371,15 @@ def test_multi_models(args):
         assert os.path.isfile(args.allow_list)
         graphnet_root = path_utils.get_graphnet_root()
         print(f"graphnet_root: {graphnet_root}", file=sys.stderr, flush=True)
-        verified_samples = []
-        with open(args.verified_samples_list_path, "r") as f:
+        test_samples = []
+        with open(args.allow_list, "r") as f:
             for line in f.readlines():
                 test_samples.append(os.path.join(graphnet_root, line.strip()))
 
     sample_idx = 0
     failed_samples = []
     for model_path in path_utils.get_recursively_model_path(args.model_path):
-        if verified_samples is None or os.path.abspath(model_path) in verified_samples:
+        if test_samples is None or os.path.abspath(model_path) in test_samples:
             print(
                 f"[{sample_idx}] test_compiler, model_path: {model_path}",
                 file=sys.stderr,
@@ -420,6 +420,18 @@ def main(args):
     set_seed(random_seed=initalize_seed)
 
     if path_utils.is_single_model_dir(args.model_path):
+        if paddle.device.is_compiled_with_cuda():
+            device_id = int(paddle.device.get_device().split(":")[-1])
+            device_count = paddle.device.cuda.device_count()
+            gpu_util, mem_util = test_compiler_util.get_device_utilization(
+                device_id, device_count, get_synchronizer_func(args)
+            )
+            if gpu_util is not None and mem_util is not None:
+                print(
+                    f"Device status: gpu_id {device_id}, gpu_util {gpu_util:.2f}%, mem_util {mem_util:.2f}%",
+                    file=sys.stderr,
+                    flush=True,
+                )
         test_single_model(args)
     else:
         test_multi_models(args)

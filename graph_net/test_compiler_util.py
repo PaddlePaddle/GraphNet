@@ -3,6 +3,8 @@ import re
 import sys
 import json
 import time
+import subprocess
+import shutil
 import numpy as np
 from dataclasses import dataclass
 from contextlib import contextmanager
@@ -21,6 +23,98 @@ def naive_timer(duration_box, synchronizer_func):
     synchronizer_func()
     end = time.time()
     duration_box.value = (end - start) * 1000  # Store in milliseconds
+
+
+def get_device_utilization(device_id, device_count, synchronizer_func):
+    current_pid = os.getpid()
+
+    if shutil.which("nvidia-smi"):
+        try:
+            cuda_devices_str = os.getenv("CUDA_VISIBLE_DEVICES", "")
+            if cuda_devices_str != "":
+                cuda_devices = list(map(int, cuda_devices_str.split(",")))
+            else:
+                cuda_devices = list(range(device_count))
+            selected_gpu_id = cuda_devices[device_id]
+
+            print(
+                f"Check the status of GPU {selected_gpu_id} for 5 times.",
+                file=sys.stderr,
+                flush=True,
+            )
+            selected_gpu_uuid, max_gpu_util, max_mem_util = None, 0.0, 0.0
+            for i in range(5):
+                synchronizer_func()
+                time.sleep(1)
+
+                output = (
+                    subprocess.check_output(
+                        [
+                            "nvidia-smi",
+                            f"--query-gpu=index,gpu_uuid,utilization.gpu,memory.used,memory.total",
+                            "--format=csv,noheader,nounits",
+                        ]
+                    )
+                    .decode()
+                    .strip()
+                )
+                for line in output.split("\n"):
+                    if line.strip():
+                        (
+                            gpu_id,
+                            selected_gpu_uuid,
+                            gpu_util,
+                            used_mem,
+                            mem_total,
+                        ) = line.split(", ")
+                        if int(gpu_id) == selected_gpu_id:
+                            break
+
+                gpu_util = float(gpu_util)
+                mem_util = float(used_mem) * 100 / float(mem_total)
+                print(
+                    f"- gpu_id: {selected_gpu_id}, gpu_uuid: {selected_gpu_uuid}, gpu_util: {gpu_util:.2f}%, used_mem: {used_mem}, mem_total: {mem_total}",
+                    file=sys.stderr,
+                    flush=True,
+                )
+
+                max_gpu_util = gpu_util if gpu_util > max_gpu_util else max_gpu_util
+                max_mem_util = mem_util if mem_util > max_mem_util else max_mem_util
+
+            other_tasks = []
+            output = (
+                subprocess.check_output(
+                    [
+                        "nvidia-smi",
+                        f"--query-compute-apps=gpu_uuid,pid,used_memory",
+                        "--format=csv,noheader,nounits",
+                    ]
+                )
+                .decode()
+                .strip()
+            )
+            for line in output.split("\n"):
+                if line.strip():
+                    gpu_uuid, pid, used_memory = line.split(", ")
+                    if gpu_uuid == selected_gpu_uuid and int(pid) != current_pid:
+                        other_tasks.append(line)
+            print(
+                f"Note: There are {len(other_tasks)} tasks running on GPU {selected_gpu_id} (current_pid:{current_pid}).",
+                file=sys.stderr,
+                flush=True,
+            )
+            for task in other_tasks:
+                gpu_uuid, pid, used_memory = task.split(", ")
+                print(
+                    f"- gpu_uuid:{gpu_uuid}, pid:{pid}, used_memory:{used_memory}",
+                    file=sys.stderr,
+                    flush=True,
+                )
+            return max_gpu_util, max_mem_util
+        except subprocess.CalledProcessError:
+            pass
+
+    return None, None
 
 
 def get_timing_stats(elapsed_times):

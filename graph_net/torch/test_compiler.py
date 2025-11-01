@@ -64,6 +64,7 @@ def load_class_from_file(
     # Replace -inf with -1e6 in masked_fill and torch.full to prevent NaN issues
     # This applies the same fix as apply_templates for already-generated model.py files
     import re
+
     # Pattern for masked_fill(..., -inf)
     model_code = re.sub(
         r"(masked_fill\([^,)]+,\s*)-inf(\s*\))", r"\1-1e6\2", model_code
@@ -74,20 +75,20 @@ def load_class_from_file(
     parts = []
     i = 0
     while i < len(model_code):
-        if model_code[i:].startswith('torch.full('):
+        if model_code[i:].startswith("torch.full("):
             # Find the matching closing parenthesis
             depth = 0
             start = i
-            j = i + len('torch.full(')
+            j = i + len("torch.full(")
             while j < len(model_code):
-                if model_code[j] == '(':
+                if model_code[j] == "(":
                     depth += 1
-                elif model_code[j] == ')':
+                elif model_code[j] == ")":
                     if depth == 0:
                         # Found the matching closing paren
-                        full_block = model_code[start:j+1]
+                        full_block = model_code[start : j + 1]
                         # Replace -inf with -1e6 in this block
-                        full_block = full_block.replace('-inf', '-1e6')
+                        full_block = full_block.replace("-inf", "-1e6")
                         parts.append(full_block)
                         i = j + 1
                         break
@@ -101,7 +102,7 @@ def load_class_from_file(
             parts.append(model_code[i])
             i += 1
     if parts:
-        model_code = ''.join(parts)
+        model_code = "".join(parts)
     model_code = utils.modify_code_by_device(model_code, device)
     spec = importlib.util.spec_from_loader(module_name, loader=None)
     module = importlib.util.module_from_spec(spec)

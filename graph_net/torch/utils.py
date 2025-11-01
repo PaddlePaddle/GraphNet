@@ -17,20 +17,10 @@ kLiteralTensorSize = 64
 def apply_templates(forward_code: str) -> str:
     tab = "    "
     forward_code = f"\n{tab}".join(forward_code.split("\n"))
-    # Replace -inf with -1e6 in masked_fill and torch.full to prevent NaN issues
-    # This is specifically for cases where -inf can cause problems (e.g., before sigmoid)
-    # Pattern for masked_fill(..., -inf)
-    forward_code = re.sub(
-        r"(masked_fill\([^,)]+,\s*)-inf(\s*\))", r"\1-1e6\2", forward_code
-    )
-    # Pattern for torch.full(..., -inf, ...)
-    forward_code = re.sub(
-        r"(torch\.full\([^,)]+,\s*)-inf(\s*[,)])", r"\1-1e6\2", forward_code
-    )
     imports = "import torch"
     if "device" in forward_code:
         imports += "\n\nfrom torch import device"
-    if "inf" in forward_code or "-1e6" in forward_code:
+    if "inf" in forward_code:
         imports += "\n\nfrom torch import inf"
     return f"{imports}\n\nclass GraphModule(torch.nn.Module):\n{tab}{forward_code}"
 

@@ -254,6 +254,10 @@ def calculate_s_scores(
     # pi is a list of constants for t > 0 for each group
     pi = [0, 0]
 
+    is_correct_at_t1 = [False] * total_samples
+    speedup_at_t1 = [None] * total_samples
+    fail_type_at_t1 = ["CORRECT"] * total_samples
+
     final_correct_count = 0
     final_correct_negative_speedup_count = 0
     final_correct_speedups = []
@@ -291,8 +295,8 @@ def calculate_s_scores(
                             get_correctness(eager_dtypes[i], t_key, correctness_data, i)
                             for i in range(output_count)
                         )
-                    if not is_correct:
-                        fail_type = "accuracy"
+                if not is_correct:
+                    fail_type = "accuracy"
 
             # Collect statistics
             if is_correct:
@@ -305,6 +309,11 @@ def calculate_s_scores(
 
             if fail_type == "accuracy":
                 acc_failure_count += 1
+
+            if t_key == 1:
+                is_correct_at_t1[idx] = is_correct
+                speedup_at_t1[idx] = speedup
+                fail_type_at_t1[idx] = fail_type if fail_type is not None else "CORRECT"
 
             # S(t) calculation
             if fail_type is not None or speedup is None:
@@ -320,10 +329,8 @@ def calculate_s_scores(
             # ES(t) calculation: based on state change
             rec_speedup_fake_degrad = 0
             if t_key < 1:
-                # When t < 1, ES behaves the same as S
                 if fail_type is not None or speedup is None:
                     rec_speedup_fake_degrad = fpdb
-                    # print(f"sample: {sample.get('configuration').get('model')}, fail_type: {fail_type}, rec_speedup_fake_degrad: {rec_speedup_fake_degrad}")
                 else:
                     rec_speedup_fake_degrad = (
                         speedup ** (negative_speedup_penalty + 1)
@@ -331,26 +338,16 @@ def calculate_s_scores(
                         else speedup
                     )
             else:
-                # When t >= 1, ES starts applying stepwise logic
-                # ES curve's stepwise state, initialized as 'CORRECT'
-                es_status = ["CORRECT"] * total_samples
-                if es_status[idx] == "CORRECT" and fail_type is not None:
-                    es_status[idx] = fail_type
-
-                if (
-                    es_status[idx] is not None
-                    and es_status[idx] != "CORRECT"
-                    or speedup is None
-                ):
+                if not is_correct_at_t1[idx] or speedup_at_t1[idx] is None:
+                    fail_type_frozen = fail_type_at_t1[idx]
                     rec_speedup_fake_degrad = fake_perf_degrad(
-                        t_key, es_status[idx], fpdb
+                        t_key, fail_type_frozen, fpdb
                     )
-                    # print(f"sample: {sample.get('configuration').get('model')}, error type: {es_status[idx]}, rec_speedup_fake_degrad: {rec_speedup_fake_degrad}")
-                else:  # Still in a "CORRECT" state
+                else:
                     rec_speedup_fake_degrad = (
-                        speedup ** (negative_speedup_penalty + 1)
-                        if speedup < 1
-                        else speedup
+                        speedup_at_t1[idx] ** (negative_speedup_penalty + 1)
+                        if speedup_at_t1[idx] < 1
+                        else speedup_at_t1[idx]
                     )
             rectified_speedups_fake_degrad.append(rec_speedup_fake_degrad)
 
@@ -399,4 +396,3 @@ def calculate_s_scores(
     print(f"    - pi: {pi}")
 
     return s_scores, s_scores_fake_degrad
-    return s_scores, es_scores

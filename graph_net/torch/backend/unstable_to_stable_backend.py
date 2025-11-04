@@ -12,7 +12,7 @@ class UnstableToStableBackend(GraphCompilerBackend):
         self.unstable_api = unstable_api
 
         def my_backend(gm, sample_inputs):
-            gm = self.unstable_to_stable(gm)
+            gm = self.fft_irfft_to_irfft(gm)
             self.check_unstable_api(gm)
             return gm.forward
 
@@ -29,8 +29,34 @@ class UnstableToStableBackend(GraphCompilerBackend):
     **Stable API reference link:**
     """
 
-    def unstable_to_stable(self, gm):
-        # TODO
+    def fft_irfft_to_irfft(self, gm):
+        def replace_in_graph(graph_mod):
+            # Register stable implementation on GraphModule, codegen can use self.irfft
+            try:
+                setattr(graph_mod, "irfft", torch.fft.irfft)
+            except Exception:
+                pass
+
+            for node in graph_mod.graph.nodes:
+                if node.op == "call_function":
+                    # Match for all forms of target names
+                    if "fft_irfft" in str(node.target):
+                        # Directly point target to Python layer function
+                        node.target = torch.fft.irfft
+            # Validate and recompile the graph
+            graph_mod.graph.lint()
+            graph_mod.recompile()
+
+        # Process main gm and all nested GraphModules
+        modules = [gm]
+        modules += [
+            m
+            for _, m in gm.named_modules()
+            if isinstance(m, torch.fx.GraphModule) and m is not gm
+        ]
+        for m in modules:
+            replace_in_graph(m)
+
         return gm
 
     def check_unstable_api(self, gm):

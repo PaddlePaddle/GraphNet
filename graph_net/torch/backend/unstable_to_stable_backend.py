@@ -44,14 +44,25 @@ class UnstableToStableBackend(GraphCompilerBackend):
         Do NOT modify, remove, or bypass this check under any circumstances.
         """
 
-        graph_text = gm.code
-        # Search for the unstable API substring
-        if self.unstable_api in graph_text:
-            count = graph_text.count(self.unstable_api)
-            print(f"❌unstable_api:{self.unstable_api} occurs {count} times")
-            sys.exit(-1)
-        else:
-            print(f"✅ Model passed: no occurrence of '{self.unstable_api}' found.")
+        def check_graph(graph_mod):
+            for node in graph_mod.graph.nodes:
+                if node.op == "call_function" and self.unstable_api in str(node.target):
+                    print(f"❌unstable_api:{self.unstable_api} found in node: {node}")
+                    sys.exit(-1)
+
+        # Check the main gm and all nested GraphModules
+        modules = [gm]
+        modules += [
+            m
+            for _, m in gm.named_modules()
+            if isinstance(m, torch.fx.GraphModule) and m is not gm
+        ]
+        for m in modules:
+            check_graph(m)
+
+        print(
+            f"✅ Model passed: no occurrence of '{self.unstable_api}' found in graph nodes."
+        )
 
     def synchronize(self):
         # Synchronize CUDA operations if available

@@ -23,7 +23,6 @@ class WrapperModule(torch.nn.Module):
         super().__init__()
         self.submodule = submodule
 
-
     def forward(self, *args):
         print("Args:")
         print(args)
@@ -53,8 +52,8 @@ def submodule_hook(submodule: torch.fx.GraphModule):
 
 
 class TestExtractorSubmodule(unittest.TestCase):
-    '''Test extraction of submodules from traced GraphModule.'''
-    
+    """Test extraction of submodules from traced GraphModule."""
+
     def test_sample(self):
         module = MyModule()
 
@@ -81,7 +80,7 @@ class TestExtractorSubmodule(unittest.TestCase):
             clamp = mul.clamp(min = 0.0, max = 1.0);  mul = None
             return clamp
         """
-        
+
         inp = torch.tensor([1.0, 2.0, 3.0, 4.0])
         source_output = module(inp)
         traced_output = symbolic_traced(inp)
@@ -115,7 +114,7 @@ class TestExtractorSubmodule(unittest.TestCase):
         """
 
         # Save to workspace, assumed workspace is ./tmp/
-        os.environ['GRAPH_NET_EXTRACT_WORKSPACE'] = './tmp/'
+        os.environ["GRAPH_NET_EXTRACT_WORKSPACE"] = "./tmp/"
         folded = extract("demo_test", False)(folded)
         wrapper_output = folded(inp)
 

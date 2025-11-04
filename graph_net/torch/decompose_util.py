@@ -21,7 +21,10 @@ def fold_range_to_submodule(
     assert len(get_body_nodes()) > 0
 
     for idx, original_node in enumerate(get_body_nodes()):
-        assert original_node.op not in {"placeholder", "output"}, f"{idx=}, {original_node.op=}"
+        assert original_node.op not in {
+            "placeholder",
+            "output",
+        }, f"{idx=}, {original_node.op=}"
 
     submodule_input_nodes, submodule_output_nodes = _get_submodule_inputs_and_outputs(
         original_gm=original_gm,
@@ -41,7 +44,7 @@ def fold_range_to_submodule(
             if node.op == "call_module":
                 used_module_names.add(node.target)
         return {
-            name:module
+            name: module
             for name, module in original_gm.named_modules()
             if name in used_module_names
         }
@@ -71,15 +74,19 @@ def fold_range_to_submodule(
     # This assumes no submodules are being extracted, or they are handled separately
     new_sub_module = torch.fx.GraphModule(get_name2sub_submodule(), new_graph)
     if submodule_hook is not None:
-        new_sub_module = submodule_hook(new_sub_module) 
+        new_sub_module = submodule_hook(new_sub_module)
     # Replace with submodule node
-    original_gm.add_submodule(submodule_name, new_sub_module) 
+    original_gm.add_submodule(submodule_name, new_sub_module)
     with original_gm.graph.inserting_after(get_body_nodes()[-1]):
-        submodule_node = original_gm.graph.call_module(submodule_name, tuple(get_input_nodes())) 
+        submodule_node = original_gm.graph.call_module(
+            submodule_name, tuple(get_input_nodes())
+        )
     prev_node = submodule_node
     for idx, original_output in enumerate(get_output_nodes()):
         with original_gm.graph.inserting_after(prev_node):
-            new_output_node = original_gm.graph.call_function(operator.getitem, (submodule_node, idx))
+            new_output_node = original_gm.graph.call_function(
+                operator.getitem, (submodule_node, idx)
+            )
             node_map[original_output] = new_output_node
             prev_node = new_output_node
 
@@ -95,11 +102,13 @@ def fold_range_to_submodule(
 
     return original_gm
 
+
 @dataclass
 class NodeProducedOrConsumedCountCtx:
-    node2before_input:  defaultdict(int)
-    node2body:          defaultdict(int)
-    node2after_output:  defaultdict(int)
+    node2before_input: defaultdict(int)
+    node2body: defaultdict(int)
+    node2after_output: defaultdict(int)
+
 
 def _get_submodule_inputs_and_outputs(
     original_gm: torch.fx.GraphModule,
@@ -112,9 +121,11 @@ def _get_submodule_inputs_and_outputs(
         defaultdict(int),
     )
     node_list = list(original_gm.graph.nodes)
+
     def get_related_node(node):
         yield from node.args
         yield node
+
     for node in node_list[0:start_node_idx]:
         for related_node in get_related_node(node):
             count_ctx.node2before_input[related_node] += 1

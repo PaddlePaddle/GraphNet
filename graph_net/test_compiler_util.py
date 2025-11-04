@@ -9,6 +9,8 @@ import numpy as np
 from dataclasses import dataclass
 from contextlib import contextmanager
 
+from graph_net import path_utils
+
 
 @dataclass
 class DurationBox:
@@ -23,6 +25,10 @@ def naive_timer(duration_box, synchronizer_func):
     synchronizer_func()
     end = time.time()
     duration_box.value = (end - start) * 1000  # Store in milliseconds
+
+
+def is_gpu_device(device):
+    return "cuda" in device or "dcu" in device
 
 
 def get_device_utilization(device_id, device_count, synchronizer_func):
@@ -98,6 +104,7 @@ def get_device_utilization(device_id, device_count, synchronizer_func):
                     gpu_uuid, pid, used_memory = line.split(", ")
                     if gpu_uuid == selected_gpu_uuid and int(pid) != current_pid:
                         other_tasks.append(line)
+            # Note: in docker container, the current_pid maybe different from that captured by nvidia-smi.
             print(
                 f"Note: There are {len(other_tasks)} tasks running on GPU {selected_gpu_id} (current_pid:{current_pid}).",
                 file=sys.stderr,
@@ -169,24 +176,33 @@ def print_basic_config(args, hardware_name, compile_framework_version):
     )
 
 
-def print_running_status(args, eager_success, compiled_success):
+def print_running_status(args, eager_success, compiled_success=None):
     def convert_to_str(b):
         return "success" if b else "failed"
 
-    print_with_log_prompt(
-        "[Result][status]",
-        f"eager:{convert_to_str(eager_success)} compiled:{convert_to_str(compiled_success)}",
-        args.log_prompt,
-    )
+    if compiled_success is not None:
+        print_with_log_prompt(
+            "[Result][status]",
+            f"eager:{convert_to_str(eager_success)} compiled:{convert_to_str(compiled_success)}",
+            args.log_prompt,
+        )
+    else:
+        print_with_log_prompt(
+            "[Result][status]",
+            f"eager:{convert_to_str(eager_success)}",
+            args.log_prompt,
+        )
 
 
 def print_times_and_speedup(args, eager_stats, compiled_stats):
-    print_with_log_prompt(
-        "[Performance][eager]:", json.dumps(eager_stats), args.log_prompt
-    )
-    print_with_log_prompt(
-        "[Performance][compiled]:", json.dumps(compiled_stats), args.log_prompt
-    )
+    if not eager_stats:
+        print_with_log_prompt(
+            "[Performance][eager]:", json.dumps(eager_stats), args.log_prompt
+        )
+    if not compiled_stats:
+        print_with_log_prompt(
+            "[Performance][compiled]:", json.dumps(compiled_stats), args.log_prompt
+        )
 
     e2e_speedup = 0
     gpu_speedup = 0
@@ -197,7 +213,7 @@ def print_times_and_speedup(args, eager_stats, compiled_stats):
     if eager_e2e_time_ms > 0 and compiled_e2e_time_ms > 0:
         e2e_speedup = eager_e2e_time_ms / compiled_e2e_time_ms
 
-    if "cuda" in args.device:
+    if is_gpu_device(args.device):
         eager_gpu_time_ms = eager_stats.get("gpu", {}).get("mean", 0)
         compiled_gpu_time_ms = compiled_stats.get("gpu", {}).get("mean", 0)
 
@@ -207,7 +223,7 @@ def print_times_and_speedup(args, eager_stats, compiled_stats):
     if e2e_speedup > 0:
         print_with_log_prompt("[Speedup][e2e]:", f"{e2e_speedup:.5f}", args.log_prompt)
 
-    if "cuda" in args.device and gpu_speedup > 0:
+    if is_gpu_device(args.device) and gpu_speedup > 0:
         print_with_log_prompt("[Speedup][gpu]:", f"{gpu_speedup:.5f}", args.log_prompt)
 
 
@@ -318,3 +334,16 @@ def check_allclose(
             compiled_out=compiled_out,
             **kwargs,
         )
+
+
+def get_allow_samples(allow_list):
+    if allow_list is None:
+        return None
+
+    assert os.path.isfile(allow_list), f"{allow_list} is not a regular file."
+    graphnet_root = path_utils.get_graphnet_root()
+    print(f"graphnet_root: {graphnet_root}", file=sys.stderr, flush=True)
+    test_samples = []
+    with open(allow_list, "r") as f:
+        for line in f.readlines():
+            test_samples.append(os.path.join(graphnet_root, line.strip()))

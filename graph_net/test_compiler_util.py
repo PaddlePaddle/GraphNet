@@ -347,3 +347,5 @@ def get_allow_samples(allow_list):
     with open(allow_list, "r") as f:
         for line in f.readlines():
             test_samples.append(os.path.join(graphnet_root, line.strip()))
+
+    return test_samples

@@ -180,11 +180,11 @@ def print_running_status(args, eager_success, compiled_success=None):
 
 
 def print_times_and_speedup(args, eager_stats, compiled_stats):
-    if not eager_stats:
+    if eager_stats:
         print_with_log_prompt(
             "[Performance][eager]:", json.dumps(eager_stats), args.log_prompt
         )
-    if not compiled_stats:
+    if compiled_stats:
         print_with_log_prompt(
             "[Performance][compiled]:", json.dumps(compiled_stats), args.log_prompt
         )

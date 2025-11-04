@@ -3,7 +3,8 @@ import torch
 import unittest
 
 from torch.fx import symbolic_trace
-from graph_net.torch.extractor import extract, fold_range_to_submodule
+from graph_net.torch.extractor import extract
+from graph_net.torch.decompose_utils import fold_range_to_submodule
 
 
 # Simple module for demonstration

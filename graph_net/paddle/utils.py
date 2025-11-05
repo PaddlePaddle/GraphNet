@@ -139,6 +139,7 @@ def convert_to_valid_number(data_type, value):
 
 
 def convert_meta_classes_to_tensors(file_path):
+    current_device = paddle.device.get_device()
     for name, cls in _get_classes(file_path):
         attrs = {
             k: v
@@ -159,7 +160,7 @@ def convert_meta_classes_to_tensors(file_path):
             "info": {
                 "shape": attrs.get("shape", []),
                 "dtype": data_type,
-                "device": attrs.get("device", "gpu"),
+                "device": attrs.get("device", current_device),
                 "mean": convert_to_valid_number(data_type, attrs.get("mean", None)),
                 "std": convert_to_valid_number(data_type, attrs.get("std", None)),
                 "min_val": convert_to_valid_number(data_type, attrs.get("min_val", 0)),

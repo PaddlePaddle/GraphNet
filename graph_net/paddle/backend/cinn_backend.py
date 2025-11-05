@@ -19,5 +19,6 @@ class CinnBackend(GraphCompilerBackend):
         if (
             paddle.device.is_compiled_with_cuda()
             or paddle.device.is_compiled_with_rocm()
+            or paddle.device.is_compiled_with_xpu()
         ):
             paddle.device.synchronize()

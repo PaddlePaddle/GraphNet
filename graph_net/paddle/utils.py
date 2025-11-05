@@ -213,10 +213,11 @@ def replay_tensor(info):
         ).to(device)
     else:
         if mean is not None and std is not None:
-            tensor = paddle.empty(shape=shape, dtype=dtype)
-            paddle.nn.init.trunc_normal_(
-                tensor=tensor, mean=mean, std=std, a=min_val, b=max_val
+            tensor = paddle.empty(shape=shape, dtype="float32")
+            initializer = paddle.nn.initializer.TruncatedNormal(
+                mean=mean, std=std, a=min_val, b=max_val
             )
+            initializer(tensor)
             return tensor.to(dtype).to(device)
         else:
             return (

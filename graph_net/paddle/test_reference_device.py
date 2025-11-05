@@ -10,6 +10,7 @@ from contextlib import redirect_stdout, redirect_stderr
 import json
 import re
 import sys
+import traceback
 from graph_net import test_compiler_util
 from graph_net.paddle import utils
 from graph_net.paddle import test_compiler
@@ -24,7 +25,9 @@ def test_single_model(args):
     ref_log = Path(args.reference_dir) / f"{model_name}.log"
     with open(ref_log, "w", encoding="utf-8") as log_f:
         with redirect_stdout(log_f), redirect_stderr(log_f):
-            synchronizer_func = test_compiler.get_synchronizer_func(args)
+            compiler = test_compiler.get_compiler_backend(args)
+            test_compiler.check_and_print_gpu_utilization(compiler)
+
             input_dict = test_compiler.get_input_dict(args.model_path)
             model = test_compiler.get_model(args.model_path)
             model.eval()
@@ -42,11 +45,12 @@ def test_single_model(args):
             success = False
             time_stats = {}
             try:
-                compiled_model = test_compiler.get_compiled_model(args, model)
+                input_spec = test_compiler.get_input_spec(args.model_path)
+                compiled_model = compiler(model, input_spec)
                 outputs, time_stats = test_compiler.measure_performance(
                     lambda: compiled_model(**input_dict),
                     args,
-                    synchronizer_func,
+                    compiler,
                     profile=False,
                 )
                 success = True
@@ -58,9 +62,9 @@ def test_single_model(args):
                 )
 
             test_compiler_util.print_running_status(args, success)
-
-            ref_dump = Path(args.reference_dir) / f"{model_name}.pdout"
-            paddle.save(outputs, str(ref_dump))
+            if success:
+                ref_dump = Path(args.reference_dir) / f"{model_name}.pdout"
+                paddle.save(outputs, str(ref_dump))
             test_compiler_util.print_with_log_prompt(
                 "[Performance][eager]:", json.dumps(time_stats), args.log_prompt
             )
@@ -89,7 +93,7 @@ def test_multi_models(args):
                     f"--trials {args.trials}",
                     f"--log-prompt {args.log_prompt}",
                     f"--seed {args.seed}",
-                    f"--reference-dump-dir {args.reference_dir}",
+                    f"--reference-dir {args.reference_dir}",
                 ]
             )
             cmd_ret = os.system(cmd)
@@ -110,7 +114,7 @@ def test_multi_models(args):
 def main(args):
     assert os.path.isdir(args.model_path)
     assert args.compiler in {"cinn", "nope"}
-    assert args.device in ["cuda", "dcu", "cpu"]
+    assert args.device in ["cuda"]
 
     test_compiler.set_seed(random_seed=args.seed)
 
@@ -118,18 +122,6 @@ def main(args):
     ref_dump_dir.mkdir(parents=True, exist_ok=True)
 
     if path_utils.is_single_model_dir(args.model_path):
-        if paddle.device.is_compiled_with_cuda():
-            device_id = int(paddle.device.get_device().split(":")[-1])
-            device_count = paddle.device.cuda.device_count()
-            gpu_util, mem_util = test_compiler_util.get_device_utilization(
-                device_id, device_count, test_compiler.get_synchronizer_func(args)
-            )
-            if gpu_util is not None and mem_util is not None:
-                print(
-                    f"Device status: gpu_id {device_id}, gpu_util {gpu_util:.2f}%, mem_util {mem_util:.2f}%",
-                    file=sys.stderr,
-                    flush=True,
-                )
         test_single_model(args)
     else:
         test_multi_models(args)

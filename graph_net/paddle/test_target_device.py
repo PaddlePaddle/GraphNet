@@ -9,6 +9,7 @@ from pathlib import Path
 import json
 import re
 import sys
+import traceback
 from graph_net import test_compiler_util
 from graph_net.paddle import utils
 from graph_net.paddle import test_compiler
@@ -43,7 +44,9 @@ def read_time_stats(log_path):
 
 
 def test_single_model(args):
-    synchronizer_func = test_compiler.get_synchronizer_func(args)
+    compiler = test_compiler.get_compiler_backend(args)
+    test_compiler.check_and_print_gpu_utilization(compiler)
+
     input_dict = test_compiler.get_input_dict(args.model_path)
     model = test_compiler.get_model(args.model_path)
     model.eval()
@@ -57,9 +60,10 @@ def test_single_model(args):
     success = False
     time_stats = {}
     try:
-        compiled_model = test_compiler.get_compiled_model(args, model)
+        input_spec = test_compiler.get_input_spec(args.model_path)
+        compiled_model = compiler(model, input_spec)
         outputs, time_stats = test_compiler.measure_performance(
-            lambda: compiled_model(**input_dict), args, synchronizer_func, profile=False
+            lambda: compiled_model(**input_dict), args, compiler, profile=False
         )
         success = True
     except Exception as e:

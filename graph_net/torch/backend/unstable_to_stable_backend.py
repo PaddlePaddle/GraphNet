@@ -3,6 +3,7 @@ import torch
 import sys
 import inspect
 from .graph_compiler_backend import GraphCompilerBackend
+from ..fx_graph_serialize_util import serialize_graph_module_to_str
 
 
 class UnstableToStableBackend(GraphCompilerBackend):
@@ -34,7 +35,6 @@ class UnstableToStableBackend(GraphCompilerBackend):
         Convert torch._C._nn.avg_pool2d to torch.nn.functional.avg_pool2d
         """
         import torch.nn.functional as F
-        import re
 
         # Update graph nodes: replace torch._C._nn.avg_pool2d with F.avg_pool2d
         for node in gm.graph.nodes:
@@ -49,19 +49,6 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         # Recompile the graph
         gm.recompile()
-
-        # Replace in code string for check_unstable_api
-        # Since torch._C._nn.avg_pool2d and F.avg_pool2d are the same object,
-        # the generated code will still show torch._C._nn.avg_pool2d
-        # So we need to replace it in the code string
-        code = gm.code
-        modified_code = re.sub(
-            r"torch\._C\._nn\.avg_pool2d\(",
-            "torch.nn.functional.avg_pool2d(",
-            code,
-        )
-        # Store modified code for check_unstable_api to use
-        gm._code_for_check = modified_code
 
         return gm
 
@@ -82,8 +69,8 @@ class UnstableToStableBackend(GraphCompilerBackend):
         Do NOT modify, remove, or bypass this check under any circumstances.
         """
 
-        # Use modified code if available (from conversion), otherwise use original code
-        graph_text = getattr(gm, "_code_for_check", None) or gm.code
+        # Use serialized code to check for unstable APIs
+        graph_text = serialize_graph_module_to_str(gm)
         # Search for the unstable API substring
         if self.unstable_api in graph_text:
             count = graph_text.count(self.unstable_api)

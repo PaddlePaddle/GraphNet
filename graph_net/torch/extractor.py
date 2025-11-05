@@ -4,6 +4,7 @@ import json
 import shutil
 from typing import Union, Callable
 from . import utils
+from .fx_graph_serialize_util import serialize_graph_module_to_str
 
 torch._dynamo.config.capture_scalar_outputs = True
 torch._dynamo.config.capture_dynamic_output_shape_ops = True
@@ -89,9 +90,9 @@ class GraphExtractor:
         assert input_idx == len(sample_inputs)
         if self.mut_graph_codes is not None:
             assert isinstance(self.mut_graph_codes, list)
-            self.mut_graph_codes.append(gm.code)
+            self.mut_graph_codes.append(serialize_graph_module_to_str(gm))
         # 3. Generate and save model code
-        base_code = gm.code
+        base_code = serialize_graph_module_to_str(gm)
         # gm.graph.print_tabular()
         write_code = utils.apply_templates(base_code)
         with open(os.path.join(subgraph_path, "model.py"), "w") as fp:

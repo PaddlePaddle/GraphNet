@@ -25,4 +25,3 @@ def serialize_graph_module_to_str(gm: torch.fx.GraphModule) -> str:
         code,
     )
     return code
-

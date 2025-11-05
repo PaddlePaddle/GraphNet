@@ -51,7 +51,11 @@ def get_hardward_name(args):
             hardware = next(
                 match.group(2)
                 for line in output.splitlines()
-                if (match := re.match(r"XPU\s+(\d+):\s+(.+?)\s+\(UUID:\s*([^)]+)\)", line))
+                if (
+                    match := re.match(
+                        r"XPU\s+(\d+):\s+(.+?)\s+\(UUID:\s*([^)]+)\)", line
+                    )
+                )
             )
         except Exception as e:
             pass

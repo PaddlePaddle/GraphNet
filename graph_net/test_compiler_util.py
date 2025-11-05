@@ -86,8 +86,8 @@ def get_device_utilization(device_id, device_count, synchronizer_func):
                 line
                 for line in output.split("\n")
                 if line.strip()
-                and (line.split(", ")[0] == selected_gpu_uuid)
-                and (line.split(", ")[1] != current_pid)
+                if line.split(", ")[0] == selected_gpu_uuid
+                if line.split(", ")[1] != current_pid
             ]
             # Note: in docker container, the current_pid maybe different from that captured by nvidia-smi.
             print(

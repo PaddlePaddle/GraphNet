@@ -17,6 +17,21 @@ from graph_net.paddle import utils
 from graph_net import path_utils
 from graph_net import test_compiler_util
 
+from graph_net.paddle.backend.graph_compiler_backend import GraphCompilerBackend
+from graph_net.paddle.backend.cinn_backend import CinnBackend
+from graph_net.paddle.backend.nope_backend import NopeBackend
+
+
+registry_backend = {
+    "cinn": CinnBackend(),
+    "nope": NopeBackend(),
+}
+
+
+def get_compiler_backend(args) -> GraphCompilerBackend:
+    assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
+    return registry_backend[args.compiler]
+
 
 def set_seed(random_seed):
     paddle.seed(random_seed)
@@ -60,10 +75,6 @@ def load_class_from_file(file_path: str, class_name: str):
     return model_class
 
 
-def get_synchronizer_func(args):
-    return paddle.device.synchronize
-
-
 def get_model(model_path):
     model_class = load_class_from_file(
         f"{model_path}/model.py", class_name="GraphModule"
@@ -91,22 +102,6 @@ def get_input_spec(model_path):
     return input_spec
 
 
-def get_compiled_model(args, model):
-    if args.compiler == "nope":
-        return model
-    input_spec = get_input_spec(args.model_path)
-    build_strategy = paddle.static.BuildStrategy()
-    compiled_model = paddle.jit.to_static(
-        model,
-        input_spec=input_spec,
-        build_strategy=build_strategy,
-        full_graph=True,
-    )
-    compiled_model.eval()
-    program = compiled_model.forward.concrete_program.main_program
-    return compiled_model
-
-
 def get_static_model(args, model):
     static_model = paddle.jit.to_static(
         model,
@@ -119,7 +114,7 @@ def get_static_model(args, model):
     return static_model
 
 
-def measure_performance(model_call, args, synchronizer_func, profile=False):
+def measure_performance(model_call, args, compiler, profile=False):
     runtime_seed = 1024
     stats = {}
 
@@ -129,7 +124,7 @@ def measure_performance(model_call, args, synchronizer_func, profile=False):
     # Warmup runs
     for _ in range(args.warmup):
         model_call()
-    synchronizer_func()
+    compiler.synchronize()
 
     hardware_name = get_hardward_name(args)
     print(
@@ -152,7 +147,7 @@ def measure_performance(model_call, args, synchronizer_func, profile=False):
         for i in range(args.trials):
             # End-to-end timing (naive_timer)
             duration_box = test_compiler_util.DurationBox(-1)
-            with test_compiler_util.naive_timer(duration_box, synchronizer_func):
+            with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
                 # GPU-only timing (CUDA Events)
                 start_event = paddle.device.Event(enable_timing=True)
                 end_event = paddle.device.Event(enable_timing=True)
@@ -178,7 +173,7 @@ def measure_performance(model_call, args, synchronizer_func, profile=False):
         e2e_times = []
         for i in range(args.trials):
             duration_box = test_compiler_util.DurationBox(-1)
-            with test_compiler_util.naive_timer(duration_box, synchronizer_func):
+            with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
                 model_call()
             print(
                 f"Trial {i + 1}: e2e={duration_box.value:.4f} ms",
@@ -247,8 +242,25 @@ def check_outputs(args, expected_out, compiled_out):
         )
 
 
+def check_and_print_gpu_utilization(compiler):
+    if paddle.device.is_compiled_with_cuda():
+        device_id = int(paddle.device.get_device().split(":")[-1])
+        device_count = paddle.device.cuda.device_count()
+        gpu_util, mem_util = test_compiler_util.get_device_utilization(
+            device_id, device_count, compiler.synchronize
+        )
+        if gpu_util is not None and mem_util is not None:
+            print(
+                f"Device status: gpu_id {device_id}, gpu_util {gpu_util:.2f}%, mem_util {mem_util:.2f}%",
+                file=sys.stderr,
+                flush=True,
+            )
+
+
 def test_single_model(args):
-    synchronizer_func = get_synchronizer_func(args)
+    compiler = get_compiler_backend(args)
+    check_and_print_gpu_utilization(compiler)
+
     input_dict = get_input_dict(args.model_path)
     model = get_model(args.model_path)
     model.eval()
@@ -264,7 +276,7 @@ def test_single_model(args):
         print("Run model in eager mode.", file=sys.stderr, flush=True)
         static_model = get_static_model(args, model)
         expected_out, eager_time_stats = measure_performance(
-            lambda: static_model(**input_dict), args, synchronizer_func, profile=False
+            lambda: static_model(**input_dict), args, compiler, profile=False
         )
         eager_success = True
     except Exception as e:
@@ -279,9 +291,10 @@ def test_single_model(args):
     compiled_time_stats = {}
     try:
         print("Run model in compiled mode.", file=sys.stderr, flush=True)
-        compiled_model = get_compiled_model(args, model)
+        input_spec = get_input_spec(args.model_path)
+        compiled_model = compiler(model, input_spec)
         compiled_out, compiled_time_stats = measure_performance(
-            lambda: compiled_model(**input_dict), args, synchronizer_func, profile=False
+            lambda: compiled_model(**input_dict), args, compiler, profile=False
         )
         compiled_success = True
     except Exception as e:
@@ -415,18 +428,6 @@ def main(args):
     set_seed(random_seed=initalize_seed)
 
     if path_utils.is_single_model_dir(args.model_path):
-        if paddle.device.is_compiled_with_cuda():
-            device_id = int(paddle.device.get_device().split(":")[-1])
-            device_count = paddle.device.cuda.device_count()
-            gpu_util, mem_util = test_compiler_util.get_device_utilization(
-                device_id, device_count, get_synchronizer_func(args)
-            )
-            if gpu_util is not None and mem_util is not None:
-                print(
-                    f"Device status: gpu_id {device_id}, gpu_util {gpu_util:.2f}%, mem_util {mem_util:.2f}%",
-                    file=sys.stderr,
-                    flush=True,
-                )
         test_single_model(args)
     else:
         test_multi_models(args)

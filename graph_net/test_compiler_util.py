@@ -53,29 +53,17 @@ def get_device_utilization(device_id, device_count, synchronizer_func):
                 synchronizer_func()
                 time.sleep(1)
 
-                output = (
-                    subprocess.check_output(
-                        [
-                            "nvidia-smi",
-                            f"--query-gpu=index,gpu_uuid,utilization.gpu,memory.used,memory.total",
-                            "--format=csv,noheader,nounits",
-                        ]
-                    )
-                    .decode()
-                    .strip()
+                cmd = [
+                    "nvidia-smi",
+                    f"--query-gpu=index,gpu_uuid,utilization.gpu,memory.used,memory.total",
+                    "--format=csv,noheader,nounits",
+                ]
+                output = subprocess.check_output(cmd).decode().strip()
+                _, selected_gpu_uuid, gpu_util, used_mem, mem_total = next(
+                    line.split(", ")
+                    for line in output.split("\n")
+                    if line.strip() and int(line.split(", ")[0]) == selected_gpu_id
                 )
-                for line in output.split("\n"):
-                    if line.strip():
-                        (
-                            gpu_id,
-                            selected_gpu_uuid,
-                            gpu_util,
-                            used_mem,
-                            mem_total,
-                        ) = line.split(", ")
-                        if int(gpu_id) == selected_gpu_id:
-                            break
-
                 gpu_util = float(gpu_util)
                 mem_util = float(used_mem) * 100 / float(mem_total)
                 print(
@@ -88,22 +76,19 @@ def get_device_utilization(device_id, device_count, synchronizer_func):
                 max_mem_util = mem_util if mem_util > max_mem_util else max_mem_util
 
             other_tasks = []
-            output = (
-                subprocess.check_output(
-                    [
-                        "nvidia-smi",
-                        f"--query-compute-apps=gpu_uuid,pid,used_memory",
-                        "--format=csv,noheader,nounits",
-                    ]
-                )
-                .decode()
-                .strip()
-            )
-            for line in output.split("\n"):
-                if line.strip():
-                    gpu_uuid, pid, used_memory = line.split(", ")
-                    if gpu_uuid == selected_gpu_uuid and int(pid) != current_pid:
-                        other_tasks.append(line)
+            cmd = [
+                "nvidia-smi",
+                f"--query-compute-apps=gpu_uuid,pid,used_memory",
+                "--format=csv,noheader,nounits",
+            ]
+            output = subprocess.check_output(cmd).decode().strip()
+            other_tasks = [
+                line
+                for line in output.split("\n")
+                if line.strip()
+                and (line.split(", ")[0] == selected_gpu_uuid)
+                and (line.split(", ")[1] != current_pid)
+            ]
             # Note: in docker container, the current_pid maybe different from that captured by nvidia-smi.
             print(
                 f"Note: There are {len(other_tasks)} tasks running on GPU {selected_gpu_id} (current_pid:{current_pid}).",
@@ -195,11 +180,11 @@ def print_running_status(args, eager_success, compiled_success=None):
 
 
 def print_times_and_speedup(args, eager_stats, compiled_stats):
-    if not eager_stats:
+    if eager_stats:
         print_with_log_prompt(
             "[Performance][eager]:", json.dumps(eager_stats), args.log_prompt
         )
-    if not compiled_stats:
+    if compiled_stats:
         print_with_log_prompt(
             "[Performance][compiled]:", json.dumps(compiled_stats), args.log_prompt
         )

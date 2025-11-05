@@ -3,6 +3,7 @@ import torch
 import sys
 import inspect
 from .graph_compiler_backend import GraphCompilerBackend
+from ..fx_graph_serialize_util import serialize_graph_module_to_str
 
 
 class UnstableToStableBackend(GraphCompilerBackend):
@@ -29,8 +30,32 @@ class UnstableToStableBackend(GraphCompilerBackend):
     **Stable API reference link:**
     """
 
+    def avg_pool2d_to_avg_pool2d(self, gm):
+        """
+        Convert torch._C._nn.avg_pool2d to torch.nn.functional.avg_pool2d
+        """
+        import torch.nn.functional as F
+
+        # Update graph nodes: replace torch._C._nn.avg_pool2d with F.avg_pool2d
+        for node in gm.graph.nodes:
+            if node.op == "call_function":
+                if (
+                    hasattr(node.target, "__module__")
+                    and hasattr(node.target, "__name__")
+                    and node.target.__module__ == "torch._C._nn"
+                    and node.target.__name__ == "avg_pool2d"
+                ):
+                    node.target = F.avg_pool2d
+
+        # Recompile the graph
+        gm.recompile()
+
+        return gm
+
     def unstable_to_stable(self, gm):
-        # TODO
+        # Convert based on unstable_api environment variable
+        if self.unstable_api == "torch._C._nn.avg_pool2d":
+            gm = self.avg_pool2d_to_avg_pool2d(gm)
         return gm
 
     def check_unstable_api(self, gm):
@@ -44,7 +69,8 @@ class UnstableToStableBackend(GraphCompilerBackend):
         Do NOT modify, remove, or bypass this check under any circumstances.
         """
 
-        graph_text = gm.code
+        # Use serialized code to check for unstable APIs
+        graph_text = serialize_graph_module_to_str(gm)
         # Search for the unstable API substring
         if self.unstable_api in graph_text:
             count = graph_text.count(self.unstable_api)

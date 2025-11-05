@@ -266,9 +266,11 @@ def test_single_model(args):
             expected_out = (expected_out,)
 
         eager_types = [
-            str(x.dtype).replace("torch.", "")
-            if isinstance(x, torch.Tensor)
-            else type(x).__name__
+            (
+                str(x.dtype).replace("torch.", "")
+                if isinstance(x, torch.Tensor)
+                else type(x).__name__
+            )
             for x in expected_out
         ]
         print(
@@ -308,9 +310,11 @@ def test_single_model(args):
             compiled_out = tuple(item.to("cpu").to("cuda") for item in compiled_out)
 
         compiled_types = [
-            str(x.dtype).replace("torch.", "")
-            if isinstance(x, torch.Tensor)
-            else type(x).__name__
+            (
+                str(x.dtype).replace("torch.", "")
+                if isinstance(x, torch.Tensor)
+                else type(x).__name__
+            )
             for x in compiled_out
         ]
         print(

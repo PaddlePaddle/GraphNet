@@ -21,7 +21,7 @@ def test_single_model(args):
     model_name = test_compiler_util.get_model_name(args.model_path)
     if test_compiler_util.get_subgraph_tag(args.model_path):
         model_name += "_" + test_compiler_util.get_subgraph_tag(args.model_path)
-    ref_log = Path(args.reference_dump_dir) / f"{model_name}.log"
+    ref_log = Path(args.reference_dir) / f"{model_name}.log"
     with open(ref_log, "w", encoding="utf-8") as log_f:
         with redirect_stdout(log_f), redirect_stderr(log_f):
             synchronizer_func = test_compiler.get_synchronizer_func(args)
@@ -59,7 +59,7 @@ def test_single_model(args):
 
             test_compiler_util.print_running_status(args, success)
 
-            ref_dump = Path(args.reference_dump_dir) / f"{model_name}.pdout"
+            ref_dump = Path(args.reference_dir) / f"{model_name}.pdout"
             paddle.save(outputs, str(ref_dump))
             test_compiler_util.print_with_log_prompt(
                 "[Performance][eager]:", json.dumps(time_stats), args.log_prompt
@@ -89,7 +89,7 @@ def test_multi_models(args):
                     f"--trials {args.trials}",
                     f"--log-prompt {args.log_prompt}",
                     f"--seed {args.seed}",
-                    f"--reference-dump-dir {args.reference_dump_dir}",
+                    f"--reference-dump-dir {args.reference_dir}",
                 ]
             )
             cmd_ret = os.system(cmd)
@@ -114,7 +114,7 @@ def main(args):
 
     test_compiler.set_seed(random_seed=args.seed)
 
-    ref_dump_dir = Path(args.reference_dump_dir)
+    ref_dump_dir = Path(args.reference_dir)
     ref_dump_dir.mkdir(parents=True, exist_ok=True)
 
     if path_utils.is_single_model_dir(args.model_path):
@@ -185,7 +185,7 @@ if __name__ == "__main__":
         help="Random seed (default: 123)",
     )
     parser.add_argument(
-        "--reference-dump-dir",
+        "--reference-dir",
         type=str,
         required=True,
         help="Directory to save reference stats log and outputs",

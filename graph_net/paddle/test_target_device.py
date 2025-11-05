@@ -9,7 +9,6 @@ from pathlib import Path
 import json
 import re
 import sys
-import json
 from graph_net import test_compiler_util
 from graph_net.paddle import utils
 from graph_net.paddle import test_compiler
@@ -76,8 +75,8 @@ def test_single_model(args):
     if test_compiler_util.get_subgraph_tag(args.model_path):
         model_name += "_" + test_compiler_util.get_subgraph_tag(args.model_path)
 
-    ref_dump = Path(args.reference_dump_dir) / f"{model_name}.pdout"
-    ref_log = Path(args.reference_dump_dir) / f"{model_name}.log"
+    ref_dump = Path(args.reference_dir) / f"{model_name}.pdout"
+    ref_log = Path(args.reference_dir) / f"{model_name}.log"
     ref_out = paddle.load(str(ref_dump))
     ref_time_stats = read_time_stats(ref_log)
 
@@ -97,12 +96,12 @@ def find_log_files(directory):
 
 
 def main(args):
-    assert os.path.isdir(args.reference_dump_dir)
+    assert os.path.isdir(args.reference_dir)
 
     sample_idx = 0
     failed_samples = []
 
-    for log_file in find_log_files(args.reference_dump_dir):
+    for log_file in find_log_files(args.reference_dir):
         config = read_config(log_file)
         model_path = config.get("model_path")
         vars(args)["model_path"] = model_path
@@ -132,7 +131,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Test compiler performance.")
     parser.add_argument(
-        "--reference-dump-dir",
+        "--reference-dir",
         type=str,
         required=True,
         help="Directory to load reference stats log and outputs",

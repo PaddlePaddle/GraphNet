@@ -12,6 +12,8 @@ import numpy as np
 import random
 import platform
 import traceback
+import subprocess
+import re
 
 from graph_net.paddle import utils
 from graph_net import path_utils
@@ -40,12 +42,25 @@ def set_seed(random_seed):
 
 
 def get_hardward_name(args):
+    hardware = "unknown"
     if test_compiler_util.is_gpu_device(args.device):
         hardware = paddle.device.cuda.get_device_name(0)
+    elif args.device == "xpu":
+        try:
+            output = subprocess.check_output(["xpu-smi", "-L"], text=True)
+            hardware = next(
+                match.group(2)
+                for line in output.splitlines()
+                if (
+                    match := re.match(
+                        r"XPU\s+(\d+):\s+(.+?)\s+\(UUID:\s*([^)]+)\)", line
+                    )
+                )
+            )
+        except Exception as e:
+            pass
     elif args.device == "cpu":
         hardware = platform.processor()
-    else:
-        hardware = "unknown"
     return hardware
 
 
@@ -422,7 +437,7 @@ def test_multi_models(args):
 def main(args):
     assert os.path.isdir(args.model_path)
     assert args.compiler in {"cinn", "nope"}
-    assert args.device in ["cuda", "dcu", "cpu"]
+    assert args.device in ["cuda", "dcu", "xpu", "cpu"]
 
     initalize_seed = 123
     set_seed(random_seed=initalize_seed)

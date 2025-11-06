@@ -49,20 +49,19 @@ def get_device_utilization(device_id, device_count, synchronizer_func):
                 flush=True,
             )
             selected_gpu_uuid, max_gpu_util, max_mem_util = None, 0.0, 0.0
-            for i in range(5):
+            for i in range(3):
                 synchronizer_func()
                 time.sleep(1)
 
                 cmd = [
                     "nvidia-smi",
+                    f"--id={selected_gpu_id}",
                     f"--query-gpu=index,gpu_uuid,utilization.gpu,memory.used,memory.total",
                     "--format=csv,noheader,nounits",
                 ]
                 output = subprocess.check_output(cmd).decode().strip()
                 _, selected_gpu_uuid, gpu_util, used_mem, mem_total = next(
-                    line.split(", ")
-                    for line in output.split("\n")
-                    if line.strip() and int(line.split(", ")[0]) == selected_gpu_id
+                    line.split(", ") for line in output.split("\n") if line.strip()
                 )
                 gpu_util = float(gpu_util)
                 mem_util = float(used_mem) * 100 / float(mem_total)
@@ -78,6 +77,7 @@ def get_device_utilization(device_id, device_count, synchronizer_func):
             other_tasks = []
             cmd = [
                 "nvidia-smi",
+                f"--id={selected_gpu_id}",
                 f"--query-compute-apps=gpu_uuid,pid,used_memory",
                 "--format=csv,noheader,nounits",
             ]
@@ -86,8 +86,7 @@ def get_device_utilization(device_id, device_count, synchronizer_func):
                 line
                 for line in output.split("\n")
                 if line.strip()
-                and (line.split(", ")[0] == selected_gpu_uuid)
-                and (line.split(", ")[1] != current_pid)
+                if line.split(", ")[1] != current_pid
             ]
             # Note: in docker container, the current_pid maybe different from that captured by nvidia-smi.
             print(

@@ -19,14 +19,12 @@ def serialize_graph_module_to_str(gm: torch.fx.GraphModule) -> str:
     """
     code = gm.code
     # Replace torch._C._nn.avg_pool2d with torch.nn.functional.avg_pool2d
-    code = re.sub(
-        r"torch\._C\._nn\.avg_pool2d\(",
-        "torch.nn.functional.avg_pool2d(",
-        code,
-    )
-    code = re.sub(
-        r"torch\._C\._fft\.fft_rfft\(",
-        "torch.fft.rfft(",
-        code,
-    )
+    replacements = [
+        (r"torch\._C\._nn\.avg_pool2d\(", "torch.nn.functional.avg_pool2d("),
+        (r"torch\._C\._fft\.fft_irfft\(", "torch.fft.irfft("),
+        (r"torch\._C\._fft\.fft_rfft\(", "torch.fft.rfft("),
+        # Add new rules to this list as needed
+    ]
+    for pattern, repl in replacements:
+        code = re.sub(pattern, repl, code)
     return code

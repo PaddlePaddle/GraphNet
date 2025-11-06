@@ -107,3 +107,50 @@ def get_skep_model_and_inputs(model_name, text, dtype):
     tokenizer = TokenizerClass.from_pretrained(model_name)
     inputs = tokenizer(text, return_tensors="pd")
     return model, inputs
+
+
+def get_bart_model_and_inputs(model_name, text, dtype):
+    from paddlenlp.transformers import BartModel, BartTokenizer
+
+    model = BartModel.from_pretrained(model_name)
+    model.eval()
+
+    tokenizer = BartTokenizer.from_pretrained(model_name)
+
+    inputs = tokenizer(
+        text,
+        return_tensors="pd",
+        padding=True,
+        truncation=True,
+        max_length=512,
+    )
+    inputs.pop("token_type_ids", None)
+
+    return model, inputs
+
+
+def get_xlnet_model_and_inputs(model_name, text, dtype):
+    import paddle
+    from paddlenlp.transformers import XLNetModel, XLNetTokenizer, XLNetConfig
+
+    config = XLNetConfig.from_pretrained(model_name)
+    model = XLNetModel(config)
+    if dtype == "float16":
+        model = model.astype(paddle.float16)
+    model.eval()
+
+    tokenizer = XLNetTokenizer.from_pretrained(model_name)
+
+    enc = tokenizer(
+        text,
+        return_tensors="pd",
+        padding=True,
+        truncation=True,
+        # max_length=512,
+    )
+    if "attention_mask" not in enc:
+        input_ids = enc["input_ids"]
+        pad_id = tokenizer.pad_token_id
+        enc["attention_mask"] = (input_ids != pad_id).astype("int64")
+
+    return model, enc

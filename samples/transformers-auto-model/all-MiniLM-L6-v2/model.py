@@ -306,7 +306,8 @@ class GraphModule(torch.nn.Module):
         embeddings_3 = torch.nn.functional.dropout(embeddings_2, 0.1, False, False)
         embeddings_2 = None
         add_1 = getitem_1 + 0
-        attention_mask = torch.ones((1, add_1))
+        device = embeddings_3.device
+        attention_mask = torch.ones((1, add_1), device=device)
         add_1 = None
         getitem_4 = attention_mask[
             (slice(None, None, None), None, None, slice(None, None, None))

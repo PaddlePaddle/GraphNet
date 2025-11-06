@@ -17,5 +17,6 @@
         "arxiv:1512.03385",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "other"
 }

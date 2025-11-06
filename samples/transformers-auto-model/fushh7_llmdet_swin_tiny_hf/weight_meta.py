@@ -26,6 +26,8 @@ class Program_weight_tensor_meta_L_stack0_init_reference_points:
     mean = 0.347
     std = 0.339
     data = None
+    min_val = 0.0
+    max_val = 1.0
 
 
 class Program_weight_tensor_meta_L_stack0_intermediate_reference_points:
@@ -36,6 +38,8 @@ class Program_weight_tensor_meta_L_stack0_intermediate_reference_points:
     mean = 0.347
     std = 0.339
     data = None
+    min_val = 0.0
+    max_val = 1.0
 
 
 class Program_weight_tensor_meta_L_attention_mask_:

@@ -57,5 +57,6 @@
         "license:cc-by-4.0",
         "model-index",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "audio"
 }

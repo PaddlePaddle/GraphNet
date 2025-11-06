@@ -15,5 +15,6 @@
         "co2_eq_emissions",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

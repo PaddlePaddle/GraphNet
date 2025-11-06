@@ -18,5 +18,6 @@
         "arxiv:2402.14318",
         "license:gemma",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from contextlib import contextmanager
 import time
 import json
+import random
 import numpy as np
 import platform
 from graph_net.torch.backend.graph_compiler_backend import GraphCompilerBackend
@@ -20,6 +21,15 @@ from graph_net.torch.backend.xla_backend import XlaBackend
 from graph_net.torch.backend.inductor_backend import InductorBackend
 from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
+from graph_net.torch.backend.nope_backend import NopeBackend
+from graph_net.torch.backend.unstable_to_stable_backend import UnstableToStableBackend
+from todo_works.range_decomposer_validator.range_decomposer_validator import (
+    RangeDecomposerValidatorBackend,
+)
+from graph_net.test_compiler_util import generate_allclose_configs
+from graph_net import test_compiler_util
+from graph_net import path_utils
+
 
 registry_backend = {
     "tvm": TvmBackend(),
@@ -27,7 +37,19 @@ registry_backend = {
     "inductor": InductorBackend(),
     "tensorrt": TensorRTBackend(),
     "bladedisc": BladeDISCBackend(),
+    "nope": NopeBackend(),
+    "unstable_to_stable": UnstableToStableBackend(),
+    "range_decomposer_validator": RangeDecomposerValidatorBackend(),
 }
+
+
+def set_seed(random_seed):
+    random.seed(random_seed)
+    np.random.seed(random_seed)
+    torch.manual_seed(random_seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(random_seed)
+        torch.cuda.manual_seed_all(random_seed)
 
 
 def load_class_from_file(
@@ -142,7 +164,7 @@ def measure_performance(model_call, args, compiler):
             e2e_times.append(duration_box.value)
             gpu_times.append(gpu_time_ms)
             print(
-                f"Trial {i + 1}: e2e={duration_box.value:.2f} ms, gpu={gpu_time_ms:.3g} ms",
+                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms, gpu={gpu_time_ms:.5f} ms",
                 file=sys.stderr,
                 flush=True,
             )
@@ -164,7 +186,7 @@ def measure_performance(model_call, args, compiler):
             with naive_timer(duration_box, compiler.synchronize):
                 model_call()
             print(
-                f"Trial {i + 1}: e2e={duration_box.value:.2f} ms",
+                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms",
                 file=sys.stderr,
                 flush=True,
             )
@@ -178,12 +200,6 @@ def test_single_model(args):
     compiler = get_compiler_backend(args)
     input_dict = get_input_dict(args)
     model = get_model(args, args.device)
-    if args.compiler == "xla":
-        xla_model = get_model(args, "xla")
-        compiled_model = compiler(xla_model)
-    else:
-        compiled_model = compiler(model)
-
     model_path = os.path.normpath(args.model_path)
     print(f"{args.log_prompt} [Processing] {model_path}", file=sys.stderr, flush=True)
     model_name = os.path.basename(model_path)
@@ -218,7 +234,7 @@ def test_single_model(args):
     )
 
     version_str = "unknown"
-    if args.compiler == "inductor":
+    if args.compiler in ["inductor", "unstable_to_stable"]:
         version_str = torch.__version__
     elif args.compiler in ["tvm", "xla", "tensorrt", "bladedisc"]:
         # Assuming compiler object has a version attribute
@@ -229,7 +245,11 @@ def test_single_model(args):
         flush=True,
     )
 
-    failure = False
+    runtime_seed = 1024
+    eager_failure = False
+    expected_out = None
+    eager_types = []
+    eager_stats = {}
 
     try:
         eager_model_call = lambda: model(**input_dict)
@@ -239,14 +259,18 @@ def test_single_model(args):
             file=sys.stderr,
             flush=True,
         )
+
+        torch.manual_seed(runtime_seed)
         expected_out = eager_model_call()
         if not isinstance(expected_out, tuple):
             expected_out = (expected_out,)
 
         eager_types = [
-            str(x.dtype).replace("torch.", "")
-            if isinstance(x, torch.Tensor)
-            else type(x).__name__
+            (
+                str(x.dtype).replace("torch.", "")
+                if isinstance(x, torch.Tensor)
+                else type(x).__name__
+            )
             for x in expected_out
         ]
         print(
@@ -254,7 +278,23 @@ def test_single_model(args):
             file=sys.stderr,
             flush=True,
         )
+    except (TypeError, RuntimeError) as e:
+        print(f"Eager model execution failed: {str(e)}", file=sys.stderr)
+        eager_failure = True
 
+    compiled_failure = False
+    compiled_model = None
+    compiled_types = []
+    compiled_stats = {}
+
+    try:
+        if args.compiler == "xla":
+            xla_model = get_model(args, "xla")
+            compiled_model = compiler(xla_model)
+        else:
+            compiled_model = compiler(model)
+
+        torch.manual_seed(runtime_seed)
         compiled_model_call = lambda: compiled_model(**input_dict)
         compiled_stats = measure_performance(compiled_model_call, args, compiler)
         print(
@@ -262,6 +302,7 @@ def test_single_model(args):
             file=sys.stderr,
             flush=True,
         )
+
         compiled_out = compiled_model_call()
         if not isinstance(compiled_out, tuple):
             compiled_out = (compiled_out,)
@@ -269,9 +310,11 @@ def test_single_model(args):
             compiled_out = tuple(item.to("cpu").to("cuda") for item in compiled_out)
 
         compiled_types = [
-            str(x.dtype).replace("torch.", "")
-            if isinstance(x, torch.Tensor)
-            else type(x).__name__
+            (
+                str(x.dtype).replace("torch.", "")
+                if isinstance(x, torch.Tensor)
+                else type(x).__name__
+            )
             for x in compiled_out
         ]
         print(
@@ -288,20 +331,28 @@ def test_single_model(args):
             f"{args.log_prompt} [DataType] eager:{eager_types} compiled:{compiled_types} match:{type_match}",
             file=sys.stderr,
         )
-        if not type_match:
-            failure = True
-        else:
-            compare_correctness(expected_out, compiled_out, args)
-    except (TypeError, RuntimeError) as e:
-        print(f"Model execution failed: {str(e)}", file=sys.stderr)
-        failure = True
+        # "datatype not match" is recognized as a large loss in analysis process later,
+        # and is not recognized as a failure here.
 
-    e2e_speedup = 0
-    gpu_speedup = 0
-    if failure:
+        # print(f"eager out: {expected_out}")
+        # print(f"compiled out: {compiled_out}")
+        compare_correctness(expected_out, compiled_out, args)
+
+    except (TypeError, RuntimeError) as e:
+        print(f"Compiled model execution failed: {str(e)}", file=sys.stderr)
+        compiled_failure = True
+
+    if eager_failure:
         print(f"{args.log_prompt} [Result] status: failed", file=sys.stderr, flush=True)
         print(
-            f"{args.log_prompt} [Fail due to compile error or datatype do not match.]",
+            f"{args.log_prompt} [Fail due to eager model execution error.]",
+            file=sys.stderr,
+            flush=True,
+        )
+    elif compiled_failure:
+        print(f"{args.log_prompt} [Result] status: failed", file=sys.stderr, flush=True)
+        print(
+            f"{args.log_prompt} [Fail due to compiled model execution error.]",
             file=sys.stderr,
             flush=True,
         )
@@ -309,6 +360,10 @@ def test_single_model(args):
         print(
             f"{args.log_prompt} [Result] status: success", file=sys.stderr, flush=True
         )
+
+        e2e_speedup = 0
+        gpu_speedup = 0
+
         eager_e2e_time_ms = eager_stats.get("e2e", {}).get("mean", 0)
         compiled_e2e_time_ms = compiled_stats.get("e2e", {}).get("mean", 0)
 
@@ -348,31 +403,21 @@ def print_and_store_cmp(key, cmp_func, args, expected_out, compiled_out, **kwarg
 
 
 def compare_correctness(expected_out, compiled_out, args):
-    cmp_configs = [
-        ("[equal]", get_cmp_equal, {}),
-        ("[all_close_atol8_rtol8]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-8}),
-        ("[all_close_atol8_rtol5]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-5}),
-        ("[all_close_atol5_rtol5]", get_cmp_all_close, {"atol": 1e-5, "rtol": 1e-5}),
-        ("[all_close_atol3_rtol2]", get_cmp_all_close, {"atol": 1e-3, "rtol": 1e-2}),
-        ("[all_close_atol2_rtol1]", get_cmp_all_close, {"atol": 1e-2, "rtol": 1e-1}),
-        ("[max_diff]", get_cmp_max_diff, {}),
-        ("[mean_diff]", get_cmp_mean_diff, {}),
-        ("[diff_count_atol8_rtol8]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-8}),
-        ("[diff_count_atol8_rtol5]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-5}),
-        ("[diff_count_atol5_rtol5]", get_cmp_diff_count, {"atol": 1e-5, "rtol": 1e-5}),
-        ("[diff_count_atol3_rtol2]", get_cmp_diff_count, {"atol": 1e-3, "rtol": 1e-2}),
-        ("[diff_count_atol2_rtol1]", get_cmp_diff_count, {"atol": 1e-2, "rtol": 1e-1}),
-    ]
+    test_compiler_util.check_equal(
+        args,
+        expected_out,
+        compiled_out,
+        cmp_equal_func=get_cmp_equal,
+    )
 
-    for key, func, kwargs in cmp_configs:
-        print_and_store_cmp(
-            key=key,
-            cmp_func=func,
-            args=args,
-            expected_out=expected_out,
-            compiled_out=compiled_out,
-            **kwargs,
-        )
+    test_compiler_util.check_allclose(
+        args,
+        expected_out,
+        compiled_out,
+        cmp_all_close_func=get_cmp_all_close,
+        cmp_max_diff_func=get_cmp_max_diff,
+        cmp_mean_diff_func=get_cmp_mean_diff,
+    )
 
 
 def get_cmp_equal(expected_out, compiled_out):
@@ -417,28 +462,44 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 
 def test_multi_models(args):
-    for model_path in get_recursively_model_path(args.model_path):
-        cmd_list = [
-            sys.executable,
-            "-m",
-            "graph_net.torch.test_compiler",
-            "--model-path",
-            model_path,
-            "--compiler",
-            args.compiler,
-            "--warmup",
-            str(args.warmup),
-            "--trials",
-            str(args.trials),
-            "--log-prompt",
-            args.log_prompt,
-            "--device",
-            args.device,
-        ]
+    test_samples = None
+    if args.allow_list is not None:
+        assert os.path.isfile(args.allow_list)
+        graphnet_root = path_utils.get_graphnet_root()
+        print(f"graphnet_root: {graphnet_root}")
+        test_samples = []
+        with open(args.allow_list, "r") as f:
+            for line in f.readlines():
+                test_samples.append(os.path.join(graphnet_root, line.strip()))
 
-        cmd = " ".join(cmd_list)
-        cmd_ret = os.system(cmd)
-        assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+    sample_idx = 0
+    failed_samples = []
+    for model_path in path_utils.get_recursively_model_path(args.model_path):
+        if test_samples is None or os.path.abspath(model_path) in test_samples:
+            print(f"[{sample_idx}] test_compiler, model_path: {model_path}")
+            cmd = " ".join(
+                [
+                    sys.executable,
+                    "-m graph_net.torch.test_compiler",
+                    f"--model-path {model_path}",
+                    f"--compiler {args.compiler}",
+                    f"--device {args.device}",
+                    f"--warmup {args.warmup}",
+                    f"--trials {args.trials}",
+                    f"--log-prompt {args.log_prompt}",
+                ]
+            )
+            cmd_ret = os.system(cmd)
+            # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+            if cmd_ret != 0:
+                failed_samples.append(model_path)
+            sample_idx += 1
+
+    print(
+        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples."
+    )
+    for model_path in failed_samples:
+        print(f"- {model_path}")
 
 
 def get_recursively_model_path(root_dir):
@@ -464,6 +525,9 @@ def is_single_model_dir(model_dir):
 
 def main(args):
     assert os.path.isdir(args.model_path)
+
+    initalize_seed = 123
+    set_seed(random_seed=initalize_seed)
     if is_single_model_dir(args.model_path):
         test_single_model(args)
     else:
@@ -504,6 +568,13 @@ if __name__ == "__main__":
         required=False,
         default="graph-net-test-compiler-log",
         help="Log prompt for performance log filtering.",
+    )
+    parser.add_argument(
+        "--allow-list",
+        type=str,
+        required=False,
+        default=None,
+        help="Path to samples list, each line contains a sample path",
     )
     args = parser.parse_args()
     main(args=args)

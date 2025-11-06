@@ -12,5 +12,6 @@
         "zero-shot-object-detection",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "other"
 }

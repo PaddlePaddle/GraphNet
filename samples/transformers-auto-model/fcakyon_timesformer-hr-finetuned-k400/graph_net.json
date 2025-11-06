@@ -16,5 +16,6 @@
         "license:cc-by-nc-4.0",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "other"
 }

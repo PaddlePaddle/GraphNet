@@ -32,7 +32,6 @@ class GraphModule(torch.nn.Module):
         L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_k_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_model_modules_layers_modules_2_modules_self_attn_scaling: torch.Tensor,
         L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_out_proj_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_2_modules_ffn_norm_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_2_modules_feed_forward_modules_w1_parameters_weight_: torch.nn.parameter.Parameter,
@@ -60,7 +59,6 @@ class GraphModule(torch.nn.Module):
         L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_k_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_model_modules_layers_modules_5_modules_self_attn_scaling: torch.Tensor,
         L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_out_proj_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_5_modules_ffn_norm_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_5_modules_feed_forward_modules_w1_parameters_weight_: torch.nn.parameter.Parameter,
@@ -88,7 +86,6 @@ class GraphModule(torch.nn.Module):
         L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_k_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_model_modules_layers_modules_8_modules_self_attn_scaling: torch.Tensor,
         L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_out_proj_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_8_modules_ffn_norm_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_8_modules_feed_forward_modules_w1_parameters_weight_: torch.nn.parameter.Parameter,
@@ -108,7 +105,6 @@ class GraphModule(torch.nn.Module):
         L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_k_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_model_modules_layers_modules_10_modules_self_attn_scaling: torch.Tensor,
         L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_out_proj_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_10_modules_ffn_norm_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_10_modules_feed_forward_modules_w1_parameters_weight_: torch.nn.parameter.Parameter,
@@ -128,7 +124,6 @@ class GraphModule(torch.nn.Module):
         L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_k_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_model_modules_layers_modules_12_modules_self_attn_scaling: torch.Tensor,
         L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_out_proj_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_12_modules_ffn_norm_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_12_modules_feed_forward_modules_w1_parameters_weight_: torch.nn.parameter.Parameter,
@@ -148,7 +143,6 @@ class GraphModule(torch.nn.Module):
         L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_k_layernorm_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_weight_: torch.nn.parameter.Parameter,
-        L_self_modules_model_modules_layers_modules_14_modules_self_attn_scaling: torch.Tensor,
         L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_out_proj_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_14_modules_ffn_norm_parameters_weight_: torch.nn.parameter.Parameter,
         L_self_modules_model_modules_layers_modules_14_modules_feed_forward_modules_w1_parameters_weight_: torch.nn.parameter.Parameter,
@@ -194,9 +188,6 @@ class GraphModule(torch.nn.Module):
         l_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_k_proj_parameters_weight_
         l_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_k_layernorm_parameters_weight_ = L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_k_layernorm_parameters_weight_
         l_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_v_proj_parameters_weight_
-        l_self_modules_model_modules_layers_modules_2_modules_self_attn_scaling = (
-            L_self_modules_model_modules_layers_modules_2_modules_self_attn_scaling
-        )
         l_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_out_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_out_proj_parameters_weight_
         l_self_modules_model_modules_layers_modules_2_modules_ffn_norm_parameters_weight_ = L_self_modules_model_modules_layers_modules_2_modules_ffn_norm_parameters_weight_
         l_self_modules_model_modules_layers_modules_2_modules_feed_forward_modules_w1_parameters_weight_ = L_self_modules_model_modules_layers_modules_2_modules_feed_forward_modules_w1_parameters_weight_
@@ -224,9 +215,6 @@ class GraphModule(torch.nn.Module):
         l_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_k_proj_parameters_weight_
         l_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_k_layernorm_parameters_weight_ = L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_k_layernorm_parameters_weight_
         l_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_v_proj_parameters_weight_
-        l_self_modules_model_modules_layers_modules_5_modules_self_attn_scaling = (
-            L_self_modules_model_modules_layers_modules_5_modules_self_attn_scaling
-        )
         l_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_out_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_out_proj_parameters_weight_
         l_self_modules_model_modules_layers_modules_5_modules_ffn_norm_parameters_weight_ = L_self_modules_model_modules_layers_modules_5_modules_ffn_norm_parameters_weight_
         l_self_modules_model_modules_layers_modules_5_modules_feed_forward_modules_w1_parameters_weight_ = L_self_modules_model_modules_layers_modules_5_modules_feed_forward_modules_w1_parameters_weight_
@@ -254,9 +242,6 @@ class GraphModule(torch.nn.Module):
         l_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_k_proj_parameters_weight_
         l_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_k_layernorm_parameters_weight_ = L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_k_layernorm_parameters_weight_
         l_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_v_proj_parameters_weight_
-        l_self_modules_model_modules_layers_modules_8_modules_self_attn_scaling = (
-            L_self_modules_model_modules_layers_modules_8_modules_self_attn_scaling
-        )
         l_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_out_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_out_proj_parameters_weight_
         l_self_modules_model_modules_layers_modules_8_modules_ffn_norm_parameters_weight_ = L_self_modules_model_modules_layers_modules_8_modules_ffn_norm_parameters_weight_
         l_self_modules_model_modules_layers_modules_8_modules_feed_forward_modules_w1_parameters_weight_ = L_self_modules_model_modules_layers_modules_8_modules_feed_forward_modules_w1_parameters_weight_
@@ -276,9 +261,6 @@ class GraphModule(torch.nn.Module):
         l_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_k_proj_parameters_weight_
         l_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_k_layernorm_parameters_weight_ = L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_k_layernorm_parameters_weight_
         l_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_v_proj_parameters_weight_
-        l_self_modules_model_modules_layers_modules_10_modules_self_attn_scaling = (
-            L_self_modules_model_modules_layers_modules_10_modules_self_attn_scaling
-        )
         l_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_out_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_out_proj_parameters_weight_
         l_self_modules_model_modules_layers_modules_10_modules_ffn_norm_parameters_weight_ = L_self_modules_model_modules_layers_modules_10_modules_ffn_norm_parameters_weight_
         l_self_modules_model_modules_layers_modules_10_modules_feed_forward_modules_w1_parameters_weight_ = L_self_modules_model_modules_layers_modules_10_modules_feed_forward_modules_w1_parameters_weight_
@@ -298,9 +280,6 @@ class GraphModule(torch.nn.Module):
         l_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_k_proj_parameters_weight_
         l_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_k_layernorm_parameters_weight_ = L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_k_layernorm_parameters_weight_
         l_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_v_proj_parameters_weight_
-        l_self_modules_model_modules_layers_modules_12_modules_self_attn_scaling = (
-            L_self_modules_model_modules_layers_modules_12_modules_self_attn_scaling
-        )
         l_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_out_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_out_proj_parameters_weight_
         l_self_modules_model_modules_layers_modules_12_modules_ffn_norm_parameters_weight_ = L_self_modules_model_modules_layers_modules_12_modules_ffn_norm_parameters_weight_
         l_self_modules_model_modules_layers_modules_12_modules_feed_forward_modules_w1_parameters_weight_ = L_self_modules_model_modules_layers_modules_12_modules_feed_forward_modules_w1_parameters_weight_
@@ -320,9 +299,6 @@ class GraphModule(torch.nn.Module):
         l_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_k_proj_parameters_weight_
         l_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_k_layernorm_parameters_weight_ = L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_k_layernorm_parameters_weight_
         l_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_v_proj_parameters_weight_
-        l_self_modules_model_modules_layers_modules_14_modules_self_attn_scaling = (
-            L_self_modules_model_modules_layers_modules_14_modules_self_attn_scaling
-        )
         l_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_out_proj_parameters_weight_ = L_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_out_proj_parameters_weight_
         l_self_modules_model_modules_layers_modules_14_modules_ffn_norm_parameters_weight_ = L_self_modules_model_modules_layers_modules_14_modules_ffn_norm_parameters_weight_
         l_self_modules_model_modules_layers_modules_14_modules_feed_forward_modules_w1_parameters_weight_ = L_self_modules_model_modules_layers_modules_14_modules_feed_forward_modules_w1_parameters_weight_
@@ -349,80 +325,100 @@ class GraphModule(torch.nn.Module):
             False,
         )
         l_kwargs_input_ids_ = None
-        cache_position = torch.arange(0, 20, device=device(type="cpu"))
+        cache_position = torch.arange(0, 20, device=device(type="cuda", index=0))
         position_ids = cache_position.unsqueeze(0)
         attention_mask = l_kwargs_attention_mask_.to(
-            device=device(type="cpu"), dtype=torch.bool
+            device=device(type="cuda", index=0), dtype=torch.bool
         )
         l_kwargs_attention_mask_ = None
-        kv_arange = torch.arange(20, device=device(type="cpu"))
+        kv_arange = torch.arange(20, device=device(type="cuda", index=0))
         kv_arange += 0
         kv_arange_1 = kv_arange
         kv_arange = None
-        batch_arange = torch.arange(1, device=device(type="cpu"))
-        head_arange = torch.arange(1, device=device(type="cpu"))
-        lazy_load_decompositions = torch._functorch.vmap.lazy_load_decompositions()
+        batch_arange = torch.arange(1, device=device(type="cuda", index=0))
+        head_arange = torch.arange(1, device=device(type="cuda", index=0))
+        lazy_load_decompositions = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions = None
-        _vmap_increment_nesting = torch._C._functorch._vmap_increment_nesting(
+        _vmap_increment_nesting = torch._functorch.predispatch._vmap_increment_nesting(
             1, "error"
         )
         _vmap_increment_nesting = None
-        child = torch._C._functorch._add_batch_dim(batch_arange, 0, 1)
+        child = torch._functorch.predispatch._add_batch_dim(batch_arange, 0, 1)
         batch_arange = None
-        lazy_load_decompositions_1 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_1 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_1 = None
-        _vmap_increment_nesting_1 = torch._C._functorch._vmap_increment_nesting(
-            1, "error"
+        _vmap_increment_nesting_1 = (
+            torch._functorch.predispatch._vmap_increment_nesting(1, "error")
         )
         _vmap_increment_nesting_1 = None
-        child_1 = torch._C._functorch._add_batch_dim(head_arange, 0, 2)
+        child_1 = torch._functorch.predispatch._add_batch_dim(head_arange, 0, 2)
         head_arange = child_1 = None
-        lazy_load_decompositions_2 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_2 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_2 = None
-        _vmap_increment_nesting_2 = torch._C._functorch._vmap_increment_nesting(
-            20, "error"
+        _vmap_increment_nesting_2 = (
+            torch._functorch.predispatch._vmap_increment_nesting(20, "error")
         )
         _vmap_increment_nesting_2 = None
-        child_2 = torch._C._functorch._add_batch_dim(cache_position, 0, 3)
+        child_2 = torch._functorch.predispatch._add_batch_dim(cache_position, 0, 3)
         cache_position = None
-        lazy_load_decompositions_3 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_3 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_3 = None
-        _vmap_increment_nesting_3 = torch._C._functorch._vmap_increment_nesting(
-            20, "error"
+        _vmap_increment_nesting_3 = (
+            torch._functorch.predispatch._vmap_increment_nesting(20, "error")
         )
         _vmap_increment_nesting_3 = None
-        child_3 = torch._C._functorch._add_batch_dim(kv_arange_1, 0, 4)
+        child_3 = torch._functorch.predispatch._add_batch_dim(kv_arange_1, 0, 4)
         kv_arange_1 = None
         result = child_2.new_ones((), dtype=torch.bool)
         le = child_3.le(child_2)
         child_2 = None
-        result_1 = result.__and__(le)
-        result = le = None
-        function_ctx = torch.autograd.function.FunctionCtx()
-        function_ctx = None
+        to_1 = le.to(device(type="cuda", index=0))
+        le = None
+        result_1 = result.__and__(to_1)
+        result = to_1 = None
         index = torch.ops.aten.index(attention_mask, [child, child_3])
         attention_mask = child = child_3 = None
-        result_2 = result_1.__and__(index)
-        result_1 = index = None
-        batched_outputs = torch._C._functorch._remove_batch_dim(result_2, 4, 20, 0)
+        to_2 = index.to(device(type="cuda", index=0))
+        index = None
+        result_2 = result_1.__and__(to_2)
+        result_1 = to_2 = None
+        batched_outputs = torch._functorch.predispatch._remove_batch_dim(
+            result_2, 4, 20, 0
+        )
         result_2 = None
-        _vmap_decrement_nesting = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting = torch._functorch.predispatch._vmap_decrement_nesting()
         _vmap_decrement_nesting = None
-        batched_outputs_1 = torch._C._functorch._remove_batch_dim(
+        batched_outputs_1 = torch._functorch.predispatch._remove_batch_dim(
             batched_outputs, 3, 20, 0
         )
         batched_outputs = None
-        _vmap_decrement_nesting_1 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_1 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_1 = None
-        batched_outputs_2 = torch._C._functorch._remove_batch_dim(
+        batched_outputs_2 = torch._functorch.predispatch._remove_batch_dim(
             batched_outputs_1, 2, 1, 0
         )
         batched_outputs_1 = None
-        _vmap_decrement_nesting_2 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_2 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_2 = None
-        causal_mask = torch._C._functorch._remove_batch_dim(batched_outputs_2, 1, 1, 0)
+        causal_mask = torch._functorch.predispatch._remove_batch_dim(
+            batched_outputs_2, 1, 1, 0
+        )
         batched_outputs_2 = None
-        _vmap_decrement_nesting_3 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_3 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_3 = None
         getitem = l_self_modules_model_modules_pos_emb_buffers_inv_freq_[
             (None, slice(None, None, None), None)
@@ -432,7 +428,7 @@ class GraphModule(torch.nn.Module):
         getitem = None
         expand = float_1.expand(1, -1, 1)
         float_1 = None
-        inv_freq_expanded = expand.to(device(type="cpu"))
+        inv_freq_expanded = expand.to(device(type="cuda", index=0))
         expand = None
         getitem_1 = position_ids[
             (slice(None, None, None), None, slice(None, None, None))
@@ -440,9 +436,6 @@ class GraphModule(torch.nn.Module):
         position_ids = None
         position_ids_expanded = getitem_1.float()
         getitem_1 = None
-        _enter_autocast = torch.amp.autocast_mode._enter_autocast(
-            "cpu", None, False, None
-        )
         float_3 = inv_freq_expanded.float()
         inv_freq_expanded = None
         float_4 = position_ids_expanded.float()
@@ -460,11 +453,9 @@ class GraphModule(torch.nn.Module):
         emb = None
         sin_1 = sin * 1.0
         sin = None
-        _exit_autocast = torch.amp.autocast_mode._exit_autocast(_enter_autocast)
-        _enter_autocast = _exit_autocast = None
-        cos_2 = cos_1.to(dtype=torch.float16)
+        cos_2 = cos_1.to(dtype=torch.bfloat16)
         cos_1 = None
-        sin_2 = sin_1.to(dtype=torch.float16)
+        sin_2 = sin_1.to(dtype=torch.bfloat16)
         sin_1 = None
         _log_api_usage_once = torch._C._log_api_usage_once("python.nn_module")
         _log_api_usage_once = None
@@ -478,14 +469,14 @@ class GraphModule(torch.nn.Module):
         add = None
         hidden_states_1 = hidden_states * rsqrt
         hidden_states = rsqrt = None
-        to_5 = hidden_states_1.to(torch.float16)
+        to_7 = hidden_states_1.to(torch.bfloat16)
         hidden_states_1 = None
         x = (
             l_self_modules_model_modules_layers_modules_0_modules_operator_norm_parameters_weight_
-            * to_5
+            * to_7
         )
         l_self_modules_model_modules_layers_modules_0_modules_operator_norm_parameters_weight_ = (
-            to_5
+            to_7
         ) = None
         linear = torch._C._nn.linear(
             x,
@@ -539,14 +530,14 @@ class GraphModule(torch.nn.Module):
         add_2 = None
         hidden_states_4 = hidden_states_3 * rsqrt_1
         hidden_states_3 = rsqrt_1 = None
-        to_7 = hidden_states_4.to(torch.float16)
+        to_9 = hidden_states_4.to(torch.bfloat16)
         hidden_states_4 = None
         mul_7 = (
             l_self_modules_model_modules_layers_modules_0_modules_ffn_norm_parameters_weight_
-            * to_7
+            * to_9
         )
         l_self_modules_model_modules_layers_modules_0_modules_ffn_norm_parameters_weight_ = (
-            to_7
+            to_9
         ) = None
         linear_2 = torch._C._nn.linear(
             mul_7,
@@ -584,14 +575,14 @@ class GraphModule(torch.nn.Module):
         add_4 = None
         hidden_states_7 = hidden_states_6 * rsqrt_2
         hidden_states_6 = rsqrt_2 = None
-        to_9 = hidden_states_7.to(torch.float16)
+        to_11 = hidden_states_7.to(torch.bfloat16)
         hidden_states_7 = None
         x_2 = (
             l_self_modules_model_modules_layers_modules_1_modules_operator_norm_parameters_weight_
-            * to_9
+            * to_11
         )
         l_self_modules_model_modules_layers_modules_1_modules_operator_norm_parameters_weight_ = (
-            to_9
+            to_11
         ) = None
         linear_5 = torch._C._nn.linear(
             x_2,
@@ -645,14 +636,14 @@ class GraphModule(torch.nn.Module):
         add_6 = None
         hidden_states_10 = hidden_states_9 * rsqrt_3
         hidden_states_9 = rsqrt_3 = None
-        to_11 = hidden_states_10.to(torch.float16)
+        to_13 = hidden_states_10.to(torch.bfloat16)
         hidden_states_10 = None
         mul_14 = (
             l_self_modules_model_modules_layers_modules_1_modules_ffn_norm_parameters_weight_
-            * to_11
+            * to_13
         )
         l_self_modules_model_modules_layers_modules_1_modules_ffn_norm_parameters_weight_ = (
-            to_11
+            to_13
         ) = None
         linear_7 = torch._C._nn.linear(
             mul_14,
@@ -690,14 +681,14 @@ class GraphModule(torch.nn.Module):
         add_8 = None
         hidden_states_13 = hidden_states_12 * rsqrt_4
         hidden_states_12 = rsqrt_4 = None
-        to_13 = hidden_states_13.to(torch.float16)
+        to_15 = hidden_states_13.to(torch.bfloat16)
         hidden_states_13 = None
         mul_17 = (
             l_self_modules_model_modules_layers_modules_2_modules_operator_norm_parameters_weight_
-            * to_13
+            * to_15
         )
         l_self_modules_model_modules_layers_modules_2_modules_operator_norm_parameters_weight_ = (
-            to_13
+            to_15
         ) = None
         linear_10 = torch._C._nn.linear(
             mul_17,
@@ -720,14 +711,14 @@ class GraphModule(torch.nn.Module):
         add_9 = None
         hidden_states_15 = hidden_states_14 * rsqrt_5
         hidden_states_14 = rsqrt_5 = None
-        to_15 = hidden_states_15.to(torch.float16)
+        to_17 = hidden_states_15.to(torch.bfloat16)
         hidden_states_15 = None
         mul_19 = (
             l_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_q_layernorm_parameters_weight_
-            * to_15
+            * to_17
         )
         l_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_q_layernorm_parameters_weight_ = (
-            to_15
+            to_17
         ) = None
         query_states = mul_19.transpose(1, 2)
         mul_19 = None
@@ -752,14 +743,14 @@ class GraphModule(torch.nn.Module):
         add_10 = None
         hidden_states_17 = hidden_states_16 * rsqrt_6
         hidden_states_16 = rsqrt_6 = None
-        to_17 = hidden_states_17.to(torch.float16)
+        to_19 = hidden_states_17.to(torch.bfloat16)
         hidden_states_17 = None
         mul_21 = (
             l_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_k_layernorm_parameters_weight_
-            * to_17
+            * to_19
         )
         l_self_modules_model_modules_layers_modules_2_modules_self_attn_modules_k_layernorm_parameters_weight_ = (
-            to_17
+            to_19
         ) = None
         key_states = mul_21.transpose(1, 2)
         mul_21 = None
@@ -836,26 +827,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 20, None),
             )
         ]
-        query = q_embed.contiguous()
-        q_embed = None
-        key_1 = key.contiguous()
-        key = None
-        value_1 = value.contiguous()
-        value = None
-        item = (
-            l_self_modules_model_modules_layers_modules_2_modules_self_attn_scaling.item()
-        )
-        l_self_modules_model_modules_layers_modules_2_modules_self_attn_scaling = None
         attn_output = torch._C._nn.scaled_dot_product_attention(
-            query,
-            key_1,
-            value_1,
+            q_embed,
+            key,
+            value,
             attn_mask=attention_mask_1,
             dropout_p=0.0,
-            scale=item,
+            scale=0.125,
             is_causal=False,
         )
-        query = key_1 = value_1 = attention_mask_1 = item = None
+        q_embed = key = value = attention_mask_1 = None
         transpose_8 = attn_output.transpose(1, 2)
         attn_output = None
         attn_output_1 = transpose_8.contiguous()
@@ -882,14 +863,14 @@ class GraphModule(torch.nn.Module):
         add_14 = None
         hidden_states_22 = hidden_states_21 * rsqrt_7
         hidden_states_21 = rsqrt_7 = None
-        to_19 = hidden_states_22.to(torch.float16)
+        to_21 = hidden_states_22.to(torch.bfloat16)
         hidden_states_22 = None
         mul_27 = (
             l_self_modules_model_modules_layers_modules_2_modules_ffn_norm_parameters_weight_
-            * to_19
+            * to_21
         )
         l_self_modules_model_modules_layers_modules_2_modules_ffn_norm_parameters_weight_ = (
-            to_19
+            to_21
         ) = None
         linear_14 = torch._C._nn.linear(
             mul_27,
@@ -927,14 +908,14 @@ class GraphModule(torch.nn.Module):
         add_16 = None
         hidden_states_25 = hidden_states_24 * rsqrt_8
         hidden_states_24 = rsqrt_8 = None
-        to_21 = hidden_states_25.to(torch.float16)
+        to_23 = hidden_states_25.to(torch.bfloat16)
         hidden_states_25 = None
         x_4 = (
             l_self_modules_model_modules_layers_modules_3_modules_operator_norm_parameters_weight_
-            * to_21
+            * to_23
         )
         l_self_modules_model_modules_layers_modules_3_modules_operator_norm_parameters_weight_ = (
-            to_21
+            to_23
         ) = None
         linear_17 = torch._C._nn.linear(
             x_4,
@@ -988,14 +969,14 @@ class GraphModule(torch.nn.Module):
         add_18 = None
         hidden_states_28 = hidden_states_27 * rsqrt_9
         hidden_states_27 = rsqrt_9 = None
-        to_23 = hidden_states_28.to(torch.float16)
+        to_25 = hidden_states_28.to(torch.bfloat16)
         hidden_states_28 = None
         mul_34 = (
             l_self_modules_model_modules_layers_modules_3_modules_ffn_norm_parameters_weight_
-            * to_23
+            * to_25
         )
         l_self_modules_model_modules_layers_modules_3_modules_ffn_norm_parameters_weight_ = (
-            to_23
+            to_25
         ) = None
         linear_19 = torch._C._nn.linear(
             mul_34,
@@ -1033,14 +1014,14 @@ class GraphModule(torch.nn.Module):
         add_20 = None
         hidden_states_31 = hidden_states_30 * rsqrt_10
         hidden_states_30 = rsqrt_10 = None
-        to_25 = hidden_states_31.to(torch.float16)
+        to_27 = hidden_states_31.to(torch.bfloat16)
         hidden_states_31 = None
         x_6 = (
             l_self_modules_model_modules_layers_modules_4_modules_operator_norm_parameters_weight_
-            * to_25
+            * to_27
         )
         l_self_modules_model_modules_layers_modules_4_modules_operator_norm_parameters_weight_ = (
-            to_25
+            to_27
         ) = None
         linear_22 = torch._C._nn.linear(
             x_6,
@@ -1094,14 +1075,14 @@ class GraphModule(torch.nn.Module):
         add_22 = None
         hidden_states_34 = hidden_states_33 * rsqrt_11
         hidden_states_33 = rsqrt_11 = None
-        to_27 = hidden_states_34.to(torch.float16)
+        to_29 = hidden_states_34.to(torch.bfloat16)
         hidden_states_34 = None
         mul_41 = (
             l_self_modules_model_modules_layers_modules_4_modules_ffn_norm_parameters_weight_
-            * to_27
+            * to_29
         )
         l_self_modules_model_modules_layers_modules_4_modules_ffn_norm_parameters_weight_ = (
-            to_27
+            to_29
         ) = None
         linear_24 = torch._C._nn.linear(
             mul_41,
@@ -1139,14 +1120,14 @@ class GraphModule(torch.nn.Module):
         add_24 = None
         hidden_states_37 = hidden_states_36 * rsqrt_12
         hidden_states_36 = rsqrt_12 = None
-        to_29 = hidden_states_37.to(torch.float16)
+        to_31 = hidden_states_37.to(torch.bfloat16)
         hidden_states_37 = None
         mul_44 = (
             l_self_modules_model_modules_layers_modules_5_modules_operator_norm_parameters_weight_
-            * to_29
+            * to_31
         )
         l_self_modules_model_modules_layers_modules_5_modules_operator_norm_parameters_weight_ = (
-            to_29
+            to_31
         ) = None
         linear_27 = torch._C._nn.linear(
             mul_44,
@@ -1169,14 +1150,14 @@ class GraphModule(torch.nn.Module):
         add_25 = None
         hidden_states_39 = hidden_states_38 * rsqrt_13
         hidden_states_38 = rsqrt_13 = None
-        to_31 = hidden_states_39.to(torch.float16)
+        to_33 = hidden_states_39.to(torch.bfloat16)
         hidden_states_39 = None
         mul_46 = (
             l_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_q_layernorm_parameters_weight_
-            * to_31
+            * to_33
         )
         l_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_q_layernorm_parameters_weight_ = (
-            to_31
+            to_33
         ) = None
         query_states_1 = mul_46.transpose(1, 2)
         mul_46 = None
@@ -1201,14 +1182,14 @@ class GraphModule(torch.nn.Module):
         add_26 = None
         hidden_states_41 = hidden_states_40 * rsqrt_14
         hidden_states_40 = rsqrt_14 = None
-        to_33 = hidden_states_41.to(torch.float16)
+        to_35 = hidden_states_41.to(torch.bfloat16)
         hidden_states_41 = None
         mul_48 = (
             l_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_k_layernorm_parameters_weight_
-            * to_33
+            * to_35
         )
         l_self_modules_model_modules_layers_modules_5_modules_self_attn_modules_k_layernorm_parameters_weight_ = (
-            to_33
+            to_35
         ) = None
         key_states_1 = mul_48.transpose(1, 2)
         mul_48 = None
@@ -1261,7 +1242,7 @@ class GraphModule(torch.nn.Module):
         k_embed_1 = None
         hidden_states_42 = getitem_29.expand(1, 8, 2, 20, 64)
         getitem_29 = None
-        key_2 = hidden_states_42.reshape(1, 16, 20, 64)
+        key_1 = hidden_states_42.reshape(1, 16, 20, 64)
         hidden_states_42 = None
         getitem_30 = value_states_1[
             (
@@ -1275,7 +1256,7 @@ class GraphModule(torch.nn.Module):
         value_states_1 = None
         hidden_states_43 = getitem_30.expand(1, 8, 2, 20, 64)
         getitem_30 = None
-        value_2 = hidden_states_43.reshape(1, 16, 20, 64)
+        value_1 = hidden_states_43.reshape(1, 16, 20, 64)
         hidden_states_43 = None
         attention_mask_2 = causal_mask[
             (
@@ -1285,26 +1266,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 20, None),
             )
         ]
-        query_1 = q_embed_1.contiguous()
-        q_embed_1 = None
-        key_3 = key_2.contiguous()
-        key_2 = None
-        value_3 = value_2.contiguous()
-        value_2 = None
-        item_1 = (
-            l_self_modules_model_modules_layers_modules_5_modules_self_attn_scaling.item()
-        )
-        l_self_modules_model_modules_layers_modules_5_modules_self_attn_scaling = None
         attn_output_3 = torch._C._nn.scaled_dot_product_attention(
-            query_1,
-            key_3,
-            value_3,
+            q_embed_1,
+            key_1,
+            value_1,
             attn_mask=attention_mask_2,
             dropout_p=0.0,
-            scale=item_1,
+            scale=0.125,
             is_causal=False,
         )
-        query_1 = key_3 = value_3 = attention_mask_2 = item_1 = None
+        q_embed_1 = key_1 = value_1 = attention_mask_2 = None
         transpose_16 = attn_output_3.transpose(1, 2)
         attn_output_3 = None
         attn_output_4 = transpose_16.contiguous()
@@ -1331,14 +1302,14 @@ class GraphModule(torch.nn.Module):
         add_30 = None
         hidden_states_46 = hidden_states_45 * rsqrt_15
         hidden_states_45 = rsqrt_15 = None
-        to_35 = hidden_states_46.to(torch.float16)
+        to_37 = hidden_states_46.to(torch.bfloat16)
         hidden_states_46 = None
         mul_54 = (
             l_self_modules_model_modules_layers_modules_5_modules_ffn_norm_parameters_weight_
-            * to_35
+            * to_37
         )
         l_self_modules_model_modules_layers_modules_5_modules_ffn_norm_parameters_weight_ = (
-            to_35
+            to_37
         ) = None
         linear_31 = torch._C._nn.linear(
             mul_54,
@@ -1376,14 +1347,14 @@ class GraphModule(torch.nn.Module):
         add_32 = None
         hidden_states_49 = hidden_states_48 * rsqrt_16
         hidden_states_48 = rsqrt_16 = None
-        to_37 = hidden_states_49.to(torch.float16)
+        to_39 = hidden_states_49.to(torch.bfloat16)
         hidden_states_49 = None
         x_8 = (
             l_self_modules_model_modules_layers_modules_6_modules_operator_norm_parameters_weight_
-            * to_37
+            * to_39
         )
         l_self_modules_model_modules_layers_modules_6_modules_operator_norm_parameters_weight_ = (
-            to_37
+            to_39
         ) = None
         linear_34 = torch._C._nn.linear(
             x_8,
@@ -1437,14 +1408,14 @@ class GraphModule(torch.nn.Module):
         add_34 = None
         hidden_states_52 = hidden_states_51 * rsqrt_17
         hidden_states_51 = rsqrt_17 = None
-        to_39 = hidden_states_52.to(torch.float16)
+        to_41 = hidden_states_52.to(torch.bfloat16)
         hidden_states_52 = None
         mul_61 = (
             l_self_modules_model_modules_layers_modules_6_modules_ffn_norm_parameters_weight_
-            * to_39
+            * to_41
         )
         l_self_modules_model_modules_layers_modules_6_modules_ffn_norm_parameters_weight_ = (
-            to_39
+            to_41
         ) = None
         linear_36 = torch._C._nn.linear(
             mul_61,
@@ -1482,14 +1453,14 @@ class GraphModule(torch.nn.Module):
         add_36 = None
         hidden_states_55 = hidden_states_54 * rsqrt_18
         hidden_states_54 = rsqrt_18 = None
-        to_41 = hidden_states_55.to(torch.float16)
+        to_43 = hidden_states_55.to(torch.bfloat16)
         hidden_states_55 = None
         x_10 = (
             l_self_modules_model_modules_layers_modules_7_modules_operator_norm_parameters_weight_
-            * to_41
+            * to_43
         )
         l_self_modules_model_modules_layers_modules_7_modules_operator_norm_parameters_weight_ = (
-            to_41
+            to_43
         ) = None
         linear_39 = torch._C._nn.linear(
             x_10,
@@ -1543,14 +1514,14 @@ class GraphModule(torch.nn.Module):
         add_38 = None
         hidden_states_58 = hidden_states_57 * rsqrt_19
         hidden_states_57 = rsqrt_19 = None
-        to_43 = hidden_states_58.to(torch.float16)
+        to_45 = hidden_states_58.to(torch.bfloat16)
         hidden_states_58 = None
         mul_68 = (
             l_self_modules_model_modules_layers_modules_7_modules_ffn_norm_parameters_weight_
-            * to_43
+            * to_45
         )
         l_self_modules_model_modules_layers_modules_7_modules_ffn_norm_parameters_weight_ = (
-            to_43
+            to_45
         ) = None
         linear_41 = torch._C._nn.linear(
             mul_68,
@@ -1588,14 +1559,14 @@ class GraphModule(torch.nn.Module):
         add_40 = None
         hidden_states_61 = hidden_states_60 * rsqrt_20
         hidden_states_60 = rsqrt_20 = None
-        to_45 = hidden_states_61.to(torch.float16)
+        to_47 = hidden_states_61.to(torch.bfloat16)
         hidden_states_61 = None
         mul_71 = (
             l_self_modules_model_modules_layers_modules_8_modules_operator_norm_parameters_weight_
-            * to_45
+            * to_47
         )
         l_self_modules_model_modules_layers_modules_8_modules_operator_norm_parameters_weight_ = (
-            to_45
+            to_47
         ) = None
         linear_44 = torch._C._nn.linear(
             mul_71,
@@ -1618,14 +1589,14 @@ class GraphModule(torch.nn.Module):
         add_41 = None
         hidden_states_63 = hidden_states_62 * rsqrt_21
         hidden_states_62 = rsqrt_21 = None
-        to_47 = hidden_states_63.to(torch.float16)
+        to_49 = hidden_states_63.to(torch.bfloat16)
         hidden_states_63 = None
         mul_73 = (
             l_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_q_layernorm_parameters_weight_
-            * to_47
+            * to_49
         )
         l_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_q_layernorm_parameters_weight_ = (
-            to_47
+            to_49
         ) = None
         query_states_2 = mul_73.transpose(1, 2)
         mul_73 = None
@@ -1650,14 +1621,14 @@ class GraphModule(torch.nn.Module):
         add_42 = None
         hidden_states_65 = hidden_states_64 * rsqrt_22
         hidden_states_64 = rsqrt_22 = None
-        to_49 = hidden_states_65.to(torch.float16)
+        to_51 = hidden_states_65.to(torch.bfloat16)
         hidden_states_65 = None
         mul_75 = (
             l_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_k_layernorm_parameters_weight_
-            * to_49
+            * to_51
         )
         l_self_modules_model_modules_layers_modules_8_modules_self_attn_modules_k_layernorm_parameters_weight_ = (
-            to_49
+            to_51
         ) = None
         key_states_2 = mul_75.transpose(1, 2)
         mul_75 = None
@@ -1710,7 +1681,7 @@ class GraphModule(torch.nn.Module):
         k_embed_2 = None
         hidden_states_66 = getitem_44.expand(1, 8, 2, 20, 64)
         getitem_44 = None
-        key_4 = hidden_states_66.reshape(1, 16, 20, 64)
+        key_2 = hidden_states_66.reshape(1, 16, 20, 64)
         hidden_states_66 = None
         getitem_45 = value_states_2[
             (
@@ -1724,7 +1695,7 @@ class GraphModule(torch.nn.Module):
         value_states_2 = None
         hidden_states_67 = getitem_45.expand(1, 8, 2, 20, 64)
         getitem_45 = None
-        value_4 = hidden_states_67.reshape(1, 16, 20, 64)
+        value_2 = hidden_states_67.reshape(1, 16, 20, 64)
         hidden_states_67 = None
         attention_mask_3 = causal_mask[
             (
@@ -1734,26 +1705,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 20, None),
             )
         ]
-        query_2 = q_embed_2.contiguous()
-        q_embed_2 = None
-        key_5 = key_4.contiguous()
-        key_4 = None
-        value_5 = value_4.contiguous()
-        value_4 = None
-        item_2 = (
-            l_self_modules_model_modules_layers_modules_8_modules_self_attn_scaling.item()
-        )
-        l_self_modules_model_modules_layers_modules_8_modules_self_attn_scaling = None
         attn_output_6 = torch._C._nn.scaled_dot_product_attention(
-            query_2,
-            key_5,
-            value_5,
+            q_embed_2,
+            key_2,
+            value_2,
             attn_mask=attention_mask_3,
             dropout_p=0.0,
-            scale=item_2,
+            scale=0.125,
             is_causal=False,
         )
-        query_2 = key_5 = value_5 = attention_mask_3 = item_2 = None
+        q_embed_2 = key_2 = value_2 = attention_mask_3 = None
         transpose_24 = attn_output_6.transpose(1, 2)
         attn_output_6 = None
         attn_output_7 = transpose_24.contiguous()
@@ -1780,14 +1741,14 @@ class GraphModule(torch.nn.Module):
         add_46 = None
         hidden_states_70 = hidden_states_69 * rsqrt_23
         hidden_states_69 = rsqrt_23 = None
-        to_51 = hidden_states_70.to(torch.float16)
+        to_53 = hidden_states_70.to(torch.bfloat16)
         hidden_states_70 = None
         mul_81 = (
             l_self_modules_model_modules_layers_modules_8_modules_ffn_norm_parameters_weight_
-            * to_51
+            * to_53
         )
         l_self_modules_model_modules_layers_modules_8_modules_ffn_norm_parameters_weight_ = (
-            to_51
+            to_53
         ) = None
         linear_48 = torch._C._nn.linear(
             mul_81,
@@ -1825,14 +1786,14 @@ class GraphModule(torch.nn.Module):
         add_48 = None
         hidden_states_73 = hidden_states_72 * rsqrt_24
         hidden_states_72 = rsqrt_24 = None
-        to_53 = hidden_states_73.to(torch.float16)
+        to_55 = hidden_states_73.to(torch.bfloat16)
         hidden_states_73 = None
         x_12 = (
             l_self_modules_model_modules_layers_modules_9_modules_operator_norm_parameters_weight_
-            * to_53
+            * to_55
         )
         l_self_modules_model_modules_layers_modules_9_modules_operator_norm_parameters_weight_ = (
-            to_53
+            to_55
         ) = None
         linear_51 = torch._C._nn.linear(
             x_12,
@@ -1886,14 +1847,14 @@ class GraphModule(torch.nn.Module):
         add_50 = None
         hidden_states_76 = hidden_states_75 * rsqrt_25
         hidden_states_75 = rsqrt_25 = None
-        to_55 = hidden_states_76.to(torch.float16)
+        to_57 = hidden_states_76.to(torch.bfloat16)
         hidden_states_76 = None
         mul_88 = (
             l_self_modules_model_modules_layers_modules_9_modules_ffn_norm_parameters_weight_
-            * to_55
+            * to_57
         )
         l_self_modules_model_modules_layers_modules_9_modules_ffn_norm_parameters_weight_ = (
-            to_55
+            to_57
         ) = None
         linear_53 = torch._C._nn.linear(
             mul_88,
@@ -1931,14 +1892,14 @@ class GraphModule(torch.nn.Module):
         add_52 = None
         hidden_states_79 = hidden_states_78 * rsqrt_26
         hidden_states_78 = rsqrt_26 = None
-        to_57 = hidden_states_79.to(torch.float16)
+        to_59 = hidden_states_79.to(torch.bfloat16)
         hidden_states_79 = None
         mul_91 = (
             l_self_modules_model_modules_layers_modules_10_modules_operator_norm_parameters_weight_
-            * to_57
+            * to_59
         )
         l_self_modules_model_modules_layers_modules_10_modules_operator_norm_parameters_weight_ = (
-            to_57
+            to_59
         ) = None
         linear_56 = torch._C._nn.linear(
             mul_91,
@@ -1961,14 +1922,14 @@ class GraphModule(torch.nn.Module):
         add_53 = None
         hidden_states_81 = hidden_states_80 * rsqrt_27
         hidden_states_80 = rsqrt_27 = None
-        to_59 = hidden_states_81.to(torch.float16)
+        to_61 = hidden_states_81.to(torch.bfloat16)
         hidden_states_81 = None
         mul_93 = (
             l_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_q_layernorm_parameters_weight_
-            * to_59
+            * to_61
         )
         l_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_q_layernorm_parameters_weight_ = (
-            to_59
+            to_61
         ) = None
         query_states_3 = mul_93.transpose(1, 2)
         mul_93 = None
@@ -1993,14 +1954,14 @@ class GraphModule(torch.nn.Module):
         add_54 = None
         hidden_states_83 = hidden_states_82 * rsqrt_28
         hidden_states_82 = rsqrt_28 = None
-        to_61 = hidden_states_83.to(torch.float16)
+        to_63 = hidden_states_83.to(torch.bfloat16)
         hidden_states_83 = None
         mul_95 = (
             l_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_k_layernorm_parameters_weight_
-            * to_61
+            * to_63
         )
         l_self_modules_model_modules_layers_modules_10_modules_self_attn_modules_k_layernorm_parameters_weight_ = (
-            to_61
+            to_63
         ) = None
         key_states_3 = mul_95.transpose(1, 2)
         mul_95 = None
@@ -2053,7 +2014,7 @@ class GraphModule(torch.nn.Module):
         k_embed_3 = None
         hidden_states_84 = getitem_55.expand(1, 8, 2, 20, 64)
         getitem_55 = None
-        key_6 = hidden_states_84.reshape(1, 16, 20, 64)
+        key_3 = hidden_states_84.reshape(1, 16, 20, 64)
         hidden_states_84 = None
         getitem_56 = value_states_3[
             (
@@ -2067,7 +2028,7 @@ class GraphModule(torch.nn.Module):
         value_states_3 = None
         hidden_states_85 = getitem_56.expand(1, 8, 2, 20, 64)
         getitem_56 = None
-        value_6 = hidden_states_85.reshape(1, 16, 20, 64)
+        value_3 = hidden_states_85.reshape(1, 16, 20, 64)
         hidden_states_85 = None
         attention_mask_4 = causal_mask[
             (
@@ -2077,26 +2038,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 20, None),
             )
         ]
-        query_3 = q_embed_3.contiguous()
-        q_embed_3 = None
-        key_7 = key_6.contiguous()
-        key_6 = None
-        value_7 = value_6.contiguous()
-        value_6 = None
-        item_3 = (
-            l_self_modules_model_modules_layers_modules_10_modules_self_attn_scaling.item()
-        )
-        l_self_modules_model_modules_layers_modules_10_modules_self_attn_scaling = None
         attn_output_9 = torch._C._nn.scaled_dot_product_attention(
-            query_3,
-            key_7,
-            value_7,
+            q_embed_3,
+            key_3,
+            value_3,
             attn_mask=attention_mask_4,
             dropout_p=0.0,
-            scale=item_3,
+            scale=0.125,
             is_causal=False,
         )
-        query_3 = key_7 = value_7 = attention_mask_4 = item_3 = None
+        q_embed_3 = key_3 = value_3 = attention_mask_4 = None
         transpose_30 = attn_output_9.transpose(1, 2)
         attn_output_9 = None
         attn_output_10 = transpose_30.contiguous()
@@ -2123,14 +2074,14 @@ class GraphModule(torch.nn.Module):
         add_58 = None
         hidden_states_88 = hidden_states_87 * rsqrt_29
         hidden_states_87 = rsqrt_29 = None
-        to_63 = hidden_states_88.to(torch.float16)
+        to_65 = hidden_states_88.to(torch.bfloat16)
         hidden_states_88 = None
         mul_101 = (
             l_self_modules_model_modules_layers_modules_10_modules_ffn_norm_parameters_weight_
-            * to_63
+            * to_65
         )
         l_self_modules_model_modules_layers_modules_10_modules_ffn_norm_parameters_weight_ = (
-            to_63
+            to_65
         ) = None
         linear_60 = torch._C._nn.linear(
             mul_101,
@@ -2168,14 +2119,14 @@ class GraphModule(torch.nn.Module):
         add_60 = None
         hidden_states_91 = hidden_states_90 * rsqrt_30
         hidden_states_90 = rsqrt_30 = None
-        to_65 = hidden_states_91.to(torch.float16)
+        to_67 = hidden_states_91.to(torch.bfloat16)
         hidden_states_91 = None
         x_14 = (
             l_self_modules_model_modules_layers_modules_11_modules_operator_norm_parameters_weight_
-            * to_65
+            * to_67
         )
         l_self_modules_model_modules_layers_modules_11_modules_operator_norm_parameters_weight_ = (
-            to_65
+            to_67
         ) = None
         linear_63 = torch._C._nn.linear(
             x_14,
@@ -2229,14 +2180,14 @@ class GraphModule(torch.nn.Module):
         add_62 = None
         hidden_states_94 = hidden_states_93 * rsqrt_31
         hidden_states_93 = rsqrt_31 = None
-        to_67 = hidden_states_94.to(torch.float16)
+        to_69 = hidden_states_94.to(torch.bfloat16)
         hidden_states_94 = None
         mul_108 = (
             l_self_modules_model_modules_layers_modules_11_modules_ffn_norm_parameters_weight_
-            * to_67
+            * to_69
         )
         l_self_modules_model_modules_layers_modules_11_modules_ffn_norm_parameters_weight_ = (
-            to_67
+            to_69
         ) = None
         linear_65 = torch._C._nn.linear(
             mul_108,
@@ -2274,14 +2225,14 @@ class GraphModule(torch.nn.Module):
         add_64 = None
         hidden_states_97 = hidden_states_96 * rsqrt_32
         hidden_states_96 = rsqrt_32 = None
-        to_69 = hidden_states_97.to(torch.float16)
+        to_71 = hidden_states_97.to(torch.bfloat16)
         hidden_states_97 = None
         mul_111 = (
             l_self_modules_model_modules_layers_modules_12_modules_operator_norm_parameters_weight_
-            * to_69
+            * to_71
         )
         l_self_modules_model_modules_layers_modules_12_modules_operator_norm_parameters_weight_ = (
-            to_69
+            to_71
         ) = None
         linear_68 = torch._C._nn.linear(
             mul_111,
@@ -2304,14 +2255,14 @@ class GraphModule(torch.nn.Module):
         add_65 = None
         hidden_states_99 = hidden_states_98 * rsqrt_33
         hidden_states_98 = rsqrt_33 = None
-        to_71 = hidden_states_99.to(torch.float16)
+        to_73 = hidden_states_99.to(torch.bfloat16)
         hidden_states_99 = None
         mul_113 = (
             l_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_q_layernorm_parameters_weight_
-            * to_71
+            * to_73
         )
         l_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_q_layernorm_parameters_weight_ = (
-            to_71
+            to_73
         ) = None
         query_states_4 = mul_113.transpose(1, 2)
         mul_113 = None
@@ -2336,14 +2287,14 @@ class GraphModule(torch.nn.Module):
         add_66 = None
         hidden_states_101 = hidden_states_100 * rsqrt_34
         hidden_states_100 = rsqrt_34 = None
-        to_73 = hidden_states_101.to(torch.float16)
+        to_75 = hidden_states_101.to(torch.bfloat16)
         hidden_states_101 = None
         mul_115 = (
             l_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_k_layernorm_parameters_weight_
-            * to_73
+            * to_75
         )
         l_self_modules_model_modules_layers_modules_12_modules_self_attn_modules_k_layernorm_parameters_weight_ = (
-            to_73
+            to_75
         ) = None
         key_states_4 = mul_115.transpose(1, 2)
         mul_115 = None
@@ -2396,7 +2347,7 @@ class GraphModule(torch.nn.Module):
         k_embed_4 = None
         hidden_states_102 = getitem_66.expand(1, 8, 2, 20, 64)
         getitem_66 = None
-        key_8 = hidden_states_102.reshape(1, 16, 20, 64)
+        key_4 = hidden_states_102.reshape(1, 16, 20, 64)
         hidden_states_102 = None
         getitem_67 = value_states_4[
             (
@@ -2410,7 +2361,7 @@ class GraphModule(torch.nn.Module):
         value_states_4 = None
         hidden_states_103 = getitem_67.expand(1, 8, 2, 20, 64)
         getitem_67 = None
-        value_8 = hidden_states_103.reshape(1, 16, 20, 64)
+        value_4 = hidden_states_103.reshape(1, 16, 20, 64)
         hidden_states_103 = None
         attention_mask_5 = causal_mask[
             (
@@ -2420,26 +2371,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 20, None),
             )
         ]
-        query_4 = q_embed_4.contiguous()
-        q_embed_4 = None
-        key_9 = key_8.contiguous()
-        key_8 = None
-        value_9 = value_8.contiguous()
-        value_8 = None
-        item_4 = (
-            l_self_modules_model_modules_layers_modules_12_modules_self_attn_scaling.item()
-        )
-        l_self_modules_model_modules_layers_modules_12_modules_self_attn_scaling = None
         attn_output_12 = torch._C._nn.scaled_dot_product_attention(
-            query_4,
-            key_9,
-            value_9,
+            q_embed_4,
+            key_4,
+            value_4,
             attn_mask=attention_mask_5,
             dropout_p=0.0,
-            scale=item_4,
+            scale=0.125,
             is_causal=False,
         )
-        query_4 = key_9 = value_9 = attention_mask_5 = item_4 = None
+        q_embed_4 = key_4 = value_4 = attention_mask_5 = None
         transpose_36 = attn_output_12.transpose(1, 2)
         attn_output_12 = None
         attn_output_13 = transpose_36.contiguous()
@@ -2466,14 +2407,14 @@ class GraphModule(torch.nn.Module):
         add_70 = None
         hidden_states_106 = hidden_states_105 * rsqrt_35
         hidden_states_105 = rsqrt_35 = None
-        to_75 = hidden_states_106.to(torch.float16)
+        to_77 = hidden_states_106.to(torch.bfloat16)
         hidden_states_106 = None
         mul_121 = (
             l_self_modules_model_modules_layers_modules_12_modules_ffn_norm_parameters_weight_
-            * to_75
+            * to_77
         )
         l_self_modules_model_modules_layers_modules_12_modules_ffn_norm_parameters_weight_ = (
-            to_75
+            to_77
         ) = None
         linear_72 = torch._C._nn.linear(
             mul_121,
@@ -2511,14 +2452,14 @@ class GraphModule(torch.nn.Module):
         add_72 = None
         hidden_states_109 = hidden_states_108 * rsqrt_36
         hidden_states_108 = rsqrt_36 = None
-        to_77 = hidden_states_109.to(torch.float16)
+        to_79 = hidden_states_109.to(torch.bfloat16)
         hidden_states_109 = None
         x_16 = (
             l_self_modules_model_modules_layers_modules_13_modules_operator_norm_parameters_weight_
-            * to_77
+            * to_79
         )
         l_self_modules_model_modules_layers_modules_13_modules_operator_norm_parameters_weight_ = (
-            to_77
+            to_79
         ) = None
         linear_75 = torch._C._nn.linear(
             x_16,
@@ -2572,14 +2513,14 @@ class GraphModule(torch.nn.Module):
         add_74 = None
         hidden_states_112 = hidden_states_111 * rsqrt_37
         hidden_states_111 = rsqrt_37 = None
-        to_79 = hidden_states_112.to(torch.float16)
+        to_81 = hidden_states_112.to(torch.bfloat16)
         hidden_states_112 = None
         mul_128 = (
             l_self_modules_model_modules_layers_modules_13_modules_ffn_norm_parameters_weight_
-            * to_79
+            * to_81
         )
         l_self_modules_model_modules_layers_modules_13_modules_ffn_norm_parameters_weight_ = (
-            to_79
+            to_81
         ) = None
         linear_77 = torch._C._nn.linear(
             mul_128,
@@ -2617,14 +2558,14 @@ class GraphModule(torch.nn.Module):
         add_76 = None
         hidden_states_115 = hidden_states_114 * rsqrt_38
         hidden_states_114 = rsqrt_38 = None
-        to_81 = hidden_states_115.to(torch.float16)
+        to_83 = hidden_states_115.to(torch.bfloat16)
         hidden_states_115 = None
         mul_131 = (
             l_self_modules_model_modules_layers_modules_14_modules_operator_norm_parameters_weight_
-            * to_81
+            * to_83
         )
         l_self_modules_model_modules_layers_modules_14_modules_operator_norm_parameters_weight_ = (
-            to_81
+            to_83
         ) = None
         linear_80 = torch._C._nn.linear(
             mul_131,
@@ -2647,14 +2588,14 @@ class GraphModule(torch.nn.Module):
         add_77 = None
         hidden_states_117 = hidden_states_116 * rsqrt_39
         hidden_states_116 = rsqrt_39 = None
-        to_83 = hidden_states_117.to(torch.float16)
+        to_85 = hidden_states_117.to(torch.bfloat16)
         hidden_states_117 = None
         mul_133 = (
             l_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_q_layernorm_parameters_weight_
-            * to_83
+            * to_85
         )
         l_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_q_layernorm_parameters_weight_ = (
-            to_83
+            to_85
         ) = None
         query_states_5 = mul_133.transpose(1, 2)
         mul_133 = None
@@ -2679,14 +2620,14 @@ class GraphModule(torch.nn.Module):
         add_78 = None
         hidden_states_119 = hidden_states_118 * rsqrt_40
         hidden_states_118 = rsqrt_40 = None
-        to_85 = hidden_states_119.to(torch.float16)
+        to_87 = hidden_states_119.to(torch.bfloat16)
         hidden_states_119 = None
         mul_135 = (
             l_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_k_layernorm_parameters_weight_
-            * to_85
+            * to_87
         )
         l_self_modules_model_modules_layers_modules_14_modules_self_attn_modules_k_layernorm_parameters_weight_ = (
-            to_85
+            to_87
         ) = None
         key_states_5 = mul_135.transpose(1, 2)
         mul_135 = None
@@ -2741,7 +2682,7 @@ class GraphModule(torch.nn.Module):
         k_embed_5 = None
         hidden_states_120 = getitem_77.expand(1, 8, 2, 20, 64)
         getitem_77 = None
-        key_10 = hidden_states_120.reshape(1, 16, 20, 64)
+        key_5 = hidden_states_120.reshape(1, 16, 20, 64)
         hidden_states_120 = None
         getitem_78 = value_states_5[
             (
@@ -2755,7 +2696,7 @@ class GraphModule(torch.nn.Module):
         value_states_5 = None
         hidden_states_121 = getitem_78.expand(1, 8, 2, 20, 64)
         getitem_78 = None
-        value_10 = hidden_states_121.reshape(1, 16, 20, 64)
+        value_5 = hidden_states_121.reshape(1, 16, 20, 64)
         hidden_states_121 = None
         attention_mask_6 = causal_mask[
             (
@@ -2766,26 +2707,16 @@ class GraphModule(torch.nn.Module):
             )
         ]
         causal_mask = None
-        query_5 = q_embed_5.contiguous()
-        q_embed_5 = None
-        key_11 = key_10.contiguous()
-        key_10 = None
-        value_11 = value_10.contiguous()
-        value_10 = None
-        item_5 = (
-            l_self_modules_model_modules_layers_modules_14_modules_self_attn_scaling.item()
-        )
-        l_self_modules_model_modules_layers_modules_14_modules_self_attn_scaling = None
         attn_output_15 = torch._C._nn.scaled_dot_product_attention(
-            query_5,
-            key_11,
-            value_11,
+            q_embed_5,
+            key_5,
+            value_5,
             attn_mask=attention_mask_6,
             dropout_p=0.0,
-            scale=item_5,
+            scale=0.125,
             is_causal=False,
         )
-        query_5 = key_11 = value_11 = attention_mask_6 = item_5 = None
+        q_embed_5 = key_5 = value_5 = attention_mask_6 = None
         transpose_42 = attn_output_15.transpose(1, 2)
         attn_output_15 = None
         attn_output_16 = transpose_42.contiguous()
@@ -2812,14 +2743,14 @@ class GraphModule(torch.nn.Module):
         add_82 = None
         hidden_states_124 = hidden_states_123 * rsqrt_41
         hidden_states_123 = rsqrt_41 = None
-        to_87 = hidden_states_124.to(torch.float16)
+        to_89 = hidden_states_124.to(torch.bfloat16)
         hidden_states_124 = None
         mul_141 = (
             l_self_modules_model_modules_layers_modules_14_modules_ffn_norm_parameters_weight_
-            * to_87
+            * to_89
         )
         l_self_modules_model_modules_layers_modules_14_modules_ffn_norm_parameters_weight_ = (
-            to_87
+            to_89
         ) = None
         linear_84 = torch._C._nn.linear(
             mul_141,
@@ -2857,14 +2788,14 @@ class GraphModule(torch.nn.Module):
         add_84 = None
         hidden_states_127 = hidden_states_126 * rsqrt_42
         hidden_states_126 = rsqrt_42 = None
-        to_89 = hidden_states_127.to(torch.float16)
+        to_91 = hidden_states_127.to(torch.bfloat16)
         hidden_states_127 = None
         x_18 = (
             l_self_modules_model_modules_layers_modules_15_modules_operator_norm_parameters_weight_
-            * to_89
+            * to_91
         )
         l_self_modules_model_modules_layers_modules_15_modules_operator_norm_parameters_weight_ = (
-            to_89
+            to_91
         ) = None
         linear_87 = torch._C._nn.linear(
             x_18,
@@ -2918,14 +2849,14 @@ class GraphModule(torch.nn.Module):
         add_86 = None
         hidden_states_130 = hidden_states_129 * rsqrt_43
         hidden_states_129 = rsqrt_43 = None
-        to_91 = hidden_states_130.to(torch.float16)
+        to_93 = hidden_states_130.to(torch.bfloat16)
         hidden_states_130 = None
         mul_148 = (
             l_self_modules_model_modules_layers_modules_15_modules_ffn_norm_parameters_weight_
-            * to_91
+            * to_93
         )
         l_self_modules_model_modules_layers_modules_15_modules_ffn_norm_parameters_weight_ = (
-            to_91
+            to_93
         ) = None
         linear_89 = torch._C._nn.linear(
             mul_148,
@@ -2964,12 +2895,12 @@ class GraphModule(torch.nn.Module):
         add_88 = None
         hidden_states_133 = hidden_states_132 * rsqrt_44
         hidden_states_132 = rsqrt_44 = None
-        to_93 = hidden_states_133.to(torch.float16)
+        to_95 = hidden_states_133.to(torch.bfloat16)
         hidden_states_133 = None
         hidden_states_134 = (
-            l_self_modules_model_modules_embedding_norm_parameters_weight_ * to_93
+            l_self_modules_model_modules_embedding_norm_parameters_weight_ * to_95
         )
-        l_self_modules_model_modules_embedding_norm_parameters_weight_ = to_93 = None
+        l_self_modules_model_modules_embedding_norm_parameters_weight_ = to_95 = None
         getitem_84 = hidden_states_134[
             (slice(None, None, None), slice(0, None, None), slice(None, None, None))
         ]

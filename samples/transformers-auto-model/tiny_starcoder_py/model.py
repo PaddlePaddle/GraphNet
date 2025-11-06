@@ -559,80 +559,100 @@ class GraphModule(torch.nn.Module):
             False,
         )
         input_ids = None
-        cache_position = torch.arange(0, 19, device=device(type="cpu"))
+        cache_position = torch.arange(0, 19, device=device(type="cuda", index=0))
         position_ids = cache_position.unsqueeze(0)
         attention_mask = l_attention_mask_.to(
-            device=device(type="cpu"), dtype=torch.bool
+            device=device(type="cuda", index=0), dtype=torch.bool
         )
         l_attention_mask_ = None
-        kv_arange = torch.arange(19, device=device(type="cpu"))
+        kv_arange = torch.arange(19, device=device(type="cuda", index=0))
         kv_arange += 0
         kv_arange_1 = kv_arange
         kv_arange = None
-        batch_arange = torch.arange(1, device=device(type="cpu"))
-        head_arange = torch.arange(1, device=device(type="cpu"))
-        lazy_load_decompositions = torch._functorch.vmap.lazy_load_decompositions()
+        batch_arange = torch.arange(1, device=device(type="cuda", index=0))
+        head_arange = torch.arange(1, device=device(type="cuda", index=0))
+        lazy_load_decompositions = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions = None
-        _vmap_increment_nesting = torch._C._functorch._vmap_increment_nesting(
+        _vmap_increment_nesting = torch._functorch.predispatch._vmap_increment_nesting(
             1, "error"
         )
         _vmap_increment_nesting = None
-        child = torch._C._functorch._add_batch_dim(batch_arange, 0, 1)
+        child = torch._functorch.predispatch._add_batch_dim(batch_arange, 0, 1)
         batch_arange = None
-        lazy_load_decompositions_1 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_1 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_1 = None
-        _vmap_increment_nesting_1 = torch._C._functorch._vmap_increment_nesting(
-            1, "error"
+        _vmap_increment_nesting_1 = (
+            torch._functorch.predispatch._vmap_increment_nesting(1, "error")
         )
         _vmap_increment_nesting_1 = None
-        child_1 = torch._C._functorch._add_batch_dim(head_arange, 0, 2)
+        child_1 = torch._functorch.predispatch._add_batch_dim(head_arange, 0, 2)
         head_arange = child_1 = None
-        lazy_load_decompositions_2 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_2 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_2 = None
-        _vmap_increment_nesting_2 = torch._C._functorch._vmap_increment_nesting(
-            19, "error"
+        _vmap_increment_nesting_2 = (
+            torch._functorch.predispatch._vmap_increment_nesting(19, "error")
         )
         _vmap_increment_nesting_2 = None
-        child_2 = torch._C._functorch._add_batch_dim(cache_position, 0, 3)
+        child_2 = torch._functorch.predispatch._add_batch_dim(cache_position, 0, 3)
         cache_position = None
-        lazy_load_decompositions_3 = torch._functorch.vmap.lazy_load_decompositions()
+        lazy_load_decompositions_3 = (
+            torch._functorch.predispatch.lazy_load_decompositions()
+        )
         lazy_load_decompositions_3 = None
-        _vmap_increment_nesting_3 = torch._C._functorch._vmap_increment_nesting(
-            19, "error"
+        _vmap_increment_nesting_3 = (
+            torch._functorch.predispatch._vmap_increment_nesting(19, "error")
         )
         _vmap_increment_nesting_3 = None
-        child_3 = torch._C._functorch._add_batch_dim(kv_arange_1, 0, 4)
+        child_3 = torch._functorch.predispatch._add_batch_dim(kv_arange_1, 0, 4)
         kv_arange_1 = None
         result = child_2.new_ones((), dtype=torch.bool)
         le = child_3.le(child_2)
         child_2 = None
-        result_1 = result.__and__(le)
-        result = le = None
-        function_ctx = torch.autograd.function.FunctionCtx()
-        function_ctx = None
+        to_1 = le.to(device(type="cuda", index=0))
+        le = None
+        result_1 = result.__and__(to_1)
+        result = to_1 = None
         index = torch.ops.aten.index(attention_mask, [child, child_3])
         attention_mask = child = child_3 = None
-        result_2 = result_1.__and__(index)
-        result_1 = index = None
-        batched_outputs = torch._C._functorch._remove_batch_dim(result_2, 4, 19, 0)
+        to_2 = index.to(device(type="cuda", index=0))
+        index = None
+        result_2 = result_1.__and__(to_2)
+        result_1 = to_2 = None
+        batched_outputs = torch._functorch.predispatch._remove_batch_dim(
+            result_2, 4, 19, 0
+        )
         result_2 = None
-        _vmap_decrement_nesting = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting = torch._functorch.predispatch._vmap_decrement_nesting()
         _vmap_decrement_nesting = None
-        batched_outputs_1 = torch._C._functorch._remove_batch_dim(
+        batched_outputs_1 = torch._functorch.predispatch._remove_batch_dim(
             batched_outputs, 3, 19, 0
         )
         batched_outputs = None
-        _vmap_decrement_nesting_1 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_1 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_1 = None
-        batched_outputs_2 = torch._C._functorch._remove_batch_dim(
+        batched_outputs_2 = torch._functorch.predispatch._remove_batch_dim(
             batched_outputs_1, 2, 1, 0
         )
         batched_outputs_1 = None
-        _vmap_decrement_nesting_2 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_2 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_2 = None
-        causal_mask = torch._C._functorch._remove_batch_dim(batched_outputs_2, 1, 1, 0)
+        causal_mask = torch._functorch.predispatch._remove_batch_dim(
+            batched_outputs_2, 1, 1, 0
+        )
         batched_outputs_2 = None
-        _vmap_decrement_nesting_3 = torch._C._functorch._vmap_decrement_nesting()
+        _vmap_decrement_nesting_3 = (
+            torch._functorch.predispatch._vmap_decrement_nesting()
+        )
         _vmap_decrement_nesting_3 = None
         position_embeds = torch.nn.functional.embedding(
             position_ids,
@@ -644,10 +664,10 @@ class GraphModule(torch.nn.Module):
             False,
         )
         position_ids = l_self_modules_transformer_modules_wpe_parameters_weight_ = None
-        to_1 = position_embeds.to(device(type="cpu"))
+        to_3 = position_embeds.to(device(type="cuda", index=0))
         position_embeds = None
-        hidden_states = inputs_embeds + to_1
-        inputs_embeds = to_1 = None
+        hidden_states = inputs_embeds + to_3
+        inputs_embeds = to_3 = None
         hidden_states_1 = torch.nn.functional.dropout(hidden_states, 0.1, False, False)
         hidden_states = None
         hidden_states_2 = torch.nn.functional.layer_norm(
@@ -714,22 +734,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_2 = query_1.contiguous()
-        query_1 = None
-        key_2 = key_1.contiguous()
-        key_1 = None
-        value_2 = value_1.contiguous()
-        value_1 = None
         attn_output = torch._C._nn.scaled_dot_product_attention(
-            query_2,
-            key_2,
-            value_2,
+            query_1,
+            key_1,
+            value_1,
             attn_mask=attention_mask_1,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_2 = key_2 = value_2 = attention_mask_1 = None
+        query_1 = key_1 = value_1 = attention_mask_1 = None
         transpose_1 = attn_output.transpose(1, 2)
         attn_output = None
         attn_output_1 = transpose_1.contiguous()
@@ -798,15 +812,15 @@ class GraphModule(torch.nn.Module):
         linear_4 = None
         split_1 = unsqueeze_2.split((768, 64, 64), dim=3)
         unsqueeze_2 = None
-        query_3 = split_1[0]
-        key_3 = split_1[1]
-        value_3 = split_1[2]
+        query_2 = split_1[0]
+        key_2 = split_1[1]
+        value_2 = split_1[2]
         split_1 = None
-        view_2 = query_3.view(1, 19, -1, 64)
-        query_3 = None
-        query_4 = view_2.transpose(1, 2)
+        view_2 = query_2.view(1, 19, -1, 64)
+        query_2 = None
+        query_3 = view_2.transpose(1, 2)
         view_2 = None
-        getitem_9 = key_3[
+        getitem_9 = key_2[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -815,12 +829,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_3 = None
+        key_2 = None
         hidden_states_13 = getitem_9.expand(1, 1, 12, 19, 64)
         getitem_9 = None
-        key_4 = hidden_states_13.reshape(1, 12, 19, 64)
+        key_3 = hidden_states_13.reshape(1, 12, 19, 64)
         hidden_states_13 = None
-        getitem_10 = value_3[
+        getitem_10 = value_2[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -829,10 +843,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_3 = None
+        value_2 = None
         hidden_states_14 = getitem_10.expand(1, 1, 12, 19, 64)
         getitem_10 = None
-        value_4 = hidden_states_14.reshape(1, 12, 19, 64)
+        value_3 = hidden_states_14.reshape(1, 12, 19, 64)
         hidden_states_14 = None
         attention_mask_2 = causal_mask[
             (
@@ -842,22 +856,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_5 = query_4.contiguous()
-        query_4 = None
-        key_5 = key_4.contiguous()
-        key_4 = None
-        value_5 = value_4.contiguous()
-        value_4 = None
         attn_output_5 = torch._C._nn.scaled_dot_product_attention(
-            query_5,
-            key_5,
-            value_5,
+            query_3,
+            key_3,
+            value_3,
             attn_mask=attention_mask_2,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_5 = key_5 = value_5 = attention_mask_2 = None
+        query_3 = key_3 = value_3 = attention_mask_2 = None
         transpose_3 = attn_output_5.transpose(1, 2)
         attn_output_5 = None
         attn_output_6 = transpose_3.contiguous()
@@ -926,15 +934,15 @@ class GraphModule(torch.nn.Module):
         linear_8 = None
         split_2 = unsqueeze_3.split((768, 64, 64), dim=3)
         unsqueeze_3 = None
-        query_6 = split_2[0]
-        key_6 = split_2[1]
-        value_6 = split_2[2]
+        query_4 = split_2[0]
+        key_4 = split_2[1]
+        value_4 = split_2[2]
         split_2 = None
-        view_3 = query_6.view(1, 19, -1, 64)
-        query_6 = None
-        query_7 = view_3.transpose(1, 2)
+        view_3 = query_4.view(1, 19, -1, 64)
+        query_4 = None
+        query_5 = view_3.transpose(1, 2)
         view_3 = None
-        getitem_15 = key_6[
+        getitem_15 = key_4[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -943,12 +951,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_6 = None
+        key_4 = None
         hidden_states_23 = getitem_15.expand(1, 1, 12, 19, 64)
         getitem_15 = None
-        key_7 = hidden_states_23.reshape(1, 12, 19, 64)
+        key_5 = hidden_states_23.reshape(1, 12, 19, 64)
         hidden_states_23 = None
-        getitem_16 = value_6[
+        getitem_16 = value_4[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -957,10 +965,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_6 = None
+        value_4 = None
         hidden_states_24 = getitem_16.expand(1, 1, 12, 19, 64)
         getitem_16 = None
-        value_7 = hidden_states_24.reshape(1, 12, 19, 64)
+        value_5 = hidden_states_24.reshape(1, 12, 19, 64)
         hidden_states_24 = None
         attention_mask_3 = causal_mask[
             (
@@ -970,22 +978,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_8 = query_7.contiguous()
-        query_7 = None
-        key_8 = key_7.contiguous()
-        key_7 = None
-        value_8 = value_7.contiguous()
-        value_7 = None
         attn_output_10 = torch._C._nn.scaled_dot_product_attention(
-            query_8,
-            key_8,
-            value_8,
+            query_5,
+            key_5,
+            value_5,
             attn_mask=attention_mask_3,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_8 = key_8 = value_8 = attention_mask_3 = None
+        query_5 = key_5 = value_5 = attention_mask_3 = None
         transpose_5 = attn_output_10.transpose(1, 2)
         attn_output_10 = None
         attn_output_11 = transpose_5.contiguous()
@@ -1054,15 +1056,15 @@ class GraphModule(torch.nn.Module):
         linear_12 = None
         split_3 = unsqueeze_4.split((768, 64, 64), dim=3)
         unsqueeze_4 = None
-        query_9 = split_3[0]
-        key_9 = split_3[1]
-        value_9 = split_3[2]
+        query_6 = split_3[0]
+        key_6 = split_3[1]
+        value_6 = split_3[2]
         split_3 = None
-        view_4 = query_9.view(1, 19, -1, 64)
-        query_9 = None
-        query_10 = view_4.transpose(1, 2)
+        view_4 = query_6.view(1, 19, -1, 64)
+        query_6 = None
+        query_7 = view_4.transpose(1, 2)
         view_4 = None
-        getitem_21 = key_9[
+        getitem_21 = key_6[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1071,12 +1073,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_9 = None
+        key_6 = None
         hidden_states_33 = getitem_21.expand(1, 1, 12, 19, 64)
         getitem_21 = None
-        key_10 = hidden_states_33.reshape(1, 12, 19, 64)
+        key_7 = hidden_states_33.reshape(1, 12, 19, 64)
         hidden_states_33 = None
-        getitem_22 = value_9[
+        getitem_22 = value_6[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1085,10 +1087,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_9 = None
+        value_6 = None
         hidden_states_34 = getitem_22.expand(1, 1, 12, 19, 64)
         getitem_22 = None
-        value_10 = hidden_states_34.reshape(1, 12, 19, 64)
+        value_7 = hidden_states_34.reshape(1, 12, 19, 64)
         hidden_states_34 = None
         attention_mask_4 = causal_mask[
             (
@@ -1098,22 +1100,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_11 = query_10.contiguous()
-        query_10 = None
-        key_11 = key_10.contiguous()
-        key_10 = None
-        value_11 = value_10.contiguous()
-        value_10 = None
         attn_output_15 = torch._C._nn.scaled_dot_product_attention(
-            query_11,
-            key_11,
-            value_11,
+            query_7,
+            key_7,
+            value_7,
             attn_mask=attention_mask_4,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_11 = key_11 = value_11 = attention_mask_4 = None
+        query_7 = key_7 = value_7 = attention_mask_4 = None
         transpose_7 = attn_output_15.transpose(1, 2)
         attn_output_15 = None
         attn_output_16 = transpose_7.contiguous()
@@ -1182,15 +1178,15 @@ class GraphModule(torch.nn.Module):
         linear_16 = None
         split_4 = unsqueeze_5.split((768, 64, 64), dim=3)
         unsqueeze_5 = None
-        query_12 = split_4[0]
-        key_12 = split_4[1]
-        value_12 = split_4[2]
+        query_8 = split_4[0]
+        key_8 = split_4[1]
+        value_8 = split_4[2]
         split_4 = None
-        view_5 = query_12.view(1, 19, -1, 64)
-        query_12 = None
-        query_13 = view_5.transpose(1, 2)
+        view_5 = query_8.view(1, 19, -1, 64)
+        query_8 = None
+        query_9 = view_5.transpose(1, 2)
         view_5 = None
-        getitem_27 = key_12[
+        getitem_27 = key_8[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1199,12 +1195,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_12 = None
+        key_8 = None
         hidden_states_43 = getitem_27.expand(1, 1, 12, 19, 64)
         getitem_27 = None
-        key_13 = hidden_states_43.reshape(1, 12, 19, 64)
+        key_9 = hidden_states_43.reshape(1, 12, 19, 64)
         hidden_states_43 = None
-        getitem_28 = value_12[
+        getitem_28 = value_8[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1213,10 +1209,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_12 = None
+        value_8 = None
         hidden_states_44 = getitem_28.expand(1, 1, 12, 19, 64)
         getitem_28 = None
-        value_13 = hidden_states_44.reshape(1, 12, 19, 64)
+        value_9 = hidden_states_44.reshape(1, 12, 19, 64)
         hidden_states_44 = None
         attention_mask_5 = causal_mask[
             (
@@ -1226,22 +1222,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_14 = query_13.contiguous()
-        query_13 = None
-        key_14 = key_13.contiguous()
-        key_13 = None
-        value_14 = value_13.contiguous()
-        value_13 = None
         attn_output_20 = torch._C._nn.scaled_dot_product_attention(
-            query_14,
-            key_14,
-            value_14,
+            query_9,
+            key_9,
+            value_9,
             attn_mask=attention_mask_5,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_14 = key_14 = value_14 = attention_mask_5 = None
+        query_9 = key_9 = value_9 = attention_mask_5 = None
         transpose_9 = attn_output_20.transpose(1, 2)
         attn_output_20 = None
         attn_output_21 = transpose_9.contiguous()
@@ -1310,15 +1300,15 @@ class GraphModule(torch.nn.Module):
         linear_20 = None
         split_5 = unsqueeze_6.split((768, 64, 64), dim=3)
         unsqueeze_6 = None
-        query_15 = split_5[0]
-        key_15 = split_5[1]
-        value_15 = split_5[2]
+        query_10 = split_5[0]
+        key_10 = split_5[1]
+        value_10 = split_5[2]
         split_5 = None
-        view_6 = query_15.view(1, 19, -1, 64)
-        query_15 = None
-        query_16 = view_6.transpose(1, 2)
+        view_6 = query_10.view(1, 19, -1, 64)
+        query_10 = None
+        query_11 = view_6.transpose(1, 2)
         view_6 = None
-        getitem_33 = key_15[
+        getitem_33 = key_10[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1327,12 +1317,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_15 = None
+        key_10 = None
         hidden_states_53 = getitem_33.expand(1, 1, 12, 19, 64)
         getitem_33 = None
-        key_16 = hidden_states_53.reshape(1, 12, 19, 64)
+        key_11 = hidden_states_53.reshape(1, 12, 19, 64)
         hidden_states_53 = None
-        getitem_34 = value_15[
+        getitem_34 = value_10[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1341,10 +1331,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_15 = None
+        value_10 = None
         hidden_states_54 = getitem_34.expand(1, 1, 12, 19, 64)
         getitem_34 = None
-        value_16 = hidden_states_54.reshape(1, 12, 19, 64)
+        value_11 = hidden_states_54.reshape(1, 12, 19, 64)
         hidden_states_54 = None
         attention_mask_6 = causal_mask[
             (
@@ -1354,22 +1344,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_17 = query_16.contiguous()
-        query_16 = None
-        key_17 = key_16.contiguous()
-        key_16 = None
-        value_17 = value_16.contiguous()
-        value_16 = None
         attn_output_25 = torch._C._nn.scaled_dot_product_attention(
-            query_17,
-            key_17,
-            value_17,
+            query_11,
+            key_11,
+            value_11,
             attn_mask=attention_mask_6,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_17 = key_17 = value_17 = attention_mask_6 = None
+        query_11 = key_11 = value_11 = attention_mask_6 = None
         transpose_11 = attn_output_25.transpose(1, 2)
         attn_output_25 = None
         attn_output_26 = transpose_11.contiguous()
@@ -1438,15 +1422,15 @@ class GraphModule(torch.nn.Module):
         linear_24 = None
         split_6 = unsqueeze_7.split((768, 64, 64), dim=3)
         unsqueeze_7 = None
-        query_18 = split_6[0]
-        key_18 = split_6[1]
-        value_18 = split_6[2]
+        query_12 = split_6[0]
+        key_12 = split_6[1]
+        value_12 = split_6[2]
         split_6 = None
-        view_7 = query_18.view(1, 19, -1, 64)
-        query_18 = None
-        query_19 = view_7.transpose(1, 2)
+        view_7 = query_12.view(1, 19, -1, 64)
+        query_12 = None
+        query_13 = view_7.transpose(1, 2)
         view_7 = None
-        getitem_39 = key_18[
+        getitem_39 = key_12[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1455,12 +1439,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_18 = None
+        key_12 = None
         hidden_states_63 = getitem_39.expand(1, 1, 12, 19, 64)
         getitem_39 = None
-        key_19 = hidden_states_63.reshape(1, 12, 19, 64)
+        key_13 = hidden_states_63.reshape(1, 12, 19, 64)
         hidden_states_63 = None
-        getitem_40 = value_18[
+        getitem_40 = value_12[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1469,10 +1453,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_18 = None
+        value_12 = None
         hidden_states_64 = getitem_40.expand(1, 1, 12, 19, 64)
         getitem_40 = None
-        value_19 = hidden_states_64.reshape(1, 12, 19, 64)
+        value_13 = hidden_states_64.reshape(1, 12, 19, 64)
         hidden_states_64 = None
         attention_mask_7 = causal_mask[
             (
@@ -1482,22 +1466,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_20 = query_19.contiguous()
-        query_19 = None
-        key_20 = key_19.contiguous()
-        key_19 = None
-        value_20 = value_19.contiguous()
-        value_19 = None
         attn_output_30 = torch._C._nn.scaled_dot_product_attention(
-            query_20,
-            key_20,
-            value_20,
+            query_13,
+            key_13,
+            value_13,
             attn_mask=attention_mask_7,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_20 = key_20 = value_20 = attention_mask_7 = None
+        query_13 = key_13 = value_13 = attention_mask_7 = None
         transpose_13 = attn_output_30.transpose(1, 2)
         attn_output_30 = None
         attn_output_31 = transpose_13.contiguous()
@@ -1566,15 +1544,15 @@ class GraphModule(torch.nn.Module):
         linear_28 = None
         split_7 = unsqueeze_8.split((768, 64, 64), dim=3)
         unsqueeze_8 = None
-        query_21 = split_7[0]
-        key_21 = split_7[1]
-        value_21 = split_7[2]
+        query_14 = split_7[0]
+        key_14 = split_7[1]
+        value_14 = split_7[2]
         split_7 = None
-        view_8 = query_21.view(1, 19, -1, 64)
-        query_21 = None
-        query_22 = view_8.transpose(1, 2)
+        view_8 = query_14.view(1, 19, -1, 64)
+        query_14 = None
+        query_15 = view_8.transpose(1, 2)
         view_8 = None
-        getitem_45 = key_21[
+        getitem_45 = key_14[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1583,12 +1561,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_21 = None
+        key_14 = None
         hidden_states_73 = getitem_45.expand(1, 1, 12, 19, 64)
         getitem_45 = None
-        key_22 = hidden_states_73.reshape(1, 12, 19, 64)
+        key_15 = hidden_states_73.reshape(1, 12, 19, 64)
         hidden_states_73 = None
-        getitem_46 = value_21[
+        getitem_46 = value_14[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1597,10 +1575,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_21 = None
+        value_14 = None
         hidden_states_74 = getitem_46.expand(1, 1, 12, 19, 64)
         getitem_46 = None
-        value_22 = hidden_states_74.reshape(1, 12, 19, 64)
+        value_15 = hidden_states_74.reshape(1, 12, 19, 64)
         hidden_states_74 = None
         attention_mask_8 = causal_mask[
             (
@@ -1610,22 +1588,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_23 = query_22.contiguous()
-        query_22 = None
-        key_23 = key_22.contiguous()
-        key_22 = None
-        value_23 = value_22.contiguous()
-        value_22 = None
         attn_output_35 = torch._C._nn.scaled_dot_product_attention(
-            query_23,
-            key_23,
-            value_23,
+            query_15,
+            key_15,
+            value_15,
             attn_mask=attention_mask_8,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_23 = key_23 = value_23 = attention_mask_8 = None
+        query_15 = key_15 = value_15 = attention_mask_8 = None
         transpose_15 = attn_output_35.transpose(1, 2)
         attn_output_35 = None
         attn_output_36 = transpose_15.contiguous()
@@ -1694,15 +1666,15 @@ class GraphModule(torch.nn.Module):
         linear_32 = None
         split_8 = unsqueeze_9.split((768, 64, 64), dim=3)
         unsqueeze_9 = None
-        query_24 = split_8[0]
-        key_24 = split_8[1]
-        value_24 = split_8[2]
+        query_16 = split_8[0]
+        key_16 = split_8[1]
+        value_16 = split_8[2]
         split_8 = None
-        view_9 = query_24.view(1, 19, -1, 64)
-        query_24 = None
-        query_25 = view_9.transpose(1, 2)
+        view_9 = query_16.view(1, 19, -1, 64)
+        query_16 = None
+        query_17 = view_9.transpose(1, 2)
         view_9 = None
-        getitem_51 = key_24[
+        getitem_51 = key_16[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1711,12 +1683,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_24 = None
+        key_16 = None
         hidden_states_83 = getitem_51.expand(1, 1, 12, 19, 64)
         getitem_51 = None
-        key_25 = hidden_states_83.reshape(1, 12, 19, 64)
+        key_17 = hidden_states_83.reshape(1, 12, 19, 64)
         hidden_states_83 = None
-        getitem_52 = value_24[
+        getitem_52 = value_16[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1725,10 +1697,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_24 = None
+        value_16 = None
         hidden_states_84 = getitem_52.expand(1, 1, 12, 19, 64)
         getitem_52 = None
-        value_25 = hidden_states_84.reshape(1, 12, 19, 64)
+        value_17 = hidden_states_84.reshape(1, 12, 19, 64)
         hidden_states_84 = None
         attention_mask_9 = causal_mask[
             (
@@ -1738,22 +1710,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_26 = query_25.contiguous()
-        query_25 = None
-        key_26 = key_25.contiguous()
-        key_25 = None
-        value_26 = value_25.contiguous()
-        value_25 = None
         attn_output_40 = torch._C._nn.scaled_dot_product_attention(
-            query_26,
-            key_26,
-            value_26,
+            query_17,
+            key_17,
+            value_17,
             attn_mask=attention_mask_9,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_26 = key_26 = value_26 = attention_mask_9 = None
+        query_17 = key_17 = value_17 = attention_mask_9 = None
         transpose_17 = attn_output_40.transpose(1, 2)
         attn_output_40 = None
         attn_output_41 = transpose_17.contiguous()
@@ -1822,15 +1788,15 @@ class GraphModule(torch.nn.Module):
         linear_36 = None
         split_9 = unsqueeze_10.split((768, 64, 64), dim=3)
         unsqueeze_10 = None
-        query_27 = split_9[0]
-        key_27 = split_9[1]
-        value_27 = split_9[2]
+        query_18 = split_9[0]
+        key_18 = split_9[1]
+        value_18 = split_9[2]
         split_9 = None
-        view_10 = query_27.view(1, 19, -1, 64)
-        query_27 = None
-        query_28 = view_10.transpose(1, 2)
+        view_10 = query_18.view(1, 19, -1, 64)
+        query_18 = None
+        query_19 = view_10.transpose(1, 2)
         view_10 = None
-        getitem_57 = key_27[
+        getitem_57 = key_18[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1839,12 +1805,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_27 = None
+        key_18 = None
         hidden_states_93 = getitem_57.expand(1, 1, 12, 19, 64)
         getitem_57 = None
-        key_28 = hidden_states_93.reshape(1, 12, 19, 64)
+        key_19 = hidden_states_93.reshape(1, 12, 19, 64)
         hidden_states_93 = None
-        getitem_58 = value_27[
+        getitem_58 = value_18[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1853,10 +1819,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_27 = None
+        value_18 = None
         hidden_states_94 = getitem_58.expand(1, 1, 12, 19, 64)
         getitem_58 = None
-        value_28 = hidden_states_94.reshape(1, 12, 19, 64)
+        value_19 = hidden_states_94.reshape(1, 12, 19, 64)
         hidden_states_94 = None
         attention_mask_10 = causal_mask[
             (
@@ -1866,22 +1832,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_29 = query_28.contiguous()
-        query_28 = None
-        key_29 = key_28.contiguous()
-        key_28 = None
-        value_29 = value_28.contiguous()
-        value_28 = None
         attn_output_45 = torch._C._nn.scaled_dot_product_attention(
-            query_29,
-            key_29,
-            value_29,
+            query_19,
+            key_19,
+            value_19,
             attn_mask=attention_mask_10,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_29 = key_29 = value_29 = attention_mask_10 = None
+        query_19 = key_19 = value_19 = attention_mask_10 = None
         transpose_19 = attn_output_45.transpose(1, 2)
         attn_output_45 = None
         attn_output_46 = transpose_19.contiguous()
@@ -1948,15 +1908,15 @@ class GraphModule(torch.nn.Module):
         linear_40 = None
         split_10 = unsqueeze_11.split((768, 64, 64), dim=3)
         unsqueeze_11 = None
-        query_30 = split_10[0]
-        key_30 = split_10[1]
-        value_30 = split_10[2]
+        query_20 = split_10[0]
+        key_20 = split_10[1]
+        value_20 = split_10[2]
         split_10 = None
-        view_11 = query_30.view(1, 19, -1, 64)
-        query_30 = None
-        query_31 = view_11.transpose(1, 2)
+        view_11 = query_20.view(1, 19, -1, 64)
+        query_20 = None
+        query_21 = view_11.transpose(1, 2)
         view_11 = None
-        getitem_63 = key_30[
+        getitem_63 = key_20[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1965,12 +1925,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_30 = None
+        key_20 = None
         hidden_states_103 = getitem_63.expand(1, 1, 12, 19, 64)
         getitem_63 = None
-        key_31 = hidden_states_103.reshape(1, 12, 19, 64)
+        key_21 = hidden_states_103.reshape(1, 12, 19, 64)
         hidden_states_103 = None
-        getitem_64 = value_30[
+        getitem_64 = value_20[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -1979,10 +1939,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_30 = None
+        value_20 = None
         hidden_states_104 = getitem_64.expand(1, 1, 12, 19, 64)
         getitem_64 = None
-        value_31 = hidden_states_104.reshape(1, 12, 19, 64)
+        value_21 = hidden_states_104.reshape(1, 12, 19, 64)
         hidden_states_104 = None
         attention_mask_11 = causal_mask[
             (
@@ -1992,22 +1952,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_32 = query_31.contiguous()
-        query_31 = None
-        key_32 = key_31.contiguous()
-        key_31 = None
-        value_32 = value_31.contiguous()
-        value_31 = None
         attn_output_50 = torch._C._nn.scaled_dot_product_attention(
-            query_32,
-            key_32,
-            value_32,
+            query_21,
+            key_21,
+            value_21,
             attn_mask=attention_mask_11,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_32 = key_32 = value_32 = attention_mask_11 = None
+        query_21 = key_21 = value_21 = attention_mask_11 = None
         transpose_21 = attn_output_50.transpose(1, 2)
         attn_output_50 = None
         attn_output_51 = transpose_21.contiguous()
@@ -2072,15 +2026,15 @@ class GraphModule(torch.nn.Module):
         linear_44 = None
         split_11 = unsqueeze_12.split((768, 64, 64), dim=3)
         unsqueeze_12 = None
-        query_33 = split_11[0]
-        key_33 = split_11[1]
-        value_33 = split_11[2]
+        query_22 = split_11[0]
+        key_22 = split_11[1]
+        value_22 = split_11[2]
         split_11 = None
-        view_12 = query_33.view(1, 19, -1, 64)
-        query_33 = None
-        query_34 = view_12.transpose(1, 2)
+        view_12 = query_22.view(1, 19, -1, 64)
+        query_22 = None
+        query_23 = view_12.transpose(1, 2)
         view_12 = None
-        getitem_69 = key_33[
+        getitem_69 = key_22[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2089,12 +2043,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_33 = None
+        key_22 = None
         hidden_states_113 = getitem_69.expand(1, 1, 12, 19, 64)
         getitem_69 = None
-        key_34 = hidden_states_113.reshape(1, 12, 19, 64)
+        key_23 = hidden_states_113.reshape(1, 12, 19, 64)
         hidden_states_113 = None
-        getitem_70 = value_33[
+        getitem_70 = value_22[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2103,10 +2057,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_33 = None
+        value_22 = None
         hidden_states_114 = getitem_70.expand(1, 1, 12, 19, 64)
         getitem_70 = None
-        value_34 = hidden_states_114.reshape(1, 12, 19, 64)
+        value_23 = hidden_states_114.reshape(1, 12, 19, 64)
         hidden_states_114 = None
         attention_mask_12 = causal_mask[
             (
@@ -2116,22 +2070,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_35 = query_34.contiguous()
-        query_34 = None
-        key_35 = key_34.contiguous()
-        key_34 = None
-        value_35 = value_34.contiguous()
-        value_34 = None
         attn_output_55 = torch._C._nn.scaled_dot_product_attention(
-            query_35,
-            key_35,
-            value_35,
+            query_23,
+            key_23,
+            value_23,
             attn_mask=attention_mask_12,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_35 = key_35 = value_35 = attention_mask_12 = None
+        query_23 = key_23 = value_23 = attention_mask_12 = None
         transpose_23 = attn_output_55.transpose(1, 2)
         attn_output_55 = None
         attn_output_56 = transpose_23.contiguous()
@@ -2196,15 +2144,15 @@ class GraphModule(torch.nn.Module):
         linear_48 = None
         split_12 = unsqueeze_13.split((768, 64, 64), dim=3)
         unsqueeze_13 = None
-        query_36 = split_12[0]
-        key_36 = split_12[1]
-        value_36 = split_12[2]
+        query_24 = split_12[0]
+        key_24 = split_12[1]
+        value_24 = split_12[2]
         split_12 = None
-        view_13 = query_36.view(1, 19, -1, 64)
-        query_36 = None
-        query_37 = view_13.transpose(1, 2)
+        view_13 = query_24.view(1, 19, -1, 64)
+        query_24 = None
+        query_25 = view_13.transpose(1, 2)
         view_13 = None
-        getitem_75 = key_36[
+        getitem_75 = key_24[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2213,12 +2161,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_36 = None
+        key_24 = None
         hidden_states_123 = getitem_75.expand(1, 1, 12, 19, 64)
         getitem_75 = None
-        key_37 = hidden_states_123.reshape(1, 12, 19, 64)
+        key_25 = hidden_states_123.reshape(1, 12, 19, 64)
         hidden_states_123 = None
-        getitem_76 = value_36[
+        getitem_76 = value_24[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2227,10 +2175,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_36 = None
+        value_24 = None
         hidden_states_124 = getitem_76.expand(1, 1, 12, 19, 64)
         getitem_76 = None
-        value_37 = hidden_states_124.reshape(1, 12, 19, 64)
+        value_25 = hidden_states_124.reshape(1, 12, 19, 64)
         hidden_states_124 = None
         attention_mask_13 = causal_mask[
             (
@@ -2240,22 +2188,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_38 = query_37.contiguous()
-        query_37 = None
-        key_38 = key_37.contiguous()
-        key_37 = None
-        value_38 = value_37.contiguous()
-        value_37 = None
         attn_output_60 = torch._C._nn.scaled_dot_product_attention(
-            query_38,
-            key_38,
-            value_38,
+            query_25,
+            key_25,
+            value_25,
             attn_mask=attention_mask_13,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_38 = key_38 = value_38 = attention_mask_13 = None
+        query_25 = key_25 = value_25 = attention_mask_13 = None
         transpose_25 = attn_output_60.transpose(1, 2)
         attn_output_60 = None
         attn_output_61 = transpose_25.contiguous()
@@ -2320,15 +2262,15 @@ class GraphModule(torch.nn.Module):
         linear_52 = None
         split_13 = unsqueeze_14.split((768, 64, 64), dim=3)
         unsqueeze_14 = None
-        query_39 = split_13[0]
-        key_39 = split_13[1]
-        value_39 = split_13[2]
+        query_26 = split_13[0]
+        key_26 = split_13[1]
+        value_26 = split_13[2]
         split_13 = None
-        view_14 = query_39.view(1, 19, -1, 64)
-        query_39 = None
-        query_40 = view_14.transpose(1, 2)
+        view_14 = query_26.view(1, 19, -1, 64)
+        query_26 = None
+        query_27 = view_14.transpose(1, 2)
         view_14 = None
-        getitem_81 = key_39[
+        getitem_81 = key_26[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2337,12 +2279,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_39 = None
+        key_26 = None
         hidden_states_133 = getitem_81.expand(1, 1, 12, 19, 64)
         getitem_81 = None
-        key_40 = hidden_states_133.reshape(1, 12, 19, 64)
+        key_27 = hidden_states_133.reshape(1, 12, 19, 64)
         hidden_states_133 = None
-        getitem_82 = value_39[
+        getitem_82 = value_26[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2351,10 +2293,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_39 = None
+        value_26 = None
         hidden_states_134 = getitem_82.expand(1, 1, 12, 19, 64)
         getitem_82 = None
-        value_40 = hidden_states_134.reshape(1, 12, 19, 64)
+        value_27 = hidden_states_134.reshape(1, 12, 19, 64)
         hidden_states_134 = None
         attention_mask_14 = causal_mask[
             (
@@ -2364,22 +2306,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_41 = query_40.contiguous()
-        query_40 = None
-        key_41 = key_40.contiguous()
-        key_40 = None
-        value_41 = value_40.contiguous()
-        value_40 = None
         attn_output_65 = torch._C._nn.scaled_dot_product_attention(
-            query_41,
-            key_41,
-            value_41,
+            query_27,
+            key_27,
+            value_27,
             attn_mask=attention_mask_14,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_41 = key_41 = value_41 = attention_mask_14 = None
+        query_27 = key_27 = value_27 = attention_mask_14 = None
         transpose_27 = attn_output_65.transpose(1, 2)
         attn_output_65 = None
         attn_output_66 = transpose_27.contiguous()
@@ -2444,15 +2380,15 @@ class GraphModule(torch.nn.Module):
         linear_56 = None
         split_14 = unsqueeze_15.split((768, 64, 64), dim=3)
         unsqueeze_15 = None
-        query_42 = split_14[0]
-        key_42 = split_14[1]
-        value_42 = split_14[2]
+        query_28 = split_14[0]
+        key_28 = split_14[1]
+        value_28 = split_14[2]
         split_14 = None
-        view_15 = query_42.view(1, 19, -1, 64)
-        query_42 = None
-        query_43 = view_15.transpose(1, 2)
+        view_15 = query_28.view(1, 19, -1, 64)
+        query_28 = None
+        query_29 = view_15.transpose(1, 2)
         view_15 = None
-        getitem_87 = key_42[
+        getitem_87 = key_28[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2461,12 +2397,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_42 = None
+        key_28 = None
         hidden_states_143 = getitem_87.expand(1, 1, 12, 19, 64)
         getitem_87 = None
-        key_43 = hidden_states_143.reshape(1, 12, 19, 64)
+        key_29 = hidden_states_143.reshape(1, 12, 19, 64)
         hidden_states_143 = None
-        getitem_88 = value_42[
+        getitem_88 = value_28[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2475,10 +2411,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_42 = None
+        value_28 = None
         hidden_states_144 = getitem_88.expand(1, 1, 12, 19, 64)
         getitem_88 = None
-        value_43 = hidden_states_144.reshape(1, 12, 19, 64)
+        value_29 = hidden_states_144.reshape(1, 12, 19, 64)
         hidden_states_144 = None
         attention_mask_15 = causal_mask[
             (
@@ -2488,22 +2424,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_44 = query_43.contiguous()
-        query_43 = None
-        key_44 = key_43.contiguous()
-        key_43 = None
-        value_44 = value_43.contiguous()
-        value_43 = None
         attn_output_70 = torch._C._nn.scaled_dot_product_attention(
-            query_44,
-            key_44,
-            value_44,
+            query_29,
+            key_29,
+            value_29,
             attn_mask=attention_mask_15,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_44 = key_44 = value_44 = attention_mask_15 = None
+        query_29 = key_29 = value_29 = attention_mask_15 = None
         transpose_29 = attn_output_70.transpose(1, 2)
         attn_output_70 = None
         attn_output_71 = transpose_29.contiguous()
@@ -2568,15 +2498,15 @@ class GraphModule(torch.nn.Module):
         linear_60 = None
         split_15 = unsqueeze_16.split((768, 64, 64), dim=3)
         unsqueeze_16 = None
-        query_45 = split_15[0]
-        key_45 = split_15[1]
-        value_45 = split_15[2]
+        query_30 = split_15[0]
+        key_30 = split_15[1]
+        value_30 = split_15[2]
         split_15 = None
-        view_16 = query_45.view(1, 19, -1, 64)
-        query_45 = None
-        query_46 = view_16.transpose(1, 2)
+        view_16 = query_30.view(1, 19, -1, 64)
+        query_30 = None
+        query_31 = view_16.transpose(1, 2)
         view_16 = None
-        getitem_93 = key_45[
+        getitem_93 = key_30[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2585,12 +2515,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_45 = None
+        key_30 = None
         hidden_states_153 = getitem_93.expand(1, 1, 12, 19, 64)
         getitem_93 = None
-        key_46 = hidden_states_153.reshape(1, 12, 19, 64)
+        key_31 = hidden_states_153.reshape(1, 12, 19, 64)
         hidden_states_153 = None
-        getitem_94 = value_45[
+        getitem_94 = value_30[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2599,10 +2529,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_45 = None
+        value_30 = None
         hidden_states_154 = getitem_94.expand(1, 1, 12, 19, 64)
         getitem_94 = None
-        value_46 = hidden_states_154.reshape(1, 12, 19, 64)
+        value_31 = hidden_states_154.reshape(1, 12, 19, 64)
         hidden_states_154 = None
         attention_mask_16 = causal_mask[
             (
@@ -2612,22 +2542,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_47 = query_46.contiguous()
-        query_46 = None
-        key_47 = key_46.contiguous()
-        key_46 = None
-        value_47 = value_46.contiguous()
-        value_46 = None
         attn_output_75 = torch._C._nn.scaled_dot_product_attention(
-            query_47,
-            key_47,
-            value_47,
+            query_31,
+            key_31,
+            value_31,
             attn_mask=attention_mask_16,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_47 = key_47 = value_47 = attention_mask_16 = None
+        query_31 = key_31 = value_31 = attention_mask_16 = None
         transpose_31 = attn_output_75.transpose(1, 2)
         attn_output_75 = None
         attn_output_76 = transpose_31.contiguous()
@@ -2692,15 +2616,15 @@ class GraphModule(torch.nn.Module):
         linear_64 = None
         split_16 = unsqueeze_17.split((768, 64, 64), dim=3)
         unsqueeze_17 = None
-        query_48 = split_16[0]
-        key_48 = split_16[1]
-        value_48 = split_16[2]
+        query_32 = split_16[0]
+        key_32 = split_16[1]
+        value_32 = split_16[2]
         split_16 = None
-        view_17 = query_48.view(1, 19, -1, 64)
-        query_48 = None
-        query_49 = view_17.transpose(1, 2)
+        view_17 = query_32.view(1, 19, -1, 64)
+        query_32 = None
+        query_33 = view_17.transpose(1, 2)
         view_17 = None
-        getitem_99 = key_48[
+        getitem_99 = key_32[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2709,12 +2633,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_48 = None
+        key_32 = None
         hidden_states_163 = getitem_99.expand(1, 1, 12, 19, 64)
         getitem_99 = None
-        key_49 = hidden_states_163.reshape(1, 12, 19, 64)
+        key_33 = hidden_states_163.reshape(1, 12, 19, 64)
         hidden_states_163 = None
-        getitem_100 = value_48[
+        getitem_100 = value_32[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2723,10 +2647,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_48 = None
+        value_32 = None
         hidden_states_164 = getitem_100.expand(1, 1, 12, 19, 64)
         getitem_100 = None
-        value_49 = hidden_states_164.reshape(1, 12, 19, 64)
+        value_33 = hidden_states_164.reshape(1, 12, 19, 64)
         hidden_states_164 = None
         attention_mask_17 = causal_mask[
             (
@@ -2736,22 +2660,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_50 = query_49.contiguous()
-        query_49 = None
-        key_50 = key_49.contiguous()
-        key_49 = None
-        value_50 = value_49.contiguous()
-        value_49 = None
         attn_output_80 = torch._C._nn.scaled_dot_product_attention(
-            query_50,
-            key_50,
-            value_50,
+            query_33,
+            key_33,
+            value_33,
             attn_mask=attention_mask_17,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_50 = key_50 = value_50 = attention_mask_17 = None
+        query_33 = key_33 = value_33 = attention_mask_17 = None
         transpose_33 = attn_output_80.transpose(1, 2)
         attn_output_80 = None
         attn_output_81 = transpose_33.contiguous()
@@ -2816,15 +2734,15 @@ class GraphModule(torch.nn.Module):
         linear_68 = None
         split_17 = unsqueeze_18.split((768, 64, 64), dim=3)
         unsqueeze_18 = None
-        query_51 = split_17[0]
-        key_51 = split_17[1]
-        value_51 = split_17[2]
+        query_34 = split_17[0]
+        key_34 = split_17[1]
+        value_34 = split_17[2]
         split_17 = None
-        view_18 = query_51.view(1, 19, -1, 64)
-        query_51 = None
-        query_52 = view_18.transpose(1, 2)
+        view_18 = query_34.view(1, 19, -1, 64)
+        query_34 = None
+        query_35 = view_18.transpose(1, 2)
         view_18 = None
-        getitem_105 = key_51[
+        getitem_105 = key_34[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2833,12 +2751,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_51 = None
+        key_34 = None
         hidden_states_173 = getitem_105.expand(1, 1, 12, 19, 64)
         getitem_105 = None
-        key_52 = hidden_states_173.reshape(1, 12, 19, 64)
+        key_35 = hidden_states_173.reshape(1, 12, 19, 64)
         hidden_states_173 = None
-        getitem_106 = value_51[
+        getitem_106 = value_34[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2847,10 +2765,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_51 = None
+        value_34 = None
         hidden_states_174 = getitem_106.expand(1, 1, 12, 19, 64)
         getitem_106 = None
-        value_52 = hidden_states_174.reshape(1, 12, 19, 64)
+        value_35 = hidden_states_174.reshape(1, 12, 19, 64)
         hidden_states_174 = None
         attention_mask_18 = causal_mask[
             (
@@ -2860,22 +2778,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_53 = query_52.contiguous()
-        query_52 = None
-        key_53 = key_52.contiguous()
-        key_52 = None
-        value_53 = value_52.contiguous()
-        value_52 = None
         attn_output_85 = torch._C._nn.scaled_dot_product_attention(
-            query_53,
-            key_53,
-            value_53,
+            query_35,
+            key_35,
+            value_35,
             attn_mask=attention_mask_18,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_53 = key_53 = value_53 = attention_mask_18 = None
+        query_35 = key_35 = value_35 = attention_mask_18 = None
         transpose_35 = attn_output_85.transpose(1, 2)
         attn_output_85 = None
         attn_output_86 = transpose_35.contiguous()
@@ -2940,15 +2852,15 @@ class GraphModule(torch.nn.Module):
         linear_72 = None
         split_18 = unsqueeze_19.split((768, 64, 64), dim=3)
         unsqueeze_19 = None
-        query_54 = split_18[0]
-        key_54 = split_18[1]
-        value_54 = split_18[2]
+        query_36 = split_18[0]
+        key_36 = split_18[1]
+        value_36 = split_18[2]
         split_18 = None
-        view_19 = query_54.view(1, 19, -1, 64)
-        query_54 = None
-        query_55 = view_19.transpose(1, 2)
+        view_19 = query_36.view(1, 19, -1, 64)
+        query_36 = None
+        query_37 = view_19.transpose(1, 2)
         view_19 = None
-        getitem_111 = key_54[
+        getitem_111 = key_36[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2957,12 +2869,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_54 = None
+        key_36 = None
         hidden_states_183 = getitem_111.expand(1, 1, 12, 19, 64)
         getitem_111 = None
-        key_55 = hidden_states_183.reshape(1, 12, 19, 64)
+        key_37 = hidden_states_183.reshape(1, 12, 19, 64)
         hidden_states_183 = None
-        getitem_112 = value_54[
+        getitem_112 = value_36[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -2971,10 +2883,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_54 = None
+        value_36 = None
         hidden_states_184 = getitem_112.expand(1, 1, 12, 19, 64)
         getitem_112 = None
-        value_55 = hidden_states_184.reshape(1, 12, 19, 64)
+        value_37 = hidden_states_184.reshape(1, 12, 19, 64)
         hidden_states_184 = None
         attention_mask_19 = causal_mask[
             (
@@ -2984,22 +2896,16 @@ class GraphModule(torch.nn.Module):
                 slice(None, 19, None),
             )
         ]
-        query_56 = query_55.contiguous()
-        query_55 = None
-        key_56 = key_55.contiguous()
-        key_55 = None
-        value_56 = value_55.contiguous()
-        value_55 = None
         attn_output_90 = torch._C._nn.scaled_dot_product_attention(
-            query_56,
-            key_56,
-            value_56,
+            query_37,
+            key_37,
+            value_37,
             attn_mask=attention_mask_19,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_56 = key_56 = value_56 = attention_mask_19 = None
+        query_37 = key_37 = value_37 = attention_mask_19 = None
         transpose_37 = attn_output_90.transpose(1, 2)
         attn_output_90 = None
         attn_output_91 = transpose_37.contiguous()
@@ -3064,15 +2970,15 @@ class GraphModule(torch.nn.Module):
         linear_76 = None
         split_19 = unsqueeze_20.split((768, 64, 64), dim=3)
         unsqueeze_20 = None
-        query_57 = split_19[0]
-        key_57 = split_19[1]
-        value_57 = split_19[2]
+        query_38 = split_19[0]
+        key_38 = split_19[1]
+        value_38 = split_19[2]
         split_19 = None
-        view_20 = query_57.view(1, 19, -1, 64)
-        query_57 = None
-        query_58 = view_20.transpose(1, 2)
+        view_20 = query_38.view(1, 19, -1, 64)
+        query_38 = None
+        query_39 = view_20.transpose(1, 2)
         view_20 = None
-        getitem_117 = key_57[
+        getitem_117 = key_38[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -3081,12 +2987,12 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        key_57 = None
+        key_38 = None
         hidden_states_193 = getitem_117.expand(1, 1, 12, 19, 64)
         getitem_117 = None
-        key_58 = hidden_states_193.reshape(1, 12, 19, 64)
+        key_39 = hidden_states_193.reshape(1, 12, 19, 64)
         hidden_states_193 = None
-        getitem_118 = value_57[
+        getitem_118 = value_38[
             (
                 slice(None, None, None),
                 slice(None, None, None),
@@ -3095,10 +3001,10 @@ class GraphModule(torch.nn.Module):
                 slice(None, None, None),
             )
         ]
-        value_57 = None
+        value_38 = None
         hidden_states_194 = getitem_118.expand(1, 1, 12, 19, 64)
         getitem_118 = None
-        value_58 = hidden_states_194.reshape(1, 12, 19, 64)
+        value_39 = hidden_states_194.reshape(1, 12, 19, 64)
         hidden_states_194 = None
         attention_mask_20 = causal_mask[
             (
@@ -3109,22 +3015,16 @@ class GraphModule(torch.nn.Module):
             )
         ]
         causal_mask = None
-        query_59 = query_58.contiguous()
-        query_58 = None
-        key_59 = key_58.contiguous()
-        key_58 = None
-        value_59 = value_58.contiguous()
-        value_58 = None
         attn_output_95 = torch._C._nn.scaled_dot_product_attention(
-            query_59,
-            key_59,
-            value_59,
+            query_39,
+            key_39,
+            value_39,
             attn_mask=attention_mask_20,
             dropout_p=0.0,
-            scale=8.0,
+            scale=0.125,
             is_causal=False,
         )
-        query_59 = key_59 = value_59 = attention_mask_20 = None
+        query_39 = key_39 = value_39 = attention_mask_20 = None
         transpose_39 = attn_output_95.transpose(1, 2)
         attn_output_95 = None
         attn_output_96 = transpose_39.contiguous()

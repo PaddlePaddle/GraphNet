@@ -1,0 +1,6 @@
+{
+    "framework": "paddle",
+    "model_name": "distilbert-base-cased",
+    "num_devices_required": 1,
+    "num_nodes_required": 1
+}

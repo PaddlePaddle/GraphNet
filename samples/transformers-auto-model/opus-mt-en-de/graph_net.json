@@ -19,5 +19,6 @@
         "license:cc-by-4.0",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "nlp"
 }

@@ -16,5 +16,6 @@
         "arxiv:2401.10891",
         "endpoints_compatible",
         "region:us"
-    ]
+    ],
+    "heuristic_tag": "computer_vision"
 }

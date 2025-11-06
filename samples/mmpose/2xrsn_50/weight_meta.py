@@ -36,6 +36,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_top_modules_top
     mean = 3186.156
     std = 6152.995
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_top_modules_top_modules_0_modules_bn_parameters_weight_:
@@ -86,6 +87,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1044.487
     std = 839.342
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -190,6 +192,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2538.181152,
         316.351257,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -348,6 +351,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         10580.355469,
         15482.476562,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -506,6 +510,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         951.753174,
         1083.708374,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -664,6 +669,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         9363.972656,
         7848.328125,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -822,6 +828,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2431.058105,
         2069.020996,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -980,6 +987,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         16.304489,
         48.981846,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -1138,6 +1146,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         97.973831,
         2932.106934,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -1296,6 +1305,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         556.111816,
         1043.376587,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -1454,6 +1464,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         485.953308,
         422.575867,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -1612,6 +1623,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         276.021637,
         943.250732,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -1716,6 +1728,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 271.451
     std = 136.738
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_0_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -1766,6 +1779,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1215.498
     std = 747.965
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -1870,6 +1884,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         567.502197,
         656.342896,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -2028,6 +2043,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1633.772583,
         5935.196289,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -2186,6 +2202,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         385.824432,
         347.478821,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -2344,6 +2361,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         15037.708984,
         8728.363281,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -2502,6 +2520,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1011.713867,
         743.132080,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -2660,6 +2679,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1.876043,
         164.695419,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -2818,6 +2838,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1556.657104,
         873.516602,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -2976,6 +2997,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         3950.991455,
         2813.699707,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -3134,6 +3156,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         82.899452,
         2185.326172,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -3292,6 +3315,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         518.369690,
         1843.200195,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -3396,6 +3420,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 293.773
     std = 138.942
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_1_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -3446,6 +3471,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1225.552
     std = 756.448
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -3550,6 +3576,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1815.619751,
         3097.980957,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -3708,6 +3735,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         6771.649414,
         3527.829102,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -3866,6 +3894,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         80.956726,
         842.200867,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -4024,6 +4053,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2153.565674,
         2267.431152,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -4182,6 +4212,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         325.636047,
         1016.595581,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -4340,6 +4371,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         671.812805,
         551.800232,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -4498,6 +4530,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         3538.118652,
         2843.321045,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -4656,6 +4689,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2264.915283,
         3151.038330,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -4814,6 +4848,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1790.266113,
         230.073975,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -4972,6 +5007,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1837.385986,
         55.447659,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -5076,6 +5112,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 309.617
     std = 164.804
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer1_modules_2_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -5126,6 +5163,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2093.123
     std = 1005.582
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -5230,6 +5268,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1391.732910,
         979.361389,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -5388,6 +5427,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2146.312744,
         9261.107422,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -5546,6 +5586,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1457.897949,
         930.371887,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -5704,6 +5745,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         6132.300781,
         9062.932617,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -5862,6 +5904,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1566.115234,
         304.024750,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -6020,6 +6063,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         153.430038,
         65.539352,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -6178,6 +6222,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         8355.997070,
         7318.917480,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -6336,6 +6381,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2041.994995,
         5435.078613,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -6494,6 +6540,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         11526.691406,
         825.903503,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -6652,6 +6699,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         8.545979,
         422.741302,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -6756,6 +6804,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 235.062
     std = 106.434
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_0_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -6806,6 +6855,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2629.204
     std = 1036.841
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_0_modules_downsample_modules_bn_parameters_weight_:
@@ -6856,6 +6906,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2035.245
     std = 926.719
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -7012,6 +7063,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1608.798096,
         1354.998779,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -7274,6 +7326,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         16122.875000,
         11316.513672,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -7536,6 +7589,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         4798.774414,
         2383.548340,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -7798,6 +7852,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         10329.888672,
         4053.305420,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -8060,6 +8115,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         793.596741,
         441.025848,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -8322,6 +8378,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         69.897079,
         6.795087,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -8584,6 +8641,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         17503.197266,
         4820.759277,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -8846,6 +8904,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         6243.788574,
         7808.422852,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -9108,6 +9167,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         19334.218750,
         14395.194336,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -9370,6 +9430,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1564.768677,
         6837.331055,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -9526,6 +9587,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 844.570
     std = 741.791
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_1_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -9576,6 +9638,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1795.798
     std = 619.411
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -9732,6 +9795,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1802.172974,
         2560.956787,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -9994,6 +10058,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         10247.398438,
         9916.225586,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -10256,6 +10321,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2077.300049,
         1658.960449,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -10518,6 +10584,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         9110.223633,
         15913.776367,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -10780,6 +10847,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         12562.009766,
         4440.000977,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -11042,6 +11110,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         3432.192871,
         1453.606689,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -11304,6 +11373,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         14683.814453,
         11474.150391,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -11566,6 +11636,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         17443.705078,
         6621.042480,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -11828,6 +11899,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2073.470947,
         7715.397949,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -12090,6 +12162,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1050.808350,
         2322.460938,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -12246,6 +12319,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1909.077
     std = 3857.073
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_2_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -12296,6 +12370,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2023.411
     std = 633.629
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -12452,6 +12527,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         3888.038818,
         5509.765137,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -12714,6 +12790,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         9608.291016,
         6253.362793,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -12976,6 +13053,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1314.490967,
         1047.920410,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -13238,6 +13316,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         9438.600586,
         6342.578613,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -13500,6 +13579,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         5621.061035,
         2327.701172,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -13762,6 +13842,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1465.655518,
         1282.443726,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -14024,6 +14105,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         8835.724609,
         5022.666504,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -14286,6 +14368,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2724.225098,
         3917.868408,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -14548,6 +14631,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         4470.124023,
         5677.252930,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -14810,6 +14894,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1848.747803,
         1746.811035,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -14966,6 +15051,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1038.458
     std = 375.769
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer2_modules_3_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -15016,6 +15102,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 8473.829
     std = 2258.476
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -15172,6 +15259,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2126.393555,
         3484.177002,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -15434,6 +15522,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         3304.322510,
         4740.924805,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -15696,6 +15785,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2851.923584,
         4825.837891,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -15958,6 +16048,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         8706.464844,
         8539.748047,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -16220,6 +16311,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         6885.932129,
         11437.348633,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -16482,6 +16574,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         47.310898,
         943.483154,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -16744,6 +16837,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         8658.917969,
         7780.451172,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -17006,6 +17100,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         8421.779297,
         7433.174805,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -17268,6 +17363,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         8153.963867,
         6204.481445,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -17530,6 +17626,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         6201.965820,
         4298.462402,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -17686,6 +17783,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1391.008
     std = 950.031
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_0_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -17736,6 +17834,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 7400.746
     std = 2249.215
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_0_modules_downsample_modules_bn_parameters_weight_:
@@ -17786,6 +17885,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 6333.833
     std = 3067.270
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -17836,6 +17936,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4485.685
     std = 1164.991
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -17886,6 +17987,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 10680.493
     std = 6366.030
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -17936,6 +18038,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3042.180
     std = 2063.227
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -17986,6 +18089,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 17680.934
     std = 9012.514
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -18036,6 +18140,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 19770.914
     std = 13755.062
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -18086,6 +18191,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 7258.926
     std = 7479.900
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -18136,6 +18242,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 17745.199
     std = 14092.846
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -18186,6 +18293,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 36311.824
     std = 24778.656
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -18236,6 +18344,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 32097.486
     std = 23828.783
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -18286,6 +18395,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 8915.604
     std = 7220.540
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -18336,6 +18446,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2535.140
     std = 2928.001
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_1_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -18386,6 +18497,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5796.332
     std = 2453.999
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -18436,6 +18548,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4283.395
     std = 736.740
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -18486,6 +18599,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 26116.746
     std = 9422.014
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -18536,6 +18650,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3721.197
     std = 1687.618
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -18586,6 +18701,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 11682.505
     std = 5629.677
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -18636,6 +18752,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 7982.951
     std = 4421.942
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -18686,6 +18803,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3449.919
     std = 3976.040
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -18736,6 +18854,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 17533.270
     std = 6542.635
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -18786,6 +18905,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 52525.527
     std = 24401.021
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -18836,6 +18956,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 25169.332
     std = 13546.170
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -18886,6 +19007,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 14512.913
     std = 12419.029
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -18936,6 +19058,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1389.219
     std = 1759.419
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_2_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -18986,6 +19109,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5218.079
     std = 1742.359
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -19036,6 +19160,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3198.798
     std = 515.190
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -19086,6 +19211,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 13372.300
     std = 2886.515
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -19136,6 +19262,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3038.254
     std = 750.586
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -19186,6 +19313,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 17951.154
     std = 6437.355
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -19236,6 +19364,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 17906.660
     std = 8843.602
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -19286,6 +19415,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3900.388
     std = 3037.193
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -19336,6 +19466,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 55243.754
     std = 31771.768
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -19386,6 +19517,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 44269.188
     std = 22372.100
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -19436,6 +19568,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 36413.688
     std = 21289.639
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -19486,6 +19619,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 16057.737
     std = 15156.230
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -19536,6 +19670,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1761.058
     std = 2003.104
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_3_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -19586,6 +19721,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4939.363
     std = 1080.247
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -19636,6 +19772,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3706.954
     std = 632.993
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -19686,6 +19823,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 13228.760
     std = 2451.916
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -19736,6 +19874,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2965.599
     std = 466.814
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -19786,6 +19925,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 11178.710
     std = 2428.816
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -19836,6 +19976,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 9614.179
     std = 2253.278
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -19886,6 +20027,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2583.333
     std = 578.547
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -19936,6 +20078,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 39561.887
     std = 12714.878
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -19986,6 +20129,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 20950.434
     std = 7031.272
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -20036,6 +20180,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 21663.691
     std = 4465.972
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -20086,6 +20231,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 8452.093
     std = 4326.103
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -20136,6 +20282,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2034.886
     std = 3108.525
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_4_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -20186,6 +20333,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5573.922
     std = 1240.300
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -20236,6 +20384,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3090.398
     std = 597.367
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -20286,6 +20435,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 19107.191
     std = 4032.967
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -20336,6 +20486,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3207.237
     std = 612.575
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -20386,6 +20537,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 10809.039
     std = 2082.258
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -20436,6 +20588,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 6992.630
     std = 1491.338
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -20486,6 +20639,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3073.201
     std = 757.883
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -20536,6 +20690,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 10781.058
     std = 1882.983
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -20586,6 +20741,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5010.480
     std = 771.295
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -20636,6 +20792,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5311.267
     std = 778.416
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -20686,6 +20843,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1629.026
     std = 284.358
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -20736,6 +20894,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2340.921
     std = 615.266
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer3_modules_5_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -20786,6 +20945,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 23002.500
     std = 4853.077
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -20836,6 +20996,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3613.331
     std = 839.667
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -20886,6 +21047,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 19927.639
     std = 6967.519
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -20936,6 +21098,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4774.641
     std = 1362.595
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -20986,6 +21149,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 19067.559
     std = 7254.955
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -21036,6 +21200,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 17378.453
     std = 6854.714
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -21086,6 +21251,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 6532.592
     std = 3974.046
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -21136,6 +21302,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 25773.629
     std = 9141.638
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -21186,6 +21353,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 41776.742
     std = 16772.363
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -21236,6 +21404,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 30521.863
     std = 18566.074
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -21286,6 +21455,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 18609.553
     std = 10050.099
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -21336,6 +21506,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 7635.813
     std = 11989.410
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_0_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -21386,6 +21557,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 24810.992
     std = 5564.246
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_0_modules_downsample_modules_bn_parameters_weight_:
@@ -21436,6 +21608,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 7144.928
     std = 1694.369
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -21486,6 +21659,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 8537.172
     std = 1521.790
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -21536,6 +21710,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 18553.244
     std = 3234.391
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -21586,6 +21761,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 7102.507
     std = 1135.229
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -21636,6 +21812,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 28051.510
     std = 10212.944
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -21686,6 +21863,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 18607.010
     std = 3925.730
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -21736,6 +21914,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 6517.776
     std = 1263.626
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -21786,6 +21965,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 28401.299
     std = 7477.466
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -21836,6 +22016,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 22150.729
     std = 5437.266
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -21886,6 +22067,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 14151.938
     std = 3392.444
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -21936,6 +22118,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 6410.654
     std = 1812.173
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -21986,6 +22169,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4539.106
     std = 2072.610
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_1_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -22036,6 +22220,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3153.926
     std = 595.858
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -22086,6 +22271,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5178.390
     std = 1042.919
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -22136,6 +22322,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 15881.206
     std = 2176.920
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -22186,6 +22373,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5488.498
     std = 790.387
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -22236,6 +22424,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 12081.841
     std = 1962.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -22286,6 +22475,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 10259.320
     std = 1769.322
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -22336,6 +22526,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3281.253
     std = 637.361
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -22386,6 +22577,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 9511.090
     std = 1691.981
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -22436,6 +22628,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 7310.637
     std = 1231.969
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -22486,6 +22679,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 6601.368
     std = 1541.651
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -22536,6 +22730,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3849.962
     std = 877.747
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -22586,6 +22781,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3860.745
     std = 952.955
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_downsample_modules_layer4_modules_2_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -22636,6 +22832,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 20945.936
     std = 7091.432
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up1_modules_in_skip_modules_bn_parameters_weight_:
@@ -22686,6 +22883,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 10455.513
     std = 11933.179
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up1_modules_out_skip1_modules_bn_parameters_weight_:
@@ -22736,6 +22934,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1384.112
     std = 1603.075
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up1_modules_out_skip2_modules_bn_parameters_weight_:
@@ -22786,6 +22985,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 16358.850
     std = 3571.097
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up2_modules_in_skip_modules_bn_parameters_weight_:
@@ -22836,6 +23036,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2079.896
     std = 966.634
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up2_modules_up_conv_modules_bn_parameters_weight_:
@@ -22886,6 +23087,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 11738.039
     std = 12404.326
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up2_modules_out_skip1_modules_bn_parameters_weight_:
@@ -22936,6 +23138,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2266.740
     std = 1735.310
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up2_modules_out_skip2_modules_bn_parameters_weight_:
@@ -22986,6 +23189,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5615.501
     std = 1659.196
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up3_modules_in_skip_modules_bn_parameters_weight_:
@@ -23036,6 +23240,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2225.902
     std = 1133.549
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up3_modules_up_conv_modules_bn_parameters_weight_:
@@ -23086,6 +23291,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3904.699
     std = 3906.562
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up3_modules_out_skip1_modules_bn_parameters_weight_:
@@ -23136,6 +23342,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1575.309
     std = 706.618
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up3_modules_out_skip2_modules_bn_parameters_weight_:
@@ -23186,6 +23393,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2156.679
     std = 861.380
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up4_modules_in_skip_modules_bn_parameters_weight_:
@@ -23236,6 +23444,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1217.870
     std = 442.098
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up4_modules_up_conv_modules_bn_parameters_weight_:
@@ -23286,6 +23495,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3631.851
     std = 1165.549
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up4_modules_out_skip1_modules_bn_parameters_weight_:
@@ -23336,6 +23546,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3024.062
     std = 979.296
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up4_modules_out_skip2_modules_bn_parameters_weight_:
@@ -23386,6 +23597,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3158.320
     std = 936.283
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_0_modules_upsample_modules_up4_modules_cross_conv_modules_bn_parameters_weight_:
@@ -23436,6 +23648,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 431.037
     std = 141.315
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -23540,6 +23753,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         913.408447,
         989.398438,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -23698,6 +23912,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1920.353271,
         3828.879883,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -23856,6 +24071,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         782.526794,
         1050.152100,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -24014,6 +24230,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         3524.949951,
         5030.098145,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -24172,6 +24389,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         4937.497559,
         5832.488770,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -24330,6 +24548,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2195.010254,
         340.578308,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -24488,6 +24707,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         7352.245117,
         1226.288086,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -24646,6 +24866,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2890.535889,
         4753.471191,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -24804,6 +25025,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         3451.132080,
         663.051208,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -24962,6 +25184,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         225.094650,
         648.092285,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_0_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -25066,6 +25289,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1127.689
     std = 843.613
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_0_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -25116,6 +25340,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 476.744
     std = 184.164
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -25220,6 +25445,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2966.392822,
         1561.630127,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -25378,6 +25604,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2651.238525,
         2794.746826,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -25536,6 +25763,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         727.162415,
         1142.773438,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -25694,6 +25922,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         3682.625488,
         5763.309570,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -25852,6 +26081,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2705.694824,
         3136.507568,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -26010,6 +26240,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         384.076660,
         33.326046,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -26168,6 +26399,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         8412.251953,
         4826.217773,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -26326,6 +26558,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         4283.131348,
         3798.959473,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -26484,6 +26717,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         7833.385742,
         7397.241211,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -26642,6 +26876,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2126.984863,
         1471.848267,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_1_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -26746,6 +26981,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 435.305
     std = 140.217
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_1_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -26796,6 +27032,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 750.407
     std = 217.532
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -26900,6 +27137,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2136.803955,
         1944.542847,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -27058,6 +27296,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         4869.186035,
         6626.287598,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -27216,6 +27455,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         804.636108,
         1155.889648,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -27374,6 +27614,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         4728.459473,
         434.131104,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -27532,6 +27773,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1909.565674,
         2199.586670,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -27690,6 +27932,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1227.975098,
         567.283020,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -27848,6 +28091,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         4707.249512,
         5261.520020,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -28006,6 +28250,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2816.666992,
         4011.843750,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -28164,6 +28409,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         7434.137207,
         8486.020508,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -28322,6 +28568,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2038.937866,
         2351.569824,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_2_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -28426,6 +28673,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 469.175
     std = 137.657
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer1_modules_2_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -28476,6 +28724,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4059.554
     std = 1526.641
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -28580,6 +28829,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1827.751221,
         1091.773804,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -28738,6 +28988,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         13453.639648,
         9905.363281,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -28896,6 +29147,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2035.526245,
         1385.413208,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -29054,6 +29306,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         5289.125977,
         3884.983887,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -29212,6 +29465,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2589.844238,
         3983.821289,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -29370,6 +29624,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1218.635620,
         629.784851,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -29528,6 +29783,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         5357.346191,
         5008.067383,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -29686,6 +29942,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         7025.252441,
         10533.265625,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -29844,6 +30101,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         4764.436523,
         15157.927734,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -30002,6 +30260,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         6693.274414,
         2716.060059,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_0_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -30106,6 +30365,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2334.629
     std = 3935.489
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_0_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -30156,6 +30416,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3729.104
     std = 1254.511
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_0_modules_downsample_modules_bn_parameters_weight_:
@@ -30206,6 +30467,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1580.014
     std = 598.645
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -30362,6 +30624,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         3679.206787,
         3868.466553,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -30624,6 +30887,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         9521.416992,
         10636.140625,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -30886,6 +31150,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2087.947510,
         1504.315430,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -31148,6 +31413,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         27385.121094,
         37309.449219,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -31410,6 +31676,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         14182.053711,
         13734.009766,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -31672,6 +31939,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         4645.479492,
         5352.074707,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -31934,6 +32202,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         19148.943359,
         21828.933594,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -32196,6 +32465,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         26866.818359,
         20593.230469,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -32458,6 +32728,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         29434.085938,
         31571.580078,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -32720,6 +32991,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         21647.123047,
         9440.818359,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_1_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -32876,6 +33148,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4833.730
     std = 11885.085
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_1_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -32926,6 +33199,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1398.316
     std = 383.959
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -33082,6 +33356,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2876.478271,
         2507.582275,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -33344,6 +33619,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         12124.433594,
         8812.000977,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -33606,6 +33882,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1944.874023,
         2097.625977,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -33868,6 +34145,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         19221.939453,
         7832.586426,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -34130,6 +34408,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         5059.555664,
         7191.853516,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -34392,6 +34671,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2291.655029,
         2265.337402,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -34654,6 +34934,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         31896.343750,
         34565.562500,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -34916,6 +35197,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         15544.384766,
         8613.241211,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -35178,6 +35460,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         14583.326172,
         2517.593262,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -35440,6 +35723,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         518.245361,
         5315.297363,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_2_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -35596,6 +35880,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1524.097
     std = 2569.963
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_2_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -35646,6 +35931,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1585.900
     std = 409.404
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -35802,6 +36088,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2692.656250,
         3108.912842,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -36064,6 +36351,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         14610.015625,
         9812.884766,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -36326,6 +36614,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2162.812988,
         1950.539429,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -36588,6 +36877,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         10532.458008,
         9306.088867,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -36850,6 +37140,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         3666.271973,
         4917.007812,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -37112,6 +37403,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         3130.487793,
         2616.804443,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -37374,6 +37666,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         8514.703125,
         8208.830078,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -37636,6 +37929,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         6382.373535,
         4961.648926,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -37898,6 +38192,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         4540.196289,
         5094.810547,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -38160,6 +38455,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2320.930420,
         1889.455444,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_3_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -38316,6 +38612,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1243.596
     std = 404.408
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer2_modules_3_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -38366,6 +38663,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 9273.134
     std = 2446.296
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -38522,6 +38820,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         3893.617188,
         4593.339844,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -38784,6 +39083,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         8806.757812,
         15489.692383,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -39046,6 +39346,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         1553.021484,
         1977.643677,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -39308,6 +39609,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         15226.934570,
         11865.847656,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -39570,6 +39872,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         11190.169922,
         9765.706055,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -39832,6 +40135,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         2557.438232,
         290.236969,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -40094,6 +40398,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         16646.744141,
         13443.934570,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -40356,6 +40661,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         26955.806641,
         34287.812500,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -40618,6 +40924,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         24211.365234,
         25490.628906,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -40880,6 +41187,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
         15088.031250,
         4119.941895,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_0_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -41036,6 +41344,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 997.501
     std = 1582.226
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_0_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -41086,6 +41395,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 9211.577
     std = 2410.573
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_0_modules_downsample_modules_bn_parameters_weight_:
@@ -41136,6 +41446,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 7626.046
     std = 2796.633
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -41186,6 +41497,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4881.953
     std = 1210.657
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -41236,6 +41548,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 14266.779
     std = 2599.588
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -41286,6 +41599,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3239.670
     std = 508.735
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -41336,6 +41650,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 19082.488
     std = 5630.923
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -41386,6 +41701,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 15766.488
     std = 4070.673
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -41436,6 +41752,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4408.313
     std = 1420.731
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -41486,6 +41803,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 28795.900
     std = 9893.725
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -41536,6 +41854,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 37019.758
     std = 13412.382
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -41586,6 +41905,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 28654.279
     std = 10516.695
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -41636,6 +41956,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 13204.275
     std = 10214.177
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_1_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -41686,6 +42007,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1326.651
     std = 1219.743
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_1_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -41736,6 +42058,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 6043.947
     std = 1767.131
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -41786,6 +42109,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4599.571
     std = 951.002
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -41836,6 +42160,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 16384.432
     std = 3460.552
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -41886,6 +42211,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3270.872
     std = 578.409
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -41936,6 +42262,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 12278.219
     std = 2881.273
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -41986,6 +42313,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 10824.169
     std = 2472.625
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -42036,6 +42364,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3183.865
     std = 610.939
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -42086,6 +42415,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 23406.832
     std = 11708.188
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -42136,6 +42466,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 21134.125
     std = 13797.687
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -42186,6 +42517,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 21690.967
     std = 11507.999
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -42236,6 +42568,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 7161.029
     std = 7343.312
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_2_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -42286,6 +42619,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1276.417
     std = 555.147
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_2_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -42336,6 +42670,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5366.105
     std = 1204.141
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -42386,6 +42721,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4675.989
     std = 895.837
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -42436,6 +42772,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 12355.408
     std = 2329.871
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -42486,6 +42823,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2486.463
     std = 548.959
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -42536,6 +42874,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 9827.008
     std = 2338.909
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -42586,6 +42925,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 11479.391
     std = 3332.963
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -42636,6 +42976,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2028.396
     std = 1226.618
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -42686,6 +43027,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 15089.309
     std = 4391.142
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -42736,6 +43078,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 8962.478
     std = 3825.178
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -42786,6 +43129,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 14916.293
     std = 7479.825
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -42836,6 +43180,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4469.917
     std = 5639.485
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_3_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -42886,6 +43231,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1182.903
     std = 347.428
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_3_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -42936,6 +43282,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5272.207
     std = 1123.609
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -42986,6 +43333,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3542.053
     std = 565.738
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -43036,6 +43384,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 9965.657
     std = 1653.996
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -43086,6 +43435,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2032.851
     std = 409.156
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -43136,6 +43486,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 8106.038
     std = 1435.769
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -43186,6 +43537,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 6152.341
     std = 1107.454
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -43236,6 +43588,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 927.391
     std = 242.845
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -43286,6 +43639,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 12315.996
     std = 4111.405
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -43336,6 +43690,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5826.801
     std = 2064.081
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -43386,6 +43741,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 12303.669
     std = 3848.181
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -43436,6 +43792,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2967.486
     std = 2064.633
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_4_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -43486,6 +43843,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1076.043
     std = 297.691
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_4_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -43536,6 +43894,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 6566.170
     std = 1171.577
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -43586,6 +43945,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4658.338
     std = 962.882
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -43636,6 +43996,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 20964.832
     std = 3312.591
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -43686,6 +44047,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2661.448
     std = 463.073
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -43736,6 +44098,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 9227.544
     std = 1833.842
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -43786,6 +44149,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5979.198
     std = 917.629
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -43836,6 +44200,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2245.726
     std = 391.618
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -43886,6 +44251,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 10737.322
     std = 4021.758
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -43936,6 +44302,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5717.855
     std = 1617.296
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -43986,6 +44353,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 12222.493
     std = 2575.068
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -44036,6 +44404,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3423.747
     std = 1524.277
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_5_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -44086,6 +44455,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2326.148
     std = 558.699
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer3_modules_5_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -44136,6 +44506,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 29274.650
     std = 6288.994
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -44186,6 +44557,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 6020.697
     std = 1846.480
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -44236,6 +44608,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 20402.047
     std = 4443.627
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -44286,6 +44659,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4161.702
     std = 1011.597
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -44336,6 +44710,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 22428.857
     std = 7294.250
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -44386,6 +44761,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 21951.279
     std = 7483.619
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -44436,6 +44812,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 10229.958
     std = 4021.106
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -44486,6 +44863,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 42386.492
     std = 21680.109
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -44536,6 +44914,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 73264.195
     std = 25260.039
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -44586,6 +44965,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 50847.348
     std = 20785.928
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -44636,6 +45016,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 28215.818
     std = 19596.221
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_0_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -44686,6 +45067,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2306.176
     std = 697.382
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_0_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -44736,6 +45118,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 28256.102
     std = 5702.953
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_0_modules_downsample_modules_bn_parameters_weight_:
@@ -44786,6 +45169,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 10642.452
     std = 2358.980
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -44836,6 +45220,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 8955.308
     std = 1325.646
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -44886,6 +45271,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 36459.688
     std = 6095.568
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -44936,6 +45322,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5812.349
     std = 838.861
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -44986,6 +45373,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 26109.570
     std = 5840.317
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -45036,6 +45424,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 22749.107
     std = 4138.380
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -45086,6 +45475,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 8671.855
     std = 1856.952
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -45136,6 +45526,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 31850.191
     std = 9848.475
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -45186,6 +45577,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 24792.291
     std = 7108.813
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -45236,6 +45628,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 18278.422
     std = 5348.431
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -45286,6 +45679,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 12373.353
     std = 2809.990
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_1_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -45336,6 +45730,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3805.799
     std = 968.639
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_1_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -45386,6 +45781,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5829.849
     std = 1170.136
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu1_modules_bn_parameters_weight_:
@@ -45436,6 +45832,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 6384.884
     std = 963.255
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_1_1_modules_bn_parameters_weight_:
@@ -45486,6 +45883,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 16035.923
     std = 2774.667
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_2_1_modules_bn_parameters_weight_:
@@ -45536,6 +45934,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4569.866
     std = 1126.622
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_2_2_modules_bn_parameters_weight_:
@@ -45586,6 +45985,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 12446.998
     std = 2340.751
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_3_1_modules_bn_parameters_weight_:
@@ -45636,6 +46036,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 12772.965
     std = 2744.988
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_3_2_modules_bn_parameters_weight_:
@@ -45686,6 +46087,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 3814.579
     std = 741.722
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_3_3_modules_bn_parameters_weight_:
@@ -45736,6 +46138,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 14870.684
     std = 2548.671
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_4_1_modules_bn_parameters_weight_:
@@ -45786,6 +46189,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 11397.137
     std = 1959.719
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_4_2_modules_bn_parameters_weight_:
@@ -45836,6 +46240,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 16146.572
     std = 3600.266
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_4_3_modules_bn_parameters_weight_:
@@ -45886,6 +46291,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 5184.168
     std = 1229.626
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_2_modules_conv_bn_relu2_4_4_modules_bn_parameters_weight_:
@@ -45936,6 +46342,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 4250.924
     std = 1280.411
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_downsample_modules_layer4_modules_2_modules_conv_bn3_modules_bn_parameters_weight_:
@@ -45986,6 +46393,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 37853.863
     std = 13883.983
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_upsample_modules_up1_modules_in_skip_modules_bn_parameters_weight_:
@@ -46036,6 +46444,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 24152.732
     std = 7385.716
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_upsample_modules_up2_modules_in_skip_modules_bn_parameters_weight_:
@@ -46086,6 +46495,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2694.679
     std = 1250.991
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_upsample_modules_up2_modules_up_conv_modules_bn_parameters_weight_:
@@ -46136,6 +46546,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 7285.463
     std = 2125.811
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_upsample_modules_up3_modules_in_skip_modules_bn_parameters_weight_:
@@ -46186,6 +46597,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2768.928
     std = 1644.159
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_upsample_modules_up3_modules_up_conv_modules_bn_parameters_weight_:
@@ -46236,6 +46648,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 2942.906
     std = 935.725
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_upsample_modules_up4_modules_in_skip_modules_bn_parameters_weight_:
@@ -46286,6 +46699,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn
     mean = 1328.848
     std = 517.701
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_multi_stage_rsn_modules_1_modules_upsample_modules_up4_modules_up_conv_modules_bn_parameters_weight_:
@@ -46336,6 +46750,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
     mean = 3122.989
     std = 1033.416
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_0_modules_conv_layers_modules_0_modules_bn_parameters_weight_:
@@ -46422,6 +46837,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
         487.143799,
         484.398834,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_0_modules_conv_layers_modules_1_modules_bn_parameters_weight_:
@@ -46508,6 +46924,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
     mean = 4907.074
     std = 1823.030
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_1_modules_conv_layers_modules_0_modules_bn_parameters_weight_:
@@ -46594,6 +47011,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
         60.724377,
         66.305817,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_1_modules_conv_layers_modules_1_modules_bn_parameters_weight_:
@@ -46680,6 +47098,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
     mean = 2079.319
     std = 773.954
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_2_modules_conv_layers_modules_0_modules_bn_parameters_weight_:
@@ -46766,6 +47185,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
         55.843609,
         57.518509,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_2_modules_conv_layers_modules_1_modules_bn_parameters_weight_:
@@ -46852,6 +47272,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
     mean = 3450.489
     std = 1247.814
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_3_modules_conv_layers_modules_0_modules_bn_parameters_weight_:
@@ -46938,6 +47359,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
         103.009399,
         104.229225,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_3_modules_conv_layers_modules_1_modules_bn_parameters_weight_:
@@ -47024,6 +47446,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
     mean = 3862.778
     std = 1699.123
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_4_modules_conv_layers_modules_0_modules_bn_parameters_weight_:
@@ -47110,6 +47533,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
         672.280029,
         621.895752,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_4_modules_conv_layers_modules_1_modules_bn_parameters_weight_:
@@ -47196,6 +47620,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
     mean = 5796.917
     std = 1778.790
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_5_modules_conv_layers_modules_0_modules_bn_parameters_weight_:
@@ -47282,6 +47707,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
         99.357315,
         108.207642,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_5_modules_conv_layers_modules_1_modules_bn_parameters_weight_:
@@ -47368,6 +47794,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
     mean = 2562.176
     std = 671.287
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_6_modules_conv_layers_modules_0_modules_bn_parameters_weight_:
@@ -47454,6 +47881,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
         56.931755,
         68.119942,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_6_modules_conv_layers_modules_1_modules_bn_parameters_weight_:
@@ -47540,6 +47968,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
     mean = 1840.328
     std = 555.880
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_7_modules_conv_layers_modules_0_modules_bn_parameters_weight_:
@@ -47626,6 +48055,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modu
         177.431168,
         170.534973,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_predict_layers_modules_7_modules_conv_layers_modules_1_modules_bn_parameters_weight_:

@@ -3062,6 +3062,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_mod
     mean = 20.413
     std = 4.791
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_up_convs_modules_0_modules_0_modules_bn_parameters_weight_:

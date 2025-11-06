@@ -57,15 +57,17 @@ class UnstableToStableBackend(GraphCompilerBackend):
         Convert torch._C._fft.fft_rfft to torch.fft.rfft
         """
         # Update graph nodes: replace torch._C._fft.fft_rfft with torch.fft.rfft
-        for node in gm.graph.nodes:
-            if node.op == "call_function":
-                if (
-                    hasattr(node.target, "__module__")
-                    and hasattr(node.target, "__name__")
-                    and node.target.__module__ == "torch._C._fft"
-                    and node.target.__name__ == "fft_rfft"
-                ):
-                    node.target = torch.fft.rfft
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._fft"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "fft_rfft"
+        )
+        for node in issue_nodes:
+            node.target = torch.fft.rfft
 
         # Recompile the graph
         gm.recompile()

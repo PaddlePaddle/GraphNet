@@ -24,4 +24,9 @@ def serialize_graph_module_to_str(gm: torch.fx.GraphModule) -> str:
         "torch.nn.functional.avg_pool2d(",
         code,
     )
+    code = re.sub(
+        r"torch\._C\._fft\.fft_fftn\(",
+        "torch.fft.fftn(",
+        code,
+    )
     return code

@@ -52,10 +52,32 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         return gm
 
+    def fft_fftn_to_fftn(self, gm):
+        """
+        Convert torch._C._fft.fft_fftn to torch.fft.fftn
+        """
+        # Update graph nodes: replace torch._C._fft.fft_fftn with torch.fft.fftn
+        for node in gm.graph.nodes:
+            if node.op == "call_function":
+                if (
+                    hasattr(node.target, "__module__")
+                    and hasattr(node.target, "__name__")
+                    and node.target.__module__ == "torch._C._fft"
+                    and node.target.__name__ == "fft_fftn"
+                ):
+                    node.target = torch.fft.fftn
+
+        # Recompile the graph
+        gm.recompile()
+
+        return gm
+
     def unstable_to_stable(self, gm):
         # Convert based on unstable_api environment variable
         if self.unstable_api == "torch._C._nn.avg_pool2d":
             gm = self.avg_pool2d_to_avg_pool2d(gm)
+        elif self.unstable_api == "torch._C._fft.fft_fftn":
+            gm = self.fft_fftn_to_fftn(gm)
         return gm
 
     def check_unstable_api(self, gm):

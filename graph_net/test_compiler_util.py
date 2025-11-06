@@ -44,7 +44,7 @@ def get_device_utilization(device_id, device_count, synchronizer_func):
             selected_gpu_id = cuda_devices[device_id]
 
             print(
-                f"Check the status of GPU {selected_gpu_id} for 5 times.",
+                f"Check the status of GPU {selected_gpu_id} for 3 times.",
                 file=sys.stderr,
                 flush=True,
             )

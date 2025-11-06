@@ -11,18 +11,16 @@ import json
 import re
 import sys
 import traceback
-from graph_net import test_compiler_util
-from graph_net.paddle import utils
-from graph_net.paddle import test_compiler
+
 from graph_net import path_utils
 from graph_net import test_compiler_util
+from graph_net.paddle import test_compiler
 
 
 def test_single_model(args):
-    model_name = test_compiler_util.get_model_name(args.model_path)
-    if test_compiler_util.get_subgraph_tag(args.model_path):
-        model_name += "_" + test_compiler_util.get_subgraph_tag(args.model_path)
+    model_name = args.model_path.split("paddle_samples/")[-1].replace(os.sep, "_")
     ref_log = Path(args.reference_dir) / f"{model_name}.log"
+    print(f"Writing log to {ref_log}", file=sys.stderr, flush=True)
     with open(ref_log, "w", encoding="utf-8") as log_f:
         with redirect_stdout(log_f), redirect_stderr(log_f):
             compiler = test_compiler.get_compiler_backend(args)
@@ -64,10 +62,15 @@ def test_single_model(args):
             test_compiler_util.print_running_status(args, success)
             if success:
                 ref_dump = Path(args.reference_dir) / f"{model_name}.pdout"
+                print(f"Saving outputs to {ref_dump}", file=sys.stderr, flush=True)
                 paddle.save(outputs, str(ref_dump))
             test_compiler_util.print_with_log_prompt(
                 "[Performance][eager]:", json.dumps(time_stats), args.log_prompt
             )
+
+    with open(ref_log, "r", encoding="utf-8") as f:
+        content = f.read()
+        print(content, file=sys.stderr, flush=True)
 
 
 def test_multi_models(args):

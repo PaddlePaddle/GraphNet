@@ -10,11 +10,10 @@ import json
 import re
 import sys
 import traceback
-from graph_net import test_compiler_util
-from graph_net.paddle import utils
-from graph_net.paddle import test_compiler
+
 from graph_net import path_utils
 from graph_net import test_compiler_util
+from graph_net.paddle import test_compiler
 
 
 def read_config(log_path):

@@ -65,10 +65,8 @@ def get_hardward_name(args):
 
 
 def get_compile_framework_version(args):
-    if args.compiler == "cinn":
+    if args.compiler in ["cinn", "nope"]:
         return paddle.__version__
-    if args.compiler == "nope":
-        return "nope-baseline"
     return "unknown"
 
 
@@ -400,17 +398,18 @@ def test_multi_models(args):
 
     sample_idx = 0
     failed_samples = []
+    module_name = os.path.splitext(os.path.basename(__file__))[0]
     for model_path in path_utils.get_recursively_model_path(args.model_path):
         if test_samples is None or os.path.abspath(model_path) in test_samples:
             print(
-                f"[{sample_idx}] test_compiler, model_path: {model_path}",
+                f"[{sample_idx}] {module_name}, model_path: {model_path}",
                 file=sys.stderr,
                 flush=True,
             )
             cmd = " ".join(
                 [
                     sys.executable,
-                    "-m graph_net.paddle.test_compiler",
+                    f"-m graph_net.paddle.{module_name}",
                     f"--model-path {model_path}",
                     f"--compiler {args.compiler}",
                     f"--device {args.device}",

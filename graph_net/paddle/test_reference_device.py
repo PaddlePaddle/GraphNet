@@ -17,10 +17,22 @@ from graph_net import test_compiler_util
 from graph_net.paddle import test_compiler
 
 
-def test_single_model(args):
+def get_reference_log_path(args):
     model_name = args.model_path.split("paddle_samples/")[-1].replace(os.sep, "_")
-    ref_log = Path(args.reference_dir) / f"{model_name}.log"
-    print(f"Writing log to {ref_log}", file=sys.stderr, flush=True)
+    return Path(args.reference_dir) / f"{model_name}.log"
+
+
+def get_reference_output_path(args):
+    model_name = args.model_path.split("paddle_samples/")[-1].replace(os.sep, "_")
+    return Path(args.reference_dir) / f"{model_name}.pdout"
+
+
+def test_single_model(args):
+    ref_log = get_reference_log_path(args)
+    ref_dump = get_reference_output_path(args)
+    print(f"Reference log path: {ref_log}", file=sys.stderr, flush=True)
+    print(f"Reference outputs path: {ref_dump}", file=sys.stderr, flush=True)
+
     with open(ref_log, "w", encoding="utf-8") as log_f:
         with redirect_stdout(log_f), redirect_stderr(log_f):
             compiler = test_compiler.get_compiler_backend(args)
@@ -61,8 +73,6 @@ def test_single_model(args):
 
             test_compiler_util.print_running_status(args, success)
             if success:
-                ref_dump = Path(args.reference_dir) / f"{model_name}.pdout"
-                print(f"Saving outputs to {ref_dump}", file=sys.stderr, flush=True)
                 paddle.save(outputs, str(ref_dump))
             test_compiler_util.print_with_log_prompt(
                 "[Performance][eager]:", json.dumps(time_stats), args.log_prompt
@@ -78,17 +88,18 @@ def test_multi_models(args):
 
     sample_idx = 0
     failed_samples = []
+    module_name = os.path.splitext(os.path.basename(__file__))[0]
     for model_path in path_utils.get_recursively_model_path(args.model_path):
         if test_samples is None or os.path.abspath(model_path) in test_samples:
             print(
-                f"[{sample_idx}] test_compiler, model_path: {model_path}",
+                f"[{sample_idx}] {module_name}, model_path: {model_path}",
                 file=sys.stderr,
                 flush=True,
             )
             cmd = " ".join(
                 [
                     sys.executable,
-                    "-m graph_net.paddle.test_reference_device",
+                    f"-m graph_net.paddle.{module_name}",
                     f"--model-path {model_path}",
                     f"--compiler {args.compiler}",
                     f"--device {args.device}",

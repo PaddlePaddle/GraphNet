@@ -126,6 +126,27 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         return gm
 
+    def _impl_unstable_to_stable_softplus(self, gm):
+        """
+        Convert torch._C._nn.softplus to torch.nn.functional.softplus
+        """
+        import torch.nn.functional as F
+
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._nn"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "softplus"
+        )
+        for node in issue_nodes:
+            node.target = F.softplus
+
+        gm.recompile()
+        return gm
+
     def unstable_to_stable(self, gm):
         methods = (
             name

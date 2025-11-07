@@ -126,6 +126,29 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         return gm
 
+    def _impl_unstable_to_stable_one_hot(self, gm):
+        """
+        Convert torch._C._nn.one_hot to torch.nn.functional.one_hot
+        """
+        import torch.nn.functional as F
+
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._nn"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "one_hot"
+        )
+        for node in issue_nodes:
+            node.target = F.one_hot
+
+        # Recompile the graph
+        gm.recompile()
+
+        return gm
+
     def unstable_to_stable(self, gm):
         methods = (
             name

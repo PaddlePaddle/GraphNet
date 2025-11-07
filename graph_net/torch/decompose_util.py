@@ -33,8 +33,8 @@ def convert_to_submodules_graph(
     split_positions = [
         max(0, min(pos, len(submodules_body_nodes))) for pos in split_positions
     ]
-    submodule_ranges = [
-        (start, end)
+    range_idx2submodule_body_nodes = [
+        submodules_body_nodes[start:end]
         for i in range(len(split_positions) - 1)
         for start in [split_positions[i]]
         for end in [split_positions[i + 1]]
@@ -42,8 +42,7 @@ def convert_to_submodules_graph(
     ]
 
     def get_body_nodes(range_idx):
-        start, end = submodule_ranges[range_idx]
-        return submodules_body_nodes[start:end]
+        return range_idx2submodule_body_nodes[range_idx]
 
     def get_name2sub_submodule():
         used_module_names = set(
@@ -55,15 +54,28 @@ def convert_to_submodules_graph(
             if name in used_module_names
         }
 
-    for range_idx in range(len(submodule_ranges)):
-        start_node_idx, end_node_idx = submodule_ranges[range_idx]
+    def get_start_node_idx(range_idx):
+        start_node = get_body_nodes(range_idx)[0]
+        for i, node in enumerate(original_gm.graph.nodes):
+            if node == start_node:
+                return i
+        raise NotImplementedError("Dead code.")
+
+    def get_end_node_idx(range_idx):
+        last_node = get_body_nodes(range_idx)[-1]
+        for i, node in enumerate(original_gm.graph.nodes):
+            if node == last_node:
+                return i + 1
+        raise NotImplementedError("Dead code.")
+
+    for range_idx in range(len(range_idx2submodule_body_nodes)):
         (
             submodule_input_nodes,
             submodule_output_nodes,
         ) = _get_submodule_inputs_and_outputs(
             original_gm=original_gm,
-            start_node_idx=(num_placeholders + start_node_idx),
-            end_node_idx=(num_placeholders + end_node_idx),
+            start_node_idx=get_start_node_idx(range_idx),
+            end_node_idx=get_end_node_idx(range_idx),
         )
 
         def get_input_nodes(range_idx):

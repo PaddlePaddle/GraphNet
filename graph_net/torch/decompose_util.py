@@ -5,102 +5,146 @@ from collections import defaultdict
 from dataclasses import dataclass
 
 
-def fold_range_to_submodule(
+def convert_to_submodules_graph(
     original_gm: torch.fx.GraphModule,
-    start_node_idx: int,
-    end_node_idx: int,
+    split_positions: list[int],
     submodule_hook=None,
-    submodule_name="extraced_submodule",
+    submodule_name_prefix="extraced_submodule",
+    group_head_and_tail=True,
 ):
     original_gm = copy.deepcopy(original_gm)
-    submodule_body_nodes = list(original_gm.graph.nodes)[start_node_idx:end_node_idx]
-
-    def get_body_nodes():
-        return submodule_body_nodes
-
-    assert len(get_body_nodes()) > 0
-
-    for idx, original_node in enumerate(get_body_nodes()):
-        assert original_node.op not in {
+    num_placeholders = len(
+        [node for node in original_gm.graph.nodes if node.op == "placeholder"]
+    )
+    submodules_body_nodes = [
+        node
+        for node in original_gm.graph.nodes
+        if node.op
+        not in {
             "placeholder",
             "output",
-        }, f"{idx=}, {original_node.op=}"
-
-    submodule_input_nodes, submodule_output_nodes = _get_submodule_inputs_and_outputs(
-        original_gm=original_gm,
-        start_node_idx=start_node_idx,
-        end_node_idx=end_node_idx,
+        }
+    ]
+    split_positions = (
+        [0, *split_positions, len(submodules_body_nodes)]
+        if group_head_and_tail
+        else split_positions
     )
+    split_positions = [
+        max(0, min(pos, len(submodules_body_nodes))) for pos in split_positions
+    ]
+    submodule_ranges = [
+        (start, end)
+        for i in range(len(split_positions) - 1)
+        for start in [split_positions[i]]
+        for end in [split_positions[i + 1]]
+        if end > start
+    ]
 
-    def get_input_nodes():
-        return submodule_input_nodes
-
-    def get_output_nodes():
-        return submodule_output_nodes
+    def get_body_nodes(range_idx):
+        start, end = submodule_ranges[range_idx]
+        return submodules_body_nodes[start:end]
 
     def get_name2sub_submodule():
-        used_module_names = set()
-        for node in get_body_nodes():
-            if node.op == "call_module":
-                used_module_names.add(node.target)
+        used_module_names = set(
+            [node.target for node in submodules_body_nodes if node.op == "call_module"]
+        )
         return {
             name: module
             for name, module in original_gm.named_modules()
             if name in used_module_names
         }
 
-    new_graph = torch.fx.Graph()
-    # Create a mapping for nodes from original graph to new graph
-    node_map = {}
-
-    # Add placeholder nodes for inputs
-    for original_node in get_input_nodes():
-        new_node = new_graph.placeholder(original_node.name)
-        node_map[original_node] = new_node
-
-    # Copy body nodes
-    for original_node in get_body_nodes():
-        print(original_node)
-        new_node = new_graph.node_copy(original_node, lambda x: node_map[x])
-        node_map[original_node] = new_node
-
-    # Add output nodes
-    output_args = []
-    for original_node in get_output_nodes():
-        output_args.append(node_map[original_node])
-    new_graph.output(tuple(output_args))
-
-    # Create the new GraphModule
-    # This assumes no submodules are being extracted, or they are handled separately
-    new_sub_module = torch.fx.GraphModule(get_name2sub_submodule(), new_graph)
-    if submodule_hook is not None:
-        new_sub_module = submodule_hook(new_sub_module)
-    # Replace with submodule node
-    original_gm.add_submodule(submodule_name, new_sub_module)
-    with original_gm.graph.inserting_after(get_body_nodes()[-1]):
-        submodule_node = original_gm.graph.call_module(
-            submodule_name, tuple(get_input_nodes())
+    for range_idx in range(len(submodule_ranges)):
+        start_node_idx, end_node_idx = submodule_ranges[range_idx]
+        (
+            submodule_input_nodes,
+            submodule_output_nodes,
+        ) = _get_submodule_inputs_and_outputs(
+            original_gm=original_gm,
+            start_node_idx=(num_placeholders + start_node_idx),
+            end_node_idx=(num_placeholders + end_node_idx),
         )
-    prev_node = submodule_node
-    for idx, original_output in enumerate(get_output_nodes()):
-        with original_gm.graph.inserting_after(prev_node):
-            new_output_node = original_gm.graph.call_function(
-                operator.getitem, (submodule_node, idx)
+
+        def get_input_nodes(range_idx):
+            return submodule_input_nodes
+
+        def get_output_nodes(range_idx):
+            return submodule_output_nodes
+
+        submodule_name = (
+            f"{submodule_name_prefix}_{range_idx}"
+            if range_idx > 0
+            else submodule_name_prefix
+        )
+        new_graph = torch.fx.Graph()
+        # Create a mapping for nodes from original graph to new graph
+        node_map = {}
+
+        # Add placeholder nodes for inputs
+        for original_node in get_input_nodes(range_idx):
+            new_node = new_graph.placeholder(original_node.name)
+            node_map[original_node] = new_node
+
+        # Copy body nodes
+        for original_node in get_body_nodes(range_idx):
+            new_node = new_graph.node_copy(original_node, lambda x: node_map[x])
+            node_map[original_node] = new_node
+
+        # Add output nodes
+        output_args = []
+        for original_node in get_output_nodes(range_idx):
+            output_args.append(node_map[original_node])
+        new_graph.output(tuple(output_args))
+
+        # Create the new GraphModule
+        # This assumes no submodules are being extracted, or they are handled separately
+        new_sub_module = torch.fx.GraphModule(get_name2sub_submodule(), new_graph)
+        if submodule_hook is not None:
+            new_sub_module = submodule_hook(new_sub_module, range_idx)
+        # Replace with submodule node
+        original_gm.add_submodule(submodule_name, new_sub_module)
+        with original_gm.graph.inserting_after(get_body_nodes(range_idx)[-1]):
+            submodule_node = original_gm.graph.call_module(
+                submodule_name, tuple(get_input_nodes(range_idx))
             )
-            node_map[original_output] = new_output_node
-            prev_node = new_output_node
+        prev_node = submodule_node
+        for idx, original_output in enumerate(get_output_nodes(range_idx)):
+            with original_gm.graph.inserting_after(prev_node):
+                new_output_node = original_gm.graph.call_function(
+                    operator.getitem, (submodule_node, idx)
+                )
+                node_map[original_output] = new_output_node
+                prev_node = new_output_node
 
-    # Replace all use of outputs
-    for original_output in get_output_nodes():
-        original_output.replace_all_uses_with(node_map[original_output])
+        # Replace all use of outputs
+        for original_output in get_output_nodes(range_idx):
+            original_output.replace_all_uses_with(node_map[original_output])
 
-    # Erase old nodes
-    for node in reversed(get_body_nodes()):
-        original_gm.graph.erase_node(node)
+        # Erase old nodes
+        for node in reversed(get_body_nodes(range_idx)):
+            original_gm.graph.erase_node(node)
 
     original_gm.recompile()
 
     return original_gm
+
+
+def fold_range_to_submodule(
+    original_gm: torch.fx.GraphModule,
+    start_node_idx: int,
+    end_node_idx: int,
+    submodule_hook=None,
+    submodule_name="extraced_submodule",
+    group_head_and_tail=True,
+):
+    return convert_to_submodules_graph(
+        original_gm,
+        split_positions=[start_node_idx, end_node_idx],
+        submodule_hook=submodule_hook,
+        submodule_name_prefix=submodule_name,
+        group_head_and_tail=group_head_and_tail,
+    )
 
 
 @dataclass

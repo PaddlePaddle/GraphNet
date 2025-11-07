@@ -226,7 +226,7 @@ def init_float_tensor(shape, mean, std, min_val, max_val, use_numpy):
     return tensor
 
 
-def replay_tensor(info, use_numpy=True):
+def replay_tensor(info, use_numpy=False):
     device = info["info"]["device"]
     dtype = info["info"]["dtype"]
     shape = info["info"]["shape"]
@@ -241,7 +241,8 @@ def replay_tensor(info, use_numpy=True):
         return paddle.reshape(info["data"], shape).to(dtype).to(device)
     elif dtype in [paddle.int32, paddle.int64, paddle.bool]:
         init_dtype = "int32" if dtype == paddle.bool else "int64"
-        min_val, max_val = 0, 1 if dtype == paddle.bool else min_val, max_val
+        if dtype == paddle.bool:
+            min_val, max_val = 0, 1
         return (
             init_integer_tensor(init_dtype, shape, min_val, max_val, use_numpy)
             .to(dtype)

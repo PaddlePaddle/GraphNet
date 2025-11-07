@@ -19,9 +19,10 @@ class MyModule(torch.nn.Module):
 
 
 class WrapperModule(torch.nn.Module):
-    def __init__(self, submodule):
+    def __init__(self, submodule, seq_no):
         super().__init__()
         self.submodule = submodule
+        self.seq_no = seq_no
 
     def forward(self, *args):
         print("Args:")
@@ -29,26 +30,11 @@ class WrapperModule(torch.nn.Module):
         return self.submodule(*args)
 
 
-def submodule_hook(submodule: torch.fx.GraphModule):
-    print(f"{'-'*8} [submodule] {'-'*8}\n")
+def submodule_hook(submodule: torch.fx.GraphModule, seq_no):
+    print(f"{'-'*8} [submodule-{seq_no}] {'-'*8}\n")
     print(submodule.graph)
-    """
-    graph():
-        %add : [num_users=1] = placeholder[target=add]
-        %mul : [num_users=1] = call_function[target=operator.mul](args = (%add, 2), kwargs = {})
-        %clamp : [num_users=1] = call_method[target=clamp](args = (%mul,), kwargs = {min: 0.0, max: 1.0})
-        return (clamp,)
-
-    """
     print(submodule.code)
-    """
-    def forward(self, add):
-        mul = add * 2;  add = None
-        clamp = mul.clamp(min = 0.0, max = 1.0);  mul = None
-        return (clamp,)
-    """
-
-    return WrapperModule(submodule)
+    return WrapperModule(submodule, seq_no)
 
 
 class TestExtractorSubmodule(unittest.TestCase):
@@ -87,9 +73,10 @@ class TestExtractorSubmodule(unittest.TestCase):
 
         folded = fold_range_to_submodule(
             symbolic_traced,
-            start_node_idx=2,
-            end_node_idx=4,
+            start_node_idx=0,
+            end_node_idx=2,
             submodule_hook=submodule_hook,
+            # group_head_and_tail=False,
         )
         folded_output = folded(inp)
 

@@ -126,16 +126,6 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         return gm
 
-    def unstable_to_stable(self, gm):
-        methods = (
-            name
-            for name in vars(type(self)).keys()
-            if name.startswith("_impl_unstable_to_stable")
-        )
-        for method in methods:
-            gm = getattr(self, method)(gm)
-        return gm
-
     def _impl_unstable_to_stable_special_logit(self, gm):
         """
         Convert torch._C._special.special_logit to torch.special.logit
@@ -155,6 +145,16 @@ class UnstableToStableBackend(GraphCompilerBackend):
         # Recompile the graph
         gm.recompile()
 
+        return gm
+
+    def unstable_to_stable(self, gm):
+        methods = (
+            name
+            for name in vars(type(self)).keys()
+            if name.startswith("_impl_unstable_to_stable")
+        )
+        for method in methods:
+            gm = getattr(self, method)(gm)
         return gm
 
     def check_unstable_api(self, gm):

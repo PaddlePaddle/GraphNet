@@ -9,9 +9,13 @@ def convert_to_submodules_graph(
     original_gm: torch.fx.GraphModule,
     split_positions: list[int],
     submodule_hook=None,
-    submodule_name_prefix="extraced_submodule",
+    submodule_name_prefix="extracted_submodule",
+    chain_style=False,
     group_head_and_tail=True,
 ):
+    """
+    chain_style=True: decompose original_gm into g0 * g1 * g2 * g3
+    """
     original_gm = copy.deepcopy(original_gm)
     num_placeholders = len(
         [node for node in original_gm.graph.nodes if node.op == "placeholder"]
@@ -68,6 +72,12 @@ def convert_to_submodules_graph(
                 return i + 1
         raise NotImplementedError("Dead code.")
 
+    def print_submodule_call(prompt, gm):
+        submodule_call_stmts = [
+            stmt for stmt in gm.code.split("\n") if "self.extracted_submodule" in stmt
+        ]
+        print(f"{prompt} ", submodule_call_stmts)
+
     for range_idx in range(len(range_idx2submodule_body_nodes)):
         (
             submodule_input_nodes,
@@ -76,6 +86,7 @@ def convert_to_submodules_graph(
             original_gm=original_gm,
             start_node_idx=get_start_node_idx(range_idx),
             end_node_idx=get_end_node_idx(range_idx),
+            chain_style=chain_style,
         )
 
         def get_input_nodes(range_idx):
@@ -136,8 +147,13 @@ def convert_to_submodules_graph(
         # Erase old nodes
         for node in reversed(get_body_nodes(range_idx)):
             original_gm.graph.erase_node(node)
+        # print_submodule_call("(fx) after Erase old nodes", original_gm)
+
+    # print_submodule_call("(fx) before recompile", original_gm)
 
     original_gm.recompile()
+
+    # print_submodule_call("(fx) after recompile", original_gm)
 
     return original_gm
 
@@ -147,7 +163,7 @@ def fold_range_to_submodule(
     start_node_idx: int,
     end_node_idx: int,
     submodule_hook=None,
-    submodule_name="extraced_submodule",
+    submodule_name="extracted_submodule",
     group_head_and_tail=True,
 ):
     return convert_to_submodules_graph(
@@ -170,6 +186,7 @@ def _get_submodule_inputs_and_outputs(
     original_gm: torch.fx.GraphModule,
     start_node_idx: int,
     end_node_idx: int,
+    chain_style=False,
 ):
     count_ctx = NodeProducedOrConsumedCountCtx(
         defaultdict(int),
@@ -179,7 +196,11 @@ def _get_submodule_inputs_and_outputs(
     node_list = list(original_gm.graph.nodes)
 
     def get_related_node(node):
-        yield from node.args
+        for arg in node.args:
+            if isinstance(arg, tuple):
+                yield from arg
+            else:
+                yield arg
         yield node
 
     for node in node_list[0:start_node_idx]:
@@ -194,19 +215,33 @@ def _get_submodule_inputs_and_outputs(
         for related_node in get_related_node(node):
             count_ctx.node2after_output[related_node] += 1
 
-    input_nodes = [
-        node
-        for node in node_list
-        if count_ctx.node2before_input[node] > 0
-        if count_ctx.node2body[node] > 0
-    ]
-
-    output_nodes = [
-        node
-        for node in node_list
-        if not (count_ctx.node2before_input[node] > 0)
-        if count_ctx.node2body[node] > 0
-        if count_ctx.node2after_output[node] > 0
-    ]
+    if chain_style:
+        input_nodes = [
+            node
+            for node in node_list
+            if (count_ctx.node2before_input[node] > 0)
+            if (count_ctx.node2body[node] > 0 or count_ctx.node2after_output[node] > 0)
+        ]
+        input_nodes_set = set(input_nodes)
+        output_nodes = [
+            node
+            for node in node_list
+            if (count_ctx.node2before_input[node] > 0 or count_ctx.node2body[node] > 0)
+            if (count_ctx.node2after_output[node] > 0)
+        ]
+    else:
+        input_nodes = [
+            node
+            for node in node_list
+            if count_ctx.node2before_input[node] > 0
+            if count_ctx.node2body[node] > 0
+        ]
+        output_nodes = [
+            node
+            for node in node_list
+            if not (count_ctx.node2before_input[node] > 0)
+            if count_ctx.node2body[node] > 0
+            if count_ctx.node2after_output[node] > 0
+        ]
 
     return input_nodes, output_nodes

@@ -1,12 +1,15 @@
 #!/bin/bash
+set -x
 
 # input model path
 MODEL_PATH_IN_SAMPLES=/timm/resnet18 
+# extract subgraph 0-8, 8-16
 read -r -d '' json_str <<'EOF'
 {
     "output_dir": "/tmp/naive_decompose_workspace",
-    "split_positions": [8, 32],
-    "group_head_and_tail": true
+    "split_positions": [2, 4],
+    "group_head_and_tail": false,
+    "chain_style": true
 }
 EOF
 CONFIG=$(echo $json_str | base64 -w 0) 

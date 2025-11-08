@@ -125,7 +125,13 @@ class GraphExtractor:
         return gm.forward
 
 
-def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=False):
+def extract(
+    name,
+    dynamic=True,
+    mut_graph_codes=None,
+    placeholder_auto_rename=False,
+    custom_extractor_path=None,
+):
     """
     Extract computation graphs from PyTorch nn.Module.
     The extracted computation graphs will be saved into directory of env var $GRAPH_NET_EXTRACT_WORKSPACE.
@@ -194,9 +200,19 @@ def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=Fa
         >>>
     """
 
+    def get_graph_extractor_cls():
+        if custom_extractor_path is None:
+            return GraphExtractor
+        import importlib.util as imp
+
+        spec = imp.spec_from_file_location("graph_extractor", custom_extractor_path)
+        graph_extractor = imp.module_from_spec(spec)
+        spec.loader.exec_module(graph_extractor)
+        return graph_extractor.GraphExtractor
+
     def wrapper(model: torch.nn.Module):
         assert isinstance(model, torch.nn.Module), f"{type(model)=}"
-        extractor = GraphExtractor(
+        extractor = get_graph_extractor_cls()(
             name, dynamic, mut_graph_codes, placeholder_auto_rename
         )
         # return torch.compile(backend=extractor, dynamic=dynamic)

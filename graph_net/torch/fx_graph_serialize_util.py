@@ -25,7 +25,7 @@ def serialize_graph_module_to_str(gm: torch.fx.GraphModule) -> str:
         (r"torch\._C\._fft\.fft_rfft\(", "torch.fft.rfft("),
         (r"torch\._C\._fft\.fft_fftn\(", "torch.fft.fftn("),
         (r"torch\._C\._special\.special_logit\(", "torch.special.logit("),
-        # replace this line with modification code for task 116 (torch._C._linalg.linalg_vector_norm)
+        (r"torch\._C\._linalg\.linalg_vector_norm\(", "torch.linalg.vector_norm("),
         # replace this line with modification code for task 117 (torch._C._linalg.linalg_norm)
         # replace this line with modification code for task 118 (torch._C._nn.softplus)
         # replace this line with modification code for task 119 (torch._C._nn.one_hot)

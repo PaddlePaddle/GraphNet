@@ -1,5 +1,6 @@
 import os
 import torch
+import torch.nn.functional as F
 import sys
 import inspect
 from .graph_compiler_backend import GraphCompilerBackend
@@ -123,6 +124,37 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         # Recompile the graph
         gm.recompile()
+
+        return gm
+
+    def _impl_unstable_to_stable_one_hot(self, gm):
+        """
+        Convert torch._C._nn.one_hot to torch.nn.functional.one_hot
+        """
+
+        def replace_in_graph(graph_mod):
+            # Update graph nodes: replace torch._C._nn.one_hot with F.one_hot
+            for node in graph_mod.graph.nodes:
+                if node.op == "call_function":
+                    # Match for all forms of target names
+                    if "one_hot" in str(node.target) and "torch._C._nn" in str(
+                        node.target
+                    ):
+                        # Directly point target to Python layer function
+                        node.target = F.one_hot
+            # Validate and recompile the graph
+            graph_mod.graph.lint()
+            graph_mod.recompile()
+
+        # Process main gm and all nested GraphModules
+        modules = [gm]
+        modules += [
+            m
+            for _, m in gm.named_modules()
+            if isinstance(m, torch.fx.GraphModule) and m is not gm
+        ]
+        for m in modules:
+            replace_in_graph(m)
 
         return gm
 

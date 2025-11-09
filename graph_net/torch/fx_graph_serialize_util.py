@@ -21,6 +21,7 @@ def serialize_graph_module_to_str(gm: torch.fx.GraphModule) -> str:
     # Replace torch._C._nn.avg_pool2d with torch.nn.functional.avg_pool2d
     replacements = [
         (r"torch\._C\._nn\.avg_pool2d\(", "torch.nn.functional.avg_pool2d("),
+        (r"torch\._C\._nn\.one_hot\(", "torch.nn.functional.one_hot("),
         (r"torch\._C\._fft\.fft_irfft\(", "torch.fft.irfft("),
         (r"torch\._C\._fft\.fft_rfft\(", "torch.fft.rfft("),
         (r"torch\._C\._fft\.fft_fftn\(", "torch.fft.fftn("),

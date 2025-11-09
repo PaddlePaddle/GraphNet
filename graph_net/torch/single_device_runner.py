@@ -59,7 +59,14 @@ def main(args):
         print(f"{model_path=}")
         if args.enable_extract:
             assert args.extract_name is not None
-            kwargs = dict(name=args.extract_name, dynamic=False, **dump_graph_options)
+
+            kwargs = dict(
+                name=args.extract_name,
+                dynamic=False,
+                custom_extractor_path=args.custom_extractor_path,
+                custom_extractor_config=args.custom_extractor_config,
+                **dump_graph_options,
+            )
             model = extract(**kwargs)(model)
 
         inputs_params = utils.load_converted_from_text(f"{model_path}")
@@ -109,6 +116,20 @@ if __name__ == "__main__":
         required=False,
         default=None,
         help="Extracted graph's name",
+    )
+    parser.add_argument(
+        "--custom-extractor-path",
+        type=str,
+        required=False,
+        default=None,
+        help="Custom extractor python file path",
+    )
+    parser.add_argument(
+        "--custom-extractor-config",
+        type=str,
+        required=False,
+        default=None,
+        help="Custom extractor configuration string",
     )
     args = parser.parse_args()
     main(args=args)

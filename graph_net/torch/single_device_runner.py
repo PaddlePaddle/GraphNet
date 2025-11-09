@@ -9,6 +9,8 @@ from typing import Type, Any
 import sys
 from graph_net.torch.extractor import extract
 import hashlib
+import json
+import base64
 from contextlib import contextmanager
 
 
@@ -18,6 +20,15 @@ def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Modul
     spec.loader.exec_module(unnamed)
     model_class = getattr(unnamed, class_name, None)
     return model_class
+
+
+def convert_to_dict(config_str):
+    if config_str is None:
+        return {}
+    config_str = base64.b64decode(config_str).decode("utf-8")
+    config = json.loads(config_str)
+    assert isinstance(config, dict), f"config should be a dict. {config_str=}"
+    return config
 
 
 def _get_sha_hash(content):
@@ -63,8 +74,7 @@ def main(args):
             kwargs = dict(
                 name=args.extract_name,
                 dynamic=False,
-                custom_extractor_path=args.custom_extractor_path,
-                custom_extractor_config=args.custom_extractor_config,
+                extractor_config=convert_to_dict(args.extractor_config),
                 **dump_graph_options,
             )
             model = extract(**kwargs)(model)
@@ -118,18 +128,11 @@ if __name__ == "__main__":
         help="Extracted graph's name",
     )
     parser.add_argument(
-        "--custom-extractor-path",
+        "--extractor-config",
         type=str,
         required=False,
         default=None,
-        help="Custom extractor python file path",
-    )
-    parser.add_argument(
-        "--custom-extractor-config",
-        type=str,
-        required=False,
-        default=None,
-        help="Custom extractor configuration string",
+        help="extractor configuration string",
     )
     args = parser.parse_args()
     main(args=args)

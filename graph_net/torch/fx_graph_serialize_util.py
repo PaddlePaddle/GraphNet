@@ -25,6 +25,7 @@ def serialize_graph_module_to_str(gm: torch.fx.GraphModule) -> str:
         (r"torch\._C\._fft\.fft_rfft\(", "torch.fft.rfft("),
         (r"torch\._C\._fft\.fft_fftn\(", "torch.fft.fftn("),
         (r"torch\._C\._nn\.softplus\(", "torch.nn.functional.softplus("),
+        (r"torch\._C\._special\.special_logit\(", "torch.special.logit("),
         # Add new rules to this list as needed
     ]
     for pattern, repl in replacements:

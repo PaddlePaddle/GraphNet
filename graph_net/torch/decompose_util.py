@@ -72,16 +72,11 @@ def convert_to_submodules_graph(
                 return i + 1
         raise NotImplementedError("Dead code.")
 
-    def print_submodule_call(prompt, gm):
-        submodule_call_stmts = [
-            stmt for stmt in gm.code.split("\n") if "self.extracted_submodule" in stmt
-        ]
-        print(f"{prompt} ", submodule_call_stmts)
-
     for range_idx in range(len(range_idx2submodule_body_nodes)):
         (
             submodule_input_nodes,
             submodule_output_nodes,
+            identity_nodes,
         ) = _get_submodule_inputs_and_outputs(
             original_gm=original_gm,
             start_node_idx=get_start_node_idx(range_idx),
@@ -141,19 +136,16 @@ def convert_to_submodules_graph(
                 prev_node = new_output_node
 
         # Replace all use of outputs
+        identity_node_set = set(identity_nodes)
         for original_output in get_output_nodes(range_idx):
-            original_output.replace_all_uses_with(node_map[original_output])
+            if original_output not in identity_node_set:
+                original_output.replace_all_uses_with(node_map[original_output])
 
         # Erase old nodes
         for node in reversed(get_body_nodes(range_idx)):
             original_gm.graph.erase_node(node)
-        # print_submodule_call("(fx) after Erase old nodes", original_gm)
-
-    # print_submodule_call("(fx) before recompile", original_gm)
 
     original_gm.recompile()
-
-    # print_submodule_call("(fx) after recompile", original_gm)
 
     return original_gm
 
@@ -215,33 +207,38 @@ def _get_submodule_inputs_and_outputs(
         for related_node in get_related_node(node):
             count_ctx.node2after_output[related_node] += 1
 
-    if chain_style:
-        input_nodes = [
-            node
-            for node in node_list
-            if (count_ctx.node2before_input[node] > 0)
-            if (count_ctx.node2body[node] > 0 or count_ctx.node2after_output[node] > 0)
-        ]
-        input_nodes_set = set(input_nodes)
-        output_nodes = [
-            node
-            for node in node_list
-            if (count_ctx.node2before_input[node] > 0 or count_ctx.node2body[node] > 0)
-            if (count_ctx.node2after_output[node] > 0)
-        ]
+    input_nodes = [
+        node
+        for node in node_list
+        if count_ctx.node2before_input[node] > 0
+        if count_ctx.node2body[node] > 0
+    ]
+    output_nodes = [
+        node
+        for node in node_list
+        if not (count_ctx.node2before_input[node] > 0)
+        if count_ctx.node2body[node] > 0
+        if count_ctx.node2after_output[node] > 0
+    ]
+    if not chain_style:
+        identity_nodes = []
     else:
-        input_nodes = [
+        identity_nodes = [
             node
             for node in node_list
             if count_ctx.node2before_input[node] > 0
-            if count_ctx.node2body[node] > 0
-        ]
-        output_nodes = [
-            node
-            for node in node_list
-            if not (count_ctx.node2before_input[node] > 0)
-            if count_ctx.node2body[node] > 0
+            if count_ctx.node2body[node] == 0
             if count_ctx.node2after_output[node] > 0
+        ][:1]
+        input_nodes_set = set(input_nodes)
+        input_nodes = [
+            *input_nodes,
+            *[node for node in identity_nodes if node not in input_nodes_set],
+        ]
+        output_nodes_set = set(output_nodes)
+        output_nodes = [
+            *output_nodes,
+            *[node for node in identity_nodes if node not in output_nodes_set],
         ]
 
-    return input_nodes, output_nodes
+    return input_nodes, output_nodes, identity_nodes

@@ -72,6 +72,12 @@ def convert_to_submodules_graph(
                 return i + 1
         raise NotImplementedError("Dead code.")
 
+    def print_submodule_call(prompt, gm):
+        submodule_call_stmts = [
+            stmt for stmt in gm.code.split("\n") if "self.extracted_submodule" in stmt
+        ]
+        print(f"{prompt} ", submodule_call_stmts)
+
     for range_idx in range(len(range_idx2submodule_body_nodes)):
         (
             submodule_input_nodes,
@@ -144,8 +150,13 @@ def convert_to_submodules_graph(
         # Erase old nodes
         for node in reversed(get_body_nodes(range_idx)):
             original_gm.graph.erase_node(node)
+        # print_submodule_call("(fx) after Erase old nodes", original_gm)
+
+    # print_submodule_call("(fx) before recompile", original_gm)
 
     original_gm.recompile()
+
+    # print_submodule_call("(fx) after recompile", original_gm)
 
     return original_gm
 

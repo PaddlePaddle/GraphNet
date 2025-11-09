@@ -5,7 +5,7 @@ MODEL_PATH_IN_SAMPLES=/timm/resnet18
 read -r -d '' json_str <<'EOF'
 {
     "output_dir": "/tmp/naive_decompose_workspace",
-    "split_positions": [0, 32],
+    "split_positions": [8, 32],
     "group_head_and_tail": true
 }
 EOF

@@ -15,14 +15,23 @@ torch._dynamo.config.allow_rnn = True
 
 class GraphExtractor:
     def __init__(
-        self, name, dynamic, mut_graph_codes=None, placeholder_auto_rename=False
+        self,
+        name,
+        dynamic,
+        mut_graph_codes=None,
+        placeholder_auto_rename=False,
+        workspace_path=None,
     ):
         self.subgraph_counter = 0
         self.name = name
         self.dynamic = dynamic
         self.mut_graph_codes = mut_graph_codes
         self.placeholder_auto_rename = placeholder_auto_rename
-        self.workspace_path = os.environ.get("GRAPH_NET_EXTRACT_WORKSPACE")
+        self.workspace_path = (
+            workspace_path
+            if workspace_path is not None
+            else os.environ.get("GRAPH_NET_EXTRACT_WORKSPACE")
+        )
         if not self.workspace_path:
             raise EnvironmentError(
                 "Environment variable 'GRAPH_NET_EXTRACT_WORKSPACE' is not set."
@@ -125,7 +134,13 @@ class GraphExtractor:
         return gm.forward
 
 
-def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=False):
+def extract(
+    name,
+    dynamic=True,
+    mut_graph_codes=None,
+    placeholder_auto_rename=False,
+    extractor_config: dict = None,
+):
     """
     Extract computation graphs from PyTorch nn.Module.
     The extracted computation graphs will be saved into directory of env var $GRAPH_NET_EXTRACT_WORKSPACE.
@@ -194,9 +209,24 @@ def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=Fa
         >>>
     """
 
+    extractor_config = make_extractor_config(extractor_config)
+
+    def get_graph_extractor_maker():
+        custom_extractor_path = extractor_config["custom_extractor_path"]
+        custom_extractor_config = extractor_config["custom_extractor_config"]
+        if custom_extractor_path is None:
+            return GraphExtractor
+        import importlib.util as imp
+
+        spec = imp.spec_from_file_location("graph_extractor", custom_extractor_path)
+        graph_extractor = imp.module_from_spec(spec)
+        spec.loader.exec_module(graph_extractor)
+        cls = graph_extractor.GraphExtractor
+        return lambda *args, **kwargs: cls(custom_extractor_config, *args, **kwargs)
+
     def wrapper(model: torch.nn.Module):
         assert isinstance(model, torch.nn.Module), f"{type(model)=}"
-        extractor = GraphExtractor(
+        extractor = get_graph_extractor_maker()(
             name, dynamic, mut_graph_codes, placeholder_auto_rename
         )
         # return torch.compile(backend=extractor, dynamic=dynamic)
@@ -220,3 +250,18 @@ def extract(name, dynamic=True, mut_graph_codes=None, placeholder_auto_rename=Fa
             )
 
     return decorator_or_wrapper
+
+
+def make_extractor_config(extractor_config):
+    kwargs = extractor_config if extractor_config is not None else {}
+    return make_extractor_config_impl(**kwargs)
+
+
+def make_extractor_config_impl(
+    custom_extractor_path: str = None, custom_extractor_config: dict = None
+):
+    config = custom_extractor_config if custom_extractor_config is not None else {}
+    return {
+        "custom_extractor_path": custom_extractor_path,
+        "custom_extractor_config": config,
+    }

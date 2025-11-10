@@ -126,6 +126,35 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         return gm
 
+    def _impl_unstable_to_stable_special_logit(self, gm):
+        """
+        Convert torch._C._special.special_logit to torch.special.logit
+        """
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._special"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "special_logit"
+        )
+        for node in issue_nodes:
+            node.target = torch.special.logit
+
+        # Recompile the graph
+        gm.recompile()
+
+        return gm
+
+    # replace this line with modification code for task 116 (torch._C._linalg.linalg_vector_norm)
+
+    # replace this line with modification code for task 117 (torch._C._linalg.linalg_norm)
+
+    # replace this line with modification code for task 118 (torch._C._nn.softplus)
+
+    # replace this line with modification code for task 119 (torch._C._nn.one_hot)
+
     def _impl_unstable_to_stable_one_hot(self, gm):
         """
         Convert torch._C._nn.one_hot to torch.nn.functional.one_hot
@@ -149,26 +178,17 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         return gm
 
-    def _impl_unstable_to_stable_special_logit(self, gm):
-        """
-        Convert torch._C._special.special_logit to torch.special.logit
-        """
-        issue_nodes = (
-            node
-            for node in gm.graph.nodes
-            if node.op == "call_function"
-            if hasattr(node.target, "__module__")
-            if node.target.__module__ == "torch._C._special"
-            if hasattr(node.target, "__name__")
-            if node.target.__name__ == "special_logit"
-        )
-        for node in issue_nodes:
-            node.target = torch.special.logit
+    # replace this line with modification code for task 121 (torch._C._set_grad_enabled)
 
-        # Recompile the graph
-        gm.recompile()
+    # replace this line with modification code for task 122 (torch._C._log_api_usage_once)
 
-        return gm
+    # replace this line with modification code for task 123 (torch._C._nn.pad)
+
+    # replace this line with modification code for task 125 (torch._C._nn.gelu)
+
+    # replace this line with modification code for task 126 (torch._C._nn.scaled_dot_product_attention)
+
+    # replace this line with modification code for task 127 (torch._C._nn.linear)
 
     def unstable_to_stable(self, gm):
         methods = (

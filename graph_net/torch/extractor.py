@@ -139,8 +139,7 @@ def extract(
     dynamic=True,
     mut_graph_codes=None,
     placeholder_auto_rename=False,
-    custom_extractor_path: str = None,
-    custom_extractor_config: str = None,
+    extractor_config: dict = None,
 ):
     """
     Extract computation graphs from PyTorch nn.Module.
@@ -210,7 +209,11 @@ def extract(
         >>>
     """
 
+    extractor_config = make_extractor_config(extractor_config)
+
     def get_graph_extractor_maker():
+        custom_extractor_path = extractor_config["custom_extractor_path"]
+        custom_extractor_config = extractor_config["custom_extractor_config"]
         if custom_extractor_path is None:
             return GraphExtractor
         import importlib.util as imp
@@ -247,3 +250,18 @@ def extract(
             )
 
     return decorator_or_wrapper
+
+
+def make_extractor_config(extractor_config):
+    kwargs = extractor_config if extractor_config is not None else {}
+    return make_extractor_config_impl(**kwargs)
+
+
+def make_extractor_config_impl(
+    custom_extractor_path: str = None, custom_extractor_config: dict = None
+):
+    config = custom_extractor_config if custom_extractor_config is not None else {}
+    return {
+        "custom_extractor_path": custom_extractor_path,
+        "custom_extractor_config": config,
+    }

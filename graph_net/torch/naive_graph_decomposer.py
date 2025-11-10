@@ -1,18 +1,17 @@
 import os
 import torch
-import json
-import base64
 import shutil
 from typing import Union, Callable
 from graph_net.torch import utils
 from graph_net.torch.decompose_util import convert_to_submodules_graph
 from graph_net.torch.extractor import GraphExtractor as BuiltinGraphExtractor
+import graph_net.imp_util as imp_util
 
 
 class GraphExtractor:
     def __init__(
         self,
-        config_str: str,
+        config: dict,
         name,
         dynamic,
         mut_graph_codes=None,
@@ -23,7 +22,7 @@ class GraphExtractor:
         self.dynamic = dynamic
         self.mut_graph_codes = mut_graph_codes
         self.placeholder_auto_rename = placeholder_auto_rename
-        self.config = self.make_config(**self.convert_to_dict(config_str))
+        self.config = self.make_config(**config)
 
     def make_config(
         self,
@@ -31,6 +30,8 @@ class GraphExtractor:
         group_head_and_tail=False,
         chain_style=False,
         output_dir="./tmp/naive_decomposer_dir",
+        filter_path=None,
+        filter_config=None,
     ):
         for pos in split_positions:
             assert isinstance(
@@ -41,6 +42,8 @@ class GraphExtractor:
             "group_head_and_tail": group_head_and_tail,
             "chain_style": chain_style,
             "output_dir": output_dir,
+            "filter_path": filter_path,
+            "filter_config": filter_config if filter_config is not None else {},
         }
 
     def __call__(self, gm: torch.fx.GraphModule, sample_inputs):
@@ -59,14 +62,6 @@ class GraphExtractor:
     def get_naive_decomposer_extractor(self, submodule, seq_no):
         return NaiveDecomposerExtractor(self, submodule, seq_no)
 
-    def convert_to_dict(self, config_str):
-        if config_str is None:
-            return {}
-        config_str = base64.b64decode(config_str).decode("utf-8")
-        config = json.loads(config_str)
-        assert isinstance(config, dict), f"config should be a dict. {config_str=}"
-        return config
-
 
 class NaiveDecomposerExtractor(torch.nn.Module):
     def __init__(self, parent_graph_extractor, submodule, seq_no):
@@ -83,9 +78,22 @@ class NaiveDecomposerExtractor(torch.nn.Module):
             placeholder_auto_rename=parent_graph_extractor.placeholder_auto_rename,
             workspace_path=self.parent_graph_extractor.config["output_dir"],
         )
+        self.filter = self.make_filter(self.parent_graph_extractor.config)
 
     def forward(self, *args):
         if not self.extracted:
-            self.builtin_extractor(self.submodule, args)
+            if self.need_extract(self.submodule, args):
+                self.builtin_extractor(self.submodule, args)
             self.extracted = True
         return self.submodule(*args)
+
+    def need_extract(self, gm, sample_inputs):
+        if self.filter is None:
+            return True
+        return self.filter(gm, sample_inputs)
+
+    def make_filter(self, config):
+        if config["filter_path"] is None:
+            return None
+        module = imp_util.load_module(config["filter_path"])
+        return module.GraphFilter(config["filter_config"])

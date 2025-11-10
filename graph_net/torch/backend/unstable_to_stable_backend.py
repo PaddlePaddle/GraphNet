@@ -126,27 +126,6 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         return gm
 
-    def _impl_unstable_to_stable_softplus(self, gm):
-        """
-        Convert torch._C._nn.softplus to torch.nn.functional.softplus
-        """
-        import torch.nn.functional as F
-
-        issue_nodes = (
-            node
-            for node in gm.graph.nodes
-            if node.op == "call_function"
-            if hasattr(node.target, "__module__")
-            if node.target.__module__ == "torch._C._nn"
-            if hasattr(node.target, "__name__")
-            if node.target.__name__ == "softplus"
-        )
-        for node in issue_nodes:
-            node.target = F.softplus
-
-        gm.recompile()
-        return gm
-
     def _impl_unstable_to_stable_special_logit(self, gm):
         """
         Convert torch._C._special.special_logit to torch.special.logit
@@ -171,7 +150,26 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
     # replace this line with modification code for task 117 (torch._C._linalg.linalg_norm)
 
-    # replace this line with modification code for task 118 (torch._C._nn.softplus)
+    def _impl_unstable_to_stable_softplus(self, gm):
+        """
+        Convert torch._C._nn.softplus to torch.nn.functional.softplus
+        """
+        import torch.nn.functional as F
+
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._nn"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "softplus"
+        )
+        for node in issue_nodes:
+            node.target = F.softplus
+
+        gm.recompile()
+        return gm
 
     # replace this line with modification code for task 119 (torch._C._nn.one_hot)
 

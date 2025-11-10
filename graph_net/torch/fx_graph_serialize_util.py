@@ -24,11 +24,10 @@ def serialize_graph_module_to_str(gm: torch.fx.GraphModule) -> str:
         (r"torch\._C\._fft\.fft_irfft\(", "torch.fft.irfft("),
         (r"torch\._C\._fft\.fft_rfft\(", "torch.fft.rfft("),
         (r"torch\._C\._fft\.fft_fftn\(", "torch.fft.fftn("),
-        (r"torch\._C\._nn\.softplus\(", "torch.nn.functional.softplus("),
         (r"torch\._C\._special\.special_logit\(", "torch.special.logit("),
         # replace this line with modification code for task 116 (torch._C._linalg.linalg_vector_norm)
         # replace this line with modification code for task 117 (torch._C._linalg.linalg_norm)
-        # replace this line with modification code for task 118 (torch._C._nn.softplus)
+        (r"torch\._C\._nn\.softplus\(", "torch.nn.functional.softplus("),
         # replace this line with modification code for task 119 (torch._C._nn.one_hot)
         # replace this line with modification code for task 121 (torch._C._set_grad_enabled)
         # replace this line with modification code for task 122 (torch._C._log_api_usage_once)

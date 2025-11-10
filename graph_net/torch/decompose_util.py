@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 
 def convert_to_submodules_graph(
-    original_gm: torch.fx.GraphModule,
+    gm: torch.fx.GraphModule,
     split_positions: list[int],
     submodule_hook=None,
     submodule_name_prefix="extracted_submodule",
@@ -14,15 +14,15 @@ def convert_to_submodules_graph(
     group_head_and_tail=True,
 ):
     """
-    chain_style=True: decompose original_gm into g0 * g1 * g2 * g3
+    chain_style=True: decompose gm into g0 * g1 * g2 * g3
     """
-    original_gm = copy.deepcopy(original_gm)
+    gm = copy.deepcopy(gm)
     num_placeholders = len(
-        [node for node in original_gm.graph.nodes if node.op == "placeholder"]
+        [node for node in gm.graph.nodes if node.op == "placeholder"]
     )
     submodules_body_nodes = [
         node
-        for node in original_gm.graph.nodes
+        for node in gm.graph.nodes
         if node.op
         not in {
             "placeholder",
@@ -37,12 +37,15 @@ def convert_to_submodules_graph(
     split_positions = [
         max(0, min(pos, len(submodules_body_nodes))) for pos in split_positions
     ]
-    range_idx2submodule_body_nodes = [
-        submodules_body_nodes[start:end]
+    range_idx2range = [
+        (start, end)
         for i in range(len(split_positions) - 1)
         for start in [split_positions[i]]
         for end in [split_positions[i + 1]]
         if end > start
+    ]
+    range_idx2submodule_body_nodes = [
+        submodules_body_nodes[start:end] for start, end in range_idx2range
     ]
 
     def get_body_nodes(range_idx):
@@ -54,20 +57,20 @@ def convert_to_submodules_graph(
         )
         return {
             name: module
-            for name, module in original_gm.named_modules()
+            for name, module in gm.named_modules()
             if name in used_module_names
         }
 
     def get_start_node_idx(range_idx):
         start_node = get_body_nodes(range_idx)[0]
-        for i, node in enumerate(original_gm.graph.nodes):
+        for i, node in enumerate(gm.graph.nodes):
             if node == start_node:
                 return i
         raise NotImplementedError("Dead code.")
 
     def get_end_node_idx(range_idx):
         last_node = get_body_nodes(range_idx)[-1]
-        for i, node in enumerate(original_gm.graph.nodes):
+        for i, node in enumerate(gm.graph.nodes):
             if node == last_node:
                 return i + 1
         raise NotImplementedError("Dead code.")
@@ -78,23 +81,33 @@ def convert_to_submodules_graph(
         ]
         print(f"{prompt} ", submodule_call_stmts)
 
+    new_node2original_node = {}
+    for node in gm.graph.nodes:
+        new_node2original_node[node] = node
+
+    def sort_key(node):
+        return new_node2original_node[node].name
+
     for range_idx in range(len(range_idx2submodule_body_nodes)):
         (
             submodule_input_nodes,
             submodule_output_nodes,
             identity_nodes,
         ) = _get_submodule_inputs_and_outputs(
-            original_gm=original_gm,
+            gm=gm,
             start_node_idx=get_start_node_idx(range_idx),
             end_node_idx=get_end_node_idx(range_idx),
             chain_style=chain_style,
         )
 
         def get_input_nodes(range_idx):
-            return submodule_input_nodes
+            return sorted(submodule_input_nodes, key=sort_key)
 
         def get_output_nodes(range_idx):
-            return submodule_output_nodes
+            end = range_idx2range[range_idx][1]
+            if end >= len(submodules_body_nodes):
+                return submodule_output_nodes
+            return sorted(submodule_output_nodes, key=sort_key)
 
         submodule_name = (
             f"{submodule_name_prefix}_{range_idx}"
@@ -107,7 +120,8 @@ def convert_to_submodules_graph(
 
         # Add placeholder nodes for inputs
         for original_node in get_input_nodes(range_idx):
-            new_node = new_graph.placeholder(original_node.name)
+            name = new_node2original_node[original_node].name
+            new_node = new_graph.placeholder(name)
             node_map[original_node] = new_node
 
         # Copy body nodes
@@ -116,9 +130,9 @@ def convert_to_submodules_graph(
             node_map[original_node] = new_node
 
         # Add output nodes
-        output_args = []
-        for original_node in get_output_nodes(range_idx):
-            output_args.append(node_map[original_node])
+        output_args = [
+            node_map[original_node] for original_node in get_output_nodes(range_idx)
+        ]
         new_graph.output(tuple(output_args))
 
         # Create the new GraphModule
@@ -127,15 +141,15 @@ def convert_to_submodules_graph(
         if submodule_hook is not None:
             new_sub_module = submodule_hook(new_sub_module, range_idx)
         # Replace with submodule node
-        original_gm.add_submodule(submodule_name, new_sub_module)
-        with original_gm.graph.inserting_after(get_body_nodes(range_idx)[-1]):
-            submodule_node = original_gm.graph.call_module(
+        gm.add_submodule(submodule_name, new_sub_module)
+        with gm.graph.inserting_after(get_body_nodes(range_idx)[-1]):
+            submodule_node = gm.graph.call_module(
                 submodule_name, tuple(get_input_nodes(range_idx))
             )
         prev_node = submodule_node
         for idx, original_output in enumerate(get_output_nodes(range_idx)):
-            with original_gm.graph.inserting_after(prev_node):
-                new_output_node = original_gm.graph.call_function(
+            with gm.graph.inserting_after(prev_node):
+                new_output_node = gm.graph.call_function(
                     operator.getitem, (submodule_node, idx)
                 )
                 node_map[original_output] = new_output_node
@@ -146,23 +160,26 @@ def convert_to_submodules_graph(
         for original_output in get_output_nodes(range_idx):
             if original_output not in identity_node_set:
                 original_output.replace_all_uses_with(node_map[original_output])
+                new_node2original_node[
+                    node_map[original_output]
+                ] = new_node2original_node[original_output]
 
         # Erase old nodes
         for node in reversed(get_body_nodes(range_idx)):
-            original_gm.graph.erase_node(node)
-        # print_submodule_call("(fx) after Erase old nodes", original_gm)
+            gm.graph.erase_node(node)
+        # print_submodule_call("(fx) after Erase old nodes", gm)
 
-    # print_submodule_call("(fx) before recompile", original_gm)
+    # print_submodule_call("(fx) before recompile", gm)
 
-    original_gm.recompile()
+    gm.recompile()
 
-    # print_submodule_call("(fx) after recompile", original_gm)
+    # print_submodule_call("(fx) after recompile", gm)
 
-    return original_gm
+    return gm
 
 
 def fold_range_to_submodule(
-    original_gm: torch.fx.GraphModule,
+    gm: torch.fx.GraphModule,
     start_node_idx: int,
     end_node_idx: int,
     submodule_hook=None,
@@ -170,7 +187,7 @@ def fold_range_to_submodule(
     group_head_and_tail=True,
 ):
     return convert_to_submodules_graph(
-        original_gm,
+        gm,
         split_positions=[start_node_idx, end_node_idx],
         submodule_hook=submodule_hook,
         submodule_name_prefix=submodule_name,
@@ -186,7 +203,7 @@ class NodeProducedOrConsumedCountCtx:
 
 
 def _get_submodule_inputs_and_outputs(
-    original_gm: torch.fx.GraphModule,
+    gm: torch.fx.GraphModule,
     start_node_idx: int,
     end_node_idx: int,
     chain_style=False,
@@ -196,7 +213,7 @@ def _get_submodule_inputs_and_outputs(
         defaultdict(int),
         defaultdict(int),
     )
-    node_list = list(original_gm.graph.nodes)
+    node_list = list(gm.graph.nodes)
 
     def get_related_node(node):
         for arg in node.args:
@@ -240,7 +257,7 @@ def _get_submodule_inputs_and_outputs(
             if count_ctx.node2before_input[node] > 0
             if count_ctx.node2body[node] == 0
             if count_ctx.node2after_output[node] > 0
-        ][:1]
+        ]
         input_nodes_set = set(input_nodes)
         input_nodes = [
             *input_nodes,
@@ -251,5 +268,4 @@ def _get_submodule_inputs_and_outputs(
             *output_nodes,
             *[node for node in identity_nodes if node not in output_nodes_set],
         ]
-
     return input_nodes, output_nodes, identity_nodes

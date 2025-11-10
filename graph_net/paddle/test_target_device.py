@@ -116,9 +116,7 @@ def test_single_model(args):
 
 
 def is_reference_log_exist(reference_dir, model_path):
-    log_path = test_reference_device.get_reference_log_path(
-        args.reference_dir, args.model_path
-    )
+    log_path = test_reference_device.get_reference_log_path(reference_dir, model_path)
     return os.path.isfile(log_path)
 
 

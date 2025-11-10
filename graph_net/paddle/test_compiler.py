@@ -208,17 +208,29 @@ def check_outputs(args, expected_out, compiled_out):
     eager_dtypes = [None] * len(expected_out)
     for i, tensor in enumerate(expected_out):
         eager_dtypes[i] = (
-            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "none"
+            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "None"
         )
 
     compiled_dtypes = [None] * len(compiled_out)
     for i, tensor in enumerate(compiled_out):
         compiled_dtypes[i] = (
-            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "none"
+            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "None"
         )
 
     type_match = test_compiler_util.check_output_datatype(
         args, eager_dtypes, compiled_dtypes
+    )
+
+    eager_shapes = [None] * len(expected_out)
+    for i, tensor in enumerate(expected_out):
+        eager_shapes[i] = tensor.shape if tensor is not None else None
+
+    compiled_shapes = [None] * len(compiled_out)
+    for i, tensor in enumerate(compiled_out):
+        compiled_shapes[i] = tensor.shape if tensor is not None else None
+
+    shape_match = test_compiler_util.check_output_shape(
+        args, eager_shapes, compiled_shapes
     )
 
     def transfer_to_float(origin_outputs):
@@ -233,7 +245,7 @@ def check_outputs(args, expected_out, compiled_out):
             outputs.append(item)
         return outputs
 
-    if type_match:
+    if type_match and shape_match:
         test_compiler_util.check_equal(
             args,
             expected_out,

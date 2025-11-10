@@ -69,6 +69,8 @@ def load_class_from_file(
     exec(compiled_code, module.__dict__)
 
     model_class = getattr(module, class_name, None)
+    setattr(model_class, "__file_path__", file_path)
+    setattr(model_class, "__device__", device)
     return model_class
 
 

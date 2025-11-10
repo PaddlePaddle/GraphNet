@@ -1,13 +1,13 @@
 #!/bin/bash
 
 if [ -z "$GRAPH_NET_BENCHMARK_PATH" ]; then
-    GRAPH_NET_BENCHMARK_PATH="$(pwd)"
+    GRAPH_NET_BENCHMARK_PATH="$(pwd)/graphnet_benchmark"
 fi
 
 FILE_PATH=$GRAPH_NET_BENCHMARK_PATH/decomposer
 mkdir -p "$(dirname "$FILE_PATH/log.log")"
 
-MODEL_PATH="./todo_works/range_decomposer_validator/test/simple_CNN"
+MODEL_PATH="./todo_works/range_decomposer_validator/test/resnet18"
 
 python -m graph_net.torch.test_compiler \
     --model-path $MODEL_PATH \

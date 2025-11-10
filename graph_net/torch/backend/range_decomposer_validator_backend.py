@@ -13,11 +13,8 @@ class ComposedModel(nn.Module):
         super().__init__()
         self.graph = graph
         self.subgraph = nn.ModuleList(subgraph)
-        self.subgraph_param_names = [
-            list(inspect.signature(sm.forward).parameters.keys())
-            for sm in self.subgraph
-        ]
         self.extract_node = []
+        self.graph_model = torch.compile(self.graph, backend=self.extract_compiler)
 
     def _serialize_arg(self, arg: Any) -> Any:
         if isinstance(arg, torch.fx.Node):
@@ -39,7 +36,6 @@ class ComposedModel(nn.Module):
                 operator_info = {
                     "op_type": node.op,
                     "target": node.target,
-                    "name": node.name,
                     "kwargs": self._serialize_arg(node.kwargs),
                 }
 
@@ -61,30 +57,26 @@ class ComposedModel(nn.Module):
         return gm.forward
 
     def forward(self, **kwargs):
-        current_args = kwargs
-        compiled_model = torch.compile(self.graph, backend=self.extract_compiler)
-        compiled_model(**current_args)
+        self.graph_model(**kwargs)
         graph_node_list = list(itertools.chain.from_iterable(self.extract_node))
         self.extract_node = []
 
-        for i, (sm, param_names) in enumerate(
-            zip(self.subgraph, self.subgraph_param_names)
-        ):
-            call_kwargs = {}
-            if i > 0:
-                first_param_name = param_names[0]
-                call_kwargs[first_param_name] = current_args
-                remaining_params = param_names[1:]
+        subgraph_intput = {
+            key.replace("L", "l_l", 1): value
+            for key, value in kwargs.items()
+            if key.startswith("L")
+        }
+
+        output = None
+        for subgraph_model in self.subgraph:
+            compiled_model = torch.compile(
+                subgraph_model, backend=self.extract_compiler
+            )
+
+            if output is None:
+                output = compiled_model(**subgraph_intput)
             else:
-                remaining_params = param_names
-
-            for name in remaining_params:
-                if name in kwargs:
-                    call_kwargs[name] = kwargs[name]
-
-            compiled_model = torch.compile(sm, backend=self.extract_compiler)
-            outputs = compiled_model(**call_kwargs)
-            current_args = outputs[0]
+                output = compiled_model(*output)
 
         subgraph_node_list = list(itertools.chain.from_iterable(self.extract_node))
         self.extract_node = []
@@ -102,7 +94,7 @@ class ComposedModel(nn.Module):
             error_msg += f"Nodes in subgraph but not in graph: {diff_in_subgraph}"
             raise ValueError(error_msg)
 
-        return (current_args,)
+        return output
 
 
 class RangeDecomposerValidatorBackend:
@@ -119,7 +111,7 @@ class RangeDecomposerValidatorBackend:
         return instance
 
     def __call__(self, model: torch.nn.Module) -> torch.nn.Module:
-        model_file_path = model.__class__.__file_path__
+        model_file_path = model.__class__.__graph_net_file_path__
         model_dir = os.path.dirname(model_file_path)
         decomposed_parent_dir = model_dir + "_decomposed"
         subgraph_paths = []
@@ -132,7 +124,7 @@ class RangeDecomposerValidatorBackend:
             f"[RangeDecomposerValidatorBackend] Found subgraphs: {[os.path.basename(p) for p in subgraph_paths]}"
         )
 
-        device = model.__class__.__device__
+        device = model.__class__.__graph_net_device__
         graph_instances = self._load_model_instance(model_dir, device)
         subgraph_instances = []
 

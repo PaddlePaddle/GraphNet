@@ -153,8 +153,6 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
     # replace this line with modification code for task 118 (torch._C._nn.softplus)
 
-    # replace this line with modification code for task 119 (torch._C._nn.one_hot)
-
     def _impl_unstable_to_stable_one_hot(self, gm):
         """
         Convert torch._C._nn.one_hot to torch.nn.functional.one_hot

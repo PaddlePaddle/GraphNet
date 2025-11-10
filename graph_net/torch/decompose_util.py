@@ -37,12 +37,15 @@ def convert_to_submodules_graph(
     split_positions = [
         max(0, min(pos, len(submodules_body_nodes))) for pos in split_positions
     ]
-    range_idx2submodule_body_nodes = [
-        submodules_body_nodes[start:end]
+    range_idx2range = [
+        (start, end)
         for i in range(len(split_positions) - 1)
         for start in [split_positions[i]]
         for end in [split_positions[i + 1]]
         if end > start
+    ]
+    range_idx2submodule_body_nodes = [
+        submodules_body_nodes[start:end] for start, end in range_idx2range
     ]
 
     def get_body_nodes(range_idx):
@@ -101,6 +104,9 @@ def convert_to_submodules_graph(
             return sorted(submodule_input_nodes, key=sort_key)
 
         def get_output_nodes(range_idx):
+            end = range_idx2range[range_idx][1]
+            if end >= len(submodules_body_nodes):
+                return submodule_output_nodes
             return sorted(submodule_output_nodes, key=sort_key)
 
         submodule_name = (

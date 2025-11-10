@@ -126,6 +126,27 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         return gm
 
+    def _impl_unstable_to_stable_special_logit(self, gm):
+        """
+        Convert torch._C._special.special_logit to torch.special.logit
+        """
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._special"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "special_logit"
+        )
+        for node in issue_nodes:
+            node.target = torch.special.logit
+
+        # Recompile the graph
+        gm.recompile()
+
+        return gm
+
     def unstable_to_stable(self, gm):
         methods = (
             name

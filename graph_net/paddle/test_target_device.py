@@ -167,6 +167,8 @@ def main(args):
     assert os.path.isdir(args.model_path)
     assert args.device in ["cuda", "dcu", "xpu", "cpu"]
 
+    test_compiler.init_env(args)
+
     if path_utils.is_single_model_dir(args.model_path):
         args = update_args_and_set_seed(args, args.model_path)
         test_single_model(args)

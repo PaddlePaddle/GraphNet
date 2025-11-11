@@ -131,6 +131,7 @@ def main(args):
     assert args.device in ["cuda"]
 
     test_compiler.set_seed(random_seed=args.seed)
+    test_compiler.init_env(args)
 
     ref_dump_dir = Path(args.reference_dir)
     ref_dump_dir.mkdir(parents=True, exist_ok=True)

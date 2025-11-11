@@ -41,6 +41,11 @@ def set_seed(random_seed):
     np.random.seed(random_seed)
 
 
+def init_env(args):
+    if test_compiler_util.is_gpu_device(args.device):
+        paddle.set_flags({"FLAGS_cudnn_exhaustive_search": 1})
+
+
 def get_hardward_name(args):
     hardware = "unknown"
     if test_compiler_util.is_gpu_device(args.device):
@@ -156,7 +161,10 @@ def measure_performance(model_call, args, compiler, profile=False):
         gpu_times = []
 
         if profile:
-            paddle.base.core.nvprof_start()
+            import paddle.profiler as profiler
+
+            p = profiler.Profiler()
+            p.start()
         for i in range(args.trials):
             # End-to-end timing (naive_timer)
             duration_box = test_compiler_util.DurationBox(-1)
@@ -168,6 +176,8 @@ def measure_performance(model_call, args, compiler, profile=False):
                 start_event.record()
                 model_call()
                 end_event.record()
+                if profile:
+                    p.step()
 
             gpu_time_ms = start_event.elapsed_time(end_event)
             e2e_times.append(duration_box.value)
@@ -178,7 +188,8 @@ def measure_performance(model_call, args, compiler, profile=False):
                 flush=True,
             )
         if profile:
-            paddle.base.core.nvprof_stop()
+            p.stop()
+            p.summary()
 
         stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
         stats["gpu"] = test_compiler_util.get_timing_stats(gpu_times)

@@ -12,54 +12,10 @@ class ComposedModel(nn.Module):
     def __init__(self, graph: nn.Module, subgraph: List[nn.Module]):
         super().__init__()
         self.graph = graph
-        self.subgraph = nn.ModuleList(subgraph)
-        self.extract_node = []
-        self.graph_model = torch.compile(self.graph, backend=self.extract_compiler)
-
-    def _serialize_arg(self, arg: Any) -> Any:
-        if isinstance(arg, torch.fx.Node):
-            return arg.name
-        if isinstance(arg, (list, tuple)):
-            return type(arg)(self._serialize_arg(elem) for elem in arg)
-        if isinstance(arg, dict):
-            return {
-                self._serialize_arg(k): self._serialize_arg(v) for k, v in arg.items()
-            }
-        return arg
-
-    def _extract_operators_from_graph(
-        self, gm: nn.Module, example_inputs: List[torch.Tensor] = None
-    ) -> List[Dict[str, Any]]:
-        operator_list = []
-        for node in gm.graph.nodes:
-            if node.op in ("call_method", "call_function", "call_module"):
-                operator_info = {
-                    "op_type": node.op,
-                    "target": node.target,
-                    "kwargs": self._serialize_arg(node.kwargs),
-                }
-
-                if isinstance(node.target, Callable):
-                    try:
-                        operator_info["target_name"] = node.target.__name__
-                    except AttributeError:
-                        operator_info["target_name"] = str(node.target)
-                else:
-                    operator_info["target_name"] = str(node.target)
-
-                operator_list.append(operator_info)
-
-        return operator_list
-
-    def extract_compiler(self, gm: torch.fx.GraphModule, inputs: List[torch.Tensor]):
-        operator = self._extract_operators_from_graph(gm, inputs)
-        self.extract_node.append(operator)
-        return gm.forward
+        self.subgraphs = nn.ModuleList(subgraph)
 
     def forward(self, **kwargs):
-        self.graph_model(**kwargs)
-        graph_node_list = list(itertools.chain.from_iterable(self.extract_node))
-        self.extract_node = []
+        self.graph(**kwargs)
 
         subgraph_intput = {
             key.replace("L", "l_l", 1): value
@@ -68,31 +24,11 @@ class ComposedModel(nn.Module):
         }
 
         output = None
-        for subgraph_model in self.subgraph:
-            compiled_model = torch.compile(
-                subgraph_model, backend=self.extract_compiler
-            )
-
+        for subgraph in self.subgraphs:
             if output is None:
-                output = compiled_model(**subgraph_intput)
+                output = subgraph(**subgraph_intput)
             else:
-                output = compiled_model(*output)
-
-        subgraph_node_list = list(itertools.chain.from_iterable(self.extract_node))
-        self.extract_node = []
-
-        if graph_node_list != subgraph_node_list:
-            diff_in_graph = [
-                item for item in graph_node_list if item not in subgraph_node_list
-            ]
-            diff_in_subgraph = [
-                item for item in subgraph_node_list if item not in graph_node_list
-            ]
-
-            error_msg = f"Subgraph segmentation verification failed\n"
-            error_msg += f"Nodes in graph but not in subgraph: {diff_in_graph}\n"
-            error_msg += f"Nodes in subgraph but not in graph: {diff_in_subgraph}"
-            raise ValueError(error_msg)
+                output = subgraph(*output)
 
         return output
 

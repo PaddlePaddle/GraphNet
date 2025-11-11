@@ -157,6 +157,27 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         return gm
 
+   
+
+    # replace this line with modification code for task 116 (torch._C._linalg.linalg_vector_norm)
+
+    # replace this line with modification code for task 117 (torch._C._linalg.linalg_norm)
+
+    # replace this line with modification code for task 118 (torch._C._nn.softplus)
+
+    # replace this line with modification code for task 119 (torch._C._nn.one_hot)
+
+    # replace this line with modification code for task 121 (torch._C._set_grad_enabled)
+
+    # replace this line with modification code for task 122 (torch._C._log_api_usage_once)
+
+    # replace this line with modification code for task 123 (torch._C._nn.pad)
+
+    # replace this line with modification code for task 125 (torch._C._nn.gelu)
+
+    # replace this line with modification code for task 126 (torch._C._nn.scaled_dot_product_attention)
+
+
     def _impl_unstable_to_stable_linear_to_functional_linear(self, gm):
         """
         Convert torch._C._nn.linear to torch.nn.functional.linear
@@ -210,27 +231,7 @@ class UnstableToStableBackend(GraphCompilerBackend):
         gm.recompile()
 
         return gm
-
-    # replace this line with modification code for task 116 (torch._C._linalg.linalg_vector_norm)
-
-    # replace this line with modification code for task 117 (torch._C._linalg.linalg_norm)
-
-    # replace this line with modification code for task 118 (torch._C._nn.softplus)
-
-    # replace this line with modification code for task 119 (torch._C._nn.one_hot)
-
-    # replace this line with modification code for task 121 (torch._C._set_grad_enabled)
-
-    # replace this line with modification code for task 122 (torch._C._log_api_usage_once)
-
-    # replace this line with modification code for task 123 (torch._C._nn.pad)
-
-    # replace this line with modification code for task 125 (torch._C._nn.gelu)
-
-    # replace this line with modification code for task 126 (torch._C._nn.scaled_dot_product_attention)
-
-    # replace this line with modification code for task 127 (torch._C._nn.linear)
-
+    
     def unstable_to_stable(self, gm):
         methods = (
             name

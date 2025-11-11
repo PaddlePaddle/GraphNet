@@ -140,16 +140,30 @@ def measure_performance(model_call, args, compiler, profile=False):
     outs = model_call()
 
     # Warmup runs
+    warmup_e2e_times = []
     for _ in range(args.warmup):
-        model_call()
+        duration_box = test_compiler_util.DurationBox(-1)
+        with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
+            model_call()
+        warmup_e2e_times.append(duration_box.value)
     compiler.synchronize()
+
+    # Ensure the measuring time is not less than 100ms.
+    min_trials = int(100 / np.mean(warmup_e2e_times[1:]))
+    trials = max(args.trials, min_trials)
 
     hardware_name = get_hardward_name(args)
     print(
-        f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}",
+        f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {trials}",
         file=sys.stderr,
         flush=True,
     )
+
+    if profile:
+        import paddle.profiler as profiler
+
+        p = profiler.Profiler()
+        p.start()
 
     if test_compiler_util.is_gpu_device(args.device):
         """
@@ -160,12 +174,7 @@ def measure_performance(model_call, args, compiler, profile=False):
         e2e_times = []
         gpu_times = []
 
-        if profile:
-            import paddle.profiler as profiler
-
-            p = profiler.Profiler()
-            p.start()
-        for i in range(args.trials):
+        for i in range(trials):
             # End-to-end timing (naive_timer)
             duration_box = test_compiler_util.DurationBox(-1)
             with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
@@ -176,8 +185,9 @@ def measure_performance(model_call, args, compiler, profile=False):
                 start_event.record()
                 model_call()
                 end_event.record()
-                if profile:
-                    p.step()
+
+            if profile:
+                p.step()
 
             gpu_time_ms = start_event.elapsed_time(end_event)
             e2e_times.append(duration_box.value)
@@ -187,25 +197,29 @@ def measure_performance(model_call, args, compiler, profile=False):
                 file=sys.stderr,
                 flush=True,
             )
-        if profile:
-            p.stop()
-            p.summary()
-
         stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
         stats["gpu"] = test_compiler_util.get_timing_stats(gpu_times)
     else:  # CPU or other devices
         e2e_times = []
-        for i in range(args.trials):
+        for i in range(trials):
             duration_box = test_compiler_util.DurationBox(-1)
             with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
                 model_call()
+
+            if profile:
+                p.step()
+
+            e2e_times.append(duration_box.value)
             print(
                 f"Trial {i + 1}: e2e={duration_box.value:.4f} ms",
                 file=sys.stderr,
                 flush=True,
             )
-            e2e_times.append(duration_box.value)
         stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
+
+    if profile:
+        p.stop()
+        p.summary()
 
     return outs, stats
 

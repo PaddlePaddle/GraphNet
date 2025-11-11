@@ -157,8 +157,6 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         return gm
 
-   
-
     # replace this line with modification code for task 116 (torch._C._linalg.linalg_vector_norm)
 
     # replace this line with modification code for task 117 (torch._C._linalg.linalg_norm)
@@ -176,7 +174,6 @@ class UnstableToStableBackend(GraphCompilerBackend):
     # replace this line with modification code for task 125 (torch._C._nn.gelu)
 
     # replace this line with modification code for task 126 (torch._C._nn.scaled_dot_product_attention)
-
 
     def _impl_unstable_to_stable_linear_to_functional_linear(self, gm):
         """
@@ -231,7 +228,7 @@ class UnstableToStableBackend(GraphCompilerBackend):
         gm.recompile()
 
         return gm
-    
+
     def unstable_to_stable(self, gm):
         methods = (
             name

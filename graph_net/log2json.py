@@ -53,6 +53,9 @@ def parse_logs_to_json(log_file: str, output_dir: str):
                     "datatype": {},
                     "speedup": {},
                 },
+                "result": {
+                    "status": "unknown",
+                },
             }
             continue
 
@@ -102,16 +105,20 @@ def parse_logs_to_json(log_file: str, output_dir: str):
         result_status_match = patterns["result_status"].search(line)
         if result_status_match:
             status = result_status_match.group(1).strip()
+            data["result"]["status"] = status
             if status == "failed" and (i + 1) < len(lines):
                 error_reason_match = patterns["failure"].search(lines[i + 1])
                 if error_reason_match:
                     reason = error_reason_match.group(1).lower()
                     if "eager" in reason:
                         data["performance"]["failure"] = "eager"
+                        data["result"]["status"] = "eager_fail"
                     elif "compiled" in reason:
                         data["performance"]["failure"] = "compiled"
+                        data["result"]["status"] = "compile_fail"
                     else:
                         data["performance"]["failure"] = "other"
+                        data["result"]["status"] = "runtime_fail"
             continue
 
         speedup_match = patterns["speedup"].search(line)
@@ -140,6 +147,20 @@ def parse_logs_to_json(log_file: str, output_dir: str):
             # for Paddle
             # filename = f"{model_name}_{subgraph_name}_{compiler_name}.json"
             filepath = os.path.join(output_dir, filename)
+
+            # Build result field with status and speedup
+            if data["result"]["status"] == "success":
+                speedup_data = {}
+                if "e2e" in data["performance"]["speedup"]:
+                    speedup_data["e2e"] = {
+                        "mean": data["performance"]["speedup"]["e2e"]
+                    }
+                if "gpu" in data["performance"]["speedup"]:
+                    speedup_data["gpu"] = {
+                        "mean": data["performance"]["speedup"]["gpu"]
+                    }
+                if speedup_data:
+                    data["result"]["speedup"] = speedup_data
 
             with open(filepath, "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=4)

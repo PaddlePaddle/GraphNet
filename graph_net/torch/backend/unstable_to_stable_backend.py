@@ -2,6 +2,7 @@ import os
 import torch
 import sys
 import inspect
+import ast
 from .graph_compiler_backend import GraphCompilerBackend
 from ..fx_graph_serialize_util import serialize_graph_module_to_str
 
@@ -12,12 +13,21 @@ class UnstableToStableBackend(GraphCompilerBackend):
         unstable_api = os.getenv("DISALLOWED_UNSTABLE_API", "").strip()
         self.unstable_api = unstable_api
 
+        # Use torch.compile's backend method to get graph module uniformly
+        # This ensures all models use the same conversion method, avoiding performance differences
         def my_backend(gm, sample_inputs):
+            # Convert unstable API
             gm = self.unstable_to_stable(gm)
             self.check_unstable_api(gm)
+            # Return forward function without additional optimization
             return gm.forward
 
-        return torch.compile(backend=my_backend)(model)
+        # Use torch.compile to get graph module and perform conversion
+        # Although compile is used, the backend only does API conversion, no optimization
+        # Performance should be close to eager mode (since only API replacement is done)
+        # Note: Do not use mode parameter to avoid version compatibility issues
+        compiled_model = torch.compile(model, backend=my_backend)
+        return compiled_model
 
     """
     TODO: Implement logic to convert unstable APIs in `self.model` into their stable counterparts.
@@ -144,14 +154,32 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         # Recompile the graph
         gm.recompile()
-
         return gm
 
     # replace this line with modification code for task 116 (torch._C._linalg.linalg_vector_norm)
 
     # replace this line with modification code for task 117 (torch._C._linalg.linalg_norm)
 
-    # replace this line with modification code for task 118 (torch._C._nn.softplus)
+    def _impl_unstable_to_stable_softplus(self, gm):
+        """
+        Convert torch._C._nn.softplus to torch.nn.functional.softplus
+        """
+        import torch.nn.functional as F
+
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._nn"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "softplus"
+        )
+        for node in issue_nodes:
+            node.target = F.softplus
+
+        gm.recompile()
+        return gm
 
     def _impl_unstable_to_stable_one_hot(self, gm):
         """
@@ -186,7 +214,59 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
     # replace this line with modification code for task 126 (torch._C._nn.scaled_dot_product_attention)
 
-    # replace this line with modification code for task 127 (torch._C._nn.linear)
+    def _impl_unstable_to_stable_linear_to_functional_linear(self, gm):
+        """
+        Convert torch._C._nn.linear to torch.nn.functional.linear
+
+        Args:
+            gm: torch.fx.GraphModule object
+
+        Returns:
+            Modified GraphModule object
+        """
+        import torch.nn.functional as F
+
+        # Get reference to torch._C._nn.linear for comparison
+        try:
+            unstable_linear = torch._C._nn.linear
+        except AttributeError:
+            unstable_linear = None
+
+        # Traverse all nodes to find nodes that need to be replaced
+        for node in gm.graph.nodes:
+            if node.op == "call_function":
+                target = node.target
+                should_replace = False
+
+                # Method 1: Direct target comparison (most reliable)
+                if unstable_linear is not None and target is unstable_linear:
+                    should_replace = True
+                # Method 2: Check if it's the same function object (using id comparison)
+                elif unstable_linear is not None and id(target) == id(unstable_linear):
+                    should_replace = True
+                # Method 3: Check module and name attributes (most reliable method, as torch.fx preserves these attributes)
+                elif hasattr(target, "__module__") and hasattr(target, "__name__"):
+                    if (
+                        target.__module__ == "torch._C._nn"
+                        and target.__name__ == "linear"
+                    ):
+                        should_replace = True
+                # Method 4: Check via string representation (fallback method)
+                elif "torch._C._nn.linear" in str(target) or (
+                    hasattr(target, "__qualname__")
+                    and "linear" in target.__qualname__
+                    and hasattr(target, "__module__")
+                    and "torch._C._nn" in str(target.__module__)
+                ):
+                    should_replace = True
+
+                if should_replace:
+                    node.target = F.linear
+
+        # Recompile the graph
+        gm.recompile()
+
+        return gm
 
     def unstable_to_stable(self, gm):
         methods = (

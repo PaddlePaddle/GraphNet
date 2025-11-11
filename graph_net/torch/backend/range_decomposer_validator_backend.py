@@ -9,14 +9,11 @@ from typing import List, Tuple, Dict, Any, Callable
 
 
 class ComposedModel(nn.Module):
-    def __init__(self, graph: nn.Module, subgraph: List[nn.Module]):
+    def __init__(self, subgraph: List[nn.Module]):
         super().__init__()
-        self.graph = graph
         self.subgraphs = nn.ModuleList(subgraph)
 
     def forward(self, **kwargs):
-        self.graph(**kwargs)
-
         subgraph_intput = {
             key.replace("L", "l_l", 1): value
             for key, value in kwargs.items()
@@ -61,7 +58,6 @@ class RangeDecomposerValidatorBackend:
         )
 
         device = model.__class__.__graph_net_device__
-        graph_instances = self._load_model_instance(model_dir, device)
         subgraph_instances = []
 
         for path in subgraph_paths:
@@ -72,7 +68,7 @@ class RangeDecomposerValidatorBackend:
                 f"[RangeDecomposerValidatorBackend] Loaded and instantiated '{dir_name}'"
             )
 
-        composed_model = ComposedModel(graph_instances, subgraph_instances)
+        composed_model = ComposedModel(subgraph_instances)
         return composed_model.eval()
 
     def synchronize(self):

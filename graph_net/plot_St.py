@@ -73,7 +73,7 @@ def main():
         "--benchmark-path",
         type=str,
         required=True,
-        help="Path to the directory containing benchmark JSON files or sub-folders.",
+        help="Path to the benchmark log file or directory containing benchmark JSON files or sub-folders.",
     )
     parser.add_argument(
         "--output-dir",

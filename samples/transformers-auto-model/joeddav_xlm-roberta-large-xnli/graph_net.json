@@ -2,7 +2,6 @@
     "framework": "torch",
     "num_devices_required": 1,
     "num_nodes_required": 1,
-    "dynamic": false,
-    "model_name": "Qwen/Qwen1.5-0.5B",
+    "source": "huggingface_hub",
     "heuristic_tag": "nlp"
 }

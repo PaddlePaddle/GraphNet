@@ -154,18 +154,98 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         # Recompile the graph
         gm.recompile()
+        return gm
+
+    def _impl_unstable_to_stable_linalg_vector_norm(self, gm):
+        """
+        Convert torch._C._linalg.linalg_vector_norm to torch.linalg.vector_norm
+        """
+        # Update graph nodes: replace torch._C._linalg.linalg_vector_norm with torch.linalg.vector_norm
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._linalg"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "linalg_vector_norm"
+        )
+        for node in issue_nodes:
+            node.target = torch.linalg.vector_norm
+
+        # Recompile the graph
+        gm.recompile()
 
         return gm
 
-    # replace this line with modification code for task 116 (torch._C._linalg.linalg_vector_norm)
-
     # replace this line with modification code for task 117 (torch._C._linalg.linalg_norm)
 
-    # replace this line with modification code for task 118 (torch._C._nn.softplus)
+    def _impl_unstable_to_stable_softplus(self, gm):
+        """
+        Convert torch._C._nn.softplus to torch.nn.functional.softplus
+        """
+        import torch.nn.functional as F
 
-    # replace this line with modification code for task 119 (torch._C._nn.one_hot)
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._nn"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "softplus"
+        )
+        for node in issue_nodes:
+            node.target = F.softplus
 
-    # replace this line with modification code for task 121 (torch._C._set_grad_enabled)
+        gm.recompile()
+        return gm
+
+    def _impl_unstable_to_stable_one_hot(self, gm):
+        """
+        Convert torch._C._nn.one_hot to torch.nn.functional.one_hot
+        """
+        import torch.nn.functional as F
+
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._nn"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "one_hot"
+        )
+        for node in issue_nodes:
+            node.target = F.one_hot
+
+        # Recompile the graph
+        gm.recompile()
+
+        return gm
+
+    def _impl_unstable_to_stable_set_grad_enabled(self, gm):
+        """
+        Convert torch._C._set_grad_enabled and torch._C.set_grad_enabled to torch.set_grad_enabled
+        """
+
+        def replace_in_graph(graph_mod):
+            for node in graph_mod.graph.nodes:
+                if node.op == "call_function":
+                    if "set_grad_enabled" in str(node.target):
+                        node.target = torch.set_grad_enabled
+            graph_mod.recompile()
+
+        modules = [gm]
+        modules += [
+            m
+            for _, m in gm.named_modules()
+            if isinstance(m, torch.fx.GraphModule) and m is not gm
+        ]
+        for m in modules:
+            replace_in_graph(m)
+
+        return gm
 
     # replace this line with modification code for task 122 (torch._C._log_api_usage_once)
 

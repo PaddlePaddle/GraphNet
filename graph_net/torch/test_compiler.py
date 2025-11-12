@@ -23,7 +23,7 @@ from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
 from graph_net.torch.backend.nope_backend import NopeBackend
 from graph_net.torch.backend.unstable_to_stable_backend import UnstableToStableBackend
-from todo_works.range_decomposer_validator.range_decomposer_validator import (
+from graph_net.torch.backend.range_decomposer_validator_backend import (
     RangeDecomposerValidatorBackend,
 )
 from graph_net.test_compiler_util import generate_allclose_configs
@@ -69,6 +69,8 @@ def load_class_from_file(
     exec(compiled_code, module.__dict__)
 
     model_class = getattr(module, class_name, None)
+    setattr(model_class, "__graph_net_file_path__", file_path)
+    setattr(model_class, "__graph_net_device__", device)
     return model_class
 
 

@@ -139,11 +139,12 @@ def serialize_graph_module_to_str(gm: torch.fx.GraphModule) -> str:
         (r"torch\._C\._fft\.fft_rfft\(", "torch.fft.rfft("),
         (r"torch\._C\._fft\.fft_fftn\(", "torch.fft.fftn("),
         (r"torch\._C\._special\.special_logit\(", "torch.special.logit("),
-        # replace this line with modification code for task 116 (torch._C._linalg.linalg_vector_norm)
+        (r"torch\._C\._linalg\.linalg_vector_norm\(", "torch.linalg.vector_norm("),
         # replace this line with modification code for task 117 (torch._C._linalg.linalg_norm)
-        # replace this line with modification code for task 118 (torch._C._nn.softplus)
-        # replace this line with modification code for task 119 (torch._C._nn.one_hot)
-        # replace this line with modification code for task 121 (torch._C._set_grad_enabled)
+        (r"torch\._C\._nn\.softplus\(", "torch.nn.functional.softplus("),
+        (r"torch\._C\._nn\.one_hot\(", "torch.nn.functional.one_hot("),
+        (r"torch\._C\._set_grad_enabled\(", "torch.set_grad_enabled("),
+        (r"torch\._C\.set_grad_enabled\(", "torch.set_grad_enabled("),
         # replace this line with modification code for task 122 (torch._C._log_api_usage_once)
         # replace this line with modification code for task 123 (torch._C._nn.pad)
         # replace this line with modification code for task 125 (torch._C._nn.gelu)

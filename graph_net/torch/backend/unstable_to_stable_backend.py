@@ -2,6 +2,7 @@ import os
 import torch
 import sys
 import inspect
+import ast
 from .graph_compiler_backend import GraphCompilerBackend
 from ..fx_graph_serialize_util import serialize_graph_module_to_str
 
@@ -12,12 +13,21 @@ class UnstableToStableBackend(GraphCompilerBackend):
         unstable_api = os.getenv("DISALLOWED_UNSTABLE_API", "").strip()
         self.unstable_api = unstable_api
 
+        # Use torch.compile's backend method to get graph module uniformly
+        # This ensures all models use the same conversion method, avoiding performance differences
         def my_backend(gm, sample_inputs):
+            # Convert unstable API
             gm = self.unstable_to_stable(gm)
             self.check_unstable_api(gm)
+            # Return forward function without additional optimization
             return gm.forward
 
-        return torch.compile(backend=my_backend)(model)
+        # Use torch.compile to get graph module and perform conversion
+        # Although compile is used, the backend only does API conversion, no optimization
+        # Performance should be close to eager mode (since only API replacement is done)
+        # Note: Do not use mode parameter to avoid version compatibility issues
+        compiled_model = torch.compile(model, backend=my_backend)
+        return compiled_model
 
     """
     TODO: Implement logic to convert unstable APIs in `self.model` into their stable counterparts.
@@ -141,6 +151,199 @@ class UnstableToStableBackend(GraphCompilerBackend):
         )
         for node in issue_nodes:
             node.target = torch.special.logit
+
+        # Recompile the graph
+        gm.recompile()
+        return gm
+
+    def _impl_unstable_to_stable_linalg_vector_norm(self, gm):
+        """
+        Convert torch._C._linalg.linalg_vector_norm to torch.linalg.vector_norm
+        """
+        # Update graph nodes: replace torch._C._linalg.linalg_vector_norm with torch.linalg.vector_norm
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._linalg"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "linalg_vector_norm"
+        )
+        for node in issue_nodes:
+            node.target = torch.linalg.vector_norm
+
+        # Recompile the graph
+        gm.recompile()
+
+        return gm
+
+    def _impl_unstable_to_stable_linalg_norm(self, gm):
+        """
+        Convert torch._C._linalg.linalg_norm to torch.linalg.norm
+        """
+        # Update graph nodes: replace torch._C._linalg.linalg_norm with torch.linalg.norm
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._linalg"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "linalg_norm"
+        )
+        for node in issue_nodes:
+            node.target = torch.linalg.norm
+
+        # Recompile the graph
+        gm.recompile()
+        return gm
+
+    def _impl_unstable_to_stable_softplus(self, gm):
+        """
+        Convert torch._C._nn.softplus to torch.nn.functional.softplus
+        """
+        import torch.nn.functional as F
+
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._nn"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "softplus"
+        )
+        for node in issue_nodes:
+            node.target = F.softplus
+
+        gm.recompile()
+        return gm
+
+    def _impl_unstable_to_stable_one_hot(self, gm):
+        """
+        Convert torch._C._nn.one_hot to torch.nn.functional.one_hot
+        """
+        import torch.nn.functional as F
+
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._nn"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "one_hot"
+        )
+        for node in issue_nodes:
+            node.target = F.one_hot
+
+        # Recompile the graph
+        gm.recompile()
+
+        return gm
+
+    def _impl_unstable_to_stable_set_grad_enabled(self, gm):
+        """
+        Convert torch._C._set_grad_enabled and torch._C.set_grad_enabled to torch.set_grad_enabled
+        """
+
+        def replace_in_graph(graph_mod):
+            for node in graph_mod.graph.nodes:
+                if node.op == "call_function":
+                    if "set_grad_enabled" in str(node.target):
+                        node.target = torch.set_grad_enabled
+            graph_mod.recompile()
+
+        modules = [gm]
+        modules += [
+            m
+            for _, m in gm.named_modules()
+            if isinstance(m, torch.fx.GraphModule) and m is not gm
+        ]
+        for m in modules:
+            replace_in_graph(m)
+
+        return gm
+
+    # replace this line with modification code for task 122 (torch._C._log_api_usage_once)
+
+    def _impl_unstable_to_stable_pad(self, gm):
+        """
+        Convert torch._C._nn.pad to torch.nn.functional.pad
+        """
+        import torch.nn.functional as F
+
+        def replace_in_graph(graph_mod):
+            for node in graph_mod.graph.nodes:
+                if node.op == "call_function":
+                    if "pad" in str(node.target) and "torch._C._nn" in str(node.target):
+                        node.target = F.pad
+            graph_mod.recompile()
+
+        modules = [gm]
+        modules += [
+            m
+            for _, m in gm.named_modules()
+            if isinstance(m, torch.fx.GraphModule) and m is not gm
+        ]
+        for m in modules:
+            replace_in_graph(m)
+
+        return gm
+
+    # replace this line with modification code for task 125 (torch._C._nn.gelu)
+
+    # replace this line with modification code for task 126 (torch._C._nn.scaled_dot_product_attention)
+
+    def _impl_unstable_to_stable_linear_to_functional_linear(self, gm):
+        """
+        Convert torch._C._nn.linear to torch.nn.functional.linear
+
+        Args:
+            gm: torch.fx.GraphModule object
+
+        Returns:
+            Modified GraphModule object
+        """
+        import torch.nn.functional as F
+
+        # Get reference to torch._C._nn.linear for comparison
+        try:
+            unstable_linear = torch._C._nn.linear
+        except AttributeError:
+            unstable_linear = None
+
+        # Traverse all nodes to find nodes that need to be replaced
+        for node in gm.graph.nodes:
+            if node.op == "call_function":
+                target = node.target
+                should_replace = False
+
+                # Method 1: Direct target comparison (most reliable)
+                if unstable_linear is not None and target is unstable_linear:
+                    should_replace = True
+                # Method 2: Check if it's the same function object (using id comparison)
+                elif unstable_linear is not None and id(target) == id(unstable_linear):
+                    should_replace = True
+                # Method 3: Check module and name attributes (most reliable method, as torch.fx preserves these attributes)
+                elif hasattr(target, "__module__") and hasattr(target, "__name__"):
+                    if (
+                        target.__module__ == "torch._C._nn"
+                        and target.__name__ == "linear"
+                    ):
+                        should_replace = True
+                # Method 4: Check via string representation (fallback method)
+                elif "torch._C._nn.linear" in str(target) or (
+                    hasattr(target, "__qualname__")
+                    and "linear" in target.__qualname__
+                    and hasattr(target, "__module__")
+                    and "torch._C._nn" in str(target.__module__)
+                ):
+                    should_replace = True
+
+                if should_replace:
+                    node.target = F.linear
 
         # Recompile the graph
         gm.recompile()

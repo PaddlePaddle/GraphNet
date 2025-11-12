@@ -41,7 +41,6 @@ function prepare_torch_env() {
     python3.10 -m pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu126 > /dev/null
     [ $? -ne 0 ] && LOG "[FATAL] Install torch2.9.0 failed!" && exit -1
   else
-    python3.10 ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
     LOG "[INFO] This pull request doesn't change any torch samples, skip the CI."
   fi
 }
@@ -62,7 +61,6 @@ function prepare_paddle_env() {
     [ $? -ne 0 ] && LOG "[FATAL] Install paddlepaddle-develop failed!" && exit -1
     python3.10 -c "import paddle; print('[PaddlePaddle Commit]', paddle.version.commit)"
   else
-    python3.10 ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
     LOG "[INFO] This pull request doesn't change any paddle samples, skip the CI."
   fi
 }
@@ -165,7 +163,8 @@ function main() {
   check_validation_info=$(check_paddle_validation)
   check_validation_code=$?
   summary_problems $check_validation_code "$check_validation_info"
-  python3.10 ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/count_sample.py
+  python3.10 ${GRAPH_NET_EXTRACT_WORKSPACE}/tools/check_and_count_samples.py >&2
+  [ $? -ne 0 ] && LOG "[FATAL] Check completeness or redundancy failed!" && exit -1
   LOG "[INFO] check_validation run success and no error!"
 }
 

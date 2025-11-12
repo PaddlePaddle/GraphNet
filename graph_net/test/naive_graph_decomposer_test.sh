@@ -25,5 +25,4 @@ EOF
 )
 DECORATOR_CONFIG=$(echo $decorator_config_json_str | base64 -w 0)
 
-mkdir -p /tmp/naive_decompose_workspace
 python3 -m graph_net.torch.run_model --model-path $GRAPH_NET_ROOT/../samples/$MODEL_PATH_IN_SAMPLES --decorator-config=$DECORATOR_CONFIG

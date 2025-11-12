@@ -1,0 +1,12 @@
+samples/transformers-auto-model/Thomasboosinger_owlvit-base-patch32
+samples/transformers-auto-model/google/owlvit-base-patch16
+samples/transformers-auto-model/google/owlvit-base-patch32
+samples/transformers-auto-model/google/owlvit-large-patch14
+samples/transformers-auto-model/google_owlv2-base-patch16
+samples/transformers-auto-model/google_owlv2-large-patch14-finetuned
+samples/transformers-auto-model/google_owlv2-large-patch14
+samples/transformers-auto-model/google_owlvit-base-patch16
+samples/transformers-auto-model/google_owlvit-base-patch32
+samples/transformers-auto-model/google_owlvit-large-patch14
+samples/transformers-auto-model/hf-tiny-model-private_tiny-random-OwlViTForObjectDetection
+samples/transformers-auto-model/upfeatmediainc_owlv2-base-patch16-ensemble

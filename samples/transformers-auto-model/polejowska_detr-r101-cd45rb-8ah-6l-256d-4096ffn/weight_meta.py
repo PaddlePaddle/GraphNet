@@ -57,6 +57,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 24.293
     std = 88.249
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_bn1_buffers_running_mean_:
@@ -107,6 +108,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 82.937
     std = 266.566
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_0_modules_bn1_buffers_running_mean_:
@@ -157,6 +159,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 107.006
     std = 227.106
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_0_modules_bn2_buffers_running_mean_:
@@ -207,6 +210,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 84.049
     std = 124.532
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_0_modules_bn3_buffers_running_mean_:
@@ -257,6 +261,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 60.720
     std = 86.633
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_0_modules_downsample_modules_1_buffers_running_mean_:
@@ -307,6 +312,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 16.021
     std = 8.740
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_1_modules_bn1_buffers_running_mean_:
@@ -357,6 +363,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 25.258
     std = 16.868
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_1_modules_bn2_buffers_running_mean_:
@@ -407,6 +414,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 5.586
     std = 4.886
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_1_modules_bn3_buffers_running_mean_:
@@ -457,6 +465,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 10.322
     std = 3.515
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_2_modules_bn1_buffers_running_mean_:
@@ -507,6 +516,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 101.217
     std = 40.831
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_2_modules_bn2_buffers_running_mean_:
@@ -557,6 +567,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 22.249
     std = 29.776
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_2_modules_bn3_buffers_running_mean_:
@@ -607,6 +618,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 17.138
     std = 4.852
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_0_modules_bn1_buffers_running_mean_:
@@ -657,6 +669,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 211.238
     std = 116.804
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_0_modules_bn2_buffers_running_mean_:
@@ -707,6 +720,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 23.016
     std = 11.169
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_0_modules_bn3_buffers_running_mean_:
@@ -757,6 +771,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 13.761
     std = 8.579
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_0_modules_downsample_modules_1_buffers_running_mean_:
@@ -807,6 +822,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 356.482
     std = 147.035
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_1_modules_bn1_buffers_running_mean_:
@@ -857,6 +873,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 183.710
     std = 78.472
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_1_modules_bn2_buffers_running_mean_:
@@ -907,6 +924,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 14.766
     std = 6.492
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_1_modules_bn3_buffers_running_mean_:
@@ -957,6 +975,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 247.823
     std = 86.865
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_2_modules_bn1_buffers_running_mean_:
@@ -1007,6 +1026,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 169.963
     std = 129.627
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_2_modules_bn2_buffers_running_mean_:
@@ -1057,6 +1077,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 10.338
     std = 4.067
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_2_modules_bn3_buffers_running_mean_:
@@ -1107,6 +1128,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 252.780
     std = 75.770
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_3_modules_bn1_buffers_running_mean_:
@@ -1157,6 +1179,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 137.962
     std = 59.731
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_3_modules_bn2_buffers_running_mean_:
@@ -1207,6 +1230,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 13.390
     std = 3.783
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_3_modules_bn3_buffers_running_mean_:
@@ -1257,6 +1281,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 232.758
     std = 69.653
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_0_modules_bn1_buffers_running_mean_:
@@ -1307,6 +1332,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 262.217
     std = 118.897
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_0_modules_bn2_buffers_running_mean_:
@@ -1357,6 +1383,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 47.246
     std = 18.254
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_0_modules_bn3_buffers_running_mean_:
@@ -1407,6 +1434,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 235.175
     std = 104.031
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_0_modules_downsample_modules_1_buffers_running_mean_:
@@ -1457,6 +1485,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 2171.813
     std = 1679.084
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_1_modules_bn1_buffers_running_mean_:
@@ -1507,6 +1536,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 205.956
     std = 88.813
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_1_modules_bn2_buffers_running_mean_:
@@ -1557,6 +1587,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 13.422
     std = 19.546
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_1_modules_bn3_buffers_running_mean_:
@@ -1607,6 +1638,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 1627.958
     std = 1059.261
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_2_modules_bn1_buffers_running_mean_:
@@ -1657,6 +1689,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 428.555
     std = 224.644
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_2_modules_bn2_buffers_running_mean_:
@@ -1707,6 +1740,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 15.056
     std = 5.860
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_2_modules_bn3_buffers_running_mean_:
@@ -1757,6 +1791,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 1199.146
     std = 457.491
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_3_modules_bn1_buffers_running_mean_:
@@ -1807,6 +1842,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 272.712
     std = 87.228
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_3_modules_bn2_buffers_running_mean_:
@@ -1857,6 +1893,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 16.910
     std = 18.384
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_3_modules_bn3_buffers_running_mean_:
@@ -1907,6 +1944,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 864.699
     std = 239.392
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_4_modules_bn1_buffers_running_mean_:
@@ -1957,6 +1995,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 278.919
     std = 70.268
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_4_modules_bn2_buffers_running_mean_:
@@ -2007,6 +2046,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 16.852
     std = 6.383
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_4_modules_bn3_buffers_running_mean_:
@@ -2057,6 +2097,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 833.924
     std = 279.596
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_5_modules_bn1_buffers_running_mean_:
@@ -2107,6 +2148,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 206.162
     std = 52.733
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_5_modules_bn2_buffers_running_mean_:
@@ -2157,6 +2199,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 13.244
     std = 4.184
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_5_modules_bn3_buffers_running_mean_:
@@ -2207,6 +2250,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 965.486
     std = 234.786
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_6_modules_bn1_buffers_running_mean_:
@@ -2257,6 +2301,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 243.769
     std = 90.367
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_6_modules_bn2_buffers_running_mean_:
@@ -2307,6 +2352,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 10.979
     std = 3.063
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_6_modules_bn3_buffers_running_mean_:
@@ -2357,6 +2403,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 1082.677
     std = 334.490
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_7_modules_bn1_buffers_running_mean_:
@@ -2407,6 +2454,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 201.583
     std = 102.411
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_7_modules_bn2_buffers_running_mean_:
@@ -2457,6 +2505,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 7.260
     std = 2.900
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_7_modules_bn3_buffers_running_mean_:
@@ -2507,6 +2556,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 1039.467
     std = 338.329
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_8_modules_bn1_buffers_running_mean_:
@@ -2557,6 +2607,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 143.135
     std = 41.379
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_8_modules_bn2_buffers_running_mean_:
@@ -2607,6 +2658,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 11.922
     std = 3.149
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_8_modules_bn3_buffers_running_mean_:
@@ -2657,6 +2709,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 1088.321
     std = 286.178
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_9_modules_bn1_buffers_running_mean_:
@@ -2707,6 +2760,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 145.483
     std = 39.464
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_9_modules_bn2_buffers_running_mean_:
@@ -2757,6 +2811,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 10.789
     std = 2.880
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_9_modules_bn3_buffers_running_mean_:
@@ -2807,6 +2862,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 1125.984
     std = 297.920
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_10_modules_bn1_buffers_running_mean_:
@@ -2857,6 +2913,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 177.055
     std = 51.606
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_10_modules_bn2_buffers_running_mean_:
@@ -2907,6 +2964,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 11.466
     std = 3.482
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_10_modules_bn3_buffers_running_mean_:
@@ -2957,6 +3015,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 963.833
     std = 291.667
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_11_modules_bn1_buffers_running_mean_:
@@ -3007,6 +3066,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 67.769
     std = 17.730
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_11_modules_bn2_buffers_running_mean_:
@@ -3057,6 +3117,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 8.281
     std = 2.043
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_11_modules_bn3_buffers_running_mean_:
@@ -3107,6 +3168,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 1023.682
     std = 438.696
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_12_modules_bn1_buffers_running_mean_:
@@ -3157,6 +3219,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 71.475
     std = 27.351
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_12_modules_bn2_buffers_running_mean_:
@@ -3207,6 +3270,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 7.793
     std = 2.522
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_12_modules_bn3_buffers_running_mean_:
@@ -3257,6 +3321,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 1265.227
     std = 623.179
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_13_modules_bn1_buffers_running_mean_:
@@ -3307,6 +3372,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 96.978
     std = 61.837
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_13_modules_bn2_buffers_running_mean_:
@@ -3357,6 +3423,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 9.611
     std = 2.776
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_13_modules_bn3_buffers_running_mean_:
@@ -3407,6 +3474,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 1376.229
     std = 571.698
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_14_modules_bn1_buffers_running_mean_:
@@ -3457,6 +3525,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 155.744
     std = 75.735
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_14_modules_bn2_buffers_running_mean_:
@@ -3507,6 +3576,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 7.308
     std = 2.221
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_14_modules_bn3_buffers_running_mean_:
@@ -3557,6 +3627,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 1218.271
     std = 536.543
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_15_modules_bn1_buffers_running_mean_:
@@ -3607,6 +3678,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 78.123
     std = 34.455
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_15_modules_bn2_buffers_running_mean_:
@@ -3657,6 +3729,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 7.426
     std = 2.270
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_15_modules_bn3_buffers_running_mean_:
@@ -3707,6 +3780,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 930.768
     std = 232.964
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_16_modules_bn1_buffers_running_mean_:
@@ -3757,6 +3831,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 70.561
     std = 19.968
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_16_modules_bn2_buffers_running_mean_:
@@ -3807,6 +3882,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 13.356
     std = 2.907
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_16_modules_bn3_buffers_running_mean_:
@@ -3857,6 +3933,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 843.066
     std = 153.040
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_17_modules_bn1_buffers_running_mean_:
@@ -3907,6 +3984,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 68.359
     std = 14.414
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_17_modules_bn2_buffers_running_mean_:
@@ -3957,6 +4035,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 10.191
     std = 2.254
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_17_modules_bn3_buffers_running_mean_:
@@ -4007,6 +4086,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 857.813
     std = 175.549
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_18_modules_bn1_buffers_running_mean_:
@@ -4057,6 +4137,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 67.716
     std = 12.417
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_18_modules_bn2_buffers_running_mean_:
@@ -4107,6 +4188,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 9.172
     std = 2.459
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_18_modules_bn3_buffers_running_mean_:
@@ -4157,6 +4239,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 968.358
     std = 223.160
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_19_modules_bn1_buffers_running_mean_:
@@ -4207,6 +4290,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 71.260
     std = 15.202
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_19_modules_bn2_buffers_running_mean_:
@@ -4257,6 +4341,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 11.612
     std = 2.604
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_19_modules_bn3_buffers_running_mean_:
@@ -4307,6 +4392,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 867.458
     std = 179.387
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_20_modules_bn1_buffers_running_mean_:
@@ -4357,6 +4443,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 43.983
     std = 11.340
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_20_modules_bn2_buffers_running_mean_:
@@ -4407,6 +4494,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 11.386
     std = 2.566
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_20_modules_bn3_buffers_running_mean_:
@@ -4457,6 +4545,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 901.910
     std = 278.561
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_21_modules_bn1_buffers_running_mean_:
@@ -4507,6 +4596,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 50.804
     std = 13.801
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_21_modules_bn2_buffers_running_mean_:
@@ -4557,6 +4647,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 11.003
     std = 3.751
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_21_modules_bn3_buffers_running_mean_:
@@ -4607,6 +4698,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 984.814
     std = 401.500
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_22_modules_bn1_buffers_running_mean_:
@@ -4657,6 +4749,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 51.762
     std = 24.045
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_22_modules_bn2_buffers_running_mean_:
@@ -4707,6 +4800,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 8.281
     std = 2.179
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_22_modules_bn3_buffers_running_mean_:
@@ -4757,6 +4851,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 915.719
     std = 204.657
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_0_modules_bn1_buffers_running_mean_:
@@ -4807,6 +4902,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 150.832
     std = 15.684
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_0_modules_bn2_buffers_running_mean_:
@@ -4857,6 +4953,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 2.411
     std = 0.769
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_0_modules_bn3_buffers_running_mean_:
@@ -4907,6 +5004,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 1038.161
     std = 328.367
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_0_modules_downsample_modules_1_buffers_running_mean_:
@@ -4957,6 +5055,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 10.986
     std = 7.559
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_1_modules_bn1_buffers_running_mean_:
@@ -5007,6 +5106,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 586.571
     std = 334.778
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_1_modules_bn2_buffers_running_mean_:
@@ -5057,6 +5157,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 63.962
     std = 18.809
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_1_modules_bn3_buffers_running_mean_:
@@ -5107,6 +5208,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 20.288
     std = 10.148
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_2_modules_bn1_buffers_running_mean_:
@@ -5157,6 +5259,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 31.030
     std = 28.083
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_2_modules_bn2_buffers_running_mean_:
@@ -5207,6 +5310,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_mo
     mean = 36.382
     std = 6.893
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_2_modules_bn3_buffers_running_mean_:

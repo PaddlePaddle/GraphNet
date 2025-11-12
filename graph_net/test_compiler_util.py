@@ -3,9 +3,13 @@ import re
 import sys
 import json
 import time
+import subprocess
+import shutil
 import numpy as np
 from dataclasses import dataclass
 from contextlib import contextmanager
+
+from graph_net import path_utils
 
 
 @dataclass
@@ -21,6 +25,87 @@ def naive_timer(duration_box, synchronizer_func):
     synchronizer_func()
     end = time.time()
     duration_box.value = (end - start) * 1000  # Store in milliseconds
+
+
+def is_gpu_device(device):
+    return "cuda" in device or "dcu" in device
+
+
+def get_device_utilization(device_id, device_count, synchronizer_func):
+    current_pid = os.getpid()
+
+    if shutil.which("nvidia-smi"):
+        try:
+            cuda_devices_str = os.getenv("CUDA_VISIBLE_DEVICES", "")
+            if cuda_devices_str != "":
+                cuda_devices = list(map(int, cuda_devices_str.split(",")))
+            else:
+                cuda_devices = list(range(device_count))
+            selected_gpu_id = cuda_devices[device_id]
+
+            print(
+                f"Check the status of GPU {selected_gpu_id} for 5 times.",
+                file=sys.stderr,
+                flush=True,
+            )
+            selected_gpu_uuid, max_gpu_util, max_mem_util = None, 0.0, 0.0
+            for i in range(3):
+                synchronizer_func()
+                time.sleep(1)
+
+                cmd = [
+                    "nvidia-smi",
+                    f"--id={selected_gpu_id}",
+                    f"--query-gpu=index,gpu_uuid,utilization.gpu,memory.used,memory.total",
+                    "--format=csv,noheader,nounits",
+                ]
+                output = subprocess.check_output(cmd).decode().strip()
+                _, selected_gpu_uuid, gpu_util, used_mem, mem_total = next(
+                    line.split(", ") for line in output.split("\n") if line.strip()
+                )
+                gpu_util = float(gpu_util)
+                mem_util = float(used_mem) * 100 / float(mem_total)
+                print(
+                    f"- gpu_id: {selected_gpu_id}, gpu_uuid: {selected_gpu_uuid}, gpu_util: {gpu_util:.2f}%, used_mem: {used_mem}, mem_total: {mem_total}",
+                    file=sys.stderr,
+                    flush=True,
+                )
+
+                max_gpu_util = gpu_util if gpu_util > max_gpu_util else max_gpu_util
+                max_mem_util = mem_util if mem_util > max_mem_util else max_mem_util
+
+            other_tasks = []
+            cmd = [
+                "nvidia-smi",
+                f"--id={selected_gpu_id}",
+                f"--query-compute-apps=gpu_uuid,pid,used_memory",
+                "--format=csv,noheader,nounits",
+            ]
+            output = subprocess.check_output(cmd).decode().strip()
+            other_tasks = [
+                line
+                for line in output.split("\n")
+                if line.strip()
+                if line.split(", ")[1] != current_pid
+            ]
+            # Note: in docker container, the current_pid maybe different from that captured by nvidia-smi.
+            print(
+                f"Note: There are {len(other_tasks)} tasks running on GPU {selected_gpu_id} (current_pid:{current_pid}).",
+                file=sys.stderr,
+                flush=True,
+            )
+            for task in other_tasks:
+                gpu_uuid, pid, used_memory = task.split(", ")
+                print(
+                    f"- gpu_uuid:{gpu_uuid}, pid:{pid}, used_memory:{used_memory}",
+                    file=sys.stderr,
+                    flush=True,
+                )
+            return max_gpu_util, max_mem_util
+        except subprocess.CalledProcessError:
+            pass
+
+    return None, None
 
 
 def get_timing_stats(elapsed_times):
@@ -75,24 +160,33 @@ def print_basic_config(args, hardware_name, compile_framework_version):
     )
 
 
-def print_running_status(args, eager_success, compiled_success):
+def print_running_status(args, eager_success, compiled_success=None):
     def convert_to_str(b):
         return "success" if b else "failed"
 
-    print_with_log_prompt(
-        "[Result][status]",
-        f"eager:{convert_to_str(eager_success)} compiled:{convert_to_str(compiled_success)}",
-        args.log_prompt,
-    )
+    if compiled_success is not None:
+        print_with_log_prompt(
+            "[Result][status]",
+            f"eager:{convert_to_str(eager_success)} compiled:{convert_to_str(compiled_success)}",
+            args.log_prompt,
+        )
+    else:
+        print_with_log_prompt(
+            "[Result][status]",
+            f"eager:{convert_to_str(eager_success)}",
+            args.log_prompt,
+        )
 
 
 def print_times_and_speedup(args, eager_stats, compiled_stats):
-    print_with_log_prompt(
-        "[Performance][eager]:", json.dumps(eager_stats), args.log_prompt
-    )
-    print_with_log_prompt(
-        "[Performance][compiled]:", json.dumps(compiled_stats), args.log_prompt
-    )
+    if eager_stats:
+        print_with_log_prompt(
+            "[Performance][eager]:", json.dumps(eager_stats), args.log_prompt
+        )
+    if compiled_stats:
+        print_with_log_prompt(
+            "[Performance][compiled]:", json.dumps(compiled_stats), args.log_prompt
+        )
 
     e2e_speedup = 0
     gpu_speedup = 0
@@ -103,7 +197,7 @@ def print_times_and_speedup(args, eager_stats, compiled_stats):
     if eager_e2e_time_ms > 0 and compiled_e2e_time_ms > 0:
         e2e_speedup = eager_e2e_time_ms / compiled_e2e_time_ms
 
-    if "cuda" in args.device:
+    if is_gpu_device(args.device):
         eager_gpu_time_ms = eager_stats.get("gpu", {}).get("mean", 0)
         compiled_gpu_time_ms = compiled_stats.get("gpu", {}).get("mean", 0)
 
@@ -113,7 +207,7 @@ def print_times_and_speedup(args, eager_stats, compiled_stats):
     if e2e_speedup > 0:
         print_with_log_prompt("[Speedup][e2e]:", f"{e2e_speedup:.5f}", args.log_prompt)
 
-    if "cuda" in args.device and gpu_speedup > 0:
+    if is_gpu_device(args.device) and gpu_speedup > 0:
         print_with_log_prompt("[Speedup][gpu]:", f"{gpu_speedup:.5f}", args.log_prompt)
 
 
@@ -204,14 +298,16 @@ def check_allclose(
     cmp_all_close_func,
     cmp_max_diff_func,
     cmp_mean_diff_func,
-    cmp_max_relative_diff_func,
-    cmp_mean_relative_diff_func,
+    cmp_max_relative_diff_func=None,
+    cmp_mean_relative_diff_func=None,
 ):
     cmp_configs = generate_allclose_configs(cmp_all_close_func)
     cmp_configs.append(("[max_diff]", cmp_max_diff_func, {}))
     cmp_configs.append(("[mean_diff]", cmp_mean_diff_func, {}))
-    cmp_configs.append(("[max_relative_diff]", cmp_max_relative_diff_func, {}))
-    cmp_configs.append(("[mean_relative_diff]", cmp_mean_relative_diff_func, {}))
+    if cmp_max_relative_diff_func is not None:
+        cmp_configs.append(("[max_relative_diff]", cmp_max_relative_diff_func, {}))
+    if cmp_mean_relative_diff_func is not None:
+        cmp_configs.append(("[mean_relative_diff]", cmp_mean_relative_diff_func, {}))
 
     for key, func, kwargs in cmp_configs:
         print_and_store_cmp(
@@ -222,3 +318,18 @@ def check_allclose(
             compiled_out=compiled_out,
             **kwargs,
         )
+
+
+def get_allow_samples(allow_list):
+    if allow_list is None:
+        return None
+
+    assert os.path.isfile(allow_list), f"{allow_list} is not a regular file."
+    graphnet_root = path_utils.get_graphnet_root()
+    print(f"graphnet_root: {graphnet_root}", file=sys.stderr, flush=True)
+    test_samples = []
+    with open(allow_list, "r") as f:
+        for line in f.readlines():
+            test_samples.append(os.path.join(graphnet_root, line.strip()))
+
+    return test_samples

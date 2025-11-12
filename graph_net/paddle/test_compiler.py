@@ -12,10 +12,27 @@ import numpy as np
 import random
 import platform
 import traceback
+import subprocess
+import re
 
 from graph_net.paddle import utils
 from graph_net import path_utils
 from graph_net import test_compiler_util
+
+from graph_net.paddle.backend.graph_compiler_backend import GraphCompilerBackend
+from graph_net.paddle.backend.cinn_backend import CinnBackend
+from graph_net.paddle.backend.nope_backend import NopeBackend
+
+
+registry_backend = {
+    "cinn": CinnBackend(),
+    "nope": NopeBackend(),
+}
+
+
+def get_compiler_backend(args) -> GraphCompilerBackend:
+    assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
+    return registry_backend[args.compiler]
 
 
 def set_seed(random_seed):
@@ -25,12 +42,25 @@ def set_seed(random_seed):
 
 
 def get_hardward_name(args):
-    if args.device == "cuda":
+    hardware = "unknown"
+    if test_compiler_util.is_gpu_device(args.device):
         hardware = paddle.device.cuda.get_device_name(0)
+    elif args.device == "xpu":
+        try:
+            output = subprocess.check_output(["xpu-smi", "-L"], text=True)
+            hardware = next(
+                match.group(2)
+                for line in output.splitlines()
+                if (
+                    match := re.match(
+                        r"XPU\s+(\d+):\s+(.+?)\s+\(UUID:\s*([^)]+)\)", line
+                    )
+                )
+            )
+        except Exception as e:
+            pass
     elif args.device == "cpu":
         hardware = platform.processor()
-    else:
-        hardware = "unknown"
     return hardware
 
 
@@ -60,19 +90,15 @@ def load_class_from_file(file_path: str, class_name: str):
     return model_class
 
 
-def get_synchronizer_func(args):
-    return paddle.device.synchronize
-
-
-def get_model(args):
+def get_model(model_path):
     model_class = load_class_from_file(
-        f"{args.model_path}/model.py", class_name="GraphModule"
+        f"{model_path}/model.py", class_name="GraphModule"
     )
     return model_class()
 
 
-def get_input_dict(args):
-    inputs_params = utils.load_converted_from_text(f"{args.model_path}")
+def get_input_dict(model_path):
+    inputs_params = utils.load_converted_from_text(f"{model_path}")
     params = inputs_params["weight_info"]
     inputs = inputs_params["input_info"]
 
@@ -81,8 +107,8 @@ def get_input_dict(args):
     return state_dict
 
 
-def get_input_spec(args):
-    inputs_params_list = utils.load_converted_list_from_text(f"{args.model_path}")
+def get_input_spec(model_path):
+    inputs_params_list = utils.load_converted_list_from_text(f"{model_path}")
     input_spec = [None] * len(inputs_params_list)
     for i, v in enumerate(inputs_params_list):
         dtype = v["info"]["dtype"]
@@ -91,26 +117,10 @@ def get_input_spec(args):
     return input_spec
 
 
-def get_compiled_model(args, model):
-    if args.compiler == "nope":
-        return model
-    input_spec = get_input_spec(args)
-    build_strategy = paddle.static.BuildStrategy()
-    compiled_model = paddle.jit.to_static(
-        model,
-        input_spec=input_spec,
-        build_strategy=build_strategy,
-        full_graph=True,
-    )
-    compiled_model.eval()
-    program = compiled_model.forward.concrete_program.main_program
-    return compiled_model
-
-
 def get_static_model(args, model):
     static_model = paddle.jit.to_static(
         model,
-        input_spec=get_input_spec(args),
+        input_spec=get_input_spec(args.model_path),
         full_graph=True,
         backend=None,
     )
@@ -119,7 +129,7 @@ def get_static_model(args, model):
     return static_model
 
 
-def measure_performance(model_call, args, synchronizer_func, profile=False):
+def measure_performance(model_call, args, compiler, profile=False):
     runtime_seed = 1024
     stats = {}
 
@@ -129,7 +139,7 @@ def measure_performance(model_call, args, synchronizer_func, profile=False):
     # Warmup runs
     for _ in range(args.warmup):
         model_call()
-    synchronizer_func()
+    compiler.synchronize()
 
     hardware_name = get_hardward_name(args)
     print(
@@ -138,7 +148,7 @@ def measure_performance(model_call, args, synchronizer_func, profile=False):
         flush=True,
     )
 
-    if "cuda" in args.device:
+    if test_compiler_util.is_gpu_device(args.device):
         """
         Acknowledgement: We evaluate the performance on both end-to-end and GPU-only timings,
         With reference to methods only based on CUDA events from KernelBench in https://github.com/ScalingIntelligence/KernelBench
@@ -152,7 +162,7 @@ def measure_performance(model_call, args, synchronizer_func, profile=False):
         for i in range(args.trials):
             # End-to-end timing (naive_timer)
             duration_box = test_compiler_util.DurationBox(-1)
-            with test_compiler_util.naive_timer(duration_box, synchronizer_func):
+            with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
                 # GPU-only timing (CUDA Events)
                 start_event = paddle.device.Event(enable_timing=True)
                 end_event = paddle.device.Event(enable_timing=True)
@@ -178,9 +188,13 @@ def measure_performance(model_call, args, synchronizer_func, profile=False):
         e2e_times = []
         for i in range(args.trials):
             duration_box = test_compiler_util.DurationBox(-1)
-            with test_compiler_util.naive_timer(duration_box, synchronizer_func):
+            with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
                 model_call()
-            print(f"Trial {i + 1}: e2e={duration_box.value:.4f} ms")
+            print(
+                f"Trial {i + 1}: e2e={duration_box.value:.4f} ms",
+                file=sys.stderr,
+                flush=True,
+            )
             e2e_times.append(duration_box.value)
         stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
 
@@ -243,10 +257,27 @@ def check_outputs(args, expected_out, compiled_out):
         )
 
 
+def check_and_print_gpu_utilization(compiler):
+    if paddle.device.is_compiled_with_cuda():
+        device_id = int(paddle.device.get_device().split(":")[-1])
+        device_count = paddle.device.cuda.device_count()
+        gpu_util, mem_util = test_compiler_util.get_device_utilization(
+            device_id, device_count, compiler.synchronize
+        )
+        if gpu_util is not None and mem_util is not None:
+            print(
+                f"Device status: gpu_id {device_id}, gpu_util {gpu_util:.2f}%, mem_util {mem_util:.2f}%",
+                file=sys.stderr,
+                flush=True,
+            )
+
+
 def test_single_model(args):
-    synchronizer_func = get_synchronizer_func(args)
-    input_dict = get_input_dict(args)
-    model = get_model(args)
+    compiler = get_compiler_backend(args)
+    check_and_print_gpu_utilization(compiler)
+
+    input_dict = get_input_dict(args.model_path)
+    model = get_model(args.model_path)
     model.eval()
 
     test_compiler_util.print_basic_config(
@@ -255,35 +286,46 @@ def test_single_model(args):
 
     # Run on eager mode
     eager_success = False
+    eager_time_stats = {}
     try:
-        print("Run model in eager mode.")
+        print("Run model in eager mode.", file=sys.stderr, flush=True)
         static_model = get_static_model(args, model)
         expected_out, eager_time_stats = measure_performance(
-            lambda: static_model(**input_dict), args, synchronizer_func, profile=False
+            lambda: static_model(**input_dict), args, compiler, profile=False
         )
         eager_success = True
     except Exception as e:
-        print(f"Run model in eager mode failed: {str(e)}\n{traceback.format_exc()}")
+        print(
+            f"Run model in eager mode failed: {str(e)}\n{traceback.format_exc()}",
+            file=sys.stderr,
+            flush=True,
+        )
 
     # Run on compiling mode
     compiled_success = False
+    compiled_time_stats = {}
     try:
-        print("Run model in compiled mode.")
-        compiled_model = get_compiled_model(args, model)
+        print("Run model in compiled mode.", file=sys.stderr, flush=True)
+        input_spec = get_input_spec(args.model_path)
+        compiled_model = compiler(model, input_spec)
         compiled_out, compiled_time_stats = measure_performance(
-            lambda: compiled_model(**input_dict), args, synchronizer_func, profile=False
+            lambda: compiled_model(**input_dict), args, compiler, profile=False
         )
         compiled_success = True
     except Exception as e:
-        print(f"Run model in compiled mode failed: {str(e)}\n{traceback.format_exc()}")
+        print(
+            f"Run model in compiled mode failed: {str(e)}\n{traceback.format_exc()}",
+            file=sys.stderr,
+            flush=True,
+        )
 
     test_compiler_util.print_running_status(args, eager_success, compiled_success)
     if eager_success and compiled_success:
         check_outputs(args, expected_out, compiled_out)
 
-        test_compiler_util.print_times_and_speedup(
-            args, eager_time_stats, compiled_time_stats
-        )
+    test_compiler_util.print_times_and_speedup(
+        args, eager_time_stats, compiled_time_stats
+    )
 
 
 def get_cmp_equal(expected_out, compiled_out):
@@ -354,21 +396,17 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 
 def test_multi_models(args):
-    verified_samples = None
-    if args.verified_samples_list_path is not None:
-        assert os.path.isfile(args.verified_samples_list_path)
-        graphnet_root = path_utils.get_graphnet_root()
-        print(f"graphnet_root: {graphnet_root}")
-        verified_samples = []
-        with open(args.verified_samples_list_path, "r") as f:
-            for line in f.readlines():
-                verified_samples.append(os.path.join(graphnet_root, line.strip()))
+    test_samples = test_compiler_util.get_allow_samples(args.allow_list)
 
     sample_idx = 0
     failed_samples = []
     for model_path in path_utils.get_recursively_model_path(args.model_path):
-        if verified_samples is None or os.path.abspath(model_path) in verified_samples:
-            print(f"[{sample_idx}] test_compiler, model_path: {model_path}")
+        if test_samples is None or os.path.abspath(model_path) in test_samples:
+            print(
+                f"[{sample_idx}] test_compiler, model_path: {model_path}",
+                file=sys.stderr,
+                flush=True,
+            )
             cmd = " ".join(
                 [
                     sys.executable,
@@ -388,15 +426,18 @@ def test_multi_models(args):
             sample_idx += 1
 
     print(
-        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples."
+        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples.",
+        file=sys.stderr,
+        flush=True,
     )
     for model_path in failed_samples:
-        print(f"- {model_path}")
+        print(f"- {model_path}", file=sys.stderr, flush=True)
 
 
 def main(args):
     assert os.path.isdir(args.model_path)
     assert args.compiler in {"cinn", "nope"}
+    assert args.device in ["cuda", "dcu", "xpu", "cpu"]
 
     initalize_seed = 123
     set_seed(random_seed=initalize_seed)
@@ -443,11 +484,11 @@ if __name__ == "__main__":
         help="Log prompt for performance log filtering.",
     )
     parser.add_argument(
-        "--verified-samples-list-path",
+        "--allow-list",
         type=str,
         required=False,
         default=None,
-        help="Path to model file(s), each subdirectory containing graph_net.json will be regarded as a model",
+        help="Path to samples list, each line contains a sample path",
     )
     args = parser.parse_args()
     main(args=args)

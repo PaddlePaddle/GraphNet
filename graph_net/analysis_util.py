@@ -253,13 +253,16 @@ def parse_logs_to_data(log_file: str) -> list:
             data["correctness"][key.strip()] = values
             continue
 
+        # Check for speedup
+        speedup_match = patterns["speedup"].search(line)
+        if speedup_match:
+            key, value_str = speedup_match.groups()
+            data["performance"]["speedup"][key.strip()] = float(value_str)
+            continue
+
         # Look for the status, and if it's "failed", look ahead to the next line.
         result_status_match = patterns["result_status"].search(line)
         if not result_status_match:
-            speedup_match = patterns["speedup"].search(line)
-            if speedup_match:
-                key, value_str = speedup_match.groups()
-                data["performance"]["speedup"][key.strip()] = float(value_str)
             continue
 
         status = result_status_match.group(1).strip()
@@ -291,33 +294,24 @@ def parse_logs_to_data(log_file: str) -> list:
     samples = []
     for run_key, data in all_runs_data.items():
         try:
+            speedup_dict = data["performance"].get("speedup", {})
+
             # Build result field with status and speedup (for compatibility with log2json output format)
-            if data["result"]["status"] == "success":
+            if data["result"]["status"] == "success" and speedup_dict:
                 speedup_data = {}
-                if "e2e" in data["performance"]["speedup"]:
-                    e2e_value = data["performance"]["speedup"]["e2e"]
-                    speedup_data["e2e"] = {"mean": e2e_value}
-                if "gpu" in data["performance"]["speedup"]:
-                    gpu_value = data["performance"]["speedup"]["gpu"]
-                    speedup_data["gpu"] = {"mean": gpu_value}
+                for key in ["e2e", "gpu"]:
+                    if key in speedup_dict:
+                        speedup_data[key] = {"mean": speedup_dict[key]}
                 if speedup_data:
                     data["result"]["speedup"] = speedup_data
 
-            # Ensure performance.speedup.e2e is a direct value (not nested dict)
+            # Ensure performance.speedup.e2e/gpu are direct values (not nested dict)
             # This is required by calculate_s_scores which uses performance_data.get("speedup", {}).get("e2e")
-            speedup_dict = data["performance"].get("speedup")
-            if not speedup_dict:
-                samples.append(data)
-                continue
-
-            if "e2e" in speedup_dict:
-                e2e_val = speedup_dict["e2e"]
-                if isinstance(e2e_val, dict) and "mean" in e2e_val:
-                    speedup_dict["e2e"] = e2e_val["mean"]
-            if "gpu" in speedup_dict:
-                gpu_val = speedup_dict["gpu"]
-                if isinstance(gpu_val, dict) and "mean" in gpu_val:
-                    speedup_dict["gpu"] = gpu_val["mean"]
+            for key in ["e2e", "gpu"]:
+                if key in speedup_dict:
+                    val = speedup_dict[key]
+                    if isinstance(val, dict) and "mean" in val:
+                        speedup_dict[key] = val["mean"]
 
             samples.append(data)
 
@@ -335,9 +329,9 @@ def parse_logs_to_data(log_file: str) -> list:
 def scan_all_folders(benchmark_path: str) -> dict:
     """
     Unified entry point that supports log files and directories:
-      - If benchmark_path is a log file → parse it directly and return data as a single curve.
-      - If benchmark_path is a directory → scan for .log files, each log file becomes a curve.
-        If no .log files found in root, scan subdirectories (each subdirectory becomes a curve).
+      - If benchmark_path is a log file (.log or .txt) → parse it directly and return data as a single curve.
+      - If benchmark_path is a directory → scan for .log and .txt files in the directory,
+        each log file becomes a curve.
     Returns dict[curve_name] -> list_of_samples
     """
     # Handle single log file
@@ -366,66 +360,38 @@ def scan_all_folders(benchmark_path: str) -> dict:
 
     print(f"Scanning '{benchmark_path}' ...")
 
-    # Find .log files in the root directory
-    log_files = [
-        f
-        for f in os.listdir(benchmark_path)
-        if os.path.isfile(os.path.join(benchmark_path, f)) and f.endswith(".log")
-    ]
-
-    # Process root-level log files
-    if log_files:
-        all_results = {}
-        print(f"  - Found {len(log_files)} log file(s) → each becomes a curve.")
-        for log_file in sorted(log_files):
-            log_file_path = os.path.join(benchmark_path, log_file)
-            samples = parse_logs_to_data(log_file_path)
-            if not samples:
-                continue
-
-            curve_name = os.path.splitext(log_file)[0] or "benchmark"
-            all_results[curve_name] = samples
-            print(f"    - Curve '{curve_name}': {len(samples)} samples.")
-
-        if not all_results:
-            print("  - No valid data found in any log file.")
-            return {}
-
-        print(f"Total curves loaded: {len(all_results)}")
-        return all_results
-
-    # Fall back to subdirectories
-    all_results = {}
-    print("  - No log files found in root → scanning sub-folders.")
-    for entry in os.listdir(benchmark_path):
-        folder_full_path = os.path.join(benchmark_path, entry)
-        if not os.path.isdir(folder_full_path):
-            continue
-
-        # Find log files in subdirectory
-        sub_log_files = [
+    # Find .log and .txt files in the directory
+    log_files = sorted(
+        [
             f
-            for f in os.listdir(folder_full_path)
-            if os.path.isfile(os.path.join(folder_full_path, f)) and f.endswith(".log")
+            for f in os.listdir(benchmark_path)
+            if os.path.isfile(os.path.join(benchmark_path, f))
+            and f.endswith((".log", ".txt"))
         ]
-        if not sub_log_files:
+    )
+
+    if not log_files:
+        print("  - No log files (.log or .txt) found in directory.")
+        return {}
+
+    # Process log files, each becomes a curve
+    all_results = {}
+    print(f"  - Found {len(log_files)} log file(s) → each becomes a curve.")
+    for log_file in log_files:
+        log_file_path = os.path.join(benchmark_path, log_file)
+        samples = parse_logs_to_data(log_file_path)
+        if not samples:
             continue
 
-        # Parse and combine log files from subdirectory
-        combined_samples = []
-        for log_file in sub_log_files:
-            log_file_path = os.path.join(folder_full_path, log_file)
-            samples = parse_logs_to_data(log_file_path)
-            combined_samples.extend(samples)
+        curve_name = os.path.splitext(log_file)[0] or "benchmark"
+        all_results[curve_name] = samples
+        print(f"    - Curve '{curve_name}': {len(samples)} samples.")
 
-        if not combined_samples:
-            continue
+    if not all_results:
+        print("  - No valid data found in any log file.")
+        return {}
 
-        all_results[entry] = combined_samples
-        print(f"  - Folder '{entry}': {len(combined_samples)} samples from log files.")
-
-    if all_results:
-        print(f"Total folders loaded: {len(all_results)}")
+    print(f"Total curves loaded: {len(all_results)}")
     return all_results
 
 
@@ -566,10 +532,7 @@ def calculate_s_scores(
 
             # Determine the true state of the current sample (for statistics and S curve)
             is_correct = False
-            if fail_type is not None:
-                # Already has a failure type, skip correctness check
-                pass
-            else:
+            if fail_type is None:
                 datatype_data = performance_data.get("datatype", {})
                 eager_dtypes = datatype_data.get("eager", [])
                 compiled_dtypes = datatype_data.get("compiled", [])

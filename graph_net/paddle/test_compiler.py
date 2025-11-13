@@ -41,6 +41,11 @@ def set_seed(random_seed):
     np.random.seed(random_seed)
 
 
+def init_env(args):
+    if test_compiler_util.is_gpu_device(args.device):
+        paddle.set_flags({"FLAGS_cudnn_exhaustive_search": 1})
+
+
 def get_hardward_name(args):
     hardware = "unknown"
     if test_compiler_util.is_gpu_device(args.device):
@@ -65,10 +70,8 @@ def get_hardward_name(args):
 
 
 def get_compile_framework_version(args):
-    if args.compiler == "cinn":
+    if args.compiler in ["cinn", "nope"]:
         return paddle.__version__
-    if args.compiler == "nope":
-        return "nope-baseline"
     return "unknown"
 
 
@@ -137,16 +140,30 @@ def measure_performance(model_call, args, compiler, profile=False):
     outs = model_call()
 
     # Warmup runs
+    warmup_e2e_times = []
     for _ in range(args.warmup):
-        model_call()
+        duration_box = test_compiler_util.DurationBox(-1)
+        with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
+            model_call()
+        warmup_e2e_times.append(duration_box.value)
     compiler.synchronize()
+
+    # Ensure the measuring time is not less than 100ms.
+    min_trials = int(100 / np.mean(warmup_e2e_times[1:]))
+    trials = max(args.trials, min_trials)
 
     hardware_name = get_hardward_name(args)
     print(
-        f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}",
+        f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {trials}",
         file=sys.stderr,
         flush=True,
     )
+
+    if profile:
+        import paddle.profiler as profiler
+
+        p = profiler.Profiler()
+        p.start()
 
     if test_compiler_util.is_gpu_device(args.device):
         """
@@ -157,9 +174,7 @@ def measure_performance(model_call, args, compiler, profile=False):
         e2e_times = []
         gpu_times = []
 
-        if profile:
-            paddle.base.core.nvprof_start()
-        for i in range(args.trials):
+        for i in range(trials):
             # End-to-end timing (naive_timer)
             duration_box = test_compiler_util.DurationBox(-1)
             with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
@@ -171,6 +186,9 @@ def measure_performance(model_call, args, compiler, profile=False):
                 model_call()
                 end_event.record()
 
+            if profile:
+                p.step()
+
             gpu_time_ms = start_event.elapsed_time(end_event)
             e2e_times.append(duration_box.value)
             gpu_times.append(gpu_time_ms)
@@ -179,24 +197,29 @@ def measure_performance(model_call, args, compiler, profile=False):
                 file=sys.stderr,
                 flush=True,
             )
-        if profile:
-            paddle.base.core.nvprof_stop()
-
         stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
         stats["gpu"] = test_compiler_util.get_timing_stats(gpu_times)
     else:  # CPU or other devices
         e2e_times = []
-        for i in range(args.trials):
+        for i in range(trials):
             duration_box = test_compiler_util.DurationBox(-1)
             with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
                 model_call()
+
+            if profile:
+                p.step()
+
+            e2e_times.append(duration_box.value)
             print(
                 f"Trial {i + 1}: e2e={duration_box.value:.4f} ms",
                 file=sys.stderr,
                 flush=True,
             )
-            e2e_times.append(duration_box.value)
         stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
+
+    if profile:
+        p.stop()
+        p.summary()
 
     return outs, stats
 
@@ -210,17 +233,29 @@ def check_outputs(args, expected_out, compiled_out):
     eager_dtypes = [None] * len(expected_out)
     for i, tensor in enumerate(expected_out):
         eager_dtypes[i] = (
-            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "none"
+            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "None"
         )
 
     compiled_dtypes = [None] * len(compiled_out)
     for i, tensor in enumerate(compiled_out):
         compiled_dtypes[i] = (
-            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "none"
+            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "None"
         )
 
     type_match = test_compiler_util.check_output_datatype(
         args, eager_dtypes, compiled_dtypes
+    )
+
+    eager_shapes = [None] * len(expected_out)
+    for i, tensor in enumerate(expected_out):
+        eager_shapes[i] = tensor.shape if tensor is not None else None
+
+    compiled_shapes = [None] * len(compiled_out)
+    for i, tensor in enumerate(compiled_out):
+        compiled_shapes[i] = tensor.shape if tensor is not None else None
+
+    shape_match = test_compiler_util.check_output_shape(
+        args, eager_shapes, compiled_shapes
     )
 
     def transfer_to_float(origin_outputs):
@@ -235,7 +270,7 @@ def check_outputs(args, expected_out, compiled_out):
             outputs.append(item)
         return outputs
 
-    if type_match:
+    if type_match and shape_match:
         test_compiler_util.check_equal(
             args,
             expected_out,
@@ -400,17 +435,18 @@ def test_multi_models(args):
 
     sample_idx = 0
     failed_samples = []
+    module_name = os.path.splitext(os.path.basename(__file__))[0]
     for model_path in path_utils.get_recursively_model_path(args.model_path):
         if test_samples is None or os.path.abspath(model_path) in test_samples:
             print(
-                f"[{sample_idx}] test_compiler, model_path: {model_path}",
+                f"[{sample_idx}] {module_name}, model_path: {model_path}",
                 file=sys.stderr,
                 flush=True,
             )
             cmd = " ".join(
                 [
                     sys.executable,
-                    "-m graph_net.paddle.test_compiler",
+                    f"-m graph_net.paddle.{module_name}",
                     f"--model-path {model_path}",
                     f"--compiler {args.compiler}",
                     f"--device {args.device}",

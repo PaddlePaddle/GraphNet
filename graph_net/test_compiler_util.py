@@ -44,7 +44,7 @@ def get_device_utilization(device_id, device_count, synchronizer_func):
             selected_gpu_id = cuda_devices[device_id]
 
             print(
-                f"Check the status of GPU {selected_gpu_id} for 5 times.",
+                f"Check the status of GPU {selected_gpu_id} for 3 times.",
                 file=sys.stderr,
                 flush=True,
             )
@@ -221,6 +221,16 @@ def check_type_match(eager_dtypes, compiled_dtypes):
     return type_match
 
 
+def check_shape_match(eager_shapes, compiled_shapes):
+    if len(eager_shapes) != len(compiled_shapes):
+        shape_match = False
+    else:
+        shape_match = all(
+            eager == compiled for eager, compiled in zip(eager_shapes, compiled_shapes)
+        )
+    return shape_match
+
+
 def check_output_datatype(args, eager_dtypes, compiled_dtypes):
     print_with_log_prompt("[Datatype][eager]:", " ".join(eager_dtypes), args.log_prompt)
     print_with_log_prompt(
@@ -228,6 +238,8 @@ def check_output_datatype(args, eager_dtypes, compiled_dtypes):
     )
 
     # datatype check
+    # "datatype not match" is recognized as a large loss in analysis process later,
+    # and is not recognized as a failure here.
     type_match = check_type_match(eager_dtypes, compiled_dtypes)
     print_with_log_prompt(
         "[DataType]",
@@ -235,6 +247,19 @@ def check_output_datatype(args, eager_dtypes, compiled_dtypes):
         args.log_prompt,
     )
     return type_match
+
+
+def check_output_shape(args, eager_shapes, compiled_shapes):
+    print_with_log_prompt("[Shape][eager]:", str(eager_shapes), args.log_prompt)
+    print_with_log_prompt("[Shape][compiled]:", str(compiled_shapes), args.log_prompt)
+
+    shape_match = check_shape_match(eager_shapes, compiled_shapes)
+    print_with_log_prompt(
+        "[Shape]",
+        f"eager:{eager_shapes} compiled:{compiled_shapes} match:{shape_match}",
+        args.log_prompt,
+    )
+    return shape_match
 
 
 def print_and_store_cmp(key, cmp_func, args, expected_out, compiled_out, **kwargs):

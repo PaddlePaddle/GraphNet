@@ -140,14 +140,14 @@ def serialize_graph_module_to_str(gm: torch.fx.GraphModule) -> str:
         (r"torch\._C\._fft\.fft_fftn\(", "torch.fft.fftn("),
         (r"torch\._C\._special\.special_logit\(", "torch.special.logit("),
         (r"torch\._C\._linalg\.linalg_vector_norm\(", "torch.linalg.vector_norm("),
-        # replace this line with modification code for task 117 (torch._C._linalg.linalg_norm)
+        (r"torch\._C\._linalg\.linalg_norm\(", "torch.linalg.norm("),
         (r"torch\._C\._nn\.softplus\(", "torch.nn.functional.softplus("),
         (r"torch\._C\._nn\.one_hot\(", "torch.nn.functional.one_hot("),
         (r"torch\._C\._set_grad_enabled\(", "torch.set_grad_enabled("),
         (r"torch\._C\.set_grad_enabled\(", "torch.set_grad_enabled("),
         # replace this line with modification code for task 122 (torch._C._log_api_usage_once)
-        # replace this line with modification code for task 123 (torch._C._nn.pad)
-        # replace this line with modification code for task 125 (torch._C._nn.gelu)
+        (r"torch\._C\._nn\.pad\(", "torch.nn.functional.pad("),
+        (r"torch\._C\._nn\.gelu\(", "torch.nn.functional.gelu("),
         # replace this line with modification code for task 126 (torch._C._nn.scaled_dot_product_attention)
         (r"torch\._C\._nn\.linear\(", "torch.nn.functional.linear("),
     ]

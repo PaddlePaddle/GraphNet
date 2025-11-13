@@ -178,7 +178,26 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         return gm
 
-    # replace this line with modification code for task 117 (torch._C._linalg.linalg_norm)
+    def _impl_unstable_to_stable_linalg_norm(self, gm):
+        """
+        Convert torch._C._linalg.linalg_norm to torch.linalg.norm
+        """
+        # Update graph nodes: replace torch._C._linalg.linalg_norm with torch.linalg.norm
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._linalg"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "linalg_norm"
+        )
+        for node in issue_nodes:
+            node.target = torch.linalg.norm
+
+        # Recompile the graph
+        gm.recompile()
+        return gm
 
     def _impl_unstable_to_stable_softplus(self, gm):
         """
@@ -249,9 +268,55 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
     # replace this line with modification code for task 122 (torch._C._log_api_usage_once)
 
-    # replace this line with modification code for task 123 (torch._C._nn.pad)
+    def _impl_unstable_to_stable_pad(self, gm):
+        """
+        Convert torch._C._nn.pad to torch.nn.functional.pad
+        """
+        import torch.nn.functional as F
 
-    # replace this line with modification code for task 125 (torch._C._nn.gelu)
+        def replace_in_graph(graph_mod):
+            for node in graph_mod.graph.nodes:
+                if node.op == "call_function":
+                    if "pad" in str(node.target) and "torch._C._nn" in str(node.target):
+                        node.target = F.pad
+            graph_mod.recompile()
+
+        modules = [gm]
+        modules += [
+            m
+            for _, m in gm.named_modules()
+            if isinstance(m, torch.fx.GraphModule) and m is not gm
+        ]
+        for m in modules:
+            replace_in_graph(m)
+
+        return gm
+
+    def _impl_unstable_to_stable_gelu(self, gm):
+        """
+        Convert torch._C._nn.gelu to torch.nn.functional.gelu
+        """
+        import torch.nn.functional as F
+
+        def replace_in_graph(graph_mod):
+            for node in graph_mod.graph.nodes:
+                if node.op == "call_function":
+                    if "gelu" in str(node.target) and "torch._C._nn" in str(
+                        node.target
+                    ):
+                        node.target = F.gelu
+            graph_mod.recompile()
+
+        modules = [gm]
+        modules += [
+            m
+            for _, m in gm.named_modules()
+            if isinstance(m, torch.fx.GraphModule) and m is not gm
+        ]
+        for m in modules:
+            replace_in_graph(m)
+
+        return gm
 
     # replace this line with modification code for task 126 (torch._C._nn.scaled_dot_product_attention)
 

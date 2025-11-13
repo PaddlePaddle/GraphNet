@@ -204,21 +204,16 @@ def init_float_tensor(shape, mean, std, min_val, max_val, use_numpy):
     tensor = None
     if use_numpy:
         if mean is not None and std is not None:
-            array = np.random.normal(mean, std, shape)
-            mask = (array < min_val) | (array > max_val)
-            while np.any(mask):
-                array[mask] = np.random.normal(mean, std, mask.sum())
-                mask = (array < min_val) | (array > max_val)
+            # NumPy does not support truncated normal, we simulate it here.
+            array = np.random.normal(0, 1, shape) * std * 0.2 + mean
+            array = np.clip(array, min_val, max_val)
         else:
             array = np.random.uniform(low=min_val, high=max_val, size=shape)
         tensor = paddle.to_tensor(array)
     else:
         if mean is not None and std is not None:
-            tensor = paddle.empty(shape=shape, dtype="float32")
-            initializer = paddle.nn.initializer.TruncatedNormal(
-                mean=mean, std=std, a=min_val, b=max_val
-            )
-            initializer(tensor)
+            tensor = paddle.randn(shape, dtype="float32") * std * 0.2 + mean
+            tensor = paddle.clip(tensor, min=min_val, max=max_val)
         else:
             tensor = paddle.uniform(
                 shape=shape, dtype="float32", min=min_val, max=max_val
@@ -226,7 +221,7 @@ def init_float_tensor(shape, mean, std, min_val, max_val, use_numpy):
     return tensor
 
 
-def replay_tensor(info, use_numpy=False):
+def replay_tensor(info, use_numpy=True):
     device = info["info"]["device"]
     dtype = info["info"]["dtype"]
     shape = info["info"]["shape"]

@@ -3,14 +3,42 @@ import torch
 import json
 import shutil
 from typing import Union, Callable
-from . import utils
-from .fx_graph_serialize_util import serialize_graph_module_to_str
+from graph_net.torch import utils
+from graph_net.torch.fx_graph_serialize_util import serialize_graph_module_to_str
 
 torch._dynamo.config.capture_scalar_outputs = True
 torch._dynamo.config.capture_dynamic_output_shape_ops = True
 torch._dynamo.config.capture_sparse_compute = True
 torch._dynamo.config.raise_on_ctx_manager_usage = False
 torch._dynamo.config.allow_rnn = True
+
+
+# used as configuration of python3 -m graph_net.torch.run_model
+class RunModelDecorator:
+    def __init__(self, config):
+        self.config = self.make_config(**config)
+
+    def __call__(self, model):
+        return extract(**self.config)(model)
+
+    def make_config(
+        self,
+        name=None,
+        dynamic=True,
+        placeholder_auto_rename=False,
+        custom_extractor_path: str = None,
+        custom_extractor_config: dict = None,
+    ):
+        assert name is not None
+        return {
+            "name": name,
+            "dynamic": dynamic,
+            "placeholder_auto_rename": placeholder_auto_rename,
+            "extractor_config": {
+                "custom_extractor_path": custom_extractor_path,
+                "custom_extractor_config": custom_extractor_config,
+            },
+        }
 
 
 class GraphExtractor:

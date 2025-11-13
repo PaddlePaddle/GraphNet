@@ -46,10 +46,10 @@ class GraphModule(torch.nn.Module):
         bool_1 = None
         invert = ~getitem_1
         getitem_1 = None
-        output_1 = output.masked_fill(invert, -inf)
+        output_1 = output.masked_fill(invert, -1e6)
         output = invert = None
         new_output = torch.full(
-            (1, 900, 256), -inf, device=device(type="cuda", index=0)
+            (1, 900, 256), -1e6, device=device(type="cuda", index=0)
         )
         new_output[(Ellipsis, slice(None, 7, None))] = output_1
         setitem = new_output
@@ -95,10 +95,10 @@ class GraphModule(torch.nn.Module):
         bool_2 = None
         invert_1 = ~getitem_5
         getitem_5 = None
-        output_3 = output_2.masked_fill(invert_1, -inf)
+        output_3 = output_2.masked_fill(invert_1, -1e6)
         output_2 = invert_1 = None
         new_output_1 = torch.full(
-            (1, 900, 256), -inf, device=device(type="cuda", index=0)
+            (1, 900, 256), -1e6, device=device(type="cuda", index=0)
         )
         new_output_1[(Ellipsis, slice(None, 7, None))] = output_3
         setitem_1 = new_output_1
@@ -144,10 +144,10 @@ class GraphModule(torch.nn.Module):
         bool_3 = None
         invert_2 = ~getitem_9
         getitem_9 = None
-        output_5 = output_4.masked_fill(invert_2, -inf)
+        output_5 = output_4.masked_fill(invert_2, -1e6)
         output_4 = invert_2 = None
         new_output_2 = torch.full(
-            (1, 900, 256), -inf, device=device(type="cuda", index=0)
+            (1, 900, 256), -1e6, device=device(type="cuda", index=0)
         )
         new_output_2[(Ellipsis, slice(None, 7, None))] = output_5
         setitem_2 = new_output_2
@@ -193,10 +193,10 @@ class GraphModule(torch.nn.Module):
         bool_4 = None
         invert_3 = ~getitem_13
         getitem_13 = None
-        output_7 = output_6.masked_fill(invert_3, -inf)
+        output_7 = output_6.masked_fill(invert_3, -1e6)
         output_6 = invert_3 = None
         new_output_3 = torch.full(
-            (1, 900, 256), -inf, device=device(type="cuda", index=0)
+            (1, 900, 256), -1e6, device=device(type="cuda", index=0)
         )
         new_output_3[(Ellipsis, slice(None, 7, None))] = output_7
         setitem_3 = new_output_3
@@ -242,10 +242,10 @@ class GraphModule(torch.nn.Module):
         bool_5 = None
         invert_4 = ~getitem_17
         getitem_17 = None
-        output_9 = output_8.masked_fill(invert_4, -inf)
+        output_9 = output_8.masked_fill(invert_4, -1e6)
         output_8 = invert_4 = None
         new_output_4 = torch.full(
-            (1, 900, 256), -inf, device=device(type="cuda", index=0)
+            (1, 900, 256), -1e6, device=device(type="cuda", index=0)
         )
         new_output_4[(Ellipsis, slice(None, 7, None))] = output_9
         setitem_4 = new_output_4
@@ -294,10 +294,10 @@ class GraphModule(torch.nn.Module):
         bool_6 = None
         invert_5 = ~getitem_21
         getitem_21 = None
-        output_11 = output_10.masked_fill(invert_5, -inf)
+        output_11 = output_10.masked_fill(invert_5, -1e6)
         output_10 = invert_5 = None
         new_output_5 = torch.full(
-            (1, 900, 256), -inf, device=device(type="cuda", index=0)
+            (1, 900, 256), -1e6, device=device(type="cuda", index=0)
         )
         new_output_5[(Ellipsis, slice(None, 7, None))] = output_11
         setitem_5 = new_output_5

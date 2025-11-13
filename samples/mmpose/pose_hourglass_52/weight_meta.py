@@ -40,6 +40,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_0_
     mean = 0.452
     std = 0.768
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_0_modules_bn_parameters_weight_:
@@ -92,6 +93,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_1_
     mean = 2.900
     std = 1.916
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_1_modules_0_modules_bn1_parameters_weight_:
@@ -142,6 +144,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_1_
     mean = 4.377
     std = 1.910
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_1_modules_0_modules_bn2_parameters_weight_:
@@ -192,6 +195,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_1_
     mean = 0.268
     std = 0.080
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_stem_modules_1_modules_0_modules_downsample_modules_1_parameters_weight_:
@@ -242,6 +246,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.289
     std = 0.107
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_up1_modules_0_modules_bn1_parameters_weight_:
@@ -292,6 +297,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.504
     std = 1.161
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_up1_modules_0_modules_bn2_parameters_weight_:
@@ -342,6 +348,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.445
     std = 1.665
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_up1_modules_1_modules_bn1_parameters_weight_:
@@ -392,6 +399,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 11.640
     std = 7.334
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_up1_modules_1_modules_bn2_parameters_weight_:
@@ -442,6 +450,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.309
     std = 0.551
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low1_modules_0_modules_bn1_parameters_weight_:
@@ -492,6 +501,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 6.021
     std = 1.896
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low1_modules_0_modules_bn2_parameters_weight_:
@@ -542,6 +552,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.362
     std = 0.095
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low1_modules_0_modules_downsample_modules_1_parameters_weight_:
@@ -592,6 +603,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.682
     std = 0.193
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low1_modules_1_modules_bn1_parameters_weight_:
@@ -642,6 +654,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.569
     std = 0.447
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low1_modules_1_modules_bn2_parameters_weight_:
@@ -692,6 +705,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.305
     std = 0.258
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_up1_modules_0_modules_bn1_parameters_weight_:
@@ -742,6 +756,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.209
     std = 0.460
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_up1_modules_0_modules_bn2_parameters_weight_:
@@ -792,6 +807,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.843
     std = 0.173
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_up1_modules_1_modules_bn1_parameters_weight_:
@@ -842,6 +858,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.428
     std = 0.694
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_up1_modules_1_modules_bn2_parameters_weight_:
@@ -892,6 +909,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.501
     std = 0.249
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low1_modules_0_modules_bn1_parameters_weight_:
@@ -942,6 +960,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 2.264
     std = 0.381
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low1_modules_0_modules_bn2_parameters_weight_:
@@ -992,6 +1011,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.142
     std = 0.055
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low1_modules_0_modules_downsample_modules_1_parameters_weight_:
@@ -1042,6 +1062,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 7.542
     std = 1.458
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low1_modules_1_modules_bn1_parameters_weight_:
@@ -1092,6 +1113,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.948
     std = 0.454
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low1_modules_1_modules_bn2_parameters_weight_:
@@ -1142,6 +1164,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 9.373
     std = 1.451
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_up1_modules_0_modules_bn1_parameters_weight_:
@@ -1192,6 +1215,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.856
     std = 0.141
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_up1_modules_0_modules_bn2_parameters_weight_:
@@ -1242,6 +1266,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 14.662
     std = 2.510
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_up1_modules_1_modules_bn1_parameters_weight_:
@@ -1292,6 +1317,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.627
     std = 0.103
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_up1_modules_1_modules_bn2_parameters_weight_:
@@ -1342,6 +1368,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 7.738
     std = 1.141
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low1_modules_0_modules_bn1_parameters_weight_:
@@ -1392,6 +1419,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 2.609
     std = 0.366
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low1_modules_0_modules_bn2_parameters_weight_:
@@ -1442,6 +1470,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.571
     std = 0.140
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low1_modules_0_modules_downsample_modules_1_parameters_weight_:
@@ -1492,6 +1521,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 7.007
     std = 1.442
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low1_modules_1_modules_bn1_parameters_weight_:
@@ -1542,6 +1572,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 5.486
     std = 1.392
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low1_modules_1_modules_bn2_parameters_weight_:
@@ -1592,6 +1623,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 5.911
     std = 1.080
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_up1_modules_0_modules_bn1_parameters_weight_:
@@ -1642,6 +1674,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.831
     std = 0.440
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_up1_modules_0_modules_bn2_parameters_weight_:
@@ -1692,6 +1725,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 8.303
     std = 2.058
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_up1_modules_1_modules_bn1_parameters_weight_:
@@ -1742,6 +1776,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.532
     std = 0.398
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_up1_modules_1_modules_bn2_parameters_weight_:
@@ -1792,6 +1827,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 4.490
     std = 0.790
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low1_modules_0_modules_bn1_parameters_weight_:
@@ -1842,6 +1878,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 2.738
     std = 0.527
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low1_modules_0_modules_bn2_parameters_weight_:
@@ -1892,6 +1929,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.452
     std = 0.118
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low1_modules_0_modules_downsample_modules_1_parameters_weight_:
@@ -1942,6 +1980,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 3.102
     std = 0.614
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low1_modules_1_modules_bn1_parameters_weight_:
@@ -1992,6 +2031,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 4.625
     std = 1.114
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low1_modules_1_modules_bn2_parameters_weight_:
@@ -2042,6 +2082,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 3.142
     std = 0.591
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_up1_modules_0_modules_bn1_parameters_weight_:
@@ -2092,6 +2133,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 4.808
     std = 1.333
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_up1_modules_0_modules_bn2_parameters_weight_:
@@ -2142,6 +2184,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 3.408
     std = 0.923
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_up1_modules_1_modules_bn1_parameters_weight_:
@@ -2192,6 +2235,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 14.769
     std = 4.277
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_up1_modules_1_modules_bn2_parameters_weight_:
@@ -2242,6 +2286,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.605
     std = 0.522
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low1_modules_0_modules_bn1_parameters_weight_:
@@ -2292,6 +2337,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.823
     std = 0.245
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low1_modules_0_modules_bn2_parameters_weight_:
@@ -2342,6 +2388,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.216
     std = 0.058
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low1_modules_0_modules_downsample_modules_1_parameters_weight_:
@@ -2392,6 +2439,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 2.376
     std = 0.601
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low1_modules_1_modules_bn1_parameters_weight_:
@@ -2442,6 +2490,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.164
     std = 0.262
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low1_modules_1_modules_bn2_parameters_weight_:
@@ -2492,6 +2541,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 3.168
     std = 0.918
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low2_modules_0_modules_bn1_parameters_weight_:
@@ -2542,6 +2592,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.361
     std = 0.305
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low2_modules_0_modules_bn2_parameters_weight_:
@@ -2592,6 +2643,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 2.667
     std = 1.052
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low2_modules_1_modules_bn1_parameters_weight_:
@@ -2642,6 +2694,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.999
     std = 0.509
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low2_modules_1_modules_bn2_parameters_weight_:
@@ -2692,6 +2745,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 2.745
     std = 0.850
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low2_modules_2_modules_bn1_parameters_weight_:
@@ -2742,6 +2796,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 2.617
     std = 0.716
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low2_modules_2_modules_bn2_parameters_weight_:
@@ -2792,6 +2847,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 2.755
     std = 0.632
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low2_modules_3_modules_bn1_parameters_weight_:
@@ -2842,6 +2898,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 2.790
     std = 0.741
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low2_modules_3_modules_bn2_parameters_weight_:
@@ -2892,6 +2949,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 2.179
     std = 0.608
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low3_modules_0_modules_bn1_parameters_weight_:
@@ -2942,6 +3000,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 2.920
     std = 0.725
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low3_modules_0_modules_bn2_parameters_weight_:
@@ -2992,6 +3051,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 30.731
     std = 7.185
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low3_modules_1_modules_bn1_parameters_weight_:
@@ -3042,6 +3102,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 20.183
     std = 5.362
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low3_modules_1_modules_bn2_parameters_weight_:
@@ -3092,6 +3153,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 44.807
     std = 12.806
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low2_modules_low3_modules_1_modules_downsample_modules_1_parameters_weight_:
@@ -3142,6 +3204,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 4.900
     std = 1.411
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low3_modules_0_modules_bn1_parameters_weight_:
@@ -3192,6 +3255,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 29.323
     std = 7.025
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low3_modules_0_modules_bn2_parameters_weight_:
@@ -3242,6 +3306,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 3.998
     std = 1.324
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low3_modules_1_modules_bn1_parameters_weight_:
@@ -3292,6 +3357,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 34.097
     std = 8.596
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low2_modules_low3_modules_1_modules_bn2_parameters_weight_:
@@ -3342,6 +3408,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 23.107
     std = 7.884
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low3_modules_0_modules_bn1_parameters_weight_:
@@ -3392,6 +3459,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 3.325
     std = 0.866
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low3_modules_0_modules_bn2_parameters_weight_:
@@ -3442,6 +3510,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 18.585
     std = 5.494
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low3_modules_1_modules_bn1_parameters_weight_:
@@ -3492,6 +3561,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 4.681
     std = 1.317
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low2_modules_low3_modules_1_modules_bn2_parameters_weight_:
@@ -3542,6 +3612,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 66.465
     std = 12.522
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low3_modules_0_modules_bn1_parameters_weight_:
@@ -3592,6 +3663,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.924
     std = 0.395
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low3_modules_0_modules_bn2_parameters_weight_:
@@ -3642,6 +3714,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 60.097
     std = 15.618
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low3_modules_1_modules_bn1_parameters_weight_:
@@ -3692,6 +3765,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.631
     std = 0.504
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low3_modules_1_modules_bn2_parameters_weight_:
@@ -3742,6 +3816,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 13.126
     std = 3.863
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low2_modules_low3_modules_1_modules_downsample_modules_1_parameters_weight_:
@@ -3792,6 +3867,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 1.417
     std = 0.454
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low3_modules_0_modules_bn1_parameters_weight_:
@@ -3842,6 +3918,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.583
     std = 0.360
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low3_modules_0_modules_bn2_parameters_weight_:
@@ -3892,6 +3969,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 2.422
     std = 1.163
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low3_modules_1_modules_bn1_parameters_weight_:
@@ -3942,6 +4020,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modul
     mean = 0.247
     std = 0.123
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_hourglass_modules_modules_0_modules_low3_modules_1_modules_bn2_parameters_weight_:
@@ -3992,6 +4071,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_out_convs_modul
     mean = 55.239
     std = 46.562
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_out_convs_modules_0_modules_bn_parameters_weight_:

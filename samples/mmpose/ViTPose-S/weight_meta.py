@@ -1574,6 +1574,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modul
     mean = 0.848
     std = 0.422
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modules_1_parameters_weight_:
@@ -1624,6 +1625,7 @@ class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modul
     mean = 1.019
     std = 0.876
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_head_modules_deconv_layers_modules_4_parameters_weight_:

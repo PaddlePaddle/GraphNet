@@ -11676,6 +11676,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_batch_norm_b
     mean = 2.934
     std = 1.469
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_batch_norm_parameters_weight_:

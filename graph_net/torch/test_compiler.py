@@ -22,7 +22,14 @@ from graph_net.torch.backend.inductor_backend import InductorBackend
 from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
 from graph_net.torch.backend.nope_backend import NopeBackend
+from graph_net.torch.backend.unstable_to_stable_backend import UnstableToStableBackend
+from graph_net.torch.backend.range_decomposer_validator_backend import (
+    RangeDecomposerValidatorBackend,
+)
+from graph_net.test_compiler_util import generate_allclose_configs
 from graph_net import test_compiler_util
+from graph_net import path_utils
+
 
 registry_backend = {
     "tvm": TvmBackend(),
@@ -31,6 +38,8 @@ registry_backend = {
     "tensorrt": TensorRTBackend(),
     "bladedisc": BladeDISCBackend(),
     "nope": NopeBackend(),
+    "unstable_to_stable": UnstableToStableBackend(),
+    "range_decomposer_validator": RangeDecomposerValidatorBackend(),
 }
 
 
@@ -53,7 +62,7 @@ def get_hardward_name(args):
 
 
 def get_compile_framework_version(args):
-    if args.compiler in ["inductor", "nope"]:
+    if args.compiler in ["inductor", "nope", "unstable_to_stable"]:
         return torch.__version__
     elif args.compiler in ["tvm", "xla", "tensorrt", "bladedisc"]:
         # Assuming compiler object has a version attribute
@@ -78,6 +87,8 @@ def load_class_from_file(
     exec(compiled_code, module.__dict__)
 
     model_class = getattr(module, class_name, None)
+    setattr(model_class, "__graph_net_file_path__", file_path)
+    setattr(model_class, "__graph_net_device__", device)
     return model_class
 
 
@@ -86,7 +97,9 @@ def get_compiler_backend(args) -> GraphCompilerBackend:
     return registry_backend[args.compiler]
 
 
-def get_model(args, device):
+def get_model(args):
+    device = "xla" if args.compiler == "xla" else args.device
+
     # device: Torch device object specifying the target device for model loading (e.g., 'cuda', 'cpu', 'xla')
     model_class = load_class_from_file(args, class_name="GraphModule", device=device)
     model = model_class().to(torch.device(args.device))
@@ -175,7 +188,7 @@ def measure_performance(model_call, args, compiler):
 def test_single_model(args):
     compiler = get_compiler_backend(args)
     input_dict = get_input_dict(args)
-    model = get_model(args, args.device)
+    model = get_model(args)
 
     test_compiler_util.print_basic_config(
         args, get_hardward_name(args), get_compile_framework_version(args)
@@ -205,12 +218,7 @@ def test_single_model(args):
     compiled_stats = {}
 
     try:
-        if args.compiler == "xla":
-            xla_model = get_model(args, "xla")
-            compiled_model = compiler(xla_model)
-        else:
-            compiled_model = compiler(model)
-
+        compiled_model = compiler(model)
         torch.manual_seed(runtime_seed)
         compiled_model_call = lambda: compiled_model(**input_dict)
         compiled_stats = measure_performance(compiled_model_call, args, compiler)
@@ -337,49 +345,43 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 
 def test_multi_models(args):
-    for model_path in get_recursively_model_path(args.model_path):
-        cmd_list = [
-            sys.executable,
-            "-m",
-            "graph_net.torch.test_compiler",
-            "--model-path",
-            model_path,
-            "--compiler",
-            args.compiler,
-            "--warmup",
-            str(args.warmup),
-            "--trials",
-            str(args.trials),
-            "--log-prompt",
-            args.log_prompt,
-            "--device",
-            args.device,
-        ]
+    test_samples = test_compiler_util.get_allow_samples(args.allow_list)
 
-        cmd = " ".join(cmd_list)
-        cmd_ret = os.system(cmd)
-        assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+    sample_idx = 0
+    failed_samples = []
+    module_name = os.path.splitext(os.path.basename(__file__))[0]
+    for model_path in path_utils.get_recursively_model_path(args.model_path):
+        if test_samples is None or os.path.abspath(model_path) in test_samples:
+            print(
+                f"[{sample_idx}] {module_name}, model_path: {model_path}",
+                file=sys.stderr,
+                flush=True,
+            )
+            cmd = " ".join(
+                [
+                    sys.executable,
+                    f"-m graph_net.torch.{module_name}",
+                    f"--model-path {model_path}",
+                    f"--compiler {args.compiler}",
+                    f"--device {args.device}",
+                    f"--warmup {args.warmup}",
+                    f"--trials {args.trials}",
+                    f"--log-prompt {args.log_prompt}",
+                ]
+            )
+            cmd_ret = os.system(cmd)
+            # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+            if cmd_ret != 0:
+                failed_samples.append(model_path)
+            sample_idx += 1
 
-
-def get_recursively_model_path(root_dir):
-    for sub_dir in get_immediate_subdirectory_paths(root_dir):
-        if is_single_model_dir(sub_dir):
-            yield sub_dir
-        else:
-            yield from get_recursively_model_path(sub_dir)
-
-
-def get_immediate_subdirectory_paths(parent_dir):
-    return [
-        sub_dir
-        for name in os.listdir(parent_dir)
-        for sub_dir in [os.path.join(parent_dir, name)]
-        if os.path.isdir(sub_dir)
-    ]
-
-
-def is_single_model_dir(model_dir):
-    return os.path.isfile(f"{model_dir}/graph_net.json")
+    print(
+        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples.",
+        file=sys.stderr,
+        flush=True,
+    )
+    for model_path in failed_samples:
+        print(f"- {model_path}", file=sys.stderr, flush=True)
 
 
 def main(args):
@@ -387,7 +389,8 @@ def main(args):
 
     initalize_seed = 123
     set_seed(random_seed=initalize_seed)
-    if is_single_model_dir(args.model_path):
+
+    if path_utils.is_single_model_dir(args.model_path):
         test_single_model(args)
     else:
         test_multi_models(args)
@@ -427,6 +430,13 @@ if __name__ == "__main__":
         required=False,
         default="graph-net-test-compiler-log",
         help="Log prompt for performance log filtering.",
+    )
+    parser.add_argument(
+        "--allow-list",
+        type=str,
+        required=False,
+        default=None,
+        help="Path to samples list, each line contains a sample path",
     )
     args = parser.parse_args()
     main(args=args)

@@ -134,6 +134,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_norm0_buffers_r
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_norm0_parameters_weight_:
@@ -380,6 +381,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_norm1_buffers_r
         1.000000,
         1.000000,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_norm1_parameters_weight_:
@@ -528,6 +530,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_norm2_buffers_r
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_norm2_parameters_weight_:
@@ -568,6 +571,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_modules_denselayer1_modules_norm1_parameters_weight_:
@@ -618,6 +622,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_modules_denselayer1_modules_norm2_parameters_weight_:
@@ -668,6 +673,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_modules_denselayer2_modules_norm1_parameters_weight_:
@@ -718,6 +724,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_modules_denselayer2_modules_norm2_parameters_weight_:
@@ -768,6 +775,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_modules_denselayer3_modules_norm1_parameters_weight_:
@@ -818,6 +826,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_modules_denselayer3_modules_norm2_parameters_weight_:
@@ -868,6 +877,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_modules_denselayer4_modules_norm1_parameters_weight_:
@@ -918,6 +928,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_modules_denselayer4_modules_norm2_parameters_weight_:
@@ -968,6 +979,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_modules_denselayer5_modules_norm1_parameters_weight_:
@@ -1018,6 +1030,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_modules_denselayer5_modules_norm2_parameters_weight_:
@@ -1068,6 +1081,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_modules_denselayer6_modules_norm1_parameters_weight_:
@@ -1118,6 +1132,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock1_modules_denselayer6_modules_norm2_parameters_weight_:
@@ -1172,6 +1187,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_transition1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_transition1_modules_norm_parameters_weight_:
@@ -1222,6 +1238,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer1_modules_norm1_parameters_weight_:
@@ -1272,6 +1289,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer1_modules_norm2_parameters_weight_:
@@ -1322,6 +1340,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer2_modules_norm1_parameters_weight_:
@@ -1372,6 +1391,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer2_modules_norm2_parameters_weight_:
@@ -1422,6 +1442,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer3_modules_norm1_parameters_weight_:
@@ -1472,6 +1493,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer3_modules_norm2_parameters_weight_:
@@ -1522,6 +1544,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer4_modules_norm1_parameters_weight_:
@@ -1572,6 +1595,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer4_modules_norm2_parameters_weight_:
@@ -1622,6 +1646,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer5_modules_norm1_parameters_weight_:
@@ -1672,6 +1697,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer5_modules_norm2_parameters_weight_:
@@ -1722,6 +1748,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer6_modules_norm1_parameters_weight_:
@@ -1772,6 +1799,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer6_modules_norm2_parameters_weight_:
@@ -1822,6 +1850,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer7_modules_norm1_parameters_weight_:
@@ -1872,6 +1901,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer7_modules_norm2_parameters_weight_:
@@ -1922,6 +1952,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer8_modules_norm1_parameters_weight_:
@@ -1972,6 +2003,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer8_modules_norm2_parameters_weight_:
@@ -2022,6 +2054,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer9_modules_norm1_parameters_weight_:
@@ -2072,6 +2105,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer9_modules_norm2_parameters_weight_:
@@ -2122,6 +2156,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer10_modules_norm1_parameters_weight_:
@@ -2172,6 +2207,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer10_modules_norm2_parameters_weight_:
@@ -2222,6 +2258,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer11_modules_norm1_parameters_weight_:
@@ -2272,6 +2309,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer11_modules_norm2_parameters_weight_:
@@ -2322,6 +2360,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer12_modules_norm1_parameters_weight_:
@@ -2372,6 +2411,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock2_modules_denselayer12_modules_norm2_parameters_weight_:
@@ -2426,6 +2466,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_transition2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_transition2_modules_norm_parameters_weight_:
@@ -2476,6 +2517,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer1_modules_norm1_parameters_weight_:
@@ -2526,6 +2568,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer1_modules_norm2_parameters_weight_:
@@ -2576,6 +2619,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer2_modules_norm1_parameters_weight_:
@@ -2626,6 +2670,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer2_modules_norm2_parameters_weight_:
@@ -2676,6 +2721,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer3_modules_norm1_parameters_weight_:
@@ -2726,6 +2772,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer3_modules_norm2_parameters_weight_:
@@ -2776,6 +2823,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer4_modules_norm1_parameters_weight_:
@@ -2826,6 +2874,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer4_modules_norm2_parameters_weight_:
@@ -2876,6 +2925,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer5_modules_norm1_parameters_weight_:
@@ -2926,6 +2976,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer5_modules_norm2_parameters_weight_:
@@ -2976,6 +3027,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer6_modules_norm1_parameters_weight_:
@@ -3026,6 +3078,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer6_modules_norm2_parameters_weight_:
@@ -3076,6 +3129,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer7_modules_norm1_parameters_weight_:
@@ -3126,6 +3180,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer7_modules_norm2_parameters_weight_:
@@ -3176,6 +3231,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer8_modules_norm1_parameters_weight_:
@@ -3226,6 +3282,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer8_modules_norm2_parameters_weight_:
@@ -3276,6 +3333,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer9_modules_norm1_parameters_weight_:
@@ -3326,6 +3384,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer9_modules_norm2_parameters_weight_:
@@ -3376,6 +3435,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer10_modules_norm1_parameters_weight_:
@@ -3426,6 +3486,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer10_modules_norm2_parameters_weight_:
@@ -3476,6 +3537,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer11_modules_norm1_parameters_weight_:
@@ -3526,6 +3588,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer11_modules_norm2_parameters_weight_:
@@ -3576,6 +3639,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer12_modules_norm1_parameters_weight_:
@@ -3626,6 +3690,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer12_modules_norm2_parameters_weight_:
@@ -3676,6 +3741,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer13_modules_norm1_parameters_weight_:
@@ -3726,6 +3792,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer13_modules_norm2_parameters_weight_:
@@ -3776,6 +3843,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer14_modules_norm1_parameters_weight_:
@@ -3826,6 +3894,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer14_modules_norm2_parameters_weight_:
@@ -3876,6 +3945,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer15_modules_norm1_parameters_weight_:
@@ -3926,6 +3996,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer15_modules_norm2_parameters_weight_:
@@ -3976,6 +4047,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer16_modules_norm1_parameters_weight_:
@@ -4026,6 +4098,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer16_modules_norm2_parameters_weight_:
@@ -4076,6 +4149,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer17_modules_norm1_parameters_weight_:
@@ -4126,6 +4200,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer17_modules_norm2_parameters_weight_:
@@ -4176,6 +4251,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer18_modules_norm1_parameters_weight_:
@@ -4226,6 +4302,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer18_modules_norm2_parameters_weight_:
@@ -4276,6 +4353,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer19_modules_norm1_parameters_weight_:
@@ -4326,6 +4404,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer19_modules_norm2_parameters_weight_:
@@ -4376,6 +4455,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer20_modules_norm1_parameters_weight_:
@@ -4426,6 +4506,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer20_modules_norm2_parameters_weight_:
@@ -4476,6 +4557,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer21_modules_norm1_parameters_weight_:
@@ -4526,6 +4608,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer21_modules_norm2_parameters_weight_:
@@ -4576,6 +4659,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer22_modules_norm1_parameters_weight_:
@@ -4626,6 +4710,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer22_modules_norm2_parameters_weight_:
@@ -4676,6 +4761,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer23_modules_norm1_parameters_weight_:
@@ -4726,6 +4812,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer23_modules_norm2_parameters_weight_:
@@ -4776,6 +4863,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer24_modules_norm1_parameters_weight_:
@@ -4826,6 +4914,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer24_modules_norm2_parameters_weight_:
@@ -4876,6 +4965,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer25_modules_norm1_parameters_weight_:
@@ -4926,6 +5016,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer25_modules_norm2_parameters_weight_:
@@ -4976,6 +5067,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer26_modules_norm1_parameters_weight_:
@@ -5026,6 +5118,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer26_modules_norm2_parameters_weight_:
@@ -5076,6 +5169,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer27_modules_norm1_parameters_weight_:
@@ -5126,6 +5220,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer27_modules_norm2_parameters_weight_:
@@ -5176,6 +5271,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer28_modules_norm1_parameters_weight_:
@@ -5226,6 +5322,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer28_modules_norm2_parameters_weight_:
@@ -5276,6 +5373,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer29_modules_norm1_parameters_weight_:
@@ -5326,6 +5424,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer29_modules_norm2_parameters_weight_:
@@ -5376,6 +5475,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer30_modules_norm1_parameters_weight_:
@@ -5426,6 +5526,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer30_modules_norm2_parameters_weight_:
@@ -5476,6 +5577,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer31_modules_norm1_parameters_weight_:
@@ -5526,6 +5628,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer31_modules_norm2_parameters_weight_:
@@ -5576,6 +5679,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer32_modules_norm1_parameters_weight_:
@@ -5626,6 +5730,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer32_modules_norm2_parameters_weight_:
@@ -5676,6 +5781,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer33_modules_norm1_parameters_weight_:
@@ -5726,6 +5832,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer33_modules_norm2_parameters_weight_:
@@ -5776,6 +5883,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer34_modules_norm1_parameters_weight_:
@@ -5826,6 +5934,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer34_modules_norm2_parameters_weight_:
@@ -5876,6 +5985,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer35_modules_norm1_parameters_weight_:
@@ -5926,6 +6036,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer35_modules_norm2_parameters_weight_:
@@ -5976,6 +6087,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer36_modules_norm1_parameters_weight_:
@@ -6026,6 +6138,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer36_modules_norm2_parameters_weight_:
@@ -6076,6 +6189,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer37_modules_norm1_parameters_weight_:
@@ -6126,6 +6240,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer37_modules_norm2_parameters_weight_:
@@ -6176,6 +6291,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer38_modules_norm1_parameters_weight_:
@@ -6226,6 +6342,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer38_modules_norm2_parameters_weight_:
@@ -6276,6 +6393,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer39_modules_norm1_parameters_weight_:
@@ -6326,6 +6444,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer39_modules_norm2_parameters_weight_:
@@ -6376,6 +6495,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer40_modules_norm1_parameters_weight_:
@@ -6426,6 +6546,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer40_modules_norm2_parameters_weight_:
@@ -6476,6 +6597,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer41_modules_norm1_parameters_weight_:
@@ -6526,6 +6648,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer41_modules_norm2_parameters_weight_:
@@ -6576,6 +6699,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer42_modules_norm1_parameters_weight_:
@@ -6626,6 +6750,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer42_modules_norm2_parameters_weight_:
@@ -6676,6 +6801,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer43_modules_norm1_parameters_weight_:
@@ -6726,6 +6852,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer43_modules_norm2_parameters_weight_:
@@ -6776,6 +6903,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer44_modules_norm1_parameters_weight_:
@@ -6826,6 +6954,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer44_modules_norm2_parameters_weight_:
@@ -6876,6 +7005,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer45_modules_norm1_parameters_weight_:
@@ -6926,6 +7056,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer45_modules_norm2_parameters_weight_:
@@ -6976,6 +7107,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer46_modules_norm1_parameters_weight_:
@@ -7026,6 +7158,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer46_modules_norm2_parameters_weight_:
@@ -7076,6 +7209,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer47_modules_norm1_parameters_weight_:
@@ -7126,6 +7260,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer47_modules_norm2_parameters_weight_:
@@ -7176,6 +7311,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer48_modules_norm1_parameters_weight_:
@@ -7226,6 +7362,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer48_modules_norm2_parameters_weight_:
@@ -7276,6 +7413,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer49_modules_norm1_parameters_weight_:
@@ -7326,6 +7464,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer49_modules_norm2_parameters_weight_:
@@ -7376,6 +7515,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer50_modules_norm1_parameters_weight_:
@@ -7426,6 +7566,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer50_modules_norm2_parameters_weight_:
@@ -7476,6 +7617,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer51_modules_norm1_parameters_weight_:
@@ -7526,6 +7668,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer51_modules_norm2_parameters_weight_:
@@ -7576,6 +7719,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer52_modules_norm1_parameters_weight_:
@@ -7626,6 +7770,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer52_modules_norm2_parameters_weight_:
@@ -7676,6 +7821,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer53_modules_norm1_parameters_weight_:
@@ -7726,6 +7872,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer53_modules_norm2_parameters_weight_:
@@ -7776,6 +7923,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer54_modules_norm1_parameters_weight_:
@@ -7826,6 +7974,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer54_modules_norm2_parameters_weight_:
@@ -7876,6 +8025,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer55_modules_norm1_parameters_weight_:
@@ -7926,6 +8076,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer55_modules_norm2_parameters_weight_:
@@ -7976,6 +8127,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer56_modules_norm1_parameters_weight_:
@@ -8026,6 +8178,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer56_modules_norm2_parameters_weight_:
@@ -8076,6 +8229,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer57_modules_norm1_parameters_weight_:
@@ -8126,6 +8280,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer57_modules_norm2_parameters_weight_:
@@ -8176,6 +8331,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer58_modules_norm1_parameters_weight_:
@@ -8226,6 +8382,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer58_modules_norm2_parameters_weight_:
@@ -8276,6 +8433,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer59_modules_norm1_parameters_weight_:
@@ -8326,6 +8484,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer59_modules_norm2_parameters_weight_:
@@ -8376,6 +8535,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer60_modules_norm1_parameters_weight_:
@@ -8426,6 +8586,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer60_modules_norm2_parameters_weight_:
@@ -8476,6 +8637,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer61_modules_norm1_parameters_weight_:
@@ -8526,6 +8688,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer61_modules_norm2_parameters_weight_:
@@ -8576,6 +8739,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer62_modules_norm1_parameters_weight_:
@@ -8626,6 +8790,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer62_modules_norm2_parameters_weight_:
@@ -8676,6 +8841,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer63_modules_norm1_parameters_weight_:
@@ -8726,6 +8892,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer63_modules_norm2_parameters_weight_:
@@ -8776,6 +8943,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer64_modules_norm1_parameters_weight_:
@@ -8826,6 +8994,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock3_modules_denselayer64_modules_norm2_parameters_weight_:
@@ -8880,6 +9049,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_transition3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_transition3_modules_norm_parameters_weight_:
@@ -8930,6 +9100,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer1_modules_norm1_parameters_weight_:
@@ -8980,6 +9151,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer1_modules_norm2_parameters_weight_:
@@ -9030,6 +9202,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer2_modules_norm1_parameters_weight_:
@@ -9080,6 +9253,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer2_modules_norm2_parameters_weight_:
@@ -9130,6 +9304,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer3_modules_norm1_parameters_weight_:
@@ -9180,6 +9355,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer3_modules_norm2_parameters_weight_:
@@ -9230,6 +9406,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer4_modules_norm1_parameters_weight_:
@@ -9280,6 +9457,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer4_modules_norm2_parameters_weight_:
@@ -9330,6 +9508,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer5_modules_norm1_parameters_weight_:
@@ -9380,6 +9559,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer5_modules_norm2_parameters_weight_:
@@ -9430,6 +9610,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer6_modules_norm1_parameters_weight_:
@@ -9480,6 +9661,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer6_modules_norm2_parameters_weight_:
@@ -9530,6 +9712,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer7_modules_norm1_parameters_weight_:
@@ -9580,6 +9763,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer7_modules_norm2_parameters_weight_:
@@ -9630,6 +9814,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer8_modules_norm1_parameters_weight_:
@@ -9680,6 +9865,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer8_modules_norm2_parameters_weight_:
@@ -9730,6 +9916,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer9_modules_norm1_parameters_weight_:
@@ -9780,6 +9967,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer9_modules_norm2_parameters_weight_:
@@ -9830,6 +10018,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer10_modules_norm1_parameters_weight_:
@@ -9880,6 +10069,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer10_modules_norm2_parameters_weight_:
@@ -9930,6 +10120,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer11_modules_norm1_parameters_weight_:
@@ -9980,6 +10171,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer11_modules_norm2_parameters_weight_:
@@ -10030,6 +10222,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer12_modules_norm1_parameters_weight_:
@@ -10080,6 +10273,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer12_modules_norm2_parameters_weight_:
@@ -10130,6 +10324,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer13_modules_norm1_parameters_weight_:
@@ -10180,6 +10375,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer13_modules_norm2_parameters_weight_:
@@ -10230,6 +10426,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer14_modules_norm1_parameters_weight_:
@@ -10280,6 +10477,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer14_modules_norm2_parameters_weight_:
@@ -10330,6 +10528,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer15_modules_norm1_parameters_weight_:
@@ -10380,6 +10579,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer15_modules_norm2_parameters_weight_:
@@ -10430,6 +10630,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer16_modules_norm1_parameters_weight_:
@@ -10480,6 +10681,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer16_modules_norm2_parameters_weight_:
@@ -10530,6 +10732,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer17_modules_norm1_parameters_weight_:
@@ -10580,6 +10783,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer17_modules_norm2_parameters_weight_:
@@ -10630,6 +10834,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer18_modules_norm1_parameters_weight_:
@@ -10680,6 +10885,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer18_modules_norm2_parameters_weight_:
@@ -10730,6 +10936,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer19_modules_norm1_parameters_weight_:
@@ -10780,6 +10987,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer19_modules_norm2_parameters_weight_:
@@ -10830,6 +11038,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer20_modules_norm1_parameters_weight_:
@@ -10880,6 +11089,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer20_modules_norm2_parameters_weight_:
@@ -10930,6 +11140,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer21_modules_norm1_parameters_weight_:
@@ -10980,6 +11191,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer21_modules_norm2_parameters_weight_:
@@ -11030,6 +11242,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer22_modules_norm1_parameters_weight_:
@@ -11080,6 +11293,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer22_modules_norm2_parameters_weight_:
@@ -11130,6 +11344,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer23_modules_norm1_parameters_weight_:
@@ -11180,6 +11395,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer23_modules_norm2_parameters_weight_:
@@ -11230,6 +11446,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer24_modules_norm1_parameters_weight_:
@@ -11280,6 +11497,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer24_modules_norm2_parameters_weight_:
@@ -11330,6 +11548,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer25_modules_norm1_parameters_weight_:
@@ -11380,6 +11599,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer25_modules_norm2_parameters_weight_:
@@ -11430,6 +11650,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer26_modules_norm1_parameters_weight_:
@@ -11480,6 +11701,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer26_modules_norm2_parameters_weight_:
@@ -11530,6 +11752,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer27_modules_norm1_parameters_weight_:
@@ -11580,6 +11803,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer27_modules_norm2_parameters_weight_:
@@ -11630,6 +11854,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer28_modules_norm1_parameters_weight_:
@@ -11680,6 +11905,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer28_modules_norm2_parameters_weight_:
@@ -11730,6 +11956,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer29_modules_norm1_parameters_weight_:
@@ -11780,6 +12007,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer29_modules_norm2_parameters_weight_:
@@ -11830,6 +12058,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer30_modules_norm1_parameters_weight_:
@@ -11880,6 +12109,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer30_modules_norm2_parameters_weight_:
@@ -11930,6 +12160,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer31_modules_norm1_parameters_weight_:
@@ -11980,6 +12211,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer31_modules_norm2_parameters_weight_:
@@ -12030,6 +12262,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer32_modules_norm1_parameters_weight_:
@@ -12080,6 +12313,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer32_modules_norm2_parameters_weight_:
@@ -12130,6 +12364,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer33_modules_norm1_parameters_weight_:
@@ -12180,6 +12415,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer33_modules_norm2_parameters_weight_:
@@ -12230,6 +12466,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer34_modules_norm1_parameters_weight_:
@@ -12280,6 +12517,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer34_modules_norm2_parameters_weight_:
@@ -12330,6 +12568,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer35_modules_norm1_parameters_weight_:
@@ -12380,6 +12619,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer35_modules_norm2_parameters_weight_:
@@ -12430,6 +12670,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer36_modules_norm1_parameters_weight_:
@@ -12480,6 +12721,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer36_modules_norm2_parameters_weight_:
@@ -12530,6 +12772,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer37_modules_norm1_parameters_weight_:
@@ -12580,6 +12823,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer37_modules_norm2_parameters_weight_:
@@ -12630,6 +12874,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer38_modules_norm1_parameters_weight_:
@@ -12680,6 +12925,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer38_modules_norm2_parameters_weight_:
@@ -12730,6 +12976,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer39_modules_norm1_parameters_weight_:
@@ -12780,6 +13027,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer39_modules_norm2_parameters_weight_:
@@ -12830,6 +13078,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer40_modules_norm1_parameters_weight_:
@@ -12880,6 +13129,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer40_modules_norm2_parameters_weight_:
@@ -12930,6 +13180,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer41_modules_norm1_parameters_weight_:
@@ -12980,6 +13231,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer41_modules_norm2_parameters_weight_:
@@ -13030,6 +13282,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer42_modules_norm1_parameters_weight_:
@@ -13080,6 +13333,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer42_modules_norm2_parameters_weight_:
@@ -13130,6 +13384,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer43_modules_norm1_parameters_weight_:
@@ -13180,6 +13435,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer43_modules_norm2_parameters_weight_:
@@ -13230,6 +13486,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer44_modules_norm1_parameters_weight_:
@@ -13280,6 +13537,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer44_modules_norm2_parameters_weight_:
@@ -13330,6 +13588,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer45_modules_norm1_parameters_weight_:
@@ -13380,6 +13639,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer45_modules_norm2_parameters_weight_:
@@ -13430,6 +13690,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer46_modules_norm1_parameters_weight_:
@@ -13480,6 +13741,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer46_modules_norm2_parameters_weight_:
@@ -13530,6 +13792,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer47_modules_norm1_parameters_weight_:
@@ -13580,6 +13843,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer47_modules_norm2_parameters_weight_:
@@ -13630,6 +13894,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer48_modules_norm1_parameters_weight_:
@@ -13680,6 +13945,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_denseblock4_modules_denselayer48_modules_norm2_parameters_weight_:
@@ -13730,6 +13996,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_norm5_buffers_r
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_norm5_parameters_weight_:

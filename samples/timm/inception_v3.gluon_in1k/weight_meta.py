@@ -46,6 +46,7 @@ class Program_weight_tensor_meta_L_self_modules_Conv2d_1a_3x3_modules_bn_buffers
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Conv2d_1a_3x3_modules_bn_parameters_weight_:
@@ -96,6 +97,7 @@ class Program_weight_tensor_meta_L_self_modules_Conv2d_2a_3x3_modules_bn_buffers
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Conv2d_2a_3x3_modules_bn_parameters_weight_:
@@ -146,6 +148,7 @@ class Program_weight_tensor_meta_L_self_modules_Conv2d_2b_3x3_modules_bn_buffers
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Conv2d_2b_3x3_modules_bn_parameters_weight_:
@@ -196,6 +199,7 @@ class Program_weight_tensor_meta_L_self_modules_Conv2d_3b_1x1_modules_bn_buffers
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Conv2d_3b_1x1_modules_bn_parameters_weight_:
@@ -246,6 +250,7 @@ class Program_weight_tensor_meta_L_self_modules_Conv2d_4a_3x3_modules_bn_buffers
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Conv2d_4a_3x3_modules_bn_parameters_weight_:
@@ -296,6 +301,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch1x1_modul
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch1x1_modules_bn_parameters_weight_:
@@ -348,6 +354,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch5x5_1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch5x5_1_modules_bn_parameters_weight_:
@@ -400,6 +407,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch5x5_2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch5x5_2_modules_bn_parameters_weight_:
@@ -454,6 +462,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch3x3dbl_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch3x3dbl_1_modules_bn_parameters_weight_:
@@ -510,6 +519,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch3x3dbl_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch3x3dbl_2_modules_bn_parameters_weight_:
@@ -566,6 +576,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch3x3dbl_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch3x3dbl_3_modules_bn_parameters_weight_:
@@ -620,6 +631,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch_pool_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5b_modules_branch_pool_modules_bn_parameters_weight_:
@@ -670,6 +682,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch1x1_modul
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch1x1_modules_bn_parameters_weight_:
@@ -722,6 +735,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch5x5_1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch5x5_1_modules_bn_parameters_weight_:
@@ -774,6 +788,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch5x5_2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch5x5_2_modules_bn_parameters_weight_:
@@ -828,6 +843,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch3x3dbl_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch3x3dbl_1_modules_bn_parameters_weight_:
@@ -884,6 +900,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch3x3dbl_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch3x3dbl_2_modules_bn_parameters_weight_:
@@ -940,6 +957,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch3x3dbl_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch3x3dbl_3_modules_bn_parameters_weight_:
@@ -994,6 +1012,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch_pool_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5c_modules_branch_pool_modules_bn_parameters_weight_:
@@ -1044,6 +1063,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch1x1_modul
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch1x1_modules_bn_parameters_weight_:
@@ -1096,6 +1116,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch5x5_1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch5x5_1_modules_bn_parameters_weight_:
@@ -1148,6 +1169,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch5x5_2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch5x5_2_modules_bn_parameters_weight_:
@@ -1202,6 +1224,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch3x3dbl_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch3x3dbl_1_modules_bn_parameters_weight_:
@@ -1258,6 +1281,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch3x3dbl_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch3x3dbl_2_modules_bn_parameters_weight_:
@@ -1314,6 +1338,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch3x3dbl_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch3x3dbl_3_modules_bn_parameters_weight_:
@@ -1368,6 +1393,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch_pool_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_5d_modules_branch_pool_modules_bn_parameters_weight_:
@@ -1418,6 +1444,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6a_modules_branch3x3_modul
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6a_modules_branch3x3_modules_bn_parameters_weight_:
@@ -1472,6 +1499,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6a_modules_branch3x3dbl_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6a_modules_branch3x3dbl_1_modules_bn_parameters_weight_:
@@ -1528,6 +1556,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6a_modules_branch3x3dbl_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6a_modules_branch3x3dbl_2_modules_bn_parameters_weight_:
@@ -1584,6 +1613,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6a_modules_branch3x3dbl_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6a_modules_branch3x3dbl_3_modules_bn_parameters_weight_:
@@ -1636,6 +1666,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch1x1_modul
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch1x1_modules_bn_parameters_weight_:
@@ -1688,6 +1719,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7_1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7_1_modules_bn_parameters_weight_:
@@ -1740,6 +1772,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7_2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7_2_modules_bn_parameters_weight_:
@@ -1792,6 +1825,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7_3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7_3_modules_bn_parameters_weight_:
@@ -1846,6 +1880,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7dbl_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7dbl_1_modules_bn_parameters_weight_:
@@ -1902,6 +1937,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7dbl_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7dbl_2_modules_bn_parameters_weight_:
@@ -1958,6 +1994,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7dbl_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7dbl_3_modules_bn_parameters_weight_:
@@ -2014,6 +2051,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7dbl_4_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7dbl_4_modules_bn_parameters_weight_:
@@ -2070,6 +2108,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7dbl_5_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch7x7dbl_5_modules_bn_parameters_weight_:
@@ -2124,6 +2163,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch_pool_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6b_modules_branch_pool_modules_bn_parameters_weight_:
@@ -2174,6 +2214,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch1x1_modul
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch1x1_modules_bn_parameters_weight_:
@@ -2226,6 +2267,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7_1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7_1_modules_bn_parameters_weight_:
@@ -2278,6 +2320,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7_2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7_2_modules_bn_parameters_weight_:
@@ -2330,6 +2373,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7_3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7_3_modules_bn_parameters_weight_:
@@ -2384,6 +2428,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7dbl_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7dbl_1_modules_bn_parameters_weight_:
@@ -2440,6 +2485,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7dbl_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7dbl_2_modules_bn_parameters_weight_:
@@ -2496,6 +2542,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7dbl_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7dbl_3_modules_bn_parameters_weight_:
@@ -2552,6 +2599,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7dbl_4_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7dbl_4_modules_bn_parameters_weight_:
@@ -2608,6 +2656,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7dbl_5_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch7x7dbl_5_modules_bn_parameters_weight_:
@@ -2662,6 +2711,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch_pool_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6c_modules_branch_pool_modules_bn_parameters_weight_:
@@ -2712,6 +2762,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch1x1_modul
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch1x1_modules_bn_parameters_weight_:
@@ -2764,6 +2815,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7_1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7_1_modules_bn_parameters_weight_:
@@ -2816,6 +2868,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7_2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7_2_modules_bn_parameters_weight_:
@@ -2868,6 +2921,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7_3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7_3_modules_bn_parameters_weight_:
@@ -2922,6 +2976,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7dbl_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7dbl_1_modules_bn_parameters_weight_:
@@ -2978,6 +3033,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7dbl_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7dbl_2_modules_bn_parameters_weight_:
@@ -3034,6 +3090,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7dbl_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7dbl_3_modules_bn_parameters_weight_:
@@ -3090,6 +3147,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7dbl_4_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7dbl_4_modules_bn_parameters_weight_:
@@ -3146,6 +3204,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7dbl_5_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch7x7dbl_5_modules_bn_parameters_weight_:
@@ -3200,6 +3259,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch_pool_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6d_modules_branch_pool_modules_bn_parameters_weight_:
@@ -3250,6 +3310,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch1x1_modul
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch1x1_modules_bn_parameters_weight_:
@@ -3302,6 +3363,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7_1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7_1_modules_bn_parameters_weight_:
@@ -3354,6 +3416,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7_2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7_2_modules_bn_parameters_weight_:
@@ -3406,6 +3469,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7_3_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7_3_modules_bn_parameters_weight_:
@@ -3460,6 +3524,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7dbl_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7dbl_1_modules_bn_parameters_weight_:
@@ -3516,6 +3581,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7dbl_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7dbl_2_modules_bn_parameters_weight_:
@@ -3572,6 +3638,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7dbl_3_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7dbl_3_modules_bn_parameters_weight_:
@@ -3628,6 +3695,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7dbl_4_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7dbl_4_modules_bn_parameters_weight_:
@@ -3684,6 +3752,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7dbl_5_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch7x7dbl_5_modules_bn_parameters_weight_:
@@ -3738,6 +3807,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch_pool_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_6e_modules_branch_pool_modules_bn_parameters_weight_:
@@ -3790,6 +3860,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7a_modules_branch3x3_1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7a_modules_branch3x3_1_modules_bn_parameters_weight_:
@@ -3842,6 +3913,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7a_modules_branch3x3_2_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7a_modules_branch3x3_2_modules_bn_parameters_weight_:
@@ -3898,6 +3970,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7a_modules_branch7x7x3_1_m
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7a_modules_branch7x7x3_1_modules_bn_parameters_weight_:
@@ -3954,6 +4027,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7a_modules_branch7x7x3_2_m
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7a_modules_branch7x7x3_2_modules_bn_parameters_weight_:
@@ -4010,6 +4084,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7a_modules_branch7x7x3_3_m
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7a_modules_branch7x7x3_3_modules_bn_parameters_weight_:
@@ -4066,6 +4141,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7a_modules_branch7x7x3_4_m
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7a_modules_branch7x7x3_4_modules_bn_parameters_weight_:
@@ -4116,6 +4192,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch1x1_modul
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch1x1_modules_bn_parameters_weight_:
@@ -4168,6 +4245,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3_1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3_1_modules_bn_parameters_weight_:
@@ -4224,6 +4302,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3_2a_mo
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3_2a_modules_bn_parameters_weight_:
@@ -4280,6 +4359,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3_2b_mo
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3_2b_modules_bn_parameters_weight_:
@@ -4334,6 +4414,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3dbl_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3dbl_1_modules_bn_parameters_weight_:
@@ -4390,6 +4471,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3dbl_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3dbl_2_modules_bn_parameters_weight_:
@@ -4442,6 +4524,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3dbl_3a
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3dbl_3a_modules_bn_parameters_weight_:
@@ -4494,6 +4577,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3dbl_3b
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch3x3dbl_3b_modules_bn_parameters_weight_:
@@ -4548,6 +4632,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch_pool_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7b_modules_branch_pool_modules_bn_parameters_weight_:
@@ -4598,6 +4683,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch1x1_modul
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch1x1_modules_bn_parameters_weight_:
@@ -4650,6 +4736,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3_1_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3_1_modules_bn_parameters_weight_:
@@ -4706,6 +4793,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3_2a_mo
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3_2a_modules_bn_parameters_weight_:
@@ -4762,6 +4850,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3_2b_mo
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3_2b_modules_bn_parameters_weight_:
@@ -4816,6 +4905,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3dbl_1_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3dbl_1_modules_bn_parameters_weight_:
@@ -4872,6 +4962,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3dbl_2_
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3dbl_2_modules_bn_parameters_weight_:
@@ -4924,6 +5015,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3dbl_3a
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3dbl_3a_modules_bn_parameters_weight_:
@@ -4976,6 +5068,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3dbl_3b
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch3x3dbl_3b_modules_bn_parameters_weight_:
@@ -5030,6 +5123,7 @@ class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch_pool_mod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_Mixed_7c_modules_branch_pool_modules_bn_parameters_weight_:

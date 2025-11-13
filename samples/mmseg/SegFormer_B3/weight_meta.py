@@ -5204,6 +5204,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_convs_module
     mean = 0.256
     std = 0.128
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_convs_modules_0_modules_bn_parameters_weight_:
@@ -5256,6 +5257,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_convs_module
     mean = 0.513
     std = 0.079
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_convs_modules_1_modules_bn_parameters_weight_:
@@ -5308,6 +5310,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_convs_module
     mean = 2.714
     std = 0.378
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_convs_modules_2_modules_bn_parameters_weight_:
@@ -5360,6 +5363,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_convs_module
     mean = 30.453
     std = 4.055
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_convs_modules_3_modules_bn_parameters_weight_:
@@ -5416,6 +5420,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_fusion_conv_
     mean = 2.766
     std = 0.484
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_fusion_conv_modules_bn_parameters_weight_:

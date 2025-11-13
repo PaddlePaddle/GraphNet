@@ -1,0 +1,3 @@
+samples/transformers-auto-model/Intel_zoedepth-kitti
+samples/transformers-auto-model/Intel_zoedepth-nyu
+samples/transformers-auto-model/mambarim-110m

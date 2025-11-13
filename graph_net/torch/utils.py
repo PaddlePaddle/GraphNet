@@ -221,7 +221,17 @@ def convert_meta_classes_to_tensors(file_path):
         data_type = getattr(torch, attrs.get("dtype", "torch.float").split(".")[-1])
         shape = attrs.get("shape", [])
 
-        if "min_val" in attrs and "max_val" in attrs:
+        if (
+            "min_val" in attrs
+            and "max_val" in attrs
+            and data_type
+            in [
+                torch.int8,
+                torch.int16,
+                torch.int32,
+                torch.int64,
+            ]
+        ):
             min_val = attrs["min_val"]
             max_val = attrs["max_val"]
             # torch.randint's upper bound is exclusive, so add 1
@@ -235,14 +245,21 @@ def convert_meta_classes_to_tensors(file_path):
                 data_value = torch.tensor(attrs["data"], dtype=data_type).reshape(
                     attrs.get("shape"), []
                 )
+        info_dict = {
+            "shape": attrs.get("shape", []),
+            "dtype": data_type,
+            "device": attrs.get("device", "cpu"),
+            "mean": attrs.get("mean", 0.0),
+            "std": attrs.get("std", 1.0),
+        }
+        # Include constraints if present (floats will be clamped in replay_tensor)
+        if "min_val" in attrs:
+            info_dict["min_val"] = attrs["min_val"]
+        if "max_val" in attrs:
+            info_dict["max_val"] = attrs["max_val"]
+
         yield {
-            "info": {
-                "shape": attrs.get("shape", []),
-                "dtype": data_type,
-                "device": attrs.get("device", "cpu"),
-                "mean": attrs.get("mean", 0.0),
-                "std": attrs.get("std", 1.0),
-            },
+            "info": info_dict,
             "data": data_value,
             "name": attrs.get("name"),
         }
@@ -271,10 +288,33 @@ def replay_tensor(info):
         return info["data"].to(device)
     if dtype is torch.bool:
         return (torch.randn(size=shape) > 0.5).to(dtype).to(device)
-    tensor = torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean
-    # TODO(Xreki): remove this ugly code, and change the weight_meta instead.
-    if name.startswith("L_self_modules") and "buffers_running_var" in name:
-        tensor = torch.clip(tensor, min=0)
+    if std is None:
+        std = 0.1
+    if mean is None:
+        mean = 0
+    # Handle std = 0 case to avoid generating identical values
+    if std == 0:
+        tensor = torch.full(size=shape, fill_value=mean, dtype=dtype, device=device)
+    else:
+        tensor = torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean
+
+    # Apply lower/upper bound constraints if present
+    if "min_val" in info["info"]:
+        min_val = info["info"]["min_val"]
+        tensor = torch.clamp(tensor, min=min_val)
+    if "max_val" in info["info"]:
+        max_val = info["info"]["max_val"]
+        tensor = torch.clamp(tensor, max=max_val)
+
+    # Additional numerical stability checks
+    if dtype.is_floating_point:
+        # Replace any inf or nan values with small random values
+        tensor = torch.where(
+            torch.isfinite(tensor), tensor, torch.randn_like(tensor) * 0.01
+        )
+        # Ensure no extremely large values
+        tensor = torch.clamp(tensor, min=-100.0, max=100.0)
+
     return tensor
 
 

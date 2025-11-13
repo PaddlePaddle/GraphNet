@@ -3964,6 +3964,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_
     mean = 4319.490
     std = 820.721
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_modules_0_modules_0_modules_bn_parameters_weight_:
@@ -4014,6 +4015,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_
     mean = 4112.673
     std = 828.739
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_modules_1_modules_0_modules_bn_parameters_weight_:
@@ -4064,6 +4066,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_
     mean = 2976.058
     std = 612.911
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_modules_2_modules_0_modules_bn_parameters_weight_:
@@ -4114,6 +4117,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_
     mean = 2.479
     std = 0.341
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_modules_2_modules_2_modules_bn_parameters_weight_:
@@ -4164,6 +4168,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_
     mean = 958.504
     std = 234.821
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_modules_3_modules_0_modules_bn_parameters_weight_:
@@ -4214,6 +4219,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_
     mean = 4.539
     std = 0.771
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_modules_3_modules_2_modules_bn_parameters_weight_:
@@ -4264,6 +4270,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_
     mean = 3.147
     std = 0.437
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_scale_heads_modules_3_modules_4_modules_bn_parameters_weight_:

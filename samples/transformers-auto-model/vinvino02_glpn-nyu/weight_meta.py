@@ -9226,6 +9226,7 @@ class Program_weight_tensor_meta_L_self_modules_decoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decoder_modules_stages_modules_1_modules_fusion_modules_convolutional_layer1_modules_1_parameters_weight_:
@@ -9286,6 +9287,7 @@ class Program_weight_tensor_meta_L_self_modules_decoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decoder_modules_stages_modules_1_modules_fusion_modules_convolutional_layer2_modules_1_parameters_weight_:
@@ -9386,6 +9388,7 @@ class Program_weight_tensor_meta_L_self_modules_decoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decoder_modules_stages_modules_2_modules_fusion_modules_convolutional_layer1_modules_1_parameters_weight_:
@@ -9446,6 +9449,7 @@ class Program_weight_tensor_meta_L_self_modules_decoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decoder_modules_stages_modules_2_modules_fusion_modules_convolutional_layer2_modules_1_parameters_weight_:
@@ -9526,6 +9530,7 @@ class Program_weight_tensor_meta_L_self_modules_decoder_modules_stages_modules_3
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decoder_modules_stages_modules_3_modules_fusion_modules_convolutional_layer1_modules_1_parameters_weight_:
@@ -9586,6 +9591,7 @@ class Program_weight_tensor_meta_L_self_modules_decoder_modules_stages_modules_3
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decoder_modules_stages_modules_3_modules_fusion_modules_convolutional_layer2_modules_1_parameters_weight_:

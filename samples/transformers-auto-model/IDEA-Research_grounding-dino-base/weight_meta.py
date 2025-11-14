@@ -6,6 +6,8 @@ class Program_weight_tensor_meta_L_stack0_encoder_last_hidden_state_text:
     mean = 0.000
     std = 1.000
     data = None
+    min_val = -10.0
+    max_val = 10.0
 
 
 class Program_weight_tensor_meta_L_stack0_intermediate_hidden_states:
@@ -16,6 +18,8 @@ class Program_weight_tensor_meta_L_stack0_intermediate_hidden_states:
     mean = 0.000
     std = 1.000
     data = None
+    min_val = -10.0
+    max_val = 10.0
 
 
 class Program_weight_tensor_meta_L_stack0_init_reference_points:
@@ -26,6 +30,8 @@ class Program_weight_tensor_meta_L_stack0_init_reference_points:
     mean = 0.400
     std = 0.296
     data = None
+    min_val = 0.0
+    max_val = 1.0
 
 
 class Program_weight_tensor_meta_L_stack0_intermediate_reference_points:
@@ -36,6 +42,8 @@ class Program_weight_tensor_meta_L_stack0_intermediate_reference_points:
     mean = 0.400
     std = 0.296
     data = None
+    min_val = 0.0
+    max_val = 1.0
 
 
 class Program_weight_tensor_meta_L_attention_mask_:
@@ -56,6 +64,8 @@ class Program_weight_tensor_meta_L_self_modules_bbox_embed_modules_0_modules_lay
     mean = -0.000
     std = 0.020
     data = None
+    min_val = -1.0
+    max_val = 1.0
 
 
 class Program_weight_tensor_meta_L_self_modules_bbox_embed_modules_0_modules_layers_modules_0_parameters_bias_:
@@ -68,6 +78,8 @@ class Program_weight_tensor_meta_L_self_modules_bbox_embed_modules_0_modules_lay
     mean = 0.000
     std = 0.000
     data = None
+    min_val = -1.0
+    max_val = 1.0
 
 
 class Program_weight_tensor_meta_L_self_modules_bbox_embed_modules_0_modules_layers_modules_1_parameters_weight_:
@@ -78,6 +90,8 @@ class Program_weight_tensor_meta_L_self_modules_bbox_embed_modules_0_modules_lay
     mean = 0.000
     std = 0.020
     data = None
+    min_val = -1.0
+    max_val = 1.0
 
 
 class Program_weight_tensor_meta_L_self_modules_bbox_embed_modules_0_modules_layers_modules_1_parameters_bias_:
@@ -90,6 +104,8 @@ class Program_weight_tensor_meta_L_self_modules_bbox_embed_modules_0_modules_lay
     mean = 0.000
     std = 0.000
     data = None
+    min_val = -1.0
+    max_val = 1.0
 
 
 class Program_weight_tensor_meta_L_self_modules_bbox_embed_modules_0_modules_layers_modules_2_parameters_weight_:
@@ -100,6 +116,8 @@ class Program_weight_tensor_meta_L_self_modules_bbox_embed_modules_0_modules_lay
     mean = 0.000
     std = 0.000
     data = None
+    min_val = -1.0
+    max_val = 1.0
 
 
 class Program_weight_tensor_meta_L_self_modules_bbox_embed_modules_0_modules_layers_modules_2_parameters_bias_:

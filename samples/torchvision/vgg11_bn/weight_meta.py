@@ -56,6 +56,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_1_buffers_runni
     mean = 0.765
     std = 1.301
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_1_parameters_weight_:
@@ -116,6 +117,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_5_buffers_runni
     mean = 0.468
     std = 0.309
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_5_parameters_weight_:
@@ -176,6 +178,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_9_buffers_runni
     mean = 0.110
     std = 0.055
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_9_parameters_weight_:
@@ -236,6 +239,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_12_buffers_runn
     mean = 0.074
     std = 0.021
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_12_parameters_weight_:
@@ -296,6 +300,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_16_buffers_runn
     mean = 0.096
     std = 0.040
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_16_parameters_weight_:
@@ -356,6 +361,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_19_buffers_runn
     mean = 0.051
     std = 0.017
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_19_parameters_weight_:
@@ -416,6 +422,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_23_buffers_runn
     mean = 0.055
     std = 0.018
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_23_parameters_weight_:
@@ -476,6 +483,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_26_buffers_runn
     mean = 0.036
     std = 0.010
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_26_parameters_weight_:

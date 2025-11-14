@@ -1135,8 +1135,6 @@ class GraphModule(paddle.nn.Layer):
         )
 
         return (
-            group_norm_0,
-            group_norm_1,
             stack_0,
             stack_1,
             reshape_0,

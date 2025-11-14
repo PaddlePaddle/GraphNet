@@ -3,9 +3,13 @@ import re
 import sys
 import json
 import time
+import subprocess
+import shutil
 import numpy as np
 from dataclasses import dataclass
 from contextlib import contextmanager
+
+from graph_net import path_utils
 
 
 @dataclass
@@ -21,6 +25,87 @@ def naive_timer(duration_box, synchronizer_func):
     synchronizer_func()
     end = time.time()
     duration_box.value = (end - start) * 1000  # Store in milliseconds
+
+
+def is_gpu_device(device):
+    return "cuda" in device or "dcu" in device
+
+
+def get_device_utilization(device_id, device_count, synchronizer_func):
+    current_pid = os.getpid()
+
+    if shutil.which("nvidia-smi"):
+        try:
+            cuda_devices_str = os.getenv("CUDA_VISIBLE_DEVICES", "")
+            if cuda_devices_str != "":
+                cuda_devices = list(map(int, cuda_devices_str.split(",")))
+            else:
+                cuda_devices = list(range(device_count))
+            selected_gpu_id = cuda_devices[device_id]
+
+            print(
+                f"Check the status of GPU {selected_gpu_id} for 3 times.",
+                file=sys.stderr,
+                flush=True,
+            )
+            selected_gpu_uuid, max_gpu_util, max_mem_util = None, 0.0, 0.0
+            for i in range(3):
+                synchronizer_func()
+                time.sleep(1)
+
+                cmd = [
+                    "nvidia-smi",
+                    f"--id={selected_gpu_id}",
+                    f"--query-gpu=index,gpu_uuid,utilization.gpu,memory.used,memory.total",
+                    "--format=csv,noheader,nounits",
+                ]
+                output = subprocess.check_output(cmd).decode().strip()
+                _, selected_gpu_uuid, gpu_util, used_mem, mem_total = next(
+                    line.split(", ") for line in output.split("\n") if line.strip()
+                )
+                gpu_util = float(gpu_util)
+                mem_util = float(used_mem) * 100 / float(mem_total)
+                print(
+                    f"- gpu_id: {selected_gpu_id}, gpu_uuid: {selected_gpu_uuid}, gpu_util: {gpu_util:.2f}%, used_mem: {used_mem}, mem_total: {mem_total}",
+                    file=sys.stderr,
+                    flush=True,
+                )
+
+                max_gpu_util = gpu_util if gpu_util > max_gpu_util else max_gpu_util
+                max_mem_util = mem_util if mem_util > max_mem_util else max_mem_util
+
+            other_tasks = []
+            cmd = [
+                "nvidia-smi",
+                f"--id={selected_gpu_id}",
+                f"--query-compute-apps=gpu_uuid,pid,used_memory",
+                "--format=csv,noheader,nounits",
+            ]
+            output = subprocess.check_output(cmd).decode().strip()
+            other_tasks = [
+                line
+                for line in output.split("\n")
+                if line.strip()
+                if line.split(", ")[1] != current_pid
+            ]
+            # Note: in docker container, the current_pid maybe different from that captured by nvidia-smi.
+            print(
+                f"Note: There are {len(other_tasks)} tasks running on GPU {selected_gpu_id} (current_pid:{current_pid}).",
+                file=sys.stderr,
+                flush=True,
+            )
+            for task in other_tasks:
+                gpu_uuid, pid, used_memory = task.split(", ")
+                print(
+                    f"- gpu_uuid:{gpu_uuid}, pid:{pid}, used_memory:{used_memory}",
+                    file=sys.stderr,
+                    flush=True,
+                )
+            return max_gpu_util, max_mem_util
+        except subprocess.CalledProcessError:
+            pass
+
+    return None, None
 
 
 def get_timing_stats(elapsed_times):
@@ -75,24 +160,33 @@ def print_basic_config(args, hardware_name, compile_framework_version):
     )
 
 
-def print_running_status(args, eager_success, compiled_success):
+def print_running_status(args, eager_success, compiled_success=None):
     def convert_to_str(b):
         return "success" if b else "failed"
 
-    print_with_log_prompt(
-        "[Result][status]",
-        f"eager:{convert_to_str(eager_success)} compiled:{convert_to_str(compiled_success)}",
-        args.log_prompt,
-    )
+    if compiled_success is not None:
+        print_with_log_prompt(
+            "[Result][status]",
+            f"eager:{convert_to_str(eager_success)} compiled:{convert_to_str(compiled_success)}",
+            args.log_prompt,
+        )
+    else:
+        print_with_log_prompt(
+            "[Result][status]",
+            f"eager:{convert_to_str(eager_success)}",
+            args.log_prompt,
+        )
 
 
 def print_times_and_speedup(args, eager_stats, compiled_stats):
-    print_with_log_prompt(
-        "[Performance][eager]:", json.dumps(eager_stats), args.log_prompt
-    )
-    print_with_log_prompt(
-        "[Performance][compiled]:", json.dumps(compiled_stats), args.log_prompt
-    )
+    if eager_stats:
+        print_with_log_prompt(
+            "[Performance][eager]:", json.dumps(eager_stats), args.log_prompt
+        )
+    if compiled_stats:
+        print_with_log_prompt(
+            "[Performance][compiled]:", json.dumps(compiled_stats), args.log_prompt
+        )
 
     e2e_speedup = 0
     gpu_speedup = 0
@@ -103,7 +197,7 @@ def print_times_and_speedup(args, eager_stats, compiled_stats):
     if eager_e2e_time_ms > 0 and compiled_e2e_time_ms > 0:
         e2e_speedup = eager_e2e_time_ms / compiled_e2e_time_ms
 
-    if "cuda" in args.device:
+    if is_gpu_device(args.device):
         eager_gpu_time_ms = eager_stats.get("gpu", {}).get("mean", 0)
         compiled_gpu_time_ms = compiled_stats.get("gpu", {}).get("mean", 0)
 
@@ -113,7 +207,7 @@ def print_times_and_speedup(args, eager_stats, compiled_stats):
     if e2e_speedup > 0:
         print_with_log_prompt("[Speedup][e2e]:", f"{e2e_speedup:.5f}", args.log_prompt)
 
-    if "cuda" in args.device and gpu_speedup > 0:
+    if is_gpu_device(args.device) and gpu_speedup > 0:
         print_with_log_prompt("[Speedup][gpu]:", f"{gpu_speedup:.5f}", args.log_prompt)
 
 
@@ -127,6 +221,16 @@ def check_type_match(eager_dtypes, compiled_dtypes):
     return type_match
 
 
+def check_shape_match(eager_shapes, compiled_shapes):
+    if len(eager_shapes) != len(compiled_shapes):
+        shape_match = False
+    else:
+        shape_match = all(
+            eager == compiled for eager, compiled in zip(eager_shapes, compiled_shapes)
+        )
+    return shape_match
+
+
 def check_output_datatype(args, eager_dtypes, compiled_dtypes):
     print_with_log_prompt("[Datatype][eager]:", " ".join(eager_dtypes), args.log_prompt)
     print_with_log_prompt(
@@ -134,6 +238,8 @@ def check_output_datatype(args, eager_dtypes, compiled_dtypes):
     )
 
     # datatype check
+    # "datatype not match" is recognized as a large loss in analysis process later,
+    # and is not recognized as a failure here.
     type_match = check_type_match(eager_dtypes, compiled_dtypes)
     print_with_log_prompt(
         "[DataType]",
@@ -143,106 +249,90 @@ def check_output_datatype(args, eager_dtypes, compiled_dtypes):
     return type_match
 
 
+def check_output_shape(args, eager_shapes, compiled_shapes):
+    print_with_log_prompt("[Shape][eager]:", str(eager_shapes), args.log_prompt)
+    print_with_log_prompt("[Shape][compiled]:", str(compiled_shapes), args.log_prompt)
+
+    shape_match = check_shape_match(eager_shapes, compiled_shapes)
+    print_with_log_prompt(
+        "[Shape]",
+        f"eager:{eager_shapes} compiled:{compiled_shapes} match:{shape_match}",
+        args.log_prompt,
+    )
+    return shape_match
+
+
 def print_and_store_cmp(key, cmp_func, args, expected_out, compiled_out, **kwargs):
     cmp_ret = cmp_func(expected_out, compiled_out, **kwargs)
     print_with_log_prompt(f"[Correctness]{key}:", cmp_ret, args.log_prompt)
     return cmp_ret
 
 
-def check_correctness(
+def check_equal(args, expected_out, compiled_out, cmp_equal_func):
+    print_and_store_cmp(
+        key="[equal]",
+        cmp_func=cmp_equal_func,
+        args=args,
+        expected_out=expected_out,
+        compiled_out=compiled_out,
+    )
+
+
+def tolerance_generator(t):
+    # for float16
+    yield 10 ** (t * 3 / 5), 10**t
+    # for bfloat16
+    yield 10 ** (t * 1.796 / 5), 10**t
+    # yield float32
+    yield 10 ** (t * 5.886 / 5), 10**t
+    # yield float64
+    yield 10 ** (t * 7 / 5), 10 ** (t * 7 / 5)
+
+
+def calculate_tolerance_pair(begin, end):
+    tolerance_pair_list = []
+    for t in range(begin, end + 1):
+        for rtol, atol in tolerance_generator(t):
+            effective_atol = float(f"{atol:.3g}")
+            effective_rtol = float(f"{rtol:.3g}")
+            tolerance_pair_list.append(
+                {
+                    "atol": effective_atol,
+                    "rtol": effective_rtol,
+                }
+            )
+    return tolerance_pair_list
+
+
+def generate_allclose_configs(cmp_all_close_func):
+    tolerance_pair_list = calculate_tolerance_pair(-10, 5)
+
+    cmp_configs = []
+    for pair in tolerance_pair_list:
+        atol, rtol = pair["atol"], pair["rtol"]
+        cmp_configs.append(
+            (f"[all_close_atol_{atol:.2E}_rtol_{rtol:.2E}]", cmp_all_close_func, pair)
+        )
+    return cmp_configs
+
+
+def check_allclose(
     args,
     expected_out,
     compiled_out,
-    cmp_equal_func,
     cmp_all_close_func,
     cmp_max_diff_func,
     cmp_mean_diff_func,
-    cmp_diff_count_func,
+    cmp_max_relative_diff_func=None,
+    cmp_mean_relative_diff_func=None,
 ):
-    cmp_configs = [
-        ("[equal]", cmp_equal_func, {}),
-        ("[all_close_atol_1.00E-06_rtol_1.00E-10]", cmp_all_close_func, {"atol": 1.00E-06, "rtol": 1.00E-10}),
-        ("[all_close_atol_2.56E-04_rtol_1.00E-10]", cmp_all_close_func, {"atol": 2.56E-04, "rtol": 1.00E-10}),
-        ("[all_close_atol_1.69E-12_rtol_1.00E-10]", cmp_all_close_func, {"atol": 1.69E-12, "rtol": 1.00E-10}),
-        ("[all_close_atol_1.00E-14_rtol_1.00E-10]", cmp_all_close_func, {"atol": 1.00E-14, "rtol": 1.00E-10}),
-
-        ("[all_close_atol_3.98E-06_rtol_1.00E-09]", cmp_all_close_func, {"atol": 3.98E-06, "rtol": 1.00E-09}),
-        ("[all_close_atol_5.85E-04_rtol_1.00E-09]", cmp_all_close_func, {"atol": 5.85E-04, "rtol": 1.00E-09}),
-        ("[all_close_atol_2.54E-11_rtol_1.00E-09]", cmp_all_close_func, {"atol": 2.54E-11, "rtol": 1.00E-09}),
-        ("[all_close_atol_2.51E-13_rtol_1.00E-09]", cmp_all_close_func, {"atol": 2.51E-13, "rtol": 1.00E-09}),
-
-        ("[all_close_atol_1.58E-05_rtol_1.00E-08]", cmp_all_close_func, {"atol": 1.58E-05, "rtol": 1.00E-08}),
-        ("[all_close_atol_1.34E-03_rtol_1.00E-08]", cmp_all_close_func, {"atol": 1.34E-03, "rtol": 1.00E-08}),
-        ("[all_close_atol_3.82E-10_rtol_1.00E-08]", cmp_all_close_func, {"atol": 3.82E-10, "rtol": 1.00E-08}),
-        ("[all_close_atol_6.31E-12_rtol_1.00E-08]", cmp_all_close_func, {"atol": 6.31E-12, "rtol": 1.00E-08}),
-
-        ("[all_close_atol_6.31E-05_rtol_1.00E-07]", cmp_all_close_func, {"atol": 6.31E-05, "rtol": 1.00E-07}),
-        ("[all_close_atol_3.06E-03_rtol_1.00E-07]", cmp_all_close_func, {"atol": 3.06E-03, "rtol": 1.00E-07}),
-        ("[all_close_atol_5.75E-09_rtol_1.00E-07]", cmp_all_close_func, {"atol": 5.75E-09, "rtol": 1.00E-07}),
-        ("[all_close_atol_1.58E-10_rtol_1.00E-07]", cmp_all_close_func, {"atol": 1.58E-10, "rtol": 1.00E-07}),
-
-        ("[all_close_atol_2.51E-04_rtol_1.00E-06]", cmp_all_close_func, {"atol": 2.51E-04, "rtol": 1.00E-06}),
-        ("[all_close_atol_7.00E-03_rtol_1.00E-06]", cmp_all_close_func, {"atol": 7.00E-03, "rtol": 1.00E-06}),
-        ("[all_close_atol_8.65E-08_rtol_1.00E-06]", cmp_all_close_func, {"atol": 8.65E-08, "rtol": 1.00E-06}),
-        ("[all_close_atol_3.98E-09_rtol_1.00E-06]", cmp_all_close_func, {"atol": 3.98E-09, "rtol": 1.00E-06}),
-
-        ("[all_close_atol_1.00E-03_rtol_1.00E-05]", cmp_all_close_func, {"atol": 1.00E-03, "rtol": 1.00E-05}),
-        ("[all_close_atol_1.60E-02_rtol_1.00E-05]", cmp_all_close_func, {"atol": 1.60E-02, "rtol": 1.00E-05}),
-        ("[all_close_atol_1.30E-06_rtol_1.00E-05]", cmp_all_close_func, {"atol": 1.30E-06, "rtol": 1.00E-05}),
-        ("[all_close_atol_1.00E-07_rtol_1.00E-05]", cmp_all_close_func, {"atol": 1.00E-07, "rtol": 1.00E-05}),
-
-        ("[all_close_atol_3.98E-03_rtol_1.00E-04]", cmp_all_close_func, {"atol": 3.98E-03, "rtol": 1.00E-04}),
-        ("[all_close_atol_3.66E-02_rtol_1.00E-04]", cmp_all_close_func, {"atol": 3.66E-02, "rtol": 1.00E-04}),
-        ("[all_close_atol_1.96E-05_rtol_1.00E-04]", cmp_all_close_func, {"atol": 1.96E-05, "rtol": 1.00E-04}),
-        ("[all_close_atol_2.51E-06_rtol_1.00E-04]", cmp_all_close_func, {"atol": 2.51E-06, "rtol": 1.00E-04}),
-
-        ("[all_close_atol_1.58E-02_rtol_1.00E-03]", cmp_all_close_func, {"atol": 1.58E-02, "rtol": 1.00E-03}),
-        ("[all_close_atol_8.36E-02_rtol_1.00E-03]", cmp_all_close_func, {"atol": 8.36E-02, "rtol": 1.00E-03}),
-        ("[all_close_atol_2.94E-04_rtol_1.00E-03]", cmp_all_close_func, {"atol": 2.94E-04, "rtol": 1.00E-03}),
-        ("[all_close_atol_6.31E-05_rtol_1.00E-03]", cmp_all_close_func, {"atol": 6.31E-05, "rtol": 1.00E-03}),
-
-        ("[all_close_atol_6.31E-02_rtol_1.00E-02]", cmp_all_close_func, {"atol": 6.31E-02, "rtol": 1.00E-02}),
-        ("[all_close_atol_1.91E-01_rtol_1.00E-02]", cmp_all_close_func, {"atol": 1.91E-01, "rtol": 1.00E-02}),
-        ("[all_close_atol_4.42E-03_rtol_1.00E-02]", cmp_all_close_func, {"atol": 4.42E-03, "rtol": 1.00E-02}),
-        ("[all_close_atol_1.58E-03_rtol_1.00E-02]", cmp_all_close_func, {"atol": 1.58E-03, "rtol": 1.00E-02}),
-
-        ("[all_close_atol_2.51E-01_rtol_1.00E-01]", cmp_all_close_func, {"atol": 2.51E-01, "rtol": 1.00E-01}),
-        ("[all_close_atol_4.37E-01_rtol_1.00E-01]", cmp_all_close_func, {"atol": 4.37E-01, "rtol": 1.00E-01}),
-        ("[all_close_atol_6.65E-02_rtol_1.00E-01]", cmp_all_close_func, {"atol": 6.65E-02, "rtol": 1.00E-01}),
-        ("[all_close_atol_3.98E-02_rtol_1.00E-01]", cmp_all_close_func, {"atol": 3.98E-02, "rtol": 1.00E-01}),
-
-        ("[all_close_atol_1.00E+00_rtol_1.00E+00]", cmp_all_close_func, {"atol": 1.00E+00, "rtol": 1.00E+00}),
-        ("[all_close_atol_1.00E+00_rtol_1.00E+00]", cmp_all_close_func, {"atol": 1.00E+00, "rtol": 1.00E+00}),
-        ("[all_close_atol_1.00E+00_rtol_1.00E+00]", cmp_all_close_func, {"atol": 1.00E+00, "rtol": 1.00E+00}),
-        ("[all_close_atol_1.00E+00_rtol_1.00E+00]", cmp_all_close_func, {"atol": 1.00E+00, "rtol": 1.00E+00}),
-
-        ("[all_close_atol_3.98E+00_rtol_1.00E+01]", cmp_all_close_func, {"atol": 3.98E+00, "rtol": 1.00E+01}),
-        ("[all_close_atol_2.29E+00_rtol_1.00E+01]", cmp_all_close_func, {"atol": 2.29E+00, "rtol": 1.00E+01}),
-        ("[all_close_atol_1.50E+01_rtol_1.00E+01]", cmp_all_close_func, {"atol": 1.50E+01, "rtol": 1.00E+01}),
-        ("[all_close_atol_2.51E+01_rtol_1.00E+01]", cmp_all_close_func, {"atol": 2.51E+01, "rtol": 1.00E+01}),
-
-        ("[all_close_atol_1.58E+01_rtol_1.00E+02]", cmp_all_close_func, {"atol": 1.58E+01, "rtol": 1.00E+02}),
-        ("[all_close_atol_5.23E+00_rtol_1.00E+02]", cmp_all_close_func, {"atol": 5.23E+00, "rtol": 1.00E+02}),
-        ("[all_close_atol_2.26E+02_rtol_1.00E+02]", cmp_all_close_func, {"atol": 2.26E+02, "rtol": 1.00E+02}),
-        ("[all_close_atol_6.31E+02_rtol_1.00E+02]", cmp_all_close_func, {"atol": 6.31E+02, "rtol": 1.00E+02}),
-
-        ("[all_close_atol_6.31E+01_rtol_1.00E+03]", cmp_all_close_func, {"atol": 6.31E+01, "rtol": 1.00E+03}),
-        ("[all_close_atol_1.20E+01_rtol_1.00E+03]", cmp_all_close_func, {"atol": 1.20E+01, "rtol": 1.00E+03}),
-        ("[all_close_atol_3.40E+03_rtol_1.00E+03]", cmp_all_close_func, {"atol": 3.40E+03, "rtol": 1.00E+03}),
-        ("[all_close_atol_1.58E+04_rtol_1.00E+03]", cmp_all_close_func, {"atol": 1.58E+04, "rtol": 1.00E+03}),
-
-        ("[all_close_atol_2.51E+02_rtol_1.00E+04]", cmp_all_close_func, {"atol": 2.51E+02, "rtol": 1.00E+04}),
-        ("[all_close_atol_2.73E+01_rtol_1.00E+04]", cmp_all_close_func, {"atol": 2.73E+01, "rtol": 1.00E+04}),
-        ("[all_close_atol_5.11E+04_rtol_1.00E+04]", cmp_all_close_func, {"atol": 5.11E+04, "rtol": 1.00E+04}),
-        ("[all_close_atol_3.98E+05_rtol_1.00E+04]", cmp_all_close_func, {"atol": 3.98E+05, "rtol": 1.00E+04}),
-
-        ("[all_close_atol_1.00E+03_rtol_1.00E+05]", cmp_all_close_func, {"atol": 1.00E+03, "rtol": 1.00E+05}),
-        ("[all_close_atol_6.25E+01_rtol_1.00E+05]", cmp_all_close_func, {"atol": 6.25E+01, "rtol": 1.00E+05}),
-        ("[all_close_atol_7.69E+05_rtol_1.00E+05]", cmp_all_close_func, {"atol": 7.69E+05, "rtol": 1.00E+05}),
-        ("[all_close_atol_1.00E+07_rtol_1.00E+05]", cmp_all_close_func, {"atol": 1.00E+07, "rtol": 1.00E+05}),
-        ("[max_diff]", cmp_max_diff_func, {}),
-        ("[mean_diff]", cmp_mean_diff_func, {}),
-    ]
+    cmp_configs = generate_allclose_configs(cmp_all_close_func)
+    cmp_configs.append(("[max_diff]", cmp_max_diff_func, {}))
+    cmp_configs.append(("[mean_diff]", cmp_mean_diff_func, {}))
+    if cmp_max_relative_diff_func is not None:
+        cmp_configs.append(("[max_relative_diff]", cmp_max_relative_diff_func, {}))
+    if cmp_mean_relative_diff_func is not None:
+        cmp_configs.append(("[mean_relative_diff]", cmp_mean_relative_diff_func, {}))
 
     for key, func, kwargs in cmp_configs:
         print_and_store_cmp(
@@ -253,3 +343,18 @@ def check_correctness(
             compiled_out=compiled_out,
             **kwargs,
         )
+
+
+def get_allow_samples(allow_list):
+    if allow_list is None:
+        return None
+
+    assert os.path.isfile(allow_list), f"{allow_list} is not a regular file."
+    graphnet_root = path_utils.get_graphnet_root()
+    print(f"graphnet_root: {graphnet_root}", file=sys.stderr, flush=True)
+    test_samples = []
+    with open(allow_list, "r") as f:
+        for line in f.readlines():
+            test_samples.append(os.path.join(graphnet_root, line.strip()))
+
+    return test_samples

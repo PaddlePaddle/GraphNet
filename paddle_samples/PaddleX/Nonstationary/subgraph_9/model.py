@@ -64,4 +64,4 @@ class GraphModule(paddle.nn.Layer):
             unsqueeze_1,
         )
 
-        return split_0, split_1, split_2, split_3, scale_0
+        return scale_0

@@ -131,4 +131,4 @@ class GraphModule(paddle.nn.Layer):
             softmax_0,
         )
 
-        return split_0, split_1, split_2, split_3, einsum_0
+        return einsum_0

@@ -46,6 +46,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 2.653
     std = 3.368
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_bn1_buffers_running_mean_:
@@ -96,6 +97,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.054
     std = 0.052
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_0_modules_bn1_buffers_running_mean_:
@@ -146,6 +148,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.032
     std = 0.032
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_0_modules_bn2_buffers_running_mean_:
@@ -196,6 +199,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.006
     std = 0.007
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_0_modules_bn3_buffers_running_mean_:
@@ -246,6 +250,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.039
     std = 0.042
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_0_modules_downsample_modules_1_buffers_running_mean_:
@@ -296,6 +301,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.024
     std = 0.015
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_1_modules_bn1_buffers_running_mean_:
@@ -346,6 +352,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.013
     std = 0.004
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_1_modules_bn2_buffers_running_mean_:
@@ -396,6 +403,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.001
     std = 0.001
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_1_modules_bn3_buffers_running_mean_:
@@ -446,6 +454,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.019
     std = 0.007
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_2_modules_bn1_buffers_running_mean_:
@@ -496,6 +505,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.018
     std = 0.005
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_2_modules_bn2_buffers_running_mean_:
@@ -546,6 +556,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.001
     std = 0.001
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer1_modules_2_modules_bn3_buffers_running_mean_:
@@ -596,6 +607,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.025
     std = 0.018
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_0_modules_bn1_buffers_running_mean_:
@@ -646,6 +658,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.030
     std = 0.014
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_0_modules_bn2_buffers_running_mean_:
@@ -696,6 +709,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.002
     std = 0.002
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_0_modules_bn3_buffers_running_mean_:
@@ -746,6 +760,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.013
     std = 0.015
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_0_modules_downsample_modules_1_buffers_running_mean_:
@@ -796,6 +811,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.045
     std = 0.055
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_1_modules_bn1_buffers_running_mean_:
@@ -846,6 +862,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.022
     std = 0.014
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_1_modules_bn2_buffers_running_mean_:
@@ -896,6 +913,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.002
     std = 0.002
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_1_modules_bn3_buffers_running_mean_:
@@ -946,6 +964,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.028
     std = 0.015
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_2_modules_bn1_buffers_running_mean_:
@@ -996,6 +1015,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.021
     std = 0.008
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_2_modules_bn2_buffers_running_mean_:
@@ -1046,6 +1066,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.001
     std = 0.001
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_2_modules_bn3_buffers_running_mean_:
@@ -1096,6 +1117,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.024
     std = 0.007
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_3_modules_bn1_buffers_running_mean_:
@@ -1146,6 +1168,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.015
     std = 0.005
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_3_modules_bn2_buffers_running_mean_:
@@ -1196,6 +1219,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.001
     std = 0.001
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer2_modules_3_modules_bn3_buffers_running_mean_:
@@ -1246,6 +1270,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.030
     std = 0.010
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_0_modules_bn1_buffers_running_mean_:
@@ -1296,6 +1321,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.032
     std = 0.015
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_0_modules_bn2_buffers_running_mean_:
@@ -1346,6 +1372,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.003
     std = 0.002
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_0_modules_bn3_buffers_running_mean_:
@@ -1396,6 +1423,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.009
     std = 0.006
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_0_modules_downsample_modules_1_buffers_running_mean_:
@@ -1446,6 +1474,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.022
     std = 0.008
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_1_modules_bn1_buffers_running_mean_:
@@ -1496,6 +1525,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.022
     std = 0.009
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_1_modules_bn2_buffers_running_mean_:
@@ -1546,6 +1576,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.001
     std = 0.001
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_1_modules_bn3_buffers_running_mean_:
@@ -1596,6 +1627,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.018
     std = 0.006
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_2_modules_bn1_buffers_running_mean_:
@@ -1646,6 +1678,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.015
     std = 0.007
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_2_modules_bn2_buffers_running_mean_:
@@ -1696,6 +1729,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.001
     std = 0.001
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_2_modules_bn3_buffers_running_mean_:
@@ -1746,6 +1780,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.016
     std = 0.005
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_3_modules_bn1_buffers_running_mean_:
@@ -1796,6 +1831,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.010
     std = 0.004
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_3_modules_bn2_buffers_running_mean_:
@@ -1846,6 +1882,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.001
     std = 0.001
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_3_modules_bn3_buffers_running_mean_:
@@ -1896,6 +1933,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.015
     std = 0.004
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_4_modules_bn1_buffers_running_mean_:
@@ -1946,6 +1984,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.009
     std = 0.003
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_4_modules_bn2_buffers_running_mean_:
@@ -1996,6 +2035,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.001
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_4_modules_bn3_buffers_running_mean_:
@@ -2046,6 +2086,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.014
     std = 0.004
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_5_modules_bn1_buffers_running_mean_:
@@ -2096,6 +2137,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.012
     std = 0.006
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_5_modules_bn2_buffers_running_mean_:
@@ -2146,6 +2188,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.001
     std = 0.001
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer3_modules_5_modules_bn3_buffers_running_mean_:
@@ -2196,6 +2239,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.014
     std = 0.003
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_0_modules_bn1_buffers_running_mean_:
@@ -2246,6 +2290,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.014
     std = 0.009
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_0_modules_bn2_buffers_running_mean_:
@@ -2296,6 +2341,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.001
     std = 0.001
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_0_modules_bn3_buffers_running_mean_:
@@ -2346,6 +2392,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.002
     std = 0.001
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_0_modules_downsample_modules_1_buffers_running_mean_:
@@ -2396,6 +2443,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.148
     std = 0.032
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_1_modules_bn1_buffers_running_mean_:
@@ -2446,6 +2494,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.013
     std = 0.004
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_1_modules_bn2_buffers_running_mean_:
@@ -2496,6 +2545,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.001
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_1_modules_bn3_buffers_running_mean_:
@@ -2546,6 +2596,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.275
     std = 0.077
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_2_modules_bn1_buffers_running_mean_:
@@ -2596,6 +2647,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.011
     std = 0.002
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_2_modules_bn2_buffers_running_mean_:
@@ -2646,6 +2698,7 @@ class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backb
     mean = 0.001
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_detr_modules_model_modules_backbone_modules_conv_encoder_modules_model_modules_layer4_modules_2_modules_bn3_buffers_running_mean_:

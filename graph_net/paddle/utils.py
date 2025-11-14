@@ -8,6 +8,7 @@ import importlib
 import inspect
 import ast
 import math
+import numpy as np
 import paddle
 
 kLiteralTensorSize = 64
@@ -122,7 +123,7 @@ def load_converted_list_from_text(file_path):
     return [*weight_info, *input_info]
 
 
-def ConvertToValidNumber(data_type, value):
+def convert_to_valid_number(data_type, value):
     if value is not None and data_type in [
         paddle.float32,
         paddle.float16,
@@ -139,6 +140,7 @@ def ConvertToValidNumber(data_type, value):
 
 
 def convert_meta_classes_to_tensors(file_path):
+    current_device = paddle.device.get_device()
     for name, cls in _get_classes(file_path):
         attrs = {
             k: v
@@ -159,11 +161,11 @@ def convert_meta_classes_to_tensors(file_path):
             "info": {
                 "shape": attrs.get("shape", []),
                 "dtype": data_type,
-                "device": attrs.get("device", "gpu"),
-                "mean": ConvertToValidNumber(data_type, attrs.get("mean", None)),
-                "std": ConvertToValidNumber(data_type, attrs.get("std", None)),
-                "min_val": ConvertToValidNumber(data_type, attrs.get("min_val", 0)),
-                "max_val": ConvertToValidNumber(data_type, attrs.get("max_val", 2)),
+                "device": attrs.get("device", current_device),
+                "mean": convert_to_valid_number(data_type, attrs.get("mean", None)),
+                "std": convert_to_valid_number(data_type, attrs.get("std", None)),
+                "min_val": convert_to_valid_number(data_type, attrs.get("min_val", 0)),
+                "max_val": convert_to_valid_number(data_type, attrs.get("max_val", 2)),
             },
             "data": data_value,
             "name": attrs.get("name"),
@@ -188,7 +190,38 @@ def extract_dynamic_shapes(example_inputs):
     pass
 
 
-def replay_tensor(info):
+def init_integer_tensor(dtype, shape, min_val, max_val, use_numpy):
+    if use_numpy:
+        array = np.random.randint(
+            low=min_val, high=max_val + 1, size=shape, dtype=dtype
+        )
+        return paddle.to_tensor(array)
+    else:
+        return paddle.randint(low=min_val, high=max_val + 1, shape=shape, dtype=dtype)
+
+
+def init_float_tensor(shape, mean, std, min_val, max_val, use_numpy):
+    tensor = None
+    if use_numpy:
+        if mean is not None and std is not None:
+            # NumPy does not support truncated normal, we simulate it here.
+            array = np.random.normal(0, 1, shape) * std * 0.2 + mean
+            array = np.clip(array, min_val, max_val)
+        else:
+            array = np.random.uniform(low=min_val, high=max_val, size=shape)
+        tensor = paddle.to_tensor(array)
+    else:
+        if mean is not None and std is not None:
+            tensor = paddle.randn(shape, dtype="float32") * std * 0.2 + mean
+            tensor = paddle.clip(tensor, min=min_val, max=max_val)
+        else:
+            tensor = paddle.uniform(
+                shape=shape, dtype="float32", min=min_val, max=max_val
+            )
+    return tensor
+
+
+def replay_tensor(info, use_numpy=True):
     device = info["info"]["device"]
     dtype = info["info"]["dtype"]
     shape = info["info"]["shape"]
@@ -201,30 +234,15 @@ def replay_tensor(info):
         shape = list(map(lambda i: i if i is not None else 1, shape))
     if "data" in info and info["data"] is not None:
         return paddle.reshape(info["data"], shape).to(dtype).to(device)
-    elif dtype == paddle.int32 or dtype == paddle.int64:
-        return paddle.cast(
-            paddle.randint(low=min_val, high=max_val + 1, shape=shape, dtype="int64"),
-            dtype,
-        ).to(device)
-    elif dtype == paddle.bool:
-        return paddle.cast(
-            paddle.randint(low=0, high=2, shape=shape, dtype="int32"),
-            paddle.bool,
-        ).to(device)
+    elif dtype in [paddle.int32, paddle.int64, paddle.bool]:
+        init_dtype = "int32" if dtype == paddle.bool else "int64"
+        if dtype == paddle.bool:
+            min_val, max_val = 0, 1
+        return (
+            init_integer_tensor(init_dtype, shape, min_val, max_val, use_numpy)
+            .to(dtype)
+            .to(device)
+        )
     else:
-        if mean is not None and std is not None:
-            return (
-                paddle.clip(
-                    paddle.normal(shape=shape, mean=mean, std=std),
-                    min=min_val,
-                    max=max_val,
-                )
-                .to(dtype)
-                .to(device)
-            )
-        else:
-            return (
-                paddle.uniform(shape=shape, dtype="float32", min=min_val, max=max_val)
-                .to(dtype)
-                .to(device)
-            )
+        tensor = init_float_tensor(shape, mean, std, min_val, max_val, use_numpy)
+        return tensor.to(dtype).to(device)

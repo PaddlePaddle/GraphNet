@@ -11,6 +11,7 @@ from dataclasses import dataclass
 from contextlib import contextmanager
 import time
 import json
+import random
 import numpy as np
 import platform
 
@@ -21,6 +22,15 @@ from graph_net.torch.backend.xla_backend import XlaBackend
 from graph_net.torch.backend.inductor_backend import InductorBackend
 from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
+from graph_net.torch.backend.nope_backend import NopeBackend
+from graph_net.torch.backend.unstable_to_stable_backend import UnstableToStableBackend
+from graph_net.torch.backend.range_decomposer_validator_backend import (
+    RangeDecomposerValidatorBackend,
+)
+from graph_net.test_compiler_util import generate_allclose_configs
+from graph_net import test_compiler_util
+from graph_net import path_utils
+
 
 registry_backend = {
     "tvm": TvmBackend(),
@@ -28,7 +38,37 @@ registry_backend = {
     "inductor": InductorBackend(),
     "tensorrt": TensorRTBackend(),
     "bladedisc": BladeDISCBackend(),
+    "nope": NopeBackend(),
+    "unstable_to_stable": UnstableToStableBackend(),
+    "range_decomposer_validator": RangeDecomposerValidatorBackend(),
 }
+
+
+def set_seed(random_seed):
+    random.seed(random_seed)
+    np.random.seed(random_seed)
+    torch.manual_seed(random_seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(random_seed)
+        torch.cuda.manual_seed_all(random_seed)
+
+
+def get_hardward_name(args):
+    hardware_name = "unknown"
+    if "cuda" in args.device:
+        hardware_name = torch.cuda.get_device_name(args.device)
+    elif args.device == "cpu":
+        hardware_name = platform.processor()
+    return hardware_name
+
+
+def get_compile_framework_version(args):
+    if args.compiler in ["inductor", "nope", "unstable_to_stable"]:
+        return torch.__version__
+    elif args.compiler in ["tvm", "xla", "tensorrt", "bladedisc"]:
+        # Assuming compiler object has a version attribute
+        return f"{args.compiler.capitalize()} {compiler.version}"
+    return "unknown"
 
 
 def load_class_from_file(
@@ -48,6 +88,8 @@ def load_class_from_file(
     exec(compiled_code, module.__dict__)
 
     model_class = getattr(module, class_name, None)
+    setattr(model_class, "__graph_net_file_path__", file_path)
+    setattr(model_class, "__graph_net_device__", device)
     return model_class
 
 
@@ -56,7 +98,9 @@ def get_compiler_backend(args) -> GraphCompilerBackend:
     return registry_backend[args.compiler]
 
 
-def get_model(args, device):
+def get_model(args):
+    device = "xla" if args.compiler == "xla" else args.device
+
     # device: Torch device object specifying the target device for model loading (e.g., 'cuda', 'cpu', 'xla')
     model_class = load_class_from_file(args, class_name="GraphModule", device=device)
     model = model_class().to(torch.device(args.device))
@@ -75,31 +119,6 @@ def get_input_dict(args):
     }
 
 
-@dataclass
-class DurationBox:
-    value: float
-
-
-@contextmanager
-def naive_timer(duration_box, synchronizer_func):
-    synchronizer_func()
-    start = time.time()
-    yield
-    synchronizer_func()
-    end = time.time()
-    duration_box.value = (end - start) * 1000  # Store in milliseconds
-
-
-def get_timing_stats(elapsed_times: List[float]):
-    stats = {
-        "mean": float(f"{np.mean(elapsed_times):.3g}"),
-        "std": float(f"{np.std(elapsed_times):.3g}"),
-        "min": float(f"{np.min(elapsed_times):.3g}"),
-        "max": float(f"{np.max(elapsed_times):.3g}"),
-    }
-    return stats
-
-
 def measure_performance(model_call, args, compiler):
     stats = {}
 
@@ -108,27 +127,26 @@ def measure_performance(model_call, args, compiler):
         model_call()
     compiler.synchronize()
 
+    hardware_name = get_hardward_name(args)
+    print(
+        f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}",
+        file=sys.stderr,
+        flush=True,
+    )
+
     if "cuda" in args.device:
         """
         Acknowledgement: We evaluate the performance on both end-to-end and GPU-only timings,
         With reference to methods only based on CUDA events from KernelBench in https://github.com/ScalingIntelligence/KernelBench
         """
 
-        device = torch.device(args.device)
-        hardware_name = torch.cuda.get_device_name(device)
-        print(
-            f"{args.log_prompt} [Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}",
-            file=sys.stderr,
-            flush=True,
-        )
-
         e2e_times = []
         gpu_times = []
 
         for i in range(args.trials):
             # End-to-end timing (naive_timer)
-            duration_box = DurationBox(-1)
-            with naive_timer(duration_box, compiler.synchronize):
+            duration_box = test_compiler_util.DurationBox(-1)
+            with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
                 # GPU-only timing (CUDA Events)
                 start_event = torch.cuda.Event(enable_timing=True)
                 end_event = torch.cuda.Event(enable_timing=True)
@@ -137,40 +155,33 @@ def measure_performance(model_call, args, compiler):
                 model_call()
 
                 end_event.record()
-                torch.cuda.synchronize(device=device)
+                compiler.synchronize()
 
             gpu_time_ms = start_event.elapsed_time(end_event)
             e2e_times.append(duration_box.value)
             gpu_times.append(gpu_time_ms)
             print(
-                f"Trial {i + 1}: e2e={duration_box.value:.2f} ms, gpu={gpu_time_ms:.3g} ms",
+                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms, gpu={gpu_time_ms:.5f} ms",
                 file=sys.stderr,
                 flush=True,
             )
 
-        stats["e2e"] = get_timing_stats(e2e_times)
-        stats["gpu"] = get_timing_stats(gpu_times)
+        stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
+        stats["gpu"] = test_compiler_util.get_timing_stats(gpu_times)
 
     else:  # CPU or other devices
-        hardware_name = platform.processor()
-        print(
-            f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}",
-            file=sys.stderr,
-            flush=True,
-        )
-
         e2e_times = []
         for i in range(args.trials):
-            duration_box = DurationBox(-1)
-            with naive_timer(duration_box, compiler.synchronize):
+            duration_box = test_compiler_util.DurationBox(-1)
+            with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
                 model_call()
             print(
-                f"Trial {i + 1}: e2e={duration_box.value:.2f} ms",
+                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms",
                 file=sys.stderr,
                 flush=True,
             )
             e2e_times.append(duration_box.value)
-        stats["e2e"] = get_timing_stats(e2e_times)
+        stats["e2e"] = test_compiler_utilget_timing_stats(e2e_times)
 
     return stats
 
@@ -178,164 +189,72 @@ def measure_performance(model_call, args, compiler):
 def test_single_model(args):
     compiler = get_compiler_backend(args)
     input_dict = get_input_dict(args)
-    model = get_model(args, args.device)
-    if args.compiler == "xla":
-        xla_model = get_model(args, "xla")
-        compiled_model = compiler(xla_model)
-    else:
-        compiled_model = compiler(model)
+    model = get_model(args)
 
-    model_path = os.path.normpath(args.model_path)
-    print(f"{args.log_prompt} [Processing] {model_path}", file=sys.stderr, flush=True)
-    model_name = os.path.basename(model_path)
-    print(
-        f"{args.log_prompt} [Config] model: {model_name}", file=sys.stderr, flush=True
-    )
-    print(
-        f"{args.log_prompt} [Config] device: {args.device}", file=sys.stderr, flush=True
+    test_compiler_util.print_basic_config(
+        args, get_hardward_name(args), get_compile_framework_version(args)
     )
 
-    hardware_name = "unknown"
-    if "cuda" in args.device:
-        hardware_name = torch.cuda.get_device_name(args.device)
-    elif args.device == "cpu":
-        hardware_name = platform.processor()
-    print(
-        f"{args.log_prompt} [Config] hardware: {hardware_name}",
-        file=sys.stderr,
-        flush=True,
-    )
-
-    print(
-        f"{args.log_prompt} [Config] compiler: {args.compiler}",
-        file=sys.stderr,
-        flush=True,
-    )
-    print(
-        f"{args.log_prompt} [Config] warmup: {args.warmup}", file=sys.stderr, flush=True
-    )
-    print(
-        f"{args.log_prompt} [Config] trials: {args.trials}", file=sys.stderr, flush=True
-    )
-
-    version_str = "unknown"
-    if args.compiler == "inductor":
-        version_str = torch.__version__
-    elif args.compiler in ["tvm", "xla", "tensorrt", "bladedisc"]:
-        # Assuming compiler object has a version attribute
-        version_str = f"{args.compiler.capitalize()} {compiler.version}"
-    print(
-        f"{args.log_prompt} [Config] compile_framework_version: {version_str}",
-        file=sys.stderr,
-        flush=True,
-    )
-
-    failure = False
+    runtime_seed = 1024
+    eager_failure = False
+    expected_out = None
+    eager_types = []
+    eager_stats = {}
 
     try:
         eager_model_call = lambda: model(**input_dict)
         eager_stats = measure_performance(eager_model_call, args, compiler)
-        print(
-            f"{args.log_prompt} [Performance][eager]: {json.dumps(eager_stats)}",
-            file=sys.stderr,
-            flush=True,
-        )
+
+        torch.manual_seed(runtime_seed)
         expected_out = eager_model_call()
         if not isinstance(expected_out, tuple):
             expected_out = (expected_out,)
+    except (TypeError, RuntimeError) as e:
+        print(f"Eager model execution failed: {str(e)}", file=sys.stderr)
+        eager_failure = True
 
-        eager_types = [
-            str(x.dtype).replace("torch.", "")
-            if isinstance(x, torch.Tensor)
-            else type(x).__name__
-            for x in expected_out
-        ]
-        print(
-            f"{args.log_prompt} [Datatype][eager]: {' '.join(eager_types)}",
-            file=sys.stderr,
-            flush=True,
-        )
+    compiled_failure = False
+    compiled_model = None
+    compiled_types = []
+    compiled_stats = {}
 
+    try:
+        compiled_model = compiler(model)
+        torch.manual_seed(runtime_seed)
         compiled_model_call = lambda: compiled_model(**input_dict)
         compiled_stats = measure_performance(compiled_model_call, args, compiler)
-        print(
-            f"{args.log_prompt} [Performance][compiled]: {json.dumps(compiled_stats)}",
-            file=sys.stderr,
-            flush=True,
-        )
+
         compiled_out = compiled_model_call()
         if not isinstance(compiled_out, tuple):
             compiled_out = (compiled_out,)
         if args.compiler == "xla":
             compiled_out = tuple(item.to("cpu").to("cuda") for item in compiled_out)
+    except (TypeError, RuntimeError) as e:
+        print(f"Compiled model execution failed: {str(e)}", file=sys.stderr)
+        compiled_failure = True
 
-        compiled_types = [
-            str(x.dtype).replace("torch.", "")
-            if isinstance(x, torch.Tensor)
-            else type(x).__name__
-            for x in compiled_out
-        ]
+    if eager_failure:
+        print(f"{args.log_prompt} [Result] status: failed", file=sys.stderr, flush=True)
         print(
-            f"{args.log_prompt} [Datatype][compiled]: {' '.join(compiled_types)}",
+            f"{args.log_prompt} [Fail due to eager model execution error.]",
             file=sys.stderr,
             flush=True,
         )
-
-        # datatype check
-        type_match = all(
-            eager == compiled for eager, compiled in zip(eager_types, compiled_types)
-        )
-        print(
-            f"{args.log_prompt} [DataType] eager:{eager_types} compiled:{compiled_types} match:{type_match}",
-            file=sys.stderr,
-        )
-        if not type_match:
-            failure = True
-        else:
-            compare_correctness(expected_out, compiled_out, args)
-    except (TypeError, RuntimeError) as e:
-        print(f"Model execution failed: {str(e)}", file=sys.stderr)
-        failure = True
-
-    e2e_speedup = 0
-    gpu_speedup = 0
-    if failure:
+    elif compiled_failure:
         print(f"{args.log_prompt} [Result] status: failed", file=sys.stderr, flush=True)
         print(
-            f"{args.log_prompt} [Fail due to compile error or datatype do not match.]",
+            f"{args.log_prompt} [Fail due to compiled model execution error.]",
             file=sys.stderr,
             flush=True,
         )
     else:
+        compare_correctness(expected_out, compiled_out, args)
+
         print(
             f"{args.log_prompt} [Result] status: success", file=sys.stderr, flush=True
         )
-        eager_e2e_time_ms = eager_stats.get("e2e", {}).get("mean", 0)
-        compiled_e2e_time_ms = compiled_stats.get("e2e", {}).get("mean", 0)
 
-        if eager_e2e_time_ms > 0 and compiled_e2e_time_ms > 0:
-            e2e_speedup = eager_e2e_time_ms / compiled_e2e_time_ms
-
-        if "cuda" in args.device:
-            eager_gpu_time_ms = eager_stats.get("gpu", {}).get("mean", 0)
-            compiled_gpu_time_ms = compiled_stats.get("gpu", {}).get("mean", 0)
-
-            if eager_gpu_time_ms > 0 and compiled_gpu_time_ms > 0:
-                gpu_speedup = eager_gpu_time_ms / compiled_gpu_time_ms
-
-        if e2e_speedup > 0:
-            print(
-                f"{args.log_prompt} [Speedup][e2e]: {e2e_speedup:.4f}",
-                file=sys.stderr,
-                flush=True,
-            )
-
-        if "cuda" in args.device and gpu_speedup > 0:
-            print(
-                f"{args.log_prompt} [Speedup][gpu]: {gpu_speedup:.4f}",
-                file=sys.stderr,
-                flush=True,
-            )
+        test_compiler_util.print_times_and_speedup(args, eager_stats, compiled_stats)
 
 
 def print_and_store_cmp(key, cmp_func, args, expected_out, compiled_out, **kwargs):
@@ -349,30 +268,39 @@ def print_and_store_cmp(key, cmp_func, args, expected_out, compiled_out, **kwarg
 
 
 def compare_correctness(expected_out, compiled_out, args):
-    cmp_configs = [
-        ("[equal]", get_cmp_equal, {}),
-        ("[all_close_atol8_rtol8]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-8}),
-        ("[all_close_atol8_rtol5]", get_cmp_all_close, {"atol": 1e-8, "rtol": 1e-5}),
-        ("[all_close_atol5_rtol5]", get_cmp_all_close, {"atol": 1e-5, "rtol": 1e-5}),
-        ("[all_close_atol3_rtol2]", get_cmp_all_close, {"atol": 1e-3, "rtol": 1e-2}),
-        ("[all_close_atol2_rtol1]", get_cmp_all_close, {"atol": 1e-2, "rtol": 1e-1}),
-        ("[max_diff]", get_cmp_max_diff, {}),
-        ("[mean_diff]", get_cmp_mean_diff, {}),
-        ("[diff_count_atol8_rtol8]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-8}),
-        ("[diff_count_atol8_rtol5]", get_cmp_diff_count, {"atol": 1e-8, "rtol": 1e-5}),
-        ("[diff_count_atol5_rtol5]", get_cmp_diff_count, {"atol": 1e-5, "rtol": 1e-5}),
-        ("[diff_count_atol3_rtol2]", get_cmp_diff_count, {"atol": 1e-3, "rtol": 1e-2}),
-        ("[diff_count_atol2_rtol1]", get_cmp_diff_count, {"atol": 1e-2, "rtol": 1e-1}),
+    eager_dtypes = [
+        str(x.dtype).replace("torch.", "")
+        if isinstance(x, torch.Tensor)
+        else type(x).__name__
+        for x in expected_out
+    ]
+    compiled_dtypes = [
+        str(x.dtype).replace("torch.", "")
+        if isinstance(x, torch.Tensor)
+        else type(x).__name__
+        for x in compiled_out
     ]
 
-    for key, func, kwargs in cmp_configs:
-        print_and_store_cmp(
-            key=key,
-            cmp_func=func,
-            args=args,
-            expected_out=expected_out,
-            compiled_out=compiled_out,
-            **kwargs,
+    # datatype check
+    type_match = test_compiler_util.check_output_datatype(
+        args, eager_dtypes, compiled_dtypes
+    )
+
+    if type_match:
+        test_compiler_util.check_equal(
+            args,
+            expected_out,
+            compiled_out,
+            cmp_equal_func=get_cmp_equal,
+        )
+
+        test_compiler_util.check_allclose(
+            args,
+            expected_out,
+            compiled_out,
+            cmp_all_close_func=get_cmp_all_close,
+            cmp_max_diff_func=get_cmp_max_diff,
+            cmp_mean_diff_func=get_cmp_mean_diff,
         )
 
 
@@ -418,54 +346,52 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 
 def test_multi_models(args):
-    for model_path in get_recursively_model_path(args.model_path):
-        cmd_list = [
-            sys.executable,
-            "-m",
-            "graph_net.torch.test_compiler",
-            "--model-path",
-            model_path,
-            "--compiler",
-            args.compiler,
-            "--warmup",
-            str(args.warmup),
-            "--trials",
-            str(args.trials),
-            "--log-prompt",
-            args.log_prompt,
-            "--device",
-            args.device,
-        ]
+    test_samples = test_compiler_util.get_allow_samples(args.allow_list)
 
-        cmd = " ".join(cmd_list)
-        cmd_ret = os.system(cmd)
-        assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+    sample_idx = 0
+    failed_samples = []
+    module_name = os.path.splitext(os.path.basename(__file__))[0]
+    for model_path in path_utils.get_recursively_model_path(args.model_path):
+        if test_samples is None or os.path.abspath(model_path) in test_samples:
+            print(
+                f"[{sample_idx}] {module_name}, model_path: {model_path}",
+                file=sys.stderr,
+                flush=True,
+            )
+            cmd = " ".join(
+                [
+                    sys.executable,
+                    f"-m graph_net.torch.{module_name}",
+                    f"--model-path {model_path}",
+                    f"--compiler {args.compiler}",
+                    f"--device {args.device}",
+                    f"--warmup {args.warmup}",
+                    f"--trials {args.trials}",
+                    f"--log-prompt {args.log_prompt}",
+                ]
+            )
+            cmd_ret = os.system(cmd)
+            # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+            if cmd_ret != 0:
+                failed_samples.append(model_path)
+            sample_idx += 1
 
-
-def get_recursively_model_path(root_dir):
-    for sub_dir in get_immediate_subdirectory_paths(root_dir):
-        if is_single_model_dir(sub_dir):
-            yield sub_dir
-        else:
-            yield from get_recursively_model_path(sub_dir)
-
-
-def get_immediate_subdirectory_paths(parent_dir):
-    return [
-        sub_dir
-        for name in os.listdir(parent_dir)
-        for sub_dir in [os.path.join(parent_dir, name)]
-        if os.path.isdir(sub_dir)
-    ]
-
-
-def is_single_model_dir(model_dir):
-    return os.path.isfile(f"{model_dir}/graph_net.json")
+    print(
+        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples.",
+        file=sys.stderr,
+        flush=True,
+    )
+    for model_path in failed_samples:
+        print(f"- {model_path}", file=sys.stderr, flush=True)
 
 
 def main(args):
     assert os.path.isdir(args.model_path)
-    if is_single_model_dir(args.model_path):
+
+    initalize_seed = 123
+    set_seed(random_seed=initalize_seed)
+
+    if path_utils.is_single_model_dir(args.model_path):
         test_single_model(args)
     else:
         test_multi_models(args)
@@ -505,6 +431,13 @@ if __name__ == "__main__":
         required=False,
         default="graph-net-test-compiler-log",
         help="Log prompt for performance log filtering.",
+    )
+    parser.add_argument(
+        "--allow-list",
+        type=str,
+        required=False,
+        default=None,
+        help="Path to samples list, each line contains a sample path",
     )
     args = parser.parse_args()
     main(args=args)

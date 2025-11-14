@@ -7,12 +7,72 @@ import os
 from dataclasses import dataclass
 from contextlib import contextmanager
 import time
+import math
 import numpy as np
 import random
 import platform
+import traceback
+import subprocess
+import re
 
 from graph_net.paddle import utils
-from graph_net.benchmark_result import BenchmarkResult
+from graph_net import path_utils
+from graph_net import test_compiler_util
+
+from graph_net.paddle.backend.graph_compiler_backend import GraphCompilerBackend
+from graph_net.paddle.backend.cinn_backend import CinnBackend
+from graph_net.paddle.backend.nope_backend import NopeBackend
+
+
+registry_backend = {
+    "cinn": CinnBackend(),
+    "nope": NopeBackend(),
+}
+
+
+def get_compiler_backend(args) -> GraphCompilerBackend:
+    assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
+    return registry_backend[args.compiler]
+
+
+def set_seed(random_seed):
+    paddle.seed(random_seed)
+    random.seed(random_seed)
+    np.random.seed(random_seed)
+
+
+def init_env(args):
+    if test_compiler_util.is_gpu_device(args.device):
+        paddle.set_flags({"FLAGS_cudnn_exhaustive_search": 1})
+
+
+def get_hardward_name(args):
+    hardware = "unknown"
+    if test_compiler_util.is_gpu_device(args.device):
+        hardware = paddle.device.cuda.get_device_name(0)
+    elif args.device == "xpu":
+        try:
+            output = subprocess.check_output(["xpu-smi", "-L"], text=True)
+            hardware = next(
+                match.group(2)
+                for line in output.splitlines()
+                if (
+                    match := re.match(
+                        r"XPU\s+(\d+):\s+(.+?)\s+\(UUID:\s*([^)]+)\)", line
+                    )
+                )
+            )
+        except Exception as e:
+            pass
+    elif args.device == "cpu":
+        hardware = platform.processor()
+    return hardware
+
+
+def get_compile_framework_version(args):
+    if args.compiler in ["cinn", "nope"]:
+        return paddle.__version__
+    return "unknown"
 
 
 def load_class_from_file(file_path: str, class_name: str):
@@ -33,41 +93,25 @@ def load_class_from_file(file_path: str, class_name: str):
     return model_class
 
 
-def get_synchronizer_func(args):
-    return paddle.device.synchronize
-
-
-def get_model(args):
+def get_model(model_path):
     model_class = load_class_from_file(
-        f"{args.model_path}/model.py", class_name="GraphModule"
+        f"{model_path}/model.py", class_name="GraphModule"
     )
     return model_class()
 
 
-def get_input_dict(args):
-    inputs_params = utils.load_converted_from_text(f"{args.model_path}")
+def get_input_dict(model_path):
+    inputs_params = utils.load_converted_from_text(f"{model_path}")
     params = inputs_params["weight_info"]
     inputs = inputs_params["input_info"]
 
-    param_dtypes = set()
-    for name, info in params.items():
-        dtype = str(info["info"]["dtype"])
-        if dtype not in param_dtypes:
-            param_dtypes.add(dtype)
-
-    input_dtypes = set()
-    for name, info in inputs.items():
-        dtype = str(info["info"]["dtype"])
-        if dtype not in input_dtypes:
-            input_dtypes.add(dtype)
-
     params.update(inputs)
     state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
-    return state_dict, list(input_dtypes), list(param_dtypes)
+    return state_dict
 
 
-def get_input_spec(args):
-    inputs_params_list = utils.load_converted_list_from_text(f"{args.model_path}")
+def get_input_spec(model_path):
+    inputs_params_list = utils.load_converted_list_from_text(f"{model_path}")
     input_spec = [None] * len(inputs_params_list)
     for i, v in enumerate(inputs_params_list):
         dtype = v["info"]["dtype"]
@@ -76,263 +120,260 @@ def get_input_spec(args):
     return input_spec
 
 
-def get_compiled_model(args, model):
-    input_spec = get_input_spec(args)
-    build_strategy = paddle.static.BuildStrategy()
-    compiled_model = paddle.jit.to_static(
+def get_static_model(args, model):
+    static_model = paddle.jit.to_static(
         model,
-        input_spec=input_spec,
-        build_strategy=build_strategy,
+        input_spec=get_input_spec(args.model_path),
         full_graph=True,
+        backend=None,
     )
-    compiled_model.eval()
-    return compiled_model
+    static_model.eval()
+    program = static_model.forward.concrete_program.main_program
+    return static_model
 
 
-def regular_item(item):
-    assert isinstance(item, paddle.Tensor)
-    if item.dtype not in [paddle.float32, paddle.float64]:
-        item = item.astype("float32")
-    return item
-
-
-def count_number_of_ops(args, model, eager_mode):
-    if eager_mode:
-        static_model = paddle.jit.to_static(
-            model,
-            input_spec=get_input_spec(args),
-            full_graph=True,
-            backend=None,
-        )
-        static_model.eval()
-        program = static_model.forward.concrete_program.main_program
-    else:
-        program = model.forward.concrete_program.main_program
-        print(program)
-
-    num_ops = 0
-    for block in program.blocks:
-        for op in block.ops:
-            if op.name() != "pd_op.data" and not op.name().startswith("builtin."):
-                num_ops += 1
-    print(f"Totally {num_ops} ops.")
-    print("")
-    return num_ops
-
-
-@dataclass
-class DurationBox:
-    value: int
-
-
-@contextmanager
-def naive_timer(duration_box, synchronizer_func):
-    synchronizer_func()
-    start = time.time()
-    yield
-    synchronizer_func()
-    end = time.time()
-    duration_box.value = (end - start) * 1000  # Store in milliseconds
-
-
-def get_timing_stats(elapsed_times):
-    stats = {
-        "mean": float(f"{np.mean(elapsed_times):.6g}"),
-        "std": float(f"{np.std(elapsed_times):.6g}"),
-        "min": float(f"{np.min(elapsed_times):.6g}"),
-        "max": float(f"{np.max(elapsed_times):.6g}"),
-    }
-    return stats
-
-
-def measure_performance(model_call, args, synchronizer_func):
+def measure_performance(model_call, args, compiler, profile=False):
+    runtime_seed = 1024
     stats = {}
 
-    # Warmup runs
-    for _ in range(args.warmup):
-        outs = model_call()
-    synchronizer_func()
+    paddle.seed(runtime_seed)
+    outs = model_call()
 
-    if "cuda" in args.device:
+    # Warmup runs
+    warmup_e2e_times = []
+    for _ in range(args.warmup):
+        duration_box = test_compiler_util.DurationBox(-1)
+        with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
+            model_call()
+        warmup_e2e_times.append(duration_box.value)
+    compiler.synchronize()
+
+    # Ensure the measuring time is not less than 100ms.
+    min_trials = int(100 / np.mean(warmup_e2e_times[1:]))
+    trials = max(args.trials, min_trials)
+
+    hardware_name = get_hardward_name(args)
+    print(
+        f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {trials}",
+        file=sys.stderr,
+        flush=True,
+    )
+
+    if profile:
+        import paddle.profiler as profiler
+
+        p = profiler.Profiler()
+        p.start()
+
+    if test_compiler_util.is_gpu_device(args.device):
         """
         Acknowledgement: We evaluate the performance on both end-to-end and GPU-only timings,
         With reference to methods only based on CUDA events from KernelBench in https://github.com/ScalingIntelligence/KernelBench
         """
-        hardware_name = paddle.device.cuda.get_device_name(0)
-        print(
-            f"{args.log_prompt} [Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}"
-        )
 
         e2e_times = []
         gpu_times = []
 
-        for i in range(args.trials):
+        for i in range(trials):
             # End-to-end timing (naive_timer)
-            duration_box = DurationBox(-1)
-            with naive_timer(duration_box, synchronizer_func):
+            duration_box = test_compiler_util.DurationBox(-1)
+            with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
                 # GPU-only timing (CUDA Events)
                 start_event = paddle.device.Event(enable_timing=True)
                 end_event = paddle.device.Event(enable_timing=True)
 
                 start_event.record()
-                outs = model_call()
+                model_call()
                 end_event.record()
+
+            if profile:
+                p.step()
 
             gpu_time_ms = start_event.elapsed_time(end_event)
             e2e_times.append(duration_box.value)
             gpu_times.append(gpu_time_ms)
             print(
-                f"Trial {i + 1}: e2e={duration_box.value:.4f} ms, gpu={gpu_time_ms:.5g} ms"
+                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms, gpu={gpu_time_ms:.5f} ms",
+                file=sys.stderr,
+                flush=True,
             )
-
-        stats["e2e"] = get_timing_stats(e2e_times)
-        stats["gpu"] = get_timing_stats(gpu_times)
+        stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
+        stats["gpu"] = test_compiler_util.get_timing_stats(gpu_times)
     else:  # CPU or other devices
-        hardware_name = platform.processor()
-        print(
-            f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}"
-        )
-
         e2e_times = []
-        for i in range(args.trials):
-            duration_box = DurationBox(-1)
-            with naive_timer(duration_box, compiler.synchronize):
-                outs = model_call()
-            print(f"Trial {i + 1}: e2e={duration_box.value:.4f} ms")
+        for i in range(trials):
+            duration_box = test_compiler_util.DurationBox(-1)
+            with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
+                model_call()
+
+            if profile:
+                p.step()
+
             e2e_times.append(duration_box.value)
-        stats["e2e"] = get_timing_stats(e2e_times)
+            print(
+                f"Trial {i + 1}: e2e={duration_box.value:.4f} ms",
+                file=sys.stderr,
+                flush=True,
+            )
+        stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
+
+    if profile:
+        p.stop()
+        p.summary()
 
     return outs, stats
 
 
-def init_benchmark_result(args):
-    if args.device == "cuda":
-        hardware = paddle.device.cuda.get_device_name(0)
-    elif args.device == "cpu":
-        hardware = platform.processor()
-    else:
-        hardware = "unknown"
+def check_outputs(args, expected_out, compiled_out):
+    if isinstance(expected_out, paddle.Tensor):
+        expected_out = [expected_out]
+    if isinstance(compiled_out, paddle.Tensor):
+        compiled_out = [compiled_out]
 
-    if args.compiler == "cinn":
-        compile_framework_version = paddle.__version__
-    else:
-        compile_framework_version = "unknown"
+    eager_dtypes = [None] * len(expected_out)
+    for i, tensor in enumerate(expected_out):
+        eager_dtypes[i] = (
+            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "None"
+        )
 
-    result_data = BenchmarkResult(
-        args=args,
-        framework="PaddlePaddle",
-        hardware=hardware,
-        compile_framework_version=compile_framework_version,
+    compiled_dtypes = [None] * len(compiled_out)
+    for i, tensor in enumerate(compiled_out):
+        compiled_dtypes[i] = (
+            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "None"
+        )
+
+    type_match = test_compiler_util.check_output_datatype(
+        args, eager_dtypes, compiled_dtypes
     )
-    return result_data
+
+    eager_shapes = [None] * len(expected_out)
+    for i, tensor in enumerate(expected_out):
+        eager_shapes[i] = tensor.shape if tensor is not None else None
+
+    compiled_shapes = [None] * len(compiled_out)
+    for i, tensor in enumerate(compiled_out):
+        compiled_shapes[i] = tensor.shape if tensor is not None else None
+
+    shape_match = test_compiler_util.check_output_shape(
+        args, eager_shapes, compiled_shapes
+    )
+
+    def transfer_to_float(origin_outputs):
+        outputs = []
+        for item in origin_outputs:
+            if (
+                item is not None
+                and isinstance(item, paddle.Tensor)
+                and item.dtype not in [paddle.float32, paddle.float64]
+            ):
+                item = item.astype("float32")
+            outputs.append(item)
+        return outputs
+
+    if type_match and shape_match:
+        test_compiler_util.check_equal(
+            args,
+            expected_out,
+            compiled_out,
+            cmp_equal_func=get_cmp_equal,
+        )
+
+        expected_out_fp32 = transfer_to_float(expected_out)
+        compiled_out_fp32 = transfer_to_float(compiled_out)
+        test_compiler_util.check_allclose(
+            args,
+            expected_out_fp32,
+            compiled_out_fp32,
+            cmp_all_close_func=get_cmp_all_close,
+            cmp_max_diff_func=get_cmp_max_diff,
+            cmp_mean_diff_func=get_cmp_mean_diff,
+            cmp_max_relative_diff_func=get_cmp_max_relative_diff,
+            cmp_mean_relative_diff_func=get_cmp_mean_relative_diff,
+        )
+
+
+def check_and_print_gpu_utilization(compiler):
+    if paddle.device.is_compiled_with_cuda():
+        device_id = int(paddle.device.get_device().split(":")[-1])
+        device_count = paddle.device.cuda.device_count()
+        gpu_util, mem_util = test_compiler_util.get_device_utilization(
+            device_id, device_count, compiler.synchronize
+        )
+        if gpu_util is not None and mem_util is not None:
+            print(
+                f"Device status: gpu_id {device_id}, gpu_util {gpu_util:.2f}%, mem_util {mem_util:.2f}%",
+                file=sys.stderr,
+                flush=True,
+            )
 
 
 def test_single_model(args):
-    synchronizer_func = get_synchronizer_func(args)
-    input_dict, input_dtypes, param_dtypes = get_input_dict(args)
-    model = get_model(args)
+    compiler = get_compiler_backend(args)
+    check_and_print_gpu_utilization(compiler)
+
+    input_dict = get_input_dict(args.model_path)
+    model = get_model(args.model_path)
     model.eval()
 
-    # Collect model information
-    num_eager_ops = count_number_of_ops(args, model, eager_mode=True)
-
-    # Initialize benchmark result
-    result_data = init_benchmark_result(args)
-    result_data.update_model_info(num_eager_ops, input_dtypes, param_dtypes)
+    test_compiler_util.print_basic_config(
+        args, get_hardward_name(args), get_compile_framework_version(args)
+    )
 
     # Run on eager mode
-    expected_out, eager_time_stats = measure_performance(
-        lambda: model(**input_dict), args, synchronizer_func
-    )
-
-    # Run on compiling mode
-    compiled_model = get_compiled_model(args, model)
-    compiled_out, compiled_time_stats = measure_performance(
-        lambda: compiled_model(**input_dict), args, synchronizer_func
-    )
-
-    if isinstance(expected_out, paddle.Tensor):
-        expected_out = [expected_out]
-        compiled_out = [compiled_out]
-    if isinstance(expected_out, list) or isinstance(expected_out, tuple):
-        output_dtypes = []
-        for a, b in zip(expected_out, compiled_out):
-            if (a is None and b is not None) or (a is not None and b is None):
-                raise ValueError("Both expected_out and compiled_out must be not None.")
-            if a is not None and b is not None:
-                assert (
-                    a.dtype == b.dtype
-                ), f"expected_out's dtype ({a.dtype}) is not the same as compiled_out's dtype {b.dtype}."
-                output_dtypes.append(str(a.dtype))
-        result_data.update_corrrectness("num_outpus", len(output_dtypes))
-        result_data.update_corrrectness("output_dtyps", output_dtypes)
-
-        # Remove all None in outputs
-        expected_out = [x for x in expected_out if x is not None]
-        compiled_out = [x for x in compiled_out if x is not None]
-        expected_out = [
-            regular_item(item)
-            for item in expected_out
-            if item is not None and np.array(item).size != 0
-        ]
-        compiled_out = [
-            regular_item(item)
-            for item in compiled_out
-            if item is not None and np.array(item).size != 0
-        ]
-    else:
-        raise ValueError("Illegal return value.")
-
-    def print_cmp(key, func, **kwargs):
-        cmp_ret = func(expected_out, compiled_out, **kwargs)
-        result_data.update_corrrectness(key, cmp_ret)
+    eager_success = False
+    eager_time_stats = {}
+    try:
+        print("Run model in eager mode.", file=sys.stderr, flush=True)
+        static_model = get_static_model(args, model)
+        expected_out, eager_time_stats = measure_performance(
+            lambda: static_model(**input_dict), args, compiler, profile=False
+        )
+        eager_success = True
+    except Exception as e:
         print(
-            f"{args.log_prompt} {key} model_path:{args.model_path} {cmp_ret}",
+            f"Run model in eager mode failed: {str(e)}\n{traceback.format_exc()}",
             file=sys.stderr,
+            flush=True,
         )
 
-    print_cmp("cmp.equal", get_cmp_equal)
-    print_cmp("cmp.all_close_atol8_rtol8", get_cmp_all_close, atol=1e-8, rtol=1e-8)
-    print_cmp("cmp.all_close_atol8_rtol5", get_cmp_all_close, atol=1e-8, rtol=1e-5)
-    print_cmp("cmp.all_close_atol5_rtol5", get_cmp_all_close, atol=1e-5, rtol=1e-5)
-    print_cmp("cmp.all_close_atol3_rtol2", get_cmp_all_close, atol=1e-3, rtol=1e-2)
-    print_cmp("cmp.all_close_atol2_rtol1", get_cmp_all_close, atol=1e-2, rtol=1e-1)
-    print_cmp("cmp.max_diff", get_cmp_max_diff)
-    print_cmp("cmp.mean_diff", get_cmp_mean_diff)
-    print_cmp("cmp.diff_count_atol8_rtol8", get_cmp_diff_count, atol=1e-8, rtol=1e-8)
-    print_cmp("cmp.diff_count_atol8_rtol5", get_cmp_diff_count, atol=1e-8, rtol=1e-5)
-    print_cmp("cmp.diff_count_atol5_rtol5", get_cmp_diff_count, atol=1e-5, rtol=1e-5)
-    print_cmp("cmp.diff_count_atol3_rtol2", get_cmp_diff_count, atol=1e-3, rtol=1e-2)
-    print_cmp("cmp.diff_count_atol2_rtol1", get_cmp_diff_count, atol=1e-2, rtol=1e-1)
+    # Run on compiling mode
+    compiled_success = False
+    compiled_time_stats = {}
+    try:
+        print("Run model in compiled mode.", file=sys.stderr, flush=True)
+        input_spec = get_input_spec(args.model_path)
+        compiled_model = compiler(model, input_spec)
+        compiled_out, compiled_time_stats = measure_performance(
+            lambda: compiled_model(**input_dict), args, compiler, profile=False
+        )
+        compiled_success = True
+    except Exception as e:
+        print(
+            f"Run model in compiled mode failed: {str(e)}\n{traceback.format_exc()}",
+            file=sys.stderr,
+            flush=True,
+        )
 
-    print(
-        f"{args.log_prompt} information model_path:{args.model_path} {num_eager_ops} ops, param_dtypes:{param_dtypes}, input_dtypes:{input_dtypes}",
-        file=sys.stderr,
+    test_compiler_util.print_running_status(args, eager_success, compiled_success)
+    if eager_success and compiled_success:
+        check_outputs(args, expected_out, compiled_out)
+
+    test_compiler_util.print_times_and_speedup(
+        args, eager_time_stats, compiled_time_stats
     )
-
-    result_data.update_performance(eager_time_stats, compiled_time_stats)
-    duration_log = (
-        f"{args.log_prompt} [Duration] "
-        f"eager_e2e:{result_data.eager_e2e_time_ms:.4f} ms compiled_e2e:{result_data.compiled_e2e_time_ms:.4f} ms"
-    )
-    speedup_log = (
-        f"{args.log_prompt} [Speedup] " f"e2e_speedup:{result_data.e2e_speedup:.4f}"
-    )
-
-    if "cuda" in args.device:
-        duration_log += f" eager_gpu:{result_data.eager_gpu_time_ms:.4f} ms compiled_gpu:{result_data.compiled_gpu_time_ms:.4f} ms"
-        speedup_log += f" gpu_speedup:{result_data.gpu_speedup:.4f}"
-
-    print(duration_log, file=sys.stderr)
-    print(speedup_log, file=sys.stderr)
-
-    if args.output_dir:
-        result_data.write_to_json(args.output_dir)
 
 
 def get_cmp_equal(expected_out, compiled_out):
+    def convert(x):
+        if x.dtype in [paddle.float16, paddle.bfloat16]:
+            return x.astype("float32")
+        elif x.dtype in [paddle.uint8, paddle.int8, paddle.int16]:
+            return x.astype("int32")
+        return x
+
     return " ".join(
-        str(int(paddle.equal_all(a, b))) for a, b in zip(expected_out, compiled_out)
+        str(int(paddle.equal_all(convert(a), convert(b))))
+        for a, b in zip(expected_out, compiled_out)
     )
 
 
@@ -343,16 +384,41 @@ def get_cmp_all_close(expected_out, compiled_out, atol, rtol):
     )
 
 
+def get_format_str(f):
+    if (abs(f) > 1e5 or abs(f) < 1e-5) and abs(f) != 0.0:
+        return str(f"{f:.5E}")
+    else:
+        return str(f"{f:.5f}")
+
+
 def get_cmp_max_diff(expected_out, compiled_out):
     return " ".join(
-        str(paddle.max(paddle.abs(a - b)).item())
+        get_format_str(paddle.max(paddle.abs(a - b)).item())
         for a, b in zip(expected_out, compiled_out)
     )
 
 
 def get_cmp_mean_diff(expected_out, compiled_out):
     return " ".join(
-        str(paddle.mean(paddle.abs(a - b)).item())
+        get_format_str(paddle.mean(paddle.abs(a - b)).item())
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_cmp_max_relative_diff(expected_out, compiled_out):
+    epsilon = 1e-8
+    return " ".join(
+        get_format_str(paddle.max(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item())
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_cmp_mean_relative_diff(expected_out, compiled_out):
+    epsilon = 1e-8
+    return " ".join(
+        get_format_str(
+            paddle.mean(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item()
+        )
         for a, b in zip(expected_out, compiled_out)
     )
 
@@ -365,55 +431,54 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 
 def test_multi_models(args):
-    for model_path in get_recursively_model_path(args.model_path):
-        cmd = "".join(
-            [
-                sys.executable,
-                "-m graph_net.paddle.test_compiler",
-                f"--model-path {model_path}",
-                f"--compiler {args.compiler}",
-                f"--device {args.device}",
-                f"--warmup {args.warmup}",
-                f"--trials {args.trials}",
-                f"--log-prompt {args.log_prompt}",
-                f"--output-dir {args.output_dir}",
-            ]
-        )
-        cmd_ret = os.system(cmd)
-        assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+    test_samples = test_compiler_util.get_allow_samples(args.allow_list)
 
+    sample_idx = 0
+    failed_samples = []
+    module_name = os.path.splitext(os.path.basename(__file__))[0]
+    for model_path in path_utils.get_recursively_model_path(args.model_path):
+        if test_samples is None or os.path.abspath(model_path) in test_samples:
+            print(
+                f"[{sample_idx}] {module_name}, model_path: {model_path}",
+                file=sys.stderr,
+                flush=True,
+            )
+            cmd = " ".join(
+                [
+                    sys.executable,
+                    f"-m graph_net.paddle.{module_name}",
+                    f"--model-path {model_path}",
+                    f"--compiler {args.compiler}",
+                    f"--device {args.device}",
+                    f"--warmup {args.warmup}",
+                    f"--trials {args.trials}",
+                    f"--log-prompt {args.log_prompt}",
+                ]
+            )
+            cmd_ret = os.system(cmd)
+            # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+            if cmd_ret != 0:
+                failed_samples.append(model_path)
+            sample_idx += 1
 
-def get_recursively_model_path(root_dir):
-    for sub_dir in get_immediate_subdirectory_paths(root_dir):
-        if is_single_model_dir(sub_dir):
-            yield sub_dir
-        else:
-            yield from get_recursively_model_path(sub_dir)
-
-
-def get_immediate_subdirectory_paths(parent_dir):
-    return [
-        sub_dir
-        for name in os.listdir(parent_dir)
-        for sub_dir in [os.path.join(parent_dir, name)]
-        if os.path.isdir(sub_dir)
-    ]
-
-
-def is_single_model_dir(model_dir):
-    return os.path.isfile(f"{model_dir}/graph_net.json")
+    print(
+        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples.",
+        file=sys.stderr,
+        flush=True,
+    )
+    for model_path in failed_samples:
+        print(f"- {model_path}", file=sys.stderr, flush=True)
 
 
 def main(args):
     assert os.path.isdir(args.model_path)
-    assert args.compiler == "cinn"
+    assert args.compiler in {"cinn", "nope"}
+    assert args.device in ["cuda", "dcu", "xpu", "cpu"]
 
-    random_seed = 123
-    paddle.seed(random_seed)
-    random.seed(random_seed)
-    np.random.seed(random_seed)
+    initalize_seed = 123
+    set_seed(random_seed=initalize_seed)
 
-    if is_single_model_dir(args.model_path):
+    if path_utils.is_single_model_dir(args.model_path):
         test_single_model(args)
     else:
         test_multi_models(args)
@@ -455,11 +520,11 @@ if __name__ == "__main__":
         help="Log prompt for performance log filtering.",
     )
     parser.add_argument(
-        "--output-dir",
+        "--allow-list",
         type=str,
         required=False,
         default=None,
-        help="Directory to save the structured JSON result file.",
+        help="Path to samples list, each line contains a sample path",
     )
     args = parser.parse_args()
     main(args=args)

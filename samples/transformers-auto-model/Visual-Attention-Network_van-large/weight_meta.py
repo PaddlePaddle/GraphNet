@@ -46,6 +46,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0_modules_embeddings_modules_normalization_parameters_weight_:
@@ -86,6 +87,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_pre_normomalization_parameters_weight_:
@@ -236,6 +238,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_0_modules_post_normalization_parameters_weight_:
@@ -346,6 +349,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_pre_normomalization_parameters_weight_:
@@ -496,6 +500,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_1_modules_post_normalization_parameters_weight_:
@@ -606,6 +611,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_pre_normomalization_parameters_weight_:
@@ -756,6 +762,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_0_modules_layers_modules_2_modules_post_normalization_parameters_weight_:
@@ -906,6 +913,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_embeddings_modules_normalization_parameters_weight_:
@@ -946,6 +954,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_pre_normomalization_parameters_weight_:
@@ -1096,6 +1105,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_0_modules_post_normalization_parameters_weight_:
@@ -1206,6 +1216,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_pre_normomalization_parameters_weight_:
@@ -1356,6 +1367,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_1_modules_post_normalization_parameters_weight_:
@@ -1466,6 +1478,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_pre_normomalization_parameters_weight_:
@@ -1616,6 +1629,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_2_modules_post_normalization_parameters_weight_:
@@ -1726,6 +1740,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_3_modules_pre_normomalization_parameters_weight_:
@@ -1876,6 +1891,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_3_modules_post_normalization_parameters_weight_:
@@ -1986,6 +2002,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_4_modules_pre_normomalization_parameters_weight_:
@@ -2136,6 +2153,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_1_modules_layers_modules_4_modules_post_normalization_parameters_weight_:
@@ -2286,6 +2304,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_embeddings_modules_normalization_parameters_weight_:
@@ -2326,6 +2345,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_pre_normomalization_parameters_weight_:
@@ -2476,6 +2496,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_0_modules_post_normalization_parameters_weight_:
@@ -2586,6 +2607,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_pre_normomalization_parameters_weight_:
@@ -2736,6 +2758,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_1_modules_post_normalization_parameters_weight_:
@@ -2846,6 +2869,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_pre_normomalization_parameters_weight_:
@@ -2996,6 +3020,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_2_modules_post_normalization_parameters_weight_:
@@ -3106,6 +3131,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_pre_normomalization_parameters_weight_:
@@ -3256,6 +3282,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_3_modules_post_normalization_parameters_weight_:
@@ -3366,6 +3393,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_pre_normomalization_parameters_weight_:
@@ -3516,6 +3544,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_4_modules_post_normalization_parameters_weight_:
@@ -3626,6 +3655,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_pre_normomalization_parameters_weight_:
@@ -3776,6 +3806,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_5_modules_post_normalization_parameters_weight_:
@@ -3886,6 +3917,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_pre_normomalization_parameters_weight_:
@@ -4036,6 +4068,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_6_modules_post_normalization_parameters_weight_:
@@ -4146,6 +4179,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_pre_normomalization_parameters_weight_:
@@ -4296,6 +4330,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_7_modules_post_normalization_parameters_weight_:
@@ -4406,6 +4441,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_pre_normomalization_parameters_weight_:
@@ -4556,6 +4592,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_8_modules_post_normalization_parameters_weight_:
@@ -4666,6 +4703,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_9_modules_pre_normomalization_parameters_weight_:
@@ -4816,6 +4854,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_9_modules_post_normalization_parameters_weight_:
@@ -4926,6 +4965,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_10_modules_pre_normomalization_parameters_weight_:
@@ -5076,6 +5116,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_10_modules_post_normalization_parameters_weight_:
@@ -5186,6 +5227,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_11_modules_pre_normomalization_parameters_weight_:
@@ -5336,6 +5378,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_11_modules_post_normalization_parameters_weight_:
@@ -5446,6 +5489,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_12_modules_pre_normomalization_parameters_weight_:
@@ -5596,6 +5640,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_12_modules_post_normalization_parameters_weight_:
@@ -5706,6 +5751,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_13_modules_pre_normomalization_parameters_weight_:
@@ -5856,6 +5902,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_13_modules_post_normalization_parameters_weight_:
@@ -5966,6 +6013,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_14_modules_pre_normomalization_parameters_weight_:
@@ -6116,6 +6164,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_14_modules_post_normalization_parameters_weight_:
@@ -6226,6 +6275,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_15_modules_pre_normomalization_parameters_weight_:
@@ -6376,6 +6426,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_15_modules_post_normalization_parameters_weight_:
@@ -6486,6 +6537,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_16_modules_pre_normomalization_parameters_weight_:
@@ -6636,6 +6688,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_16_modules_post_normalization_parameters_weight_:
@@ -6746,6 +6799,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_17_modules_pre_normomalization_parameters_weight_:
@@ -6896,6 +6950,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_17_modules_post_normalization_parameters_weight_:
@@ -7006,6 +7061,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_18_modules_pre_normomalization_parameters_weight_:
@@ -7156,6 +7212,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_18_modules_post_normalization_parameters_weight_:
@@ -7266,6 +7323,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_19_modules_pre_normomalization_parameters_weight_:
@@ -7416,6 +7474,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_19_modules_post_normalization_parameters_weight_:
@@ -7526,6 +7585,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_20_modules_pre_normomalization_parameters_weight_:
@@ -7676,6 +7736,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_20_modules_post_normalization_parameters_weight_:
@@ -7786,6 +7847,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_21_modules_pre_normomalization_parameters_weight_:
@@ -7936,6 +7998,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_21_modules_post_normalization_parameters_weight_:
@@ -8046,6 +8109,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_22_modules_pre_normomalization_parameters_weight_:
@@ -8196,6 +8260,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_22_modules_post_normalization_parameters_weight_:
@@ -8306,6 +8371,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_23_modules_pre_normomalization_parameters_weight_:
@@ -8456,6 +8522,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_23_modules_post_normalization_parameters_weight_:
@@ -8566,6 +8633,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_24_modules_pre_normomalization_parameters_weight_:
@@ -8716,6 +8784,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_24_modules_post_normalization_parameters_weight_:
@@ -8826,6 +8895,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_25_modules_pre_normomalization_parameters_weight_:
@@ -8976,6 +9046,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_25_modules_post_normalization_parameters_weight_:
@@ -9086,6 +9157,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_26_modules_pre_normomalization_parameters_weight_:
@@ -9236,6 +9308,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_2_modules_layers_modules_26_modules_post_normalization_parameters_weight_:
@@ -9386,6 +9459,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3_modules_embeddings_modules_normalization_parameters_weight_:
@@ -9426,6 +9500,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_pre_normomalization_parameters_weight_:
@@ -9576,6 +9651,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_0_modules_post_normalization_parameters_weight_:
@@ -9686,6 +9762,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_pre_normomalization_parameters_weight_:
@@ -9836,6 +9913,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_1_modules_post_normalization_parameters_weight_:
@@ -9946,6 +10024,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_pre_normomalization_parameters_weight_:
@@ -10096,6 +10175,7 @@ class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_encoder_modules_stages_modules_3_modules_layers_modules_2_modules_post_normalization_parameters_weight_:

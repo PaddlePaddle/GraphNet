@@ -46,6 +46,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_0_modules_1_buf
     mean = 16.336
     std = 13.258
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_0_modules_1_parameters_weight_:
@@ -96,6 +97,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_1_modules_block
     mean = 8.194
     std = 22.948
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_1_modules_block_modules_0_modules_1_parameters_weight_:
@@ -186,6 +188,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_1_modules_block
     mean = 0.709
     std = 0.347
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_1_modules_block_modules_2_modules_1_parameters_weight_:
@@ -236,6 +239,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_2_modules_block
     mean = 7.870
     std = 7.841
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_2_modules_block_modules_0_modules_1_parameters_weight_:
@@ -286,6 +290,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_2_modules_block
     mean = 0.729
     std = 1.641
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_2_modules_block_modules_1_modules_1_parameters_weight_:
@@ -336,6 +341,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_2_modules_block
     mean = 6.088
     std = 6.833
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_2_modules_block_modules_2_modules_1_parameters_weight_:
@@ -386,6 +392,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_3_modules_block
     mean = 6.463
     std = 10.097
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_3_modules_block_modules_0_modules_1_parameters_weight_:
@@ -436,6 +443,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_3_modules_block
     mean = 0.107
     std = 0.144
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_3_modules_block_modules_1_modules_1_parameters_weight_:
@@ -486,6 +494,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_3_modules_block
     mean = 1.167
     std = 0.551
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_3_modules_block_modules_2_modules_1_parameters_weight_:
@@ -536,6 +545,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_4_modules_block
     mean = 9.500
     std = 5.434
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_4_modules_block_modules_0_modules_1_parameters_weight_:
@@ -586,6 +596,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_4_modules_block
     mean = 3.207
     std = 4.529
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_4_modules_block_modules_1_modules_1_parameters_weight_:
@@ -676,6 +687,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_4_modules_block
     mean = 2.113
     std = 1.874
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_4_modules_block_modules_3_modules_1_parameters_weight_:
@@ -726,6 +738,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_5_modules_block
     mean = 1.499
     std = 0.756
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_5_modules_block_modules_0_modules_1_parameters_weight_:
@@ -776,6 +789,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_5_modules_block
     mean = 0.061
     std = 0.122
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_5_modules_block_modules_1_modules_1_parameters_weight_:
@@ -866,6 +880,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_5_modules_block
     mean = 0.084
     std = 0.031
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_5_modules_block_modules_3_modules_1_parameters_weight_:
@@ -916,6 +931,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_6_modules_block
     mean = 2.098
     std = 0.984
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_6_modules_block_modules_0_modules_1_parameters_weight_:
@@ -966,6 +982,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_6_modules_block
     mean = 0.072
     std = 0.223
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_6_modules_block_modules_1_modules_1_parameters_weight_:
@@ -1056,6 +1073,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_6_modules_block
     mean = 0.108
     std = 0.031
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_6_modules_block_modules_3_modules_1_parameters_weight_:
@@ -1106,6 +1124,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_7_modules_block
     mean = 8.655
     std = 5.272
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_7_modules_block_modules_0_modules_1_parameters_weight_:
@@ -1156,6 +1175,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_7_modules_block
     mean = 0.430
     std = 0.948
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_7_modules_block_modules_1_modules_1_parameters_weight_:
@@ -1246,6 +1266,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_7_modules_block
     mean = 2.533
     std = 1.898
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_7_modules_block_modules_3_modules_1_parameters_weight_:
@@ -1296,6 +1317,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_8_modules_block
     mean = 1.879
     std = 0.723
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_8_modules_block_modules_0_modules_1_parameters_weight_:
@@ -1346,6 +1368,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_8_modules_block
     mean = 0.079
     std = 0.176
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_8_modules_block_modules_1_modules_1_parameters_weight_:
@@ -1436,6 +1459,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_8_modules_block
     mean = 0.041
     std = 0.016
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_8_modules_block_modules_3_modules_1_parameters_weight_:
@@ -1486,6 +1510,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_9_modules_block
     mean = 3.188
     std = 1.033
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_9_modules_block_modules_0_modules_1_parameters_weight_:
@@ -1536,6 +1561,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_9_modules_block
     mean = 0.168
     std = 0.392
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_9_modules_block_modules_1_modules_1_parameters_weight_:
@@ -1626,6 +1652,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_9_modules_block
     mean = 0.168
     std = 0.136
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_9_modules_block_modules_3_modules_1_parameters_weight_:
@@ -1676,6 +1703,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_10_modules_bloc
     mean = 0.604
     std = 0.193
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_10_modules_block_modules_0_modules_1_parameters_weight_:
@@ -1726,6 +1754,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_10_modules_bloc
     mean = 0.026
     std = 0.062
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_10_modules_block_modules_1_modules_1_parameters_weight_:
@@ -1816,6 +1845,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_10_modules_bloc
     mean = 0.042
     std = 0.009
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_10_modules_block_modules_3_modules_1_parameters_weight_:
@@ -1866,6 +1896,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_11_modules_bloc
     mean = 1.201
     std = 0.381
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_11_modules_block_modules_0_modules_1_parameters_weight_:
@@ -1916,6 +1947,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_11_modules_bloc
     mean = 0.036
     std = 0.043
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_11_modules_block_modules_1_modules_1_parameters_weight_:
@@ -2006,6 +2038,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_11_modules_bloc
     mean = 0.099
     std = 0.023
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_11_modules_block_modules_3_modules_1_parameters_weight_:
@@ -2056,6 +2089,7 @@ class Program_weight_tensor_meta_L_self_modules_features_modules_12_modules_1_bu
     mean = 4.211
     std = 0.541
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_features_modules_12_modules_1_parameters_weight_:

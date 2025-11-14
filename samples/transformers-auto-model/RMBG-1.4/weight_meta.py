@@ -68,6 +68,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconvin_module
     mean = 5649.214
     std = 5741.280
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconvin_modules_bn_s1_parameters_weight_:
@@ -128,6 +129,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv1_modules
     mean = 2667.007
     std = 1448.455
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv1_modules_bn_s1_parameters_weight_:
@@ -188,6 +190,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv2_modules
     mean = 2348.690
     std = 1274.802
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv2_modules_bn_s1_parameters_weight_:
@@ -248,6 +251,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv3_modules
     mean = 2831.093
     std = 2789.778
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv3_modules_bn_s1_parameters_weight_:
@@ -308,6 +312,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv4_modules
     mean = 716.021
     std = 733.207
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv4_modules_bn_s1_parameters_weight_:
@@ -368,6 +373,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv5_modules
     mean = 2026.592
     std = 816.816
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv5_modules_bn_s1_parameters_weight_:
@@ -428,6 +434,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv6_modules
     mean = 1659.936
     std = 873.644
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv6_modules_bn_s1_parameters_weight_:
@@ -488,6 +495,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv7_modules
     mean = 385.297
     std = 130.106
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv7_modules_bn_s1_parameters_weight_:
@@ -550,6 +558,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv6d_module
     mean = 5073.959
     std = 2895.911
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv6d_modules_bn_s1_parameters_weight_:
@@ -612,6 +621,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv5d_module
     mean = 5187.258
     std = 5039.086
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv5d_modules_bn_s1_parameters_weight_:
@@ -674,6 +684,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv4d_module
     mean = 3355.152
     std = 2538.239
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv4d_modules_bn_s1_parameters_weight_:
@@ -736,6 +747,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv3d_module
     mean = 4097.749
     std = 2123.941
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv3d_modules_bn_s1_parameters_weight_:
@@ -798,6 +810,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv2d_module
     mean = 3920.734
     std = 2509.046
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv2d_modules_bn_s1_parameters_weight_:
@@ -860,6 +873,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv1d_module
     mean = 1561.692
     std = 801.083
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1_modules_rebnconv1d_modules_bn_s1_parameters_weight_:
@@ -922,6 +936,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconvin_module
     mean = 4616.405
     std = 2838.843
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconvin_modules_bn_s1_parameters_weight_:
@@ -982,6 +997,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv1_modules
     mean = 4173.491
     std = 3464.427
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv1_modules_bn_s1_parameters_weight_:
@@ -1042,6 +1058,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv2_modules
     mean = 2845.062
     std = 1313.051
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv2_modules_bn_s1_parameters_weight_:
@@ -1102,6 +1119,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv3_modules
     mean = 5257.729
     std = 4123.617
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv3_modules_bn_s1_parameters_weight_:
@@ -1162,6 +1180,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv4_modules
     mean = 1719.042
     std = 1301.954
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv4_modules_bn_s1_parameters_weight_:
@@ -1222,6 +1241,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv5_modules
     mean = 1918.048
     std = 847.708
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv5_modules_bn_s1_parameters_weight_:
@@ -1282,6 +1302,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv6_modules
     mean = 1149.244
     std = 546.924
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv6_modules_bn_s1_parameters_weight_:
@@ -1344,6 +1365,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv5d_module
     mean = 13656.283
     std = 7850.428
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv5d_modules_bn_s1_parameters_weight_:
@@ -1406,6 +1428,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv4d_module
     mean = 12771.315
     std = 8699.953
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv4d_modules_bn_s1_parameters_weight_:
@@ -1468,6 +1491,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv3d_module
     mean = 11626.798
     std = 7301.910
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv3d_modules_bn_s1_parameters_weight_:
@@ -1530,6 +1554,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv2d_module
     mean = 8396.380
     std = 8301.635
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv2d_modules_bn_s1_parameters_weight_:
@@ -1592,6 +1617,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv1d_module
     mean = 1020.566
     std = 424.365
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2_modules_rebnconv1d_modules_bn_s1_parameters_weight_:
@@ -1654,6 +1680,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconvin_module
     mean = 7136.553
     std = 4324.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconvin_modules_bn_s1_parameters_weight_:
@@ -1714,6 +1741,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv1_modules
     mean = 3154.920
     std = 883.787
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv1_modules_bn_s1_parameters_weight_:
@@ -1774,6 +1802,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv2_modules
     mean = 4296.777
     std = 2290.068
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv2_modules_bn_s1_parameters_weight_:
@@ -1834,6 +1863,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv3_modules
     mean = 28387.910
     std = 12467.817
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv3_modules_bn_s1_parameters_weight_:
@@ -1894,6 +1924,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv4_modules
     mean = 8286.904
     std = 4187.214
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv4_modules_bn_s1_parameters_weight_:
@@ -1954,6 +1985,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv5_modules
     mean = 3986.765
     std = 2137.773
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv5_modules_bn_s1_parameters_weight_:
@@ -2016,6 +2048,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv4d_module
     mean = 41582.453
     std = 15276.190
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv4d_modules_bn_s1_parameters_weight_:
@@ -2078,6 +2111,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv3d_module
     mean = 45003.898
     std = 27086.926
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv3d_modules_bn_s1_parameters_weight_:
@@ -2140,6 +2174,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv2d_module
     mean = 13186.279
     std = 12102.013
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv2d_modules_bn_s1_parameters_weight_:
@@ -2202,6 +2237,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv1d_module
     mean = 1576.617
     std = 790.563
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3_modules_rebnconv1d_modules_bn_s1_parameters_weight_:
@@ -2264,6 +2300,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconvin_module
     mean = 8988.392
     std = 3585.920
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconvin_modules_bn_s1_parameters_weight_:
@@ -2324,6 +2361,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv1_modules
     mean = 4669.851
     std = 2308.339
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv1_modules_bn_s1_parameters_weight_:
@@ -2384,6 +2422,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv2_modules
     mean = 8222.248
     std = 3718.013
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv2_modules_bn_s1_parameters_weight_:
@@ -2444,6 +2483,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv3_modules
     mean = 10853.772
     std = 3016.193
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv3_modules_bn_s1_parameters_weight_:
@@ -2504,6 +2544,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv4_modules
     mean = 3210.092
     std = 1028.762
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv4_modules_bn_s1_parameters_weight_:
@@ -2566,6 +2607,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv3d_module
     mean = 17837.090
     std = 7776.316
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv3d_modules_bn_s1_parameters_weight_:
@@ -2628,6 +2670,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv2d_module
     mean = 13637.871
     std = 10180.682
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv2d_modules_bn_s1_parameters_weight_:
@@ -2690,6 +2733,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv1d_module
     mean = 3926.295
     std = 1910.289
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4_modules_rebnconv1d_modules_bn_s1_parameters_weight_:
@@ -2752,6 +2796,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconvin_module
     mean = 10078.750
     std = 2994.010
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconvin_modules_bn_s1_parameters_weight_:
@@ -2812,6 +2857,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv1_modules
     mean = 2163.777
     std = 448.236
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv1_modules_bn_s1_parameters_weight_:
@@ -2872,6 +2918,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv2_modules
     mean = 2023.700
     std = 1560.232
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv2_modules_bn_s1_parameters_weight_:
@@ -2932,6 +2979,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv3_modules
     mean = 1621.975
     std = 959.293
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv3_modules_bn_s1_parameters_weight_:
@@ -2992,6 +3040,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv4_modules
     mean = 3943.490
     std = 1191.603
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv4_modules_bn_s1_parameters_weight_:
@@ -3054,6 +3103,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv3d_module
     mean = 43144.535
     std = 41810.945
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv3d_modules_bn_s1_parameters_weight_:
@@ -3116,6 +3166,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv2d_module
     mean = 3221.695
     std = 4319.759
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv2d_modules_bn_s1_parameters_weight_:
@@ -3178,6 +3229,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv1d_module
     mean = 3122.976
     std = 1250.883
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5_modules_rebnconv1d_modules_bn_s1_parameters_weight_:
@@ -3240,6 +3292,7 @@ class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconvin_module
     mean = 23514.930
     std = 11510.122
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconvin_modules_bn_s1_parameters_weight_:
@@ -3300,6 +3353,7 @@ class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv1_modules
     mean = 241.542
     std = 49.362
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv1_modules_bn_s1_parameters_weight_:
@@ -3360,6 +3414,7 @@ class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv2_modules
     mean = 888.896
     std = 140.735
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv2_modules_bn_s1_parameters_weight_:
@@ -3420,6 +3475,7 @@ class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv3_modules
     mean = 371.145
     std = 38.176
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv3_modules_bn_s1_parameters_weight_:
@@ -3480,6 +3536,7 @@ class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv4_modules
     mean = 151.203
     std = 16.797
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv4_modules_bn_s1_parameters_weight_:
@@ -3542,6 +3599,7 @@ class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv3d_module
     mean = 672.648
     std = 149.218
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv3d_modules_bn_s1_parameters_weight_:
@@ -3604,6 +3662,7 @@ class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv2d_module
     mean = 1665.158
     std = 1215.911
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv2d_modules_bn_s1_parameters_weight_:
@@ -3666,6 +3725,7 @@ class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv1d_module
     mean = 3039.310
     std = 1726.992
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage6_modules_rebnconv1d_modules_bn_s1_parameters_weight_:
@@ -3732,6 +3792,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconvin_modul
     mean = 14636.583
     std = 12466.574
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconvin_modules_bn_s1_parameters_weight_:
@@ -3794,6 +3855,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv1_module
     mean = 424.565
     std = 347.608
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv1_modules_bn_s1_parameters_weight_:
@@ -3856,6 +3918,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv2_module
     mean = 1010.845
     std = 479.195
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv2_modules_bn_s1_parameters_weight_:
@@ -3918,6 +3981,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv3_module
     mean = 993.334
     std = 418.296
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv3_modules_bn_s1_parameters_weight_:
@@ -3980,6 +4044,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv4_module
     mean = 435.078
     std = 102.615
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv4_modules_bn_s1_parameters_weight_:
@@ -4046,6 +4111,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv3d_modul
     mean = 1815.052
     std = 1064.308
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv3d_modules_bn_s1_parameters_weight_:
@@ -4112,6 +4178,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv2d_modul
     mean = 2365.265
     std = 2868.538
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv2d_modules_bn_s1_parameters_weight_:
@@ -4178,6 +4245,7 @@ class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv1d_modul
     mean = 3544.402
     std = 2790.524
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage5d_modules_rebnconv1d_modules_bn_s1_parameters_weight_:
@@ -4244,6 +4312,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconvin_modul
     mean = 12692.386
     std = 13922.959
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconvin_modules_bn_s1_parameters_weight_:
@@ -4306,6 +4375,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv1_module
     mean = 353.669
     std = 605.691
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv1_modules_bn_s1_parameters_weight_:
@@ -4368,6 +4438,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv2_module
     mean = 1747.077
     std = 690.758
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv2_modules_bn_s1_parameters_weight_:
@@ -4430,6 +4501,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv3_module
     mean = 3441.811
     std = 1591.036
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv3_modules_bn_s1_parameters_weight_:
@@ -4492,6 +4564,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv4_module
     mean = 616.509
     std = 181.094
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv4_modules_bn_s1_parameters_weight_:
@@ -4558,6 +4631,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv3d_modul
     mean = 3516.791
     std = 1542.046
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv3d_modules_bn_s1_parameters_weight_:
@@ -4624,6 +4698,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv2d_modul
     mean = 5068.558
     std = 4040.577
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv2d_modules_bn_s1_parameters_weight_:
@@ -4690,6 +4765,7 @@ class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv1d_modul
     mean = 2876.847
     std = 3190.402
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage4d_modules_rebnconv1d_modules_bn_s1_parameters_weight_:
@@ -4756,6 +4832,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconvin_modul
     mean = 13553.695
     std = 10189.496
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconvin_modules_bn_s1_parameters_weight_:
@@ -4818,6 +4895,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv1_module
     mean = 290.089
     std = 286.199
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv1_modules_bn_s1_parameters_weight_:
@@ -4880,6 +4958,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv2_module
     mean = 1976.536
     std = 2276.683
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv2_modules_bn_s1_parameters_weight_:
@@ -4942,6 +5021,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv3_module
     mean = 2605.140
     std = 2518.007
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv3_modules_bn_s1_parameters_weight_:
@@ -5004,6 +5084,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv4_module
     mean = 1023.812
     std = 723.990
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv4_modules_bn_s1_parameters_weight_:
@@ -5066,6 +5147,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv5_module
     mean = 350.722
     std = 141.717
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv5_modules_bn_s1_parameters_weight_:
@@ -5132,6 +5214,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv4d_modul
     mean = 4306.911
     std = 3060.335
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv4d_modules_bn_s1_parameters_weight_:
@@ -5198,6 +5281,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv3d_modul
     mean = 2716.799
     std = 2074.127
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv3d_modules_bn_s1_parameters_weight_:
@@ -5264,6 +5348,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv2d_modul
     mean = 2945.737
     std = 2636.518
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv2d_modules_bn_s1_parameters_weight_:
@@ -5330,6 +5415,7 @@ class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv1d_modul
     mean = 1965.840
     std = 2231.239
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage3d_modules_rebnconv1d_modules_bn_s1_parameters_weight_:
@@ -5396,6 +5482,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconvin_modul
     mean = 14381.212
     std = 12963.797
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconvin_modules_bn_s1_parameters_weight_:
@@ -5458,6 +5545,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv1_module
     mean = 217.891
     std = 243.483
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv1_modules_bn_s1_parameters_weight_:
@@ -5520,6 +5608,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv2_module
     mean = 707.033
     std = 581.820
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv2_modules_bn_s1_parameters_weight_:
@@ -5582,6 +5671,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv3_module
     mean = 686.236
     std = 291.339
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv3_modules_bn_s1_parameters_weight_:
@@ -5644,6 +5734,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv4_module
     mean = 863.603
     std = 352.689
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv4_modules_bn_s1_parameters_weight_:
@@ -5706,6 +5797,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv5_module
     mean = 863.645
     std = 327.018
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv5_modules_bn_s1_parameters_weight_:
@@ -5768,6 +5860,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv6_module
     mean = 179.755
     std = 38.942
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv6_modules_bn_s1_parameters_weight_:
@@ -5834,6 +5927,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv5d_modul
     mean = 873.047
     std = 225.401
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv5d_modules_bn_s1_parameters_weight_:
@@ -5900,6 +5994,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv4d_modul
     mean = 1349.433
     std = 742.658
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv4d_modules_bn_s1_parameters_weight_:
@@ -5966,6 +6061,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv3d_modul
     mean = 1397.556
     std = 582.855
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv3d_modules_bn_s1_parameters_weight_:
@@ -6032,6 +6128,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv2d_modul
     mean = 1663.951
     std = 561.494
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv2d_modules_bn_s1_parameters_weight_:
@@ -6098,6 +6195,7 @@ class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv1d_modul
     mean = 1856.655
     std = 2286.518
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage2d_modules_rebnconv1d_modules_bn_s1_parameters_weight_:
@@ -6164,6 +6262,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconvin_modul
     mean = 8098.388
     std = 5304.195
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconvin_modules_bn_s1_parameters_weight_:
@@ -6226,6 +6325,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv1_module
     mean = 108.198
     std = 110.916
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv1_modules_bn_s1_parameters_weight_:
@@ -6288,6 +6388,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv2_module
     mean = 762.543
     std = 1690.470
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv2_modules_bn_s1_parameters_weight_:
@@ -6350,6 +6451,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv3_module
     mean = 219.004
     std = 97.206
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv3_modules_bn_s1_parameters_weight_:
@@ -6412,6 +6514,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv4_module
     mean = 264.348
     std = 128.291
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv4_modules_bn_s1_parameters_weight_:
@@ -6474,6 +6577,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv5_module
     mean = 365.063
     std = 191.134
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv5_modules_bn_s1_parameters_weight_:
@@ -6536,6 +6640,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv6_module
     mean = 390.121
     std = 189.282
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv6_modules_bn_s1_parameters_weight_:
@@ -6598,6 +6703,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv7_module
     mean = 115.024
     std = 66.959
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv7_modules_bn_s1_parameters_weight_:
@@ -6664,6 +6770,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv6d_modul
     mean = 465.454
     std = 194.997
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv6d_modules_bn_s1_parameters_weight_:
@@ -6730,6 +6837,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv5d_modul
     mean = 470.318
     std = 410.614
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv5d_modules_bn_s1_parameters_weight_:
@@ -6796,6 +6904,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv4d_modul
     mean = 511.242
     std = 353.444
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv4d_modules_bn_s1_parameters_weight_:
@@ -6862,6 +6971,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv3d_modul
     mean = 323.595
     std = 233.749
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv3d_modules_bn_s1_parameters_weight_:
@@ -6928,6 +7038,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv2d_modul
     mean = 544.195
     std = 275.673
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv2d_modules_bn_s1_parameters_weight_:
@@ -6994,6 +7105,7 @@ class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv1d_modul
     mean = 1008.392
     std = 1370.007
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_stage1d_modules_rebnconv1d_modules_bn_s1_parameters_weight_:

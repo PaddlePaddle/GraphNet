@@ -588,6 +588,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_0_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -948,6 +949,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_1_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -1308,6 +1310,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_2_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -1668,6 +1671,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_3_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -2028,6 +2032,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_4_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -2388,6 +2393,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_5_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -2748,6 +2754,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_6_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -3108,6 +3115,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_7_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -3468,6 +3476,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_8_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -3828,6 +3837,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_9_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -4188,6 +4198,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_10_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -4548,6 +4559,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_11_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -4908,6 +4920,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_12_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -5268,6 +5281,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_13_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -5628,6 +5642,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_14_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -5988,6 +6003,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_15_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -6348,6 +6364,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_16_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -6708,6 +6725,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_17_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -7068,6 +7086,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_18_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -7428,6 +7447,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_19_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -7788,6 +7808,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_20_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -8148,6 +8169,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_21_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -8508,6 +8530,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_22_modules_conv_module_modules_batch_norm_parameters_weight_:
@@ -8868,6 +8891,7 @@ class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encod
     mean = 1.000
     std = 0.000
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_wav2vec2_conformer_modules_encoder_modules_layers_modules_23_modules_conv_module_modules_batch_norm_parameters_weight_:

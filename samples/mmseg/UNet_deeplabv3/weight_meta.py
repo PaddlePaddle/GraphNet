@@ -36,6 +36,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules
     mean = 0.100
     std = 0.105
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules_0_modules_0_modules_convs_modules_0_modules_bn_parameters_weight_:
@@ -86,6 +87,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules
     mean = 0.056
     std = 0.023
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules_0_modules_0_modules_convs_modules_1_modules_bn_parameters_weight_:
@@ -136,6 +138,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules
     mean = 0.025
     std = 0.010
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules_1_modules_1_modules_convs_modules_0_modules_bn_parameters_weight_:
@@ -186,6 +189,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules
     mean = 0.030
     std = 0.009
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules_1_modules_1_modules_convs_modules_1_modules_bn_parameters_weight_:
@@ -236,6 +240,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules
     mean = 0.027
     std = 0.006
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules_2_modules_1_modules_convs_modules_0_modules_bn_parameters_weight_:
@@ -286,6 +291,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules
     mean = 0.021
     std = 0.004
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules_2_modules_1_modules_convs_modules_1_modules_bn_parameters_weight_:
@@ -336,6 +342,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules
     mean = 0.020
     std = 0.004
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules_3_modules_1_modules_convs_modules_0_modules_bn_parameters_weight_:
@@ -386,6 +393,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules
     mean = 0.016
     std = 0.003
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules_3_modules_1_modules_convs_modules_1_modules_bn_parameters_weight_:
@@ -436,6 +444,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules
     mean = 0.015
     std = 0.004
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules_4_modules_1_modules_convs_modules_0_modules_bn_parameters_weight_:
@@ -486,6 +495,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules
     mean = 0.018
     std = 0.004
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_encoder_modules_4_modules_1_modules_convs_modules_1_modules_bn_parameters_weight_:
@@ -536,6 +546,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules
     mean = 0.020
     std = 0.005
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules_3_modules_upsample_modules_interp_upsample_modules_1_modules_bn_parameters_weight_:
@@ -586,6 +597,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules
     mean = 0.033
     std = 0.006
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules_3_modules_conv_block_modules_convs_modules_0_modules_bn_parameters_weight_:
@@ -636,6 +648,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules
     mean = 0.022
     std = 0.004
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules_3_modules_conv_block_modules_convs_modules_1_modules_bn_parameters_weight_:
@@ -686,6 +699,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules
     mean = 0.026
     std = 0.007
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules_2_modules_upsample_modules_interp_upsample_modules_1_modules_bn_parameters_weight_:
@@ -736,6 +750,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules
     mean = 0.046
     std = 0.014
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules_2_modules_conv_block_modules_convs_modules_0_modules_bn_parameters_weight_:
@@ -786,6 +801,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules
     mean = 0.029
     std = 0.011
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules_2_modules_conv_block_modules_convs_modules_1_modules_bn_parameters_weight_:
@@ -836,6 +852,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules
     mean = 0.021
     std = 0.009
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules_1_modules_upsample_modules_interp_upsample_modules_1_modules_bn_parameters_weight_:
@@ -886,6 +903,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules
     mean = 0.055
     std = 0.026
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules_1_modules_conv_block_modules_convs_modules_0_modules_bn_parameters_weight_:
@@ -936,6 +954,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules
     mean = 0.031
     std = 0.013
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules_1_modules_conv_block_modules_convs_modules_1_modules_bn_parameters_weight_:
@@ -986,6 +1005,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules
     mean = 0.022
     std = 0.012
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules_0_modules_upsample_modules_interp_upsample_modules_1_modules_bn_parameters_weight_:
@@ -1036,6 +1056,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules
     mean = 0.074
     std = 0.055
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules_0_modules_conv_block_modules_convs_modules_0_modules_bn_parameters_weight_:
@@ -1086,6 +1107,7 @@ class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules
     mean = 0.064
     std = 0.037
     data = None
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_backbone_modules_decoder_modules_0_modules_conv_block_modules_convs_modules_1_modules_bn_parameters_weight_:
@@ -1170,6 +1192,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_image_pool_m
         0.005223,
         0.002798,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_image_pool_modules_1_modules_bn_parameters_weight_:
@@ -1288,6 +1311,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_aspp_modules
         0.083435,
         0.035056,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_aspp_modules_modules_0_modules_bn_parameters_weight_:
@@ -1406,6 +1430,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_aspp_modules
         0.029324,
         0.061657,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_aspp_modules_modules_1_modules_bn_parameters_weight_:
@@ -1524,6 +1549,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_aspp_modules
         0.029267,
         0.044017,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_aspp_modules_modules_2_modules_bn_parameters_weight_:
@@ -1642,6 +1668,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_aspp_modules
         0.016403,
         0.019385,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_aspp_modules_modules_3_modules_bn_parameters_weight_:
@@ -1766,6 +1793,7 @@ class Program_weight_tensor_meta_L_self_modules_decode_head_modules_bottleneck_m
         0.538644,
         0.474212,
     ]
+    min_val = 0
 
 
 class Program_weight_tensor_meta_L_self_modules_decode_head_modules_bottleneck_modules_bn_parameters_weight_:

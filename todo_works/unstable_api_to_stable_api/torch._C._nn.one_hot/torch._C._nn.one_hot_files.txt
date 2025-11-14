@@ -1,0 +1,3 @@
+samples/transformers-auto-model/PeterBanning71_long-t5-tfg
+samples/transformers-auto-model/kanak8278_xlnet-large-cased-ner-food-combined-weighted-v2
+samples/transformers-auto-model/xlnet-base-cased

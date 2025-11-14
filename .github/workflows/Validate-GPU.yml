@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - develop
-    paths:
-      - "samples/**"
-      - "paddle_samples/**"
 
 env:
   PR_ID: ${{ github.event.pull_request.number }}
@@ -36,15 +33,25 @@ jobs:
           submodules: 'recursive'
           fetch-depth: 10
 
+      - name: Detect changes
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            need_clone:
+              - "samples/**"
+              - "paddle_samples/**"
+
       - name: Check bypass
         id: check-bypass
+        if: steps.filter.outputs.need_clone == 'true'
         uses: ./.github/actions/check-bypass
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           workflow-name: validate
 
       - name: Merge PR to test branch
-        if: steps.check-bypass.outputs.can-skip != 'true'
+        if: steps.filter.outputs.need_clone == 'true' && steps.check-bypass.outputs.can-skip != 'true'
         run: |
           git fetch origin pull/${PR_ID}/merge
           git checkout -b test FETCH_HEAD
@@ -53,7 +60,7 @@ jobs:
         env:
           work_dir: ${{ github.workspace }}
           CACHE_DIR: /home/data/cfs/.cache
-        if: steps.check-bypass.outputs.can-skip != 'true'
+        if: steps.filter.outputs.need_clone == 'true' && steps.check-bypass.outputs.can-skip != 'true'
         run: |
           container_name=${TASK}-${core_index}-$(date +%Y%m%d-%H%M%S)
           echo "container_name=${container_name}" >> ${{ github.env }}
@@ -81,7 +88,7 @@ jobs:
       - name: Run check
         env:
           work_dir: ${{ github.workspace }}
-        if: steps.check-bypass.outputs.can-skip != 'true'
+        if: steps.filter.outputs.need_clone == 'true' && steps.check-bypass.outputs.can-skip != 'true'
         run: |
           docker exec -t ${{ env.container_name }} /bin/bash -c '
           source ${{ github.workspace }}/../../../proxy

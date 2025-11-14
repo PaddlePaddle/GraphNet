@@ -4,9 +4,6 @@ on:
   pull_request:
     branches:
       - develop
-    paths:
-      - "samples/**"
-      - "paddle_samples/**"
 
 env:
   PR_ID: ${{ github.event.pull_request.number }}
@@ -34,7 +31,7 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.base.ref }}
           submodules: 'recursive'
-          fetch-depth: 10
+          fetch-depth: 1000
 
       - name: Check bypass
         id: check-bypass

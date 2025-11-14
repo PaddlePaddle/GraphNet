@@ -138,8 +138,10 @@ def main():
         print("No valid data found. Exiting.")
         return
 
-    # 2. Calculate scores for each curve
+    # 2. Calculate scores for each curve and verify macro/micro consistency
     all_es_scores = {}
+    tolerance_threshold = 1e-6  # Tolerance for floating point comparison
+
     for folder_name, samples in all_results.items():
         _, es_scores = analysis_util.calculate_s_scores(
             samples,
@@ -147,7 +149,55 @@ def main():
             negative_speedup_penalty=args.negative_speedup_penalty,
             fpdb=args.fpdb,
         )
-        all_es_scores[folder_name] = es_scores
+
+        # Verify macro/micro consistency
+        macro_results = getattr(es_scores, "_macro_results", {})
+        verified_scores = {}
+        all_matched = True
+
+        print(f"\n{'='*80}")
+        print(f"Verifying Macro/Micro Consistency for '{folder_name}'")
+        print(f"{'='*80}")
+
+        for t_key, micro_es in es_scores.items():
+            macro_es = macro_results.get(t_key)
+
+            if macro_es is None:
+                print(f"ERROR: No macro result for t={t_key}, cannot verify")
+                all_matched = False
+                continue
+
+            # Compare macro and micro results
+            diff = abs(micro_es - macro_es)
+            relative_diff = diff / max(abs(micro_es), abs(macro_es), 1e-10)
+
+            if diff < tolerance_threshold or relative_diff < tolerance_threshold:
+                # Results match, use micro result
+                verified_scores[t_key] = micro_es
+                print(
+                    f"t={t_key:3d}: MATCHED  - Micro: {micro_es:.6f}, Macro: {macro_es:.6f}, Diff: {diff:.2e}"
+                )
+            else:
+                # Results don't match - mark as failed
+                all_matched = False
+                print(
+                    f"t={t_key:3d}: MISMATCH - Micro: {micro_es:.6f}, Macro: {macro_es:.6f}, Diff: {diff:.2e} ({relative_diff*100:.4f}%)"
+                )
+                # Don't add to verified_scores if mismatch
+
+        if not all_matched:
+            print(f"\nERROR: Macro and micro results do not match for '{folder_name}'!")
+            print(
+                "Calculation validation failed. Results will NOT be used for plotting."
+            )
+            print("Please verify the calculation logic using verify_macro_params.py")
+            print(f"{'='*80}\n")
+            continue  # Skip this curve if validation fails
+
+        print(f"\nSUCCESS: All macro and micro results match for '{folder_name}'.")
+        print(f"{'='*80}\n")
+
+        all_es_scores[folder_name] = verified_scores
 
     # 3. Plot the results
     if any(all_es_scores.values()):

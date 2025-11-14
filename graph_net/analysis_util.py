@@ -4,7 +4,9 @@ import re
 import numpy as np
 from scipy.stats import gmean
 from collections import OrderedDict, defaultdict
+from typing import Tuple
 from graph_net.config.datatype_tolerance_config import get_precision
+from graph_net import macro_statistics
 
 
 def extract_speedup_data_from_subdirs(benchmark_path: str) -> dict:
@@ -414,6 +416,114 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
     return False
 
 
+def check_sample_correctness(sample: dict, t_key: int) -> Tuple[bool, str]:
+    """
+    Check if a sample is correct at the given tolerance level.
+
+    Args:
+        sample: Sample data dictionary
+        t_key: Tolerance level
+
+    Returns:
+        Tuple of (is_correct, fail_type)
+        - is_correct: True if sample is correct at this tolerance
+        - fail_type: Error type if not correct, None if correct
+    """
+    performance_data = sample.get("performance", {})
+    fail_type = performance_data.get("failure")
+
+    # If there's already a failure type, return it
+    if fail_type is not None:
+        return False, fail_type
+
+    # Check correctness based on datatype and tolerance
+    datatype_data = performance_data.get("datatype", {})
+    eager_dtypes = datatype_data.get("eager", [])
+    compiled_dtypes = datatype_data.get("compiled", [])
+
+    # Check if datatypes match and are valid
+    if not (eager_dtypes and eager_dtypes == compiled_dtypes and len(eager_dtypes) > 0):
+        return False, "accuracy"
+
+    correctness_data = sample.get("correctness", {})
+    output_count = len(correctness_data.get("[equal]", []))
+
+    if len(eager_dtypes) != output_count:
+        return False, "accuracy"
+
+    # Check all outputs for correctness
+    is_correct = all(
+        get_correctness(eager_dtypes[i], t_key, correctness_data, i)
+        for i in range(output_count)
+    )
+
+    return is_correct, None if is_correct else "accuracy"
+
+
+def calculate_rectified_speedup(
+    speedup: float, fail_type: str, negative_speedup_penalty: float, fpdb: float
+) -> float:
+    """
+    Calculate rectified speedup for S(t) calculation.
+
+    Args:
+        speedup: Original speedup value
+        fail_type: Error type or None if correct
+        negative_speedup_penalty: Penalty power p for negative speedup
+        fpdb: Base penalty for failures
+
+    Returns:
+        Rectified speedup value
+    """
+    if fail_type is not None or speedup is None:
+        return fpdb
+
+    if speedup < 1:
+        return speedup ** (negative_speedup_penalty + 1)
+    return speedup
+
+
+def calculate_es_rectified_speedup(
+    speedup: float,
+    fail_type: str,
+    t_key: int,
+    is_correct_at_t1: bool,
+    speedup_at_t1: float,
+    fail_type_at_t1: str,
+    negative_speedup_penalty: float,
+    fpdb: float,
+) -> float:
+    """
+    Calculate rectified speedup for ES(t) calculation.
+
+    Args:
+        speedup: Current speedup value
+        fail_type: Current error type
+        t_key: Current tolerance level
+        is_correct_at_t1: Whether sample was correct at t=1
+        speedup_at_t1: Speedup value at t=1
+        fail_type_at_t1: Error type at t=1
+        negative_speedup_penalty: Penalty power p
+        fpdb: Base penalty for failures
+
+    Returns:
+        Error-aware rectified speedup value
+    """
+    if t_key < 1:
+        # For t < 1, ES(t) = S(t)
+        return calculate_rectified_speedup(
+            speedup, fail_type, negative_speedup_penalty, fpdb
+        )
+
+    # For t >= 1, use frozen state from t=1
+    if not is_correct_at_t1 or speedup_at_t1 is None:
+        return fake_perf_degrad(t_key, fail_type_at_t1, fpdb)
+
+    if speedup_at_t1 < 1:
+        return speedup_at_t1 ** (negative_speedup_penalty + 1)
+    return speedup_at_t1
+
+
 def fake_perf_degrad(t, error_code, fpdb=0.1):
     """
     Calculate fake performance degradation based on tolerance t and error code.
@@ -445,6 +555,9 @@ def calculate_s_scores(
     """
     s_scores = OrderedDict()
     s_scores_fake_degrad = OrderedDict()
+    # Store macro-level calculation results for cross-validation
+    s_scores._macro_results = OrderedDict()
+    s_scores_fake_degrad._macro_results = OrderedDict()
 
     begin = -10
     end = 4
@@ -462,33 +575,34 @@ def calculate_s_scores(
         correct_speedups,
         slowdown_speedups,
     ):
+        """
+        Calculate and print macro statistics for a given tolerance level.
+
+        Uses the macro_statistics module for all parameter calculations.
+        """
         print(f"  - Details for tolerance={t_key}:")
         if total_samples > 0:
-            alpha = gmean(correct_speedups) if correct_speedups else 1
-            beta = gmean(slowdown_speedups) if slowdown_speedups else 1
-            lambda_ = correct_count / total_samples if total_samples > 0 else 0
-            eta = (
-                correct_negative_speedup_count / correct_count
-                if correct_count > 0
-                else 0
-            )
-            indicator = [1 if t_key < 1 else 0, 1 if t_key < 3 else 0]
-            gamma = (
-                fpdb ** sum(pi[i] * indicator[i] for i in range(len(pi)))
-                if t_key >= 1
-                else fpdb
+            # Calculate all macro parameters using the dedicated module
+            macro_params = macro_statistics.calculate_all_macro_parameters(
+                correct_count=correct_count,
+                total_samples=total_samples,
+                correct_negative_speedup_count=correct_negative_speedup_count,
+                correct_speedups=correct_speedups,
+                slowdown_speedups=slowdown_speedups,
+                acc_failure_count=acc_failure_count,
+                t_key=t_key,
+                negative_speedup_penalty=negative_speedup_penalty,
+                fpdb=fpdb,
+                pi=pi,
             )
 
-            expected_s = (
-                alpha**lambda_
-                * beta ** (lambda_ * eta * negative_speedup_penalty)
-                * fpdb ** (1 - lambda_)
-            )
-            expected_es = (
-                alpha**lambda_
-                * beta ** (lambda_ * eta * negative_speedup_penalty)
-                * gamma ** (1 - lambda_)
-            )
+            alpha = macro_params["alpha"]
+            beta = macro_params["beta"]
+            lambda_ = macro_params["lambda"]
+            eta = macro_params["eta"]
+            gamma = macro_params["gamma"]
+            expected_s = macro_params["s_t"]
+            expected_es = macro_params["es_t"]
 
             print(
                 f"    - alpha: {alpha:.3f} (Geometric mean speedup of correct samples)"
@@ -501,11 +615,14 @@ def calculate_s_scores(
             )
         else:
             print("    - No samples to analyze.")
+            expected_s = fpdb
+            expected_es = fpdb
 
         return expected_s, expected_es
 
-    # pi is a list of constants for t > 0 for each group
-    pi = [0, 0]
+    # pi is a tuple of constants for t > 0 for each group: (pi[0], pi[1])
+    # Calculated at t=1, used for all t >= 1
+    pi = (0.0, 0.0)
 
     is_correct_at_t1 = [False] * total_samples
     speedup_at_t1 = [None] * total_samples
@@ -525,31 +642,13 @@ def calculate_s_scores(
         correct_speedups = []
         slowdown_speedups = []
 
+        # Process all samples using helper functions to reduce nesting
         for idx, sample in enumerate(samples):
             performance_data = sample.get("performance", {})
-            fail_type = performance_data.get("failure")
             speedup = performance_data.get("speedup", {}).get("e2e")
 
-            # Determine the true state of the current sample (for statistics and S curve)
-            is_correct = False
-            if fail_type is None:
-                datatype_data = performance_data.get("datatype", {})
-                eager_dtypes = datatype_data.get("eager", [])
-                compiled_dtypes = datatype_data.get("compiled", [])
-                if (
-                    eager_dtypes
-                    and eager_dtypes == compiled_dtypes
-                    and len(eager_dtypes) > 0
-                ):
-                    correctness_data = sample.get("correctness", {})
-                    output_count = len(correctness_data.get("[equal]", []))
-                    if len(eager_dtypes) == output_count:
-                        is_correct = all(
-                            get_correctness(eager_dtypes[i], t_key, correctness_data, i)
-                            for i in range(output_count)
-                        )
-                if not is_correct:
-                    fail_type = "accuracy"
+            # Check correctness using dedicated function
+            is_correct, fail_type = check_sample_correctness(sample, t_key)
 
             # Collect statistics
             if is_correct:
@@ -563,53 +662,35 @@ def calculate_s_scores(
             if fail_type == "accuracy":
                 acc_failure_count += 1
 
+            # Store state at t=1 for ES(t) calculation
             if t_key == 1:
                 is_correct_at_t1[idx] = is_correct
                 speedup_at_t1[idx] = speedup
                 fail_type_at_t1[idx] = fail_type if fail_type is not None else "CORRECT"
 
-            # S(t) calculation
-            if fail_type is not None or speedup is None:
-                regularized_speedup = fpdb
-            else:
-                regularized_speedup = (
-                    speedup ** (negative_speedup_penalty + 1)
-                    if speedup < 1
-                    else speedup
-                )
+            # Calculate rectified speedups using dedicated functions
+            regularized_speedup = calculate_rectified_speedup(
+                speedup, fail_type, negative_speedup_penalty, fpdb
+            )
             rectified_speedups.append(regularized_speedup)
 
-            # ES(t) calculation: based on state change
-            if t_key < 1:
-                if fail_type is not None or speedup is None:
-                    rec_speedup_fake_degrad = fpdb
-                else:
-                    rec_speedup_fake_degrad = (
-                        speedup ** (negative_speedup_penalty + 1)
-                        if speedup < 1
-                        else speedup
-                    )
-            else:
-                if not is_correct_at_t1[idx] or speedup_at_t1[idx] is None:
-                    fail_type_frozen = fail_type_at_t1[idx]
-                    rec_speedup_fake_degrad = fake_perf_degrad(
-                        t_key, fail_type_frozen, fpdb
-                    )
-                else:
-                    rec_speedup_fake_degrad = (
-                        speedup_at_t1[idx] ** (negative_speedup_penalty + 1)
-                        if speedup_at_t1[idx] < 1
-                        else speedup_at_t1[idx]
-                    )
+            rec_speedup_fake_degrad = calculate_es_rectified_speedup(
+                speedup,
+                fail_type,
+                t_key,
+                is_correct_at_t1[idx],
+                speedup_at_t1[idx],
+                fail_type_at_t1[idx],
+                negative_speedup_penalty,
+                fpdb,
+            )
             rectified_speedups_fake_degrad.append(rec_speedup_fake_degrad)
 
         if t_key == 1:
-            if total_samples == correct_count:
-                pi[0] = 0
-                pi[1] = 0
-            else:
-                pi[0] = acc_failure_count / (total_samples - correct_count)
-                pi[1] = 1 - pi[0]
+            # Calculate pi at t=1 using the dedicated function
+            pi = macro_statistics.calculate_pi(
+                acc_failure_count, total_samples, correct_count
+            )
             final_correct_count = correct_count
             final_correct_negative_speedup_count = correct_negative_speedup_count
             final_correct_speedups = correct_speedups
@@ -644,7 +725,10 @@ def calculate_s_scores(
             print(
                 f"  - S(t)={expected_s:.3f}, ES(t)={expected_es:.3f} for tolerance={t_key} from macro level."
             )
+            # Store macro results for cross-validation
+            s_scores._macro_results[t_key] = expected_s
+            s_scores_fake_degrad._macro_results[t_key] = expected_es
 
-    print(f"    - pi: {pi}")
+    print(f"    - pi: {list(pi)}")
 
     return s_scores, s_scores_fake_degrad

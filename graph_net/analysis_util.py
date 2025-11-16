@@ -4,9 +4,8 @@ import re
 import numpy as np
 from scipy.stats import gmean
 from collections import OrderedDict, defaultdict
-from typing import Tuple
 from graph_net.config.datatype_tolerance_config import get_precision
-from graph_net import macro_statistics
+from graph_net import samples_statistics
 
 
 def extract_speedup_data_from_subdirs(benchmark_path: str) -> dict:
@@ -416,7 +415,7 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
     return False
 
 
-def check_sample_correctness(sample: dict, t_key: int) -> Tuple[bool, str]:
+def check_sample_correctness(sample: dict, t_key: int) -> tuple[bool, str]:
     """
     Check if a sample is correct at the given tolerance level.
 
@@ -555,9 +554,9 @@ def calculate_s_scores(
     """
     s_scores = OrderedDict()
     s_scores_fake_degrad = OrderedDict()
-    # Store macro-level calculation results for cross-validation
-    s_scores._macro_results = OrderedDict()
-    s_scores_fake_degrad._macro_results = OrderedDict()
+    # Store aggregated-level calculation results for cross-validation
+    s_scores._aggregated_results = OrderedDict()
+    s_scores_fake_degrad._aggregated_results = OrderedDict()
 
     begin = -10
     end = 4
@@ -569,40 +568,36 @@ def calculate_s_scores(
     def print_stat_info(
         t_key,
         correct_count,
-        acc_failure_count,
+        error_type_counts,
         pi,
         correct_negative_speedup_count,
         correct_speedups,
-        slowdown_speedups,
     ):
         """
-        Calculate and print macro statistics for a given tolerance level.
+        Calculate and print aggregated statistics for a given tolerance level.
 
-        Uses the macro_statistics module for all parameter calculations.
+        Uses the samples_statistics module for all parameter calculations.
         """
         print(f"  - Details for tolerance={t_key}:")
         if total_samples > 0:
-            # Calculate all macro parameters using the dedicated module
-            macro_params = macro_statistics.calculate_all_macro_parameters(
-                correct_count=correct_count,
+            # Calculate all aggregated parameters using the dedicated module
+            aggregated_params = samples_statistics.calculate_all_aggregated_parameters(
                 total_samples=total_samples,
-                correct_negative_speedup_count=correct_negative_speedup_count,
                 correct_speedups=correct_speedups,
-                slowdown_speedups=slowdown_speedups,
-                acc_failure_count=acc_failure_count,
+                error_type_counts=error_type_counts,
                 t_key=t_key,
                 negative_speedup_penalty=negative_speedup_penalty,
                 fpdb=fpdb,
                 pi=pi,
             )
 
-            alpha = macro_params["alpha"]
-            beta = macro_params["beta"]
-            lambda_ = macro_params["lambda"]
-            eta = macro_params["eta"]
-            gamma = macro_params["gamma"]
-            expected_s = macro_params["s_t"]
-            expected_es = macro_params["es_t"]
+            alpha = aggregated_params["alpha"]
+            beta = aggregated_params["beta"]
+            lambda_ = aggregated_params["lambda"]
+            eta = aggregated_params["eta"]
+            gamma = aggregated_params["gamma"]
+            expected_s = aggregated_params["s_t"]
+            expected_es = aggregated_params["es_t"]
 
             print(
                 f"    - alpha: {alpha:.3f} (Geometric mean speedup of correct samples)"
@@ -631,16 +626,15 @@ def calculate_s_scores(
     final_correct_count = 0
     final_correct_negative_speedup_count = 0
     final_correct_speedups = []
-    final_slowdown_speedups = []
+    final_error_type_counts = {}  # Store error type counts at t=1
 
     for t_key in t_keys:
         rectified_speedups = []
         rectified_speedups_fake_degrad = []
         correct_count = 0
-        acc_failure_count = 0
+        error_type_counts = {}  # Dictionary to count errors by type
         correct_negative_speedup_count = 0
         correct_speedups = []
-        slowdown_speedups = []
 
         # Process all samples using helper functions to reduce nesting
         for idx, sample in enumerate(samples):
@@ -657,10 +651,10 @@ def calculate_s_scores(
                     correct_speedups.append(speedup)
                 if speedup is not None and speedup < 1:
                     correct_negative_speedup_count += 1
-                    slowdown_speedups.append(speedup)
 
-            if fail_type == "accuracy":
-                acc_failure_count += 1
+            # Count errors by type
+            if fail_type is not None:
+                error_type_counts[fail_type] = error_type_counts.get(fail_type, 0) + 1
 
             # Store state at t=1 for ES(t) calculation
             if t_key == 1:
@@ -688,13 +682,13 @@ def calculate_s_scores(
 
         if t_key == 1:
             # Calculate pi at t=1 using the dedicated function
-            pi = macro_statistics.calculate_pi(
-                acc_failure_count, total_samples, correct_count
+            pi = samples_statistics.calculate_pi(
+                error_type_counts, total_samples, correct_speedups
             )
             final_correct_count = correct_count
             final_correct_negative_speedup_count = correct_negative_speedup_count
             final_correct_speedups = correct_speedups
-            final_slowdown_speedups = slowdown_speedups
+            final_error_type_counts = error_type_counts.copy()  # Save for t >= 1
 
         if rectified_speedups:
             s_scores[t_key] = gmean(rectified_speedups)
@@ -706,28 +700,27 @@ def calculate_s_scores(
                 expected_s, expected_es = print_stat_info(
                     t_key,
                     correct_count,
-                    acc_failure_count,
+                    error_type_counts,
                     pi,
                     correct_negative_speedup_count,
                     correct_speedups,
-                    slowdown_speedups,
                 )
             else:
+                # For t >= 1, use error_type_counts from t=1 (frozen state)
                 expected_s, expected_es = print_stat_info(
                     t_key,
                     final_correct_count,
-                    acc_failure_count,
+                    final_error_type_counts,  # Use the frozen error_type_counts from t=1
                     pi,
                     final_correct_negative_speedup_count,
                     final_correct_speedups,
-                    final_slowdown_speedups,
                 )
             print(
-                f"  - S(t)={expected_s:.3f}, ES(t)={expected_es:.3f} for tolerance={t_key} from macro level."
+                f"  - S(t)={expected_s:.3f}, ES(t)={expected_es:.3f} for tolerance={t_key} from aggregated level."
             )
-            # Store macro results for cross-validation
-            s_scores._macro_results[t_key] = expected_s
-            s_scores_fake_degrad._macro_results[t_key] = expected_es
+            # Store aggregated results for cross-validation
+            s_scores._aggregated_results[t_key] = expected_s
+            s_scores_fake_degrad._aggregated_results[t_key] = expected_es
 
     print(f"    - pi: {list(pi)}")
 

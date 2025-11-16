@@ -1,26 +1,26 @@
 import os
 import argparse
 import numpy as np
-from collections import OrderedDict
+from collections import OrderedDict, Counter
 from graph_net import analysis_util
-from graph_net import macro_statistics
+from graph_net import samples_statistics
 
 
-def calculate_macro_parameters(
+def calculate_aggregated_parameters(
     samples: list,
     folder_name: str,
     negative_speedup_penalty: float = 0,
     fpdb: float = 0.1,
 ) -> dict:
     """
-    Calculate and print all macro parameters (alpha, beta, gamma, lambda, eta, pi)
+    Calculate and print all aggregated parameters (alpha, beta, gamma, lambda, eta, pi)
     for each tolerance level independently.
 
-    This function extracts the macro parameter calculation logic from calculate_s_scores
-    to verify the correctness of macro-level calculations.
+    This function extracts the aggregated parameter calculation logic from calculate_s_scores
+    to verify the correctness of aggregated-level calculations.
 
     Returns:
-        Dictionary mapping tolerance -> dict of macro parameters and calculated scores
+        Dictionary mapping tolerance -> dict of aggregated parameters and calculated scores
     """
     begin = -10
     end = 4
@@ -28,7 +28,7 @@ def calculate_macro_parameters(
     total_samples = len(samples)
 
     print(f"\n{'='*80}")
-    print(f"Verifying Macro Parameters for '{folder_name}'")
+    print(f"Verifying Aggregated Parameters for '{folder_name}'")
     print(f"{'='*80}")
 
     # pi is a tuple of constants for t > 0 for each group: (pi[0], pi[1])
@@ -45,55 +45,60 @@ def calculate_macro_parameters(
     final_correct_negative_speedup_count = 0
     final_correct_speedups = []
     final_slowdown_speedups = []
+    final_error_type_counts = {}  # Store error type counts at t=1
 
     results = OrderedDict()
 
     for t_key in t_keys:
-        correct_count = 0
-        acc_failure_count = 0
-        correct_negative_speedup_count = 0
-        correct_speedups = []
-        slowdown_speedups = []
-
-        # Collect statistics for current tolerance using helper function
-        for idx, sample in enumerate(samples):
-            performance_data = sample.get("performance", {})
-            speedup = performance_data.get("speedup", {}).get("e2e")
-
-            # Check correctness using dedicated function
-            is_correct, fail_type = analysis_util.check_sample_correctness(
-                sample, t_key
+        # Extract sample data using map
+        sample_data = [
+            (
+                idx,
+                sample,
+                sample.get("performance", {}).get("speedup", {}).get("e2e"),
+                *analysis_util.check_sample_correctness(sample, t_key),
             )
+            for idx, sample in enumerate(samples)
+        ]
 
-            # Collect statistics
-            if is_correct:
-                correct_count += 1
-                if speedup is not None:
-                    correct_speedups.append(speedup)
-                if speedup is not None and speedup < 1:
-                    correct_negative_speedup_count += 1
-                    slowdown_speedups.append(speedup)
+        # Filter correct samples and extract speedups
+        correct_samples = [(idx, speedup) for idx, _, speedup, is_correct, _ in sample_data if is_correct]
+        correct_count = len(correct_samples)
+        correct_speedups = [speedup for _, speedup in correct_samples if speedup is not None]
+        slowdown_speedups = [speedup for speedup in correct_speedups if speedup < 1]
+        correct_negative_speedup_count = len(slowdown_speedups)
 
-            if fail_type == "accuracy":
-                acc_failure_count += 1
+        # Count errors by type using Counter
+        error_type_counts = dict(
+            Counter(
+                fail_type
+                for _, _, _, _, fail_type in sample_data
+                if fail_type is not None
+            )
+        )
 
-            # Store state at t=1
-            if t_key == 1:
-                is_correct_at_t1[idx] = is_correct
-                speedup_at_t1[idx] = speedup
-                fail_type_at_t1[idx] = fail_type if fail_type is not None else "CORRECT"
+        # Store state at t=1 using list comprehension
+        if t_key == 1:
+            t1_data = [
+                (idx, speedup, is_correct, fail_type if fail_type is not None else "CORRECT")
+                for idx, _, speedup, is_correct, fail_type in sample_data
+            ]
+            is_correct_at_t1 = [is_correct for _, _, is_correct, _ in t1_data]
+            speedup_at_t1 = [speedup for _, speedup, _, _ in t1_data]
+            fail_type_at_t1 = [fail_type for _, _, _, fail_type in t1_data]
 
         # Calculate pi at t=1 using the dedicated function
         if t_key == 1:
-            pi = macro_statistics.calculate_pi(
-                acc_failure_count, total_samples, correct_count
+            pi = samples_statistics.calculate_pi(
+                error_type_counts, total_samples, correct_speedups
             )
             final_correct_count = correct_count
             final_correct_negative_speedup_count = correct_negative_speedup_count
             final_correct_speedups = correct_speedups
             final_slowdown_speedups = slowdown_speedups
+            final_error_type_counts = error_type_counts.copy()  # Save for t >= 1
 
-        # Calculate macro parameters
+        # Calculate aggregated parameters
         if total_samples > 0:
             # For t < 1, use current tolerance statistics
             # For t >= 1, use t=1 statistics (frozen state)
@@ -110,27 +115,30 @@ def calculate_macro_parameters(
                 stats_correct_speedups = final_correct_speedups
                 stats_slowdown_speedups = final_slowdown_speedups
 
-            # Calculate all macro parameters using the dedicated module
-            macro_params = macro_statistics.calculate_all_macro_parameters(
-                correct_count=stats_correct_count,
+            # Calculate all aggregated parameters using the dedicated module
+            # For t >= 1, use error_type_counts from t=1 (frozen state)
+            if t_key < 1:
+                stats_error_type_counts = error_type_counts
+            else:
+                stats_error_type_counts = final_error_type_counts  # Use frozen from t=1
+
+            aggregated_params = samples_statistics.calculate_all_aggregated_parameters(
                 total_samples=total_samples,
-                correct_negative_speedup_count=stats_correct_negative_speedup_count,
                 correct_speedups=stats_correct_speedups,
-                slowdown_speedups=stats_slowdown_speedups,
-                acc_failure_count=acc_failure_count,
+                error_type_counts=stats_error_type_counts,
                 t_key=t_key,
                 negative_speedup_penalty=negative_speedup_penalty,
                 fpdb=fpdb,
                 pi=pi,
             )
 
-            alpha = macro_params["alpha"]
-            beta = macro_params["beta"]
-            lambda_ = macro_params["lambda"]
-            eta = macro_params["eta"]
-            gamma = macro_params["gamma"]
-            expected_s = macro_params["s_t"]
-            expected_es = macro_params["es_t"]
+            alpha = aggregated_params["alpha"]
+            beta = aggregated_params["beta"]
+            lambda_ = aggregated_params["lambda"]
+            eta = aggregated_params["eta"]
+            gamma = aggregated_params["gamma"]
+            expected_s = aggregated_params["s_t"]
+            expected_es = aggregated_params["es_t"]
 
             results[t_key] = {
                 "alpha": alpha,
@@ -172,8 +180,8 @@ def calculate_macro_parameters(
                 print(
                     f"    - gamma = fpdb^(sum(pi[i] * indicator[i])) = {fpdb}^{pi_indicator_sum:.6f} = {gamma:.6f}"
                 )
-            print(f"  Expected S(t) from macro: {expected_s:.6f}")
-            print(f"  Expected ES(t) from macro: {expected_es:.6f}")
+            print(f"  Expected S(t) from aggregated: {expected_s:.6f}")
+            print(f"  Expected ES(t) from aggregated: {expected_es:.6f}")
         else:
             results[t_key] = {
                 "alpha": 1.0,
@@ -192,16 +200,16 @@ def calculate_macro_parameters(
             print(f"\nTolerance t = {t_key}: No samples to analyze")
 
     print(f"\n{'='*80}")
-    print(f"Macro Parameter Verification Complete")
+    print(f"Aggregated Parameter Verification Complete")
     print(f"{'='*80}\n")
 
     return results
 
 
 def main():
-    """Main execution function for verifying macro parameters."""
+    """Main execution function for verifying aggregated parameters."""
     parser = argparse.ArgumentParser(
-        description="Verify macro parameters (alpha, beta, gamma, lambda, eta, pi) calculation.",
+        description="Verify aggregated parameters (alpha, beta, gamma, lambda, eta, pi) calculation.",
         formatter_class=argparse.RawTextHelpFormatter,
     )
     parser.add_argument(
@@ -230,9 +238,9 @@ def main():
         print("No valid data found. Exiting.")
         return
 
-    # Calculate and print macro parameters for each curve
+    # Calculate and print aggregated parameters for each curve
     for folder_name, samples in all_results.items():
-        macro_results = calculate_macro_parameters(
+        aggregated_results = calculate_aggregated_parameters(
             samples,
             folder_name,
             negative_speedup_penalty=args.negative_speedup_penalty,
@@ -242,3 +250,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

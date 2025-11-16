@@ -5,6 +5,108 @@ import matplotlib.pyplot as plt
 from graph_net import analysis_util
 
 
+def compare_single_tolerance_level(
+    tolerance_level: int,
+    micro_es: float,
+    aggregated_es: float | None,
+    tolerance_threshold: float,
+) -> tuple[bool, float, float]:
+    """
+    Compare micro and aggregated ES(t) values for a single tolerance level.
+
+    Args:
+        tolerance_level: Tolerance level t
+        micro_es: ES(t) value from micro-level calculation
+        aggregated_es: ES(t) value from aggregated-level calculation, or None if missing
+        tolerance_threshold: Floating point comparison tolerance
+
+    Returns:
+        Tuple of (is_matched, diff, relative_diff)
+    """
+    if aggregated_es is None:
+        return False, 0.0, 0.0
+
+    diff = abs(micro_es - aggregated_es)
+    relative_diff = diff / max(abs(micro_es), abs(aggregated_es), 1e-10)
+    is_matched = diff < tolerance_threshold or relative_diff < tolerance_threshold
+
+    return is_matched, diff, relative_diff
+
+
+def print_verification_result(
+    tolerance_level: int,
+    micro_es: float,
+    aggregated_es: float | None,
+    diff: float,
+    relative_diff: float,
+    is_matched: bool,
+) -> None:
+    """Print verification result for a single tolerance level."""
+    if aggregated_es is None:
+        print(f"ERROR: No aggregated result for t={tolerance_level}, cannot verify")
+    elif is_matched:
+        print(
+            f"t={tolerance_level:3d}: MATCHED  - Micro: {micro_es:.6f}, Aggregated: {aggregated_es:.6f}, Diff: {diff:.2e}"
+        )
+    else:
+        print(
+            f"t={tolerance_level:3d}: MISMATCH - Micro: {micro_es:.6f}, Aggregated: {aggregated_es:.6f}, Diff: {diff:.2e} ({relative_diff*100:.4f}%)"
+        )
+
+
+def verify_aggregated_micro_consistency(
+    es_scores: dict, folder_name: str, tolerance_threshold: float
+) -> tuple[dict, bool]:
+    """
+    Verify consistency between aggregated and micro-level ES(t) calculations.
+
+    Args:
+        es_scores: Dictionary of ES(t) scores from micro-level calculation
+        folder_name: Name of the folder being verified
+        tolerance_threshold: Floating point comparison tolerance
+
+    Returns:
+        Tuple of (verified_scores, all_matched):
+        - verified_scores: Dictionary of verified scores (only matched tolerance levels)
+        - all_matched: True if all tolerance levels matched, False otherwise
+    """
+    aggregated_results = getattr(es_scores, "_aggregated_results", {})
+    verified_scores = {}
+    all_matched = True
+
+    print(f"\n{'='*80}")
+    print(f"Verifying Aggregated/Micro Consistency for '{folder_name}'")
+    print(f"{'='*80}")
+
+    for tolerance_level, micro_es in es_scores.items():
+        aggregated_es = aggregated_results.get(tolerance_level)
+        is_matched, diff, relative_diff = compare_single_tolerance_level(
+            tolerance_level, micro_es, aggregated_es, tolerance_threshold
+        )
+
+        print_verification_result(
+            tolerance_level, micro_es, aggregated_es, diff, relative_diff, is_matched
+        )
+
+        if aggregated_es is None or not is_matched:
+            all_matched = False
+        if is_matched:
+            verified_scores[tolerance_level] = micro_es
+
+    if not all_matched:
+        print(
+            f"\nERROR: Aggregated and micro results do not match for '{folder_name}'!"
+        )
+        print("Calculation validation failed. Results will NOT be used for plotting.")
+        print("Please verify the calculation logic using verify_aggregated_params.py")
+        print(f"{'='*80}\n")
+    else:
+        print(f"\nSUCCESS: All aggregated and micro results match for '{folder_name}'.")
+        print(f"{'='*80}\n")
+
+    return verified_scores, all_matched
+
+
 def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
     """
     Plot ES(t) curve
@@ -138,7 +240,7 @@ def main():
         print("No valid data found. Exiting.")
         return
 
-    # 2. Calculate scores for each curve and verify macro/micro consistency
+    # 2. Calculate scores for each curve and verify aggregated/micro consistency
     all_es_scores = {}
     tolerance_threshold = 1e-6  # Tolerance for floating point comparison
 
@@ -150,52 +252,16 @@ def main():
             fpdb=args.fpdb,
         )
 
-        # Verify macro/micro consistency
-        macro_results = getattr(es_scores, "_macro_results", {})
-        verified_scores = {}
-        all_matched = True
+        # Keep original behavior: assign es_scores directly
+        all_es_scores[folder_name] = es_scores
 
-        print(f"\n{'='*80}")
-        print(f"Verifying Macro/Micro Consistency for '{folder_name}'")
-        print(f"{'='*80}")
-
-        for t_key, micro_es in es_scores.items():
-            macro_es = macro_results.get(t_key)
-
-            if macro_es is None:
-                print(f"ERROR: No macro result for t={t_key}, cannot verify")
-                all_matched = False
-                continue
-
-            # Compare macro and micro results
-            diff = abs(micro_es - macro_es)
-            relative_diff = diff / max(abs(micro_es), abs(macro_es), 1e-10)
-
-            if diff < tolerance_threshold or relative_diff < tolerance_threshold:
-                # Results match, use micro result
-                verified_scores[t_key] = micro_es
-                print(
-                    f"t={t_key:3d}: MATCHED  - Micro: {micro_es:.6f}, Macro: {macro_es:.6f}, Diff: {diff:.2e}"
-                )
-            else:
-                # Results don't match - mark as failed
-                all_matched = False
-                print(
-                    f"t={t_key:3d}: MISMATCH - Micro: {micro_es:.6f}, Macro: {macro_es:.6f}, Diff: {diff:.2e} ({relative_diff*100:.4f}%)"
-                )
-                # Don't add to verified_scores if mismatch
+        # Verify aggregated/micro consistency
+        verified_scores, all_matched = verify_aggregated_micro_consistency(
+            es_scores, folder_name, tolerance_threshold
+        )
 
         if not all_matched:
-            print(f"\nERROR: Macro and micro results do not match for '{folder_name}'!")
-            print(
-                "Calculation validation failed. Results will NOT be used for plotting."
-            )
-            print("Please verify the calculation logic using verify_macro_params.py")
-            print(f"{'='*80}\n")
             continue  # Skip this curve if validation fails
-
-        print(f"\nSUCCESS: All macro and micro results match for '{folder_name}'.")
-        print(f"{'='*80}\n")
 
         all_es_scores[folder_name] = verified_scores
 

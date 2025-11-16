@@ -264,8 +264,10 @@ def calculate_all_aggregated_parameters(
     # Convert dictionary-based pi and thresholds to indexed format for calculate_gamma
     # Create ordered list of error types for consistent indexing
     error_types = sorted(error_type_counts.keys())
-    errno_tolerances = [error_tolerance_thresholds.get(error_type, 3) for error_type in error_types]
-    
+    errno_tolerances = [
+        error_tolerance_thresholds.get(error_type, 3) for error_type in error_types
+    ]
+
     # Create get_pi function that maps error type index to pi value
     def get_pi(error_type_index: int) -> float:
         if error_type_index < len(error_types):
@@ -279,7 +281,9 @@ def calculate_all_aggregated_parameters(
     eta = calculate_eta(correct_speedups)
     gamma = calculate_gamma(t_key, get_pi, errno_tolerances, fpdb)
 
-    s_t = calculate_s_t_from_aggregated(alpha, beta, lambda_, eta, negative_speedup_penalty, fpdb)
+    s_t = calculate_s_t_from_aggregated(
+        alpha, beta, lambda_, eta, negative_speedup_penalty, fpdb
+    )
     es_t = calculate_es_t_from_aggregated(
         alpha, beta, lambda_, eta, gamma, negative_speedup_penalty
     )
@@ -294,4 +298,3 @@ def calculate_all_aggregated_parameters(
         "s_t": s_t,
         "es_t": es_t,
     }
-

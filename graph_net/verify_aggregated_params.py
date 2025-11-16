@@ -62,9 +62,15 @@ def calculate_aggregated_parameters(
         ]
 
         # Filter correct samples and extract speedups
-        correct_samples = [(idx, speedup) for idx, _, speedup, is_correct, _ in sample_data if is_correct]
+        correct_samples = [
+            (idx, speedup)
+            for idx, _, speedup, is_correct, _ in sample_data
+            if is_correct
+        ]
         correct_count = len(correct_samples)
-        correct_speedups = [speedup for _, speedup in correct_samples if speedup is not None]
+        correct_speedups = [
+            speedup for _, speedup in correct_samples if speedup is not None
+        ]
         slowdown_speedups = [speedup for speedup in correct_speedups if speedup < 1]
         correct_negative_speedup_count = len(slowdown_speedups)
 
@@ -80,7 +86,12 @@ def calculate_aggregated_parameters(
         # Store state at t=1 using list comprehension
         if t_key == 1:
             t1_data = [
-                (idx, speedup, is_correct, fail_type if fail_type is not None else "CORRECT")
+                (
+                    idx,
+                    speedup,
+                    is_correct,
+                    fail_type if fail_type is not None else "CORRECT",
+                )
                 for idx, _, speedup, is_correct, fail_type in sample_data
             ]
             is_correct_at_t1 = [is_correct for _, _, is_correct, _ in t1_data]
@@ -250,4 +261,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

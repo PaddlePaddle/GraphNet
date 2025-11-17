@@ -6,6 +6,7 @@ from scipy.stats import gmean
 from collections import OrderedDict, defaultdict
 from graph_net.config.datatype_tolerance_config import get_precision
 from graph_net import samples_statistics
+from graph_net.samples_statistics import get_errno_from_error_type
 
 
 def extract_speedup_data_from_subdirs(benchmark_path: str) -> dict:
@@ -568,7 +569,7 @@ def calculate_s_scores(
     def print_stat_info(
         t_key,
         correct_count,
-        error_type_counts,
+        errno2count,
         pi,
         correct_negative_speedup_count,
         correct_speedups,
@@ -584,7 +585,7 @@ def calculate_s_scores(
             aggregated_params = samples_statistics.calculate_all_aggregated_parameters(
                 total_samples=total_samples,
                 correct_speedups=correct_speedups,
-                error_type_counts=error_type_counts,
+                errno2count=errno2count,
                 t_key=t_key,
                 negative_speedup_penalty=negative_speedup_penalty,
                 fpdb=fpdb,
@@ -626,13 +627,13 @@ def calculate_s_scores(
     final_correct_count = 0
     final_correct_negative_speedup_count = 0
     final_correct_speedups = []
-    final_error_type_counts = {}  # Store error type counts at t=1
+    final_errno2count = {}  # Store error type counts at t=1 (using errno)
 
     for t_key in t_keys:
         rectified_speedups = []
         rectified_speedups_fake_degrad = []
         correct_count = 0
-        error_type_counts = {}  # Dictionary to count errors by type
+        errno2count = {}  # Dictionary to count errors by errno
         correct_negative_speedup_count = 0
         correct_speedups = []
 
@@ -652,9 +653,10 @@ def calculate_s_scores(
                 if speedup is not None and speedup < 1:
                     correct_negative_speedup_count += 1
 
-            # Count errors by type
+            # Count errors by errno (convert error type string to errno)
             if fail_type is not None:
-                error_type_counts[fail_type] = error_type_counts.get(fail_type, 0) + 1
+                errno = get_errno_from_error_type(fail_type)
+                errno2count[errno] = errno2count.get(errno, 0) + 1
 
             # Store state at t=1 for ES(t) calculation
             if t_key == 1:
@@ -683,12 +685,12 @@ def calculate_s_scores(
         if t_key == 1:
             # Calculate pi at t=1 using the dedicated function
             pi = samples_statistics.calculate_pi(
-                error_type_counts, total_samples, correct_speedups
+                errno2count, total_samples, correct_speedups
             )
             final_correct_count = correct_count
             final_correct_negative_speedup_count = correct_negative_speedup_count
             final_correct_speedups = correct_speedups
-            final_error_type_counts = error_type_counts.copy()  # Save for t >= 1
+            final_errno2count = errno2count.copy()  # Save for t >= 1
 
         if rectified_speedups:
             s_scores[t_key] = gmean(rectified_speedups)
@@ -700,17 +702,17 @@ def calculate_s_scores(
                 expected_s, expected_es = print_stat_info(
                     t_key,
                     correct_count,
-                    error_type_counts,
+                    errno2count,
                     pi,
                     correct_negative_speedup_count,
                     correct_speedups,
                 )
             else:
-                # For t >= 1, use error_type_counts from t=1 (frozen state)
+                # For t >= 1, use errno2count from t=1 (frozen state)
                 expected_s, expected_es = print_stat_info(
                     t_key,
                     final_correct_count,
-                    final_error_type_counts,  # Use the frozen error_type_counts from t=1
+                    final_errno2count,  # Use the frozen errno2count from t=1
                     pi,
                     final_correct_negative_speedup_count,
                     final_correct_speedups,
@@ -722,6 +724,6 @@ def calculate_s_scores(
             s_scores._aggregated_results[t_key] = expected_s
             s_scores_fake_degrad._aggregated_results[t_key] = expected_es
 
-    print(f"    - pi: {list(pi)}")
+    print(f"    - pi: {dict(sorted(pi.items()))}")
 
     return s_scores, s_scores_fake_degrad

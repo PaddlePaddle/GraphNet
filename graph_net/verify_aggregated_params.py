@@ -4,6 +4,10 @@ import numpy as np
 from collections import OrderedDict, Counter
 from graph_net import analysis_util
 from graph_net import samples_statistics
+from graph_net.samples_statistics import (
+    get_errno_from_error_type,
+    get_error_type_from_errno,
+)
 
 
 def calculate_aggregated_parameters(
@@ -45,7 +49,7 @@ def calculate_aggregated_parameters(
     final_correct_negative_speedup_count = 0
     final_correct_speedups = []
     final_slowdown_speedups = []
-    final_error_type_counts = {}  # Store error type counts at t=1
+    final_errno2count = {}  # Store error type counts at t=1 (using errno)
 
     results = OrderedDict()
 
@@ -74,10 +78,10 @@ def calculate_aggregated_parameters(
         slowdown_speedups = [speedup for speedup in correct_speedups if speedup < 1]
         correct_negative_speedup_count = len(slowdown_speedups)
 
-        # Count errors by type using Counter
-        error_type_counts = dict(
+        # Count errors by errno using Counter (convert error type string to errno)
+        errno2count = dict(
             Counter(
-                fail_type
+                get_errno_from_error_type(fail_type)
                 for _, _, _, _, fail_type in sample_data
                 if fail_type is not None
             )
@@ -101,13 +105,13 @@ def calculate_aggregated_parameters(
         # Calculate pi at t=1 using the dedicated function
         if t_key == 1:
             pi = samples_statistics.calculate_pi(
-                error_type_counts, total_samples, correct_speedups
+                errno2count, total_samples, correct_speedups
             )
             final_correct_count = correct_count
             final_correct_negative_speedup_count = correct_negative_speedup_count
             final_correct_speedups = correct_speedups
             final_slowdown_speedups = slowdown_speedups
-            final_error_type_counts = error_type_counts.copy()  # Save for t >= 1
+            final_errno2count = errno2count.copy()  # Save for t >= 1
 
         # Calculate aggregated parameters
         if total_samples > 0:
@@ -127,16 +131,16 @@ def calculate_aggregated_parameters(
                 stats_slowdown_speedups = final_slowdown_speedups
 
             # Calculate all aggregated parameters using the dedicated module
-            # For t >= 1, use error_type_counts from t=1 (frozen state)
+            # For t >= 1, use errno2count from t=1 (frozen state)
             if t_key < 1:
-                stats_error_type_counts = error_type_counts
+                stats_errno2count = errno2count
             else:
-                stats_error_type_counts = final_error_type_counts  # Use frozen from t=1
+                stats_errno2count = final_errno2count  # Use frozen from t=1
 
             aggregated_params = samples_statistics.calculate_all_aggregated_parameters(
                 total_samples=total_samples,
                 correct_speedups=stats_correct_speedups,
-                error_type_counts=stats_error_type_counts,
+                errno2count=stats_errno2count,
                 t_key=t_key,
                 negative_speedup_penalty=negative_speedup_penalty,
                 fpdb=fpdb,
@@ -184,9 +188,17 @@ def calculate_aggregated_parameters(
                 )
             print(f"  gamma (average error penalty): {gamma:.6f}")
             if t_key >= 1:
+                # pi is now dict[int, float], convert to list for display
+                errnos = sorted(pi.keys())
+                pi_list = [pi[errno] for errno in errnos]
                 indicator = [1 if t_key < 1 else 0, 1 if t_key < 3 else 0]
-                pi_indicator_sum = sum(pi[i] * indicator[i] for i in range(len(pi)))
-                print(f"    - pi: {list(pi)}")
+                # Calculate pi_indicator_sum using errno-based pi
+                pi_indicator_sum = sum(
+                    pi.get(errno, 0.0) * indicator[min(i, len(indicator) - 1)]
+                    for i, errno in enumerate(errnos)
+                )
+                print(f"    - pi (errno -> proportion): {dict(sorted(pi.items()))}")
+                print(f"    - pi (as list): {pi_list}")
                 print(f"    - indicator: {indicator}")
                 print(
                     f"    - gamma = fpdb^(sum(pi[i] * indicator[i])) = {fpdb}^{pi_indicator_sum:.6f} = {gamma:.6f}"

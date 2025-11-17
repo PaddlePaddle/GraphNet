@@ -582,13 +582,13 @@ def calculate_s_scores(
         print(f"  - Details for tolerance={t_key}:")
         if total_samples > 0:
             # Calculate all aggregated parameters using the dedicated module
-            aggregated_params = samples_statistics.calculate_all_aggregated_parameters(
+            aggregated_params = samples_statistics.calculate_es_components_values(
                 total_samples=total_samples,
                 correct_speedups=correct_speedups,
                 errno2count=errno2count,
-                t_key=t_key,
+                tolerance=t_key,
                 negative_speedup_penalty=negative_speedup_penalty,
-                fpdb=fpdb,
+                b=fpdb,
                 pi=pi,
             )
 
@@ -597,8 +597,12 @@ def calculate_s_scores(
             lambda_ = aggregated_params["lambda"]
             eta = aggregated_params["eta"]
             gamma = aggregated_params["gamma"]
-            expected_s = aggregated_params["s_t"]
-            expected_es = aggregated_params["es_t"]
+            expected_s = samples_statistics.calculate_s_t_from_aggregated(
+                alpha, beta, lambda_, eta, negative_speedup_penalty, fpdb
+            )
+            expected_es = samples_statistics.calculate_es_t_from_aggregated(
+                alpha, beta, lambda_, eta, gamma, negative_speedup_penalty
+            )
 
             print(
                 f"    - alpha: {alpha:.3f} (Geometric mean speedup of correct samples)"

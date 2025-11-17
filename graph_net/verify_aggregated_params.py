@@ -10,217 +10,297 @@ from graph_net.samples_statistics import (
 )
 
 
-def calculate_aggregated_parameters(
+def determine_tolerances(samples: list) -> range:
+    """Determine tolerance range based on observed errno categories."""
+    # Currently errno categories are 1=accuracy, 2=runtime, 3=compile.
+    # Keep logic data-driven for future extension.
+    default_errnos = {1, 2, 3}
+    return range(-10, len(default_errnos) + 2)
+
+
+def extract_statistics_at_tolerance(samples: list, tolerance: int) -> dict:
+    """Extract statistics for a given tolerance level."""
+    sample_data = [
+        (
+            idx,
+            sample,
+            sample.get("performance", {}).get("speedup", {}).get("e2e"),
+            *analysis_util.check_sample_correctness(sample, tolerance),
+        )
+        for idx, sample in enumerate(samples)
+    ]
+
+    correct_samples = [
+        (idx, speedup) for idx, _, speedup, is_correct, _ in sample_data if is_correct
+    ]
+    correct_count = len(correct_samples)
+    correct_speedups = [
+        speedup for _, speedup in correct_samples if speedup is not None
+    ]
+    slowdown_speedups = [speedup for speedup in correct_speedups if speedup < 1]
+    correct_negative_speedup_count = len(slowdown_speedups)
+
+    errno2count = dict(
+        Counter(
+            get_errno_from_error_type(fail_type)
+            for _, _, _, _, fail_type in sample_data
+            if fail_type is not None
+        )
+    )
+
+    return {
+        "correct_count": correct_count,
+        "correct_speedups": correct_speedups,
+        "slowdown_speedups": slowdown_speedups,
+        "correct_negative_speedup_count": correct_negative_speedup_count,
+        "errno2count": errno2count,
+    }
+
+
+def freeze_statistics_at_t1(
+    stats: dict, total_samples: int, frozen_stats: dict
+) -> dict:
+    """Freeze statistics at t=1 and calculate pi."""
+    pi = samples_statistics.calculate_pi(
+        stats["errno2count"], total_samples, stats["correct_speedups"]
+    )
+    frozen_stats.update(
+        {
+            "correct_count": stats["correct_count"],
+            "correct_negative_speedup_count": stats["correct_negative_speedup_count"],
+            "correct_speedups": stats["correct_speedups"],
+            "slowdown_speedups": stats["slowdown_speedups"],
+            "errno2count": stats["errno2count"].copy(),
+        }
+    )
+    return pi
+
+
+def select_statistics_for_calculation(
+    tolerance: int, current_stats: dict, frozen_stats: dict
+) -> dict:
+    """Select statistics to use based on tolerance level."""
+    if tolerance < 1:
+        return {
+            "correct_count": current_stats["correct_count"],
+            "correct_speedups": current_stats["correct_speedups"],
+            "slowdown_speedups": current_stats["slowdown_speedups"],
+            "errno2count": current_stats["errno2count"],
+        }
+    else:
+        return {
+            "correct_count": frozen_stats["correct_count"],
+            "correct_speedups": frozen_stats["correct_speedups"],
+            "slowdown_speedups": frozen_stats["slowdown_speedups"],
+            "errno2count": frozen_stats["errno2count"],
+        }
+
+
+def calculate_parameters_for_tolerance(
+    tolerance: int,
+    total_samples: int,
+    stats: dict,
+    pi: dict,
+    negative_speedup_penalty: float,
+    fpdb: float,
+) -> dict:
+    """Calculate ES(t) components and final scores for a tolerance level."""
+    aggregated_params = samples_statistics.calculate_es_components_values(
+        total_samples=total_samples,
+        correct_speedups=stats["correct_speedups"],
+        errno2count=stats["errno2count"],
+        tolerance=tolerance,
+        negative_speedup_penalty=negative_speedup_penalty,
+        b=fpdb,
+        pi=pi,
+    )
+
+    alpha = aggregated_params["alpha"]
+    beta = aggregated_params["beta"]
+    lambda_ = aggregated_params["lambda"]
+    eta = aggregated_params["eta"]
+    gamma = aggregated_params["gamma"]
+
+    expected_s = samples_statistics.calculate_s_t_from_aggregated(
+        alpha, beta, lambda_, eta, negative_speedup_penalty, fpdb
+    )
+    expected_es = samples_statistics.calculate_es_t_from_aggregated(
+        alpha, beta, lambda_, eta, gamma, negative_speedup_penalty
+    )
+
+    return {
+        "alpha": alpha,
+        "beta": beta,
+        "lambda": lambda_,
+        "eta": eta,
+        "gamma": gamma,
+        "expected_s": expected_s,
+        "expected_es": expected_es,
+    }
+
+
+def print_tolerance_details(
+    tolerance: int,
+    total_samples: int,
+    stats: dict,
+    params: dict,
+    pi: dict,
+    fpdb: float,
+):
+    """Print detailed information for a tolerance level."""
+    print(f"\nTolerance t = {tolerance}:")
+    print(f"  Total samples: {total_samples}")
+    print(
+        f"  Correct samples: {stats['correct_count']} (lambda = {params['lambda']:.6f})"
+    )
+    print(f"  Correct speedups collected: {len(stats['correct_speedups'])}")
+    print(
+        f"  Slowdown cases: {len(stats['slowdown_speedups'])} (eta = {params['eta']:.6f})"
+    )
+    print(f"  alpha (geometric mean of correct speedups): {params['alpha']:.6f}")
+    if stats["correct_speedups"]:
+        print(
+            f"    - Correct speedups: {stats['correct_speedups'][:10]}{'...' if len(stats['correct_speedups']) > 10 else ''}"
+        )
+    print(f"  beta (geometric mean of slowdown speedups): {params['beta']:.6f}")
+    if stats["slowdown_speedups"]:
+        print(
+            f"    - Slowdown speedups: {stats['slowdown_speedups'][:10]}{'...' if len(stats['slowdown_speedups']) > 10 else ''}"
+        )
+    print(f"  gamma (average error penalty): {params['gamma']:.6f}")
+    if tolerance >= 1:
+        errnos = sorted(pi.keys())
+        pi_list = [pi[errno] for errno in errnos]
+        indicator = [1 if tolerance < 1 else 0, 1 if tolerance < 3 else 0]
+        pi_indicator_sum = sum(
+            pi.get(errno, 0.0) * indicator[min(i, len(indicator) - 1)]
+            for i, errno in enumerate(errnos)
+        )
+        print(f"    - pi (errno -> proportion): {dict(sorted(pi.items()))}")
+        print(f"    - pi (as list): {pi_list}")
+        print(f"    - indicator: {indicator}")
+        print(
+            f"    - gamma = fpdb^(sum(pi[i] * indicator[i])) = {fpdb}^{pi_indicator_sum:.6f} = {params['gamma']:.6f}"
+        )
+    print(f"  Expected S(t) from aggregated: {params['expected_s']:.6f}")
+    print(f"  Expected ES(t) from aggregated: {params['expected_es']:.6f}")
+
+
+class ToleranceReportBuilder:
+    """Stateful helper for building tolerance reports in order."""
+
+    def __init__(
+        self,
+        samples: list,
+        total_samples: int,
+        negative_speedup_penalty: float,
+        fpdb: float,
+    ):
+        self.samples = samples
+        self.total_samples = total_samples
+        self.negative_speedup_penalty = negative_speedup_penalty
+        self.fpdb = fpdb
+        self.pi: dict[int, float] = {}
+        self.frozen_stats: dict = {
+            "correct_count": 0,
+            "correct_speedups": [],
+            "slowdown_speedups": [],
+            "errno2count": {},
+        }
+
+    def build_report(self, tolerance: int) -> dict:
+        current_stats = extract_statistics_at_tolerance(self.samples, tolerance)
+
+        if tolerance == 1:
+            self.pi = freeze_statistics_at_t1(
+                current_stats, self.total_samples, self.frozen_stats
+            )
+
+        if self.total_samples == 0:
+            return self._empty_report(tolerance)
+
+        stats_for_calc = select_statistics_for_calculation(
+            tolerance, current_stats, self.frozen_stats
+        )
+        # For tolerance < 1, pass None to let calculate_es_components_values recalculate pi
+        # For tolerance >= 1, use frozen pi from t=1
+        pi_for_calc = None if tolerance < 1 else self.pi
+        params = calculate_parameters_for_tolerance(
+            tolerance,
+            self.total_samples,
+            stats_for_calc,
+            pi_for_calc,
+            self.negative_speedup_penalty,
+            self.fpdb,
+        )
+        # Use calculated pi from params for display and return
+        calculated_pi = params.get("pi", self.pi)
+        print_tolerance_details(
+            tolerance,
+            self.total_samples,
+            stats_for_calc,
+            params,
+            calculated_pi,
+            self.fpdb,
+        )
+        return {
+            **params,
+            "pi": calculated_pi,
+            "correct_count": stats_for_calc["correct_count"],
+            "total_samples": self.total_samples,
+            "correct_speedups_count": len(stats_for_calc["correct_speedups"]),
+            "slowdown_count": len(stats_for_calc["slowdown_speedups"]),
+        }
+
+    def _empty_report(self, tolerance: int) -> dict:
+        print(f"\nTolerance t = {tolerance}: No samples to analyze")
+        return {
+            "alpha": 1.0,
+            "beta": 1.0,
+            "gamma": self.fpdb,
+            "lambda": 0.0,
+            "eta": 0.0,
+            "pi": self.pi,
+            "expected_s": self.fpdb,
+            "expected_es": self.fpdb,
+            "correct_count": 0,
+            "total_samples": 0,
+            "correct_speedups_count": 0,
+            "slowdown_count": 0,
+        }
+
+
+def verify_es_components_across_tolerances(
     samples: list,
     folder_name: str,
     negative_speedup_penalty: float = 0,
     fpdb: float = 0.1,
 ) -> dict:
     """
-    Calculate and print all aggregated parameters (alpha, beta, gamma, lambda, eta, pi)
-    for each tolerance level independently.
-
-    This function extracts the aggregated parameter calculation logic from calculate_s_scores
-    to verify the correctness of aggregated-level calculations.
+    Verify and print ES component values (alpha, beta, gamma, lambda, eta, pi) for each
+    tolerance level independently. This logic mirrors `calculate_s_scores` but is split
+    out for focused validation of aggregated calculations.
 
     Returns:
         Dictionary mapping tolerance -> dict of aggregated parameters and calculated scores
     """
-    begin = -10
-    end = 4
-    t_keys = list(range(begin, end + 1))
     total_samples = len(samples)
 
     print(f"\n{'='*80}")
     print(f"Verifying Aggregated Parameters for '{folder_name}'")
     print(f"{'='*80}")
 
-    # pi is a tuple of constants for t > 0 for each group: (pi[0], pi[1])
-    # Calculated at t=1, used for all t >= 1
-    pi = (0.0, 0.0)
+    tolerances = determine_tolerances(samples)
+    builder = ToleranceReportBuilder(
+        samples=samples,
+        total_samples=total_samples,
+        negative_speedup_penalty=negative_speedup_penalty,
+        fpdb=fpdb,
+    )
 
-    # Store state at t=1 for ES(t) calculation
-    is_correct_at_t1 = [False] * total_samples
-    speedup_at_t1 = [None] * total_samples
-    fail_type_at_t1 = ["CORRECT"] * total_samples
-
-    # Final statistics at t=1
-    final_correct_count = 0
-    final_correct_negative_speedup_count = 0
-    final_correct_speedups = []
-    final_slowdown_speedups = []
-    final_errno2count = {}  # Store error type counts at t=1 (using errno)
-
-    results = OrderedDict()
-
-    for t_key in t_keys:
-        # Extract sample data using map
-        sample_data = [
-            (
-                idx,
-                sample,
-                sample.get("performance", {}).get("speedup", {}).get("e2e"),
-                *analysis_util.check_sample_correctness(sample, t_key),
-            )
-            for idx, sample in enumerate(samples)
-        ]
-
-        # Filter correct samples and extract speedups
-        correct_samples = [
-            (idx, speedup)
-            for idx, _, speedup, is_correct, _ in sample_data
-            if is_correct
-        ]
-        correct_count = len(correct_samples)
-        correct_speedups = [
-            speedup for _, speedup in correct_samples if speedup is not None
-        ]
-        slowdown_speedups = [speedup for speedup in correct_speedups if speedup < 1]
-        correct_negative_speedup_count = len(slowdown_speedups)
-
-        # Count errors by errno using Counter (convert error type string to errno)
-        errno2count = dict(
-            Counter(
-                get_errno_from_error_type(fail_type)
-                for _, _, _, _, fail_type in sample_data
-                if fail_type is not None
-            )
-        )
-
-        # Store state at t=1 using list comprehension
-        if t_key == 1:
-            t1_data = [
-                (
-                    idx,
-                    speedup,
-                    is_correct,
-                    fail_type if fail_type is not None else "CORRECT",
-                )
-                for idx, _, speedup, is_correct, fail_type in sample_data
-            ]
-            is_correct_at_t1 = [is_correct for _, _, is_correct, _ in t1_data]
-            speedup_at_t1 = [speedup for _, speedup, _, _ in t1_data]
-            fail_type_at_t1 = [fail_type for _, _, _, fail_type in t1_data]
-
-        # Calculate pi at t=1 using the dedicated function
-        if t_key == 1:
-            pi = samples_statistics.calculate_pi(
-                errno2count, total_samples, correct_speedups
-            )
-            final_correct_count = correct_count
-            final_correct_negative_speedup_count = correct_negative_speedup_count
-            final_correct_speedups = correct_speedups
-            final_slowdown_speedups = slowdown_speedups
-            final_errno2count = errno2count.copy()  # Save for t >= 1
-
-        # Calculate aggregated parameters
-        if total_samples > 0:
-            # For t < 1, use current tolerance statistics
-            # For t >= 1, use t=1 statistics (frozen state)
-            if t_key < 1:
-                stats_correct_count = correct_count
-                stats_correct_negative_speedup_count = correct_negative_speedup_count
-                stats_correct_speedups = correct_speedups
-                stats_slowdown_speedups = slowdown_speedups
-            else:
-                stats_correct_count = final_correct_count
-                stats_correct_negative_speedup_count = (
-                    final_correct_negative_speedup_count
-                )
-                stats_correct_speedups = final_correct_speedups
-                stats_slowdown_speedups = final_slowdown_speedups
-
-            # Calculate all aggregated parameters using the dedicated module
-            # For t >= 1, use errno2count from t=1 (frozen state)
-            if t_key < 1:
-                stats_errno2count = errno2count
-            else:
-                stats_errno2count = final_errno2count  # Use frozen from t=1
-
-            aggregated_params = samples_statistics.calculate_all_aggregated_parameters(
-                total_samples=total_samples,
-                correct_speedups=stats_correct_speedups,
-                errno2count=stats_errno2count,
-                t_key=t_key,
-                negative_speedup_penalty=negative_speedup_penalty,
-                fpdb=fpdb,
-                pi=pi,
-            )
-
-            alpha = aggregated_params["alpha"]
-            beta = aggregated_params["beta"]
-            lambda_ = aggregated_params["lambda"]
-            eta = aggregated_params["eta"]
-            gamma = aggregated_params["gamma"]
-            expected_s = aggregated_params["s_t"]
-            expected_es = aggregated_params["es_t"]
-
-            results[t_key] = {
-                "alpha": alpha,
-                "beta": beta,
-                "gamma": gamma,
-                "lambda": lambda_,
-                "eta": eta,
-                "pi": pi,
-                "expected_s": expected_s,
-                "expected_es": expected_es,
-                "correct_count": stats_correct_count,
-                "total_samples": total_samples,
-                "correct_speedups_count": len(stats_correct_speedups),
-                "slowdown_count": len(stats_slowdown_speedups),
-            }
-
-            # Print detailed information
-            print(f"\nTolerance t = {t_key}:")
-            print(f"  Total samples: {total_samples}")
-            print(f"  Correct samples: {stats_correct_count} (lambda = {lambda_:.6f})")
-            print(f"  Correct speedups collected: {len(stats_correct_speedups)}")
-            print(f"  Slowdown cases: {len(stats_slowdown_speedups)} (eta = {eta:.6f})")
-            print(f"  alpha (geometric mean of correct speedups): {alpha:.6f}")
-            if stats_correct_speedups:
-                print(
-                    f"    - Correct speedups: {stats_correct_speedups[:10]}{'...' if len(stats_correct_speedups) > 10 else ''}"
-                )
-            print(f"  beta (geometric mean of slowdown speedups): {beta:.6f}")
-            if stats_slowdown_speedups:
-                print(
-                    f"    - Slowdown speedups: {stats_slowdown_speedups[:10]}{'...' if len(stats_slowdown_speedups) > 10 else ''}"
-                )
-            print(f"  gamma (average error penalty): {gamma:.6f}")
-            if t_key >= 1:
-                # pi is now dict[int, float], convert to list for display
-                errnos = sorted(pi.keys())
-                pi_list = [pi[errno] for errno in errnos]
-                indicator = [1 if t_key < 1 else 0, 1 if t_key < 3 else 0]
-                # Calculate pi_indicator_sum using errno-based pi
-                pi_indicator_sum = sum(
-                    pi.get(errno, 0.0) * indicator[min(i, len(indicator) - 1)]
-                    for i, errno in enumerate(errnos)
-                )
-                print(f"    - pi (errno -> proportion): {dict(sorted(pi.items()))}")
-                print(f"    - pi (as list): {pi_list}")
-                print(f"    - indicator: {indicator}")
-                print(
-                    f"    - gamma = fpdb^(sum(pi[i] * indicator[i])) = {fpdb}^{pi_indicator_sum:.6f} = {gamma:.6f}"
-                )
-            print(f"  Expected S(t) from aggregated: {expected_s:.6f}")
-            print(f"  Expected ES(t) from aggregated: {expected_es:.6f}")
-        else:
-            results[t_key] = {
-                "alpha": 1.0,
-                "beta": 1.0,
-                "gamma": fpdb,
-                "lambda": 0.0,
-                "eta": 0.0,
-                "pi": pi,
-                "expected_s": fpdb,
-                "expected_es": fpdb,
-                "correct_count": 0,
-                "total_samples": 0,
-                "correct_speedups_count": 0,
-                "slowdown_count": 0,
-            }
-            print(f"\nTolerance t = {t_key}: No samples to analyze")
+    results = OrderedDict(
+        (tolerance, builder.build_report(tolerance)) for tolerance in tolerances
+    )
 
     print(f"\n{'='*80}")
     print(f"Aggregated Parameter Verification Complete")
@@ -263,7 +343,7 @@ def main():
 
     # Calculate and print aggregated parameters for each curve
     for folder_name, samples in all_results.items():
-        aggregated_results = calculate_aggregated_parameters(
+        aggregated_results = verify_es_components_across_tolerances(
             samples,
             folder_name,
             negative_speedup_penalty=args.negative_speedup_penalty,

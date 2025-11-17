@@ -49,7 +49,7 @@ import graph_net
 model = ...  
 
 # Extract your own model
-model = graph_net.torch.extract(name="model_name", dynamic="True")(model)
+model = graph_net.torch.extract(name="model_name", dynamic=True)(model)
 ```
 
 After running, the extracted graph will be saved to: `$GRAPH_NET_EXTRACT_WORKSPACE/model_name/`.

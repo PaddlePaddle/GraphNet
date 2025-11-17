@@ -124,7 +124,7 @@ def get_model_name(model_path):
         data = json.load(f)
         model_name = data.get("model_name", None)
 
-    if model_name is not None:
+    if model_name is None:
         fields = model_path.split(os.sep)
         pattern = rf"^subgraph(_\d+)?$"
         model_name = fields[-2] if re.match(pattern, fields[-1]) else fields[-1]

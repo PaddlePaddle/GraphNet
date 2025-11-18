@@ -25,7 +25,7 @@ def extract_statistics_at_tolerance(samples: list, tolerance: int) -> dict:
             idx,
             sample,
             sample.get("performance", {}).get("speedup", {}).get("e2e"),
-            *analysis_util.get_sample_correctness(sample, tolerance),
+            *analysis_util.check_sample_correctness(sample, tolerance),
         )
         for idx, sample in enumerate(samples)
     ]

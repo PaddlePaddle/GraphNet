@@ -3,6 +3,24 @@ import argparse
 import numpy as np
 import matplotlib.pyplot as plt
 from graph_net import analysis_util
+from graph_net import verify_aggregated_params
+
+
+class ESScoresWrapper:
+    """Wrapper for es_scores dict to allow attribute assignment."""
+
+    def __init__(self, es_scores_dict):
+        self._dict = es_scores_dict
+        self._aggregated_results = {}
+
+    def items(self):
+        return self._dict.items()
+
+    def __getitem__(self, key):
+        return self._dict[key]
+
+    def __setitem__(self, key, value):
+        self._dict[key] = value
 
 
 def es_result_checker(
@@ -20,10 +38,7 @@ def es_result_checker(
     Returns:
         True if values match within tolerance, False otherwise
     """
-    diff = abs(es_from_microscopic - es_from_macro)
-    return diff < atol or diff < rtol * max(
-        abs(es_from_microscopic), abs(es_from_macro), 1e-10
-    )
+    return np.allclose(es_from_microscopic, es_from_macro, rtol=rtol, atol=atol)
 
 
 def compare_aggregated_es_and_microscopic_es(
@@ -87,11 +102,13 @@ def get_verified_aggregated_es_values(es_scores: dict, folder_name: str) -> dict
 
     Returns:
         Dictionary of verified ES(t) values (only matched tolerance levels).
-        Returns empty dict if validation fails.
+
+    Raises:
+        AssertionError: If aggregated and microscopic results do not match (fail-fast).
     """
     aggregated_results = getattr(es_scores, "_aggregated_results", {})
     verified_es_values = {}
-    all_matched = True
+    mismatches = []
 
     print(f"\n{'='*80}")
     print(f"Verifying Aggregated/Microscopic Consistency for '{folder_name}'")
@@ -112,25 +129,37 @@ def get_verified_aggregated_es_values(es_scores: dict, folder_name: str) -> dict
             is_matched,
         )
 
-        if aggregated_es is None or not is_matched:
-            all_matched = False
-        if is_matched:
+        if aggregated_es is None:
+            mismatches.append(
+                f"t={tolerance}: Missing aggregated result (microscopic={microscopic_es:.6f})"
+            )
+        elif not is_matched:
+            mismatches.append(
+                f"t={tolerance}: Mismatch - Microscopic={microscopic_es:.6f}, "
+                f"Aggregated={aggregated_es:.6f}, Diff={diff:.2e} ({relative_diff*100:.4f}%)"
+            )
+        else:
             verified_es_values[tolerance] = microscopic_es
 
-    if not all_matched:
-        print(
-            f"\nERROR: Aggregated and microscopic results do not match for '{folder_name}'!"
+    if mismatches:
+        error_msg = (
+            f"\n{'='*80}\n"
+            f"ERROR: Aggregated and microscopic results do not match for '{folder_name}'!\n"
+            f"{'='*80}\n"
+            f"Mismatches:\n"
+            + "\n".join(f"  - {mismatch}" for mismatch in mismatches)
+            + f"\n\nCalculation validation failed. Please verify the calculation logic "
+            f"using verify_aggregated_params.py\n"
+            f"{'='*80}\n"
         )
-        print("Calculation validation failed. Results will NOT be used for plotting.")
-        print("Please verify the calculation logic using verify_aggregated_params.py")
-        print(f"{'='*80}\n")
-        return {}
-    else:
-        print(
-            f"\nSUCCESS: All aggregated and microscopic results match for '{folder_name}'."
-        )
-        print(f"{'='*80}\n")
-        return verified_es_values
+        print(error_msg)
+        raise AssertionError(error_msg)
+
+    print(
+        f"\nSUCCESS: All aggregated and microscopic results match for '{folder_name}'."
+    )
+    print(f"{'='*80}\n")
+    return verified_es_values
 
 
 def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
@@ -221,10 +250,7 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
     ax.xaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
     ax.yaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
 
-    ax.legend(fontsize=16, loc="best")
-    output_file = os.path.join(cli_args.output_dir, "ES_result.png")
-    plt.savefig(output_file, dpi=300, bbox_inches="tight")
-    print(f"\nComparison plot saved to {output_file}")
+    return fig, ax, all_x_coords
 
 
 def main():
@@ -280,6 +306,7 @@ def main():
 
     # 2. Calculate scores for each curve and verify aggregated/microscopic consistency
     all_es_scores = {}
+    all_aggregated_results = {}
 
     for folder_name, samples in all_results.items():
         _, es_scores = analysis_util.calculate_s_scores(
@@ -294,19 +321,112 @@ def main():
 
         # Verify aggregated/microscopic consistency if aggregation mode is enabled
         if args.enable_aggregation_mode:
-            verified_es_values = get_verified_aggregated_es_values(
-                es_scores, folder_name
+            # Calculate aggregated results and attach to es_scores
+            aggregated_results = (
+                verify_aggregated_params.verify_es_constructor_params_across_tolerances(
+                    samples,
+                    folder_name,
+                    negative_speedup_penalty=args.negative_speedup_penalty,
+                    fpdb=args.fpdb,
+                )
             )
+            # Store aggregated results for plotting
+            all_aggregated_results[folder_name] = aggregated_results
 
-            if not verified_es_values:
-                continue  # Skip this curve if validation fails
+            # Extract expected_es values and attach as _aggregated_results
+            # Wrap es_scores to allow attribute assignment
+            es_scores_wrapper = ESScoresWrapper(es_scores)
+            es_scores_wrapper._aggregated_results = {
+                tolerance: result["expected_es"]
+                for tolerance, result in aggregated_results.items()
+            }
 
+            # Fail-fast: raise AssertionError if validation fails
+            verified_es_values = get_verified_aggregated_es_values(
+                es_scores_wrapper, folder_name
+            )
             all_es_scores[folder_name] = verified_es_values
 
     # 3. Plot the results
     if any(all_es_scores.values()):
         os.makedirs(args.output_dir, exist_ok=True)
-        plot_ES_results(all_es_scores, args)
+        fig, ax, all_x_coords = plot_ES_results(all_es_scores, args)
+
+        # Manually add aggregated curves if available
+        if args.enable_aggregation_mode and all_aggregated_results:
+            prop_cycle = plt.rcParams["axes.prop_cycle"]
+            colors = prop_cycle.by_key()["color"]
+
+            for idx, (folder_name, aggregated_results) in enumerate(
+                all_aggregated_results.items()
+            ):
+                if folder_name not in all_es_scores:
+                    continue
+
+                color = colors[idx % len(colors)]
+                agg_plot_points = []
+                for tolerance, result in aggregated_results.items():
+                    if isinstance(result, dict) and "expected_es" in result:
+                        agg_plot_points.append(
+                            {"x": tolerance, "y": result["expected_es"]}
+                        )
+
+                if agg_plot_points:
+                    agg_plot_points.sort(key=lambda p: p["x"])
+                    agg_x_vals = np.array([p["x"] for p in agg_plot_points])
+                    agg_y_vals = np.array([p["y"] for p in agg_plot_points])
+
+                    agg_zero_index = (
+                        np.where(agg_x_vals == 0)[0][0] if 0 in agg_x_vals else None
+                    )
+
+                    if agg_zero_index is not None:
+                        ax.plot(
+                            agg_x_vals[: agg_zero_index + 1],
+                            agg_y_vals[: agg_zero_index + 1],
+                            "s--",
+                            color=color,
+                            label=f"{folder_name} (aggregated)",
+                            linewidth=2,
+                            markersize=6,
+                            alpha=0.7,
+                        )
+                        ax.plot(
+                            agg_x_vals[agg_zero_index:],
+                            agg_y_vals[agg_zero_index:],
+                            "s--",
+                            color=color,
+                            linewidth=2,
+                            markersize=6,
+                            drawstyle="steps-post",
+                            alpha=0.7,
+                        )
+                    else:
+                        ax.plot(
+                            agg_x_vals,
+                            agg_y_vals,
+                            "s--",
+                            color=color,
+                            label=f"{folder_name} (aggregated)",
+                            linewidth=2,
+                            markersize=6,
+                            alpha=0.7,
+                        )
+
+            # Update x-axis range if needed
+            if all_x_coords:
+                for folder_name, aggregated_results in all_aggregated_results.items():
+                    for tolerance in aggregated_results.keys():
+                        all_x_coords.append(tolerance)
+                x_min = int(np.floor(min(all_x_coords)))
+                x_max = int(np.ceil(max(all_x_coords)))
+                ax.set_xticks(np.arange(x_min, x_max + 1))
+
+            ax.legend(fontsize=16, loc="best")
+
+        output_file = os.path.join(args.output_dir, "ES_result.png")
+        plt.savefig(output_file, dpi=300, bbox_inches="tight")
+        print(f"\nComparison plot saved to {output_file}")
     else:
         print("No ES(t) scores were calculated. Skipping plot generation.")
 

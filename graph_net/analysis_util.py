@@ -416,9 +416,9 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
     return False
 
 
-def check_sample_correctness(sample: dict, t_key: int) -> tuple[bool, str]:
+def get_sample_correctness(sample: dict, t_key: int) -> tuple[bool, str]:
     """
-    Check if a sample is correct at the given tolerance level.
+    Get sample correctness status at the given tolerance level.
 
     Args:
         sample: Sample data dictionary
@@ -487,9 +487,9 @@ def calculate_es_rectified_speedup(
     speedup: float,
     fail_type: str,
     t_key: int,
-    is_correct_at_t1: bool,
-    speedup_at_t1: float,
-    fail_type_at_t1: str,
+    is_correct_at_first_errno_tolerance: bool,
+    speedup_at_first_errno_tolerance: float,
+    fail_type_at_first_errno_tolerance: str,
     negative_speedup_penalty: float,
     fpdb: float,
 ) -> float:
@@ -500,9 +500,9 @@ def calculate_es_rectified_speedup(
         speedup: Current speedup value
         fail_type: Current error type
         t_key: Current tolerance level
-        is_correct_at_t1: Whether sample was correct at t=1
-        speedup_at_t1: Speedup value at t=1
-        fail_type_at_t1: Error type at t=1
+        is_correct_at_first_errno_tolerance: Whether sample was correct at first errno tolerance (t=1)
+        speedup_at_first_errno_tolerance: Speedup value at first errno tolerance (t=1)
+        fail_type_at_first_errno_tolerance: Error type at first errno tolerance (t=1)
         negative_speedup_penalty: Penalty power p
         fpdb: Base penalty for failures
 
@@ -515,13 +515,16 @@ def calculate_es_rectified_speedup(
             speedup, fail_type, negative_speedup_penalty, fpdb
         )
 
-    # For t >= 1, use frozen state from t=1
-    if not is_correct_at_t1 or speedup_at_t1 is None:
-        return fake_perf_degrad(t_key, fail_type_at_t1, fpdb)
+    # For t >= 1, use frozen state from first errno tolerance (t=1)
+    if (
+        not is_correct_at_first_errno_tolerance
+        or speedup_at_first_errno_tolerance is None
+    ):
+        return fake_perf_degrad(t_key, fail_type_at_first_errno_tolerance, fpdb)
 
-    if speedup_at_t1 < 1:
-        return speedup_at_t1 ** (negative_speedup_penalty + 1)
-    return speedup_at_t1
+    if speedup_at_first_errno_tolerance < 1:
+        return speedup_at_first_errno_tolerance ** (negative_speedup_penalty + 1)
+    return speedup_at_first_errno_tolerance
 
 
 def fake_perf_degrad(t, error_code, fpdb=0.1):
@@ -621,12 +624,12 @@ def calculate_s_scores(
         return expected_s, expected_es
 
     # pi is a tuple of constants for t > 0 for each group: (pi[0], pi[1])
-    # Calculated at t=1, used for all t >= 1
+    # Calculated at first errno tolerance (t=1), used for all t >= 1
     pi = (0.0, 0.0)
 
-    is_correct_at_t1 = [False] * total_samples
-    speedup_at_t1 = [None] * total_samples
-    fail_type_at_t1 = ["CORRECT"] * total_samples
+    is_correct_at_first_errno_tolerance = [False] * total_samples
+    speedup_at_first_errno_tolerance = [None] * total_samples
+    fail_type_at_first_errno_tolerance = ["CORRECT"] * total_samples
 
     final_correct_count = 0
     final_correct_negative_speedup_count = 0
@@ -646,8 +649,8 @@ def calculate_s_scores(
             performance_data = sample.get("performance", {})
             speedup = performance_data.get("speedup", {}).get("e2e")
 
-            # Check correctness using dedicated function
-            is_correct, fail_type = check_sample_correctness(sample, t_key)
+            # Get correctness using dedicated function
+            is_correct, fail_type = get_sample_correctness(sample, t_key)
 
             # Collect statistics
             if is_correct:
@@ -662,11 +665,13 @@ def calculate_s_scores(
                 errno = get_errno_from_error_type(fail_type)
                 errno2count[errno] = errno2count.get(errno, 0) + 1
 
-            # Store state at t=1 for ES(t) calculation
+            # Store state at first errno tolerance (t=1) for ES(t) calculation
             if t_key == 1:
-                is_correct_at_t1[idx] = is_correct
-                speedup_at_t1[idx] = speedup
-                fail_type_at_t1[idx] = fail_type if fail_type is not None else "CORRECT"
+                is_correct_at_first_errno_tolerance[idx] = is_correct
+                speedup_at_first_errno_tolerance[idx] = speedup
+                fail_type_at_first_errno_tolerance[idx] = (
+                    fail_type if fail_type is not None else "CORRECT"
+                )
 
             # Calculate rectified speedups using dedicated functions
             regularized_speedup = calculate_rectified_speedup(
@@ -678,9 +683,9 @@ def calculate_s_scores(
                 speedup,
                 fail_type,
                 t_key,
-                is_correct_at_t1[idx],
-                speedup_at_t1[idx],
-                fail_type_at_t1[idx],
+                is_correct_at_first_errno_tolerance[idx],
+                speedup_at_first_errno_tolerance[idx],
+                fail_type_at_first_errno_tolerance[idx],
                 negative_speedup_penalty,
                 fpdb,
             )

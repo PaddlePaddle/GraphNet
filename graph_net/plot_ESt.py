@@ -5,20 +5,43 @@ import matplotlib.pyplot as plt
 from graph_net import analysis_util
 
 
-def compare_single_tolerance_level(
-    tolerance_level: int,
-    micro_es: float,
-    aggregated_es: float | None,
-    tolerance_threshold: float,
-) -> tuple[bool, float, float]:
+def es_result_checker(
+    es_from_microscopic: float, es_from_macro: float, atol: float, rtol: float
+) -> bool:
     """
-    Compare micro and aggregated ES(t) values for a single tolerance level.
+    Check if ES(t) values from microscopic and macro calculations match.
 
     Args:
-        tolerance_level: Tolerance level t
-        micro_es: ES(t) value from micro-level calculation
+        es_from_microscopic: ES(t) value from microscopic-level calculation
+        es_from_macro: ES(t) value from aggregated-level calculation
+        atol: Absolute tolerance for comparison
+        rtol: Relative tolerance for comparison
+
+    Returns:
+        True if values match within tolerance, False otherwise
+    """
+    diff = abs(es_from_microscopic - es_from_macro)
+    return diff < atol or diff < rtol * max(
+        abs(es_from_microscopic), abs(es_from_macro), 1e-10
+    )
+
+
+def compare_aggregated_es_and_microscopic_es(
+    tolerance: int,
+    microscopic_es: float,
+    aggregated_es: float | None,
+    atol: float = 1e-3,
+    rtol: float = 1e-3,
+) -> tuple[bool, float, float]:
+    """
+    Compare ES(t) values from aggregated and microscopic calculations at a tolerance level.
+
+    Args:
+        tolerance: Tolerance level t
+        microscopic_es: ES(t) value from microscopic-level calculation
         aggregated_es: ES(t) value from aggregated-level calculation, or None if missing
-        tolerance_threshold: Floating point comparison tolerance
+        atol: Absolute tolerance for comparison
+        rtol: Relative tolerance for comparison
 
     Returns:
         Tuple of (is_matched, diff, relative_diff)
@@ -26,16 +49,16 @@ def compare_single_tolerance_level(
     if aggregated_es is None:
         return False, 0.0, 0.0
 
-    diff = abs(micro_es - aggregated_es)
-    relative_diff = diff / max(abs(micro_es), abs(aggregated_es), 1e-10)
-    is_matched = diff < tolerance_threshold or relative_diff < tolerance_threshold
+    diff = abs(microscopic_es - aggregated_es)
+    relative_diff = diff / max(abs(microscopic_es), abs(aggregated_es), 1e-10)
+    is_matched = es_result_checker(microscopic_es, aggregated_es, atol, rtol)
 
     return is_matched, diff, relative_diff
 
 
 def print_verification_result(
-    tolerance_level: int,
-    micro_es: float,
+    tolerance: int,
+    microscopic_es: float,
     aggregated_es: float | None,
     diff: float,
     relative_diff: float,
@@ -43,68 +66,71 @@ def print_verification_result(
 ) -> None:
     """Print verification result for a single tolerance level."""
     if aggregated_es is None:
-        print(f"ERROR: No aggregated result for t={tolerance_level}, cannot verify")
+        print(f"ERROR: No aggregated result for t={tolerance}, cannot verify")
     elif is_matched:
         print(
-            f"t={tolerance_level:3d}: MATCHED  - Micro: {micro_es:.6f}, Aggregated: {aggregated_es:.6f}, Diff: {diff:.2e}"
+            f"t={tolerance:3d}: MATCHED  - Microscopic: {microscopic_es:.6f}, Aggregated: {aggregated_es:.6f}, Diff: {diff:.2e}"
         )
     else:
         print(
-            f"t={tolerance_level:3d}: MISMATCH - Micro: {micro_es:.6f}, Aggregated: {aggregated_es:.6f}, Diff: {diff:.2e} ({relative_diff*100:.4f}%)"
+            f"t={tolerance:3d}: MISMATCH - Microscopic: {microscopic_es:.6f}, Aggregated: {aggregated_es:.6f}, Diff: {diff:.2e} ({relative_diff*100:.4f}%)"
         )
 
 
-def verify_aggregated_micro_consistency(
-    es_scores: dict, folder_name: str, tolerance_threshold: float
-) -> tuple[dict, bool]:
+def get_verified_aggregated_es_values(es_scores: dict, folder_name: str) -> dict:
     """
-    Verify consistency between aggregated and micro-level ES(t) calculations.
+    Get verified ES(t) values by checking consistency between aggregated and microscopic-level calculations.
 
     Args:
-        es_scores: Dictionary of ES(t) scores from micro-level calculation
+        es_scores: Dictionary of ES(t) scores from microscopic-level calculation
         folder_name: Name of the folder being verified
-        tolerance_threshold: Floating point comparison tolerance
 
     Returns:
-        Tuple of (verified_scores, all_matched):
-        - verified_scores: Dictionary of verified scores (only matched tolerance levels)
-        - all_matched: True if all tolerance levels matched, False otherwise
+        Dictionary of verified ES(t) values (only matched tolerance levels).
+        Returns empty dict if validation fails.
     """
     aggregated_results = getattr(es_scores, "_aggregated_results", {})
-    verified_scores = {}
+    verified_es_values = {}
     all_matched = True
 
     print(f"\n{'='*80}")
-    print(f"Verifying Aggregated/Micro Consistency for '{folder_name}'")
+    print(f"Verifying Aggregated/Microscopic Consistency for '{folder_name}'")
     print(f"{'='*80}")
 
-    for tolerance_level, micro_es in es_scores.items():
-        aggregated_es = aggregated_results.get(tolerance_level)
-        is_matched, diff, relative_diff = compare_single_tolerance_level(
-            tolerance_level, micro_es, aggregated_es, tolerance_threshold
+    for tolerance, microscopic_es in es_scores.items():
+        aggregated_es = aggregated_results.get(tolerance)
+        is_matched, diff, relative_diff = compare_aggregated_es_and_microscopic_es(
+            tolerance, microscopic_es, aggregated_es
         )
 
         print_verification_result(
-            tolerance_level, micro_es, aggregated_es, diff, relative_diff, is_matched
+            tolerance,
+            microscopic_es,
+            aggregated_es,
+            diff,
+            relative_diff,
+            is_matched,
         )
 
         if aggregated_es is None or not is_matched:
             all_matched = False
         if is_matched:
-            verified_scores[tolerance_level] = micro_es
+            verified_es_values[tolerance] = microscopic_es
 
     if not all_matched:
         print(
-            f"\nERROR: Aggregated and micro results do not match for '{folder_name}'!"
+            f"\nERROR: Aggregated and microscopic results do not match for '{folder_name}'!"
         )
         print("Calculation validation failed. Results will NOT be used for plotting.")
         print("Please verify the calculation logic using verify_aggregated_params.py")
         print(f"{'='*80}\n")
+        return {}
     else:
-        print(f"\nSUCCESS: All aggregated and micro results match for '{folder_name}'.")
+        print(
+            f"\nSUCCESS: All aggregated and microscopic results match for '{folder_name}'."
+        )
         print(f"{'='*80}\n")
-
-    return verified_scores, all_matched
+        return verified_es_values
 
 
 def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
@@ -232,6 +258,18 @@ def main():
         default=0.1,
         help="Base penalty for severe errors (e.g., crashes, correctness failures).",
     )
+    parser.add_argument(
+        "--enable-aggregation-mode",
+        action="store_true",
+        help="Enable aggregation mode to verify aggregated/microscopic consistency. Default: enabled.",
+    )
+    parser.add_argument(
+        "--disable-aggregation-mode",
+        dest="enable_aggregation_mode",
+        action="store_false",
+        help="Disable aggregation mode verification.",
+    )
+    parser.set_defaults(enable_aggregation_mode=True)
     args = parser.parse_args()
 
     # 1. Scan folders to get data
@@ -240,9 +278,8 @@ def main():
         print("No valid data found. Exiting.")
         return
 
-    # 2. Calculate scores for each curve and verify aggregated/micro consistency
+    # 2. Calculate scores for each curve and verify aggregated/microscopic consistency
     all_es_scores = {}
-    tolerance_threshold = 1e-6  # Tolerance for floating point comparison
 
     for folder_name, samples in all_results.items():
         _, es_scores = analysis_util.calculate_s_scores(
@@ -255,15 +292,16 @@ def main():
         # Keep original behavior: assign es_scores directly
         all_es_scores[folder_name] = es_scores
 
-        # Verify aggregated/micro consistency
-        verified_scores, all_matched = verify_aggregated_micro_consistency(
-            es_scores, folder_name, tolerance_threshold
-        )
+        # Verify aggregated/microscopic consistency if aggregation mode is enabled
+        if args.enable_aggregation_mode:
+            verified_es_values = get_verified_aggregated_es_values(
+                es_scores, folder_name
+            )
 
-        if not all_matched:
-            continue  # Skip this curve if validation fails
+            if not verified_es_values:
+                continue  # Skip this curve if validation fails
 
-        all_es_scores[folder_name] = verified_scores
+            all_es_scores[folder_name] = verified_es_values
 
     # 3. Plot the results
     if any(all_es_scores.values()):

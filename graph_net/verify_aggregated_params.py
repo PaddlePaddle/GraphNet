@@ -25,7 +25,7 @@ def extract_statistics_at_tolerance(samples: list, tolerance: int) -> dict:
             idx,
             sample,
             sample.get("performance", {}).get("speedup", {}).get("e2e"),
-            *analysis_util.check_sample_correctness(sample, tolerance),
+            *analysis_util.get_sample_correctness(sample, tolerance),
         )
         for idx, sample in enumerate(samples)
     ]
@@ -57,10 +57,13 @@ def extract_statistics_at_tolerance(samples: list, tolerance: int) -> dict:
     }
 
 
-def freeze_statistics_at_t1(
-    stats: dict, total_samples: int, frozen_stats: dict
+def _freeze_statistics_at_tolerance(
+    stats: dict,
+    total_samples: int,
+    frozen_stats: dict,
+    first_errno_tolerance: int,
 ) -> dict:
-    """Freeze statistics at t=1 and calculate pi."""
+    """Freeze statistics at first_errno_tolerance and calculate pi."""
     pi = samples_statistics.calculate_pi(
         stats["errno2count"], total_samples, stats["correct_speedups"]
     )
@@ -96,7 +99,7 @@ def select_statistics_for_calculation(
         }
 
 
-def calculate_parameters_for_tolerance(
+def calculate_es_constructor_params_for_tolerance(
     tolerance: int,
     total_samples: int,
     stats: dict,
@@ -104,7 +107,7 @@ def calculate_parameters_for_tolerance(
     negative_speedup_penalty: float,
     fpdb: float,
 ) -> dict:
-    """Calculate ES(t) components and final scores for a tolerance level."""
+    """Calculate ES(t) constructor parameters (alpha, beta, gamma, lambda, eta) and final scores for a tolerance level."""
     aggregated_params = samples_statistics.calculate_es_components_values(
         total_samples=total_samples,
         correct_speedups=stats["correct_speedups"],
@@ -143,7 +146,7 @@ def print_tolerance_details(
     tolerance: int,
     total_samples: int,
     stats: dict,
-    params: dict,
+    es_constructor_params: dict,
     pi: dict,
     fpdb: float,
 ):
@@ -151,23 +154,27 @@ def print_tolerance_details(
     print(f"\nTolerance t = {tolerance}:")
     print(f"  Total samples: {total_samples}")
     print(
-        f"  Correct samples: {stats['correct_count']} (lambda = {params['lambda']:.6f})"
+        f"  Correct samples: {stats['correct_count']} (lambda = {es_constructor_params['lambda']:.6f})"
     )
     print(f"  Correct speedups collected: {len(stats['correct_speedups'])}")
     print(
-        f"  Slowdown cases: {len(stats['slowdown_speedups'])} (eta = {params['eta']:.6f})"
+        f"  Slowdown cases: {len(stats['slowdown_speedups'])} (eta = {es_constructor_params['eta']:.6f})"
     )
-    print(f"  alpha (geometric mean of correct speedups): {params['alpha']:.6f}")
+    print(
+        f"  alpha (geometric mean of correct speedups): {es_constructor_params['alpha']:.6f}"
+    )
     if stats["correct_speedups"]:
         print(
             f"    - Correct speedups: {stats['correct_speedups'][:10]}{'...' if len(stats['correct_speedups']) > 10 else ''}"
         )
-    print(f"  beta (geometric mean of slowdown speedups): {params['beta']:.6f}")
+    print(
+        f"  beta (geometric mean of slowdown speedups): {es_constructor_params['beta']:.6f}"
+    )
     if stats["slowdown_speedups"]:
         print(
             f"    - Slowdown speedups: {stats['slowdown_speedups'][:10]}{'...' if len(stats['slowdown_speedups']) > 10 else ''}"
         )
-    print(f"  gamma (average error penalty): {params['gamma']:.6f}")
+    print(f"  gamma (average error penalty): {es_constructor_params['gamma']:.6f}")
     if tolerance >= 1:
         errnos = sorted(pi.keys())
         pi_list = [pi[errno] for errno in errnos]
@@ -180,10 +187,12 @@ def print_tolerance_details(
         print(f"    - pi (as list): {pi_list}")
         print(f"    - indicator: {indicator}")
         print(
-            f"    - gamma = fpdb^(sum(pi[i] * indicator[i])) = {fpdb}^{pi_indicator_sum:.6f} = {params['gamma']:.6f}"
+            f"    - gamma = fpdb^(sum(pi[i] * indicator[i])) = {fpdb}^{pi_indicator_sum:.6f} = {es_constructor_params['gamma']:.6f}"
         )
-    print(f"  Expected S(t) from aggregated: {params['expected_s']:.6f}")
-    print(f"  Expected ES(t) from aggregated: {params['expected_es']:.6f}")
+    print(f"  Expected S(t) from aggregated: {es_constructor_params['expected_s']:.6f}")
+    print(
+        f"  Expected ES(t) from aggregated: {es_constructor_params['expected_es']:.6f}"
+    )
 
 
 class ToleranceReportBuilder:
@@ -212,8 +221,11 @@ class ToleranceReportBuilder:
         current_stats = extract_statistics_at_tolerance(self.samples, tolerance)
 
         if tolerance == 1:
-            self.pi = freeze_statistics_at_t1(
-                current_stats, self.total_samples, self.frozen_stats
+            self.pi = _freeze_statistics_at_tolerance(
+                current_stats,
+                self.total_samples,
+                self.frozen_stats,
+                first_errno_tolerance=1,
             )
 
         if self.total_samples == 0:
@@ -225,7 +237,7 @@ class ToleranceReportBuilder:
         # For tolerance < 1, pass None to let calculate_es_components_values recalculate pi
         # For tolerance >= 1, use frozen pi from t=1
         pi_for_calc = None if tolerance < 1 else self.pi
-        params = calculate_parameters_for_tolerance(
+        es_constructor_params = calculate_es_constructor_params_for_tolerance(
             tolerance,
             self.total_samples,
             stats_for_calc,
@@ -233,18 +245,18 @@ class ToleranceReportBuilder:
             self.negative_speedup_penalty,
             self.fpdb,
         )
-        # Use calculated pi from params for display and return
-        calculated_pi = params.get("pi", self.pi)
+        # Use calculated pi from es_constructor_params for display and return
+        calculated_pi = es_constructor_params.get("pi", self.pi)
         print_tolerance_details(
             tolerance,
             self.total_samples,
             stats_for_calc,
-            params,
+            es_constructor_params,
             calculated_pi,
             self.fpdb,
         )
         return {
-            **params,
+            **es_constructor_params,
             "pi": calculated_pi,
             "correct_count": stats_for_calc["correct_count"],
             "total_samples": self.total_samples,
@@ -270,19 +282,19 @@ class ToleranceReportBuilder:
         }
 
 
-def verify_es_components_across_tolerances(
+def verify_es_constructor_params_across_tolerances(
     samples: list,
     folder_name: str,
     negative_speedup_penalty: float = 0,
     fpdb: float = 0.1,
 ) -> dict:
     """
-    Verify and print ES component values (alpha, beta, gamma, lambda, eta, pi) for each
+    Verify and print ES constructor parameters (alpha, beta, gamma, lambda, eta, pi) for each
     tolerance level independently. This logic mirrors `calculate_s_scores` but is split
     out for focused validation of aggregated calculations.
 
     Returns:
-        Dictionary mapping tolerance -> dict of aggregated parameters and calculated scores
+        Dictionary mapping tolerance -> dict of ES constructor parameters and calculated scores
     """
     total_samples = len(samples)
 
@@ -343,7 +355,7 @@ def main():
 
     # Calculate and print aggregated parameters for each curve
     for folder_name, samples in all_results.items():
-        aggregated_results = verify_es_components_across_tolerances(
+        aggregated_results = verify_es_constructor_params_across_tolerances(
             samples,
             folder_name,
             negative_speedup_penalty=args.negative_speedup_penalty,

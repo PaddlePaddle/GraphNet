@@ -163,14 +163,14 @@ def calculate_pi(
 
 
 def resolve_errno_tolerance(
-    errno2count: dict[int, int], custom_map: dict[int, int] | None
+    errno2count: dict[int, int], errno_tolerance_overrides: dict[int, int] | None
 ) -> dict[int, int]:
     """
     Build a sorted errno -> tolerance map for downstream gamma calculation.
 
     Args:
         errno2count: Observed errno occurrences in the dataset.
-        custom_map: Optional overrides mapping errno to its minimal tolerated tolerance.
+        errno_tolerance_overrides: Optional overrides mapping errno to its minimal tolerated tolerance.
 
     Returns:
         Ordered dict (by errno) mapping each errno seen in errno2count
@@ -178,11 +178,11 @@ def resolve_errno_tolerance(
         - errno 1 (accuracy) -> 1
         - errno >=2 (runtime/compile) -> 3
     """
-    custom_map = custom_map or {}
+    errno_tolerance_overrides = errno_tolerance_overrides or {}
 
     def tolerance_for(errno: int) -> int:
-        if errno in custom_map:
-            return custom_map[errno]
+        if errno in errno_tolerance_overrides:
+            return errno_tolerance_overrides[errno]
         return 1 if errno == 1 else 3
 
     return {errno: tolerance_for(errno) for errno in sorted(errno2count.keys())}
@@ -191,7 +191,7 @@ def resolve_errno_tolerance(
 def calculate_gamma(
     tolerance: int,
     pi_value4errno: Callable[[int], float],
-    errno_as_tolerances: dict[int, int],
+    errno2tolerance: dict[int, int],
     b: float = 0.1,
 ) -> float:
     """
@@ -203,7 +203,7 @@ def calculate_gamma(
     Args:
         tolerance: Tolerance level t
         pi_value4errno: Function that takes errno and returns π_c (proportion of error type c).
-        errno_as_tolerances: Mapping of errno to tolerance thresholds.
+        errno2tolerance: Mapping of errno to tolerance thresholds.
             An error type is tolerated (not penalized) when t >= threshold for that errno.
         b: Base penalty for severe errors (default: 0.1)
 
@@ -216,7 +216,7 @@ def calculate_gamma(
     # Calculate indicator-weighted pi sum for errnos that are not tolerated
     pi_sum = sum(
         pi_value
-        for errno, errno_tolerance in errno_as_tolerances.items()
+        for errno, errno_tolerance in errno2tolerance.items()
         for pi_value in [pi_value4errno(errno)]
         if tolerance < errno_tolerance
     )
@@ -329,7 +329,7 @@ def calculate_es_components_values(
         pi = calculate_pi(errno2count, total_samples, correct_speedups)
 
     # Prepare errno-ordered tolerance mapping for calculate_gamma
-    errno_as_tolerances = resolve_errno_tolerance(errno2count, errno_as_tolerance)
+    errno2tolerance = resolve_errno_tolerance(errno2count, errno_as_tolerance)
 
     # Create pi_value4errno function that maps errno to pi value
     def pi_value4errno(errno: int) -> float:
@@ -339,7 +339,7 @@ def calculate_es_components_values(
     beta = calculate_beta(correct_speedups)
     lambda_ = calculate_lambda(correct_speedups, total_samples)
     eta = calculate_eta(correct_speedups)
-    gamma = calculate_gamma(tolerance, pi_value4errno, errno_as_tolerances, b)
+    gamma = calculate_gamma(tolerance, pi_value4errno, errno2tolerance, b)
 
     return {
         "alpha": alpha,

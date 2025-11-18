@@ -422,7 +422,8 @@ def main():
                 x_max = int(np.ceil(max(all_x_coords)))
                 ax.set_xticks(np.arange(x_min, x_max + 1))
 
-            ax.legend(fontsize=16, loc="best")
+        # Always show legend (whether aggregated curves are added or not)
+        ax.legend(fontsize=16, loc="best")
 
         output_file = os.path.join(args.output_dir, "ES_result.png")
         plt.savefig(output_file, dpi=300, bbox_inches="tight")

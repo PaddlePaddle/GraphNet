@@ -147,7 +147,7 @@ def serialize_graph_module_to_str(gm: torch.fx.GraphModule) -> str:
         (r"torch\._C\.set_grad_enabled\(", "torch.set_grad_enabled("),
         # replace this line with modification code for task 122 (torch._C._log_api_usage_once)
         (r"torch\._C\._nn\.pad\(", "torch.nn.functional.pad("),
-        # replace this line with modification code for task 125 (torch._C._nn.gelu)
+        (r"torch\._C\._nn\.gelu\(", "torch.nn.functional.gelu("),
         # replace this line with modification code for task 126 (torch._C._nn.scaled_dot_product_attention)
         (r"torch\._C\._nn\.linear\(", "torch.nn.functional.linear("),
     ]

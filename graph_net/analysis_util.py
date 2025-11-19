@@ -1,5 +1,6 @@
 import os
 import json
+import re
 import numpy as np
 from scipy.stats import gmean
 from collections import OrderedDict, defaultdict
@@ -40,34 +41,32 @@ def extract_speedup_data_from_subdirs(benchmark_path: str) -> dict:
         # but os.walk is also robust for nested directories if needed in the future.
         for root, _, files in os.walk(current_dir_path):
             for file in files:
-                if file.endswith(".json"):
-                    json_file = os.path.join(root, file)
-                    try:
-                        with open(json_file, "r") as f:
-                            data = json.load(f)
-                            performance = data.get("performance", {})
-                            if not performance:
-                                continue
+                if not file.endswith(".json"):
+                    continue
 
-                            speedup_data = performance.get("speedup")
-                            if isinstance(speedup_data, dict):
-                                # Prioritize 'e2e' speedup, fallback to 'gpu'
-                                if "e2e" in speedup_data:
-                                    data_by_subdir[subdir_name].append(
-                                        speedup_data["e2e"]
-                                    )
-                                elif "gpu" in speedup_data:
-                                    data_by_subdir[subdir_name].append(
-                                        speedup_data["gpu"]
-                                    )
-                            elif isinstance(speedup_data, (float, int)):
-                                data_by_subdir[subdir_name].append(speedup_data)
+                json_file = os.path.join(root, file)
+                try:
+                    with open(json_file, "r") as f:
+                        data = json.load(f)
+                        performance = data.get("performance", {})
+                        if not performance:
+                            continue
 
-                    except (json.JSONDecodeError, KeyError) as e:
-                        print(
-                            f"Warning: Failed to read or parse file -> {json_file}, Error: {e}"
-                        )
-                        continue
+                        speedup_data = performance.get("speedup")
+                        if isinstance(speedup_data, dict):
+                            # Prioritize 'e2e' speedup, fallback to 'gpu'
+                            if "e2e" in speedup_data:
+                                data_by_subdir[subdir_name].append(speedup_data["e2e"])
+                            elif "gpu" in speedup_data:
+                                data_by_subdir[subdir_name].append(speedup_data["gpu"])
+                        elif isinstance(speedup_data, (float, int)):
+                            data_by_subdir[subdir_name].append(speedup_data)
+
+                except (json.JSONDecodeError, KeyError) as e:
+                    print(
+                        f"Warning: Failed to read or parse file -> {json_file}, Error: {e}"
+                    )
+                    continue
 
     return data_by_subdir
 
@@ -84,61 +83,319 @@ def load_json_file(filepath: str) -> dict:
         return {}
 
 
-def load_one_folder(folder_path: str) -> list:
+def detect_sample_error_code(log_text: str) -> str:
     """
-    Traverse all .json files in a *single* folder and load all raw data.
-    Returns a list of raw data dictionaries.
+    Detect the error code for a single sample from log text.
+
+    This function is used for bug subgraph detection. It analyzes log text
+    (which can be generated from a single sample) and returns an error code.
+
+    Args:
+        log_text: Log text content (can be a string or list of lines)
+
+    Returns:
+        Error code string. Possible values:
+        - "correct": Sample executed successfully
+        - "eager_fail": Eager model execution failed
+        - "compile_fail": Compiled model compilation failed
+        - "runtime_fail": Runtime error during execution
+        - "unknown": Unable to determine error type
     """
-    if not os.path.isdir(folder_path):
+    if isinstance(log_text, str):
+        lines = log_text.split("\n")
+    else:
+        lines = log_text
+
+    # Define regex patterns for error detection
+    patterns = {
+        "result_status": re.compile(r"\[Result\] status: (.+)"),
+        "failure": re.compile(r"\[Fail due to (.+)\.\]"),
+    }
+
+    # Error type mapping based on failure reason keywords
+    error_keywords = {
+        "eager": "eager_fail",
+        "compiled": "compile_fail",
+    }
+
+    for i, line in enumerate(lines):
+        result_status_match = patterns["result_status"].search(line)
+        if not result_status_match:
+            continue
+
+        status = result_status_match.group(1).strip()
+        if status == "success":
+            return "correct"
+
+        if status != "failed":
+            continue
+
+        # Check the next line for failure reason
+        if (i + 1) >= len(lines):
+            return "runtime_fail"
+
+        error_reason_match = patterns["failure"].search(lines[i + 1])
+        if not error_reason_match:
+            return "runtime_fail"
+
+        reason = error_reason_match.group(1).lower()
+        # Check for specific error keywords
+        for keyword, error_code in error_keywords.items():
+            if keyword in reason:
+                return error_code
+
+        return "runtime_fail"
+
+    return "unknown"
+
+
+def parse_logs_to_data(log_file: str) -> list:
+    """
+    Parse a structured log file generated by the benchmark script and
+    return a list of data dictionaries (one per model-compiler run).
+
+    This function directly parses log files without generating intermediate JSON files.
+    It automatically handles both Paddle (with subgraph) and PyTorch (without subgraph) samples.
+
+    Args:
+        log_file: Path to the benchmark log file
+
+    Returns:
+        List of data dictionaries, each containing configuration, correctness,
+        performance, and result information for a single model-compiler run.
+    """
+
+    try:
+        with open(log_file, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+    except FileNotFoundError:
+        print(f"Error: Log file not found at '{log_file}'")
+        return []
+    except Exception as e:
+        print(f"Error reading log file: {e}")
         return []
 
-    folder_name = os.path.basename(folder_path)
-    samples = []
-    print(f"  - Loading JSON files from folder: {folder_path}")
+    # Dictionary to hold parsed data for all runs
+    all_runs_data = {}
+    current_run_key = None
 
-    for filename in os.listdir(folder_path):
-        if filename.endswith(".json"):
-            filepath = os.path.join(folder_path, filename)
-            data = load_json_file(filepath)
-            if data:
-                samples.append(data)
+    # Define regex patterns for each type of log line
+    patterns = {
+        "processing": re.compile(r"\[Processing\] (.+)"),
+        "config": re.compile(r"\[Config\] (\S+): (.+)"),
+        "performance": re.compile(r"\[Performance\]\[(\w+)\]: (.+)"),
+        "datatype": re.compile(r"\[Datatype\]\[(\w+)\]: (.+)"),
+        "correctness": re.compile(r"\[Correctness\](\[.+\]): (.+)"),
+        "result_status": re.compile(r"\[Result\] status: (.+)"),
+        "failure": re.compile(r"\[Fail due to (.+)\.\]"),
+        "speedup": re.compile(r"\[Speedup\]\[(\w+)\]: (.+)"),
+    }
+
+    for i, line in enumerate(lines):
+        # Check for the start of a new model run
+        processing_match = patterns["processing"].search(line)
+        if processing_match:
+            current_run_key = processing_match.group(1).strip()
+            # Initialize a nested dictionary structure for this new run
+            all_runs_data[current_run_key] = {
+                "configuration": {},
+                "correctness": {},
+                "performance": {
+                    "eager": {},
+                    "compiled": {},
+                    "datatype": {},
+                    "speedup": {},
+                },
+                "result": {
+                    "status": "unknown",
+                },
+            }
+            continue
+
+        # If we haven't identified a run yet, skip the line
+        if not current_run_key:
+            continue
+
+        # Get the data dictionary for the current run
+        data = all_runs_data[current_run_key]
+
+        # Try to match other patterns
+        config_match = patterns["config"].search(line)
+        if config_match:
+            key, value = config_match.groups()
+            data["configuration"][key.strip()] = value.strip()
+            continue
+
+        performance_match = patterns["performance"].search(line)
+        if performance_match:
+            key, value_str = performance_match.groups()
+            # The performance value is a JSON string, so we load it
+            data["performance"][key.strip()] = json.loads(value_str)
+            continue
+
+        datatype_match = patterns["datatype"].search(line)
+        if datatype_match:
+            key, value_str = datatype_match.groups()
+            # The datatype value is a space-separated string
+            data["performance"]["datatype"][key.strip()] = value_str.strip().split()
+            continue
+
+        correctness_match = patterns["correctness"].search(line)
+        if correctness_match:
+            key, value_str = correctness_match.groups()
+            values = []
+            for v in value_str.strip().split():
+                try:
+                    # Try to convert to int if it's a whole number, else float
+                    values.append(int(v) if "." not in v else float(v))
+                except ValueError:
+                    # Handle non-numeric values like 'nan'
+                    values.append(float(v))
+            data["correctness"][key.strip()] = values
+            continue
+
+        # Check for speedup
+        speedup_match = patterns["speedup"].search(line)
+        if speedup_match:
+            key, value_str = speedup_match.groups()
+            data["performance"]["speedup"][key.strip()] = float(value_str)
+            continue
+
+        # Look for the status, and if it's "failed", look ahead to the next line.
+        result_status_match = patterns["result_status"].search(line)
+        if not result_status_match:
+            continue
+
+        status = result_status_match.group(1).strip()
+        data["result"]["status"] = status
+        if status != "failed" or (i + 1) >= len(lines):
+            continue
+
+        error_reason_match = patterns["failure"].search(lines[i + 1])
+        if not error_reason_match:
+            continue
+
+        reason = error_reason_match.group(1).lower()
+        if "eager" in reason:
+            data["performance"]["failure"] = "eager"
+            data["result"]["status"] = "eager_fail"
+        elif "compiled" in reason:
+            data["performance"]["failure"] = "compiled"
+            data["result"]["status"] = "compile_fail"
+        else:
+            data["performance"]["failure"] = "other"
+            data["result"]["status"] = "runtime_fail"
+        continue
+
+    # After parsing all lines, process the results
+    if not all_runs_data:
+        print("No processable log entries found in the file.")
+        return []
+
+    samples = []
+    for run_key, data in all_runs_data.items():
+        try:
+            speedup_dict = data["performance"].get("speedup", {})
+
+            # Build result field with status and speedup (for compatibility with log2json output format)
+            if data["result"]["status"] == "success" and speedup_dict:
+                speedup_data = {}
+                for key in ["e2e", "gpu"]:
+                    if key in speedup_dict:
+                        speedup_data[key] = {"mean": speedup_dict[key]}
+                if speedup_data:
+                    data["result"]["speedup"] = speedup_data
+
+            # Ensure performance.speedup.e2e/gpu are direct values (not nested dict)
+            # This is required by calculate_s_scores which uses performance_data.get("speedup", {}).get("e2e")
+            for key in ["e2e", "gpu"]:
+                if key in speedup_dict:
+                    val = speedup_dict[key]
+                    if isinstance(val, dict) and "mean" in val:
+                        speedup_dict[key] = val["mean"]
+
+            samples.append(data)
+
+        except KeyError as e:
+            print(f"Warning: Could not process run '{run_key}' due to missing key: {e}")
+        except Exception as e:
+            print(
+                f"Warning: An unexpected error occurred while processing run '{run_key}': {e}"
+            )
+
+    print(f"Successfully parsed {len(samples)} samples from log file: {log_file}")
     return samples
 
 
 def scan_all_folders(benchmark_path: str) -> dict:
     """
-    Unified entry point:
-      - If there are .json files directly under benchmark_path → treat them as a single curve (curve name is the directory name).
-      - Otherwise, fallback to the old logic where subdirectories represent curves.
-    Returns dict[folder_name] -> list_of_samples
+    Unified entry point that supports log files and directories:
+      - If benchmark_path is a log file (.log or .txt) → parse it directly and return data as a single curve.
+
+      - If benchmark_path is a directory → scan for .log and .txt files in the directory,
+        each log file becomes a curve.
+
+    Returns dict[curve_name] -> list_of_samples
     """
+
+    # Handle single log file
+    if os.path.isfile(benchmark_path):
+        print(f"Detected log file: '{benchmark_path}'")
+        samples = parse_logs_to_data(benchmark_path)
+        if not samples:
+            print(f"  - No valid data found in log file.")
+            return {}
+
+        folder_name = (
+            os.path.splitext(os.path.basename(benchmark_path))[0] or "benchmark"
+        )
+        print(
+            f"  - Parsed log file → 1 curve '{folder_name}' "
+            f"with {len(samples)} samples."
+        )
+        return {folder_name: samples}
+
+    # Check if it's a directory
     if not os.path.isdir(benchmark_path):
-        print(f"Error: Provided path '{benchmark_path}' is not a valid directory.")
+        print(
+            f"Error: Provided path '{benchmark_path}' is neither a valid file nor directory."
+        )
         return {}
 
     print(f"Scanning '{benchmark_path}' ...")
 
-    # Try flat structure, directly read JSON
-    flat_samples = load_one_folder(benchmark_path)
-    if flat_samples:  # ≥1 JSON loaded successfully
-        folder_name = os.path.basename(benchmark_path) or "benchmark"
-        print(
-            f"  - Detected flat structure → 1 curve '{folder_name}' "
-            f"with {len(flat_samples)} samples."
-        )
-        return {folder_name: flat_samples}
+    # Find .log and .txt files in the directory
+    log_files = sorted(
+        [
+            f
+            for f in os.listdir(benchmark_path)
+            if os.path.isfile(os.path.join(benchmark_path, f))
+            and f.endswith((".log", ".txt"))
+        ]
+    )
 
-    # Fall back to subdirectories as curves logic
+    if not log_files:
+        print("  - No log files (.log or .txt) found in directory.")
+        return {}
+
+    # Process log files, each becomes a curve
     all_results = {}
-    print("  - No JSON files found at top level → scanning sub-folders.")
-    for entry in os.listdir(benchmark_path):
-        folder_full_path = os.path.join(benchmark_path, entry)
-        if os.path.isdir(folder_full_path):
-            samples = load_one_folder(folder_full_path)
-            if samples:
-                all_results[entry] = samples
-                print(f"  - Folder '{entry}' loaded {len(samples)} samples.")
-    print(f"Total folders loaded: {len(all_results)}")
+    print(f"  - Found {len(log_files)} log file(s) → each becomes a curve.")
+    for log_file in log_files:
+        log_file_path = os.path.join(benchmark_path, log_file)
+        samples = parse_logs_to_data(log_file_path)
+        if not samples:
+            continue
+
+        curve_name = os.path.splitext(log_file)[0] or "benchmark"
+        all_results[curve_name] = samples
+        print(f"    - Curve '{curve_name}': {len(samples)} samples.")
+
+    if not all_results:
+        print("  - No valid data found in any log file.")
+        return {}
+
+    print(f"Total curves loaded: {len(all_results)}")
     return all_results
 
 
@@ -327,7 +584,6 @@ def calculate_s_scores(
             rectified_speedups.append(regularized_speedup)
 
             # ES(t) calculation: based on state change
-            rec_speedup_fake_degrad = 0
             if t_key < 1:
                 if fail_type is not None or speedup is None:
                     rec_speedup_fake_degrad = fpdb
@@ -396,3 +652,47 @@ def calculate_s_scores(
     print(f"    - pi: {pi}")
 
     return s_scores, s_scores_fake_degrad
+
+
+def check_sample_correctness(sample: dict, t_key: int) -> tuple[bool, str]:
+    """
+    Check if a sample is correct at the given tolerance level.
+
+    Args:
+        sample: Sample data dictionary
+        t_key: Tolerance level
+
+    Returns:
+        Tuple of (is_correct, fail_type)
+        - is_correct: True if sample is correct at this tolerance
+        - fail_type: Error type if not correct, None if correct
+    """
+    performance_data = sample.get("performance", {})
+    fail_type = performance_data.get("failure")
+
+    # If there's already a failure type, return it
+    if fail_type is not None:
+        return False, fail_type
+
+    # Check correctness based on datatype and tolerance
+    datatype_data = performance_data.get("datatype", {})
+    eager_dtypes = datatype_data.get("eager", [])
+    compiled_dtypes = datatype_data.get("compiled", [])
+
+    # Check if datatypes match and are valid
+    if not (eager_dtypes and eager_dtypes == compiled_dtypes and len(eager_dtypes) > 0):
+        return False, "accuracy"
+
+    correctness_data = sample.get("correctness", {})
+    output_count = len(correctness_data.get("[equal]", []))
+
+    if len(eager_dtypes) != output_count:
+        return False, "accuracy"
+
+    # Check all outputs for correctness
+    is_correct = all(
+        get_correctness(eager_dtypes[i], t_key, correctness_data, i)
+        for i in range(output_count)
+    )
+
+    return is_correct, None if is_correct else "accuracy"

@@ -107,11 +107,19 @@ def main():
                 speedup_numeric = speedup_raw.get("e2e")
             elif isinstance(speedup_raw, (float, int)):
                 speedup_numeric = speedup_raw
+            else:
+                # speedup_raw is neither dict nor numeric (e.g., None, empty dict, or other types)
+                # Skip this sample as it doesn't contain valid speedup data
+                continue
 
             # Only process positive numeric speedup values (log2 requires positive values)
             if isinstance(speedup_numeric, (float, int)) and speedup_numeric > 0:
                 plot_data["log2(speedup)"].append(np.log2(float(speedup_numeric)))
                 plot_data["Category"].append(category_name)
+            else:
+                # speedup_numeric is None, non-numeric, or non-positive
+                # Skip this sample as it doesn't have a valid positive speedup value for log2 calculation
+                continue
 
     if not plot_data["log2(speedup)"]:
         print("Error: No valid speedup data was found. Exiting.")

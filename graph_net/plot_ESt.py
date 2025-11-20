@@ -162,7 +162,7 @@ def get_verified_aggregated_es_values(es_scores: dict, folder_name: str) -> dict
     return verified_es_values
 
 
-def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
+def plot_ES_results(s_scores: dict, args: argparse.Namespace):
     """
     Plot ES(t) curve
     """
@@ -179,8 +179,7 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
         for (
             t_key,
             score_data,
-        ) in scores_dict.items():  # Change variable name to score_data
-            # Access the 'score' key from the nested dictionary
+        ) in scores_dict.items():
             if isinstance(score_data, dict):
                 score = score_data["score"]
             else:
@@ -234,8 +233,8 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
                 markersize=6,
             )
 
-    p = cli_args.negative_speedup_penalty
-    config = f"p = {p}, b = {cli_args.fpdb}"
+    p = args.negative_speedup_penalty
+    config = f"p = {p}, b = {args.fpdb}"
     fig.text(0.5, 0.9, config, ha="center", fontsize=16, style="italic")
 
     ax.set_xlabel("t", fontsize=18)
@@ -253,51 +252,7 @@ def plot_ES_results(s_scores: dict, cli_args: argparse.Namespace):
     return fig, ax, all_x_coords
 
 
-def main():
-    """Main execution function for plotting ES(t)."""
-    parser = argparse.ArgumentParser(
-        description="Calculate and plot ES(t) scores from benchmark results.",
-        formatter_class=argparse.RawTextHelpFormatter,
-    )
-    # Add arguments (same as plot_St)
-    parser.add_argument(
-        "--benchmark-path",
-        type=str,
-        required=True,
-        help="Path to the benchmark log file or directory containing benchmark JSON files or sub-folders.",
-    )
-    parser.add_argument(
-        "--output-dir",
-        type=str,
-        default="analysis_results",
-        help="Output directory for saving the plot. Default: analysis_results",
-    )
-    parser.add_argument(
-        "--negative-speedup-penalty",
-        type=float,
-        default=0.0,
-        help="Penalty power (p) for negative speedup. Formula: speedup**(p+1). Default: 0.0.",
-    )
-    parser.add_argument(
-        "--fpdb",
-        type=float,
-        default=0.1,
-        help="Base penalty for severe errors (e.g., crashes, correctness failures).",
-    )
-    parser.add_argument(
-        "--enable-aggregation-mode",
-        action="store_true",
-        help="Enable aggregation mode to verify aggregated/microscopic consistency. Default: enabled.",
-    )
-    parser.add_argument(
-        "--disable-aggregation-mode",
-        dest="enable_aggregation_mode",
-        action="store_false",
-        help="Disable aggregation mode verification.",
-    )
-    parser.set_defaults(enable_aggregation_mode=True)
-    args = parser.parse_args()
-
+def main(args):
     # 1. Scan folders to get data
     all_results = analysis_util.scan_all_folders(args.benchmark_path)
     if not all_results:
@@ -433,4 +388,45 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(
+        description="Calculate and plot ES(t) scores from benchmark results.",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    parser.add_argument(
+        "--benchmark-path",
+        type=str,
+        required=True,
+        help="Path to the benchmark log file or directory containing benchmark JSON files or sub-folders.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default="analysis_results",
+        help="Output directory for saving the plot. Default: analysis_results",
+    )
+    parser.add_argument(
+        "--negative-speedup-penalty",
+        type=float,
+        default=0.0,
+        help="Penalty power (p) for negative speedup. Formula: speedup**(p+1). Default: 0.0.",
+    )
+    parser.add_argument(
+        "--fpdb",
+        type=float,
+        default=0.1,
+        help="Base penalty for severe errors (e.g., crashes, correctness failures).",
+    )
+    parser.add_argument(
+        "--enable-aggregation-mode",
+        action="store_true",
+        help="Enable aggregation mode to verify aggregated/microscopic consistency. Default: enabled.",
+    )
+    parser.add_argument(
+        "--disable-aggregation-mode",
+        dest="enable_aggregation_mode",
+        action="store_false",
+        help="Disable aggregation mode verification.",
+    )
+    parser.set_defaults(enable_aggregation_mode=True)
+    args = parser.parse_args()
+    main(args)

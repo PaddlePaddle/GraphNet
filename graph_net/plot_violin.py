@@ -77,7 +77,7 @@ def main():
         "--benchmark-path",
         type=str,
         required=True,
-        help="Path to the root directory containing benchmark result subdirectories.",
+        help="Path to a log file (.log or .txt) or a directory containing log files.",
     )
     parser.add_argument(
         "--output-dir",
@@ -87,39 +87,45 @@ def main():
     )
     args = parser.parse_args()
 
-    # 1. Use the utility function to extract data
-    data_by_subdir = analysis_util.extract_speedup_data_from_subdirs(
-        args.benchmark_path
-    )
+    # 1. Parse log files and extract speedup data
+    # Use scan_all_folders to handle both single log file and directory with log files
+    all_samples_by_curve = analysis_util.scan_all_folders(args.benchmark_path)
 
-    if not data_by_subdir:
+    if not all_samples_by_curve:
         print("Error: No valid benchmark data was found. Exiting.")
         return
 
-    # 2. Process data for plotting
+    # 2. Extract speedup values from samples and process for plotting
     plot_data = {"Category": [], "log2(speedup)": []}
-    for subdir_name, speedups in data_by_subdir.items():
-        if not speedups:
-            print(f"Warning: No speedup values found for '{subdir_name}'.")
-            continue
+    for category_name, samples in all_samples_by_curve.items():
+        for sample in samples:
+            speedup_raw = sample.get("performance", {}).get("speedup", {})
 
-        speedups_array = np.array(speedups)
-        positive_speedups = speedups_array[speedups_array > 0]
-        if len(positive_speedups) == 0:
-            print(
-                f"Warning: No positive speedup values for '{subdir_name}' to plot (log2 requires positive values)."
-            )
-            continue
+            # Extract numeric speedup value: use 'e2e' from dict format {"e2e": x, "gpu": y} or direct numeric value
+            speedup_numeric = None
+            if isinstance(speedup_raw, dict):
+                speedup_numeric = speedup_raw.get("e2e")
+            elif isinstance(speedup_raw, (float, int)):
+                speedup_numeric = speedup_raw
+            else:
+                # speedup_raw is neither dict nor numeric (e.g., None, empty dict, or other types)
+                # Skip this sample as it doesn't contain valid speedup data
+                continue
 
-        log2_speedups = np.log2(positive_speedups)
-        plot_data["log2(speedup)"].extend(log2_speedups)
-        plot_data["Category"].extend([subdir_name] * len(log2_speedups))
+            # Only process positive numeric speedup values (log2 requires positive values)
+            if isinstance(speedup_numeric, (float, int)) and speedup_numeric > 0:
+                plot_data["log2(speedup)"].append(np.log2(float(speedup_numeric)))
+                plot_data["Category"].append(category_name)
+            else:
+                # speedup_numeric is None, non-numeric, or non-positive
+                # Skip this sample as it doesn't have a valid positive speedup value for log2 calculation
+                continue
+
+    if not plot_data["log2(speedup)"]:
+        print("Error: No valid speedup data was found. Exiting.")
+        return
 
     df_all = pd.DataFrame(plot_data)
-
-    if df_all.empty:
-        print("Error: No valid data available for plotting after processing.")
-        return
 
     # 3. Create output directory and generate plot
     os.makedirs(args.output_dir, exist_ok=True)

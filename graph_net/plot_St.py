@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from graph_net import analysis_util
 
 
-def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
+def plot_St(s_scores: dict, cli_args: argparse.Namespace):
     """
     Plot S(t) curve
     """
@@ -62,13 +62,37 @@ def plot_S_results(s_scores: dict, cli_args: argparse.Namespace):
     print(f"\nComparison plot saved to {output_file}")
 
 
-def main():
-    """Main execution function for plotting S(t)."""
+def main(args):
+    # 1. Scan folders to get data
+    all_results = analysis_util.scan_all_folders(args.benchmark_path)
+    if not all_results:
+        print("No valid data found. Exiting.")
+        return
+
+    # 2. Calculate scores for each curve
+    all_s_scores = {}
+    for folder_name, samples in all_results.items():
+        s_scores, _ = analysis_util.calculate_s_scores(
+            samples,
+            folder_name,
+            negative_speedup_penalty=args.negative_speedup_penalty,
+            fpdb=args.fpdb,
+        )
+        all_s_scores[folder_name] = s_scores
+
+    # 3. Plot the results
+    if any(all_s_scores.values()):
+        os.makedirs(args.output_dir, exist_ok=True)
+        plot_St(all_s_scores, args)
+    else:
+        print("No S(t) scores were calculated. Skipping plot generation.")
+
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Calculate and plot S(t) scores from benchmark results.",
         formatter_class=argparse.RawTextHelpFormatter,
     )
-    # Add arguments
     parser.add_argument(
         "--benchmark-path",
         type=str,
@@ -94,31 +118,4 @@ def main():
         help="Base penalty for severe errors (e.g., crashes, correctness failures).",
     )
     args = parser.parse_args()
-
-    # 1. Scan folders to get data
-    all_results = analysis_util.scan_all_folders(args.benchmark_path)
-    if not all_results:
-        print("No valid data found. Exiting.")
-        return
-
-    # 2. Calculate scores for each curve
-    all_s_scores = {}
-    for folder_name, samples in all_results.items():
-        s_scores, _ = analysis_util.calculate_s_scores(
-            samples,
-            folder_name,
-            negative_speedup_penalty=args.negative_speedup_penalty,
-            fpdb=args.fpdb,
-        )
-        all_s_scores[folder_name] = s_scores
-
-    # 3. Plot the results
-    if any(all_s_scores.values()):
-        os.makedirs(args.output_dir, exist_ok=True)
-        plot_S_results(all_s_scores, args)
-    else:
-        print("No S(t) scores were calculated. Skipping plot generation.")
-
-
-if __name__ == "__main__":
-    main()
+    main(args)

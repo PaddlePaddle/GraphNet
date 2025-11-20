@@ -1,5 +1,5 @@
 repos:
-- repo: https://github.com/psf/black
+- repo: https://hub.fastgit.xyz/psf/black
   rev: 23.1.0
   hooks:
   - id: black

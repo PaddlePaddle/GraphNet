@@ -121,6 +121,7 @@ def parse_logs_to_data(log_file: str) -> list:
             current_run_key = processing_match.group(1).strip()
             # Initialize a nested dictionary structure for this new run
             all_runs_data[current_run_key] = {
+                "model_path" : line.split()[-1],
                 "configuration": {},
                 "correctness": {},
                 "performance": {
@@ -634,10 +635,8 @@ def get_incorrect_models(tolerance,log_file_path)->list:
     """
     failed_models = []
     datalist = parse_logs_to_data(log_file_path)
-
     for i in datalist:
-        isok,str1 = check_sample_correctness(i,tolerance)
-        # print(isok,str1)
-        if not isok:
-            failed_models.append(i.get('configuration').get('model'))
+        iscorrect,err = check_sample_correctness(i,tolerance)
+        if not iscorrect:
+            failed_models.append(i.get('model_path'))
     return failed_models

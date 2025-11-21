@@ -406,12 +406,12 @@ def calculate_s_scores(
             )
 
             expected_s = (
-                alpha ** lambda_
+                alpha**lambda_
                 * beta ** (lambda_ * eta * negative_speedup_penalty)
                 * fpdb ** (1 - lambda_)
             )
             expected_es = (
-                alpha ** lambda_
+                alpha**lambda_
                 * beta ** (lambda_ * eta * negative_speedup_penalty)
                 * gamma ** (1 - lambda_)
             )

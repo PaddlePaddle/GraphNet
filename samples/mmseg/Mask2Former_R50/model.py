@@ -441,7 +441,7 @@ class GraphModule(torch.nn.Module):
         floordiv = None
         truediv_2 = mul_2 / 128
         mul_2 = None
-        dim_t_1 = 10000 ** truediv_2
+        dim_t_1 = 10000**truediv_2
         truediv_2 = None
         getitem_3 = x_embed_1[
             (
@@ -571,7 +571,7 @@ class GraphModule(torch.nn.Module):
         floordiv_1 = None
         truediv_7 = mul_5 / 128
         mul_5 = None
-        dim_t_3 = 10000 ** truediv_7
+        dim_t_3 = 10000**truediv_7
         truediv_7 = None
         getitem_12 = x_embed_3[
             (
@@ -702,7 +702,7 @@ class GraphModule(torch.nn.Module):
         floordiv_2 = None
         truediv_12 = mul_8 / 128
         mul_8 = None
-        dim_t_5 = 10000 ** truediv_12
+        dim_t_5 = 10000**truediv_12
         truediv_12 = None
         getitem_21 = x_embed_5[
             (

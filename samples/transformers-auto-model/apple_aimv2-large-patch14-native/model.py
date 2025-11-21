@@ -412,7 +412,7 @@ class GraphModule(torch.nn.Module):
         omega /= 256.0
         omega_1 = omega
         omega = None
-        pow_2 = 10000 ** omega_1
+        pow_2 = 10000**omega_1
         omega_1 = None
         omega_2 = 1.0 / pow_2
         pow_2 = None
@@ -437,7 +437,7 @@ class GraphModule(torch.nn.Module):
         omega_3 /= 256.0
         omega_4 = omega_3
         omega_3 = None
-        pow_3 = 10000 ** omega_4
+        pow_3 = 10000**omega_4
         omega_4 = None
         omega_5 = 1.0 / pow_3
         pow_3 = None

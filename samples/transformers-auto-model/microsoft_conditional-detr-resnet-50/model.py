@@ -4024,7 +4024,7 @@ class GraphModule(torch.nn.Module):
         div = None
         truediv_2 = mul_161 / 128
         mul_161 = None
-        dim_t_1 = 10000 ** truediv_2
+        dim_t_1 = 10000**truediv_2
         truediv_2 = None
         getitem_10 = x_embed_1[
             (
@@ -4136,7 +4136,7 @@ class GraphModule(torch.nn.Module):
         div_1 = None
         truediv_7 = mul_164 / 128
         mul_164 = None
-        dim_t_3 = 10000 ** truediv_7
+        dim_t_3 = 10000**truediv_7
         truediv_7 = None
         getitem_18 = x_embed_3[
             (
@@ -4248,7 +4248,7 @@ class GraphModule(torch.nn.Module):
         div_2 = None
         truediv_12 = mul_167 / 128
         mul_167 = None
-        dim_t_5 = 10000 ** truediv_12
+        dim_t_5 = 10000**truediv_12
         truediv_12 = None
         getitem_26 = x_embed_5[
             (
@@ -4359,7 +4359,7 @@ class GraphModule(torch.nn.Module):
         div_3 = None
         truediv_17 = mul_170 / 128
         mul_170 = None
-        dim_t_7 = 10000 ** truediv_17
+        dim_t_7 = 10000**truediv_17
         truediv_17 = None
         getitem_34 = x_embed_7[
             (
@@ -5279,7 +5279,7 @@ class GraphModule(torch.nn.Module):
         div_4 = None
         truediv_20 = mul_177 / 128
         mul_177 = None
-        dim_t_9 = 10000 ** truediv_20
+        dim_t_9 = 10000**truediv_20
         truediv_20 = None
         getitem_43 = obj_center[(slice(None, None, None), slice(None, None, None), 0)]
         x_embed_8 = getitem_43 * 6.283185307179586

@@ -638,6 +638,6 @@ def get_incorrect_models(tolerance, log_file_path) -> list:
     datalist = parse_logs_to_data(log_file_path)
     for i in datalist:
         iscorrect, err = check_sample_correctness(i, tolerance)
-        if not iscorrect and err == "accuracy":
+        if not iscorrect:
             failed_models.append(i.get("model_path"))
     return failed_models

@@ -9,12 +9,12 @@ PROJECT_ROOT=$(dirname "$GRAPH_NET_DIR")
 export PYTHONPATH="$PROJECT_ROOT:$PYTHONPATH"
 
 TOLERANCE_LIST=(-2 -1 0 1 2)
-LOG_FILE_PATH="/work/.BCloud/log_20251013_175058_torch_inductor_full.log"
+LOG_FILE_PATH="your/log/file/path"
 
 python3 - <<END
 from graph_net import analysis_util
 
-result = list(analysis_util.get_incorrect_models($TOLERANCE_LIST, '$LOG_FILE_PATH'))
+result = analysis_util.get_incorrect_models($TOLERANCE_LIST, '$LOG_FILE_PATH')
 
 for item in result:
     print(item)

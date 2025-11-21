@@ -620,7 +620,7 @@ def check_sample_correctness(sample: dict, t_key: int) -> tuple[bool, str]:
     return is_correct, None if is_correct else "accuracy"
 
 
-def get_incorrect_models(tolerance, log_file_path) -> list:
+def get_incorrect_models(tolerance, log_file_path) -> set[str]:
     """
     Filters and returns models with accuracy issues based on given tolerance threshold.
 
@@ -632,12 +632,12 @@ def get_incorrect_models(tolerance, log_file_path) -> list:
         log_file_path (str): Path to the log file containing model test results
 
     Returns:
-        failed_models[str]: names of models failing accuracy check, empty list if none found
+        failed_models(str): names of models failing accuracy check, empty set if none found
     """
-    failed_models = []
+    failed_models = set()
     datalist = parse_logs_to_data(log_file_path)
     for i in datalist:
         iscorrect, err = check_sample_correctness(i, tolerance)
         if not iscorrect:
-            failed_models.append(i.get("model_path"))
+            failed_models.add(i.get("model_path"))
     return failed_models

@@ -9,7 +9,7 @@ PROJECT_ROOT=$(dirname "$GRAPH_NET_DIR")
 export PYTHONPATH="$PROJECT_ROOT:$PYTHONPATH"
 
 TOLERANCE_LIST=(-2 -1 0 1 2)
-LOG_FILE_PATH="your/log/file/path"
+LOG_FILE_PATH="log_file_for_test.txt"
 
 python3 - <<END
 from graph_net import analysis_util

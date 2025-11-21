@@ -719,8 +719,8 @@ class GraphModule(torch.nn.Module):
         ind = None
         indy = repeat_interleave.repeat_interleave(14, dim=1)
         repeat_interleave = None
-        pow_1 = indx**2
-        pow_2 = indy**2
+        pow_1 = indx ** 2
+        pow_2 = indy ** 2
         indd = pow_1 + pow_2
         pow_1 = pow_2 = None
         unsqueeze = indd.unsqueeze(0)
@@ -914,8 +914,8 @@ class GraphModule(torch.nn.Module):
         ind_1 = None
         indy_1 = repeat_interleave_2.repeat_interleave(14, dim=1)
         repeat_interleave_2 = None
-        pow_3 = indx_1**2
-        pow_4 = indy_1**2
+        pow_3 = indx_1 ** 2
+        pow_4 = indy_1 ** 2
         indd_1 = pow_3 + pow_4
         pow_3 = pow_4 = None
         unsqueeze_4 = indd_1.unsqueeze(0)
@@ -1109,8 +1109,8 @@ class GraphModule(torch.nn.Module):
         ind_2 = None
         indy_2 = repeat_interleave_4.repeat_interleave(14, dim=1)
         repeat_interleave_4 = None
-        pow_5 = indx_2**2
-        pow_6 = indy_2**2
+        pow_5 = indx_2 ** 2
+        pow_6 = indy_2 ** 2
         indd_2 = pow_5 + pow_6
         pow_5 = pow_6 = None
         unsqueeze_8 = indd_2.unsqueeze(0)
@@ -1304,8 +1304,8 @@ class GraphModule(torch.nn.Module):
         ind_3 = None
         indy_3 = repeat_interleave_6.repeat_interleave(14, dim=1)
         repeat_interleave_6 = None
-        pow_7 = indx_3**2
-        pow_8 = indy_3**2
+        pow_7 = indx_3 ** 2
+        pow_8 = indy_3 ** 2
         indd_3 = pow_7 + pow_8
         pow_7 = pow_8 = None
         unsqueeze_12 = indd_3.unsqueeze(0)
@@ -1499,8 +1499,8 @@ class GraphModule(torch.nn.Module):
         ind_4 = None
         indy_4 = repeat_interleave_8.repeat_interleave(14, dim=1)
         repeat_interleave_8 = None
-        pow_9 = indx_4**2
-        pow_10 = indy_4**2
+        pow_9 = indx_4 ** 2
+        pow_10 = indy_4 ** 2
         indd_4 = pow_9 + pow_10
         pow_9 = pow_10 = None
         unsqueeze_16 = indd_4.unsqueeze(0)
@@ -1694,8 +1694,8 @@ class GraphModule(torch.nn.Module):
         ind_5 = None
         indy_5 = repeat_interleave_10.repeat_interleave(14, dim=1)
         repeat_interleave_10 = None
-        pow_11 = indx_5**2
-        pow_12 = indy_5**2
+        pow_11 = indx_5 ** 2
+        pow_12 = indy_5 ** 2
         indd_5 = pow_11 + pow_12
         pow_11 = pow_12 = None
         unsqueeze_20 = indd_5.unsqueeze(0)
@@ -1889,8 +1889,8 @@ class GraphModule(torch.nn.Module):
         ind_6 = None
         indy_6 = repeat_interleave_12.repeat_interleave(14, dim=1)
         repeat_interleave_12 = None
-        pow_13 = indx_6**2
-        pow_14 = indy_6**2
+        pow_13 = indx_6 ** 2
+        pow_14 = indy_6 ** 2
         indd_6 = pow_13 + pow_14
         pow_13 = pow_14 = None
         unsqueeze_24 = indd_6.unsqueeze(0)
@@ -2084,8 +2084,8 @@ class GraphModule(torch.nn.Module):
         ind_7 = None
         indy_7 = repeat_interleave_14.repeat_interleave(14, dim=1)
         repeat_interleave_14 = None
-        pow_15 = indx_7**2
-        pow_16 = indy_7**2
+        pow_15 = indx_7 ** 2
+        pow_16 = indy_7 ** 2
         indd_7 = pow_15 + pow_16
         pow_15 = pow_16 = None
         unsqueeze_28 = indd_7.unsqueeze(0)
@@ -2279,8 +2279,8 @@ class GraphModule(torch.nn.Module):
         ind_8 = None
         indy_8 = repeat_interleave_16.repeat_interleave(14, dim=1)
         repeat_interleave_16 = None
-        pow_17 = indx_8**2
-        pow_18 = indy_8**2
+        pow_17 = indx_8 ** 2
+        pow_18 = indy_8 ** 2
         indd_8 = pow_17 + pow_18
         pow_17 = pow_18 = None
         unsqueeze_32 = indd_8.unsqueeze(0)
@@ -2474,8 +2474,8 @@ class GraphModule(torch.nn.Module):
         ind_9 = None
         indy_9 = repeat_interleave_18.repeat_interleave(14, dim=1)
         repeat_interleave_18 = None
-        pow_19 = indx_9**2
-        pow_20 = indy_9**2
+        pow_19 = indx_9 ** 2
+        pow_20 = indy_9 ** 2
         indd_9 = pow_19 + pow_20
         pow_19 = pow_20 = None
         unsqueeze_36 = indd_9.unsqueeze(0)

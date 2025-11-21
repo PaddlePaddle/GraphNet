@@ -221,7 +221,7 @@ def calculate_gamma(
         if tolerance < errno_tolerance
     )
 
-    return b**pi_sum
+    return b ** pi_sum
 
 
 def calculate_s_t_from_aggregated(
@@ -249,7 +249,7 @@ def calculate_s_t_from_aggregated(
         S(t) value calculated from aggregated parameters
     """
     return (
-        alpha**lambda_
+        alpha ** lambda_
         * beta ** (lambda_ * eta * negative_speedup_penalty)
         * b ** (1 - lambda_)
     )
@@ -280,7 +280,7 @@ def calculate_es_t_from_aggregated(
         ES(t) value calculated from aggregated parameters
     """
     return (
-        alpha**lambda_
+        alpha ** lambda_
         * beta ** (lambda_ * eta * negative_speedup_penalty)
         * gamma ** (1 - lambda_)
     )

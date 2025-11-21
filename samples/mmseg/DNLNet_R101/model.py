@@ -3875,7 +3875,7 @@ class GraphModule(torch.nn.Module):
             256, dtype=torch.float32, device=device(type="cuda", index=0)
         )
         tensor_1 = torch.tensor(0.5, device=device(type="cuda", index=0))
-        pow_1 = tensor**tensor_1
+        pow_1 = tensor ** tensor_1
         tensor = tensor_1 = None
         pairwise_weight /= pow_1
         pairwise_weight_1 = pairwise_weight

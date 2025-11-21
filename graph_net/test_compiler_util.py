@@ -280,11 +280,11 @@ def check_equal(args, expected_out, compiled_out, cmp_equal_func):
 
 def tolerance_generator(t):
     # for float16
-    yield 10 ** (t * 3 / 5), 10**t
+    yield 10 ** (t * 3 / 5), 10 ** t
     # for bfloat16
-    yield 10 ** (t * 1.796 / 5), 10**t
+    yield 10 ** (t * 1.796 / 5), 10 ** t
     # yield float32
-    yield 10 ** (t * 5.886 / 5), 10**t
+    yield 10 ** (t * 5.886 / 5), 10 ** t
     # yield float64
     yield 10 ** (t * 7 / 5), 10 ** (t * 7 / 5)
 

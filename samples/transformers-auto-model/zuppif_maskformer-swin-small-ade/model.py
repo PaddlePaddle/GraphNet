@@ -7151,7 +7151,7 @@ class GraphModule(torch.nn.Module):
         div = None
         truediv_26 = mul_2 / 128
         mul_2 = None
-        dim_t_1 = 10000**truediv_26
+        dim_t_1 = 10000 ** truediv_26
         truediv_26 = None
         getitem_62 = x_embed_1[
             (

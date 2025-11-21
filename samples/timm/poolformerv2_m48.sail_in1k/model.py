@@ -820,7 +820,7 @@ class GraphModule(torch.nn.Module):
         group_norm_1 = l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu = torch.nn.functional.relu(x_5, inplace=False)
         x_5 = None
-        pow_1 = relu**2
+        pow_1 = relu ** 2
         relu = None
         mul = (
             l_self_modules_stages_modules_0_modules_blocks_modules_0_modules_mlp_modules_act_parameters_scale_
@@ -887,7 +887,7 @@ class GraphModule(torch.nn.Module):
         group_norm_3 = l_self_modules_stages_modules_0_modules_blocks_modules_1_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_1 = torch.nn.functional.relu(x_12, inplace=False)
         x_12 = None
-        pow_2 = relu_1**2
+        pow_2 = relu_1 ** 2
         relu_1 = None
         mul_1 = (
             l_self_modules_stages_modules_0_modules_blocks_modules_1_modules_mlp_modules_act_parameters_scale_
@@ -954,7 +954,7 @@ class GraphModule(torch.nn.Module):
         group_norm_5 = l_self_modules_stages_modules_0_modules_blocks_modules_2_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_2 = torch.nn.functional.relu(x_19, inplace=False)
         x_19 = None
-        pow_3 = relu_2**2
+        pow_3 = relu_2 ** 2
         relu_2 = None
         mul_2 = (
             l_self_modules_stages_modules_0_modules_blocks_modules_2_modules_mlp_modules_act_parameters_scale_
@@ -1021,7 +1021,7 @@ class GraphModule(torch.nn.Module):
         group_norm_7 = l_self_modules_stages_modules_0_modules_blocks_modules_3_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_3 = torch.nn.functional.relu(x_26, inplace=False)
         x_26 = None
-        pow_4 = relu_3**2
+        pow_4 = relu_3 ** 2
         relu_3 = None
         mul_3 = (
             l_self_modules_stages_modules_0_modules_blocks_modules_3_modules_mlp_modules_act_parameters_scale_
@@ -1088,7 +1088,7 @@ class GraphModule(torch.nn.Module):
         group_norm_9 = l_self_modules_stages_modules_0_modules_blocks_modules_4_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_4 = torch.nn.functional.relu(x_33, inplace=False)
         x_33 = None
-        pow_5 = relu_4**2
+        pow_5 = relu_4 ** 2
         relu_4 = None
         mul_4 = (
             l_self_modules_stages_modules_0_modules_blocks_modules_4_modules_mlp_modules_act_parameters_scale_
@@ -1155,7 +1155,7 @@ class GraphModule(torch.nn.Module):
         group_norm_11 = l_self_modules_stages_modules_0_modules_blocks_modules_5_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_5 = torch.nn.functional.relu(x_40, inplace=False)
         x_40 = None
-        pow_6 = relu_5**2
+        pow_6 = relu_5 ** 2
         relu_5 = None
         mul_5 = (
             l_self_modules_stages_modules_0_modules_blocks_modules_5_modules_mlp_modules_act_parameters_scale_
@@ -1222,7 +1222,7 @@ class GraphModule(torch.nn.Module):
         group_norm_13 = l_self_modules_stages_modules_0_modules_blocks_modules_6_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_6 = torch.nn.functional.relu(x_47, inplace=False)
         x_47 = None
-        pow_7 = relu_6**2
+        pow_7 = relu_6 ** 2
         relu_6 = None
         mul_6 = (
             l_self_modules_stages_modules_0_modules_blocks_modules_6_modules_mlp_modules_act_parameters_scale_
@@ -1289,7 +1289,7 @@ class GraphModule(torch.nn.Module):
         group_norm_15 = l_self_modules_stages_modules_0_modules_blocks_modules_7_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_7 = torch.nn.functional.relu(x_54, inplace=False)
         x_54 = None
-        pow_8 = relu_7**2
+        pow_8 = relu_7 ** 2
         relu_7 = None
         mul_7 = (
             l_self_modules_stages_modules_0_modules_blocks_modules_7_modules_mlp_modules_act_parameters_scale_
@@ -1381,7 +1381,7 @@ class GraphModule(torch.nn.Module):
         group_norm_17 = l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_8 = torch.nn.functional.relu(x_65, inplace=False)
         x_65 = None
-        pow_9 = relu_8**2
+        pow_9 = relu_8 ** 2
         relu_8 = None
         mul_8 = (
             l_self_modules_stages_modules_1_modules_blocks_modules_0_modules_mlp_modules_act_parameters_scale_
@@ -1448,7 +1448,7 @@ class GraphModule(torch.nn.Module):
         group_norm_19 = l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_9 = torch.nn.functional.relu(x_72, inplace=False)
         x_72 = None
-        pow_10 = relu_9**2
+        pow_10 = relu_9 ** 2
         relu_9 = None
         mul_9 = (
             l_self_modules_stages_modules_1_modules_blocks_modules_1_modules_mlp_modules_act_parameters_scale_
@@ -1515,7 +1515,7 @@ class GraphModule(torch.nn.Module):
         group_norm_21 = l_self_modules_stages_modules_1_modules_blocks_modules_2_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_10 = torch.nn.functional.relu(x_79, inplace=False)
         x_79 = None
-        pow_11 = relu_10**2
+        pow_11 = relu_10 ** 2
         relu_10 = None
         mul_10 = (
             l_self_modules_stages_modules_1_modules_blocks_modules_2_modules_mlp_modules_act_parameters_scale_
@@ -1582,7 +1582,7 @@ class GraphModule(torch.nn.Module):
         group_norm_23 = l_self_modules_stages_modules_1_modules_blocks_modules_3_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_11 = torch.nn.functional.relu(x_86, inplace=False)
         x_86 = None
-        pow_12 = relu_11**2
+        pow_12 = relu_11 ** 2
         relu_11 = None
         mul_11 = (
             l_self_modules_stages_modules_1_modules_blocks_modules_3_modules_mlp_modules_act_parameters_scale_
@@ -1649,7 +1649,7 @@ class GraphModule(torch.nn.Module):
         group_norm_25 = l_self_modules_stages_modules_1_modules_blocks_modules_4_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_12 = torch.nn.functional.relu(x_93, inplace=False)
         x_93 = None
-        pow_13 = relu_12**2
+        pow_13 = relu_12 ** 2
         relu_12 = None
         mul_12 = (
             l_self_modules_stages_modules_1_modules_blocks_modules_4_modules_mlp_modules_act_parameters_scale_
@@ -1716,7 +1716,7 @@ class GraphModule(torch.nn.Module):
         group_norm_27 = l_self_modules_stages_modules_1_modules_blocks_modules_5_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_13 = torch.nn.functional.relu(x_100, inplace=False)
         x_100 = None
-        pow_14 = relu_13**2
+        pow_14 = relu_13 ** 2
         relu_13 = None
         mul_13 = (
             l_self_modules_stages_modules_1_modules_blocks_modules_5_modules_mlp_modules_act_parameters_scale_
@@ -1783,7 +1783,7 @@ class GraphModule(torch.nn.Module):
         group_norm_29 = l_self_modules_stages_modules_1_modules_blocks_modules_6_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_14 = torch.nn.functional.relu(x_107, inplace=False)
         x_107 = None
-        pow_15 = relu_14**2
+        pow_15 = relu_14 ** 2
         relu_14 = None
         mul_14 = (
             l_self_modules_stages_modules_1_modules_blocks_modules_6_modules_mlp_modules_act_parameters_scale_
@@ -1850,7 +1850,7 @@ class GraphModule(torch.nn.Module):
         group_norm_31 = l_self_modules_stages_modules_1_modules_blocks_modules_7_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_15 = torch.nn.functional.relu(x_114, inplace=False)
         x_114 = None
-        pow_16 = relu_15**2
+        pow_16 = relu_15 ** 2
         relu_15 = None
         mul_15 = (
             l_self_modules_stages_modules_1_modules_blocks_modules_7_modules_mlp_modules_act_parameters_scale_
@@ -1954,7 +1954,7 @@ class GraphModule(torch.nn.Module):
         group_norm_33 = l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_16 = torch.nn.functional.relu(x_125, inplace=False)
         x_125 = None
-        pow_17 = relu_16**2
+        pow_17 = relu_16 ** 2
         relu_16 = None
         mul_18 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_0_modules_mlp_modules_act_parameters_scale_
@@ -2033,7 +2033,7 @@ class GraphModule(torch.nn.Module):
         group_norm_35 = l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_17 = torch.nn.functional.relu(x_132, inplace=False)
         x_132 = None
-        pow_18 = relu_17**2
+        pow_18 = relu_17 ** 2
         relu_17 = None
         mul_21 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_1_modules_mlp_modules_act_parameters_scale_
@@ -2112,7 +2112,7 @@ class GraphModule(torch.nn.Module):
         group_norm_37 = l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_18 = torch.nn.functional.relu(x_139, inplace=False)
         x_139 = None
-        pow_19 = relu_18**2
+        pow_19 = relu_18 ** 2
         relu_18 = None
         mul_24 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_2_modules_mlp_modules_act_parameters_scale_
@@ -2191,7 +2191,7 @@ class GraphModule(torch.nn.Module):
         group_norm_39 = l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_19 = torch.nn.functional.relu(x_146, inplace=False)
         x_146 = None
-        pow_20 = relu_19**2
+        pow_20 = relu_19 ** 2
         relu_19 = None
         mul_27 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_3_modules_mlp_modules_act_parameters_scale_
@@ -2270,7 +2270,7 @@ class GraphModule(torch.nn.Module):
         group_norm_41 = l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_20 = torch.nn.functional.relu(x_153, inplace=False)
         x_153 = None
-        pow_21 = relu_20**2
+        pow_21 = relu_20 ** 2
         relu_20 = None
         mul_30 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_4_modules_mlp_modules_act_parameters_scale_
@@ -2349,7 +2349,7 @@ class GraphModule(torch.nn.Module):
         group_norm_43 = l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_21 = torch.nn.functional.relu(x_160, inplace=False)
         x_160 = None
-        pow_22 = relu_21**2
+        pow_22 = relu_21 ** 2
         relu_21 = None
         mul_33 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_5_modules_mlp_modules_act_parameters_scale_
@@ -2428,7 +2428,7 @@ class GraphModule(torch.nn.Module):
         group_norm_45 = l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_22 = torch.nn.functional.relu(x_167, inplace=False)
         x_167 = None
-        pow_23 = relu_22**2
+        pow_23 = relu_22 ** 2
         relu_22 = None
         mul_36 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_6_modules_mlp_modules_act_parameters_scale_
@@ -2507,7 +2507,7 @@ class GraphModule(torch.nn.Module):
         group_norm_47 = l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_23 = torch.nn.functional.relu(x_174, inplace=False)
         x_174 = None
-        pow_24 = relu_23**2
+        pow_24 = relu_23 ** 2
         relu_23 = None
         mul_39 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_7_modules_mlp_modules_act_parameters_scale_
@@ -2586,7 +2586,7 @@ class GraphModule(torch.nn.Module):
         group_norm_49 = l_self_modules_stages_modules_2_modules_blocks_modules_8_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_24 = torch.nn.functional.relu(x_181, inplace=False)
         x_181 = None
-        pow_25 = relu_24**2
+        pow_25 = relu_24 ** 2
         relu_24 = None
         mul_42 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_8_modules_mlp_modules_act_parameters_scale_
@@ -2665,7 +2665,7 @@ class GraphModule(torch.nn.Module):
         group_norm_51 = l_self_modules_stages_modules_2_modules_blocks_modules_9_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_25 = torch.nn.functional.relu(x_188, inplace=False)
         x_188 = None
-        pow_26 = relu_25**2
+        pow_26 = relu_25 ** 2
         relu_25 = None
         mul_45 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_9_modules_mlp_modules_act_parameters_scale_
@@ -2744,7 +2744,7 @@ class GraphModule(torch.nn.Module):
         group_norm_53 = l_self_modules_stages_modules_2_modules_blocks_modules_10_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_26 = torch.nn.functional.relu(x_195, inplace=False)
         x_195 = None
-        pow_27 = relu_26**2
+        pow_27 = relu_26 ** 2
         relu_26 = None
         mul_48 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_10_modules_mlp_modules_act_parameters_scale_
@@ -2823,7 +2823,7 @@ class GraphModule(torch.nn.Module):
         group_norm_55 = l_self_modules_stages_modules_2_modules_blocks_modules_11_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_27 = torch.nn.functional.relu(x_202, inplace=False)
         x_202 = None
-        pow_28 = relu_27**2
+        pow_28 = relu_27 ** 2
         relu_27 = None
         mul_51 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_11_modules_mlp_modules_act_parameters_scale_
@@ -2902,7 +2902,7 @@ class GraphModule(torch.nn.Module):
         group_norm_57 = l_self_modules_stages_modules_2_modules_blocks_modules_12_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_28 = torch.nn.functional.relu(x_209, inplace=False)
         x_209 = None
-        pow_29 = relu_28**2
+        pow_29 = relu_28 ** 2
         relu_28 = None
         mul_54 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_12_modules_mlp_modules_act_parameters_scale_
@@ -2981,7 +2981,7 @@ class GraphModule(torch.nn.Module):
         group_norm_59 = l_self_modules_stages_modules_2_modules_blocks_modules_13_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_29 = torch.nn.functional.relu(x_216, inplace=False)
         x_216 = None
-        pow_30 = relu_29**2
+        pow_30 = relu_29 ** 2
         relu_29 = None
         mul_57 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_13_modules_mlp_modules_act_parameters_scale_
@@ -3060,7 +3060,7 @@ class GraphModule(torch.nn.Module):
         group_norm_61 = l_self_modules_stages_modules_2_modules_blocks_modules_14_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_30 = torch.nn.functional.relu(x_223, inplace=False)
         x_223 = None
-        pow_31 = relu_30**2
+        pow_31 = relu_30 ** 2
         relu_30 = None
         mul_60 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_14_modules_mlp_modules_act_parameters_scale_
@@ -3139,7 +3139,7 @@ class GraphModule(torch.nn.Module):
         group_norm_63 = l_self_modules_stages_modules_2_modules_blocks_modules_15_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_31 = torch.nn.functional.relu(x_230, inplace=False)
         x_230 = None
-        pow_32 = relu_31**2
+        pow_32 = relu_31 ** 2
         relu_31 = None
         mul_63 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_15_modules_mlp_modules_act_parameters_scale_
@@ -3218,7 +3218,7 @@ class GraphModule(torch.nn.Module):
         group_norm_65 = l_self_modules_stages_modules_2_modules_blocks_modules_16_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_32 = torch.nn.functional.relu(x_237, inplace=False)
         x_237 = None
-        pow_33 = relu_32**2
+        pow_33 = relu_32 ** 2
         relu_32 = None
         mul_66 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_16_modules_mlp_modules_act_parameters_scale_
@@ -3297,7 +3297,7 @@ class GraphModule(torch.nn.Module):
         group_norm_67 = l_self_modules_stages_modules_2_modules_blocks_modules_17_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_33 = torch.nn.functional.relu(x_244, inplace=False)
         x_244 = None
-        pow_34 = relu_33**2
+        pow_34 = relu_33 ** 2
         relu_33 = None
         mul_69 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_17_modules_mlp_modules_act_parameters_scale_
@@ -3376,7 +3376,7 @@ class GraphModule(torch.nn.Module):
         group_norm_69 = l_self_modules_stages_modules_2_modules_blocks_modules_18_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_34 = torch.nn.functional.relu(x_251, inplace=False)
         x_251 = None
-        pow_35 = relu_34**2
+        pow_35 = relu_34 ** 2
         relu_34 = None
         mul_72 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_18_modules_mlp_modules_act_parameters_scale_
@@ -3455,7 +3455,7 @@ class GraphModule(torch.nn.Module):
         group_norm_71 = l_self_modules_stages_modules_2_modules_blocks_modules_19_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_35 = torch.nn.functional.relu(x_258, inplace=False)
         x_258 = None
-        pow_36 = relu_35**2
+        pow_36 = relu_35 ** 2
         relu_35 = None
         mul_75 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_19_modules_mlp_modules_act_parameters_scale_
@@ -3534,7 +3534,7 @@ class GraphModule(torch.nn.Module):
         group_norm_73 = l_self_modules_stages_modules_2_modules_blocks_modules_20_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_36 = torch.nn.functional.relu(x_265, inplace=False)
         x_265 = None
-        pow_37 = relu_36**2
+        pow_37 = relu_36 ** 2
         relu_36 = None
         mul_78 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_20_modules_mlp_modules_act_parameters_scale_
@@ -3613,7 +3613,7 @@ class GraphModule(torch.nn.Module):
         group_norm_75 = l_self_modules_stages_modules_2_modules_blocks_modules_21_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_37 = torch.nn.functional.relu(x_272, inplace=False)
         x_272 = None
-        pow_38 = relu_37**2
+        pow_38 = relu_37 ** 2
         relu_37 = None
         mul_81 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_21_modules_mlp_modules_act_parameters_scale_
@@ -3692,7 +3692,7 @@ class GraphModule(torch.nn.Module):
         group_norm_77 = l_self_modules_stages_modules_2_modules_blocks_modules_22_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_38 = torch.nn.functional.relu(x_279, inplace=False)
         x_279 = None
-        pow_39 = relu_38**2
+        pow_39 = relu_38 ** 2
         relu_38 = None
         mul_84 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_22_modules_mlp_modules_act_parameters_scale_
@@ -3771,7 +3771,7 @@ class GraphModule(torch.nn.Module):
         group_norm_79 = l_self_modules_stages_modules_2_modules_blocks_modules_23_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_39 = torch.nn.functional.relu(x_286, inplace=False)
         x_286 = None
-        pow_40 = relu_39**2
+        pow_40 = relu_39 ** 2
         relu_39 = None
         mul_87 = (
             l_self_modules_stages_modules_2_modules_blocks_modules_23_modules_mlp_modules_act_parameters_scale_
@@ -3876,7 +3876,7 @@ class GraphModule(torch.nn.Module):
         group_norm_81 = l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_40 = torch.nn.functional.relu(x_297, inplace=False)
         x_297 = None
-        pow_41 = relu_40**2
+        pow_41 = relu_40 ** 2
         relu_40 = None
         mul_90 = (
             l_self_modules_stages_modules_3_modules_blocks_modules_0_modules_mlp_modules_act_parameters_scale_
@@ -3955,7 +3955,7 @@ class GraphModule(torch.nn.Module):
         group_norm_83 = l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_41 = torch.nn.functional.relu(x_304, inplace=False)
         x_304 = None
-        pow_42 = relu_41**2
+        pow_42 = relu_41 ** 2
         relu_41 = None
         mul_93 = (
             l_self_modules_stages_modules_3_modules_blocks_modules_1_modules_mlp_modules_act_parameters_scale_
@@ -4034,7 +4034,7 @@ class GraphModule(torch.nn.Module):
         group_norm_85 = l_self_modules_stages_modules_3_modules_blocks_modules_2_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_42 = torch.nn.functional.relu(x_311, inplace=False)
         x_311 = None
-        pow_43 = relu_42**2
+        pow_43 = relu_42 ** 2
         relu_42 = None
         mul_96 = (
             l_self_modules_stages_modules_3_modules_blocks_modules_2_modules_mlp_modules_act_parameters_scale_
@@ -4113,7 +4113,7 @@ class GraphModule(torch.nn.Module):
         group_norm_87 = l_self_modules_stages_modules_3_modules_blocks_modules_3_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_43 = torch.nn.functional.relu(x_318, inplace=False)
         x_318 = None
-        pow_44 = relu_43**2
+        pow_44 = relu_43 ** 2
         relu_43 = None
         mul_99 = (
             l_self_modules_stages_modules_3_modules_blocks_modules_3_modules_mlp_modules_act_parameters_scale_
@@ -4192,7 +4192,7 @@ class GraphModule(torch.nn.Module):
         group_norm_89 = l_self_modules_stages_modules_3_modules_blocks_modules_4_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_44 = torch.nn.functional.relu(x_325, inplace=False)
         x_325 = None
-        pow_45 = relu_44**2
+        pow_45 = relu_44 ** 2
         relu_44 = None
         mul_102 = (
             l_self_modules_stages_modules_3_modules_blocks_modules_4_modules_mlp_modules_act_parameters_scale_
@@ -4271,7 +4271,7 @@ class GraphModule(torch.nn.Module):
         group_norm_91 = l_self_modules_stages_modules_3_modules_blocks_modules_5_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_45 = torch.nn.functional.relu(x_332, inplace=False)
         x_332 = None
-        pow_46 = relu_45**2
+        pow_46 = relu_45 ** 2
         relu_45 = None
         mul_105 = (
             l_self_modules_stages_modules_3_modules_blocks_modules_5_modules_mlp_modules_act_parameters_scale_
@@ -4350,7 +4350,7 @@ class GraphModule(torch.nn.Module):
         group_norm_93 = l_self_modules_stages_modules_3_modules_blocks_modules_6_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_46 = torch.nn.functional.relu(x_339, inplace=False)
         x_339 = None
-        pow_47 = relu_46**2
+        pow_47 = relu_46 ** 2
         relu_46 = None
         mul_108 = (
             l_self_modules_stages_modules_3_modules_blocks_modules_6_modules_mlp_modules_act_parameters_scale_
@@ -4429,7 +4429,7 @@ class GraphModule(torch.nn.Module):
         group_norm_95 = l_self_modules_stages_modules_3_modules_blocks_modules_7_modules_mlp_modules_fc1_parameters_weight_ = (None)
         relu_47 = torch.nn.functional.relu(x_346, inplace=False)
         x_346 = None
-        pow_48 = relu_47**2
+        pow_48 = relu_47 ** 2
         relu_47 = None
         mul_111 = (
             l_self_modules_stages_modules_3_modules_blocks_modules_7_modules_mlp_modules_act_parameters_scale_

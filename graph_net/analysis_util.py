@@ -121,7 +121,7 @@ def parse_logs_to_data(log_file: str) -> list:
             current_run_key = processing_match.group(1).strip()
             # Initialize a nested dictionary structure for this new run
             all_runs_data[current_run_key] = {
-                "model_path" : line.split()[-1],
+                "model_path": line.split()[-1],
                 "configuration": {},
                 "correctness": {},
                 "performance": {
@@ -406,12 +406,12 @@ def calculate_s_scores(
             )
 
             expected_s = (
-                alpha**lambda_
+                alpha ** lambda_
                 * beta ** (lambda_ * eta * negative_speedup_penalty)
                 * fpdb ** (1 - lambda_)
             )
             expected_es = (
-                alpha**lambda_
+                alpha ** lambda_
                 * beta ** (lambda_ * eta * negative_speedup_penalty)
                 * gamma ** (1 - lambda_)
             )
@@ -619,7 +619,8 @@ def check_sample_correctness(sample: dict, t_key: int) -> tuple[bool, str]:
 
     return is_correct, None if is_correct else "accuracy"
 
-def get_incorrect_models(tolerance,log_file_path)->list:
+
+def get_incorrect_models(tolerance, log_file_path) -> list:
     """
     Filters and returns models with accuracy issues based on given tolerance threshold.
 
@@ -636,7 +637,7 @@ def get_incorrect_models(tolerance,log_file_path)->list:
     failed_models = []
     datalist = parse_logs_to_data(log_file_path)
     for i in datalist:
-        iscorrect,err = check_sample_correctness(i,tolerance)
+        iscorrect, err = check_sample_correctness(i, tolerance)
         if not iscorrect:
-            failed_models.append(i.get('model_path'))
+            failed_models.append(i.get("model_path"))
     return failed_models

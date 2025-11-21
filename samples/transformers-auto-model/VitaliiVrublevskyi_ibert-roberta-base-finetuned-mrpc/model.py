@@ -495,7 +495,7 @@ class GraphModule(torch.nn.Module):
         mean = x_act_1.mean(axis=2, keepdim=True)
         y = x_act_1 - mean
         x_act_1 = mean = None
-        pow_1 = y**2
+        pow_1 = y ** 2
         var = torch.mean(pow_1, axis=2, keepdim=True)
         pow_1 = None
         add_4 = 1e-05 + var
@@ -575,7 +575,7 @@ class GraphModule(torch.nn.Module):
         mean_3 = x_act_2.mean(axis=2, keepdim=True)
         y_1 = x_act_2 - mean_3
         x_act_2 = mean_3 = None
-        pow_2 = y_1**2
+        pow_2 = y_1 ** 2
         var_1 = torch.mean(pow_2, axis=2, keepdim=True)
         pow_2 = None
         add_8 = 1e-05 + var_1
@@ -617,7 +617,7 @@ class GraphModule(torch.nn.Module):
         mean_6 = x_act_3.mean(axis=2, keepdim=True)
         y_2 = x_act_3 - mean_6
         x_act_3 = mean_6 = None
-        pow_3 = y_2**2
+        pow_3 = y_2 ** 2
         var_2 = torch.mean(pow_3, axis=2, keepdim=True)
         pow_3 = None
         add_11 = 1e-05 + var_2
@@ -703,7 +703,7 @@ class GraphModule(torch.nn.Module):
         mean_9 = x_act_4.mean(axis=2, keepdim=True)
         y_3 = x_act_4 - mean_9
         x_act_4 = mean_9 = None
-        pow_4 = y_3**2
+        pow_4 = y_3 ** 2
         var_3 = torch.mean(pow_4, axis=2, keepdim=True)
         pow_4 = None
         add_15 = 1e-05 + var_3
@@ -745,7 +745,7 @@ class GraphModule(torch.nn.Module):
         mean_12 = x_act_5.mean(axis=2, keepdim=True)
         y_4 = x_act_5 - mean_12
         x_act_5 = mean_12 = None
-        pow_5 = y_4**2
+        pow_5 = y_4 ** 2
         var_4 = torch.mean(pow_5, axis=2, keepdim=True)
         pow_5 = None
         add_18 = 1e-05 + var_4
@@ -831,7 +831,7 @@ class GraphModule(torch.nn.Module):
         mean_15 = x_act_6.mean(axis=2, keepdim=True)
         y_5 = x_act_6 - mean_15
         x_act_6 = mean_15 = None
-        pow_6 = y_5**2
+        pow_6 = y_5 ** 2
         var_5 = torch.mean(pow_6, axis=2, keepdim=True)
         pow_6 = None
         add_22 = 1e-05 + var_5
@@ -873,7 +873,7 @@ class GraphModule(torch.nn.Module):
         mean_18 = x_act_7.mean(axis=2, keepdim=True)
         y_6 = x_act_7 - mean_18
         x_act_7 = mean_18 = None
-        pow_7 = y_6**2
+        pow_7 = y_6 ** 2
         var_6 = torch.mean(pow_7, axis=2, keepdim=True)
         pow_7 = None
         add_25 = 1e-05 + var_6
@@ -959,7 +959,7 @@ class GraphModule(torch.nn.Module):
         mean_21 = x_act_8.mean(axis=2, keepdim=True)
         y_7 = x_act_8 - mean_21
         x_act_8 = mean_21 = None
-        pow_8 = y_7**2
+        pow_8 = y_7 ** 2
         var_7 = torch.mean(pow_8, axis=2, keepdim=True)
         pow_8 = None
         add_29 = 1e-05 + var_7
@@ -1001,7 +1001,7 @@ class GraphModule(torch.nn.Module):
         mean_24 = x_act_9.mean(axis=2, keepdim=True)
         y_8 = x_act_9 - mean_24
         x_act_9 = mean_24 = None
-        pow_9 = y_8**2
+        pow_9 = y_8 ** 2
         var_8 = torch.mean(pow_9, axis=2, keepdim=True)
         pow_9 = None
         add_32 = 1e-05 + var_8
@@ -1087,7 +1087,7 @@ class GraphModule(torch.nn.Module):
         mean_27 = x_act_10.mean(axis=2, keepdim=True)
         y_9 = x_act_10 - mean_27
         x_act_10 = mean_27 = None
-        pow_10 = y_9**2
+        pow_10 = y_9 ** 2
         var_9 = torch.mean(pow_10, axis=2, keepdim=True)
         pow_10 = None
         add_36 = 1e-05 + var_9
@@ -1129,7 +1129,7 @@ class GraphModule(torch.nn.Module):
         mean_30 = x_act_11.mean(axis=2, keepdim=True)
         y_10 = x_act_11 - mean_30
         x_act_11 = mean_30 = None
-        pow_11 = y_10**2
+        pow_11 = y_10 ** 2
         var_10 = torch.mean(pow_11, axis=2, keepdim=True)
         pow_11 = None
         add_39 = 1e-05 + var_10
@@ -1215,7 +1215,7 @@ class GraphModule(torch.nn.Module):
         mean_33 = x_act_12.mean(axis=2, keepdim=True)
         y_11 = x_act_12 - mean_33
         x_act_12 = mean_33 = None
-        pow_12 = y_11**2
+        pow_12 = y_11 ** 2
         var_11 = torch.mean(pow_12, axis=2, keepdim=True)
         pow_12 = None
         add_43 = 1e-05 + var_11
@@ -1257,7 +1257,7 @@ class GraphModule(torch.nn.Module):
         mean_36 = x_act_13.mean(axis=2, keepdim=True)
         y_12 = x_act_13 - mean_36
         x_act_13 = mean_36 = None
-        pow_13 = y_12**2
+        pow_13 = y_12 ** 2
         var_12 = torch.mean(pow_13, axis=2, keepdim=True)
         pow_13 = None
         add_46 = 1e-05 + var_12
@@ -1343,7 +1343,7 @@ class GraphModule(torch.nn.Module):
         mean_39 = x_act_14.mean(axis=2, keepdim=True)
         y_13 = x_act_14 - mean_39
         x_act_14 = mean_39 = None
-        pow_14 = y_13**2
+        pow_14 = y_13 ** 2
         var_13 = torch.mean(pow_14, axis=2, keepdim=True)
         pow_14 = None
         add_50 = 1e-05 + var_13
@@ -1385,7 +1385,7 @@ class GraphModule(torch.nn.Module):
         mean_42 = x_act_15.mean(axis=2, keepdim=True)
         y_14 = x_act_15 - mean_42
         x_act_15 = mean_42 = None
-        pow_15 = y_14**2
+        pow_15 = y_14 ** 2
         var_14 = torch.mean(pow_15, axis=2, keepdim=True)
         pow_15 = None
         add_53 = 1e-05 + var_14
@@ -1471,7 +1471,7 @@ class GraphModule(torch.nn.Module):
         mean_45 = x_act_16.mean(axis=2, keepdim=True)
         y_15 = x_act_16 - mean_45
         x_act_16 = mean_45 = None
-        pow_16 = y_15**2
+        pow_16 = y_15 ** 2
         var_15 = torch.mean(pow_16, axis=2, keepdim=True)
         pow_16 = None
         add_57 = 1e-05 + var_15
@@ -1513,7 +1513,7 @@ class GraphModule(torch.nn.Module):
         mean_48 = x_act_17.mean(axis=2, keepdim=True)
         y_16 = x_act_17 - mean_48
         x_act_17 = mean_48 = None
-        pow_17 = y_16**2
+        pow_17 = y_16 ** 2
         var_16 = torch.mean(pow_17, axis=2, keepdim=True)
         pow_17 = None
         add_60 = 1e-05 + var_16
@@ -1599,7 +1599,7 @@ class GraphModule(torch.nn.Module):
         mean_51 = x_act_18.mean(axis=2, keepdim=True)
         y_17 = x_act_18 - mean_51
         x_act_18 = mean_51 = None
-        pow_18 = y_17**2
+        pow_18 = y_17 ** 2
         var_17 = torch.mean(pow_18, axis=2, keepdim=True)
         pow_18 = None
         add_64 = 1e-05 + var_17
@@ -1641,7 +1641,7 @@ class GraphModule(torch.nn.Module):
         mean_54 = x_act_19.mean(axis=2, keepdim=True)
         y_18 = x_act_19 - mean_54
         x_act_19 = mean_54 = None
-        pow_19 = y_18**2
+        pow_19 = y_18 ** 2
         var_18 = torch.mean(pow_19, axis=2, keepdim=True)
         pow_19 = None
         add_67 = 1e-05 + var_18
@@ -1727,7 +1727,7 @@ class GraphModule(torch.nn.Module):
         mean_57 = x_act_20.mean(axis=2, keepdim=True)
         y_19 = x_act_20 - mean_57
         x_act_20 = mean_57 = None
-        pow_20 = y_19**2
+        pow_20 = y_19 ** 2
         var_19 = torch.mean(pow_20, axis=2, keepdim=True)
         pow_20 = None
         add_71 = 1e-05 + var_19
@@ -1769,7 +1769,7 @@ class GraphModule(torch.nn.Module):
         mean_60 = x_act_21.mean(axis=2, keepdim=True)
         y_20 = x_act_21 - mean_60
         x_act_21 = mean_60 = None
-        pow_21 = y_20**2
+        pow_21 = y_20 ** 2
         var_20 = torch.mean(pow_21, axis=2, keepdim=True)
         pow_21 = None
         add_74 = 1e-05 + var_20
@@ -1855,7 +1855,7 @@ class GraphModule(torch.nn.Module):
         mean_63 = x_act_22.mean(axis=2, keepdim=True)
         y_21 = x_act_22 - mean_63
         x_act_22 = mean_63 = None
-        pow_22 = y_21**2
+        pow_22 = y_21 ** 2
         var_21 = torch.mean(pow_22, axis=2, keepdim=True)
         pow_22 = None
         add_78 = 1e-05 + var_21
@@ -1897,7 +1897,7 @@ class GraphModule(torch.nn.Module):
         mean_66 = x_act_23.mean(axis=2, keepdim=True)
         y_22 = x_act_23 - mean_66
         x_act_23 = mean_66 = None
-        pow_23 = y_22**2
+        pow_23 = y_22 ** 2
         var_22 = torch.mean(pow_23, axis=2, keepdim=True)
         pow_23 = None
         add_81 = 1e-05 + var_22
@@ -1983,7 +1983,7 @@ class GraphModule(torch.nn.Module):
         mean_69 = x_act_24.mean(axis=2, keepdim=True)
         y_23 = x_act_24 - mean_69
         x_act_24 = mean_69 = None
-        pow_24 = y_23**2
+        pow_24 = y_23 ** 2
         var_23 = torch.mean(pow_24, axis=2, keepdim=True)
         pow_24 = None
         add_85 = 1e-05 + var_23
@@ -2025,7 +2025,7 @@ class GraphModule(torch.nn.Module):
         mean_72 = x_act_25.mean(axis=2, keepdim=True)
         y_24 = x_act_25 - mean_72
         x_act_25 = mean_72 = None
-        pow_25 = y_24**2
+        pow_25 = y_24 ** 2
         var_24 = torch.mean(pow_25, axis=2, keepdim=True)
         pow_25 = None
         add_88 = 1e-05 + var_24

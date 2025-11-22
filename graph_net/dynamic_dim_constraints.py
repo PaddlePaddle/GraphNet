@@ -9,7 +9,7 @@ from collections import namedtuple
 
 @dataclass
 class DynamicDimConstraints:
-    kSymbolVarNamePrefix = "s"
+    kSymbolVarNamePrefix = "S"
 
     symbols: list[sympy.Symbol]
     kSymbols = "dynamic_dim_constraint_symbols"
@@ -22,27 +22,38 @@ class DynamicDimConstraints:
     kRelations = "dynamic_dim_constraint_relations"
 
     # len(input_shapes) equals number of Model.forward arguments
-    input_shapes: list[("var-name", tuple[sympy.Expr | int])]
+    input_shapes: list[(tuple[sympy.Expr | int], "var-name")]
     kInputShapes = "dynamic_dim_constraint_input_shapes"
 
     # len(input_shapes) equals number of Model.forward arguments
-    input_max_values: list[("var-name", tuple[sympy.Expr | int | None])]
+    input_max_values: list[(tuple[sympy.Expr | int | None], "var-name")]
     kInputMaxValues = "dynamic_dim_constraint_input_max_values"
+
+    @classmethod
+    def make_by_named_inputs(cls, named_shapes, named_max_values):
+        return cls(
+            symbols=[],
+            symbol2example_value={},
+            relations=[],
+            input_shapes=named_shapes,
+            input_max_values=named_max_values,
+        )
 
     def symbolize(
         self,
-        filter_fn=Callable[
-            ["input_name:str", "input_idx:int", "axis:int", "dim:int"], bool
-        ],
+        filter_fn: Callable[[str, int, int, int], bool],
     ) -> sympy.Symbol | None:
         """
+        filter_fn: Callable[
+            ["input_name:str", "input_idx:int", "axis:int", "dim:int"], bool
+        ]
         Returns created symbol.
         """
         InputDim = namedtuple("InputDim", ["input_idx", "axis", "dim"])
         input_dims = [
             InputDim(input_idx, axis, dim)
             for input_idx, namedshape in enumerate(self.input_shapes)
-            for input_name, shape in [namedshape]
+            for shape, input_name in [namedshape]
             for axis, dim in enumerate(shape)
             if isinstance(dim, int)
             if filter_fn(input_name, input_idx, axis, dim)
@@ -54,41 +65,34 @@ class DynamicDimConstraints:
         dim = list(unique_dims)[0]
         new_sym = self._new_symbol(example_value=dim)
         for input_dix, axis, _ in input_dims:
-            self.input_shapes[input_dix][1][axis] = new_sym
+            self.input_shapes[input_dix][0][axis] = new_sym
         return new_sym
 
-    def _new_symbol(self, example_value):
-        max_existed_seq_no = max(
-            [
-                -1,
-                *(
-                    seq_no
-                    for symbol in self.symbols
-                    for seq_no in [int(symbol.name[1:])]
-                ),
-            ]
+    def update_symbol2example_value(self, symbol2example_value: dict):
+        self.symbol2example_value = self._merge_symbol2example_value(
+            symbol2example_value
         )
-        seq_no = max_existed_seq_no + 1
-        symbol = sympy.Symbol(f"{self.kSymbolVarNamePrefix}{seq_no}")
-        self.symbol2example_value[symbol] = example_value
-        self.symbols.append(symbol)
-        return symbol
-
-    def update_symbol2example_value(self, sym2example_value: dict):
-        self.symbol2example_value = self.merge_symbol2example_value(sym2example_value)
         return self
 
-    def merge_symbol2example_value(self, sym2example_value: dict):
-        return {
-            k: v
-            for k, v in [*self.symbol2example_value.items(), *sym2example_value.items()]
-        }
+    def get_reified_input_shapes(self):
+        return [
+            [self._try_reify(dim) for dim in shape] for shape, name in self.input_shapes
+        ]
 
-    def check_delta_symbol2example_value(self, sym2example_value: dict):
-        if len(sym2example_value) == 0:
+    def get_reified_input_max_values(self):
+        return [self._try_reify(max_value) for max_value, name in self.input_max_values]
+
+    def _try_reify(self, dim):
+        if isinstance(dim, sympy.Expr):
+            dim = int(dim.subs(self.symbol2example_value))
+        assert isinstance(dim, (int, type(None))), f"{type(dim)=} {dim=}"
+        return dim
+
+    def check_delta_symbol2example_value(self, symbol2example_value: dict):
+        if len(symbol2example_value) == 0:
             return True
 
-        sym2example_value = self.merge_symbol2example_value(sym2example_value)
+        symbol2example_value = self._merge_symbol2example_value(symbol2example_value)
 
         sym_exprs = [
             *self._get_sym_exprs_from_input_shapes(),
@@ -98,22 +102,7 @@ class DynamicDimConstraints:
         relations = [*self.relations, *(sym_expr > 0 for sym_expr in sym_exprs)]
 
         return all(
-            relation.subs(sym2example_value) == sympy.true for relation in relations
-        )
-
-    def _get_sym_exprs_from_input_shapes(self):
-        yield from (
-            sym_dim
-            for name, shape in self.input_shapes
-            for sym_dim in shape
-            if isinstance(sym_dim, sympy.Expr)
-        )
-
-    def _get_sym_exprs_from_input_max_values(self):
-        yield from (
-            sym_value
-            for name, sym_value in self.input_max_values
-            if isinstance(sym_value, sympy.Expr)
+            relation.subs(symbol2example_value) == sympy.true for relation in relations
         )
 
     def serialize_to_py_str(self):
@@ -187,6 +176,47 @@ from sympy import Symbol, Expr, Rel, Eq
         module = imp.module_from_spec(spec)
         spec.loader.exec_module(module)
         return module
+
+    def _new_symbol(self, example_value):
+        max_existed_seq_no = max(
+            [
+                -1,
+                *(
+                    seq_no
+                    for symbol in self.symbols
+                    for seq_no in [int(symbol.name[len(self.kSymbolVarNamePrefix) :])]
+                ),
+            ]
+        )
+        seq_no = max_existed_seq_no + 1
+        symbol = sympy.Symbol(f"{self.kSymbolVarNamePrefix}{seq_no}")
+        self.symbol2example_value[symbol] = example_value
+        self.symbols.append(symbol)
+        return symbol
+
+    def _merge_symbol2example_value(self, symbol2example_value: dict):
+        return {
+            k: v
+            for k, v in [
+                *self.symbol2example_value.items(),
+                *symbol2example_value.items(),
+            ]
+        }
+
+    def _get_sym_exprs_from_input_shapes(self):
+        yield from (
+            sym_dim
+            for shape, name in self.input_shapes
+            for sym_dim in shape
+            if isinstance(sym_dim, sympy.Expr)
+        )
+
+    def _get_sym_exprs_from_input_max_values(self):
+        yield from (
+            sym_value
+            for sym_value, name in self.input_max_values
+            if isinstance(sym_value, sympy.Expr)
+        )
 
 
 if __name__ == "__main__":

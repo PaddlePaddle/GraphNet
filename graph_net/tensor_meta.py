@@ -5,6 +5,7 @@ from dataclasses import dataclass
 
 @dataclass
 class TensorMeta:
+    record_class_name: str
     name: str
     original_name: str | None
     shape: list[int]
@@ -20,6 +21,7 @@ class TensorMeta:
     def unserialize_from_py_file(cls, file_path) -> list["TensorMeta"]:
         return [
             TensorMeta(
+                record_class_name=attrs.get("record_class_name"),
                 name=attrs.get("name"),
                 original_name=attrs.get("original_name", None),
                 shape=attrs.get("shape", []),
@@ -37,11 +39,13 @@ class TensorMeta:
 
     @classmethod
     def _convert_cls_to_attrs(cls, tensor_meta_cls):
-        return {
+        attrs = {
             k: v
             for k, v in tensor_meta_cls.__dict__.items()
             if not k.startswith("__") and not callable(v)
         }
+        attrs["record_class_name"] = tensor_meta_cls.__name__
+        return attrs
 
     @classmethod
     def _get_classes(cls, file_path, name="unamed"):
@@ -50,10 +54,9 @@ class TensorMeta:
         spec.loader.exec_module(unnamed)
         yield from inspect.getmembers(unnamed, inspect.isclass)
 
-    def serialize_to_py_str(self, cls_name_prefix: str = "example_input") -> str:
-        uid = f"{cls_name_prefix}_tensor_meta_{self.name}"
+    def serialize_to_py_str(self) -> str:
         lines = [
-            (f"class {uid}:"),
+            (f"class {self.record_class_name}:"),
             (f'\tname = "{self.name}"'),
             (f"\tshape = {self.shape}"),
             (f'\tdtype = "{self.dtype}"'),

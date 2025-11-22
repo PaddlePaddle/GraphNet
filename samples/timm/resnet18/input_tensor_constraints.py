@@ -5,7 +5,7 @@ S1 = Symbol("S1")
 
 dynamic_dim_constraint_symbols = [S0, S1]
 
-dynamic_dim_constraint_symbol2example_value = {S0: 224, S1: 1}
+dynamic_dim_constraint_symbol2example_value = {S0: 1, S1: 224}
 
 dynamic_dim_constraint_relations = []
 
@@ -205,7 +205,7 @@ dynamic_dim_constraint_input_shapes = [
         [512, 512, 3, 3],
         "L_self_modules_layer4_modules_1_modules_conv2_parameters_weight_",
     ),
-    ([S1, 3, S0, S0], "L_x_"),
+    ([S0, 3, S1, S1], "L_x_"),
     ([], "s1"),
 ]
 

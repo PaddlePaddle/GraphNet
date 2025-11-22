@@ -143,12 +143,13 @@ def symbolize_data_input_dims(
     Returns new DynamicDimConstraints if success.
     Returns None if no symbolicable dim .
     """
-    unqiue_dims = set()
+    unqiue_dims = []
 
     def dumpy_filter_fn(input_name, input_idx, axis, dim):
         if is_data_input(input_name):
             print("data_input", input_name, input_idx, axis, dim)
-            unqiue_dims.add(dim)
+            if dim not in unqiue_dims:
+                unqiue_dims.append(dim)
         # No symbolization because of returning True
         return False
 

@@ -121,6 +121,7 @@ def parse_logs_to_data(log_file: str) -> list:
             current_run_key = processing_match.group(1).strip()
             # Initialize a nested dictionary structure for this new run
             all_runs_data[current_run_key] = {
+                "model_path": line.split()[-1],
                 "configuration": {},
                 "correctness": {},
                 "performance": {
@@ -617,3 +618,26 @@ def check_sample_correctness(sample: dict, t_key: int) -> tuple[bool, str]:
     )
 
     return is_correct, None if is_correct else "accuracy"
+
+
+def get_incorrect_models(tolerance, log_file_path) -> set[str]:
+    """
+    Filters and returns models with accuracy issues based on given tolerance threshold.
+
+    Parses model data from log file and checks each model's accuracy against the specified
+    tolerance threshold. Returns paths of all models that fail to meet the accuracy requirements.
+
+    Args:
+        tolerance (float): Accuracy tolerance threshold for model validation
+        log_file_path (str): Path to the log file containing model test results
+
+    Returns:
+        failed_models(str): names of models failing accuracy check, empty set if none found
+    """
+    failed_models = set()
+    datalist = parse_logs_to_data(log_file_path)
+    for i in datalist:
+        iscorrect, err = check_sample_correctness(i, tolerance)
+        if not iscorrect:
+            failed_models.add(i.get("model_path"))
+    return failed_models

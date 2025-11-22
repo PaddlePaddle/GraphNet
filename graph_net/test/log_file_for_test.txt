@@ -1,0 +1,1290 @@
+some_information
+some_information
+some_information
+some_information
+some_information
+W1111 17:24:49.445132 3411603 xpu_context.cc:187] Please NOTE: xpu device: 0
+graph-net-test-device-log [Processing] /test/model/path1
+graph-net-test-device-log [Config] model: modelname1
+graph-net-test-device-log [Config] device: xpu
+graph-net-test-device-log [Config] hardware: example_hardware_name
+graph-net-test-device-log [Config] compiler: nope
+graph-net-test-device-log [Config] warmup: 5
+graph-net-test-device-log [Config] trials: 20
+graph-net-test-device-log [Config] compile_framework_version: 3.2.1
+[Profiling] Using device: xpu P800 OAM, warm up 5, trials 20
+Trial 1: e2e=6.7368 ms
+Trial 2: e2e=6.9821 ms
+Trial 3: e2e=6.2935 ms
+Trial 4: e2e=6.2485 ms
+Trial 5: e2e=6.3572 ms
+Trial 6: e2e=6.2943 ms
+Trial 7: e2e=6.2313 ms
+Trial 8: e2e=6.2222 ms
+Trial 9: e2e=6.2501 ms
+Trial 10: e2e=6.2380 ms
+Trial 11: e2e=6.2344 ms
+Trial 12: e2e=6.2830 ms
+Trial 13: e2e=6.2118 ms
+Trial 14: e2e=6.2218 ms
+Trial 15: e2e=6.2239 ms
+Trial 16: e2e=6.2251 ms
+Trial 17: e2e=6.2318 ms
+Trial 18: e2e=6.2189 ms
+Trial 19: e2e=6.2435 ms
+Trial 20: e2e=6.2127 ms
+graph-net-test-device-log [Result][status] eager:success
+graph-net-test-device-log [Datatype][eager]: float32 float32
+graph-net-test-device-log [Datatype][compiled]: float32 float32
+graph-net-test-device-log [DataType] eager:['float32', 'float32'] compiled:['float32', 'float32'] match:True
+graph-net-test-device-log [Shape][eager]: [[1000, 4], [1000, 5]]
+graph-net-test-device-log [Shape][compiled]: [[1000, 4], [1000, 5]]
+graph-net-test-device-log [Shape] eager:[[1000, 4], [1000, 5]] compiled:[[1000, 4], [1000, 5]] match:True
+graph-net-test-device-log [Correctness][equal]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.00E-06]: 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_2.56E-04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.69E-12]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-14_rtol_1.00E-14]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_3.98E-06]: 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_5.85E-04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_2.54E-11]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-13_rtol_2.51E-13]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.58E-05]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.34E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_3.82E-10]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-12_rtol_6.31E-12]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_6.31E-05]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_3.06E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_5.75E-09]: 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-10_rtol_1.58E-10]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_2.51E-04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_7.00E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_8.65E-08]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-09_rtol_3.98E-09]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.00E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.60E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.30E-06]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_1.00E-07]: 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.98E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.66E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_1.96E-05]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-06_rtol_2.51E-06]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_1.58E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_8.36E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_2.94E-04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-05_rtol_6.31E-05]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_6.31E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_1.91E-01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_4.42E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-03_rtol_1.58E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_2.51E-01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_4.37E-01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_6.65E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-02_rtol_3.98E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_3.98E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_2.29E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_1.50E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E+01_rtol_2.51E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_1.58E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_5.23E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_2.26E+02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E+02_rtol_6.31E+02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_6.31E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_1.20E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_3.40E+03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E+04_rtol_1.58E+04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.51E+02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.73E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_5.11E+04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E+05_rtol_3.98E+05]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_1.00E+03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_6.25E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_7.69E+05]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+07_rtol_1.00E+07]: 1 1
+/lib/python3.10/site-packages/paddle/utils/decorator_utils.py:420: Warning: 
+Non compatible API. Please refer to https://www.paddlepaddle.org.cn/documentation/docs/en/develop/guides/model_convert/convert_from_pytorch/api_difference/torch/torch.max.html first.
+  warnings.warn(
+graph-net-test-device-log [Correctness][max_diff]: 8.04663E-07 8.94070E-08
+graph-net-test-device-log [Correctness][mean_diff]: 1.43422E-07 8.46088E-09
+graph-net-test-device-log [Correctness][max_relative_diff]: 6.81983E-06 4.05654E-07
+graph-net-test-device-log [Correctness][mean_relative_diff]: 9.04885E-07 4.43955E-08
+graph-net-test-device-log [Performance][eager]: {"e2e": {"mean": 5.75931, "std": 0.417227, "min": 5.64694, "max": 7.57623}, "gpu": {"mean": 5.73267, "std": 0.417712, "min": 5.62288, "max": 7.5528}}
+graph-net-test-device-log [Performance][compiled]: {"e2e": {"mean": 6.30804, "std": 0.191016, "min": 6.21176, "max": 6.98209}}
+graph-net-test-device-log [Speedup][e2e]: 0.91301
+[1] test_target_device, model_path: /GraphNet/paddle_samples/PaddleX/Cascade-FasterRCNN-ResNet50-FPN/subgraph_7
+XCCL /lib/python3.10/site-packages/paddle/base/../libs/libbkcl.so loaded
+/lib/python3.10/site-packages/paddle/utils/cpp_extension/extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+W1111 17:24:53.990825 3411748 xpu_context.cc:187] Please NOTE: xpu device: 0
+graph-net-test-device-log [Processing] /test/model/path2
+graph-net-test-device-log [Config] model: modelname2
+graph-net-test-device-log [Config] device: xpu
+graph-net-test-device-log [Config] hardware: example_hardware_name
+graph-net-test-device-log [Config] compiler: nope
+graph-net-test-device-log [Config] warmup: 5
+graph-net-test-device-log [Config] trials: 20
+graph-net-test-device-log [Config] compile_framework_version: 3.2.1
+[Profiling] Using device: xpu P800 OAM, warm up 5, trials 26
+Trial 1: e2e=3.9694 ms
+Trial 2: e2e=3.8555 ms
+Trial 3: e2e=3.8567 ms
+Trial 4: e2e=3.8655 ms
+Trial 5: e2e=3.9022 ms
+Trial 6: e2e=3.8619 ms
+Trial 7: e2e=3.8438 ms
+Trial 8: e2e=3.8519 ms
+Trial 9: e2e=3.8538 ms
+Trial 10: e2e=3.8488 ms
+Trial 11: e2e=3.8741 ms
+Trial 12: e2e=3.8552 ms
+Trial 13: e2e=3.8657 ms
+Trial 14: e2e=3.8602 ms
+Trial 15: e2e=3.8750 ms
+Trial 16: e2e=3.8652 ms
+Trial 17: e2e=3.8652 ms
+Trial 18: e2e=3.8538 ms
+Trial 19: e2e=3.8598 ms
+Trial 20: e2e=3.8700 ms
+Trial 21: e2e=3.8583 ms
+Trial 22: e2e=3.8507 ms
+Trial 23: e2e=3.8538 ms
+Trial 24: e2e=3.8567 ms
+Trial 25: e2e=3.8486 ms
+Trial 26: e2e=3.8579 ms
+graph-net-test-device-log [Result][status] eager:success
+graph-net-test-device-log [Datatype][eager]: float32 float32 float32 float32 float32 float32 float32 float32 float32 float32 float32 float32 float32 float32 float32
+graph-net-test-device-log [Datatype][compiled]: float32 float32 float32 float32 float32 float32 float32 float32 float32 float32 float32 float32 float32 float32 float32
+graph-net-test-device-log [DataType] eager:['float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32'] compiled:['float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32', 'float32'] match:True
+graph-net-test-device-log [Shape][eager]: [[4, 3, 256, 192], [4, 3, 128, 96], [4, 3, 64, 48], [4, 3, 32, 24], [4, 3, 16, 12], [4, 12, 256, 192], [4, 12, 128, 96], [4, 12, 64, 48], [4, 12, 32, 24], [4, 12, 16, 12], [147456, 4], [36864, 4], [9216, 4], [2304, 4], [576, 4]]
+graph-net-test-device-log [Shape][compiled]: [[4, 3, 256, 192], [4, 3, 128, 96], [4, 3, 64, 48], [4, 3, 32, 24], [4, 3, 16, 12], [4, 12, 256, 192], [4, 12, 128, 96], [4, 12, 64, 48], [4, 12, 32, 24], [4, 12, 16, 12], [147456, 4], [36864, 4], [9216, 4], [2304, 4], [576, 4]]
+graph-net-test-device-log [Shape] eager:[[4, 3, 256, 192], [4, 3, 128, 96], [4, 3, 64, 48], [4, 3, 32, 24], [4, 3, 16, 12], [4, 12, 256, 192], [4, 12, 128, 96], [4, 12, 64, 48], [4, 12, 32, 24], [4, 12, 16, 12], [147456, 4], [36864, 4], [9216, 4], [2304, 4], [576, 4]] compiled:[[4, 3, 256, 192], [4, 3, 128, 96], [4, 3, 64, 48], [4, 3, 32, 24], [4, 3, 16, 12], [4, 12, 256, 192], [4, 12, 128, 96], [4, 12, 64, 48], [4, 12, 32, 24], [4, 12, 16, 12], [147456, 4], [36864, 4], [9216, 4], [2304, 4], [576, 4]] match:True
+graph-net-test-device-log [Correctness][equal]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.00E-06]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_2.56E-04]: 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.69E-12]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-14_rtol_1.00E-14]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_3.98E-06]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_5.85E-04]: 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_2.54E-11]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-13_rtol_2.51E-13]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.58E-05]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.34E-03]: 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_3.82E-10]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-12_rtol_6.31E-12]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_6.31E-05]: 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_3.06E-03]: 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_5.75E-09]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-10_rtol_1.58E-10]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_2.51E-04]: 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_7.00E-03]: 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_8.65E-08]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-09_rtol_3.98E-09]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.00E-03]: 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.60E-02]: 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.30E-06]: 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_1.00E-07]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.98E-03]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.66E-02]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_1.96E-05]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-06_rtol_2.51E-06]: 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_1.58E-02]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_8.36E-02]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_2.94E-04]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-05_rtol_6.31E-05]: 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_6.31E-02]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_1.91E-01]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_4.42E-03]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-03_rtol_1.58E-03]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_2.51E-01]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_4.37E-01]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_6.65E-02]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-02_rtol_3.98E-02]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_3.98E+00]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_2.29E+00]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_1.50E+01]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E+01_rtol_2.51E+01]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_1.58E+01]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_5.23E+00]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_2.26E+02]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E+02_rtol_6.31E+02]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_6.31E+01]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_1.20E+01]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_3.40E+03]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E+04_rtol_1.58E+04]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.51E+02]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.73E+01]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_5.11E+04]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E+05_rtol_3.98E+05]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_1.00E+03]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_6.25E+01]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_7.69E+05]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+07_rtol_1.00E+07]: 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+/lib/python3.10/site-packages/paddle/utils/decorator_utils.py:420: Warning: 
+Non compatible API. Please refer to https://www.paddlepaddle.org.cn/documentation/docs/en/develop/guides/model_convert/convert_from_pytorch/api_difference/torch/torch.max.html first.
+  warnings.warn(
+graph-net-test-device-log [Correctness][max_diff]: 0.00009 0.00007 0.00007 0.00006 0.00006 0.00001 8.91089E-06 7.48038E-06 5.99027E-06 5.94556E-06 0.00000 0.00000 0.00000 0.00000 0.00000
+graph-net-test-device-log [Correctness][mean_diff]: 0.00005 0.00004 0.00004 0.00003 0.00003 2.87635E-06 2.31671E-06 2.24391E-06 1.83078E-06 1.74341E-06 0.00000 0.00000 0.00000 0.00000 0.00000
+graph-net-test-device-log [Correctness][max_relative_diff]: 27.17366 577.67871 69.49946 37.06393 13.57217 0.00007 0.00006 0.00005 0.00004 0.00005 0.00000 0.00000 0.00000 0.00000 0.00000
+graph-net-test-device-log [Correctness][mean_relative_diff]: 0.00236 0.01226 0.01067 0.01694 0.02168 0.00001 0.00001 9.94829E-06 8.13191E-06 7.75158E-06 0.00000 0.00000 0.00000 0.00000 0.00000
+graph-net-test-device-log [Performance][eager]: {"e2e": {"mean": 14.487, "std": 0.0190105, "min": 14.4629, "max": 14.5445}, "gpu": {"mean": 14.4571, "std": 0.013762, "min": 14.4361, "max": 14.4756}}
+graph-net-test-device-log [Performance][compiled]: {"e2e": {"mean": 3.8646, "std": 0.0237866, "min": 3.84378, "max": 3.96943}}
+graph-net-test-device-log [Speedup][e2e]: 3.74864
+[2] test_target_device, model_path: GraphNet/paddle_samples/PaddleX/PicoDet-L/subgraph_15
+XCCL /lib/python3.10/site-packages/paddle/base/../libs/libbkcl.so loaded
+/lib/python3.10/site-packages/paddle/utils/cpp_extension/extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+W1111 17:24:59.264811 3411852 xpu_context.cc:187] Please NOTE: xpu device: 0
+graph-net-test-device-log [Processing] /test/model/path3
+graph-net-test-device-log [Config] model: modelname3
+graph-net-test-device-log [Config] device: xpu
+graph-net-test-device-log [Config] hardware: example_hardware_name
+graph-net-test-device-log [Config] compiler: nope
+graph-net-test-device-log [Config] warmup: 5
+graph-net-test-device-log [Config] trials: 20
+graph-net-test-device-log [Config] compile_framework_version: 3.2.1
+[Profiling] Using device: xpu P800 OAM, warm up 5, trials 20
+Trial 1: e2e=30.3459 ms
+Trial 2: e2e=30.1650 ms
+Trial 3: e2e=30.1929 ms
+Trial 4: e2e=30.2055 ms
+Trial 5: e2e=30.1406 ms
+Trial 6: e2e=30.1888 ms
+Trial 7: e2e=30.1952 ms
+Trial 8: e2e=30.1900 ms
+Trial 9: e2e=30.1342 ms
+Trial 10: e2e=30.1948 ms
+Trial 11: e2e=30.1640 ms
+Trial 12: e2e=30.2322 ms
+Trial 13: e2e=30.1869 ms
+Trial 14: e2e=30.1347 ms
+Trial 15: e2e=30.1731 ms
+Trial 16: e2e=30.1213 ms
+Trial 17: e2e=30.2308 ms
+Trial 18: e2e=30.1707 ms
+Trial 19: e2e=30.1998 ms
+Trial 20: e2e=30.1778 ms
+graph-net-test-device-log [Result][status] eager:success
+graph-net-test-device-log [Datatype][eager]: float32 float32 float32
+graph-net-test-device-log [Datatype][compiled]: float32 float32 float32
+graph-net-test-device-log [DataType] eager:['float32', 'float32', 'float32'] compiled:['float32', 'float32', 'float32'] match:True
+graph-net-test-device-log [Shape][eager]: [[8, 6885, 4], [8, 6885, 32], [8, 6885, 4]]
+graph-net-test-device-log [Shape][compiled]: [[8, 6885, 4], [8, 6885, 32], [8, 6885, 4]]
+graph-net-test-device-log [Shape] eager:[[8, 6885, 4], [8, 6885, 32], [8, 6885, 4]] compiled:[[8, 6885, 4], [8, 6885, 32], [8, 6885, 4]] match:True
+graph-net-test-device-log [Correctness][equal]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.00E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_2.56E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.69E-12]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-14_rtol_1.00E-14]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_3.98E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_5.85E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_2.54E-11]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-13_rtol_2.51E-13]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.58E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.34E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_3.82E-10]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-12_rtol_6.31E-12]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_6.31E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_3.06E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_5.75E-09]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-10_rtol_1.58E-10]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_2.51E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_7.00E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_8.65E-08]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-09_rtol_3.98E-09]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.00E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.60E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.30E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_1.00E-07]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.98E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.66E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_1.96E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-06_rtol_2.51E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_1.58E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_8.36E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_2.94E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-05_rtol_6.31E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_6.31E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_1.91E-01]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_4.42E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-03_rtol_1.58E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_2.51E-01]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_4.37E-01]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_6.65E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-02_rtol_3.98E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_3.98E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_2.29E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_1.50E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E+01_rtol_2.51E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_1.58E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_5.23E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_2.26E+02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E+02_rtol_6.31E+02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_6.31E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_1.20E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_3.40E+03]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E+04_rtol_1.58E+04]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.51E+02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.73E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_5.11E+04]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E+05_rtol_3.98E+05]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_1.00E+03]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_6.25E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_7.69E+05]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+07_rtol_1.00E+07]: 1 1 1
+/lib/python3.10/site-packages/paddle/utils/decorator_utils.py:420: Warning: 
+Non compatible API. Please refer to https://www.paddlepaddle.org.cn/documentation/docs/en/develop/guides/model_convert/convert_from_pytorch/api_difference/torch/torch.max.html first.
+  warnings.warn(
+graph-net-test-device-log [Correctness][max_diff]: 0.16711 1.49871 0.88988
+graph-net-test-device-log [Correctness][mean_diff]: 0.00954 0.06257 0.04627
+graph-net-test-device-log [Correctness][max_relative_diff]: 0.33667 2.85687E+05 94.43546
+graph-net-test-device-log [Correctness][mean_relative_diff]: 0.01804 1.70847 0.01401
+graph-net-test-device-log [Performance][eager]: {"e2e": {"mean": 16.9452, "std": 0.0718918, "min": 16.8068, "max": 17.0422}, "gpu": {"mean": 16.9027, "std": 0.0769929, "min": 16.7728, "max": 17.0068}}
+graph-net-test-device-log [Performance][compiled]: {"e2e": {"mean": 30.1872, "std": 0.0466033, "min": 30.1213, "max": 30.3459}}
+graph-net-test-device-log [Speedup][e2e]: 0.56134
+[3] test_target_device, model_path: GraphNet/paddle_samples/PaddleX/PicoDet-L/subgraph_0
+XCCL /lib/python3.10/site-packages/paddle/base/../libs/libbkcl.so loaded
+/lib/python3.10/site-packages/paddle/utils/cpp_extension/extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+W1111 17:25:03.680207 3411963 xpu_context.cc:187] Please NOTE: xpu device: 0
+graph-net-test-device-log [Processing] /test/model/path321
+graph-net-test-device-log [Config] model: PicoDet-L
+graph-net-test-device-log [Config] device: xpu
+graph-net-test-device-log [Config] hardware: example_hardware_name
+graph-net-test-device-log [Config] compiler: nope
+graph-net-test-device-log [Config] warmup: 5
+graph-net-test-device-log [Config] trials: 20
+graph-net-test-device-log [Config] compile_framework_version: 3.2.1
+[Profiling] Using device: xpu P800 OAM, warm up 5, trials 20
+Trial 1: e2e=35.1551 ms
+Trial 2: e2e=35.0063 ms
+Trial 3: e2e=34.9803 ms
+Trial 4: e2e=34.9927 ms
+Trial 5: e2e=35.0502 ms
+Trial 6: e2e=34.9972 ms
+Trial 7: e2e=35.0049 ms
+Trial 8: e2e=35.0158 ms
+Trial 9: e2e=35.0232 ms
+Trial 10: e2e=35.0432 ms
+Trial 11: e2e=35.0420 ms
+Trial 12: e2e=35.0378 ms
+Trial 13: e2e=35.0270 ms
+Trial 14: e2e=35.0504 ms
+Trial 15: e2e=35.0311 ms
+Trial 16: e2e=35.0626 ms
+Trial 17: e2e=35.0273 ms
+Trial 18: e2e=35.0597 ms
+Trial 19: e2e=35.0249 ms
+Trial 20: e2e=35.0230 ms
+graph-net-test-device-log [Result][status] eager:success
+graph-net-test-device-log [Datatype][eager]: float32 float32
+graph-net-test-device-log [Datatype][compiled]: float32 float32
+graph-net-test-device-log [DataType] eager:['float32', 'float32'] compiled:['float32', 'float32'] match:True
+graph-net-test-device-log [Shape][eager]: [[8, 4, 8500], [8, 8500, 4]]
+graph-net-test-device-log [Shape][compiled]: [[8, 4, 8500], [8, 8500, 4]]
+graph-net-test-device-log [Shape] eager:[[8, 4, 8500], [8, 8500, 4]] compiled:[[8, 4, 8500], [8, 8500, 4]] match:True
+graph-net-test-device-log [Correctness][equal]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.00E-06]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_2.56E-04]: 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.69E-12]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-14_rtol_1.00E-14]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_3.98E-06]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_5.85E-04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_2.54E-11]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-13_rtol_2.51E-13]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.58E-05]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.34E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_3.82E-10]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-12_rtol_6.31E-12]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_6.31E-05]: 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_3.06E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_5.75E-09]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-10_rtol_1.58E-10]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_2.51E-04]: 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_7.00E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_8.65E-08]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-09_rtol_3.98E-09]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.00E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.60E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.30E-06]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_1.00E-07]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.98E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.66E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_1.96E-05]: 1 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-06_rtol_2.51E-06]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_1.58E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_8.36E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_2.94E-04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-05_rtol_6.31E-05]: 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_6.31E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_1.91E-01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_4.42E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-03_rtol_1.58E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_2.51E-01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_4.37E-01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_6.65E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-02_rtol_3.98E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_3.98E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_2.29E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_1.50E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E+01_rtol_2.51E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_1.58E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_5.23E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_2.26E+02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E+02_rtol_6.31E+02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_6.31E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_1.20E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_3.40E+03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E+04_rtol_1.58E+04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.51E+02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.73E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_5.11E+04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E+05_rtol_3.98E+05]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_1.00E+03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_6.25E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_7.69E+05]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+07_rtol_1.00E+07]: 1 1
+/lib/python3.10/site-packages/paddle/utils/decorator_utils.py:420: Warning: 
+Non compatible API. Please refer to https://www.paddlepaddle.org.cn/documentation/docs/en/develop/guides/model_convert/convert_from_pytorch/api_difference/torch/torch.max.html first.
+  warnings.warn(
+graph-net-test-device-log [Correctness][max_diff]: 0.00010 0.01593
+graph-net-test-device-log [Correctness][mean_diff]: 0.00003 0.00556
+graph-net-test-device-log [Correctness][max_relative_diff]: 0.00026 0.00005
+graph-net-test-device-log [Correctness][mean_relative_diff]: 0.00008 0.00001
+graph-net-test-device-log [Performance][eager]: {"e2e": {"mean": 17.3885, "std": 0.0639722, "min": 17.3111, "max": 17.642}, "gpu": {"mean": 17.3404, "std": 0.0529076, "min": 17.2769, "max": 17.5385}}
+graph-net-test-device-log [Performance][compiled]: {"e2e": {"mean": 35.0327, "std": 0.0354301, "min": 34.9803, "max": 35.1551}}
+graph-net-test-device-log [Speedup][e2e]: 0.49635
+[4] test_target_device, model_path: GraphNet/paddle_samples/PaddleX/PicoDet-L/subgraph_7
+XCCL /lib/python3.10/site-packages/paddle/base/../libs/libbkcl.so loaded
+/lib/python3.10/site-packages/paddle/utils/cpp_extension/extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+W1111 17:25:06.781466 3412046 xpu_context.cc:187] Please NOTE: xpu device: 0
+graph-net-test-device-log [Processing] /test/model/path98
+graph-net-test-device-log [Config] model: PicoDet-L
+graph-net-test-device-log [Config] device: xpu
+graph-net-test-device-log [Config] hardware: example_hardware_name
+graph-net-test-device-log [Config] compiler: nope
+graph-net-test-device-log [Config] warmup: 5
+graph-net-test-device-log [Config] trials: 20
+graph-net-test-device-log [Config] compile_framework_version: 3.2.1
+[Profiling] Using device: xpu P800 OAM, warm up 5, trials 20
+Trial 1: e2e=36.9878 ms
+Trial 2: e2e=36.9225 ms
+Trial 3: e2e=36.9072 ms
+Trial 4: e2e=36.9070 ms
+Trial 5: e2e=36.9873 ms
+Trial 6: e2e=36.9742 ms
+Trial 7: e2e=36.9716 ms
+Trial 8: e2e=36.9594 ms
+Trial 9: e2e=36.9663 ms
+Trial 10: e2e=36.9275 ms
+Trial 11: e2e=36.9461 ms
+Trial 12: e2e=36.9072 ms
+Trial 13: e2e=36.8984 ms
+Trial 14: e2e=36.8855 ms
+Trial 15: e2e=36.8996 ms
+Trial 16: e2e=36.9344 ms
+Trial 17: e2e=36.9995 ms
+Trial 18: e2e=36.8302 ms
+Trial 19: e2e=36.8366 ms
+Trial 20: e2e=36.8421 ms
+graph-net-test-device-log [Result][status] eager:success
+graph-net-test-device-log [Datatype][eager]: float32 float32 float32
+graph-net-test-device-log [Datatype][compiled]: float32 float32 float32
+graph-net-test-device-log [DataType] eager:['float32', 'float32', 'float32'] compiled:['float32', 'float32', 'float32'] match:True
+graph-net-test-device-log [Shape][eager]: [[8, 8500, 4], [8, 8500, 32], [8, 8500, 4]]
+graph-net-test-device-log [Shape][compiled]: [[8, 8500, 4], [8, 8500, 32], [8, 8500, 4]]
+graph-net-test-device-log [Shape] eager:[[8, 8500, 4], [8, 8500, 32], [8, 8500, 4]] compiled:[[8, 8500, 4], [8, 8500, 32], [8, 8500, 4]] match:True
+graph-net-test-device-log [Correctness][equal]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.00E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_2.56E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.69E-12]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-14_rtol_1.00E-14]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_3.98E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_5.85E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_2.54E-11]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-13_rtol_2.51E-13]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.58E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.34E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_3.82E-10]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-12_rtol_6.31E-12]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_6.31E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_3.06E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_5.75E-09]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-10_rtol_1.58E-10]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_2.51E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_7.00E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_8.65E-08]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-09_rtol_3.98E-09]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.00E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.60E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.30E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_1.00E-07]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.98E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.66E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_1.96E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-06_rtol_2.51E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_1.58E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_8.36E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_2.94E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-05_rtol_6.31E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_6.31E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_1.91E-01]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_4.42E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-03_rtol_1.58E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_2.51E-01]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_4.37E-01]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_6.65E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-02_rtol_3.98E-02]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_3.98E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_2.29E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_1.50E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E+01_rtol_2.51E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_1.58E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_5.23E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_2.26E+02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E+02_rtol_6.31E+02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_6.31E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_1.20E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_3.40E+03]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E+04_rtol_1.58E+04]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.51E+02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.73E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_5.11E+04]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E+05_rtol_3.98E+05]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_1.00E+03]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_6.25E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_7.69E+05]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+07_rtol_1.00E+07]: 1 1 1
+/lib/python3.10/site-packages/paddle/utils/decorator_utils.py:420: Warning: 
+Non compatible API. Please refer to https://www.paddlepaddle.org.cn/documentation/docs/en/develop/guides/model_convert/convert_from_pytorch/api_difference/torch/torch.max.html first.
+  warnings.warn(
+graph-net-test-device-log [Correctness][max_diff]: 0.19301 1.60282 0.89995
+graph-net-test-device-log [Correctness][mean_diff]: 0.01071 0.06852 0.05032
+graph-net-test-device-log [Correctness][max_relative_diff]: 0.50070 2.58426E+05 4209.66016
+graph-net-test-device-log [Correctness][mean_relative_diff]: 0.02046 1.84231 0.03299
+graph-net-test-device-log [Performance][eager]: {"e2e": {"mean": 19.6997, "std": 0.0286876, "min": 19.6443, "max": 19.7468}, "gpu": {"mean": 19.6558, "std": 0.0300005, "min": 19.5938, "max": 19.7031}}
+graph-net-test-device-log [Performance][compiled]: {"e2e": {"mean": 36.9245, "std": 0.0494641, "min": 36.8302, "max": 36.9995}}
+graph-net-test-device-log [Speedup][e2e]: 0.53351
+[5] test_target_device, model_path: GraphNet/paddle_samples/PaddleX/PicoDet-L/subgraph_10
+XCCL /lib/python3.10/site-packages/paddle/base/../libs/libbkcl.so loaded
+/lib/python3.10/site-packages/paddle/utils/cpp_extension/extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+W1111 17:25:12.381477 3412182 xpu_context.cc:187] Please NOTE: xpu device: 0
+graph-net-test-device-log [Processing] /test/model/path4
+graph-net-test-device-log [Config] model: PicoDet-L
+graph-net-test-device-log [Config] device: xpu
+graph-net-test-device-log [Config] hardware: example_hardware_name
+graph-net-test-device-log [Config] compiler: nope
+graph-net-test-device-log [Config] warmup: 5
+graph-net-test-device-log [Config] trials: 20
+graph-net-test-device-log [Config] compile_framework_version: 3.2.1
+[Profiling] Using device: xpu P800 OAM, warm up 5, trials 20
+Trial 1: e2e=14.2086 ms
+Trial 2: e2e=12.6026 ms
+Trial 3: e2e=12.4927 ms
+Trial 4: e2e=12.4681 ms
+Trial 5: e2e=12.4850 ms
+Trial 6: e2e=12.4016 ms
+Trial 7: e2e=12.4514 ms
+Trial 8: e2e=12.4745 ms
+Trial 9: e2e=12.4354 ms
+Trial 10: e2e=12.4350 ms
+Trial 11: e2e=12.4652 ms
+Trial 12: e2e=12.4764 ms
+Trial 13: e2e=12.4667 ms
+Trial 14: e2e=12.4638 ms
+Trial 15: e2e=12.4786 ms
+Trial 16: e2e=12.4595 ms
+Trial 17: e2e=12.4938 ms
+Trial 18: e2e=12.4929 ms
+Trial 19: e2e=12.4888 ms
+Trial 20: e2e=12.4407 ms
+graph-net-test-device-log [Result][status] eager:success
+graph-net-test-device-log [Datatype][eager]: float32 float32
+graph-net-test-device-log [Datatype][compiled]: float32 float32
+graph-net-test-device-log [DataType] eager:['float32', 'float32'] compiled:['float32', 'float32'] match:True
+graph-net-test-device-log [Shape][eager]: [[2, 4, 8500], [2, 8500, 4]]
+graph-net-test-device-log [Shape][compiled]: [[2, 4, 8500], [2, 8500, 4]]
+graph-net-test-device-log [Shape] eager:[[2, 4, 8500], [2, 8500, 4]] compiled:[[2, 4, 8500], [2, 8500, 4]] match:True
+graph-net-test-device-log [Correctness][equal]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.00E-06]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_2.56E-04]: 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.69E-12]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-14_rtol_1.00E-14]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_3.98E-06]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_5.85E-04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_2.54E-11]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-13_rtol_2.51E-13]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.58E-05]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.34E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_3.82E-10]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-12_rtol_6.31E-12]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_6.31E-05]: 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_3.06E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_5.75E-09]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-10_rtol_1.58E-10]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_2.51E-04]: 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_7.00E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_8.65E-08]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-09_rtol_3.98E-09]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.00E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.60E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.30E-06]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_1.00E-07]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.98E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.66E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_1.96E-05]: 1 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-06_rtol_2.51E-06]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_1.58E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_8.36E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_2.94E-04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-05_rtol_6.31E-05]: 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_6.31E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_1.91E-01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_4.42E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-03_rtol_1.58E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_2.51E-01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_4.37E-01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_6.65E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-02_rtol_3.98E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_3.98E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_2.29E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_1.50E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E+01_rtol_2.51E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_1.58E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_5.23E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_2.26E+02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E+02_rtol_6.31E+02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_6.31E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_1.20E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_3.40E+03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E+04_rtol_1.58E+04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.51E+02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.73E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_5.11E+04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E+05_rtol_3.98E+05]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_1.00E+03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_6.25E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_7.69E+05]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+07_rtol_1.00E+07]: 1 1
+/lib/python3.10/site-packages/paddle/utils/decorator_utils.py:420: Warning: 
+Non compatible API. Please refer to https://www.paddlepaddle.org.cn/documentation/docs/en/develop/guides/model_convert/convert_from_pytorch/api_difference/torch/torch.max.html first.
+  warnings.warn(
+graph-net-test-device-log [Correctness][max_diff]: 0.00010 0.01654
+graph-net-test-device-log [Correctness][mean_diff]: 0.00003 0.00558
+graph-net-test-device-log [Correctness][max_relative_diff]: 0.00026 0.00006
+graph-net-test-device-log [Correctness][mean_relative_diff]: 0.00008 0.00001
+graph-net-test-device-log [Performance][eager]: {"e2e": {"mean": 6.71146, "std": 0.0335722, "min": 6.68621, "max": 6.84714}, "gpu": {"mean": 6.67104, "std": 0.0127292, "min": 6.65389, "max": 6.69814}}
+graph-net-test-device-log [Performance][compiled]: {"e2e": {"mean": 12.5591, "std": 0.380283, "min": 12.4016, "max": 14.2086}}
+graph-net-test-device-log [Speedup][e2e]: 0.53439
+[6] test_target_device, model_path: GraphNet/paddle_samples/PaddleX/PP-YOLOE_plus-X/subgraph_1
+XCCL /lib/python3.10/site-packages/paddle/base/../libs/libbkcl.so loaded
+/lib/python3.10/site-packages/paddle/utils/cpp_extension/extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+W1111 17:25:14.587062 3412251 xpu_context.cc:187] Please NOTE: xpu device: 0
+graph-net-test-device-log [Processing] /test/model/path6
+graph-net-test-device-log [Config] model: PP-YOLOE_plus-X
+graph-net-test-device-log [Config] device: xpu
+graph-net-test-device-log [Config] hardware: example_hardware_name
+graph-net-test-device-log [Config] compiler: nope
+graph-net-test-device-log [Config] warmup: 5
+graph-net-test-device-log [Config] trials: 20
+graph-net-test-device-log [Config] compile_framework_version: 3.2.1
+[Profiling] Using device: xpu P800 OAM, warm up 5, trials 20
+Trial 1: e2e=24.7083 ms
+Trial 2: e2e=24.5409 ms
+Trial 3: e2e=24.5478 ms
+Trial 4: e2e=24.6773 ms
+Trial 5: e2e=24.5609 ms
+Trial 6: e2e=24.6639 ms
+Trial 7: e2e=24.5461 ms
+Trial 8: e2e=24.6787 ms
+Trial 9: e2e=24.5349 ms
+Trial 10: e2e=24.6620 ms
+Trial 11: e2e=24.6649 ms
+Trial 12: e2e=24.6360 ms
+Trial 13: e2e=24.6706 ms
+Trial 14: e2e=24.6570 ms
+Trial 15: e2e=24.6568 ms
+Trial 16: e2e=24.5724 ms
+Trial 17: e2e=24.6701 ms
+Trial 18: e2e=24.6809 ms
+Trial 19: e2e=24.5383 ms
+Trial 20: e2e=24.7009 ms
+graph-net-test-device-log [Result][status] eager:success
+graph-net-test-device-log [Datatype][eager]: float32
+graph-net-test-device-log [Datatype][compiled]: float32
+graph-net-test-device-log [DataType] eager:['float32'] compiled:['float32'] match:True
+graph-net-test-device-log [Shape][eager]: [[4, 960, 21, 21]]
+graph-net-test-device-log [Shape][compiled]: [[4, 960, 21, 21]]
+graph-net-test-device-log [Shape] eager:[[4, 960, 21, 21]] compiled:[[4, 960, 21, 21]] match:True
+graph-net-test-device-log [Correctness][equal]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.00E-06]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_2.56E-04]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.69E-12]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-14_rtol_1.00E-14]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_3.98E-06]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_5.85E-04]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_2.54E-11]: 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-13_rtol_2.51E-13]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.58E-05]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.34E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_3.82E-10]: 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-12_rtol_6.31E-12]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_6.31E-05]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_3.06E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_5.75E-09]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-10_rtol_1.58E-10]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_2.51E-04]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_7.00E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_8.65E-08]: 0
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-09_rtol_3.98E-09]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.00E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.60E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.30E-06]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_1.00E-07]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.98E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.66E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_1.96E-05]: 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-06_rtol_2.51E-06]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_1.58E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_8.36E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_2.94E-04]: 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-05_rtol_6.31E-05]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_6.31E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_1.91E-01]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_4.42E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-03_rtol_1.58E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_2.51E-01]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_4.37E-01]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_6.65E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-02_rtol_3.98E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_3.98E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_2.29E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_1.50E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E+01_rtol_2.51E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_1.58E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_5.23E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_2.26E+02]: 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E+02_rtol_6.31E+02]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_6.31E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_1.20E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_3.40E+03]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E+04_rtol_1.58E+04]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.51E+02]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.73E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_5.11E+04]: 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E+05_rtol_3.98E+05]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_1.00E+03]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_6.25E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_7.69E+05]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+07_rtol_1.00E+07]: 1
+/lib/python3.10/site-packages/paddle/utils/decorator_utils.py:420: Warning: 
+Non compatible API. Please refer to https://www.paddlepaddle.org.cn/documentation/docs/en/develop/guides/model_convert/convert_from_pytorch/api_difference/torch/torch.max.html first.
+  warnings.warn(
+graph-net-test-device-log [Correctness][max_diff]: 1.11355
+graph-net-test-device-log [Correctness][mean_diff]: 0.03280
+graph-net-test-device-log [Correctness][max_relative_diff]: 17123.86328
+graph-net-test-device-log [Correctness][mean_relative_diff]: 0.39236
+graph-net-test-device-log [Performance][eager]: {"e2e": {"mean": 65.2126, "std": 0.14503, "min": 64.9559, "max": 65.6075}, "gpu": {"mean": 65.1506, "std": 0.125022, "min": 64.9185, "max": 65.3964}}
+graph-net-test-device-log [Performance][compiled]: {"e2e": {"mean": 24.6284, "std": 0.0607017, "min": 24.5349, "max": 24.7083}}
+graph-net-test-device-log [Speedup][e2e]: 2.64786
+[7] test_target_device, model_path: GraphNet/paddle_samples/PaddleX/PP-YOLOE_plus-X/subgraph_0
+XCCL /lib/python3.10/site-packages/paddle/base/../libs/libbkcl.so loaded
+/lib/python3.10/site-packages/paddle/utils/cpp_extension/extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+W1111 17:25:20.655839 3412375 xpu_context.cc:187] Please NOTE: xpu device: 0
+graph-net-test-device-log [Processing] /test/model/path67
+graph-net-test-device-log [Config] model: PP-YOLOE_plus-X
+graph-net-test-device-log [Config] device: xpu
+graph-net-test-device-log [Config] hardware: example_hardware_name
+graph-net-test-device-log [Config] compiler: nope
+graph-net-test-device-log [Config] warmup: 5
+graph-net-test-device-log [Config] trials: 20
+graph-net-test-device-log [Config] compile_framework_version: 3.2.1
+[Profiling] Using device: xpu P800 OAM, warm up 5, trials 20
+Trial 1: e2e=16.6447 ms
+Trial 2: e2e=15.4283 ms
+Trial 3: e2e=15.3337 ms
+Trial 4: e2e=15.3639 ms
+Trial 5: e2e=15.3368 ms
+Trial 6: e2e=15.3091 ms
+Trial 7: e2e=15.3019 ms
+Trial 8: e2e=15.2555 ms
+Trial 9: e2e=15.2454 ms
+Trial 10: e2e=15.2400 ms
+Trial 11: e2e=15.2695 ms
+Trial 12: e2e=15.2574 ms
+Trial 13: e2e=15.2345 ms
+Trial 14: e2e=15.2440 ms
+Trial 15: e2e=15.2309 ms
+Trial 16: e2e=15.2400 ms
+Trial 17: e2e=15.2450 ms
+Trial 18: e2e=15.3775 ms
+Trial 19: e2e=15.2597 ms
+Trial 20: e2e=15.3439 ms
+graph-net-test-device-log [Result][status] eager:success
+graph-net-test-device-log [Datatype][eager]: float32 float32
+graph-net-test-device-log [Datatype][compiled]: float32 float32
+graph-net-test-device-log [DataType] eager:['float32', 'float32'] compiled:['float32', 'float32'] match:True
+graph-net-test-device-log [Shape][eager]: [[2, 4, 8400], [2, 8400, 4]]
+graph-net-test-device-log [Shape][compiled]: [[2, 4, 8400], [2, 8400, 4]]
+graph-net-test-device-log [Shape] eager:[[2, 4, 8400], [2, 8400, 4]] compiled:[[2, 4, 8400], [2, 8400, 4]] match:True
+graph-net-test-device-log [Correctness][equal]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.00E-06]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_2.56E-04]: 1 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.69E-12]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-14_rtol_1.00E-14]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_3.98E-06]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_5.85E-04]: 1 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_2.54E-11]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-13_rtol_2.51E-13]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.58E-05]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.34E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_3.82E-10]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-12_rtol_6.31E-12]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_6.31E-05]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_3.06E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_5.75E-09]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-10_rtol_1.58E-10]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_2.51E-04]: 1 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_7.00E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_8.65E-08]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-09_rtol_3.98E-09]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.00E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.60E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.30E-06]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_1.00E-07]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.98E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.66E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_1.96E-05]: 1 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-06_rtol_2.51E-06]: 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_1.58E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_8.36E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_2.94E-04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-05_rtol_6.31E-05]: 1 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_6.31E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_1.91E-01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_4.42E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-03_rtol_1.58E-03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_2.51E-01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_4.37E-01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_6.65E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-02_rtol_3.98E-02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_3.98E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_2.29E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_1.50E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E+01_rtol_2.51E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_1.58E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_5.23E+00]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_2.26E+02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E+02_rtol_6.31E+02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_6.31E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_1.20E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_3.40E+03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E+04_rtol_1.58E+04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.51E+02]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.73E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_5.11E+04]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E+05_rtol_3.98E+05]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_1.00E+03]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_6.25E+01]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_7.69E+05]: 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+07_rtol_1.00E+07]: 1 1
+/lib/python3.10/site-packages/paddle/utils/decorator_utils.py:420: Warning: 
+Non compatible API. Please refer to https://www.paddlepaddle.org.cn/documentation/docs/en/develop/guides/model_convert/convert_from_pytorch/api_difference/torch/torch.max.html first.
+  warnings.warn(
+graph-net-test-device-log [Correctness][max_diff]: 0.00005 0.00017
+graph-net-test-device-log [Correctness][mean_diff]: 0.00001 0.00013
+graph-net-test-device-log [Correctness][max_relative_diff]: 0.00009 0.00062
+graph-net-test-device-log [Correctness][mean_relative_diff]: 0.00002 0.00048
+graph-net-test-device-log [Performance][eager]: {"e2e": {"mean": 38.1147, "std": 0.0601427, "min": 38.0082, "max": 38.2667}, "gpu": {"mean": 38.0719, "std": 0.0649691, "min": 37.9403, "max": 38.2251}}
+graph-net-test-device-log [Performance][compiled]: {"e2e": {"mean": 15.3581, "std": 0.300302, "min": 15.2309, "max": 16.6447}}
+graph-net-test-device-log [Speedup][e2e]: 2.48173
+[8] test_target_device, model_path: GraphNet/paddle_samples/PaddleX/PP-DocLayout-M/subgraph_4
+XCCL /lib/python3.10/site-packages/paddle/base/../libs/libbkcl.so loaded
+/lib/python3.10/site-packages/paddle/utils/cpp_extension/extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+W1111 17:25:26.079272 3412494 xpu_context.cc:187] Please NOTE: xpu device: 0
+graph-net-test-device-log [Processing] /test/model/path10
+graph-net-test-device-log [Config] model: PP-DocLayout-M
+graph-net-test-device-log [Config] device: xpu
+graph-net-test-device-log [Config] hardware: example_hardware_name
+graph-net-test-device-log [Config] compiler: nope
+graph-net-test-device-log [Config] warmup: 5
+graph-net-test-device-log [Config] trials: 20
+graph-net-test-device-log [Config] compile_framework_version: 3.2.1
+[Profiling] Using device: xpu P800 OAM, warm up 5, trials 20
+Trial 1: e2e=17.3163 ms
+Trial 2: e2e=15.8939 ms
+Trial 3: e2e=15.7557 ms
+Trial 4: e2e=15.8329 ms
+Trial 5: e2e=15.7912 ms
+Trial 6: e2e=15.8319 ms
+Trial 7: e2e=15.7490 ms
+Trial 8: e2e=15.7800 ms
+Trial 9: e2e=15.7917 ms
+Trial 10: e2e=15.7740 ms
+Trial 11: e2e=15.7659 ms
+Trial 12: e2e=15.7633 ms
+Trial 13: e2e=15.7707 ms
+Trial 14: e2e=15.7712 ms
+Trial 15: e2e=15.7602 ms
+Trial 16: e2e=15.7571 ms
+Trial 17: e2e=15.7924 ms
+Trial 18: e2e=15.7671 ms
+Trial 19: e2e=15.7735 ms
+Trial 20: e2e=15.7745 ms
+graph-net-test-device-log [Result][status] eager:success
+graph-net-test-device-log [Datatype][eager]: float32 float32 float32
+graph-net-test-device-log [Datatype][compiled]: float32 float32 float32
+graph-net-test-device-log [DataType] eager:['float32', 'float32', 'float32'] compiled:['float32', 'float32', 'float32'] match:True
+graph-net-test-device-log [Shape][eager]: [[1, 10285, 11], [1, 10285, 32], [1, 10285, 4]]
+graph-net-test-device-log [Shape][compiled]: [[1, 10285, 11], [1, 10285, 32], [1, 10285, 4]]
+graph-net-test-device-log [Shape] eager:[[1, 10285, 11], [1, 10285, 32], [1, 10285, 4]] compiled:[[1, 10285, 11], [1, 10285, 32], [1, 10285, 4]] match:True
+graph-net-test-device-log [Correctness][equal]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.00E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_2.56E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.69E-12]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-14_rtol_1.00E-14]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_3.98E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_5.85E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_2.54E-11]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-13_rtol_2.51E-13]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.58E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.34E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_3.82E-10]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-12_rtol_6.31E-12]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_6.31E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_3.06E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_5.75E-09]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-10_rtol_1.58E-10]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_2.51E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_7.00E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_8.65E-08]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-09_rtol_3.98E-09]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.00E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.60E-02]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.30E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_1.00E-07]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.98E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.66E-02]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_1.96E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-06_rtol_2.51E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_1.58E-02]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_8.36E-02]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_2.94E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-05_rtol_6.31E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_6.31E-02]: 1 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_1.91E-01]: 1 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_4.42E-03]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-03_rtol_1.58E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_2.51E-01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_4.37E-01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_6.65E-02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-02_rtol_3.98E-02]: 1 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_3.98E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_2.29E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_1.50E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E+01_rtol_2.51E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_1.58E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_5.23E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_2.26E+02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E+02_rtol_6.31E+02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_6.31E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_1.20E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_3.40E+03]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E+04_rtol_1.58E+04]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.51E+02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.73E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_5.11E+04]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E+05_rtol_3.98E+05]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_1.00E+03]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_6.25E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_7.69E+05]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+07_rtol_1.00E+07]: 1 1 1
+/lib/python3.10/site-packages/paddle/utils/decorator_utils.py:420: Warning: 
+Non compatible API. Please refer to https://www.paddlepaddle.org.cn/documentation/docs/en/develop/guides/model_convert/convert_from_pytorch/api_difference/torch/torch.max.html first.
+  warnings.warn(
+graph-net-test-device-log [Correctness][max_diff]: 0.00531 0.10862 0.05797
+graph-net-test-device-log [Correctness][mean_diff]: 0.00045 0.00357 0.00309
+graph-net-test-device-log [Correctness][max_relative_diff]: 0.01011 4324.12256 2.17629
+graph-net-test-device-log [Correctness][mean_relative_diff]: 0.00083 0.08816 0.00050
+graph-net-test-device-log [Performance][eager]: {"e2e": {"mean": 7.69546, "std": 0.0349717, "min": 7.6313, "max": 7.76601}, "gpu": {"mean": 7.65193, "std": 0.0381646, "min": 7.57408, "max": 7.72573}}
+graph-net-test-device-log [Performance][compiled]: {"e2e": {"mean": 15.8606, "std": 0.335607, "min": 15.749, "max": 17.3163}}
+graph-net-test-device-log [Speedup][e2e]: 0.48519
+[9] test_target_device, model_path: GraphNet/paddle_samples/PaddleX/PP-DocLayout-M/subgraph_3
+XCCL /lib/python3.10/site-packages/paddle/base/../libs/libbkcl.so loaded
+/lib/python3.10/site-packages/paddle/utils/cpp_extension/extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+W1111 17:25:28.590328 3412577 xpu_context.cc:187] Please NOTE: xpu device: 0
+graph-net-test-device-log [Processing] /test/model/path54
+graph-net-test-device-log [Config] model: PP-DocLayout-M
+graph-net-test-device-log [Config] device: xpu
+graph-net-test-device-log [Config] hardware: example_hardware_name
+graph-net-test-device-log [Config] compiler: nope
+graph-net-test-device-log [Config] warmup: 5
+graph-net-test-device-log [Config] trials: 20
+graph-net-test-device-log [Config] compile_framework_version: 3.2.1
+[Profiling] Using device: xpu P800 OAM, warm up 5, trials 20
+Trial 1: e2e=19.9835 ms
+Trial 2: e2e=16.1490 ms
+Trial 3: e2e=15.9543 ms
+Trial 4: e2e=16.1259 ms
+Trial 5: e2e=15.9574 ms
+Trial 6: e2e=16.0751 ms
+Trial 7: e2e=15.9714 ms
+Trial 8: e2e=16.0520 ms
+Trial 9: e2e=15.9349 ms
+Trial 10: e2e=16.0065 ms
+Trial 11: e2e=16.0713 ms
+Trial 12: e2e=15.9416 ms
+Trial 13: e2e=15.9619 ms
+Trial 14: e2e=16.0427 ms
+Trial 15: e2e=15.8978 ms
+Trial 16: e2e=16.0162 ms
+Trial 17: e2e=15.8985 ms
+Trial 18: e2e=16.0346 ms
+Trial 19: e2e=15.8937 ms
+Trial 20: e2e=16.0446 ms
+graph-net-test-device-log [Result][status] eager:success
+graph-net-test-device-log [Datatype][eager]: float32 float32 float32
+graph-net-test-device-log [Datatype][compiled]: float32 float32 float32
+graph-net-test-device-log [DataType] eager:['float32', 'float32', 'float32'] compiled:['float32', 'float32', 'float32'] match:True
+graph-net-test-device-log [Shape][eager]: [[1, 8500, 11], [1, 8500, 32], [1, 8500, 4]]
+graph-net-test-device-log [Shape][compiled]: [[1, 8500, 11], [1, 8500, 32], [1, 8500, 4]]
+graph-net-test-device-log [Shape] eager:[[1, 8500, 11], [1, 8500, 32], [1, 8500, 4]] compiled:[[1, 8500, 11], [1, 8500, 32], [1, 8500, 4]] match:True
+graph-net-test-device-log [Correctness][equal]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.00E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_2.56E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.69E-12]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-14_rtol_1.00E-14]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_3.98E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_5.85E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_2.54E-11]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-13_rtol_2.51E-13]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.58E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.34E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_3.82E-10]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-12_rtol_6.31E-12]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_6.31E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_3.06E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_5.75E-09]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-10_rtol_1.58E-10]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_2.51E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_7.00E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_8.65E-08]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-09_rtol_3.98E-09]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.00E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.60E-02]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.30E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_1.00E-07]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.98E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.66E-02]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_1.96E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-06_rtol_2.51E-06]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_1.58E-02]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_8.36E-02]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_2.94E-04]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-05_rtol_6.31E-05]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_6.31E-02]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_1.91E-01]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_4.42E-03]: 1 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-03_rtol_1.58E-03]: 0 0 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_2.51E-01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_4.37E-01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_6.65E-02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-02_rtol_3.98E-02]: 1 0 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_3.98E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_2.29E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_1.50E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E+01_rtol_2.51E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_1.58E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_5.23E+00]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_2.26E+02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E+02_rtol_6.31E+02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_6.31E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_1.20E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_3.40E+03]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E+04_rtol_1.58E+04]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.51E+02]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.73E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_5.11E+04]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E+05_rtol_3.98E+05]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_1.00E+03]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_6.25E+01]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_7.69E+05]: 1 1 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+07_rtol_1.00E+07]: 1 1 1
+/lib/python3.10/site-packages/paddle/utils/decorator_utils.py:420: Warning: 
+Non compatible API. Please refer to https://www.paddlepaddle.org.cn/documentation/docs/en/develop/guides/model_convert/convert_from_pytorch/api_difference/torch/torch.max.html first.
+  warnings.warn(
+graph-net-test-device-log [Correctness][max_diff]: 0.00729 0.12107 0.07419
+graph-net-test-device-log [Correctness][mean_diff]: 0.00076 0.00559 0.00490
+graph-net-test-device-log [Correctness][max_relative_diff]: 0.01314 1348.51404 1.43503
+graph-net-test-device-log [Correctness][mean_relative_diff]: 0.00139 0.10753 0.00091
+graph-net-test-device-log [Performance][eager]: {"e2e": {"mean": 7.8764, "std": 0.0542921, "min": 7.77745, "max": 7.98774}, "gpu": {"mean": 7.83424, "std": 0.0525569, "min": 7.74307, "max": 7.94726}}
+graph-net-test-device-log [Performance][compiled]: {"e2e": {"mean": 16.2006, "std": 0.870805, "min": 15.8937, "max": 19.9835}}
+graph-net-test-device-log [Speedup][e2e]: 0.48618
+[10] test_target_device, model_path: GraphNet/paddle_samples/PaddleX/MobileNetV4_hybrid_medium/subgraph_2
+XCCL /lib/python3.10/site-packages/paddle/base/../libs/libbkcl.so loaded
+/lib/python3.10/site-packages/paddle/utils/cpp_extension/extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+W1111 17:25:31.308501 3412650 xpu_context.cc:187] Please NOTE: xpu device: 0
+graph-net-test-device-log [Processing] /test/model/path23
+graph-net-test-device-log [Config] model: MobileNetV4_hybrid_medium
+graph-net-test-device-log [Config] device: xpu
+graph-net-test-device-log [Config] hardware: example_hardware_name
+graph-net-test-device-log [Config] compiler: nope
+graph-net-test-device-log [Config] warmup: 5
+graph-net-test-device-log [Config] trials: 20
+graph-net-test-device-log [Config] compile_framework_version: 3.2.1
+[Profiling] Using device: xpu P800 OAM, warm up 5, trials 20
+Trial 1: e2e=19.3491 ms
+Trial 2: e2e=18.8920 ms
+Trial 3: e2e=18.8539 ms
+Trial 4: e2e=21.3571 ms
+Trial 5: e2e=18.8804 ms
+Trial 6: e2e=18.8956 ms
+Trial 7: e2e=18.8756 ms
+Trial 8: e2e=18.9004 ms
+Trial 9: e2e=18.8520 ms
+Trial 10: e2e=18.8777 ms
+Trial 11: e2e=18.9214 ms
+Trial 12: e2e=18.8642 ms
+Trial 13: e2e=18.9123 ms
+Trial 14: e2e=18.8656 ms
+Trial 15: e2e=18.8799 ms
+Trial 16: e2e=18.9145 ms
+Trial 17: e2e=18.9478 ms
+Trial 18: e2e=18.8646 ms
+Trial 19: e2e=18.8928 ms
+Trial 20: e2e=18.9118 ms
+graph-net-test-device-log [Result][status] eager:success
+graph-net-test-device-log [Datatype][eager]: float32
+graph-net-test-device-log [Datatype][compiled]: float32
+graph-net-test-device-log [DataType] eager:['float32'] compiled:['float32'] match:True
+graph-net-test-device-log [Shape][eager]: [[64, 102]]
+graph-net-test-device-log [Shape][compiled]: [[64, 102]]
+graph-net-test-device-log [Shape] eager:[[64, 102]] compiled:[[64, 102]] match:True
+graph-net-test-device-log [Correctness][equal]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.00E-06]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_2.56E-04]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-10_rtol_1.69E-12]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-14_rtol_1.00E-14]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_3.98E-06]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_5.85E-04]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-09_rtol_2.54E-11]: 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-13_rtol_2.51E-13]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.58E-05]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_1.34E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-08_rtol_3.82E-10]: 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-12_rtol_6.31E-12]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_6.31E-05]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_3.06E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_5.75E-09]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-10_rtol_1.58E-10]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_2.51E-04]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_7.00E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-06_rtol_8.65E-08]: 0
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-09_rtol_3.98E-09]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.00E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.60E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-05_rtol_1.30E-06]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-07_rtol_1.00E-07]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.98E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_3.66E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-04_rtol_1.96E-05]: 0
+graph-net-test-device-log [Correctness][all_close_atol_2.51E-06_rtol_2.51E-06]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_1.58E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_8.36E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-03_rtol_2.94E-04]: 0
+graph-net-test-device-log [Correctness][all_close_atol_6.31E-05_rtol_6.31E-05]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_6.31E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_1.91E-01]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-02_rtol_4.42E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.58E-03_rtol_1.58E-03]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_2.51E-01]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_4.37E-01]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E-01_rtol_6.65E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_3.98E-02_rtol_3.98E-02]: 0
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+00_rtol_1.00E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_3.98E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_2.29E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+01_rtol_1.50E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_2.51E+01_rtol_2.51E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_1.58E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_5.23E+00]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+02_rtol_2.26E+02]: 1
+graph-net-test-device-log [Correctness][all_close_atol_6.31E+02_rtol_6.31E+02]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_6.31E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_1.20E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+03_rtol_3.40E+03]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.58E+04_rtol_1.58E+04]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.51E+02]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_2.73E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+04_rtol_5.11E+04]: 1
+graph-net-test-device-log [Correctness][all_close_atol_3.98E+05_rtol_3.98E+05]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_1.00E+03]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_6.25E+01]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+05_rtol_7.69E+05]: 1
+graph-net-test-device-log [Correctness][all_close_atol_1.00E+07_rtol_1.00E+07]: 1
+/lib/python3.10/site-packages/paddle/utils/decorator_utils.py:420: Warning: 
+Non compatible API. Please refer to https://www.paddlepaddle.org.cn/documentation/docs/en/develop/guides/model_convert/convert_from_pytorch/api_difference/torch/torch.max.html first.
+  warnings.warn(
+graph-net-test-device-log [Correctness][max_diff]: 0.70288
+graph-net-test-device-log [Correctness][mean_diff]: 0.01901
+graph-net-test-device-log [Correctness][max_relative_diff]: 17.04443
+graph-net-test-device-log [Correctness][mean_relative_diff]: 0.04722
+graph-net-test-device-log [Performance][eager]: {"e2e": {"mean": 19.5734, "std": 0.0669535, "min": 19.485, "max": 19.8114}, "gpu": {"mean": 19.5193, "std": 0.0382738, "min": 19.447, "max": 19.576}}
+graph-net-test-device-log [Performance][compiled]: {"e2e": {"mean": 19.0354, "std": 0.542466, "min": 18.852, "max": 21.3571}}
+graph-net-test-device-log [Speedup][e2e]: 1.02826
+[11] test_target_device, model_path: GraphNet/paddle_samples/PaddleX/MobileNetV4_hybrid_medium/subgraph_1
+XCCL /lib/python3.10/site-packages/paddle/base/../libs/libbkcl.so loaded
+/lib/python3.10/site-packages/paddle/utils/cpp_extension/extension_utils.py:718: UserWarning: No ccache found. Please be aware that recompiling all source files may be required. You can download and install ccache from: https://github.com/ccache/ccache/blob/master/doc/INSTALL.md
+  warnings.warn(warning_message)
+
+ending
+ending

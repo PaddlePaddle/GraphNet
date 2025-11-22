@@ -36,10 +36,24 @@ def _get_handler(args):
 
 
 def main(args):
-    model_path = args.model_path
-    print(f"{model_path=}")
+    handler = _get_handler(args)
+    for model_path in _get_model_paths(args):
+        print(f"{model_path=}")
+        handler(model_path)
 
-    _get_handler(args)(model_path)
+
+def _get_model_paths(args):
+    assert args.model_path is not None or args.model_path_list is not None
+    if args.model_path is not None:
+        yield args.model_path
+    if args.model_path_list is not None:
+        with open(args.model_path_list) as f:
+            yield from (
+                clean_line
+                for line in f
+                for clean_line in [line.strip()]
+                if len(clean_line) > 0
+            )
 
 
 if __name__ == "__main__":
@@ -47,8 +61,16 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model-path",
         type=str,
-        required=True,
+        required=False,
+        default=None,
         help="Path to folder e.g '../../samples/torch/resnet18'",
+    )
+    parser.add_argument(
+        "--model-path-list",
+        type=str,
+        required=False,
+        default=None,
+        help="Path of file containing model paths.",
     )
     parser.add_argument(
         "--handler-config",

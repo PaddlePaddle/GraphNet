@@ -1,0 +1,3 @@
+samples/timm/resnetaa50d.d_in12k
+samples/timm/regnetx_016.pycls_in1k
+samples/timm/repghostnet_130.in1k

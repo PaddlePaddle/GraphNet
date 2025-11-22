@@ -35,6 +35,7 @@ class UpdateInputTensorConstraints:
         data_input_predicator_config=None,
         model_runnable_predicator_class_name="ModelRunner",
         model_runnable_predicator_config=None,
+        model_path_prefix="",
     ):
         if data_input_predicator_config is None:
             data_input_predicator_config = {}
@@ -47,9 +48,11 @@ class UpdateInputTensorConstraints:
             "model_runnable_predicator_filepath": model_runnable_predicator_filepath,
             "model_runnable_predicator_class_name": model_runnable_predicator_class_name,
             "model_runnable_predicator_config": model_runnable_predicator_config,
+            "model_path_prefix": model_path_prefix,
         }
 
     def __call__(self, model_path):
+        model_path = os.path.join(self.config["model_path_prefix"], model_path)
         tensor_metas = self._get_tensor_metas(model_path)
         dyn_dim_cstr = make_dyn_dim_cstr_from_tensor_metas(tensor_metas)
 

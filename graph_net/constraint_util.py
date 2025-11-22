@@ -105,12 +105,9 @@ def update_tensor_metas_by_dyn_dim_cstr(
     tensor_metas: list[TensorMeta], dyn_dim_cstr: DynamicDimConstraints
 ):
     input_shapes = dyn_dim_cstr.get_reified_input_shapes()
-    input_max_values = dyn_dim_cstr.get_reified_input_max_values()
     assert len(tensor_metas) == len(input_shapes)
-    assert len(tensor_metas) == len(input_max_values)
     for i, tensor_meta in enumerate(tensor_metas):
         tensor_meta.shape = input_shapes[i]
-        tensor_meta.max_val = input_max_values[i]
 
 
 def make_dyn_dim_cstr_from_tensor_metas(tensor_metas: list[TensorMeta]):
@@ -120,15 +117,8 @@ def make_dyn_dim_cstr_from_tensor_metas(tensor_metas: list[TensorMeta]):
         for name in [tensor_meta.name]
         for shape in [tensor_meta.shape]
     ]
-    named_max_values = [
-        (max_val, name)
-        for tensor_meta in tensor_metas
-        for name in [tensor_meta.name]
-        for max_val in [tensor_meta.max_val]
-    ]
     return DynamicDimConstraints.make_by_named_inputs(
         named_shapes=named_shapes,
-        named_max_values=named_max_values,
     )
 
 

@@ -25,18 +25,13 @@ class DynamicDimConstraints:
     input_shapes: list[(tuple[sympy.Expr | int], "var-name")]
     kInputShapes = "dynamic_dim_constraint_input_shapes"
 
-    # len(input_shapes) equals number of Model.forward arguments
-    input_max_values: list[(tuple[sympy.Expr | int | None], "var-name")]
-    kInputMaxValues = "dynamic_dim_constraint_input_max_values"
-
     @classmethod
-    def make_by_named_inputs(cls, named_shapes, named_max_values):
+    def make_by_named_inputs(cls, named_shapes):
         return cls(
             symbols=[],
             symbol2example_value={},
             relations=[],
             input_shapes=named_shapes,
-            input_max_values=named_max_values,
         )
 
     def symbolize(
@@ -79,9 +74,6 @@ class DynamicDimConstraints:
             [self._try_reify(dim) for dim in shape] for shape, name in self.input_shapes
         ]
 
-    def get_reified_input_max_values(self):
-        return [self._try_reify(max_value) for max_value, name in self.input_max_values]
-
     def _try_reify(self, dim):
         if isinstance(dim, sympy.Expr):
             dim = int(dim.subs(self.symbol2example_value))
@@ -96,7 +88,6 @@ class DynamicDimConstraints:
 
         sym_exprs = [
             *self._get_sym_exprs_from_input_shapes(),
-            *self._get_sym_exprs_from_input_max_values(),
         ]
 
         relations = [*self.relations, *(sym_expr > 0 for sym_expr in sym_exprs)]
@@ -123,9 +114,7 @@ from sympy import Symbol, Expr, Rel, Eq
 {self.kRelations} = {self.relations}
 
 {self.kInputShapes} = {self.input_shapes}
-
-{self.kInputMaxValues} = {self.input_max_values}
-        """
+"""
 
     @classmethod
     def unserialize_from_py_file(cls, filepath):
@@ -135,7 +124,6 @@ from sympy import Symbol, Expr, Rel, Eq
             symbol2example_value=cls.module_symbol2example_value(module),
             relations=cls.module_relations(module),
             input_shapes=cls.module_input_shapes(module),
-            input_max_values=cls.module_input_max_values(module),
         )
 
     @classmethod
@@ -153,10 +141,6 @@ from sympy import Symbol, Expr, Rel, Eq
     @classmethod
     def module_input_shapes(cls, module):
         return cls.get_module_list_attr(module, cls.kInputShapes)
-
-    @classmethod
-    def module_input_max_values(cls, module):
-        return cls.get_module_list_attr(module, cls.kInputMaxValues)
 
     @classmethod
     def get_module_list_attr(cls, module, attr):
@@ -209,13 +193,6 @@ from sympy import Symbol, Expr, Rel, Eq
             for shape, name in self.input_shapes
             for sym_dim in shape
             if isinstance(sym_dim, sympy.Expr)
-        )
-
-    def _get_sym_exprs_from_input_max_values(self):
-        yield from (
-            sym_value
-            for sym_value, name in self.input_max_values
-            if isinstance(sym_value, sympy.Expr)
         )
 
 

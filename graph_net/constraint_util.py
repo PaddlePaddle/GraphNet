@@ -2,6 +2,7 @@ from graph_net.dynamic_dim_constraints import DynamicDimConstraints
 from graph_net.imp_util import load_module
 from graph_net.tensor_meta import TensorMeta
 from typing import Callable
+import functools
 import copy
 import sys
 import os
@@ -36,6 +37,7 @@ class UpdateInputTensorConstraints:
         model_runnable_predicator_class_name="ModelRunner",
         model_runnable_predicator_config=None,
         model_path_prefix="",
+        resume=False,
     ):
         if data_input_predicator_config is None:
             data_input_predicator_config = {}
@@ -49,10 +51,23 @@ class UpdateInputTensorConstraints:
             "model_runnable_predicator_class_name": model_runnable_predicator_class_name,
             "model_runnable_predicator_config": model_runnable_predicator_config,
             "model_path_prefix": model_path_prefix,
+            "resume": resume,
         }
 
     def __call__(self, model_path):
         model_path = os.path.join(self.config["model_path_prefix"], model_path)
+        print(f"{model_path=}")
+        cstr_path = os.path.join(model_path, "input_tensor_constraints.py")
+        if (
+            self.config["resume"]
+            and os.path.exists(cstr_path)
+            and DynamicDimConstraints.kSymbols in open(cstr_path).read()
+        ):
+            module = load_module(cstr_path)
+            symbols = getattr(module, DynamicDimConstraints.kSymbols)
+            if len(symbols) > 0:
+                return
+
         tensor_metas = self._get_tensor_metas(model_path)
         dyn_dim_cstr = make_dyn_dim_cstr_from_tensor_metas(tensor_metas)
 
@@ -111,6 +126,11 @@ def update_tensor_metas_by_dyn_dim_cstr(
     assert len(tensor_metas) == len(input_shapes)
     for i, tensor_meta in enumerate(tensor_metas):
         tensor_meta.shape = input_shapes[i]
+        if tensor_meta.data is not None:
+            assert isinstance(tensor_meta.data, (list, tuple))
+            size = functools.reduce(lambda a, b: a * b, tensor_meta.shape, 1)
+            doubled_data = [*tensor_meta.data, *tensor_meta.data]
+            tensor_meta.data = doubled_data[:size]
 
 
 def make_dyn_dim_cstr_from_tensor_metas(tensor_metas: list[TensorMeta]):
@@ -152,7 +172,11 @@ def symbolize_data_input_dims(
         cur_dyn_dim_cstr = copy.deepcopy(dyn_dim_cstr)
 
         def filter_fn(input_name, input_idx, axis, dim):
-            return is_data_input(input_name) and dim == picked_dim
+            return (
+                is_data_input(input_name)
+                and dim == picked_dim
+                and (dim > 1 or axis == 0)
+            )
 
         symbol = cur_dyn_dim_cstr.symbolize(filter_fn)
         if symbol is None:

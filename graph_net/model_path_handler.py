@@ -39,7 +39,12 @@ def main(args):
     handler = _get_handler(args)
     for model_path in _get_model_paths(args):
         print(f"{model_path=}")
-        handler(model_path)
+        try:
+            handler(model_path)
+        except KeyboardInterrupt:
+            sys.exit(-1)
+        except Exception as e:
+            pass
 
 
 def _get_model_paths(args):

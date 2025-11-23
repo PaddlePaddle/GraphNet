@@ -1,3 +1,2 @@
-samples/timm/resnetaa50d.d_in12k
-samples/timm/regnetx_016.pycls_in1k
-samples/timm/repghostnet_130.in1k
+samples/transformers-auto-model/opus-mt-en-gmw
+samples/transformers-auto-model/Michielo_mt5-small_nl-en_translation

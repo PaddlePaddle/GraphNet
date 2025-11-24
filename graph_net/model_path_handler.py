@@ -58,6 +58,7 @@ def _get_model_paths(args):
                 for line in f
                 for clean_line in [line.strip()]
                 if len(clean_line) > 0
+                if not clean_line.startswith("#")
             )
 
 

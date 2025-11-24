@@ -35,8 +35,10 @@ def _get_decorator(args):
     decorator_config = _convert_to_dict(args.decorator_config)
     if "decorator_path" not in decorator_config:
         return lambda model: model
+    class_name = decorator_config.get("decorator_class_name", "RunModelDecorator")
     decorator_class = load_class_from_file(
-        decorator_config["decorator_path"], class_name="RunModelDecorator"
+        decorator_config["decorator_path"],
+        class_name=class_name,
     )
     return decorator_class(decorator_config.get("decorator_config", {}))
 

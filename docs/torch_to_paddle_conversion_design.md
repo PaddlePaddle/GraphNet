@@ -61,22 +61,51 @@ samples/{source}/{model_name}/
 
 ## 3. 系统架构设计
 
-### 3.1 目录结构
+### 3.1 核心设计原则
+
+**重要：转换器必须实现为 CompilerBackend**
+
+整个转换器需要实现为 `GraphCompilerBackend` 接口，以便：
+1. **复用现有测试流程**：转换后的样本可以直接通过 `graph_net.paddle.test_compiler` 流程进行测试
+2. **获得 ES 评估指标**：通过 `test_compiler` 流程生成的日志，可以被 `analysis_util` 解析并计算 ES(t) 指标
+3. **统一接口**：与其他编译器后端（如 CinnBackend、NopeBackend）保持一致，便于集成和管理
+
+**实现位置**：
+- 转换器 Backend：`graph_net/paddle/backend/torch_to_paddle_backend.py`
+- 注册到 `graph_net/paddle/test_compiler.py` 的 `registry_backend` 中
+
+**工作流程**：
+```
+1. 转换阶段（convert.py）：
+   - 将 PyTorch 样本转换为 Paddle 格式
+   - 保存到 torch_to_paddle_samples/ 目录
+
+2. 测试阶段（通过 test_compiler）：
+   - 使用 TorchToPaddleBackend 作为编译器后端
+   - 运行 graph_net.paddle.test_compiler --compiler torch_to_paddle
+   - 生成标准格式的测试日志
+
+3. 评估阶段（通过现有工具）：
+   - 使用 analysis_util 解析测试日志
+   - 使用 plot_ESt.py 计算和绘制 ES(t) 曲线
+   - 获得转换结果的完整评估指标
+```
+
+### 3.2 目录结构
 
 ```
 tools/torch_to_paddle/
 ├── __init__.py
 ├── convert.py              # 转换主脚本
-├── test.py                 # 测试主脚本
 ├── utils.py                # 工具函数模块
 ├── file_processors.py      # 文件处理模块
 └── logs/                   # 日志目录（gitignore）
-    ├── conversion/         # 转换日志
-    │   ├── {timestamp}_conversion_summary.json
-    │   └── {sample_name}_conversion.log
-    └── testing/            # 测试日志
-        ├── {timestamp}_testing_summary.json
-        └── {sample_name}_test.log
+    └── conversion/         # 转换日志
+        ├── {timestamp}_conversion_summary.json
+        └── {sample_name}_conversion.log
+
+graph_net/paddle/backend/
+└── torch_to_paddle_backend.py  # CompilerBackend 实现
 ```
 
 ### 3.2 模块设计
@@ -173,34 +202,93 @@ python -m tools.torch_to_paddle.convert \
     [--dry-run]
 ```
 
-#### 3.2.4 test.py - 测试主脚本
+#### 3.2.4 torch_to_paddle_backend.py - CompilerBackend 实现
 
 **功能**：
-- 读取转换后的样本目录
-- 对每个样本运行 Paddle 验证测试
-- 记录测试日志和失败案例
-- 生成测试报告和 `torch_to_paddle_samples_list.txt`
+- 实现 `GraphCompilerBackend` 接口
+- 在 `__call__` 方法中加载转换后的 Paddle 模型
+- 提供 `synchronize` 方法用于性能测试
 
-**工作流程**：
-```
-1. 扫描转换后的样本目录
-2. 对每个样本：
-   a. 运行 graph_net.paddle.validate
-   b. 捕获测试结果（成功/失败）
-   c. 记录测试日志
-3. 生成汇总报告
-4. 生成 torch_to_paddle_samples_list.txt（剔除失败样本）
+**关键实现**：
+```python
+from graph_net.paddle.backend.graph_compiler_backend import GraphCompilerBackend
+import paddle
+
+class TorchToPaddleBackend(GraphCompilerBackend):
+    """
+    Backend for testing PyTorch-to-Paddle converted models.
+    
+    This backend loads the converted Paddle model and returns it directly,
+    allowing test_compiler to evaluate the conversion quality through
+    standard ES(t) metrics.
+    """
+    def __call__(self, model, input_spec=None):
+        """
+        Return the converted Paddle model directly.
+        
+        The model is already in Paddle format (converted from PyTorch),
+        so we just return it as-is for testing.
+        """
+        return model
+    
+    def synchronize(self):
+        """Synchronize device operations for accurate timing."""
+        if (
+            paddle.device.is_compiled_with_cuda()
+            or paddle.device.is_compiled_with_rocm()
+            or paddle.device.is_compiled_with_xpu()
+        ):
+            paddle.device.synchronize()
 ```
 
-**命令行接口**：
+**注册方式**：
+在 `graph_net/paddle/test_compiler.py` 中注册：
+```python
+from graph_net.paddle.backend.torch_to_paddle_backend import TorchToPaddleBackend
+
+registry_backend = {
+    "cinn": CinnBackend(),
+    "nope": NopeBackend(),
+    "torch_to_paddle": TorchToPaddleBackend(),  # 新增
+}
+```
+
+#### 3.2.5 测试流程（通过 test_compiler）
+
+**重要：复用现有 test_compiler 流程**
+
+转换后的样本**不需要**单独的测试脚本，而是直接通过现有的 `test_compiler` 流程进行测试：
+
+**测试命令**：
 ```bash
-python -m tools.torch_to_paddle.test \
-    --samples-dir torch_to_paddle_samples \
-    --log-dir tools/torch_to_paddle/logs/testing \
-    [--parallel-workers 4] \
-    [--timeout 300] \
-    [--skip-validation]
+# 批量测试转换后的样本
+python -m graph_net.paddle.test_compiler \
+    --compiler torch_to_paddle \
+    --model-path torch_to_paddle_samples/{source}/{model_name} \
+    --device gpu \
+    --warmup 10 \
+    --repeat 100 \
+    --log-prompt "[Processing] {model_name}"
 ```
+
+**测试输出**：
+- 测试日志会输出到标准输出或指定日志文件
+- 日志格式与现有 test_compiler 完全一致
+- 包含性能数据（speedup）、正确性数据（correctness）、数据类型（datatype）等
+
+**ES 评估指标获取**：
+```bash
+# 使用 plot_ESt.py 分析测试日志，获得 ES(t) 指标
+python -m graph_net.plot_ESt \
+    --benchmark-path torch_to_paddle_samples/ \
+    --output-dir results/
+```
+
+**优势**：
+1. **统一接口**：与其他编译器后端使用相同的测试流程
+2. **自动评估**：测试日志自动包含所有 ES(t) 计算所需的数据
+3. **无需额外开发**：不需要开发单独的测试脚本
+4. **结果可比**：转换结果可以直接与其他编译器后端的结果对比
 
 ## 4. 详细设计
 
@@ -299,26 +387,77 @@ def convert_graph_net_json(source_path, target_path, log):
 
 ### 4.3 测试验证设计
 
-#### 4.3.1 测试流程
-使用现有的 `graph_net.paddle.validate` 模块进行验证：
+#### 4.3.1 测试流程（通过 test_compiler）
 
+**核心原则：复用现有 test_compiler 流程**
+
+转换后的样本通过 `graph_net.paddle.test_compiler` 进行测试，使用 `TorchToPaddleBackend` 作为编译器后端。
+
+**测试流程**：
 ```python
-def test_single_sample(sample_path, log):
-    """
-    1. 构建验证命令：
-       python -m graph_net.paddle.validate --model-path {sample_path}
-    2. 执行命令并捕获输出
-    3. 解析输出判断成功/失败
-    4. 记录测试日志
-    5. 返回测试结果
-    """
+# test_compiler 内部流程（已存在）
+1. 加载转换后的 Paddle 模型（model.py）
+2. 加载输入和权重数据（input_meta.py, weight_meta.py）
+3. 使用 TorchToPaddleBackend 编译模型
+4. 运行 Eager 模式基准测试
+5. 运行 Compiled 模式测试（使用 TorchToPaddleBackend）
+6. 比较输出正确性（使用 tolerance 配置）
+7. 测量性能（speedup）
+8. 输出标准格式日志
 ```
 
-#### 4.3.2 错误分类
-- **编译错误**：语法错误、导入错误
-- **运行时错误**：执行时异常
-- **验证失败**：graph_hash 不匹配等
-- **超时**：测试执行超时
+**日志格式**（与现有 test_compiler 完全一致）：
+```
+[Processing] {model_name}
+[Config] model_path: {path}
+[Config] compiler: torch_to_paddle
+[Performance][eager]: {...}
+[Performance][compiled]: {...}
+[Datatype][eager]: [...]
+[Datatype][compiled]: [...]
+[Correctness][[equal]]: [...]
+[Correctness][[all_close_atol_..._rtol_...]]: [...]
+[Speedup][e2e]: {value}
+[Speedup][gpu]: {value}
+[Result] status: success|failed
+```
+
+#### 4.3.2 ES 评估指标获取
+
+**通过现有工具链自动获得**：
+
+1. **解析测试日志**：
+   ```python
+   # 使用 analysis_util 解析日志
+   samples = analysis_util.parse_logs_to_data(log_file)
+   ```
+
+2. **计算 ES(t) 指标**：
+   ```python
+   # 使用 calculate_s_scores 计算 ES(t)
+   s_scores, es_scores = analysis_util.calculate_s_scores(
+       samples, folder_name, negative_speedup_penalty, fpdb
+   )
+   ```
+
+3. **绘制 ES(t) 曲线**：
+   ```bash
+   python -m graph_net.plot_ESt \
+       --benchmark-path {log_file_or_dir} \
+       --output-dir results/
+   ```
+
+**优势**：
+- **无需额外开发**：完全复用现有的评估工具链
+- **结果可比**：转换结果的 ES(t) 指标可以直接与其他编译器后端对比
+- **自动化**：测试和评估流程完全自动化
+
+#### 4.3.3 错误分类
+- **编译错误**：语法错误、导入错误（在 test_compiler 中捕获）
+- **运行时错误**：执行时异常（在 test_compiler 中捕获）
+- **正确性失败**：输出不匹配（通过 tolerance 检查）
+- **性能问题**：speedup < 1（在 ES(t) 计算中考虑）
+- **超时**：测试执行超时（test_compiler 支持 timeout 参数）
 
 ### 4.4 日志和报告设计
 
@@ -395,22 +534,24 @@ def test_single_sample(sample_path, log):
 - 转换策略调整建议
 
 ### 5.2 阶段 2：核心功能实现（3-5 天）
-**目标**：实现基本的转换和测试功能
+**目标**：实现基本的转换功能和 CompilerBackend
 
 **任务**：
 1. 实现 `file_processors.py` 模块
 2. 实现 `convert.py` 主脚本
-3. 实现 `test.py` 主脚本
-4. 实现 `utils.py` 工具函数
-5. 实现日志和报告生成功能
+3. 实现 `torch_to_paddle_backend.py`（CompilerBackend 接口）
+4. 在 `test_compiler.py` 中注册新 backend
+5. 实现 `utils.py` 工具函数
+6. 实现日志和报告生成功能
 
 **输出**：
 - 可运行的转换脚本
-- 可运行的测试脚本
-- 初步的转换和测试结果
+- 可用的 TorchToPaddleBackend
+- 初步的转换结果
+- 通过 test_compiler 测试转换后的样本
 
 ### 5.3 阶段 3：完善和优化（2-3 天）
-**目标**：处理边界情况，优化错误处理
+**目标**：处理边界情况，优化错误处理，验证 ES 评估流程
 
 **任务**：
 1. 处理各种边界情况
@@ -418,11 +559,15 @@ def test_single_sample(sample_path, log):
 3. 实现并行处理（如需要）
 4. 完善报告生成
 5. 生成模型列表文件
+6. **验证 test_compiler 流程**：确保转换后的样本可以通过 test_compiler 正常测试
+7. **验证 ES 评估**：使用 plot_ESt.py 验证能够正确计算 ES(t) 指标
 
 **输出**：
-- 完善的转换和测试工具
-- 完整的转换和测试报告
+- 完善的转换工具
+- 完整的转换报告
 - 两个模型列表文件
+- 通过 test_compiler 测试的日志
+- ES(t) 评估结果
 
 ### 5.4 阶段 4：文档和提交（1 天）
 **目标**：完善文档，准备 PR
@@ -485,9 +630,11 @@ def test_single_sample(sample_path, log):
 - 失败案例有明确的错误分类
 
 ### 7.2 测试阶段
+- **通过 test_compiler 测试**：转换后的样本能够通过 `test_compiler --compiler torch_to_paddle` 正常测试
 - 测试成功率 > 60%（在转换成功的样本中）
-- 所有测试结果都有详细日志
+- 所有测试结果都有详细日志（标准 test_compiler 格式）
 - 失败案例有明确的错误分类
+- **ES 评估指标**：能够通过 `plot_ESt.py` 正确计算和绘制 ES(t) 曲线
 
 ### 7.3 文档和交付
 - 完整的设计文档
@@ -523,6 +670,16 @@ def test_single_sample(sample_path, log):
 - Paddle 验证工具：`graph_net/paddle/validate.py`
 
 ### 9.2 参考实现
-- 现有的测试脚本：`graph_net/paddle/test_target_device.py`
-- 样本检查工具：`tools/check_and_count_samples.py`
+- **CompilerBackend 实现**：
+  - `graph_net/paddle/backend/nope_backend.py`：最简单的 Backend 实现示例
+  - `graph_net/paddle/backend/cinn_backend.py`：完整的 Backend 实现示例
+- **test_compiler 流程**：
+  - `graph_net/paddle/test_compiler.py`：Paddle 测试主流程
+  - `graph_net/torch/test_compiler.py`：PyTorch 测试主流程（参考）
+- **ES 评估工具**：
+  - `graph_net/plot_ESt.py`：ES(t) 计算和绘图工具
+  - `graph_net/analysis_util.py`：日志解析和 ES(t) 计算
+- **其他工具**：
+  - `graph_net/paddle/test_target_device.py`：设备测试脚本
+  - `tools/check_and_count_samples.py`：样本检查工具
 

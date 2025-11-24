@@ -23,6 +23,7 @@ from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
 from graph_net.torch.backend.nope_backend import NopeBackend
 from graph_net.torch.backend.unstable_to_stable_backend import UnstableToStableBackend
+from graph_net.torch.backend.range_decomposer_backend import RangeDecomposerBackend
 from graph_net.torch.backend.range_decomposer_validator_backend import (
     RangeDecomposerValidatorBackend,
 )
@@ -39,6 +40,7 @@ registry_backend = {
     "bladedisc": BladeDISCBackend(),
     "nope": NopeBackend(),
     "unstable_to_stable": UnstableToStableBackend(),
+    "range_decomposer": RangeDecomposerBackend(),
     "range_decomposer_validator": RangeDecomposerValidatorBackend(),
 }
 
@@ -385,10 +387,15 @@ def test_multi_models(args):
 
 
 def main(args):
-    assert os.path.isdir(args.model_path)
-
     initalize_seed = 123
     set_seed(random_seed=initalize_seed)
+
+    if args.compiler == "range_decomposer":
+        compiler = get_compiler_backend(args)
+        compiler(args)
+        return
+
+    assert os.path.isdir(args.model_path)
 
     if path_utils.is_single_model_dir(args.model_path):
         test_single_model(args)

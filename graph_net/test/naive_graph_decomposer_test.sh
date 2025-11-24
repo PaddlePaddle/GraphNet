@@ -9,6 +9,7 @@ export PYTHONPATH="$PROJECT_ROOT:$PYTHONPATH"
 
 
 
+
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(
 os.path.dirname(graph_net.__file__))")
 

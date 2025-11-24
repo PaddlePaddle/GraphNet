@@ -1,4 +1,12 @@
 #!/bin/bash
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+GRAPH_NET_DIR=$(dirname "$SCRIPT_DIR")
+PROJECT_ROOT=$(dirname "$GRAPH_NET_DIR")
+
+# 将项目根目录加入Python路径
+export PYTHONPATH="$PROJECT_ROOT:$PYTHONPATH"
+
+
 
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(

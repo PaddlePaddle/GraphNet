@@ -32,6 +32,8 @@ class GraphExtractor:
         output_dir="./tmp/naive_decomposer_dir",
         filter_path=None,
         filter_config=None,
+        post_extract_process_path=None,
+        post_extract_process_config=None,
     ):
         for pos in split_positions:
             assert isinstance(
@@ -44,6 +46,8 @@ class GraphExtractor:
             "output_dir": output_dir,
             "filter_path": filter_path,
             "filter_config": filter_config if filter_config is not None else {},
+            "post_extract_process_path": post_extract_process_path,
+            "post_extract_process_config": post_extract_process_config,
         }
 
     def __call__(self, gm: torch.fx.GraphModule, sample_inputs):
@@ -71,6 +75,7 @@ class NaiveDecomposerExtractor(torch.nn.Module):
         self.seq_no = seq_no
         self.extracted = False
         name = f"{parent_graph_extractor.name}_{self.seq_no}"
+        self.modelname = name
         self.builtin_extractor = BuiltinGraphExtractor(
             name=name,
             dynamic=False,
@@ -79,21 +84,45 @@ class NaiveDecomposerExtractor(torch.nn.Module):
             workspace_path=self.parent_graph_extractor.config["output_dir"],
         )
         self.filter = self.make_filter(self.parent_graph_extractor.config)
+        self.post_extract_process = self.make_post_extract_process(
+            self.parent_graph_extractor.config
+        )
 
     def forward(self, *args):
         if not self.extracted:
             if self.need_extract(self.submodule, args):
                 self.builtin_extractor(self.submodule, args)
+                self.get_post_extract_process(self.submodule, args)
             self.extracted = True
         return self.submodule(*args)
 
     def need_extract(self, gm, sample_inputs):
+        # print("need_extract")
         if self.filter is None:
             return True
+        # if self.fusionablity_filter is not None:
+        #     print("fusionablity of this model is ", self.fusionablity_filter(gm, sample_inputs))
         return self.filter(gm, sample_inputs)
 
+    def get_post_extract_process(self, gm, sample_inputs):
+        # print("modelname: ",self.modelname)
+        # print("parent_graph_extractor.config: ",self.parent_graph_extractor.config['output_dir'])
+        # print("get_post_extract_process")
+        model_path = os.path.join(
+            self.parent_graph_extractor.config["output_dir"], self.modelname
+        )
+        return self.post_extract_process(model_path)
+
     def make_filter(self, config):
+        # print("make_filter")
         if config["filter_path"] is None:
             return None
         module = imp_util.load_module(config["filter_path"])
         return module.GraphFilter(config["filter_config"])
+
+    def make_post_extract_process(self, config):
+        # print("make post_extract_process")
+        if config["filter_path"] is None:
+            return None
+        module = imp_util.load_module(config["post_extract_process_path"])
+        return module.PostExtractProcess(config["post_extract_process_config"])

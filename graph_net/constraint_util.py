@@ -6,6 +6,10 @@ import functools
 import copy
 import sys
 import os
+from contextlib import contextmanager
+import tempfile
+import shutil
+from pathlib import Path
 
 
 class UpdateInputTensorConstraints:
@@ -33,9 +37,12 @@ class UpdateInputTensorConstraints:
         data_input_predicator_filepath,
         model_runnable_predicator_filepath,
         data_input_predicator_class_name="DataInputPredicator",
-        data_input_predicator_config=None,
         model_runnable_predicator_class_name="ModelRunner",
+        data_input_predicator_config=None,
         model_runnable_predicator_config=None,
+        dimension_generalizer_filepath=None,
+        dimension_generalizer_class_name="StaticToDynamic",
+        dimension_generalizer_config=None,
         model_path_prefix="",
         resume=False,
     ):
@@ -43,15 +50,20 @@ class UpdateInputTensorConstraints:
             data_input_predicator_config = {}
         if model_runnable_predicator_config is None:
             model_runnable_predicator_config = {}
+        if dimension_generalizer_config is None:
+            dimension_generalizer_config = {}
         return {
+            "resume": resume,
+            "model_path_prefix": model_path_prefix,
             "data_input_predicator_filepath": data_input_predicator_filepath,
             "data_input_predicator_class_name": data_input_predicator_class_name,
             "data_input_predicator_config": data_input_predicator_config,
             "model_runnable_predicator_filepath": model_runnable_predicator_filepath,
             "model_runnable_predicator_class_name": model_runnable_predicator_class_name,
             "model_runnable_predicator_config": model_runnable_predicator_config,
-            "model_path_prefix": model_path_prefix,
-            "resume": resume,
+            "dimension_generalizer_filepath": dimension_generalizer_filepath,
+            "dimension_generalizer_class_name": dimension_generalizer_class_name,
+            "dimension_generalizer_config": dimension_generalizer_config,
         }
 
     def __call__(self, model_path):
@@ -74,17 +86,51 @@ class UpdateInputTensorConstraints:
         def data_input_predicator(input_var_name):
             return self.data_input_predicator(model_path, input_var_name)
 
-        def is_dyn_dim_cstr_feasible(dyn_dim_cstr):
-            return self._is_dyn_dim_cstr_feasible(
-                model_path, tensor_metas, dyn_dim_cstr
-            )
+        with self._try_dimension_generalization(
+            model_path, tensor_metas
+        ) as tmp_model_path:
 
-        dyn_dim_cstr = symbolize_data_input_dims(
-            dyn_dim_cstr,
-            is_data_input=data_input_predicator,
-            is_dyn_dim_cstr_feasible=is_dyn_dim_cstr_feasible,
+            def is_dyn_dim_cstr_feasible(dyn_dim_cstr):
+                return self._is_dyn_dim_cstr_feasible(
+                    tmp_model_path, tensor_metas, dyn_dim_cstr
+                )
+
+            dyn_dim_cstr = symbolize_data_input_dims(
+                dyn_dim_cstr,
+                is_data_input=data_input_predicator,
+                is_dyn_dim_cstr_feasible=is_dyn_dim_cstr_feasible,
+            )
+            self._save_dyn_dim_cstr(dyn_dim_cstr, model_path)
+
+    @contextmanager
+    def _try_dimension_generalization(self, model_path, tensor_metas):
+        if self.config["dimension_generalizer_filepath"] is None:
+            yield model_path
+            return
+        py_module = load_module(os.path.join(model_path, "model.py"))
+        GraphModule = getattr(py_module, "GraphModule")
+        GraphModule.__graph_net_file_path__ = py_module.__graph_net_file_path__
+        model = GraphModule()
+        decorator_cls = getattr(
+            load_module(self.config["dimension_generalizer_filepath"]),
+            self.config["dimension_generalizer_class_name"],
         )
-        self._save_dyn_dim_cstr(dyn_dim_cstr, model_path)
+        pass_obj = decorator_cls(self.config["dimension_generalizer_config"])(model)
+        if not pass_obj.need_rewrite():
+            yield model_path
+            return
+        from dataclasses import asdict
+
+        tensor_meta_attrs_list = [asdict(tensor_meta) for tensor_meta in tensor_metas]
+        graph_module = pass_obj.rewrite_with_tensor_meta_attrs_list(
+            tensor_meta_attrs_list
+        )
+        with tempfile.TemporaryDirectory() as tmp_dir:
+            shutil.copytree(Path(model_path), Path(tmp_dir), dirs_exist_ok=True)
+            pass_obj.save_graph_module(graph_module, tmp_dir)
+            shutil.copy(Path(tmp_dir) / "model.py", Path("/tmp/a.py"))
+            yield tmp_dir
+            # shutil.copytree(Path(tmp_dir), Path(model_path), dirs_exist_ok=True)
 
     def _save_dyn_dim_cstr(self, dyn_dim_cstr, model_path):
         cstr_code = dyn_dim_cstr.serialize_to_py_str()
@@ -106,7 +152,6 @@ class UpdateInputTensorConstraints:
         weight_meta_code = "\n".join(
             tensor_meta.serialize_to_py_str() for tensor_meta in tensor_metas
         )
-        import tempfile
 
         with tempfile.TemporaryDirectory() as tmpdir:
             for filename in ["graph_net.json", "model.py"]:

@@ -19,6 +19,23 @@ class ModelRunnablePredicator:
         return os.system(cmd) == 0
 
 
+class ShapePropagatablePredicator:
+    def __init__(self, config=None):
+        if config is None:
+            config = {}
+        import graph_net
+
+        graph_net_root = os.path.dirname(graph_net.__file__)
+        decorator_config = {
+            "decorator_path": f"{graph_net_root}/torch/shape_prop.py",
+            "decorator_class_name": "ShapePropagate",
+        }
+        self.predicator = RunModelPredicator(decorator_config)
+
+    def __call__(self, model_path):
+        return self.predicator(model_path)
+
+
 class RunModelPredicator:
     def __init__(self, config=None):
         if config is None:

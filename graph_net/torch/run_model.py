@@ -17,6 +17,7 @@ def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Modul
     unnamed = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(unnamed)
     model_class = getattr(unnamed, class_name, None)
+    setattr(model_class, "__graph_net_file_path__", file_path)
     return model_class
 
 

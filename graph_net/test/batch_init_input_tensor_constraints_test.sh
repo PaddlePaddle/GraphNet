@@ -11,12 +11,14 @@ config_json_str=$(cat <<EOF
     "handler_path": "$GRAPH_NET_ROOT/constraint_util.py",
     "handler_class_name": "UpdateInputTensorConstraints",
     "handler_config": {
-        "resume": true,
+        "resume": false,
         "model_path_prefix": "$GRAPH_NET_ROOT/../",
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
         "data_input_predicator_class_name": "NaiveDataInputPredicator",
         "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
-        "model_runnable_predicator_class_name": "ModelRunnablePredicator"
+        "model_runnable_predicator_class_name": "ModelRunnablePredicator",
+        "dimension_generalizer_filepath": "$GRAPH_NET_ROOT/torch/static_to_dynamic.py",
+        "dimension_generalizer_class_name": "StaticToDynamic"
     }
 }
 EOF

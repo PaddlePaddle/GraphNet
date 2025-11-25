@@ -16,11 +16,9 @@ config_json_str=$(cat <<EOF
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
         "data_input_predicator_class_name": "NaiveDataInputPredicator",
         "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
-        "model_runnable_predicator_class_name": "RunModelPredicator",
-        "model_runnable_predicator_config": {
-            "decorator_path": "$GRAPH_NET_ROOT/torch/shape_prop.py",
-            "decorator_class_name": "ShapePropagate"
-        }
+        "model_runnable_predicator_class_name": "ShapePropagatablePredicator",
+        "dimension_generalizer_filepath": "$GRAPH_NET_ROOT/torch/static_to_dynamic.py",
+        "dimension_generalizer_class_name": "StaticToDynamic"
     }
 }
 EOF

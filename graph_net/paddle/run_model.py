@@ -1,20 +1,21 @@
+import os
 import sys
 import json
 import base64
 import argparse
-import importlib.util
 from typing import Type
 
+os.environ["FLAGS_logging_pir_py_code_dir"] = "/tmp/dump"
+
 import paddle
+from graph_net import imp_util
 from graph_net.paddle import utils
 
 
 def load_class_from_file(file_path: str, class_name: str):
     print(f"Load {class_name} from {file_path}")
-    spec = importlib.util.spec_from_file_location("unnamed", file_path)
-    unnamed = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(unnamed)
-    model_class = getattr(unnamed, class_name, None)
+    module = imp_util.load_module(file_path, "unnamed")
+    model_class = getattr(module, class_name, None)
     return model_class
 
 
@@ -23,8 +24,11 @@ def get_input_dict(model_path):
     params = inputs_params["weight_info"]
     inputs = inputs_params["input_info"]
 
-    params.update(inputs)
-    state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
+    state_dict = {}
+    for k, v in params.items():
+        state_dict[k] = paddle.nn.parameter.Parameter(utils.replay_tensor(v), name=k)
+    for k, v in inputs.items():
+        state_dict[k] = utils.replay_tensor(v)
     return state_dict
 
 
@@ -58,9 +62,8 @@ def main(args):
     model = model_class()
     print(f"{model_path=}")
 
-    model = _get_decorator(args)(model)
     input_dict = get_input_dict(args.model_path)
-
+    model = _get_decorator(args)(model)
     model(**input_dict)
 
 

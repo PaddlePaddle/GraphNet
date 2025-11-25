@@ -1,14 +1,58 @@
 import os
 import json
-
-os.environ["ENABLE_CINN_IN_DY2ST"] = "0"
-# os.environ["FLAGS_logging_trunc_pir_py_code"] = "1"
-# os.environ["FLAGS_logging_pir_py_code_int_tensor_element_limit"] = "64"
-os.environ["FLAGS_logging_pir_py_code_dir"] = "/tmp/dump"
+import importlib.util
 
 import paddle
-from athena.module_op_unittests_for_graphnet import GraphnetSample, generate_samples
+from athena.graphnet_samples import GraphnetSample, RunGeneration
+from graph_net import imp_util
 from graph_net.paddle import utils
+
+
+def load_class_from_file(file_path: str, class_name: str):
+    print(f"Load {class_name} from {file_path}")
+    module = imp_util.load_module(file_path, "unnamed")
+    model_class = getattr(module, class_name, None)
+    return model_class
+
+
+def write_to_file(filepath, content):
+    print(f"Write to {filepath}")
+    with open(filepath, "w") as f:
+        f.write(content)
+
+
+def generate_model_wrapper_class(model_dump_path, data_arg_names):
+    graph_module_wrapper_class_template = """
+import paddle
+
+class GraphModuleWrapper(paddle.nn.Layer):
+    def __init__(self, graph_module):
+        super().__init__()
+        self.graph_module = graph_module
+
+    def set_parameters(self, **kwargs):
+        for name, value in kwargs.items():
+            if isinstance(value, paddle.nn.parameter.Parameter):
+                setattr(self, name, value)
+
+    def forward(self, ${DATA_ARG_NAMES}):
+        param_dict = { name: param for name, param in self.named_parameters() }
+        outputs = self.graph_module(${DATA_ARG_VALUE_PAIRS}, **param_dict)
+        return outputs
+"""
+
+    data_arg_value_pairs = [f"{name}={name}" for name in data_arg_names]
+    graph_module_wrapper_class_code_str = graph_module_wrapper_class_template.replace(
+        "${DATA_ARG_NAMES}", ", ".join(data_arg_names)
+    ).replace("${DATA_ARG_VALUE_PAIRS}", ", ".join(data_arg_value_pairs))
+    print(graph_module_wrapper_class_code_str)
+
+    file_path = os.path.join(model_dump_path, "graph_module_wrapper.py")
+    write_to_file(file_path, graph_module_wrapper_class_code_str)
+    model_class = load_class_from_file(
+        file_path=file_path, class_name="GraphModuleWrapper"
+    )
+    return model_class
 
 
 # used as configuration of python -m graph_net.paddle.run_model
@@ -89,18 +133,43 @@ class GraphExtractor:
         # Get model dump path
         old_flags = self.prepare_to_extract(model_dump_path)
 
+        param_dict = {
+            k: v
+            for k, v in input_dict.items()
+            if isinstance(v, paddle.nn.parameter.Parameter)
+        }
+        data_dict = {k: v for k, v in input_dict.items() if k not in param_dict}
+
+        input_spec = self.input_spec
         if self.input_spec is None:
-            self.input_spec = [
+            input_spec = [
                 paddle.static.InputSpec(value.shape, value.dtype, name=name)
-                for name, value in input_dict.items()
+                for name, value in data_dict.items()
                 if isinstance(value, paddle.Tensor)
             ]
+        else:
+            assert len(input_spec) == len(data_dict)
+
+        if param_dict:
+            model_wrapper_class = generate_model_wrapper_class(
+                model_dump_path, data_dict.keys()
+            )
+            wrapped_model = model_wrapper_class(self.model)
+            wrapped_model.set_parameters(**param_dict)
+        else:
+            wrapped_model = self.model
 
         # Run the static model
         static_model = paddle.jit.to_static(
-            self.model, input_spec=self.input_spec, full_graph=True
+            wrapped_model,
+            input_spec=input_spec,
+            full_graph=True,
+            backend=None,
         )
-        static_model(**input_dict)
+        static_model.eval()
+        program = static_model.forward.concrete_program.main_program
+        # print(program)
+        static_model(**data_dict)
 
         # Restore the environment
         paddle.set_flags(old_flags)
@@ -126,7 +195,7 @@ class GraphExtractor:
             if split_positions
             else None
         )
-        graphnet_samples = generate_samples(
+        all_samples = RunGeneration(
             model_name=self.name,
             ir_programs=ir_programs_path,
             example_inputs=example_inputs_path,
@@ -136,22 +205,17 @@ class GraphExtractor:
         )
 
         self.subgraph_idx2samples = {}
-        for sample in graphnet_samples:
+        for sample in all_samples:
             if sample.subgraph_idx not in self.subgraph_idx2samples.keys():
                 self.subgraph_idx2samples[sample.subgraph_idx] = []
             self.subgraph_idx2samples[sample.subgraph_idx].append(sample)
 
         self.num_subgraphs = len(self.subgraph_idx2samples)
-        self.num_samples_of_all_subgraphs = len(graphnet_samples)
+        self.num_samples_of_all_subgraphs = len(all_samples)
         assert self.num_subgraphs > 0
         return self.subgraph_idx2samples
 
     def write_sample_to_file(self, subgraph_path, sample):
-        def write_to_file(filepath, content):
-            print(f"Write to {filepath}")
-            with open(filepath, "w") as f:
-                f.write(content)
-
         if not os.path.exists(subgraph_path):
             os.makedirs(subgraph_path, exist_ok=True)
         write_to_file(f"{subgraph_path}/model.py", sample.model)
@@ -208,14 +272,8 @@ def extract(name, dynamic=False, input_spec=None, extractor_config: dict = None)
         custom_extractor_config = extractor_config["custom_extractor_config"]
         if custom_extractor_path is None:
             return GraphExtractor
-        import importlib.util as imp
 
-        print(f"Import graph_extractor from {custom_extractor_path}")
-        # import custom_extractor_path as graph_extractor
-        spec = imp.spec_from_file_location("graph_extractor", custom_extractor_path)
-        graph_extractor = imp.module_from_spec(spec)
-        spec.loader.exec_module(graph_extractor)
-        cls = graph_extractor.GraphExtractor
+        cls = load_class_from_file(custom_extractor_path, "GraphExtractor")
         return lambda *args, **kwargs: cls(custom_extractor_config, *args, **kwargs)
 
     def wrapper(model: paddle.nn.Layer):

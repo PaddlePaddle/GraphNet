@@ -92,7 +92,7 @@ class NaiveDecomposerExtractor(torch.nn.Module):
         if not self.extracted:
             if self.need_extract(self.submodule, args):
                 self.builtin_extractor(self.submodule, args)
-                self.get_post_extract_process()
+                self._post_extract_process()
             self.extracted = True
         return self.submodule(*args)
 
@@ -101,7 +101,7 @@ class NaiveDecomposerExtractor(torch.nn.Module):
             return True
         return self.filter(gm, sample_inputs)
 
-    def get_post_extract_process(self):
+    def _post_extract_process(self):
         model_path = os.path.join(
             self.parent_graph_extractor.config["output_dir"], self.modelname
         )
@@ -114,7 +114,7 @@ class NaiveDecomposerExtractor(torch.nn.Module):
         return module.GraphFilter(config["filter_config"])
 
     def make_post_extract_process(self, config):
-        if config["filter_path"] is None:
+        if config["post_extract_process_path"] is None:
             return None
         module = imp_util.load_module(config["post_extract_process_path"])
         return module.PostExtractProcess(config["post_extract_process_config"])

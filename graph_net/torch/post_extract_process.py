@@ -1,17 +1,8 @@
 from graph_net.torch import utils
-import argparse
 import importlib.util
-import inspect
 import shutil
 import torch
-import logging
-from pathlib import Path
-from typing import Type, Any
-import sys
-import json
-import base64
-from contextlib import contextmanager
-
+from typing import Type
 from torch.profiler import profile, record_function, ProfilerActivity
 
 
@@ -34,7 +25,9 @@ class PostExtractProcess:
         params = inputs_params["weight_info"]
         state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
 
-        compiled_num_of_kernels = compile_and_count_kernels(model, state_dict)
+        model(**state_dict)
+        compiled_model = torch.compile(model)
+        compiled_num_of_kernels = count_kernels(model, state_dict)
         if compiled_num_of_kernels == 1:
             print(model_path, "can be fully integrated")
             return True
@@ -52,12 +45,12 @@ def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Modul
     return model_class
 
 
-def compile_and_count_kernels(gm, sample_inputs) -> int:
+def count_kernels(model, sample_inputs) -> int:
     """
     Count the number of CUDA kernel launches performed during a model's forward pass.
 
     Args:
-        gm(graph models)
+        model(graph models)
         sample_inputs(tensors)
 
     Returns:
@@ -68,21 +61,19 @@ def compile_and_count_kernels(gm, sample_inputs) -> int:
         - Identifies the event with key = 'cudaLaunchKernel', which corresponds
         to the number of CUDA kernel launches.
     """
-    gm.eval()
+    model.eval()
     # Use PyTorch Profiler
-    compiled_gm = torch.compile(gm)
-    _ = compiled_gm(**sample_inputs)
 
     with profile(
         activities=[ProfilerActivity.CUDA, ProfilerActivity.CPU],
         record_shapes=True,
     ) as prof:
         with record_function("model_inference"):
-            output = compiled_gm(**sample_inputs)
+            output = model(**sample_inputs)
     events = prof.key_averages()
-    if_compile_work = any(e.key == "TorchDynamo Cache Lookup" for e in events)
-    if not if_compile_work:
-        return -1
+
+    total_count = 0
     for e in events:
-        if e.key == "cuLaunchKernel":
-            return e.count
+        if e.key == "cuLaunchKernel" or e.key == "cudalaunchKernel":
+            total_count += e.count
+    return total_count

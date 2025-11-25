@@ -27,7 +27,7 @@ class PostExtractProcess:
 
         model(**state_dict)
         compiled_model = torch.compile(model)
-        compiled_num_of_kernels = count_kernels(model, state_dict)
+        compiled_num_of_kernels = count_kernels(compiled_model, state_dict)
         if compiled_num_of_kernels == 1:
             print(model_path, "can be fully integrated")
             return True

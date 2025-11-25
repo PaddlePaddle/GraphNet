@@ -33,7 +33,7 @@ class GraphExtractor:
         filter_path=None,
         filter_config=None,
         post_extract_process_path=None,
-        post_extract_process_config=None,
+        post_extract_process_class_name=None,
     ):
         for pos in split_positions:
             assert isinstance(
@@ -47,7 +47,7 @@ class GraphExtractor:
             "filter_path": filter_path,
             "filter_config": filter_config if filter_config is not None else {},
             "post_extract_process_path": post_extract_process_path,
-            "post_extract_process_config": post_extract_process_config,
+            "post_extract_process_class_name": post_extract_process_class_name,
         }
 
     def __call__(self, gm: torch.fx.GraphModule, sample_inputs):
@@ -75,7 +75,7 @@ class NaiveDecomposerExtractor(torch.nn.Module):
         self.seq_no = seq_no
         self.extracted = False
         name = f"{parent_graph_extractor.name}_{self.seq_no}"
-        self.modelname = name
+        self.model_name = name
         self.builtin_extractor = BuiltinGraphExtractor(
             name=name,
             dynamic=False,
@@ -103,7 +103,7 @@ class NaiveDecomposerExtractor(torch.nn.Module):
 
     def _post_extract_process(self):
         model_path = os.path.join(
-            self.parent_graph_extractor.config["output_dir"], self.modelname
+            self.parent_graph_extractor.config["output_dir"], self.model_name
         )
         return self.post_extract_process(model_path)
 
@@ -117,4 +117,4 @@ class NaiveDecomposerExtractor(torch.nn.Module):
         if config["post_extract_process_path"] is None:
             return None
         module = imp_util.load_module(config["post_extract_process_path"])
-        return module.PostExtractProcess(config["post_extract_process_config"])
+        return module.PostExtractProcess(config["post_extract_process_path"])

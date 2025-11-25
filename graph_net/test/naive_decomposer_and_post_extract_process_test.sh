@@ -1,10 +1,5 @@
 #!/bin/bash
-SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-GRAPH_NET_DIR=$(dirname "$SCRIPT_DIR")
-PROJECT_ROOT=$(dirname "$GRAPH_NET_DIR")
-
-# 将项目根目录加入Python路径
-export PYTHONPATH="$PROJECT_ROOT:$PYTHONPATH"
+# bash graph_net/test/naive_decomposer_and_post_extract_process_test.sh
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(
 os.path.dirname(graph_net.__file__))")
@@ -19,12 +14,13 @@ decorator_config_json_str=$(cat <<EOF
         "name": "$MODEL_NAME",
         "custom_extractor_path": "$GRAPH_NET_ROOT/torch/naive_graph_decomposer.py",
         "custom_extractor_config": {
-            "output_dir": "/work/.BCloud/countkernels/",
+            "output_dir": "/tmp/naive_decompose_workspace",
             "split_positions": [8, 16, 32],
             "group_head_and_tail": true,
             "filter_path":"$GRAPH_NET_ROOT/torch/naive_subgraph_filter.py",
             "filter_config": {},
-            "post_extract_process_path":"$GRAPH_NET_ROOT/torch/post_extract_process.py"
+            "post_extract_process_path":"$GRAPH_NET_ROOT/torch/post_extract_process_count_kernels.py",
+            "post_extract_process_class_name": "PostExtractProcess"
         }
     }
 }

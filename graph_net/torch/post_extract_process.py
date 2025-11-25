@@ -74,6 +74,6 @@ def count_kernels(model, sample_inputs) -> int:
 
     total_count = 0
     for e in events:
-        if e.key == "cuLaunchKernel" or e.key == "cudalaunchKernel":
+        if e.key == "cuLaunchKernel" or e.key == "cudaLaunchKernel":
             total_count += e.count
     return total_count

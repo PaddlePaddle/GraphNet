@@ -9,6 +9,7 @@ from contextlib import contextmanager
 import time
 import math
 import numpy as np
+import random
 import platform
 import traceback
 import subprocess
@@ -34,30 +35,44 @@ def get_compiler_backend(args) -> GraphCompilerBackend:
     return registry_backend[args.compiler]
 
 
+def set_seed(random_seed):
+    paddle.seed(random_seed)
+    random.seed(random_seed)
+    np.random.seed(random_seed)
+
+
 def init_env(args):
     if test_compiler_util.is_gpu_device(args.device):
         paddle.set_flags({"FLAGS_cudnn_exhaustive_search": 1})
+
+
+def get_hardward_name(args):
+    hardware = "unknown"
+    if test_compiler_util.is_gpu_device(args.device):
+        hardware = paddle.device.cuda.get_device_name(0)
+    elif args.device == "xpu":
+        try:
+            output = subprocess.check_output(["xpu-smi", "-L"], text=True)
+            hardware = next(
+                match.group(2)
+                for line in output.splitlines()
+                if (
+                    match := re.match(
+                        r"XPU\s+(\d+):\s+(.+?)\s+\(UUID:\s*([^)]+)\)", line
+                    )
+                )
+            )
+        except Exception as e:
+            pass
+    elif args.device == "cpu":
+        hardware = platform.processor()
+    return hardware
 
 
 def get_compile_framework_version(args):
     if args.compiler in ["cinn", "nope"]:
         return paddle.__version__
     return "unknown"
-
-
-def check_and_print_gpu_utilization(compiler):
-    if paddle.device.is_compiled_with_cuda():
-        device_id = int(paddle.device.get_device().split(":")[-1])
-        device_count = paddle.device.cuda.device_count()
-        gpu_util, mem_util = test_compiler_util.get_device_utilization(
-            device_id, device_count, compiler.synchronize
-        )
-        if gpu_util is not None and mem_util is not None:
-            print(
-                f"Device status: gpu_id {device_id}, gpu_util {gpu_util:.2f}%, mem_util {mem_util:.2f}%",
-                file=sys.stderr,
-                flush=True,
-            )
 
 
 def load_class_from_file(file_path: str, class_name: str):
@@ -85,10 +100,30 @@ def get_model(model_path):
     return model_class()
 
 
+def get_input_dict(model_path):
+    inputs_params = utils.load_converted_from_text(f"{model_path}")
+    params = inputs_params["weight_info"]
+    inputs = inputs_params["input_info"]
+
+    params.update(inputs)
+    state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
+    return state_dict
+
+
+def get_input_spec(model_path):
+    inputs_params_list = utils.load_converted_list_from_text(f"{model_path}")
+    input_spec = [None] * len(inputs_params_list)
+    for i, v in enumerate(inputs_params_list):
+        dtype = v["info"]["dtype"]
+        shape = v["info"]["shape"]
+        input_spec[i] = paddle.static.InputSpec(shape, dtype)
+    return input_spec
+
+
 def get_static_model(args, model):
     static_model = paddle.jit.to_static(
         model,
-        input_spec=utils.get_input_spec(args.model_path),
+        input_spec=get_input_spec(args.model_path),
         full_graph=True,
         backend=None,
     )
@@ -117,7 +152,7 @@ def measure_performance(model_call, args, compiler, profile=False):
     min_trials = int(100 / np.mean(warmup_e2e_times[1:]))
     trials = max(args.trials, min_trials)
 
-    hardware_name = test_compiler_util.get_hardward_name(args)
+    hardware_name = get_hardward_name(args)
     print(
         f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {trials}",
         file=sys.stderr,
@@ -240,7 +275,7 @@ def check_outputs(args, expected_out, compiled_out):
             args,
             expected_out,
             compiled_out,
-            cmp_equal_func=utils.get_cmp_equal,
+            cmp_equal_func=get_cmp_equal,
         )
 
         expected_out_fp32 = transfer_to_float(expected_out)
@@ -249,26 +284,39 @@ def check_outputs(args, expected_out, compiled_out):
             args,
             expected_out_fp32,
             compiled_out_fp32,
-            cmp_all_close_func=utils.get_cmp_all_close,
-            cmp_max_diff_func=utils.get_cmp_max_diff,
-            cmp_mean_diff_func=utils.get_cmp_mean_diff,
-            cmp_max_relative_diff_func=utils.get_cmp_max_relative_diff,
-            cmp_mean_relative_diff_func=utils.get_cmp_mean_relative_diff,
+            cmp_all_close_func=get_cmp_all_close,
+            cmp_max_diff_func=get_cmp_max_diff,
+            cmp_mean_diff_func=get_cmp_mean_diff,
+            cmp_max_relative_diff_func=get_cmp_max_relative_diff,
+            cmp_mean_relative_diff_func=get_cmp_mean_relative_diff,
         )
+
+
+def check_and_print_gpu_utilization(compiler):
+    if paddle.device.is_compiled_with_cuda():
+        device_id = int(paddle.device.get_device().split(":")[-1])
+        device_count = paddle.device.cuda.device_count()
+        gpu_util, mem_util = test_compiler_util.get_device_utilization(
+            device_id, device_count, compiler.synchronize
+        )
+        if gpu_util is not None and mem_util is not None:
+            print(
+                f"Device status: gpu_id {device_id}, gpu_util {gpu_util:.2f}%, mem_util {mem_util:.2f}%",
+                file=sys.stderr,
+                flush=True,
+            )
 
 
 def test_single_model(args):
     compiler = get_compiler_backend(args)
     check_and_print_gpu_utilization(compiler)
 
-    input_dict = utils.get_input_dict(args.model_path)
+    input_dict = get_input_dict(args.model_path)
     model = get_model(args.model_path)
     model.eval()
 
-    hardware_name = test_compiler_util.get_hardward_name(args)
-
     test_compiler_util.print_basic_config(
-        args, hardware_name, get_compile_framework_version(args)
+        args, get_hardward_name(args), get_compile_framework_version(args)
     )
 
     # Run on eager mode
@@ -293,7 +341,7 @@ def test_single_model(args):
     compiled_time_stats = {}
     try:
         print("Run model in compiled mode.", file=sys.stderr, flush=True)
-        input_spec = utils.get_input_spec(args.model_path)
+        input_spec = get_input_spec(args.model_path)
         compiled_model = compiler(model, input_spec)
         compiled_out, compiled_time_stats = measure_performance(
             lambda: compiled_model(**input_dict), args, compiler, profile=False
@@ -315,18 +363,125 @@ def test_single_model(args):
     )
 
 
+def get_cmp_equal(expected_out, compiled_out):
+    def convert(x):
+        if x.dtype in [paddle.float16, paddle.bfloat16]:
+            return x.astype("float32")
+        elif x.dtype in [paddle.uint8, paddle.int8, paddle.int16]:
+            return x.astype("int32")
+        return x
+
+    return " ".join(
+        str(int(paddle.equal_all(convert(a), convert(b))))
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_cmp_all_close(expected_out, compiled_out, atol, rtol):
+    return " ".join(
+        str(int(paddle.allclose(a, b, atol=atol, rtol=rtol)))
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_format_str(f):
+    if (abs(f) > 1e5 or abs(f) < 1e-5) and abs(f) != 0.0:
+        return str(f"{f:.5E}")
+    else:
+        return str(f"{f:.5f}")
+
+
+def get_cmp_max_diff(expected_out, compiled_out):
+    return " ".join(
+        get_format_str(paddle.max(paddle.abs(a - b)).item())
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_cmp_mean_diff(expected_out, compiled_out):
+    return " ".join(
+        get_format_str(paddle.mean(paddle.abs(a - b)).item())
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_cmp_max_relative_diff(expected_out, compiled_out):
+    epsilon = 1e-8
+    return " ".join(
+        get_format_str(paddle.max(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item())
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_cmp_mean_relative_diff(expected_out, compiled_out):
+    epsilon = 1e-8
+    return " ".join(
+        get_format_str(
+            paddle.mean(paddle.abs(a - b) / (paddle.abs(a) + epsilon)).item()
+        )
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
+    return " ".join(
+        str(paddle.sum(~paddle.isclose(a, b, atol=atol, rtol=rtol)).item())
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def test_multi_models(args):
+    test_samples = test_compiler_util.get_allow_samples(args.allow_list)
+
+    sample_idx = 0
+    failed_samples = []
+    module_name = os.path.splitext(os.path.basename(__file__))[0]
+    for model_path in path_utils.get_recursively_model_path(args.model_path):
+        if test_samples is None or os.path.abspath(model_path) in test_samples:
+            print(
+                f"[{sample_idx}] {module_name}, model_path: {model_path}",
+                file=sys.stderr,
+                flush=True,
+            )
+            cmd = " ".join(
+                [
+                    sys.executable,
+                    f"-m graph_net.paddle.{module_name}",
+                    f"--model-path {model_path}",
+                    f"--compiler {args.compiler}",
+                    f"--device {args.device}",
+                    f"--warmup {args.warmup}",
+                    f"--trials {args.trials}",
+                    f"--log-prompt {args.log_prompt}",
+                ]
+            )
+            cmd_ret = os.system(cmd)
+            # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+            if cmd_ret != 0:
+                failed_samples.append(model_path)
+            sample_idx += 1
+
+    print(
+        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples.",
+        file=sys.stderr,
+        flush=True,
+    )
+    for model_path in failed_samples:
+        print(f"- {model_path}", file=sys.stderr, flush=True)
+
+
 def main(args):
     assert os.path.isdir(args.model_path)
     assert args.compiler in {"cinn", "nope"}
     assert args.device in ["cuda", "dcu", "xpu", "cpu"]
 
     initalize_seed = 123
-    test_compiler_util.set_seed(random_seed=initalize_seed)
+    set_seed(random_seed=initalize_seed)
 
     if path_utils.is_single_model_dir(args.model_path):
         test_single_model(args)
     else:
-        test_compiler_util.test_multi_models(args, "paddle")
+        test_multi_models(args)
 
 
 if __name__ == "__main__":

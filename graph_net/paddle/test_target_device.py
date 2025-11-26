@@ -13,7 +13,7 @@ import traceback
 import paddle
 from graph_net import path_utils
 from graph_net import test_compiler_util
-from graph_net.paddle import test_compiler, test_reference_device, utils
+from graph_net.paddle import test_compiler, test_reference_device
 
 
 def parse_config_from_reference_log(log_path):
@@ -59,7 +59,7 @@ def update_args_and_set_seed(args, model_path):
     vars(args)["compiler"] = config.get("compiler")
     vars(args)["trials"] = int(config.get("trials"))
     vars(args)["warmup"] = int(config.get("warmup"))
-    test_compiler_util.set_seed(random_seed=int(config.get("seed")))
+    test_compiler.set_seed(random_seed=int(config.get("seed")))
     return args
 
 
@@ -67,20 +67,20 @@ def test_single_model(args):
     compiler = test_compiler.get_compiler_backend(args)
     test_compiler.check_and_print_gpu_utilization(compiler)
 
-    input_dict = utils.get_input_dict(args.model_path)
+    input_dict = test_compiler.get_input_dict(args.model_path)
     model = test_compiler.get_model(args.model_path)
     model.eval()
 
     test_compiler_util.print_basic_config(
         args,
-        test_compiler_util.get_hardward_name(args),
+        test_compiler.get_hardward_name(args),
         test_compiler.get_compile_framework_version(args),
     )
 
     success = False
     time_stats = {}
     try:
-        input_spec = utils.get_input_spec(args.model_path)
+        input_spec = test_compiler.get_input_spec(args.model_path)
         compiled_model = compiler(model, input_spec)
         outputs, time_stats = test_compiler.measure_performance(
             lambda: compiled_model(**input_dict), args, compiler, profile=False

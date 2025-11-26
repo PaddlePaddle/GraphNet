@@ -31,53 +31,6 @@ def is_gpu_device(device):
     return "cuda" in device or "dcu" in device
 
 
-def set_seed(random_seed):
-    import random
-
-    random.seed(random_seed)
-    np.random.seed(random_seed)
-    try:
-        import paddle
-
-        paddle.seed(random_seed)
-    except:
-        pass
-    try:
-        import torch
-
-        torch.manual_seed(random_seed)
-        if torch.cuda.is_available():
-            torch.cuda.manual_seed(random_seed)
-            torch.cuda.manual_seed_all(random_seed)
-    except:
-        pass
-
-
-def get_hardward_name(args):
-    hardware = "unknown"
-    if is_gpu_device(args.device):
-        import pycuda.driver as cuda
-
-        hardware = cuda.Device(0).name()
-    elif args.device == "xpu":
-        try:
-            output = subprocess.check_output(["xpu-smi", "-L"], text=True)
-            hardware = next(
-                match.group(2)
-                for line in output.splitlines()
-                if (
-                    match := re.match(
-                        r"XPU\s+(\d+):\s+(.+?)\s+\(UUID:\s*([^)]+)\)", line
-                    )
-                )
-            )
-        except Exception as e:
-            pass
-    elif args.device == "cpu":
-        hardware = platform.processor()
-    return hardware
-
-
 def get_device_utilization(device_id, device_count, synchronizer_func):
     current_pid = os.getpid()
 
@@ -405,43 +358,3 @@ def get_allow_samples(allow_list):
             test_samples.append(os.path.join(graphnet_root, line.strip()))
 
     return test_samples
-
-
-def test_multi_models(args, framework):
-    test_samples = get_allow_samples(args.allow_list)
-
-    sample_idx = 0
-    failed_samples = []
-    module_name = os.path.splitext(os.path.basename(__file__))[0]
-    for model_path in path_utils.get_recursively_model_path(args.model_path):
-        if test_samples is None or os.path.abspath(model_path) in test_samples:
-            print(
-                f"[{sample_idx}] {module_name}, model_path: {model_path}",
-                file=sys.stderr,
-                flush=True,
-            )
-            cmd = " ".join(
-                [
-                    sys.executable,
-                    f"-m graph_net.{framework}.{module_name}",
-                    f"--model-path {model_path}",
-                    f"--compiler {args.compiler}",
-                    f"--device {args.device}",
-                    f"--warmup {args.warmup}",
-                    f"--trials {args.trials}",
-                    f"--log-prompt {args.log_prompt}",
-                ]
-            )
-            cmd_ret = os.system(cmd)
-            # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
-            if cmd_ret != 0:
-                failed_samples.append(model_path)
-            sample_idx += 1
-
-    print(
-        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples.",
-        file=sys.stderr,
-        flush=True,
-    )
-    for model_path in failed_samples:
-        print(f"- {model_path}", file=sys.stderr, flush=True)

@@ -12,6 +12,7 @@ from dataclasses import dataclass
 from contextlib import contextmanager
 import time
 import json
+import random
 import numpy as np
 import platform
 from graph_net.torch.backend.graph_compiler_backend import GraphCompilerBackend
@@ -40,6 +41,24 @@ registry_backend = {
     "unstable_to_stable": UnstableToStableBackend(),
     "range_decomposer_validator": RangeDecomposerValidatorBackend(),
 }
+
+
+def set_seed(random_seed):
+    random.seed(random_seed)
+    np.random.seed(random_seed)
+    torch.manual_seed(random_seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed(random_seed)
+        torch.cuda.manual_seed_all(random_seed)
+
+
+def get_hardward_name(args):
+    hardware_name = "unknown"
+    if "cuda" in args.device:
+        hardware_name = torch.cuda.get_device_name(args.device)
+    elif args.device == "cpu":
+        hardware_name = platform.processor()
+    return hardware_name
 
 
 def get_compile_framework_version(args):
@@ -107,7 +126,7 @@ def measure_performance(model_call, args, compiler):
         model_call()
     compiler.synchronize()
 
-    hardware_name = test_compiler_util.get_hardward_name(args)
+    hardware_name = get_hardward_name(args)
     print(
         f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}",
         file=sys.stderr,
@@ -170,10 +189,9 @@ def test_single_model(args):
     compiler = get_compiler_backend(args)
     input_dict = get_input_dict(args)
     model = get_model(args)
-    hardware_name = test_compiler_util.get_hardward_name(args)
 
     test_compiler_util.print_basic_config(
-        args, hardware_name, get_compile_framework_version(args)
+        args, get_hardward_name(args), get_compile_framework_version(args)
     )
 
     runtime_seed = 1024
@@ -272,29 +290,110 @@ def compare_correctness(expected_out, compiled_out, args):
             args,
             expected_out,
             compiled_out,
-            cmp_equal_func=utils.get_cmp_equal,
+            cmp_equal_func=get_cmp_equal,
         )
 
         test_compiler_util.check_allclose(
             args,
             expected_out,
             compiled_out,
-            cmp_all_close_func=utils.get_cmp_all_close,
-            cmp_max_diff_func=utils.get_cmp_max_diff,
-            cmp_mean_diff_func=utils.get_cmp_mean_diff,
+            cmp_all_close_func=get_cmp_all_close,
+            cmp_max_diff_func=get_cmp_max_diff,
+            cmp_mean_diff_func=get_cmp_mean_diff,
         )
+
+
+def get_cmp_equal(expected_out, compiled_out):
+    return " ".join(
+        str(int(torch.equal(a, b))) for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_cmp_all_close(expected_out, compiled_out, atol, rtol):
+    return " ".join(
+        str(int(torch.allclose(a, b, atol=atol, rtol=rtol)))
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_cmp_max_diff(expected_out, compiled_out):
+    return " ".join(
+        # Transform to float to handle LongTensor output of some models, which cannnot be processed with torch.max().
+        str(torch.max(torch.abs(a.float() - b.float())).item())
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_cmp_mean_diff(expected_out, compiled_out):
+    return " ".join(
+        # To handle LongTensor
+        str(torch.mean(torch.abs(a.float() - b.float())).item())
+        for a, b in zip(expected_out, compiled_out)
+    )
+
+
+def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
+    results = []
+    for a, b in zip(expected_out, compiled_out):
+        # To handle LongTensor
+        if a.is_floating_point() and b.is_floating_point():
+            diff_count = torch.sum(~torch.isclose(a, b, atol=atol, rtol=rtol)).item()
+        else:
+            diff_count = torch.sum(a != b).item()
+        results.append(str(diff_count))
+    return " ".join(results)
+
+
+def test_multi_models(args):
+    test_samples = test_compiler_util.get_allow_samples(args.allow_list)
+
+    sample_idx = 0
+    failed_samples = []
+    module_name = os.path.splitext(os.path.basename(__file__))[0]
+    for model_path in path_utils.get_recursively_model_path(args.model_path):
+        if test_samples is None or os.path.abspath(model_path) in test_samples:
+            print(
+                f"[{sample_idx}] {module_name}, model_path: {model_path}",
+                file=sys.stderr,
+                flush=True,
+            )
+            cmd = " ".join(
+                [
+                    sys.executable,
+                    f"-m graph_net.torch.{module_name}",
+                    f"--model-path {model_path}",
+                    f"--compiler {args.compiler}",
+                    f"--device {args.device}",
+                    f"--warmup {args.warmup}",
+                    f"--trials {args.trials}",
+                    f"--log-prompt {args.log_prompt}",
+                ]
+            )
+            cmd_ret = os.system(cmd)
+            # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+            if cmd_ret != 0:
+                failed_samples.append(model_path)
+            sample_idx += 1
+
+    print(
+        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples.",
+        file=sys.stderr,
+        flush=True,
+    )
+    for model_path in failed_samples:
+        print(f"- {model_path}", file=sys.stderr, flush=True)
 
 
 def main(args):
     assert os.path.isdir(args.model_path)
 
     initalize_seed = 123
-    test_compiler_util.set_seed(random_seed=initalize_seed)
+    set_seed(random_seed=initalize_seed)
 
     if path_utils.is_single_model_dir(args.model_path):
         test_single_model(args)
     else:
-        test_compiler_util.test_multi_models(args, "torch")
+        test_multi_models(args)
 
 
 if __name__ == "__main__":

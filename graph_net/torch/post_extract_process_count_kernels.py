@@ -25,14 +25,29 @@ class PostExtractProcess:
         params = inputs_params["weight_info"]
         state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
 
-        model(**state_dict)
-        compiled_model = torch.compile(model)
+        # try to run the model
+        try:
+            model(**state_dict)
+        except Exception as e:
+            print(f"failed in running model:{e}")
+            print(f"removing: {model_path}")
+            shutil.rmtree(model_path)
+            return False
+        # try to compile the model
+        try:
+            compiled_model = torch.compile(model)
+        except Exception as e:
+            print(f"failed in compiling model:{e}")
+            print(f"removing: {model_path}")
+            shutil.rmtree(model_path)
+            return False
         compiled_num_of_kernels = count_kernels(compiled_model, state_dict)
         if compiled_num_of_kernels == 1:
             print(model_path, "can be fully integrated")
             return True
         else:
-            print(model_path, "can not be fully integrated")
+            print(f"{model_path} can not be fully integrated, to be removed")
+            print(f"removing: {model_path}")
             shutil.rmtree(model_path)
             return False
 

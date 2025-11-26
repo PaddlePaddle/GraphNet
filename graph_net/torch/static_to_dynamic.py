@@ -21,10 +21,10 @@ class StaticToDynamic:
         self.config = config
 
     def __call__(self, module, dim_axes_pairs):
-        return StaticToDynamicModule(self.config, module, dim_axes_pairs)
+        return StaticToDynamicModulePass(self.config, module, dim_axes_pairs)
 
 
-class StaticToDynamicModule(torch.nn.Module):
+class StaticToDynamicModulePass(torch.nn.Module):
     def __init__(self, config, module, dim_axes_pairs):
         super().__init__()
         config = {} if config is None else config
@@ -42,6 +42,9 @@ class StaticToDynamicModule(torch.nn.Module):
         return {
             "pass_names": pass_names,
         }
+
+    def get_pass_names(self):
+        return self.config["pass_names"]
 
     def need_rewrite(self):
         try:

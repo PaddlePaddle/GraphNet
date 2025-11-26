@@ -17,6 +17,7 @@ def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Modul
     unnamed = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(unnamed)
     model_class = getattr(unnamed, class_name, None)
+    setattr(model_class, "__graph_net_file_path__", file_path)
     return model_class
 
 
@@ -35,8 +36,10 @@ def _get_decorator(args):
     decorator_config = _convert_to_dict(args.decorator_config)
     if "decorator_path" not in decorator_config:
         return lambda model: model
+    class_name = decorator_config.get("decorator_class_name", "RunModelDecorator")
     decorator_class = load_class_from_file(
-        decorator_config["decorator_path"], class_name="RunModelDecorator"
+        decorator_config["decorator_path"],
+        class_name=class_name,
     )
     return decorator_class(decorator_config.get("decorator_config", {}))
 

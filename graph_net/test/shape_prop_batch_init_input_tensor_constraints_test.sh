@@ -18,7 +18,8 @@ config_json_str=$(cat <<EOF
         "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
         "model_runnable_predicator_class_name": "ShapePropagatablePredicator",
         "dimension_generalizer_filepath": "$GRAPH_NET_ROOT/torch/static_to_dynamic.py",
-        "dimension_generalizer_class_name": "StaticToDynamic"
+        "dimension_generalizer_class_name": "StaticToDynamic",
+        "last_model_log_file": "/tmp/a.py"
     }
 }
 EOF

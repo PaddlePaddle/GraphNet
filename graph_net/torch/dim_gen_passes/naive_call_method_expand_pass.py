@@ -16,6 +16,8 @@ class ConcretePass(DimensionGeneralizationPass):
         super().__init__(*args, **kwargs)
 
     def need_rewrite(self, traced_module: fx.GraphModule) -> bool:
+        if 0 not in self.axes:
+            return False
         for node in traced_module.graph.nodes:
             if node.op == "call_method" and node.target == "expand":
                 return True

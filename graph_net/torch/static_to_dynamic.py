@@ -20,19 +20,28 @@ class StaticToDynamic:
             config = {}
         self.config = config
 
-    def __call__(self, module):
-        return StaticToDynamicModule(self.config, module)
+    def __call__(self, module, dim_axes_pairs):
+        return StaticToDynamicModule(self.config, module, dim_axes_pairs)
 
 
 class StaticToDynamicModule(torch.nn.Module):
-    def __init__(self, config, module):
+    def __init__(self, config, module, dim_axes_pairs):
         super().__init__()
         config = {} if config is None else config
         self.config = self.make_config(**config)
         self.module = module
+        self.dim_axes_pairs = dim_axes_pairs
 
-    def make_config(self):
-        return {}
+    def make_config(self, pass_names=()):
+        if pass_names == ():
+            pass_names = (
+                "naive_call_method_view_pass",
+                "naive_call_method_reshape_pass",
+                "naive_call_method_expand_pass",
+            )
+        return {
+            "pass_names": pass_names,
+        }
 
     def need_rewrite(self):
         try:
@@ -68,24 +77,15 @@ class StaticToDynamicModule(torch.nn.Module):
 
         return traced_module
 
-    @classmethod
-    def get_conditional_passes(cls):
-        def load_pass_py_module(pass_name):
-            import graph_net.torch.dim_gen_passes as dgpass
-
-            return load_module(f"{os.path.dirname(dgpass.__file__)}/{pass_name}.py")
-
-        pass_names = [
-            "naive_call_method_view_pass",
-            "naive_call_method_reshape_pass",
-            "naive_call_method_expand_pass",
-        ]
+    def get_conditional_passes(self):
+        from graph_net.torch.dim_gen_passes.pass_mgr import get_dim_gen_pass
 
         return [
             (pass_obj.need_rewrite, pass_obj.rewrite)
-            for pass_name in pass_names
-            for pass_cls in [load_pass_py_module(pass_name).ConcretePass]
-            for pass_obj in [pass_cls()]
+            for pass_name in self.config["pass_names"]
+            for dim, axes in self.dim_axes_pairs
+            for pass_cls in [get_dim_gen_pass(pass_name)]
+            for pass_obj in [pass_cls(dim=dim, axes=axes)]
         ]
 
     def forward(self, *args, **kwargs):

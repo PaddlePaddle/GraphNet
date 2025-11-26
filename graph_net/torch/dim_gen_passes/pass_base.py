@@ -5,8 +5,9 @@ import os
 
 
 class DimensionGeneralizationPass:
-    def __init__(self, *args, **kwargs):
-        pass
+    def __init__(self, dim: int = None, axes: tuple[int] = (), *args, **kwargs):
+        self.dim = dim
+        self.axes = axes
 
     @classmethod
     def get_pass_name(cls):

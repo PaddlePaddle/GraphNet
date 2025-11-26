@@ -27,6 +27,15 @@ def get_reference_output_path(reference_dir, model_path):
     return os.path.join(reference_dir, f"{model_name}.pth")
 
 
+def register_op_lib(op_lib):
+    if op_lib == "flaggems":
+        import flag_gems
+
+        flag_gems.enable()
+    else:
+        pass
+
+
 def test_single_model(args):
     ref_log = get_reference_log_path(args.reference_dir, args.model_path)
     ref_dump = get_reference_output_path(args.reference_dir, args.model_path)
@@ -49,6 +58,10 @@ def test_single_model(args):
                 args,
                 test_compiler.get_hardward_name(args),
                 test_compiler.get_compile_framework_version(args),
+            )
+
+            test_compiler_util.print_with_log_prompt(
+                "[Config] op_lib:", args.op_lib, args.log_prompt
             )
 
             success = False
@@ -99,6 +112,7 @@ def test_multi_models(args):
                     f"--model-path {model_path}",
                     f"--compiler {args.compiler}",
                     f"--device {args.device}",
+                    f"--op-lib {args.op_lib}",
                     f"--warmup {args.warmup}",
                     f"--trials {args.trials}",
                     f"--log-prompt {args.log_prompt}",
@@ -136,6 +150,7 @@ def main(args):
     ref_dump_dir.mkdir(parents=True, exist_ok=True)
 
     if path_utils.is_single_model_dir(args.model_path):
+        register_op_lib(args.op_lib)
         test_single_model(args)
     else:
         test_multi_models(args)
@@ -162,6 +177,13 @@ if __name__ == "__main__":
         required=False,
         default="cuda",
         help="Device for testing the compiler (e.g., 'cpu' or 'cuda')",
+    )
+    parser.add_argument(
+        "--op-lib",
+        type=str,
+        required=False,
+        default="default",
+        help="Customized operator library (eg. default, flaggems)",
     )
     parser.add_argument(
         "--warmup", type=int, required=False, default=5, help="Number of warmup steps"

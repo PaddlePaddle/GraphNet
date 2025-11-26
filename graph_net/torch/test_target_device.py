@@ -143,6 +143,7 @@ def test_multi_models(args):
                     f"-m graph_net.torch.{module_name}",
                     f"--model-path {model_path}",
                     f"--device {args.device}",
+                    f"--op-lib {args.op_lib}",
                     f"--log-prompt {args.log_prompt}",
                     f"--reference-dir {args.reference_dir}",
                 ]
@@ -167,6 +168,18 @@ def main(args):
     assert args.device in ["cuda", "dcu", "xpu", "cpu"]
 
     if path_utils.is_single_model_dir(args.model_path):
+        if args.op_lib == "origin":
+            ref_log = test_reference_device.get_reference_log_path(
+                args.reference_dir, args.model_path
+            )
+            config = parse_config_from_reference_log(ref_log)
+            vars(args)["op_lib"] = config.get("op_lib")
+            test_compiler_util.print_with_log_prompt(
+                "[Config] op_lib:", args.op_lib, args.log_prompt
+            )
+        else:
+            test_reference_device.register_op_lib(args.op_lib)
+
         args = update_args_and_set_seed(args, args.model_path)
         test_single_model(args)
     else:
@@ -193,6 +206,13 @@ if __name__ == "__main__":
         required=False,
         default="cuda",
         help="Device for testing the compiler (e.g., 'cpu' or 'cuda')",
+    )
+    parser.add_argument(
+        "--op-lib",
+        type=str,
+        required=False,
+        default="default",
+        help="Customized operator library (eg. default, flaggems or origin)",
     )
     parser.add_argument(
         "--log-prompt",

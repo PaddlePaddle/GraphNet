@@ -215,13 +215,22 @@ def _get_submodule_inputs_and_outputs(
     )
     node_list = list(gm.graph.nodes)
 
+    def _hashable(obj):
+        if isinstance(obj, slice):
+            return ("__slice__", obj.start, obj.stop, obj.step)
+        elif isinstance(obj, (list, tuple)):
+            return tuple(_hashable(x) for x in obj)
+        else:
+            return obj
+
     def get_related_node(node):
         for arg in node.args:
             if isinstance(arg, tuple):
-                yield from arg
+                for x in arg:
+                    yield _hashable(x)
             else:
-                yield arg
-        yield node
+                yield _hashable(arg)
+        yield _hashable(node)
 
     for node in node_list[0:start_node_idx]:
         for related_node in get_related_node(node):

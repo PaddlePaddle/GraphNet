@@ -219,7 +219,7 @@ def test_single_model(args):
     compiled_types = []
     compiled_time_stats = {}
 
-    if args.operator_lib == "flaggems":
+    if args.op_lib == "flaggems":
         try:
             import flag_gems
         except ImportError:
@@ -376,7 +376,7 @@ def test_multi_models(args):
                     f"-m graph_net.torch.{module_name}",
                     f"--model-path {model_path}",
                     f"--compiler {args.compiler}",
-                    f"--operator-lib {args.operator_lib}",
+                    f"--op-lib {args.op_lib}",
                     f"--device {args.device}",
                     f"--warmup {args.warmup}",
                     f"--trials {args.trials}",
@@ -426,7 +426,7 @@ if __name__ == "__main__":
         help="Path to customized compiler python file",
     )
     parser.add_argument(
-        "--operator-lib",
+        "--op-lib",
         type=str,
         required=False,
         default="default",

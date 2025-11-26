@@ -21,6 +21,7 @@ from graph_net.torch.backend.xla_backend import XlaBackend
 from graph_net.torch.backend.inductor_backend import InductorBackend
 from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
+from graph_net.torch.backend.flaggems_backend import FlagGemsBackend
 from graph_net.torch.backend.nope_backend import NopeBackend
 from graph_net.torch.backend.unstable_to_stable_backend import UnstableToStableBackend
 from graph_net.torch.backend.range_decomposer_validator_backend import (
@@ -40,6 +41,7 @@ registry_backend = {
     "nope": NopeBackend(),
     "unstable_to_stable": UnstableToStableBackend(),
     "range_decomposer_validator": RangeDecomposerValidatorBackend(),
+    "flaggems": FlagGemsBackend(),
 }
 
 
@@ -199,14 +201,15 @@ def test_single_model(args):
     eager_failure = False
     expected_out = None
     eager_types = []
-    eager_stats = {}
+    eager_time_stats = {}
 
     try:
         eager_model_call = lambda: model(**input_dict)
-        eager_stats = measure_performance(eager_model_call, args, compiler)
+        expected_out, eager_time_stats = measure_performance(
+            eager_model_call, args, compiler
+        )
 
         torch.manual_seed(runtime_seed)
-        expected_out = eager_model_call()
         if not isinstance(expected_out, tuple):
             expected_out = (expected_out,)
     except (TypeError, RuntimeError) as e:
@@ -216,15 +219,16 @@ def test_single_model(args):
     compiled_failure = False
     compiled_model = None
     compiled_types = []
-    compiled_stats = {}
+    compiled_time_stats = {}
 
     try:
         compiled_model = compiler(model)
         torch.manual_seed(runtime_seed)
         compiled_model_call = lambda: compiled_model(**input_dict)
-        compiled_stats = measure_performance(compiled_model_call, args, compiler)
+        compiled_out, compiled_time_stats = measure_performance(
+            compiled_model_call, args, compiler
+        )
 
-        compiled_out = compiled_model_call()
         if not isinstance(compiled_out, tuple):
             compiled_out = (compiled_out,)
         if args.compiler == "xla":
@@ -254,7 +258,9 @@ def test_single_model(args):
             f"{args.log_prompt} [Result] status: success", file=sys.stderr, flush=True
         )
 
-        test_compiler_util.print_times_and_speedup(args, eager_stats, compiled_stats)
+        test_compiler_util.print_times_and_speedup(
+            args, eager_time_stats, compiled_time_stats
+        )
 
 
 def print_and_store_cmp(key, cmp_func, args, expected_out, compiled_out, **kwargs):

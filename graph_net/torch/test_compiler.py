@@ -219,14 +219,6 @@ def test_single_model(args):
     compiled_types = []
     compiled_time_stats = {}
 
-    if args.op_lib == "flaggems":
-        try:
-            import flag_gems
-        except ImportError:
-            flag_gems = None
-
-        flag_gems.enable()
-
     try:
         compiled_model = compiler(model)
         torch.manual_seed(runtime_seed)
@@ -376,7 +368,6 @@ def test_multi_models(args):
                     f"-m graph_net.torch.{module_name}",
                     f"--model-path {model_path}",
                     f"--compiler {args.compiler}",
-                    f"--op-lib {args.op_lib}",
                     f"--device {args.device}",
                     f"--warmup {args.warmup}",
                     f"--trials {args.trials}",
@@ -424,13 +415,6 @@ if __name__ == "__main__":
         required=False,
         default="inductor",
         help="Path to customized compiler python file",
-    )
-    parser.add_argument(
-        "--op-lib",
-        type=str,
-        required=False,
-        default="default",
-        help="Customized operator library (eg. default, flaggems)",
     )
     parser.add_argument(
         "--device",

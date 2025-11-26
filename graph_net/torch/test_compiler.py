@@ -21,7 +21,6 @@ from graph_net.torch.backend.xla_backend import XlaBackend
 from graph_net.torch.backend.inductor_backend import InductorBackend
 from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
-from graph_net.torch.backend.flaggems_backend import FlagGemsBackend
 from graph_net.torch.backend.nope_backend import NopeBackend
 from graph_net.torch.backend.unstable_to_stable_backend import UnstableToStableBackend
 from graph_net.torch.backend.range_decomposer_validator_backend import (
@@ -41,7 +40,6 @@ registry_backend = {
     "nope": NopeBackend(),
     "unstable_to_stable": UnstableToStableBackend(),
     "range_decomposer_validator": RangeDecomposerValidatorBackend(),
-    "flaggems": FlagGemsBackend(),
 }
 
 
@@ -221,6 +219,14 @@ def test_single_model(args):
     compiled_types = []
     compiled_time_stats = {}
 
+    if args.operator_lib == "flaggems":
+        try:
+            import flag_gems
+        except ImportError:
+            flag_gems = None
+
+        flag_gems.enable()
+
     try:
         compiled_model = compiler(model)
         torch.manual_seed(runtime_seed)
@@ -370,6 +376,7 @@ def test_multi_models(args):
                     f"-m graph_net.torch.{module_name}",
                     f"--model-path {model_path}",
                     f"--compiler {args.compiler}",
+                    f"--operator-lib {args.operator_lib}",
                     f"--device {args.device}",
                     f"--warmup {args.warmup}",
                     f"--trials {args.trials}",
@@ -417,6 +424,13 @@ if __name__ == "__main__":
         required=False,
         default="inductor",
         help="Path to customized compiler python file",
+    )
+    parser.add_argument(
+        "--operator-lib",
+        type=str,
+        required=False,
+        default="default",
+        help="Customized operator library (eg. default, flaggems)",
     )
     parser.add_argument(
         "--device",

@@ -164,7 +164,7 @@ def test_multi_models(args):
 
 def main(args):
     assert os.path.isdir(args.model_path)
-    assert args.device in ["cuda", "cpu", "xpu"]
+    assert args.device in ["cuda", "dcu", "xpu", "cpu"]
 
     if path_utils.is_single_model_dir(args.model_path):
         args = update_args_and_set_seed(args, args.model_path)

@@ -128,7 +128,7 @@ def main(args):
     assert (
         args.compiler in valid_compilers
     ), f"Compiler must be one of {valid_compilers}"
-    assert args.device in ["cuda", "cpu", "xpu"]
+    assert args.device in ["cuda"]
 
     test_compiler.set_seed(random_seed=args.seed)
 

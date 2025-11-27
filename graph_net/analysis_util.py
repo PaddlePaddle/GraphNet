@@ -339,30 +339,31 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
     return False
 
 
-def fake_perf_degrad(t, error_code, fpdb=0.1):
+def fake_perf_degrad(t, error_code, b=0.1):
     """
     Calculate fake performance degradation based on tolerance t and error code.
     """
     if error_code == "accuracy":
-        return fpdb if t < 1 else 1
+        return b if t < 1 else 1
     else:
-        return fpdb if t < 3 else 1
+        return b if t < 3 else 1
 
     # if error_code == "compiled":
     #     # Compilation failure: only exempt if t >= 3 (return 1)
-    #     return fpdb + (1 - fpdb) * (1 if t >= 3 else 0)
+    #     return b + (1 - b) * (1 if t >= 3 else 0)
     # elif error_code == "eager":
     #     # Execution crash (but compilation succeeded): exempt if t >= 2
-    #     return fpdb + (1 - fpdb) * (1 if t >= 2 else 0)
+    #     return b + (1 - b) * (1 if t >= 2 else 0)
     # elif error_code == "accuracy":
     #     # Accuracy failure (execution succeeded but result wrong): exempt if t >= 1
-    #     return fpdb + (1 - fpdb) * (1 if t >= 1 else 0)
+    #     return b + (1 - b) * (1 if t >= 1 else 0)
 
 
 def calculate_scores(
     samples: list,
-    negative_speedup_penalty: float = 0,
-    fpdb: float = 0.1,
+    p: float = 0,
+    b: float = 0.1,
+    type: str = "ESt",
 ) -> tuple:
     """
     Use a standard tolerance to evaluate all samples and calculate S(t) and ES(t) scores for each tolerance level.
@@ -372,15 +373,13 @@ def calculate_scores(
     speedup_at_t1 = [None] * total_samples
     fail_type_at_t1 = ["CORRECT"] * total_samples
 
-    s_scores = OrderedDict()
-    s_scores_fake_degrad = OrderedDict()
+    scores = {}
 
     for tolerance in range(-10, 5):
         rectified_speedups = []
         rectified_speedups_fake_degrad = []
 
         for idx, sample in enumerate(samples):
-            # Determine the true state of the current sample (for statistics and S curve)
             is_correct, fail_type = check_sample_correctness(sample, tolerance)
 
             # Collect statistics
@@ -395,47 +394,47 @@ def calculate_scores(
 
             # S(t) calculation
             if fail_type is not None:
-                rectified_speedup = fpdb
+                rectified_speedup = b
             else:
-                rectified_speedup = (
-                    speedup ** (negative_speedup_penalty + 1)
-                    if speedup < 1
-                    else speedup
-                )
+                rectified_speedup = speedup ** (p + 1) if speedup < 1 else speedup
             rectified_speedups.append(rectified_speedup)
 
             # ES(t) calculation
             if tolerance < 1:
                 if fail_type is not None:
-                    rec_speedup_fake_degrad = fpdb
+                    rec_speedup_fake_degrad = b
                 else:
                     rec_speedup_fake_degrad = (
-                        speedup ** (negative_speedup_penalty + 1)
-                        if speedup < 1
-                        else speedup
+                        speedup ** (p + 1) if speedup < 1 else speedup
                     )
             else:
                 if not is_correct_at_t1[idx] or speedup_at_t1[idx] is None:
                     fail_type_frozen = fail_type_at_t1[idx]
                     rec_speedup_fake_degrad = fake_perf_degrad(
-                        tolerance, fail_type_frozen, fpdb
+                        tolerance, fail_type_frozen, b
                     )
                 else:
                     rec_speedup_fake_degrad = (
-                        speedup_at_t1[idx] ** (negative_speedup_penalty + 1)
+                        speedup_at_t1[idx] ** (p + 1)
                         if speedup_at_t1[idx] < 1
                         else speedup_at_t1[idx]
                     )
             rectified_speedups_fake_degrad.append(rec_speedup_fake_degrad)
 
-        if rectified_speedups:
-            s_scores[tolerance] = gmean(rectified_speedups)
-            s_scores_fake_degrad[tolerance] = gmean(rectified_speedups_fake_degrad)
-            print(
-                f"  - S(t)={s_scores[tolerance]:.3f}, ES(t)={s_scores_fake_degrad[tolerance]:.3f} for tolerance={tolerance}."
-            )
+        if not rectified_speedups:
+            print("  - No speedup data found.")
+            scores[tolerance] = 0
 
-    return s_scores, s_scores_fake_degrad
+        if type == "St":
+            scores[tolerance] = gmean(rectified_speedups)
+        elif type == "ESt":
+            scores[tolerance] = gmean(rectified_speedups_fake_degrad)
+        else:
+            print("Invalid type specified. Please choose either 'ESt' or 'St'.")
+            sys.exit()
+        print(f"  - {type}={scores[tolerance]:.3f} for tolerance={tolerance}.")
+
+    return scores
 
 
 def check_sample_correctness(sample: dict, tolerance: int) -> tuple[bool, str]:

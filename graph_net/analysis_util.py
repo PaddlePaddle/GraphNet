@@ -383,19 +383,9 @@ def calculate_s_scores(
     speedup_at_t1 = [None] * total_samples
     fail_type_at_t1 = ["CORRECT"] * total_samples
 
-    final_correct_count = 0
-    final_correct_negative_speedup_count = 0
-    final_correct_speedups = []
-    final_slowdown_speedups = []
-
     for t_key in t_keys:
         rectified_speedups = []
         rectified_speedups_fake_degrad = []
-        correct_count = 0
-        acc_failure_count = 0
-        correct_negative_speedup_count = 0
-        correct_speedups = []
-        slowdown_speedups = []
 
         for idx, sample in enumerate(samples):
             # Determine the true state of the current sample (for statistics and S curve)
@@ -403,16 +393,8 @@ def calculate_s_scores(
 
             # Collect statistics
             if is_correct:
-                correct_count += 1
                 performance_data = sample.get("performance", {})
                 speedup = performance_data.get("speedup", {}).get("e2e")
-                correct_speedups.append(speedup)
-                if speedup < 1:
-                    correct_negative_speedup_count += 1
-                    slowdown_speedups.append(speedup)
-
-            if fail_type == "accuracy":
-                acc_failure_count += 1
 
             if t_key == 1:
                 is_correct_at_t1[idx] = is_correct
@@ -420,7 +402,7 @@ def calculate_s_scores(
                 fail_type_at_t1[idx] = fail_type if fail_type is not None else "CORRECT"
 
             # S(t) calculation
-            if fail_type is not None or speedup is None:
+            if fail_type is not None:
                 regularized_speedup = fpdb
             else:
                 regularized_speedup = (
@@ -430,9 +412,9 @@ def calculate_s_scores(
                 )
             rectified_speedups.append(regularized_speedup)
 
-            # ES(t) calculation: based on state change
+            # ES(t) calculation
             if t_key < 1:
-                if fail_type is not None or speedup is None:
+                if fail_type is not None:
                     rec_speedup_fake_degrad = fpdb
                 else:
                     rec_speedup_fake_degrad = (
@@ -453,12 +435,6 @@ def calculate_s_scores(
                         else speedup_at_t1[idx]
                     )
             rectified_speedups_fake_degrad.append(rec_speedup_fake_degrad)
-
-        if t_key == 1:
-            final_correct_count = correct_count
-            final_correct_negative_speedup_count = correct_negative_speedup_count
-            final_correct_speedups = correct_speedups
-            final_slowdown_speedups = slowdown_speedups
 
         if rectified_speedups:
             s_scores[t_key] = gmean(rectified_speedups)

@@ -403,14 +403,14 @@ def calculate_s_scores(
 
             # S(t) calculation
             if fail_type is not None:
-                regularized_speedup = fpdb
+                rectified_speedup = fpdb
             else:
-                regularized_speedup = (
+                rectified_speedup = (
                     speedup ** (negative_speedup_penalty + 1)
                     if speedup < 1
                     else speedup
                 )
-            rectified_speedups.append(regularized_speedup)
+            rectified_speedups.append(rectified_speedup)
 
             # ES(t) calculation
             if t_key < 1:

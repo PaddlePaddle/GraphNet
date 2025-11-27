@@ -120,6 +120,7 @@ def get_input_dict(args):
 
 def measure_performance(model_call, args, compiler):
     stats = {}
+    outs = model_call()
 
     # Warmup runs
     for _ in range(args.warmup):
@@ -180,9 +181,9 @@ def measure_performance(model_call, args, compiler):
                 flush=True,
             )
             e2e_times.append(duration_box.value)
-        stats["e2e"] = test_compiler_utilget_timing_stats(e2e_times)
+        stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
 
-    return stats
+    return outs, stats
 
 
 def test_single_model(args):
@@ -198,14 +199,15 @@ def test_single_model(args):
     eager_failure = False
     expected_out = None
     eager_types = []
-    eager_stats = {}
+    eager_time_stats = {}
 
     try:
         eager_model_call = lambda: model(**input_dict)
-        eager_stats = measure_performance(eager_model_call, args, compiler)
+        expected_out, eager_time_stats = measure_performance(
+            eager_model_call, args, compiler
+        )
 
         torch.manual_seed(runtime_seed)
-        expected_out = eager_model_call()
         if not isinstance(expected_out, tuple):
             expected_out = (expected_out,)
     except (TypeError, RuntimeError) as e:
@@ -215,15 +217,16 @@ def test_single_model(args):
     compiled_failure = False
     compiled_model = None
     compiled_types = []
-    compiled_stats = {}
+    compiled_time_stats = {}
 
     try:
         compiled_model = compiler(model)
         torch.manual_seed(runtime_seed)
         compiled_model_call = lambda: compiled_model(**input_dict)
-        compiled_stats = measure_performance(compiled_model_call, args, compiler)
+        compiled_out, compiled_time_stats = measure_performance(
+            compiled_model_call, args, compiler
+        )
 
-        compiled_out = compiled_model_call()
         if not isinstance(compiled_out, tuple):
             compiled_out = (compiled_out,)
         if args.compiler == "xla":
@@ -253,7 +256,9 @@ def test_single_model(args):
             f"{args.log_prompt} [Result] status: success", file=sys.stderr, flush=True
         )
 
-        test_compiler_util.print_times_and_speedup(args, eager_stats, compiled_stats)
+        test_compiler_util.print_times_and_speedup(
+            args, eager_time_stats, compiled_time_stats
+        )
 
 
 def print_and_store_cmp(key, cmp_func, args, expected_out, compiled_out, **kwargs):

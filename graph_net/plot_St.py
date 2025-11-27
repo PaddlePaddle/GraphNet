@@ -72,11 +72,13 @@ def main(args):
     # 2. Calculate scores for each curve
     all_s_scores = {}
     for folder_name, samples in all_results.items():
-        s_scores, _ = analysis_util.calculate_s_scores(
+        print(f"\nCalculating S(t) scores for '{folder_name}'...")
+
+        s_scores = analysis_util.calculate_scores(
             samples,
-            folder_name,
-            negative_speedup_penalty=args.negative_speedup_penalty,
-            fpdb=args.fpdb,
+            p=args.negative_speedup_penalty,
+            b=args.fpdb,
+            type="St",
         )
         all_s_scores[folder_name] = s_scores
 

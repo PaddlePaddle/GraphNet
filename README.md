@@ -59,29 +59,19 @@ After executing, `graph_net.torch.test_compiler` will:
 3. Executing the compiled model and collecting its runtime and outputs.
 4. Conduct speedup by comparing the compiled results against the baseline (if no execution failure occurs).
 
-**Step 2: Generate JSON Record**
+**Step 2: Analysis**
 
-Extract runtime, correctness, and failure information from benchmark logs:
-
-```bash
-python -m graph_net.log2json \
-  --log-file $GRAPH_NET_BENCHMARK_PATH/log.log \
-  --output-dir $GRAPH_NET_BENCHMARK_PATH/JSON_results/
-```
-
-**Step 3: Analysis**
-
-Use the three scripts `graph_net.plot_St`, `graph_net.plot_ESt` and `graph_net.plot_violin` to generate St plot, ESt plot, and [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on the JSON results.
+Use the three scripts `graph_net.plot_St`, `graph_net.plot_ESt` and `graph_net.plot_violin` to generate St plot, ESt plot, and [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on speedup, correctness and runtime information from benchmark logs.
 
 ```bash
 python -m graph_net.plot_St \
-  --benchmark-path $GRAPH_NET_BENCHMARK_PATH/JSON_results/ \
+  --benchmark-path $GRAPH_NET_BENCHMARK_PATH/log.log \
   --output-dir $GRAPH_NET_BENCHMARK_PATH \
   --negative-speedup-penalty penalty/power/for/negative/speedup \
   --fpdb base/penalty/for/severe/errors
 
 python -m graph_net.plot_ESt \
-  --benchmark-path $GRAPH_NET_BENCHMARK_PATH/JSON_results/ \
+  --benchmark-path $GRAPH_NET_BENCHMARK_PATH/log.log \
   --output-dir $GRAPH_NET_BENCHMARK_PATH \
   --negative-speedup-penalty penalty/power/for/negative/speedup \
   --fpdb base/penalty/for/severe/errors

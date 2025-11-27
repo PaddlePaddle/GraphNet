@@ -176,7 +176,10 @@ class GraphExtractor:
         return static_model
 
     def translate_pir_program_to_sample_codes(
-        self, model_dump_path, split_positions=None
+        self,
+        model_dump_path,
+        split_positions=None,
+        group_head_and_tail=True,
     ):
         ir_programs_path = os.path.join(model_dump_path, "exec_programs.py")
         example_inputs_path = os.path.join(
@@ -201,6 +204,7 @@ class GraphExtractor:
             example_inputs=example_inputs_path,
             op_example_inputs=op_example_inputs_path,
             split_positions=split_positions,
+            group_head_and_tail=group_head_and_tail,
             eval_mode=True,
         )
 

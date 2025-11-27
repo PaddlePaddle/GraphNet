@@ -108,14 +108,16 @@ def run_decomposer(
     ]
 
     print(
-        f"      [Decomposing] {os.path.basename(model_path)} (Step={max_subgraph_size})"
+        f"- [Decomposing] {os.path.basename(model_path)} (max_subgraph_size={max_subgraph_size}, split_positions={split_positions})"
     )
 
-    proc = subprocess.run(cmd, capture_output=True, text=True)
-
-    if proc.returncode != 0:
-        print(f"[ERROR] Decomposition failed for {model_path}")
+    result = subprocess.run(
+        cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+    )
+    if result.returncode != 0:
+        print(f"[ERROR] Decomposition failed for {model_path}\n{result.stderr}")
         return False
+    print(result.stdout)
     return True
 
 
@@ -178,7 +180,6 @@ def main(args):
         target_models = get_incorrect_models(args.tolerance, args.log_file)
     else:
         print(f"[Init] Resuming from Pass {current_pass_id - 1}...")
-
         prev_config = load_prev_config(current_pass_id, base_output_dir)
         target_models = prev_config.get("incorrect_models", [])
 
@@ -201,31 +202,47 @@ def main(args):
     os.makedirs(pass_work_dir, exist_ok=True)
 
     # --- Step 3: Decomposition ---
-    print("\n--- Phase 1: Decomposition ---")
-    failed_extraction = []
+    print("\n--- Phase 1: Decomposition ---", flush=True)
+    need_decompose = True
+    while need_decompose:
+        failed_extraction = []
 
-    for idx, model_path in enumerate(target_models):
-        rectied_model_path = get_rectfied_model_path(model_path)
-        assert os.path.exists(
-            rectied_model_path
-        ), f"{rectied_model_path} does not exist."
+        for idx, model_path in enumerate(target_models):
+            rectied_model_path = get_rectfied_model_path(model_path)
+            assert os.path.exists(
+                rectied_model_path
+            ), f"{rectied_model_path} does not exist."
 
-        model_name = os.path.basename(rectied_model_path.rstrip("/"))
-        model_out_dir = os.path.join(pass_work_dir, model_name)
-        os.makedirs(model_out_dir, exist_ok=True)
+            model_name = os.path.basename(rectied_model_path.rstrip("/"))
+            model_out_dir = os.path.join(pass_work_dir, model_name)
+            os.makedirs(model_out_dir, exist_ok=True)
 
-        success = run_decomposer(
-            args.framework,
-            rectied_model_path,
-            model_out_dir,
-            current_max_size,
-            decorator_template,
+            success = run_decomposer(
+                args.framework,
+                rectied_model_path,
+                model_out_dir,
+                current_max_size,
+                decorator_template,
+            )
+            if not success:
+                failed_extraction.append(rectied_model_path)
+        num_decomposed_samples = count_samples(pass_work_dir)
+        print(
+            f"- number of graphs: {len(target_models)} -> {num_decomposed_samples}",
+            flush=True,
         )
-        if not success:
-            failed_extraction.append(rectied_model_path)
+        if failed_extraction:
+            print(f"[WARN] {len(failed_extraction)} models failed to decompose.")
 
-    if failed_extraction:
-        print(f"\n[WARN] {len(failed_extraction)} models failed to decompose.")
+        if num_decomposed_samples == len(target_models):
+            need_decompose = True
+            shutil.rmtree(pass_work_dir)
+            os.makedirs(pass_work_dir, exist_ok=True)
+            shutil.rmtree("/tmp")
+            os.makedirs("/tmp", exist_ok=True)
+            current_max_size = max(1, current_max_size // 2)
+        else:
+            need_decompose = False
 
     # --- Step 4: Testing ---
     print("\n--- Phase 2: Batch Testing ---")

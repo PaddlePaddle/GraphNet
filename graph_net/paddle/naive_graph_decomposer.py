@@ -56,6 +56,9 @@ class NaiveDecomposerExtractor:
             workspace_path=self.parent_graph_extractor.config["output_dir"],
         )
         self.split_positions = self.parent_graph_extractor.config["split_positions"]
+        self.group_head_and_tail = self.parent_graph_extractor.config[
+            "group_head_and_tail"
+        ]
         self.post_process = self.make_post_process(self.parent_graph_extractor.config)
 
     def do_extract(self, **input_dict):
@@ -69,7 +72,9 @@ class NaiveDecomposerExtractor:
 
         # 2. Convert pir programs to graphnet samples
         self.builtin_extractor.translate_pir_program_to_sample_codes(
-            model_dump_path, split_positions=self.split_positions
+            model_dump_path,
+            split_positions=self.split_positions,
+            group_head_and_tail=self.group_head_and_tail,
         )
 
         # 3. Save to model_path

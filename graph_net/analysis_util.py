@@ -452,37 +452,16 @@ def calculate_s_scores(
         slowdown_speedups = []
 
         for idx, sample in enumerate(samples):
-            performance_data = sample.get("performance", {})
-            fail_type = performance_data.get("failure")
-            speedup = performance_data.get("speedup", {}).get("e2e")
-
             # Determine the true state of the current sample (for statistics and S curve)
-            is_correct = False
-            if fail_type is None:
-                datatype_data = performance_data.get("datatype", {})
-                eager_dtypes = datatype_data.get("eager", [])
-                compiled_dtypes = datatype_data.get("compiled", [])
-                if (
-                    eager_dtypes
-                    and eager_dtypes == compiled_dtypes
-                    and len(eager_dtypes) > 0
-                ):
-                    correctness_data = sample.get("correctness", {})
-                    output_count = len(correctness_data.get("[equal]", []))
-                    if len(eager_dtypes) == output_count:
-                        is_correct = all(
-                            get_correctness(eager_dtypes[i], t_key, correctness_data, i)
-                            for i in range(output_count)
-                        )
-                if not is_correct:
-                    fail_type = "accuracy"
+            is_correct, fail_type = check_sample_correctness(sample, t_key)
 
             # Collect statistics
             if is_correct:
                 correct_count += 1
-                if speedup is not None:
-                    correct_speedups.append(speedup)
-                if speedup is not None and speedup < 1:
+                performance_data = sample.get("performance", {})
+                speedup = performance_data.get("speedup", {}).get("e2e")
+                correct_speedups.append(speedup)
+                if speedup < 1:
                     correct_negative_speedup_count += 1
                     slowdown_speedups.append(speedup)
 

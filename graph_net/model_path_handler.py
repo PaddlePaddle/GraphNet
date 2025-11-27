@@ -1,3 +1,4 @@
+import traceback
 import argparse
 import importlib.util
 from graph_net.imp_util import load_module
@@ -44,7 +45,11 @@ def main(args):
         except KeyboardInterrupt:
             sys.exit(-1)
         except Exception as e:
-            pass
+            print("--- Concise Error Message ---")
+            print(e)
+
+            print("\n--- Full Traceback ---")
+            traceback.print_exc()
 
 
 def _get_model_paths(args):

@@ -1,24 +1,35 @@
-from . import utils
-import argparse
-import importlib.util
-import inspect
-import torch
-import logging
-from pathlib import Path
-from typing import Type, Any
+import os
 import sys
 import json
 import base64
-from contextlib import contextmanager
+import argparse
+from typing import Type
+
+os.environ["FLAGS_logging_pir_py_code_dir"] = "/tmp/dump"
+
+import paddle
+from graph_net import imp_util
+from graph_net.paddle import utils
 
 
-def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Module]:
-    spec = importlib.util.spec_from_file_location("unnamed", file_path)
-    unnamed = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(unnamed)
-    model_class = getattr(unnamed, class_name, None)
-    setattr(model_class, "__graph_net_file_path__", file_path)
+def load_class_from_file(file_path: str, class_name: str):
+    print(f"Load {class_name} from {file_path}")
+    module = imp_util.load_module(file_path, "unnamed")
+    model_class = getattr(module, class_name, None)
     return model_class
+
+
+def get_input_dict(model_path):
+    inputs_params = utils.load_converted_from_text(f"{model_path}")
+    params = inputs_params["weight_info"]
+    inputs = inputs_params["input_info"]
+
+    state_dict = {}
+    for k, v in params.items():
+        state_dict[k] = paddle.nn.parameter.Parameter(utils.replay_tensor(v), name=k)
+    for k, v in inputs.items():
+        state_dict[k] = utils.replay_tensor(v)
+    return state_dict
 
 
 def _convert_to_dict(config_str):
@@ -36,10 +47,8 @@ def _get_decorator(args):
     decorator_config = _convert_to_dict(args.decorator_config)
     if "decorator_path" not in decorator_config:
         return lambda model: model
-    class_name = decorator_config.get("decorator_class_name", "RunModelDecorator")
     decorator_class = load_class_from_file(
-        decorator_config["decorator_path"],
-        class_name=class_name,
+        decorator_config["decorator_path"], class_name="RunModelDecorator"
     )
     return decorator_class(decorator_config.get("decorator_config", {}))
 
@@ -53,13 +62,9 @@ def main(args):
     model = model_class()
     print(f"{model_path=}")
 
+    input_dict = get_input_dict(args.model_path)
     model = _get_decorator(args)(model)
-
-    inputs_params = utils.load_converted_from_text(f"{model_path}")
-    params = inputs_params["weight_info"]
-    state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
-
-    model(**state_dict)
+    model(**input_dict)
 
 
 if __name__ == "__main__":
@@ -68,7 +73,7 @@ if __name__ == "__main__":
         "--model-path",
         type=str,
         required=True,
-        help="Path to folder e.g '../../samples/torch/resnet18'",
+        help="Path to folder e.g '../../paddle_samples/PaddleX/ResNet18'",
     )
     parser.add_argument(
         "--decorator-config",

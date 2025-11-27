@@ -230,7 +230,6 @@ def parse_logs_to_data(log_file: str) -> list:
                     data["result"]["speedup"] = speedup_data
 
             # Ensure performance.speedup.e2e/gpu are direct values (not nested dict)
-            # This is required by calculate_s_scores which uses performance_data.get("speedup", {}).get("e2e")
             for key in ["e2e", "gpu"]:
                 if key in speedup_dict:
                     val = speedup_dict[key]
@@ -360,7 +359,7 @@ def fake_perf_degrad(t, error_code, fpdb=0.1):
     #     return fpdb + (1 - fpdb) * (1 if t >= 1 else 0)
 
 
-def calculate_s_scores(
+def calculate_scores(
     samples: list,
     negative_speedup_penalty: float = 0,
     fpdb: float = 0.1,

@@ -266,7 +266,7 @@ def main(args):
     for folder_name, samples in all_results.items():
         print(f"\nCalculating S(t) scores for '{folder_name}'...")
 
-        _, es_scores = analysis_util.calculate_s_scores(
+        _, es_scores = analysis_util.calculate_scores(
             samples,
             negative_speedup_penalty=args.negative_speedup_penalty,
             fpdb=args.fpdb,

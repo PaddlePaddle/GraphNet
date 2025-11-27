@@ -9,6 +9,20 @@ import glob
 from typing import List, Set, Dict, Any, Union
 import graph_net
 from graph_net.analysis_util import get_incorrect_models
+from graph_net import path_utils
+
+
+def get_rectfied_model_path(model_path):
+    graphnet_root = path_utils.get_graphnet_root()
+    return os.path.join(graphnet_root, model_path.split("GraphNet/")[-1])
+
+
+def count_samples(samples_dir):
+    num_samples = 0
+    for root, dirs, files in os.walk(samples_dir):
+        if path_utils.is_single_model_dir(root):
+            num_samples += 1
+    return num_samples
 
 
 def determine_current_pass_id(output_dir: str) -> int:
@@ -54,6 +68,7 @@ def save_current_config(
 
 
 def run_decomposer(
+    framework: str,
     model_path: str,
     output_dir: str,
     max_subgraph_size: int,
@@ -85,7 +100,7 @@ def run_decomposer(
     cmd = [
         sys.executable,
         "-m",
-        "graph_net.torch.run_model",
+        f"graph_net.{framework}.run_model",
         "--model-path",
         model_path,
         "--decorator-config",
@@ -174,8 +189,10 @@ def main(args):
             print(f"[FINISHED] Debugging completed.")
             sys.exit(0)
 
-    print(f"[INFO] Current Max Subgraph Size: {current_max_size}")
-    print(f"[INFO] Models to Process: {len(target_models)}")
+    print(f"[INFO] current max_subgraph_size: {current_max_size}")
+    print(f"[INFO] number of incorrect models: {len(target_models)}")
+    for model_path in target_models:
+        print(f"- {model_path}")
 
     # --- Step 2: Prepare Workspace ---
     pass_work_dir = os.path.join(base_output_dir, f"pass_{current_pass_id}")
@@ -188,17 +205,24 @@ def main(args):
     failed_extraction = []
 
     for idx, model_path in enumerate(target_models):
-        if not os.path.exists(model_path):
-            continue
-        model_name = os.path.basename(model_path.rstrip("/"))
+        rectied_model_path = get_rectfied_model_path(model_path)
+        assert os.path.exists(
+            rectied_model_path
+        ), f"{rectied_model_path} does not exist."
+
+        model_name = os.path.basename(rectied_model_path.rstrip("/"))
         model_out_dir = os.path.join(pass_work_dir, model_name)
         os.makedirs(model_out_dir, exist_ok=True)
 
         success = run_decomposer(
-            model_path, model_out_dir, current_max_size, decorator_template
+            args.framework,
+            rectied_model_path,
+            model_out_dir,
+            current_max_size,
+            decorator_template,
         )
         if not success:
-            failed_extraction.append(model_path)
+            failed_extraction.append(rectied_model_path)
 
     if failed_extraction:
         print(f"\n[WARN] {len(failed_extraction)} models failed to decompose.")
@@ -237,6 +261,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--log-file", type=str, required=True)
     parser.add_argument("--output-dir", type=str, required=True)
+    parser.add_argument("--framework", type=str, required=True)
     parser.add_argument(
         "--test-config", type=str, required=True, help="Base64 encoded test config"
     )

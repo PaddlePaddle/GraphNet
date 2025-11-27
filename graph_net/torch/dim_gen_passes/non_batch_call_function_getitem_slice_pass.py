@@ -4,11 +4,15 @@ from graph_net.torch.dim_gen_passes import DimensionGeneralizationPass
 from collections import namedtuple
 import operator
 import copy
+import os
 
 
 class ConcretePass(DimensionGeneralizationPass):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def get_pass_name(cls) -> bool:
+        return os.path.basename(__file__)[:-3]
 
     def need_rewrite(self, traced_module: fx.GraphModule) -> bool:
         # non batch
@@ -30,9 +34,21 @@ class ConcretePass(DimensionGeneralizationPass):
     def _slice_need_rewrite(self, slice_obj) -> bool:
         if not isinstance(slice_obj, slice):
             return False
+        return self._head_slice_need_rewrite(
+            slice_obj
+        ) or self._tail_slice_need_rewrite(slice_obj)
+
+    def _head_slice_need_rewrite(self, slice_obj: slice) -> bool:
         return (
             slice_obj.stop == self.dim
             and (slice_obj.start is None or slice_obj.start == 0)
+            and (slice_obj.step is None or slice_obj.step == 1)
+        )
+
+    def _tail_slice_need_rewrite(self, slice_obj: slice) -> bool:
+        return (
+            slice_obj.start == -self.dim
+            and (slice_obj.stop is None)
             and (slice_obj.step is None or slice_obj.step == 1)
         )
 
@@ -76,14 +92,33 @@ class ConcretePass(DimensionGeneralizationPass):
             ):
                 return val_map[elem] if val_map_contains(elem) else elem
 
-            slice_obj = copy.deepcopy(elem)
-            assert slice_obj.stop == self.dim
+            if self._head_slice_need_rewrite(elem):
+                slice_obj = copy.deepcopy(elem)
+                assert slice_obj.stop == self.dim
 
-            # Use the size() method to retrieve the dynamic dimension
-            size_node = new_graph.call_method(
-                "size", args=(last_node_axis.node, last_node_axis.shape_axis)
-            )
-            return slice(slice_obj.start, size_node, slice_obj.step)
+                # Use the size() method to retrieve the dynamic dimension
+                size_node = new_graph.call_method(
+                    "size", args=(last_node_axis.node, last_node_axis.shape_axis)
+                )
+                return slice(slice_obj.start, size_node, slice_obj.step)
+            elif self._tail_slice_need_rewrite(elem):
+                slice_obj = copy.deepcopy(elem)
+                assert slice_obj.start == -self.dim
+
+                # Use the size() method to retrieve the dynamic dimension
+                size_node = new_graph.call_method(
+                    "size", args=(last_node_axis.node, last_node_axis.shape_axis)
+                )
+                negation_node = new_graph.call_function(
+                    operator.neg,
+                    args=(
+                        size_node,
+                    ),  # The single positional argument is the input node
+                    kwargs={},  # Unary operators typically have no keyword arguments
+                )
+                return slice(negation_node, slice_obj.stop, slice_obj.step)
+            else:
+                raise NotImplementedError("Dead code.")
 
         def get_new_getitem_arg(arg):
             if not isinstance(arg, tuple):

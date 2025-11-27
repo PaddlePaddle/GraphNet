@@ -12,6 +12,7 @@ import tempfile
 import shutil
 from pathlib import Path
 import json
+from dataclasses import asdict
 
 
 class UpdateInputTensorConstraints:
@@ -75,7 +76,6 @@ class UpdateInputTensorConstraints:
 
     def __call__(self, model_path):
         model_path = os.path.join(self.config["model_path_prefix"], model_path)
-        print(f"{model_path=}")
         cstr_path = os.path.join(model_path, "input_tensor_constraints.py")
         if (
             self.config["resume"]
@@ -143,15 +143,13 @@ class UpdateInputTensorConstraints:
         )
         dim_generalizer = decorator_cls(self.config["dimension_generalizer_config"])
         dim_gen_pass = dim_generalizer(model, dim_axes_pairs)
-        if not dim_gen_pass.need_rewrite():
+        tensor_meta_attrs_list = [asdict(tensor_meta) for tensor_meta in tensor_metas]
+        inputs = dim_gen_pass.create_inputs_by_metas(tensor_meta_attrs_list)
+        if not dim_gen_pass.need_rewrite(inputs):
             yield model_path, ()
             return
-        from dataclasses import asdict
 
-        tensor_meta_attrs_list = [asdict(tensor_meta) for tensor_meta in tensor_metas]
-        graph_module = dim_gen_pass.rewrite_with_tensor_meta_attrs_list(
-            tensor_meta_attrs_list=tensor_meta_attrs_list,
-        )
+        graph_module = dim_gen_pass.rewrite(inputs)
         with tempfile.TemporaryDirectory() as tmp_dir:
             shutil.copytree(Path(model_path), Path(tmp_dir), dirs_exist_ok=True)
             dim_gen_pass.save_graph_module(graph_module, tmp_dir)

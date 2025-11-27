@@ -9,6 +9,9 @@ from typing import Any
 from contextlib import contextmanager
 from torch.export import export
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
+from graph_net.torch.fx_graph_cache_util import (
+    parse_immutable_model_path_into_sole_graph_module,
+)
 from graph_net.imp_util import load_module
 import os
 
@@ -41,6 +44,10 @@ class StaticToDynamicModulePass(torch.nn.Module):
                 "non_batch_call_method_expand_pass",
                 "non_batch_call_function_arange_pass",
                 "non_batch_call_function_getitem_slice_pass",
+                "non_batch_call_function_full_pass",
+                "non_batch_call_function_full_plus_one_pass",
+                "non_batch_call_function_zeros_pass",
+                "non_batch_call_function_arange_plus_one_pass",
             )
         return {
             "pass_names": pass_names,
@@ -49,45 +56,53 @@ class StaticToDynamicModulePass(torch.nn.Module):
     def get_pass_names(self):
         return self.config["pass_names"]
 
-    def need_rewrite(self):
+    def create_inputs_by_metas(self, tensor_meta_attrs_list):
+        named_tensors = convert_tensor_meta_attrs_list_to_named_tensors(
+            tensor_meta_attrs_list
+        )
+        name2tensor = {k: v for k, v in named_tensors}
+        return tuple(
+            name2tensor[name]
+            for name in inspect.signature(self.module.forward).parameters
+        )
+
+    def need_rewrite(self, inputs):
         try:
-            traced_module = torch.fx.symbolic_trace(self.module)
+            traced_module = self._create_fx_graph_module(inputs)
+            ShapeProp(traced_module).propagate(*inputs)
         except:
             return False
         return any(
-            predicator(traced_module) for predicator, _ in self.get_conditional_passes()
+            pass_obj.need_rewrite(traced_module)
+            for pass_obj in self.get_conditional_passes()
         )
 
     def save_graph_module(self, graph_module, model_path):
         py_code = apply_templates(graph_module.code)
         (Path(model_path) / "model.py").write_text(py_code)
 
-    def rewrite_with_tensor_meta_attrs_list(self, tensor_meta_attrs_list):
-        named_tensors = convert_tensor_meta_attrs_list_to_named_tensors(
-            tensor_meta_attrs_list
-        )
-        ret = self.rewrite(**{k: v for k, v in named_tensors})
-        return ret
-
-    def rewrite(self, *args, **kwargs):
-        assert len(args) == 0
-        inputs = tuple(
-            kwargs[name] for name in inspect.signature(self.module.forward).parameters
-        )
-        traced_module = parse_sole_graph_module(self.module, inputs)
-
-        for predicator, pass_fn in self.get_conditional_passes():
-            if predicator(traced_module):
+    def rewrite(self, inputs):
+        traced_module = self._create_fx_graph_module(inputs)
+        ShapeProp(traced_module).propagate(*inputs)
+        for pass_obj in self.get_conditional_passes():
+            if pass_obj.need_rewrite(traced_module):
                 ShapeProp(traced_module).propagate(*inputs)
-                traced_module = pass_fn(traced_module)
+                traced_module = pass_obj.rewrite(traced_module)
 
         return traced_module
+
+    def _create_fx_graph_module(self, inputs):
+        if hasattr(self.module, "__graph_net_file_path__"):
+            model_path = os.path.dirname(self.module.__graph_net_file_path__)
+            return parse_immutable_model_path_into_sole_graph_module(model_path)
+        else:
+            return parse_sole_graph_module(self.module, inputs)
 
     def get_conditional_passes(self):
         from graph_net.torch.dim_gen_passes.pass_mgr import get_dim_gen_pass
 
         return [
-            (pass_obj.need_rewrite, pass_obj.rewrite)
+            pass_obj
             for pass_name in self.config["pass_names"]
             for dim, axes in self.dim_axes_pairs
             for pass_cls in [get_dim_gen_pass(pass_name)]
@@ -95,11 +110,4 @@ class StaticToDynamicModulePass(torch.nn.Module):
         ]
 
     def forward(self, *args, **kwargs):
-        traced_module = self.rewrite(*args, **kwargs)
-
-        inputs = [
-            kwargs[name] for name in inspect.signature(self.module.forward).parameters
-        ]
-        ShapeProp(traced_module).propagate(*inputs)
-
-        # return traced_module(*args, **kwargs)
+        print(f"Do nothing.")

@@ -268,15 +268,19 @@ def print_and_store_cmp(key, cmp_func, args, expected_out, compiled_out, **kwarg
 
 def compare_correctness(expected_out, compiled_out, args):
     eager_dtypes = [
-        str(x.dtype).replace("torch.", "")
-        if isinstance(x, torch.Tensor)
-        else type(x).__name__
+        (
+            str(x.dtype).replace("torch.", "")
+            if isinstance(x, torch.Tensor)
+            else type(x).__name__
+        )
         for x in expected_out
     ]
     compiled_dtypes = [
-        str(x.dtype).replace("torch.", "")
-        if isinstance(x, torch.Tensor)
-        else type(x).__name__
+        (
+            str(x.dtype).replace("torch.", "")
+            if isinstance(x, torch.Tensor)
+            else type(x).__name__
+        )
         for x in compiled_out
     ]
 

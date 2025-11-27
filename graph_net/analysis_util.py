@@ -339,24 +339,15 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
     return False
 
 
-def fake_perf_degrad(t, error_code, b=0.1):
+def fake_perf_degrad(tolerance, error_code) -> str:
     """
-    Calculate fake performance degradation based on tolerance t and error code.
+    Calculate current correctness based on tolerance t and error code.
     """
-    if error_code == "accuracy":
-        return b if t < 1 else 1
-    else:
-        return b if t < 3 else 1
-
-    # if error_code == "compiled":
-    #     # Compilation failure: only exempt if t >= 3 (return 1)
-    #     return b + (1 - b) * (1 if t >= 3 else 0)
-    # elif error_code == "eager":
-    #     # Execution crash (but compilation succeeded): exempt if t >= 2
-    #     return b + (1 - b) * (1 if t >= 2 else 0)
-    # elif error_code == "accuracy":
-    #     # Accuracy failure (execution succeeded but result wrong): exempt if t >= 1
-    #     return b + (1 - b) * (1 if t >= 1 else 0)
+    if error_code == "accuracy" and tolerance >= 1:
+        return "CORRECT"
+    elif tolerance >= 3:
+        return "CORRECT"
+    return error_code
 
 
 def calculate_scores(
@@ -408,10 +399,12 @@ def calculate_scores(
                         speedup ** (p + 1) if speedup < 1 else speedup
                     )
             else:
-                if not is_correct_at_t1[idx] or speedup_at_t1[idx] is None:
-                    fail_type_frozen = fail_type_at_t1[idx]
-                    rec_speedup_fake_degrad = fake_perf_degrad(
-                        tolerance, fail_type_frozen, b
+                if not is_correct_at_t1[idx]:
+                    current_correctness = fake_perf_degrad(
+                        tolerance, fail_type_at_t1[idx]
+                    )
+                    rec_speedup_fake_degrad = (
+                        1 if current_correctness == "CORRECT" else b
                     )
                 else:
                     rec_speedup_fake_degrad = (
@@ -481,7 +474,9 @@ def check_sample_correctness(sample: dict, tolerance: int) -> tuple[bool, str]:
     return is_correct, None if is_correct else "accuracy"
 
 
-def get_incorrect_models(tolerance, log_file_path) -> set[str]:
+def get_incorrect_models(
+    tolerance: int, log_file_path: str, type: str = "ESt"
+) -> set[str]:
     """
     Filters and returns models with accuracy issues based on given tolerance threshold.
 
@@ -489,16 +484,39 @@ def get_incorrect_models(tolerance, log_file_path) -> set[str]:
     tolerance threshold. Returns paths of all models that fail to meet the accuracy requirements.
 
     Args:
-        tolerance (float): Accuracy tolerance threshold for model validation
+        tolerance (int): Accuracy tolerance threshold for model validation
         log_file_path (str): Path to the log file containing model test results
+        type (str): "ESt" or "St" indicating the type of accuracy check to perform
 
     Returns:
         failed_models(str): names of models failing accuracy check, empty set if none found
     """
     failed_models = set()
-    datalist = parse_logs_to_data(log_file_path)
-    for i in datalist:
-        iscorrect, err = check_sample_correctness(i, tolerance)
-        if not iscorrect:
-            failed_models.add(i.get("model_path"))
+    samples = parse_logs_to_data(log_file_path)
+
+    if type == "ESt" and tolerance >= 1:
+        total_samples = len(samples)
+        is_correct_at_t1 = [False] * total_samples
+        fail_type_at_t1 = ["CORRECT"] * total_samples
+
+        for idx, sample in enumerate(samples):
+            is_correct, fail_type = check_sample_correctness(sample, 1)
+            is_correct_at_t1[idx] = is_correct
+            fail_type_at_t1[idx] = fail_type if fail_type is not None else "CORRECT"
+
+        for idx, sample in enumerate(samples):
+            if not is_correct_at_t1[idx]:
+                current_correctness = fake_perf_degrad(tolerance, fail_type_at_t1[idx])
+                if current_correctness != "CORRECT":
+                    failed_models.add(sample.get("model_path"))
+            else:
+                iscorrect, err = check_sample_correctness(sample, tolerance)
+                if not iscorrect:
+                    failed_models.add(sample.get("model_path"))
+    else:
+        for idx, sample in enumerate(samples):
+            iscorrect, err = check_sample_correctness(sample, tolerance)
+            if not iscorrect:
+                failed_models.add(sample.get("model_path"))
+
     return failed_models

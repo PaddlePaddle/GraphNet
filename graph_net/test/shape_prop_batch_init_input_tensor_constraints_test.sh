@@ -11,7 +11,7 @@ config_json_str=$(cat <<EOF
     "handler_path": "$GRAPH_NET_ROOT/constraint_util.py",
     "handler_class_name": "UpdateInputTensorConstraints",
     "handler_config": {
-        "resume": false,
+        "resume": true,
         "model_path_prefix": "$GRAPH_NET_ROOT/../",
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
         "data_input_predicator_class_name": "NaiveDataInputPredicator",
@@ -26,4 +26,4 @@ EOF
 )
 CONFIG=$(echo $config_json_str | base64 -w 0)
 
-python3 -m graph_net.model_path_handler --model-path-list $GRAPH_NET_ROOT/config/small_torch_samples_list.txt --handler-config=$CONFIG
+python3 -m graph_net.model_path_handler --model-path-list $GRAPH_NET_ROOT/config/torch_samples_list.txt --handler-config=$CONFIG

@@ -264,11 +264,13 @@ def main(args):
     all_aggregated_results = {}
 
     for folder_name, samples in all_results.items():
-        _, es_scores = analysis_util.calculate_s_scores(
+        print(f"\nCalculating S(t) scores for '{folder_name}'...")
+
+        es_scores = analysis_util.calculate_scores(
             samples,
-            folder_name,
-            negative_speedup_penalty=args.negative_speedup_penalty,
-            fpdb=args.fpdb,
+            p=args.negative_speedup_penalty,
+            b=args.fpdb,
+            type="ESt",
         )
 
         # Keep original behavior: assign es_scores directly

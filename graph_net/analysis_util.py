@@ -230,7 +230,6 @@ def parse_logs_to_data(log_file: str) -> list:
                     data["result"]["speedup"] = speedup_data
 
             # Ensure performance.speedup.e2e/gpu are direct values (not nested dict)
-            # This is required by calculate_s_scores which uses performance_data.get("speedup", {}).get("e2e")
             for key in ["e2e", "gpu"]:
                 if key in speedup_dict:
                     val = speedup_dict[key]
@@ -340,249 +339,104 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
     return False
 
 
-def fake_perf_degrad(t, error_code, fpdb=0.1):
+def fake_perf_degrad(tolerance, error_code) -> str:
     """
-    Calculate fake performance degradation based on tolerance t and error code.
+    Calculate current correctness based on tolerance t and error code.
     """
-    if error_code == "accuracy":
-        return fpdb if t < 1 else 1
-    else:
-        return fpdb if t < 3 else 1
-
-    # if error_code == "compiled":
-    #     # Compilation failure: only exempt if t >= 3 (return 1)
-    #     return fpdb + (1 - fpdb) * (1 if t >= 3 else 0)
-    # elif error_code == "eager":
-    #     # Execution crash (but compilation succeeded): exempt if t >= 2
-    #     return fpdb + (1 - fpdb) * (1 if t >= 2 else 0)
-    # elif error_code == "accuracy":
-    #     # Accuracy failure (execution succeeded but result wrong): exempt if t >= 1
-    #     return fpdb + (1 - fpdb) * (1 if t >= 1 else 0)
+    if error_code == "accuracy" and tolerance >= 1:
+        return "CORRECT"
+    elif tolerance >= 3:
+        return "CORRECT"
+    return error_code
 
 
-def calculate_s_scores(
+def calculate_scores(
     samples: list,
-    folder_name: str,
-    negative_speedup_penalty: float = 0,
-    fpdb: float = 0.1,
+    p: float = 0,
+    b: float = 0.1,
+    type: str = "ESt",
 ) -> tuple:
     """
     Use a standard tolerance to evaluate all samples and calculate S(t) and ES(t) scores for each tolerance level.
     """
-    s_scores = OrderedDict()
-    s_scores_fake_degrad = OrderedDict()
-
-    begin = -10
-    end = 4
-    t_keys = list(range(begin, end + 1))
     total_samples = len(samples)
-
-    print(f"\nCalculating S(t) scores for '{folder_name}'...")
-
-    def print_stat_info(
-        t_key,
-        correct_count,
-        acc_failure_count,
-        pi,
-        correct_negative_speedup_count,
-        correct_speedups,
-        slowdown_speedups,
-    ):
-        print(f"  - Details for tolerance={t_key}:")
-        if total_samples > 0:
-            alpha = gmean(correct_speedups) if correct_speedups else 1
-            beta = gmean(slowdown_speedups) if slowdown_speedups else 1
-            lambda_ = correct_count / total_samples if total_samples > 0 else 0
-            eta = (
-                correct_negative_speedup_count / correct_count
-                if correct_count > 0
-                else 0
-            )
-            indicator = [1 if t_key < 1 else 0, 1 if t_key < 3 else 0]
-            gamma = (
-                fpdb ** sum(pi[i] * indicator[i] for i in range(len(pi)))
-                if t_key >= 1
-                else fpdb
-            )
-
-            expected_s = (
-                alpha**lambda_
-                * beta ** (lambda_ * eta * negative_speedup_penalty)
-                * fpdb ** (1 - lambda_)
-            )
-            expected_es = (
-                alpha**lambda_
-                * beta ** (lambda_ * eta * negative_speedup_penalty)
-                * gamma ** (1 - lambda_)
-            )
-
-            print(
-                f"    - alpha: {alpha:.3f} (Geometric mean speedup of correct samples)"
-            )
-            print(f"    - beta: {beta:.3f} (Geometric mean speedup of slowdown cases)")
-            print(f"    - gamma: {gamma:.3f} (Average error penalty)")
-            print(f"    - lambda: {lambda_:.3f} (Fraction of correct samples)")
-            print(
-                f"    - eta: {eta:.3f} (Fraction of slowdown cases within correct samples)"
-            )
-        else:
-            print("    - No samples to analyze.")
-
-        return expected_s, expected_es
-
-    # pi is a list of constants for t > 0 for each group
-    pi = [0, 0]
-
     is_correct_at_t1 = [False] * total_samples
     speedup_at_t1 = [None] * total_samples
     fail_type_at_t1 = ["CORRECT"] * total_samples
 
-    final_correct_count = 0
-    final_correct_negative_speedup_count = 0
-    final_correct_speedups = []
-    final_slowdown_speedups = []
+    scores = {}
 
-    for t_key in t_keys:
+    for tolerance in range(-10, 5):
         rectified_speedups = []
         rectified_speedups_fake_degrad = []
-        correct_count = 0
-        acc_failure_count = 0
-        correct_negative_speedup_count = 0
-        correct_speedups = []
-        slowdown_speedups = []
 
         for idx, sample in enumerate(samples):
-            performance_data = sample.get("performance", {})
-            fail_type = performance_data.get("failure")
-            speedup = performance_data.get("speedup", {}).get("e2e")
-
-            # Determine the true state of the current sample (for statistics and S curve)
-            is_correct = False
-            if fail_type is None:
-                datatype_data = performance_data.get("datatype", {})
-                eager_dtypes = datatype_data.get("eager", [])
-                compiled_dtypes = datatype_data.get("compiled", [])
-                if (
-                    eager_dtypes
-                    and eager_dtypes == compiled_dtypes
-                    and len(eager_dtypes) > 0
-                ):
-                    correctness_data = sample.get("correctness", {})
-                    output_count = len(correctness_data.get("[equal]", []))
-                    if len(eager_dtypes) == output_count:
-                        is_correct = all(
-                            get_correctness(eager_dtypes[i], t_key, correctness_data, i)
-                            for i in range(output_count)
-                        )
-                if not is_correct:
-                    fail_type = "accuracy"
+            is_correct, fail_type = check_sample_correctness(sample, tolerance)
 
             # Collect statistics
             if is_correct:
-                correct_count += 1
-                if speedup is not None:
-                    correct_speedups.append(speedup)
-                if speedup is not None and speedup < 1:
-                    correct_negative_speedup_count += 1
-                    slowdown_speedups.append(speedup)
+                performance_data = sample.get("performance", {})
+                speedup = performance_data.get("speedup", {}).get("e2e")
 
-            if fail_type == "accuracy":
-                acc_failure_count += 1
-
-            if t_key == 1:
+            if tolerance == 1:
                 is_correct_at_t1[idx] = is_correct
                 speedup_at_t1[idx] = speedup
                 fail_type_at_t1[idx] = fail_type if fail_type is not None else "CORRECT"
 
             # S(t) calculation
-            if fail_type is not None or speedup is None:
-                regularized_speedup = fpdb
+            if fail_type is not None:
+                rectified_speedup = b
             else:
-                regularized_speedup = (
-                    speedup ** (negative_speedup_penalty + 1)
-                    if speedup < 1
-                    else speedup
-                )
-            rectified_speedups.append(regularized_speedup)
+                rectified_speedup = speedup ** (p + 1) if speedup < 1 else speedup
+            rectified_speedups.append(rectified_speedup)
 
-            # ES(t) calculation: based on state change
-            if t_key < 1:
-                if fail_type is not None or speedup is None:
-                    rec_speedup_fake_degrad = fpdb
+            # ES(t) calculation
+            if tolerance < 1:
+                if fail_type is not None:
+                    rec_speedup_fake_degrad = b
                 else:
                     rec_speedup_fake_degrad = (
-                        speedup ** (negative_speedup_penalty + 1)
-                        if speedup < 1
-                        else speedup
+                        speedup ** (p + 1) if speedup < 1 else speedup
                     )
             else:
-                if not is_correct_at_t1[idx] or speedup_at_t1[idx] is None:
-                    fail_type_frozen = fail_type_at_t1[idx]
-                    rec_speedup_fake_degrad = fake_perf_degrad(
-                        t_key, fail_type_frozen, fpdb
+                if not is_correct_at_t1[idx]:
+                    current_correctness = fake_perf_degrad(
+                        tolerance, fail_type_at_t1[idx]
+                    )
+                    rec_speedup_fake_degrad = (
+                        1 if current_correctness == "CORRECT" else b
                     )
                 else:
                     rec_speedup_fake_degrad = (
-                        speedup_at_t1[idx] ** (negative_speedup_penalty + 1)
+                        speedup_at_t1[idx] ** (p + 1)
                         if speedup_at_t1[idx] < 1
                         else speedup_at_t1[idx]
                     )
             rectified_speedups_fake_degrad.append(rec_speedup_fake_degrad)
 
-        if t_key == 1:
-            if total_samples == correct_count:
-                pi[0] = 0
-                pi[1] = 0
-            else:
-                pi[0] = acc_failure_count / (total_samples - correct_count)
-                pi[1] = 1 - pi[0]
-            final_correct_count = correct_count
-            final_correct_negative_speedup_count = correct_negative_speedup_count
-            final_correct_speedups = correct_speedups
-            final_slowdown_speedups = slowdown_speedups
+        if not rectified_speedups:
+            print("  - No speedup data found.")
+            scores[tolerance] = 0
 
-        if rectified_speedups:
-            s_scores[t_key] = gmean(rectified_speedups)
-            s_scores_fake_degrad[t_key] = gmean(rectified_speedups_fake_degrad)
-            print(
-                f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key} from micro level."
-            )
-            if t_key < 1:
-                expected_s, expected_es = print_stat_info(
-                    t_key,
-                    correct_count,
-                    acc_failure_count,
-                    pi,
-                    correct_negative_speedup_count,
-                    correct_speedups,
-                    slowdown_speedups,
-                )
-            else:
-                expected_s, expected_es = print_stat_info(
-                    t_key,
-                    final_correct_count,
-                    acc_failure_count,
-                    pi,
-                    final_correct_negative_speedup_count,
-                    final_correct_speedups,
-                    final_slowdown_speedups,
-                )
-            print(
-                f"  - S(t)={expected_s:.3f}, ES(t)={expected_es:.3f} for tolerance={t_key} from macro level."
-            )
+        if type == "St":
+            scores[tolerance] = gmean(rectified_speedups)
+        elif type == "ESt":
+            scores[tolerance] = gmean(rectified_speedups_fake_degrad)
+        else:
+            print("Invalid type specified. Please choose either 'ESt' or 'St'.")
+            sys.exit()
+        print(f"  - {type}={scores[tolerance]:.3f} for tolerance={tolerance}.")
 
-    print(f"    - pi: {pi}")
-
-    return s_scores, s_scores_fake_degrad
+    return scores
 
 
-def check_sample_correctness(sample: dict, t_key: int) -> tuple[bool, str]:
+def check_sample_correctness(sample: dict, tolerance: int) -> tuple[bool, str]:
     """
     Check if a sample is correct at the given tolerance level.
 
     Args:
         sample: Sample data dictionary
-        t_key: Tolerance level
+        tolerance: Tolerance level
 
     Returns:
         Tuple of (is_correct, fail_type)
@@ -613,14 +467,16 @@ def check_sample_correctness(sample: dict, t_key: int) -> tuple[bool, str]:
 
     # Check all outputs for correctness
     is_correct = all(
-        get_correctness(eager_dtypes[i], t_key, correctness_data, i)
+        get_correctness(eager_dtypes[i], tolerance, correctness_data, i)
         for i in range(output_count)
     )
 
     return is_correct, None if is_correct else "accuracy"
 
 
-def get_incorrect_models(tolerance, log_file_path) -> set[str]:
+def get_incorrect_models(
+    tolerance: int, log_file_path: str, type: str = "ESt"
+) -> set[str]:
     """
     Filters and returns models with accuracy issues based on given tolerance threshold.
 
@@ -628,16 +484,38 @@ def get_incorrect_models(tolerance, log_file_path) -> set[str]:
     tolerance threshold. Returns paths of all models that fail to meet the accuracy requirements.
 
     Args:
-        tolerance (float): Accuracy tolerance threshold for model validation
+        tolerance (int): Accuracy tolerance threshold for model validation
         log_file_path (str): Path to the log file containing model test results
+        type (str): "ESt" or "St" indicating the type of accuracy check to perform
 
     Returns:
         failed_models(str): names of models failing accuracy check, empty set if none found
     """
     failed_models = set()
-    datalist = parse_logs_to_data(log_file_path)
-    for i in datalist:
-        iscorrect, err = check_sample_correctness(i, tolerance)
-        if not iscorrect:
-            failed_models.add(i.get("model_path"))
+    samples = parse_logs_to_data(log_file_path)
+
+    if type == "ESt" and tolerance >= 1:
+        total_samples = len(samples)
+        is_correct_at_t1 = [False] * total_samples
+        fail_type_at_t1 = ["CORRECT"] * total_samples
+
+        for idx, sample in enumerate(samples):
+            is_correct, fail_type = check_sample_correctness(sample, 1)
+            is_correct_at_t1[idx] = is_correct
+            fail_type_at_t1[idx] = fail_type if fail_type is not None else "CORRECT"
+
+        for idx, sample in enumerate(samples):
+            if not is_correct_at_t1[idx]:
+                current_correctness = fake_perf_degrad(tolerance, fail_type_at_t1[idx])
+                failed_models.add(
+                    sample.get("model_path")
+                ) if current_correctness != "CORRECT" else None
+            else:
+                iscorrect, err = check_sample_correctness(sample, tolerance)
+                failed_models.add(sample.get("model_path")) if not iscorrect else None
+    else:
+        for idx, sample in enumerate(samples):
+            iscorrect, err = check_sample_correctness(sample, tolerance)
+            failed_models.add(sample.get("model_path")) if not iscorrect else None
+
     return failed_models

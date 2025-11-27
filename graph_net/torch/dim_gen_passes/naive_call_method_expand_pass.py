@@ -1,11 +1,15 @@
 import torch
 import torch.fx as fx
 from graph_net.torch.dim_gen_passes import DimensionGeneralizationPass
+import os
 
 
 class ConcretePass(DimensionGeneralizationPass):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def get_pass_name(cls) -> bool:
+        return os.path.basename(__file__)[:-3]
 
     def need_rewrite(self, traced_module: fx.GraphModule) -> bool:
         if 0 not in self.axes:

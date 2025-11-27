@@ -9,9 +9,8 @@ class DimensionGeneralizationPass:
         self.dim = dim
         self.axes = axes
 
-    @classmethod
-    def get_pass_name(cls):
-        return os.path.basename(os.path.dirname(inspect.getfile(cls)))
+    def get_pass_name(cls) -> bool:
+        raise NotImplementedError()
 
     def need_rewrite(self, traced_module: fx.GraphModule) -> bool:
         raise NotImplementedError()

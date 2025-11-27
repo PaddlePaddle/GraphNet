@@ -507,16 +507,15 @@ def get_incorrect_models(
         for idx, sample in enumerate(samples):
             if not is_correct_at_t1[idx]:
                 current_correctness = fake_perf_degrad(tolerance, fail_type_at_t1[idx])
-                if current_correctness != "CORRECT":
-                    failed_models.add(sample.get("model_path"))
+                failed_models.add(
+                    sample.get("model_path")
+                ) if current_correctness != "CORRECT" else None
             else:
                 iscorrect, err = check_sample_correctness(sample, tolerance)
-                if not iscorrect:
-                    failed_models.add(sample.get("model_path"))
+                failed_models.add(sample.get("model_path")) if not iscorrect else None
     else:
         for idx, sample in enumerate(samples):
             iscorrect, err = check_sample_correctness(sample, tolerance)
-            if not iscorrect:
-                failed_models.add(sample.get("model_path"))
+            failed_models.add(sample.get("model_path")) if not iscorrect else None
 
     return failed_models

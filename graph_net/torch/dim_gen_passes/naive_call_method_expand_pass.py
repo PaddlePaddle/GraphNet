@@ -1,19 +1,15 @@
 import torch
 import torch.fx as fx
 from graph_net.torch.dim_gen_passes import DimensionGeneralizationPass
-from torch.fx.passes.shape_prop import ShapeProp
-from graph_net.torch.utils import apply_templates
-from pathlib import Path
-import inspect
-from typing import Any
-from contextlib import contextmanager
-from torch.export import export
-from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
+import os
 
 
 class ConcretePass(DimensionGeneralizationPass):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def get_pass_name(cls) -> bool:
+        return os.path.basename(__file__)[:-3]
 
     def need_rewrite(self, traced_module: fx.GraphModule) -> bool:
         if 0 not in self.axes:

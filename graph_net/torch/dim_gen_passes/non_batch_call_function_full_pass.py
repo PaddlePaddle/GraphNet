@@ -1,0 +1,91 @@
+import torch
+import torch.fx as fx
+from graph_net.torch.dim_gen_passes import DimensionGeneralizationPass
+from collections import namedtuple
+import os
+
+
+class ConcretePass(DimensionGeneralizationPass):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def get_pass_name(cls) -> bool:
+        return os.path.basename(__file__)[:-3]
+
+    def need_rewrite(self, traced_module: fx.GraphModule) -> bool:
+        # non batch
+        if 0 in self.axes:
+            return False
+        return any(self._node_need_rewrite(node) for node in traced_module.graph.nodes)
+
+    def node_target(self):
+        return torch.full
+
+    def _node_need_rewrite(self, node) -> bool:
+        if not (node.op == "call_function"):
+            return False
+        if not (node.target == self.node_target()):
+            return False
+        if not (len(node.args) == 1):
+            return False
+        return any(dim == self.dim for dim in node.args[0])
+
+    def rewrite(self, traced_module: fx.GraphModule) -> fx.GraphModule:
+        # Create a new graph to hold the rewritten nodes
+        new_graph = fx.Graph()
+
+        # Create a map to link nodes from the old graph to nodes in the new graph
+        val_map = {}
+
+        NodeAxis = namedtuple("NodeAxis", ["node", "shape_axis"])
+        last_node_axis = None
+
+        def try_reset_last_node_axis(node, new_node):
+            nonlocal last_node_axis
+            node_meta = node.meta.get("tensor_meta")
+            if node_meta is None:
+                return
+            if not hasattr(node_meta, "shape"):
+                return
+            for axis, dim in enumerate(node_meta.shape):
+                if not (dim == self.dim and axis > 0):
+                    continue
+                last_node_axis = NodeAxis(node=new_node, shape_axis=axis)
+                return
+
+        def get_new_node_dim(i, dim):
+            if not (dim == self.dim):
+                return val_map[dim] if dim in val_map else dim
+            assert dim == self.dim
+
+            # Use the size() method to retrieve the dynamic dimension
+            size_node = new_graph.call_method(
+                "size", args=(last_node_axis.node, last_node_axis.shape_axis)
+            )
+
+            return size_node
+
+        def create_new_node(node):
+            if not (self._node_need_rewrite(node) and last_node_axis is not None):
+                # Copy other nodes to the new graph
+                new_node = new_graph.node_copy(node, lambda x: val_map[x])
+                try_reset_last_node_axis(node=node, new_node=new_node)
+                return new_node
+
+            new_node_dims = tuple(
+                get_new_node_dim(i, dim) for i, dim in enumerate(node.args[0])
+            )
+
+            new_node = new_graph.call_function(
+                self.node_target(), args=(new_node_dims,), kwargs=node.kwargs
+            )
+
+            return new_node
+
+        for node in traced_module.graph.nodes:
+            val_map[node] = create_new_node(node)
+
+        # Replace the old graph with the new graph and return
+        traced_module.graph = new_graph
+        traced_module.recompile()
+        return traced_module

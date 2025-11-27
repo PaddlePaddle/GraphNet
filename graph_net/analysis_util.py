@@ -379,60 +379,6 @@ def calculate_s_scores(
 
     print(f"\nCalculating S(t) scores for '{folder_name}'...")
 
-    def print_stat_info(
-        t_key,
-        correct_count,
-        acc_failure_count,
-        pi,
-        correct_negative_speedup_count,
-        correct_speedups,
-        slowdown_speedups,
-    ):
-        print(f"  - Details for tolerance={t_key}:")
-        if total_samples > 0:
-            alpha = gmean(correct_speedups) if correct_speedups else 1
-            beta = gmean(slowdown_speedups) if slowdown_speedups else 1
-            lambda_ = correct_count / total_samples if total_samples > 0 else 0
-            eta = (
-                correct_negative_speedup_count / correct_count
-                if correct_count > 0
-                else 0
-            )
-            indicator = [1 if t_key < 1 else 0, 1 if t_key < 3 else 0]
-            gamma = (
-                fpdb ** sum(pi[i] * indicator[i] for i in range(len(pi)))
-                if t_key >= 1
-                else fpdb
-            )
-
-            expected_s = (
-                alpha**lambda_
-                * beta ** (lambda_ * eta * negative_speedup_penalty)
-                * fpdb ** (1 - lambda_)
-            )
-            expected_es = (
-                alpha**lambda_
-                * beta ** (lambda_ * eta * negative_speedup_penalty)
-                * gamma ** (1 - lambda_)
-            )
-
-            print(
-                f"    - alpha: {alpha:.3f} (Geometric mean speedup of correct samples)"
-            )
-            print(f"    - beta: {beta:.3f} (Geometric mean speedup of slowdown cases)")
-            print(f"    - gamma: {gamma:.3f} (Average error penalty)")
-            print(f"    - lambda: {lambda_:.3f} (Fraction of correct samples)")
-            print(
-                f"    - eta: {eta:.3f} (Fraction of slowdown cases within correct samples)"
-            )
-        else:
-            print("    - No samples to analyze.")
-
-        return expected_s, expected_es
-
-    # pi is a list of constants for t > 0 for each group
-    pi = [0, 0]
-
     is_correct_at_t1 = [False] * total_samples
     speedup_at_t1 = [None] * total_samples
     fail_type_at_t1 = ["CORRECT"] * total_samples
@@ -509,12 +455,6 @@ def calculate_s_scores(
             rectified_speedups_fake_degrad.append(rec_speedup_fake_degrad)
 
         if t_key == 1:
-            if total_samples == correct_count:
-                pi[0] = 0
-                pi[1] = 0
-            else:
-                pi[0] = acc_failure_count / (total_samples - correct_count)
-                pi[1] = 1 - pi[0]
             final_correct_count = correct_count
             final_correct_negative_speedup_count = correct_negative_speedup_count
             final_correct_speedups = correct_speedups
@@ -526,31 +466,6 @@ def calculate_s_scores(
             print(
                 f"  - S(t)={s_scores[t_key]:.3f}, ES(t)={s_scores_fake_degrad[t_key]:.3f} for tolerance={t_key} from micro level."
             )
-            if t_key < 1:
-                expected_s, expected_es = print_stat_info(
-                    t_key,
-                    correct_count,
-                    acc_failure_count,
-                    pi,
-                    correct_negative_speedup_count,
-                    correct_speedups,
-                    slowdown_speedups,
-                )
-            else:
-                expected_s, expected_es = print_stat_info(
-                    t_key,
-                    final_correct_count,
-                    acc_failure_count,
-                    pi,
-                    final_correct_negative_speedup_count,
-                    final_correct_speedups,
-                    final_slowdown_speedups,
-                )
-            print(
-                f"  - S(t)={expected_s:.3f}, ES(t)={expected_es:.3f} for tolerance={t_key} from macro level."
-            )
-
-    print(f"    - pi: {pi}")
 
     return s_scores, s_scores_fake_degrad
 

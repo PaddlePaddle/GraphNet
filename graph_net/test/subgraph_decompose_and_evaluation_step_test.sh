@@ -8,13 +8,16 @@ FRAMEWORK="paddle"
 LOG_FILE="$GRAPH_NET_ROOT/test/log_xpu.txt"
 #LOG_FILE="/work/GraphNet/benchmark_results/log_test_target_device-xpu_p800_nope-pd_20251111_2.txt"
 OUTPUT_DIR="outputs"
-TOLERANCE=3
+TOLERANCE=0
 INITIAL_MAX_SIZE=4096
 
-test_config_json_str=$(cat <<EOF
+#rm -rf ${OUTPUT_DIR}
+
+test_compiler_config_str=$(cat <<EOF
 { 
-    "module_name": "graph_net.${FRAMEWORK}.test_compiler",
-    "arguments": {
+    "test_module_name": "test_compiler",
+    "test_compiler_arguments": {
+        "model-path": null,
         "compiler": "nope",
         "device": "cuda",
         "warmup": 5,
@@ -24,25 +27,44 @@ test_config_json_str=$(cat <<EOF
 EOF
 )
 
-extractor_config_json_str=$(cat <<EOF
+test_reference_device_config_str=$(cat <<EOF
 {
-    "decorator_path": "$GRAPH_NET_ROOT/${FRAMEWORK}/extractor.py",
-    "decorator_config": {
-        "name": "PLACEHOLDER_NAME",
-        "custom_extractor_path": "$GRAPH_NET_ROOT/${FRAMEWORK}/naive_graph_decomposer.py",
-        "custom_extractor_config": {
-            "output_dir": "PLACEHOLDER_DIR",
-            "split_positions": [],
-            "group_head_and_tail": true,
-            "chain_style": false
-        }
+    "test_module_name": "test_reference_device",
+    "test_reference_device_arguments": {
+        "model-path": null,
+        "reference-dir": null,
+        "compiler": "nope",
+        "device": "cuda",
+        "warmup": 5,
+        "trials": 20
     }
 }
 EOF
 )
 
-TEST_CONFIG_B64=$(echo "$test_config_json_str" | base64 -w 0)
-EXTRACTOR_CONFIG_B64=$(echo "$extractor_config_json_str" | base64 -w 0)
+test_target_device_config_str=$(cat <<EOF
+{
+    "test_module_name": "test_target_device",
+    "test_target_device_arguments": {
+        "model-path": null,
+        "reference-dir": null,
+        "device": "xpu"
+    }
+}
+EOF
+)
+
+test_module_name="test_reference_device"
+if [ "${test_module_name}" = "test_compiler" ]; then
+    TEST_CONFIG_B64=$(echo "$test_compiler_config_str" | base64 -w 0)
+elif [ "${test_module_name}" = "test_reference_device" ]; then
+    TEST_CONFIG_B64=$(echo "$test_reference_device_config_str" | base64 -w 0)
+elif [ "${test_module_name}" = "test_target_device" ]; then
+    TEST_CONFIG_B64=$(echo "$test_reference_device_config_str" | base64 -w 0)
+else
+    echo "test_module_name (${test_module_name}) is unsupported!"
+    exit
+fi
 
 echo "Starting GraphNet Auto-Debugger"
 echo "--------------------------------------------------------"
@@ -56,7 +78,6 @@ python3 -m graph_net.subgraph_decompose_and_evaluation_step \
     --output-dir="$OUTPUT_DIR" \
     --framework="${FRAMEWORK}" \
     --test-config="$TEST_CONFIG_B64" \
-    --decorator-config="$EXTRACTOR_CONFIG_B64" \
     --tolerance="$TOLERANCE" \
     --max-subgraph-size="$INITIAL_MAX_SIZE"
 

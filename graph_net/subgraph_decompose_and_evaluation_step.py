@@ -12,6 +12,58 @@ from graph_net.analysis_util import get_incorrect_models
 from graph_net import path_utils, test_compiler_util
 
 
+def convert_b64_string_to_json(b64str):
+    return json.loads(base64.b64decode(b64str).decode("utf-8"))
+
+
+class TaskController:
+    def __init__(self, args):
+        self.root_output_dir = os.path.abspath(args.output_dir)
+        self.pass_id = self._determine_current_pass_id(self.root_output_dir)
+        self.test_config = convert_b64_string_to_json(args.test_config)
+        assert "test_module_name" in self.test_config
+
+        self._init_task_scheduler(self.test_config["test_module_name"])
+
+    def _determine_current_pass_id(self, output_dir: str) -> int:
+        """Scans the output directory to determine the next pass ID."""
+        if not os.path.exists(output_dir):
+            return 0
+        existing_passes = glob.glob(os.path.join(output_dir, "pass_*"))
+        valid_ids = []
+        for p in existing_passes:
+            basename = os.path.basename(p)
+            parts = basename.split("_")
+            if len(parts) == 2 and parts[1].isdigit():
+                valid_ids.append(int(parts[1]))
+        return max(valid_ids) + 1 if valid_ids else 0
+
+    def _init_task_scheduler(self, test_module_name):
+        assert test_module_name in [
+            "test_compiler",
+            "test_reference_device",
+            "test_target_device",
+        ]
+        if test_module_name == "test_compiler":
+            self.task_scheduler = {
+                "run_decomposer": True,
+                "run_evaluation": True,
+                "post_analysis": True,
+            }
+        elif test_module_name == "test_reference_device":
+            self.task_scheduler = {
+                "run_decomposer": True,
+                "run_evaluation": True,
+                "post_analysis": False,
+            }
+        elif test_module_name == "test_target_device":
+            self.task_scheduler = {
+                "run_decomposer": False,
+                "run_evaluation": True,
+                "post_analysis": True,
+            }
+
+
 def get_rectfied_model_path(model_path):
     graphnet_root = path_utils.get_graphnet_root()
     return os.path.join(graphnet_root, model_path.split("GraphNet/")[-1])
@@ -23,20 +75,6 @@ def count_samples(samples_dir):
         if path_utils.is_single_model_dir(root):
             num_samples += 1
     return num_samples
-
-
-def determine_current_pass_id(output_dir: str) -> int:
-    """Scans the output directory to determine the next pass ID."""
-    if not os.path.exists(output_dir):
-        return 0
-    existing_passes = glob.glob(os.path.join(output_dir, "pass_*"))
-    valid_ids = []
-    for p in existing_passes:
-        basename = os.path.basename(p)
-        parts = basename.split("_")
-        if len(parts) == 2 and parts[1].isdigit():
-            valid_ids.append(int(parts[1]))
-    return max(valid_ids) + 1 if valid_ids else 0
 
 
 def load_prev_config(pass_id: int, output_dir: str) -> Dict[str, Any]:
@@ -78,32 +116,36 @@ def run_decomposer(
     model_path: str,
     output_dir: str,
     max_subgraph_size: int,
-    decorator_config: Dict[str, Any],
 ) -> bool:
     """Decomposes a single model."""
-    # 1. Calculate dynamic split positions
+
     upper_bound = 4096
     split_positions = list(
         range(max_subgraph_size, upper_bound + max_subgraph_size, max_subgraph_size)
     )
 
-    # 2. Deep copy the template
-    final_decorator_config = json.loads(json.dumps(decorator_config))
-
-    # 3. Locate the nested dictionary to inject values
-    decorator_cfg = final_decorator_config["decorator_config"]
-
+    graphnet_root = path_utils.get_graphnet_root()
     model_name = get_model_name_with_subgraph_tag(model_path)
-    decorator_cfg["name"] = model_name
+    decorator_config = {
+        "decorator_path": f"{graphnet_root}/graph_net/{framework}/extractor.py",
+        "decorator_config": {
+            "name": model_name,
+            "custom_extractor_path": f"{graphnet_root}/graph_net/{framework}/naive_graph_decomposer.py",
+            "custom_extractor_config": {
+                "output_dir": output_dir,
+                "split_positions": split_positions,
+                "group_head_and_tail": True,
+                "chain_style": False,
+            },
+        },
+    }
+    decorator_config_b64 = base64.b64encode(
+        json.dumps(decorator_config).encode()
+    ).decode()
 
-    custom_cfg = decorator_cfg.get("custom_extractor_config", {})
-    custom_cfg["output_dir"] = output_dir
-    custom_cfg["split_positions"] = split_positions
-
-    # 4. Encode and Run
-    decorator_config_json = json.dumps(final_decorator_config)
-    decorator_config_b64 = base64.b64encode(decorator_config_json.encode()).decode()
-
+    print(
+        f"- [Decomposing] {model_name} (max_subgraph_size={max_subgraph_size}, split_positions={split_positions})"
+    )
     cmd = [
         sys.executable,
         "-m",
@@ -113,45 +155,38 @@ def run_decomposer(
         "--decorator-config",
         decorator_config_b64,
     ]
-
-    print(
-        f"- [Decomposing] {model_name} (max_subgraph_size={max_subgraph_size}, split_positions={split_positions})"
-    )
-
     result = subprocess.run(
         cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
     )
     if result.returncode != 0:
-        print(f"[ERROR] Decomposition failed for {model_path}\n{result.stderr}")
+        print(
+            f"[ERROR] Decomposition failed for {model_path}\n{result.stderr}",
+            flush=True,
+        )
         return False
     # print(result.stdout)
     return True
 
 
-def run_evaluation(test_cmd_b64: str, work_dir: str, log_path: str) -> int:
+def run_evaluation(
+    framework: str, test_cmd_b64: str, work_dir: str, log_path: str
+) -> int:
     """Executes the test command on the batch directory."""
-    json_str = base64.b64decode(test_cmd_b64).decode("utf-8")
-    cmd_config = json.loads(json_str)
 
-    # Check if the config follows the new structure: {"module_name": "...", "arguments": {...}}
-    if "module_name" in cmd_config and "arguments" in cmd_config:
-        target_module = cmd_config["module_name"]
-        args_dict = cmd_config["arguments"]
-    else:
-        # Fallback for old format (flat dictionary), assuming default compiler test
-        target_module = "graph_net.torch.test_compiler"
-        args_dict = cmd_config
+    test_config = convert_b64_string_to_json(test_cmd_b64)
+    test_module_name = test_config["test_module_name"]
+    test_module_arguments = test_config[f"{test_module_name}_arguments"]
+    test_module_arguments["model-path"] = work_dir
+    if test_module_name == "test_reference_device":
+        test_module_arguments["reference-dir"] = os.path.join(
+            work_dir, "reference_device_outputs"
+        )
 
-    cmd = [sys.executable, "-m", target_module]
-
-    for key, value in args_dict.items():
-        if key == "model_path":
-            continue
-        cmd.append(f"--{key}")
-        cmd.append(str(value))
-
-    cmd.append("--model-path")
-    cmd.append(work_dir)
+    cmd = [sys.executable, "-m", f"graph_net.{framework}.{test_module_name}"] + [
+        item
+        for key, value in test_module_arguments.items()
+        for item in (f"--{key}", str(value))
+    ]
 
     print(f"      [Batch Testing] Logging to: {log_path}")
     print(f"      [Command] {' '.join(cmd)}")
@@ -159,19 +194,17 @@ def run_evaluation(test_cmd_b64: str, work_dir: str, log_path: str) -> int:
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
     with open(log_path, "w") as f:
         proc = subprocess.run(cmd, stdout=f, stderr=subprocess.STDOUT, text=True)
-    return proc.returncode
+    if proc.returncode != 0:
+        with open(log_path, "r") as f:
+            content = f.read()
+            print(f"[ERROR] test failed for {work_dir}\n{content}", flush=True)
+        sys.exit(proc.returncode)
 
 
-# ==========================================================
-# Main Execution Flow
-# ==========================================================
 def main(args):
-    base_output_dir = os.path.abspath(args.output_dir)
-    current_pass_id = determine_current_pass_id(base_output_dir)
-
-    # Parse the Decorator Configuration Template
-    tpl_str = base64.b64decode(args.decorator_config).decode("utf-8")
-    decorator_template = json.loads(tpl_str)
+    task_controller = TaskController(args)
+    base_output_dir = task_controller.root_output_dir
+    current_pass_id = task_controller.pass_id
 
     print("=" * 80)
     print(f" GraphNet Auto-Debugger | ROUND: PASS_{current_pass_id}")
@@ -179,8 +212,7 @@ def main(args):
 
     # --- Step 1: Initialize State ---
     target_models = []
-    current_max_size = 2048
-
+    current_max_size = args.max_subgraph_size
     if current_pass_id == 0:
         print(f"[Init] Pass 0: Reading from log file: {args.log_file}")
         current_max_size = args.max_subgraph_size
@@ -209,8 +241,13 @@ def main(args):
     os.makedirs(pass_work_dir, exist_ok=True)
 
     # --- Step 3: Decomposition ---
-    print("\n--- Phase 1: Decomposition ---", flush=True)
-    need_decompose = True if len(target_models) > 0 else False
+    need_decompose = (
+        True
+        if task_controller.task_scheduler["run_decomposer"] and len(target_models) > 0
+        else False
+    )
+    if need_decompose:
+        print("\n--- Phase 1: Decomposition ---", flush=True)
     while need_decompose:
         failed_extraction = []
 
@@ -229,7 +266,6 @@ def main(args):
                 rectied_model_path,
                 model_out_dir,
                 current_max_size,
-                decorator_template,
             )
             if not success:
                 failed_extraction.append(rectied_model_path)
@@ -250,18 +286,21 @@ def main(args):
             need_decompose = False
 
     # --- Step 4: Testing ---
-    print("\n--- Phase 2: Batch Testing ---")
-    pass_log_path = os.path.join(pass_work_dir, "batch_test_result.log")
-    run_evaluation(args.test_config, pass_work_dir, pass_log_path)
+    if task_controller.task_scheduler["run_evaluation"]:
+        print("\n--- Phase 2: Batch Testing ---")
+        pass_log_path = os.path.join(pass_work_dir, "batch_test_result.log")
+        run_evaluation(args.framework, args.test_config, pass_work_dir, pass_log_path)
 
     # --- Step 5: Analysis ---
-    print("\n--- Phase 3: Analysis ---")
     next_round_models = set()
-    try:
-        next_round_models = set(get_incorrect_models(args.tolerance, pass_log_path))
-        print(f"      [Result] Found {len(next_round_models)} incorrect subgraphs.")
-    except Exception as e:
-        print(f"      [ERROR] Log analysis failed: {e}")
+    if task_controller.task_scheduler["post_analysis"]:
+        print("\n--- Phase 3: Analysis ---")
+        next_round_models = set()
+        try:
+            next_round_models = set(get_incorrect_models(args.tolerance, pass_log_path))
+            print(f"      [Result] Found {len(next_round_models)} incorrect subgraphs.")
+        except Exception as e:
+            print(f"      [ERROR] Log analysis failed: {e}")
 
     # --- Step 6: Save State ---
     save_current_config(
@@ -288,15 +327,8 @@ if __name__ == "__main__":
         "--test-config", type=str, required=True, help="Base64 encoded test config"
     )
     parser.add_argument(
-        "--decorator-config",
-        type=str,
-        required=True,
-        help="Base64 encoded decorator config template",
-    )
-    parser.add_argument(
         "--tolerance", type=int, required=True, help="Tolerance level range [-10, 5)"
     )
     parser.add_argument("--max-subgraph-size", type=int, default=4096)
-
     args = parser.parse_args()
     main(args)

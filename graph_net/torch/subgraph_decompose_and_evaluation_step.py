@@ -96,7 +96,6 @@ def run_decomposer(
     decorator_config: Dict[str, Any],
 ) -> bool:
     """Decomposes a single model using specific split positions."""
-
     final_decorator_config = json.loads(json.dumps(decorator_config))
     decorator_cfg = final_decorator_config["decorator_config"]
     decorator_cfg["name"] = os.path.basename(model_path.rstrip("/"))
@@ -175,7 +174,9 @@ def reconstruct_subgraph_size(split_positions: List[int]) -> List[tuple]:
     return subgraph_size
 
 
-def calculate_current_subgraph_size(tasks_map: Dict[str, Dict]) -> int:
+def calculate_current_subgraph_size(
+    tasks_map: Dict[str, Dict], fallback_size: int
+) -> int:
     """Calculates the current subgraph size from generated tasks."""
     current_subgraph_size = float("inf")
     found_splits = False
@@ -195,7 +196,7 @@ def calculate_current_subgraph_size(tasks_map: Dict[str, Dict]) -> int:
     return (
         int(current_subgraph_size)
         if found_splits and current_subgraph_size != float("inf")
-        else 2048
+        else fallback_size
     )
 
 
@@ -211,13 +212,17 @@ def main(args):
 
     tasks_map = {}
     active_models_map_for_save = {}
+    kMaxGraphSize = 4096
+
+    # Initialize using the argument passed from bash
+    max_subgraph_size = args.max_subgraph_size
 
     if current_pass_id == 0:
         print(f"[Init] Pass 0: Reading from log file: {args.log_file}")
         initial_failures = get_incorrect_models(args.tolerance, args.log_file)
 
-        # Pass 0 Fixed Split Positions: [0, 2048, 4096]
-        initial_splits = [0, 2048, 4096]
+        # Dynamic generation based on step size (args.max_subgraph_size)
+        initial_splits = list(range(0, kMaxGraphSize + 1, max_subgraph_size))
 
         for path in initial_failures:
             name = os.path.basename(path.rstrip("/"))
@@ -238,6 +243,10 @@ def main(args):
 
         prev_used_splits = prev_config.get("split_positions_map", {})
         prev_incorrect_subgraphs = prev_config.get("incorrect_models", [])
+
+        # Load previous max size as fallback for calculation
+        prev_max_size = prev_config.get("max_subgraph_size", args.max_subgraph_size)
+        max_subgraph_size = prev_max_size
 
         if not prev_incorrect_subgraphs:
             print(f"[FINISHED] Debugging completed.")
@@ -281,6 +290,10 @@ def main(args):
             # 2. Get the specific failing subgraph size [Start, End]
             fail_start, fail_end = subgraph_size[sub_idx]
 
+            # though intervals logic usually handles this via float('inf') replacement if used.
+            if fail_end == float("inf"):
+                fail_end = kMaxGraphSize
+
             # Dynamic step calculation
             subgraph_size_len = fail_end - fail_start
             new_step = subgraph_size_len // 2
@@ -306,7 +319,7 @@ def main(args):
         sys.exit(0)
 
     # Recalculate based on current map to ensure log accuracy
-    real_subgraph_size = calculate_current_subgraph_size(tasks_map)
+    real_subgraph_size = calculate_current_subgraph_size(tasks_map, max_subgraph_size)
     print(f"[INFO] Current Subgraph Size: {real_subgraph_size}")
     print(f"[INFO] Models to Process: {len(tasks_map)}")
 
@@ -387,7 +400,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--tolerance", type=float, required=True, help="Tolerance level range [-10, 5)"
     )
-    parser.add_argument("--max-subgraph-size", type=int, default=4096)
+    parser.add_argument("--max-subgraph-size", type=int, default=2048)
 
     args = parser.parse_args()
     main(args)

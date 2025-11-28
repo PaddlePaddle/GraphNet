@@ -44,6 +44,8 @@ class DynamicDimConstraints:
         ]
         Returns created symbol.
         """
+        import logging
+
         InputDim = namedtuple("InputDim", ["input_idx", "axis", "dim"])
         input_dims = [
             InputDim(input_idx, axis, dim)

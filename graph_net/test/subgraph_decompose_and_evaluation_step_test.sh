@@ -79,6 +79,11 @@ python3 -m graph_net.subgraph_decompose_and_evaluation_step \
     --tolerance="$TOLERANCE" \
     --max-subgraph-size="$INITIAL_MAX_SIZE"
 
-echo ""
-echo ">>> Pass execution finished."
-echo ">>> Run this script again to execute the NEXT pass if needed."
+if [ $? -ne 0 ]; then
+    echo ""
+    echo "[ERROR] Task failed! Please check logs and fix bugs before proceeding."
+else
+    echo ""
+    echo ">>> Pass execution finished."
+    echo ">>> Run this script again to execute the NEXT pass if needed."
+fi

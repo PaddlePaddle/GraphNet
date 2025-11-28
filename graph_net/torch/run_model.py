@@ -62,7 +62,7 @@ def main(args):
     print(f"{model_path=}")
 
     decorator_config = _convert_to_dict(args.decorator_config)
-    if "decorator_path" in args.decorator_config:
+    if "decorator_path" in decorator_config:
         model = _get_decorator(decorator_config)(model)
 
     inputs_params = utils.load_converted_from_text(f"{model_path}")

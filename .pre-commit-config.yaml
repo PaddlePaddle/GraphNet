@@ -25,4 +25,3 @@ repos:
       name: Tabs remver (Python)
       files: (.*\.(py|bzl)|BUILD|.*\.BUILD|WORKSPACE)$
       args: [--whitespaces-count, '4']
-      exclude: test/dygraph_to_static/test_error.py

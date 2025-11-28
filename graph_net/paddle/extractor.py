@@ -1,6 +1,6 @@
 import os
 import json
-import importlib.util
+import tempfile
 
 import paddle
 from athena.graphnet_samples import GraphnetSample, RunGeneration
@@ -102,8 +102,8 @@ class GraphExtractor:
         self.num_samples_of_all_subgraphs = 0
         self.subgraph_idx2samples = None
 
-        dump_path = os.environ.get("GRAPH_NET_PIR_DUMP_WORKSPACE", "/tmp")
-        self.dump_path = os.path.abspath(dump_path)
+        dump_path = os.environ.get("GRAPH_NET_PIR_DUMP_WORKSPACE", None)
+        self.dump_path = os.path.abspath(dump_path) if dump_path else tempfile.mkdtemp()
 
         workspace_path = (
             workspace_path
@@ -206,6 +206,7 @@ class GraphExtractor:
             split_positions=split_positions,
             group_head_and_tail=group_head_and_tail,
             eval_mode=True,
+            tmp_dir=model_dump_path,
         )
 
         self.subgraph_idx2samples = {}

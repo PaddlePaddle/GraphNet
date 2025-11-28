@@ -9,7 +9,7 @@ import glob
 from typing import List, Set, Dict, Any, Union
 import graph_net
 from graph_net.analysis_util import get_incorrect_models
-from graph_net import path_utils
+from graph_net import path_utils, test_compiler_util
 
 
 def get_rectfied_model_path(model_path):
@@ -67,6 +67,12 @@ def save_current_config(
     print(f"[INFO] State saved to: {config_path}")
 
 
+def get_model_name_with_subgraph_tag(model_path):
+    model_name = test_compiler_util.get_model_name(model_path)
+    subgraph_tag = test_compiler_util.get_subgraph_tag(model_path)
+    return f"{model_name}_{subgraph_tag}" if subgraph_tag else model_name
+
+
 def run_decomposer(
     framework: str,
     model_path: str,
@@ -77,19 +83,20 @@ def run_decomposer(
     """Decomposes a single model."""
     # 1. Calculate dynamic split positions
     upper_bound = 4096
-    split_positions = list(range(max_subgraph_size, upper_bound, max_subgraph_size))
+    split_positions = list(
+        range(max_subgraph_size, upper_bound + max_subgraph_size, max_subgraph_size)
+    )
 
     # 2. Deep copy the template
     final_decorator_config = json.loads(json.dumps(decorator_config))
 
     # 3. Locate the nested dictionary to inject values
     decorator_cfg = final_decorator_config["decorator_config"]
-    decorator_cfg["name"] = os.path.basename(model_path.rstrip("/"))
 
-    if "custom_extractor_config" not in decorator_cfg:
-        decorator_cfg["custom_extractor_config"] = {}
+    model_name = get_model_name_with_subgraph_tag(model_path)
+    decorator_cfg["name"] = model_name
 
-    custom_cfg = decorator_cfg["custom_extractor_config"]
+    custom_cfg = decorator_cfg.get("custom_extractor_config", {})
     custom_cfg["output_dir"] = output_dir
     custom_cfg["split_positions"] = split_positions
 
@@ -108,7 +115,7 @@ def run_decomposer(
     ]
 
     print(
-        f"- [Decomposing] {os.path.basename(model_path)} (max_subgraph_size={max_subgraph_size}, split_positions={split_positions})"
+        f"- [Decomposing] {model_name} (max_subgraph_size={max_subgraph_size}, split_positions={split_positions})"
     )
 
     result = subprocess.run(
@@ -117,7 +124,7 @@ def run_decomposer(
     if result.returncode != 0:
         print(f"[ERROR] Decomposition failed for {model_path}\n{result.stderr}")
         return False
-    print(result.stdout)
+    # print(result.stdout)
     return True
 
 
@@ -186,14 +193,14 @@ def main(args):
         prev_size = prev_config.get("current_max_subgraph_size", 2048)
         current_max_size = max(1, prev_size // 2)
 
-        if not target_models:
-            print(f"[FINISHED] Debugging completed.")
-            sys.exit(0)
-
     print(f"[INFO] current max_subgraph_size: {current_max_size}")
     print(f"[INFO] number of incorrect models: {len(target_models)}")
     for model_path in target_models:
         print(f"- {model_path}")
+
+    if not target_models:
+        print(f"[FINISHED] Debugging completed.")
+        sys.exit(0)
 
     # --- Step 2: Prepare Workspace ---
     pass_work_dir = os.path.join(base_output_dir, f"pass_{current_pass_id}")
@@ -203,7 +210,7 @@ def main(args):
 
     # --- Step 3: Decomposition ---
     print("\n--- Phase 1: Decomposition ---", flush=True)
-    need_decompose = True
+    need_decompose = True if len(target_models) > 0 else False
     while need_decompose:
         failed_extraction = []
 
@@ -213,7 +220,7 @@ def main(args):
                 rectied_model_path
             ), f"{rectied_model_path} does not exist."
 
-            model_name = os.path.basename(rectied_model_path.rstrip("/"))
+            model_name = get_model_name_with_subgraph_tag(rectied_model_path)
             model_out_dir = os.path.join(pass_work_dir, model_name)
             os.makedirs(model_out_dir, exist_ok=True)
 
@@ -238,8 +245,6 @@ def main(args):
             need_decompose = True
             shutil.rmtree(pass_work_dir)
             os.makedirs(pass_work_dir, exist_ok=True)
-            shutil.rmtree("/tmp")
-            os.makedirs("/tmp", exist_ok=True)
             current_max_size = max(1, current_max_size // 2)
         else:
             need_decompose = False
@@ -289,7 +294,7 @@ if __name__ == "__main__":
         help="Base64 encoded decorator config template",
     )
     parser.add_argument(
-        "--tolerance", type=float, required=True, help="Tolerance level range [-10, 5)"
+        "--tolerance", type=int, required=True, help="Tolerance level range [-10, 5)"
     )
     parser.add_argument("--max-subgraph-size", type=int, default=4096)
 

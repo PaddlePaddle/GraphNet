@@ -5,18 +5,18 @@ from scipy.stats import gmean
 from graph_net.config.datatype_tolerance_config import get_precision
 
 
-def detect_sample_error_code(log_text: str) -> str:
+def detect_sample_status(log_text: str) -> str:
     """
-    Detect the error code for a single sample from log text.
+    Detect the status for a single sample from log text.
 
-    This function analyzes log text (can be string or list of lines) and returns an error code.
+    This function analyzes log text (can be string or list of lines) and returns a status.
     It checks for explicit eager phase status and shape/type mismatches.
 
     Args:
         log_text: Log text content (can be a string or list of lines)
 
     Returns:
-        Error code string. Possible values:
+        Possible values:
         - "correct": Sample executed successfully
         - "eager_fail": Eager model execution failed
         - "compile_fail": Compiled model failed to load
@@ -136,7 +136,7 @@ def parse_single_sample_log_to_data(log_text: str) -> dict:
             data["performance"]["speedup"][key.strip()] = float(value_str)
             continue
 
-    data["status"] = detect_sample_error_code(log_text)
+    data["status"] = detect_sample_status(log_text)
 
     return data
 
@@ -287,7 +287,7 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
 
 def fake_perf_degrad(tolerance, error_code, type="default") -> str:
     """
-    Judge current correctness based on tolerance t and error code.
+    Judge current correctness based on tolerance t and status.
     """
     if type == "default":
         if tolerance >= 3:

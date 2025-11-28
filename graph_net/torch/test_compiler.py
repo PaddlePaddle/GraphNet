@@ -23,6 +23,7 @@ from graph_net.torch.backend.tensorrt_backend import TensorRTBackend
 from graph_net.torch.backend.blade_disc_backend import BladeDISCBackend
 from graph_net.torch.backend.nope_backend import NopeBackend
 from graph_net.torch.backend.unstable_to_stable_backend import UnstableToStableBackend
+from graph_net.torch.backend.range_decomposer_backend import RangeDecomposerBackend
 from graph_net.torch.backend.range_decomposer_validator_backend import (
     RangeDecomposerValidatorBackend,
 )
@@ -39,6 +40,7 @@ registry_backend = {
     "bladedisc": BladeDISCBackend(),
     "nope": NopeBackend(),
     "unstable_to_stable": UnstableToStableBackend(),
+    "range_decomposer": RangeDecomposerBackend(),
     "range_decomposer_validator": RangeDecomposerValidatorBackend(),
 }
 
@@ -94,7 +96,10 @@ def load_class_from_file(
 
 def get_compiler_backend(args) -> GraphCompilerBackend:
     assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
-    return registry_backend[args.compiler]
+    backend = registry_backend[args.compiler]
+    if args.config is not None:
+        backend.config = args.config
+    return backend
 
 
 def get_model(args):
@@ -446,6 +451,13 @@ if __name__ == "__main__":
         required=False,
         default=None,
         help="Path to samples list, each line contains a sample path",
+    )
+    parser.add_argument(
+        "--config",
+        type=str,
+        required=False,
+        default=None,
+        help="base64 encode configuration json.",
     )
     args = parser.parse_args()
     main(args=args)

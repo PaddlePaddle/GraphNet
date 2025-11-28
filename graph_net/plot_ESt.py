@@ -264,7 +264,7 @@ def main(args):
     all_aggregated_results = {}
 
     for folder_name, samples in all_results.items():
-        print(f"\nCalculating S(t) scores for '{folder_name}'...")
+        print(f"\nCalculating ESt scores for '{folder_name}'...")
 
         es_scores = analysis_util.calculate_scores(
             samples,
@@ -382,7 +382,7 @@ def main(args):
         # Always show legend (whether aggregated curves are added or not)
         ax.legend(fontsize=16, loc="best")
 
-        output_file = os.path.join(args.output_dir, "ES_result.png")
+        output_file = os.path.join(args.output_dir, "ESt_result.png")
         plt.savefig(output_file, dpi=300, bbox_inches="tight")
         print(f"\nComparison plot saved to {output_file}")
     else:

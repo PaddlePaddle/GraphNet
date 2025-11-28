@@ -19,48 +19,47 @@ def detect_sample_error_code(log_text: str) -> str:
         Error code string. Possible values:
         - "correct": Sample executed successfully
         - "eager_fail": Eager model execution failed
+        - "compile_fail": Compiled model failed to load
         - "shape_mismatch": Output shape mismatch between eager and compiled
         - "type_mismatch": Data type mismatch between eager and compiled
         - "runtime_fail": Runtime error during execution
-        - "unknown": Unable to determine error type
     """
     lines = log_text.split("\n") if isinstance(log_text, str) else log_text
 
     # Track phase status and mismatch types
-    eager_status = None
-    shape_mismatch = False
-    type_mismatch = False
+    eager_success = False
+    compile_success = False
+    shape_match = False
+    type_match = False
+    runtime_fail = False
 
     # Scan for status and mismatch markers
     for line in lines:
-        if "[Result][status]" in line and "eager:" in line:
-            eager_status = line.split("eager:")[1].strip()
-        elif "[Shape] eager:" in line and "compiled:" in line:
-            if "match:False" in line:
-                shape_mismatch = True
-        elif "[DataType] eager:" in line and "compiled:" in line:
-            if "match:False" in line:
-                type_mismatch = True
+        if "[Result][status] eager:success" in line:
+            eager_success = True
+        elif "[Datatype][compiled]" in line:
+            compile_success = True
+        elif "[Shape]" in line and "match:True" in line:
+            shape_match = True
+        elif "[DataType]" in line and "match:True" in line:
+            type_match = True
+
+    if any("Exception:" in line or "Error:" in line for line in lines):
+        runtime_fail = True
 
     # Determine error type
-    if eager_status == "failed":
+    if not eager_success:
         return "eager_fail"
-    elif shape_mismatch:
+    elif not compile_success:
+        return "compile_fail"
+    elif not shape_match:
         return "shape_mismatch"
-    elif type_mismatch:
+    elif not type_match:
         return "type_mismatch"
-    elif eager_status == "success":
-        return "correct"
-
-    # Check for runtime errors if no explicit status markers
-    if any("Exception:" in line or "Error:" in line for line in lines):
+    elif runtime_fail:
         return "runtime_fail"
-
-    # Final fallback - check if there's any performance data
-    if any("[Performance]" in line and ":" in line for line in lines):
+    else:
         return "correct"
-
-    return "unknown"
 
 
 def parse_single_sample_log_to_data(log_text: str) -> dict:
@@ -286,15 +285,34 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
     return False
 
 
-def fake_perf_degrad(tolerance, error_code) -> str:
+def fake_perf_degrad(tolerance, error_code, type="default") -> str:
     """
-    Calculate current correctness based on tolerance t and error code.
+    Judge current correctness based on tolerance t and error code.
     """
-    if error_code == "accuracy" and tolerance >= 1:
-        return "correct"
-    elif tolerance >= 3:
-        return "correct"
-    return error_code
+    if type == "default":
+        if tolerance >= 3:
+            return "correct"
+        elif error_code == "accuracy" and tolerance >= 1:
+            return "correct"
+        else:
+            return error_code
+    elif type == "extended":
+        if (
+            error_code == "compile_fail" or error_code == "runtime_fail"
+        ) and tolerance >= 4:
+            return "correct"
+        elif error_code == "eager_fail" and tolerance >= 3:
+            return "correct"
+        elif (
+            error_code == "shape_mismatch" or error_code == "type_mismatch"
+        ) and tolerance >= 2:
+            return "correct"
+        elif error_code == "accuracy" and tolerance >= 1:
+            return "correct"
+        else:
+            return error_code
+    else:
+        raise NotImplementedError
 
 
 def calculate_scores(

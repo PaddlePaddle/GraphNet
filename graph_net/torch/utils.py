@@ -10,6 +10,7 @@ import math
 import inspect
 import argparse
 import importlib
+import logging
 
 kLiteralTensorSize = 64
 
@@ -195,6 +196,10 @@ def save_converted_to_text(converted, file_path):
         f.write("\n".join(weight_lines))
 
 
+def load_model_inputs_converted_from_text(file_path):
+    return load_converted_from_text(file_path)
+
+
 def load_converted_from_text(file_path):
     input_info = list(convert_meta_classes_to_tensors(f"{file_path}/input_meta.py"))
 
@@ -210,20 +215,58 @@ def load_converted_from_text(file_path):
     }
 
 
+def convert_tensor_meta_attrs_list_to_named_tensors(tensor_meta_attrs_list):
+    tensors_wrappers = convert_tensor_meta_attrs_list_to_tensors_wrappers(
+        tensor_meta_attrs_list
+    )
+    ret = []
+    for i, tensors_wrapper in enumerate(tensors_wrappers):
+        name = tensors_wrapper["name"]
+        # shape = tensors_wrapper["info"]['shape']
+        # logging.warning(f"before replay_tensor {i=} {shape=}")
+        tensor = replay_tensor(tensors_wrapper)
+        # logging.warning(f"after replay_tensor {i=} {shape=}")
+        ret.append((name, tensor))
+    return ret
+
+
+def get_dummy_named_tensors(tensor_meta_attrs_list):
+    tensors_wrappers = convert_tensor_meta_attrs_list_to_tensors_wrappers(
+        tensor_meta_attrs_list
+    )
+    ret = []
+    for i, tensors_wrapper in enumerate(tensors_wrappers):
+        name = tensors_wrapper["name"]
+        # shape = tensors_wrapper["info"]['shape']
+        tensor = get_dummy_tensor(tensors_wrapper)
+        ret.append((name, tensor))
+    return ret
+
+
 def convert_meta_classes_to_tensors(file_path):
-    for name, cls in _get_classes(file_path):
-        attrs = {
+    tensor_meta_attrs_list = [
+        {
             k: v
             for k, v in cls.__dict__.items()
             if not k.startswith("__") and not callable(v)
         }
+        for name, cls in _get_classes(file_path)
+    ]
+
+    return convert_tensor_meta_attrs_list_to_tensors_wrappers(tensor_meta_attrs_list)
+
+
+def convert_tensor_meta_attrs_list_to_tensors_wrappers(tensor_meta_attrs_list):
+    for i, attrs in enumerate(tensor_meta_attrs_list):
         data_value = None
         data_type = getattr(torch, attrs.get("dtype", "torch.float").split(".")[-1])
         shape = attrs.get("shape", [])
 
         if (
             "min_val" in attrs
+            and attrs.get("min_val") is not None
             and "max_val" in attrs
+            and attrs.get("max_val") is not None
             and data_type
             in [
                 torch.int8,
@@ -243,7 +286,7 @@ def convert_meta_classes_to_tensors(file_path):
                 raise ValueError("Unimplemented")
             else:
                 data_value = torch.tensor(attrs["data"], dtype=data_type).reshape(
-                    attrs.get("shape"), []
+                    attrs.get("shape", [])
                 )
         info_dict = {
             "shape": attrs.get("shape", []),
@@ -253,10 +296,10 @@ def convert_meta_classes_to_tensors(file_path):
             "std": attrs.get("std", 1.0),
         }
         # Include constraints if present (floats will be clamped in replay_tensor)
-        if "min_val" in attrs:
-            info_dict["min_val"] = attrs["min_val"]
-        if "max_val" in attrs:
-            info_dict["max_val"] = attrs["max_val"]
+        if attrs.get("min_val") is not None:
+            info_dict["min_val"] = attrs.get("min_val")
+        if attrs.get("max_val") is not None:
+            info_dict["max_val"] = attrs.get("max_val")
 
         yield {
             "info": info_dict,
@@ -316,6 +359,17 @@ def replay_tensor(info):
         tensor = torch.clamp(tensor, min=-100.0, max=100.0)
 
     return tensor
+
+
+def get_dummy_tensor(info):
+    name = info["name"]
+    device = info["info"]["device"]
+    dtype = info["info"]["dtype"]
+    shape = info["info"]["shape"]
+
+    if "data" in info and info["data"] is not None:
+        return info["data"].to(device)
+    return torch.empty(shape, dtype=dtype, device=device)
 
 
 def modify_code_by_device(code, new_device_str):

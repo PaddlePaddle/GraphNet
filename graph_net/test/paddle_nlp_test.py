@@ -7,13 +7,10 @@ import time
 import glob
 import logging
 
-os.environ["ENABLE_CINN_IN_DY2ST"] = "0"
-os.environ["FLAGS_logging_trunc_pir_py_code"] = "1"
-os.environ["FLAGS_logging_pir_py_code_int_tensor_element_limit"] = "64"
-os.environ["FLAGS_logging_pir_py_code_dir"] = "/tmp/dump"
+from graph_net.paddle.extractor import extract
 
 import paddle
-import nlp_model_getter
+import paddle_nlp_model_getter as nlp_model_getter
 
 
 logging.basicConfig(
@@ -44,24 +41,13 @@ def clear_transformers_cache():
     logger.info("PaddleNLP cache cleared successfully")
 
 
-def run_nlp_model(model_name, get_model_func, dump_path, text):
+def run_nlp_model(model_name, get_model_func, text):
     device = (
         "cuda:0"
         if paddle.is_compiled_with_cuda() and paddle.device.cuda.device_count() > 0
         else "cpu"
     )
     print(f"\nTesting NLP model: {model_name} on {device}")
-
-    if not os.path.exists(dump_path):
-        os.makedirs(dump_path, exist_ok=True)
-
-    paddle.set_flags(
-        {
-            "FLAGS_logging_trunc_pir_py_code": 1,
-            "FLAGS_logging_pir_py_code_int_tensor_element_limit": 64,
-            "FLAGS_logging_pir_py_code_dir": dump_path,
-        }
-    )
 
     model, inputs = get_model_func(model_name, text, dtype="float16")
     input_dict = {key: val.to(device) for key, val in inputs.items()}
@@ -70,68 +56,21 @@ def run_nlp_model(model_name, get_model_func, dump_path, text):
 
     model(**input_dict)
 
-    input_specs = []
-    for name, value in input_dict.items():
-        if isinstance(value, paddle.Tensor):
-            input_specs.append(
-                paddle.static.InputSpec(value.shape, value.dtype, name=name)
-            )
+    wrapped = extract(name=model_name, dynamic=False)(model)
+    wrapped(**input_dict)
 
-    static_model = paddle.jit.to_static(model, input_spec=input_specs, full_graph=True)
-    static_model(**input_dict)
-
-    clear_transformers_cache()
+    # clear_transformers_cache()
 
 
-def process_model(model_name, get_gpt_model_and_inputs, dump_dir, text):
+def process_model(model_name, get_gpt_model_and_inputs, text):
     logger.info(f"Starting processing for: {model_name}")
 
-    # Step 1: dump pir program
-    dump_path = os.path.join(dump_dir, model_name.replace("/", "_"))
-    run_nlp_model(model_name, get_gpt_model_and_inputs, dump_path, text)
-    logger.info(f"Dump {model_name} to {dump_path}")
-
-    # Step 2: extract GraphNet sample
     workspace = os.getenv("GRAPH_NET_EXTRACT_WORKSPACE", "./workspace")
-    output_dir = os.path.join(workspace, model_name.replace("/", "_"))
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir, exist_ok=True)
-
-    generate_sample_cmd = [
-        "python",
-        "-m",
-        "athena.module_op_unittests_for_graphnet",
-        f"--model_name={model_name}",
-        f"--ir_programs={dump_path}/exec_programs.py",
-        f"--example_inputs={dump_path}/programs_example_input_tensor_meta.py",
-        f"--output_dir={output_dir}",
-        "--max_depth_output_only=True",
-    ]
-
-    result = subprocess.run(
-        generate_sample_cmd,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        timeout=600,
-    )
-    if result.returncode == 0:
-        logger.info(f"Generate samples for {model_name} to {dump_path}")
+    run_nlp_model(model_name, get_gpt_model_and_inputs, text)
+    logger.info(f"Extract {model_name} to {workspace}")
 
 
-def main():
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    dump_dir = os.path.join(current_dir, "dump")
-
-    text_en = "Hello, my name is Bob. I am learning about large language models and their architectures. "
-    text_cn = "欢迎使用百度飞桨!"
-
-    # auto models
-    model_name = "facebook/llama-7b"
-    process_model(
-        model_name, nlp_model_getter.get_auto_model_and_inputs, dump_dir, text_en
-    )
-
+def extract_bert_models(text_en, text_cn):
     # bert models
     bert_model_dict = {
         "bert-base-cased": text_en,
@@ -153,18 +92,22 @@ def main():
         "uer/chinese-roberta-small": text_cn,
         "uer/chinese-roberta-tiny": text_cn,
     }
-    # for model_name, text in bert_model_dict.items():
-    #    process_model(model_name, nlp_model_getter.get_bert_model_and_inputs, dump_dir, text)
+    for model_name, text in bert_model_dict.items():
+        process_model(model_name, nlp_model_getter.get_bert_model_and_inputs, text)
 
+
+def extract_convbert_models(text_en, text_cn):
     # convbert models
     convbert_model_dict = {
         "convbert-base": text_en,
         "convbert-medium-small": text_en,
         "convbert-small": text_en,
     }
-    # for model_name, text in convbert_model_dict.items():
-    #    process_model(model_name, nlp_model_getter.get_convbert_model_and_inputs, dump_dir, text)
+    for model_name, text in convbert_model_dict.items():
+        process_model(model_name, nlp_model_getter.get_convbert_model_and_inputs, text)
 
+
+def extract_ernie_models(text_en, text_cn):
     # ernie models
     ernie_1_model_dict = {
         "ernie-1.0-base-zh-cw": text_cn,
@@ -172,8 +115,8 @@ def main():
         "ernie-1.0-large-zh-cw": text_cn,
         "ernie-1.0": text_en,
     }
-    # for model_name, text in ernie_1_model_dict.items():
-    #    process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, dump_dir, text)
+    for model_name, text in ernie_1_model_dict.items():
+        process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, text)
 
     ernie_2_model_dict = {
         # "ernie-2.0-base-en-finetuned-squad": text_en, # no params
@@ -182,8 +125,8 @@ def main():
         # "ernie-2.0-large-en": text_en, # no params
         "ernie-2.0-large-zh": text_cn,
     }
-    # for model_name, text in ernie_2_model_dict.items():
-    #    process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, dump_dir, text)
+    for model_name, text in ernie_2_model_dict.items():
+        process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, text)
 
     ernie_3_model_dict = {
         "ernie-3.0-base-zh": text_cn,
@@ -204,16 +147,16 @@ def main():
         "ernie-3.0-tiny-pico-v2-zh": text_cn,
         "ernie-3.0-xbase-zh": text_cn,
     }
-    # for model_name, text in ernie_3_model_dict.items():
-    #    process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, dump_dir, text)
+    for model_name, text in ernie_3_model_dict.items():
+        process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, text)
 
     ernie_other_mode_dict = {
         "ernie-search-base-dual-encoder-marco-en": text_en,
         "ernie-search-large-cross-encoder-marco-en": text_en,
         "ernie-tiny": text_en,
     }
-    # for model_name, text in ernie_other_mode_dict.items():
-    #    process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, dump_dir, text)
+    for model_name, text in ernie_other_mode_dict.items():
+        process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, text)
 
     ernie_rocketqa_model_dict = {
         "rocketqa-base-cross-encoder": text_en,
@@ -238,8 +181,8 @@ def main():
         "rocketqa-zh-nano-para-encoder": text_cn,
         "rocketqa-zh-nano-query-encoder": text_cn,
     }
-    # for model_name, text in ernie_rocketqa_model_dict.items():
-    #    process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, dump_dir, text)
+    for model_name, text in ernie_rocketqa_model_dict.items():
+        process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, text)
 
     ernie_uie_model_dict = {
         "uie-base-answer-extractor": text_en,
@@ -256,8 +199,8 @@ def main():
         "uie-senta-mini": text_en,
         "uie-senta-nano": text_en,
     }
-    # for model_name, text in ernie_uie_model_dict.items():
-    #    process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, dump_dir, text)
+    for model_name, text in ernie_uie_model_dict.items():
+        process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, text)
 
     ernie_utc_model_dict = {
         "utc-base": text_en,
@@ -269,9 +212,11 @@ def main():
         "utc-pico": text_en,
         "utc-xbase": text_en,
     }
-    # for model_name, text in ernie_utc_model_dict.items():
-    #    process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, dump_dir, text)
+    for model_name, text in ernie_utc_model_dict.items():
+        process_model(model_name, nlp_model_getter.get_ernie_model_and_inputs, text)
 
+
+def extract_ernie_m_models(text_en, text_cn):
     # ernie_m models
     ernie_m_model_dict = {
         "ernie-m-base": text_en,
@@ -279,13 +224,11 @@ def main():
         "uie-m-base": text_en,
         "uie-m-large": text_en,
     }
-    # for model_name, text in ernie_m_model_dict.items():
-    #    process_model(model_name, nlp_model_getter.get_ernie_m_model_and_inputs, dump_dir, text)
+    for model_name, text in ernie_m_model_dict.items():
+        process_model(model_name, nlp_model_getter.get_ernie_m_model_and_inputs, text)
 
-    # gpt models
-    model_name = "gpt2-medium-en"
-    # process_model(model_name, nlp_model_getter.get_gpt_model_and_inputs, dump_dir, text_en)
 
+def extract_nezha_models(text_en, text_cn):
     # nezha models
     nezha_model_dict = {
         "nezha-base-chinese": text_cn,
@@ -293,13 +236,17 @@ def main():
         "nezha-large-chinese": text_cn,
         "nezha-large-wwm-chinese": text_cn,
     }
-    # for model_name, text in nezha_model_dict.items():
-    #    process_model(model_name, nlp_model_getter.get_nezha_model_and_inputs, dump_dir, text)
+    for model_name, text in nezha_model_dict.items():
+        process_model(model_name, nlp_model_getter.get_nezha_model_and_inputs, text)
 
+
+def extract_ppminilm_models(text_en, text_cn):
     # ppminilm models
     model_name = "ppminilm-6l-768h"
-    # process_model(model_name, nlp_model_getter.get_ppminilm_model_and_inputs, dump_dir, text_en)
+    process_model(model_name, nlp_model_getter.get_ppminilm_model_and_inputs, text_en)
 
+
+def extract_reformer_models(text_en, text_cn):
     # reformer models
     roformer_model_dict = {
         "roformer-chinese-base": text_cn,
@@ -313,16 +260,37 @@ def main():
         "roformer-english-small-discriminator": text_en,
         "roformer-english-small-generator": text_en,
     }
-    # for model_name, text in roformer_model_dict.items():
-    #    process_model(model_name, nlp_model_getter.get_reformer_model_and_inputs, dump_dir, text)
+    for model_name, text in roformer_model_dict.items():
+        process_model(model_name, nlp_model_getter.get_reformer_model_and_inputs, text)
 
+
+def extract_skep_models(text_en, text_cn):
     # skep models
     skep_model_dict = {
         "skep_ernie_2.0_large_en": text_en,
         "skep_ernie_1.0_large_ch": text_cn,
     }
-    # for model_name, text in skep_model_dict.items():
-    #    process_model(model_name, nlp_model_getter.get_skep_model_and_inputs, dump_dir, text)
+    for model_name, text in skep_model_dict.items():
+        process_model(model_name, nlp_model_getter.get_skep_model_and_inputs, text)
+
+
+def main():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    dump_dir = os.path.join(current_dir, "dump")
+    os.environ["GRAPH_NET_PIR_DUMP_WORKSPACE"] = dump_dir
+
+    text_en = "Hello, my name is Bob. I am learning about large language models and their architectures. "
+    text_cn = "欢迎使用百度飞桨!"
+
+    # auto models
+    model_name = "facebook/llama-7b"
+    # process_model(
+    #    model_name, nlp_model_getter.get_auto_model_and_inputs, text_en
+    # )
+
+    # gpt models
+    model_name = "gpt2-medium-en"
+    process_model(model_name, nlp_model_getter.get_gpt_model_and_inputs, text_en)
 
 
 if __name__ == "__main__":

@@ -29,6 +29,8 @@ def apply_templates(forward_code: str) -> str:
 def get_limited_precision_float_str(value):
     if not isinstance(value, float):
         return value
+    if math.isnan(value):
+        return "float('nan')"
     return f"{value:.3f}"
 
 

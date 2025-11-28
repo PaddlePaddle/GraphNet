@@ -25,61 +25,86 @@ def determine_current_pass_id(output_dir: str) -> int:
     return max(valid_ids) + 1 if valid_ids else 0
 
 
-def load_prev_config(pass_id: int, output_dir: str) -> Dict[str, Any]:
+def get_decompose_config_path(output_dir: str) -> str:
+    """Returns the full path to the decompose configuration file."""
+    return os.path.join(output_dir, "decompose_config.json")
+
+
+def load_decompose_config(pass_id: int, output_dir: str) -> Dict[str, Any]:
     """Loads the configuration file from the previous pass."""
     prev_dir = os.path.join(output_dir, f"pass_{pass_id - 1}")
-    config_path = os.path.join(prev_dir, "decompose_config.json")
+    config_path = get_decompose_config_path(prev_dir)
+
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"Missing configuration file: {config_path}")
     with open(config_path, "r") as f:
         return json.load(f)
 
 
-def save_current_config(
+def save_decompose_config(
     work_dir: str,
-    current_min_interval: int,
+    max_subgraph_size: int,
     incorrect_paths: Union[List[str], Set[str]],
     active_models_map: Dict[str, str],
-    used_split_positions_map: Dict[str, List[int]],
-    failed_extraction_models: Union[List[str], Set[str]],
+    split_positions_map: Dict[str, List[int]],
+    failed_decomposition_models: Union[List[str], Set[str]],
 ):
     """Saves the current state to a JSON file."""
     config = {
-        "current_min_interval": current_min_interval,
+        "max_subgraph_size": max_subgraph_size,
         "incorrect_models": list(incorrect_paths),
         "active_models_map": active_models_map,
-        "used_split_positions_map": used_split_positions_map,
-        "failed_extraction_models": list(failed_extraction_models),
+        "split_positions_map": split_positions_map,
+        "failed_decomposition_models": list(failed_decomposition_models),
     }
-    config_path = os.path.join(work_dir, "decompose_config.json")
+    config_path = get_decompose_config_path(work_dir)
+
     with open(config_path, "w") as f:
         json.dump(config, f, indent=4)
     print(f"[INFO] State saved to: {config_path}")
 
 
+def get_decomposer_config() -> Dict[str, Any]:
+    """Constructs the decomposer configuration internally."""
+    graph_net_root = os.path.dirname(graph_net.__file__)
+
+    return {
+        "decorator_path": os.path.join(graph_net_root, "torch/extractor.py"),
+        "decorator_config": {
+            "name": "PLACEHOLDER_NAME",
+            "custom_extractor_path": os.path.join(
+                graph_net_root, "torch/naive_graph_decomposer.py"
+            ),
+            "custom_extractor_config": {
+                "output_dir": "PLACEHOLDER_DIR",
+                "split_positions": [],
+                "group_head_and_tail": False,
+                "chain_style": False,
+                "filter_path": os.path.join(
+                    graph_net_root, "torch/naive_subgraph_filter.py"
+                ),
+                "filter_config": {},
+            },
+        },
+    }
+
+
 def run_decomposer(
-    original_model_path: str,
+    model_path: str,
     output_dir: str,
-    split_positions: List[int],  # Receives the specific list of split points
+    split_positions: List[int],
     decorator_config: Dict[str, Any],
 ) -> bool:
     """Decomposes a single model using specific split positions."""
 
-    # 1. Deep copy the template
     final_decorator_config = json.loads(json.dumps(decorator_config))
-
-    # 2. Locate the nested dictionary to inject values
     decorator_cfg = final_decorator_config["decorator_config"]
-    decorator_cfg["name"] = os.path.basename(original_model_path.rstrip("/"))
+    decorator_cfg["name"] = os.path.basename(model_path.rstrip("/"))
 
-    if "custom_extractor_config" not in decorator_cfg:
-        decorator_cfg["custom_extractor_config"] = {}
-
-    custom_cfg = decorator_cfg["custom_extractor_config"]
+    custom_cfg = decorator_cfg.get("custom_extractor_config", {})
     custom_cfg["output_dir"] = output_dir
-    custom_cfg["split_positions"] = split_positions  # Use the provided list
+    custom_cfg["split_positions"] = split_positions
 
-    # 3. Encode and Run
     decorator_config_json = json.dumps(final_decorator_config)
     decorator_config_b64 = base64.b64encode(decorator_config_json.encode()).decode()
 
@@ -88,19 +113,18 @@ def run_decomposer(
         "-m",
         "graph_net.torch.run_model",
         "--model-path",
-        original_model_path,
+        model_path,
         "--decorator-config",
         decorator_config_b64,
     ]
 
-    print(f"      [Decomposing] {os.path.basename(original_model_path)}")
-    print(f"      [Strategy] Splits: {split_positions}")
+    print(f"[Decomposing] {model_path}")
+    print(f"[Strategy] split_positions: {split_positions}")
 
-    # Capture output for debugging
     proc = subprocess.run(cmd, capture_output=True, text=True)
 
     if proc.returncode != 0:
-        print(f"[ERROR] Decomposition failed for {original_model_path}")
+        print(f"[ERROR] Decomposition failed for {model_path}")
         print("-" * 20 + " ERROR LOG " + "-" * 20)
         print(proc.stderr)
         print("-" * 50)
@@ -113,28 +137,22 @@ def run_evaluation(test_cmd_b64: str, work_dir: str, log_path: str) -> int:
     json_str = base64.b64decode(test_cmd_b64).decode("utf-8")
     cmd_config = json.loads(json_str)
 
-    # Check if the config follows the new structure: {"module_name": "...", "arguments": {...}}
-    if "module_name" in cmd_config and "arguments" in cmd_config:
-        target_module = cmd_config["module_name"]
-        args_dict = cmd_config["arguments"]
-    else:
-        # Fallback for old format (flat dictionary), assuming default compiler test
-        target_module = "graph_net.torch.test_compiler"
-        args_dict = cmd_config
+    assert "module_name" in cmd_config, "Test config must contain 'module_name'"
+    assert "arguments" in cmd_config, "Test config must contain 'arguments'"
+
+    target_module = cmd_config["module_name"]
+    args_dict = cmd_config["arguments"]
 
     cmd = [sys.executable, "-m", target_module]
 
     for key, value in args_dict.items():
-        if key == "model_path":
-            continue
-        cmd.append(f"--{key}")
-        cmd.append(str(value))
+        if key != "model_path":
+            cmd.extend([f"--{key}", str(value)])
 
-    cmd.append("--model-path")
-    cmd.append(work_dir)
+    cmd.extend(["--model-path", work_dir])
 
-    print(f"      [Batch Testing] Logging to: {log_path}")
-    print(f"      [Command] {' '.join(cmd)}")
+    print(f"[Batch Testing] Logging to: {log_path}")
+    print(f"[Command] {' '.join(cmd)}")
 
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
     with open(log_path, "w") as f:
@@ -142,44 +160,64 @@ def run_evaluation(test_cmd_b64: str, work_dir: str, log_path: str) -> int:
     return proc.returncode
 
 
-def reconstruct_intervals(split_positions: List[int]) -> List[tuple]:
-    """Reconstructs intervals based on sorted split positions."""
-    # Ensure 0 is included to generate complete interval mapping
-    full_splits = sorted(list(set(split_positions + [0])))
+def reconstruct_subgraph_size(split_positions: List[int]) -> List[tuple]:
+    """Reconstructs subgraph size based on sorted split positions."""
+    full_splits = sorted(list(set(split_positions)))
 
-    intervals = []
+    subgraph_size = []
+    # Needs at least 2 points to form an subgraph size
+    if len(full_splits) < 2:
+        return []
+
     for i in range(len(full_splits) - 1):
-        intervals.append((full_splits[i], full_splits[i + 1]))
+        subgraph_size.append((full_splits[i], full_splits[i + 1]))
 
-    return intervals
+    return subgraph_size
+
+
+def calculate_current_subgraph_size(tasks_map: Dict[str, Dict]) -> int:
+    """Calculates the current subgraph size from generated tasks."""
+    current_subgraph_size = float("inf")
+    found_splits = False
+
+    for _, info in tasks_map.items():
+        splits = sorted(list(info["split_positions"]))
+
+        if len(splits) < 2:
+            continue
+
+        found_splits = True
+        for i in range(len(splits) - 1):
+            diff = splits[i + 1] - splits[i]
+            if diff > 0:
+                current_subgraph_size = min(current_subgraph_size, diff)
+
+    return (
+        int(current_subgraph_size)
+        if found_splits and current_subgraph_size != float("inf")
+        else 2048
+    )
 
 
 def main(args):
     base_output_dir = os.path.abspath(args.output_dir)
     current_pass_id = determine_current_pass_id(base_output_dir)
 
-    # Parse the Decorator Configuration Template
-    tpl_str = base64.b64decode(args.decorator_config).decode("utf-8")
-    decorator_template = json.loads(tpl_str)
+    decorator_template = get_decomposer_config()
 
     print("=" * 80)
     print(f" GraphNet Auto-Debugger | ROUND: PASS_{current_pass_id}")
     print("=" * 80)
 
-    # --- Step 1: Initialize Strategy ---
-    # tasks_map: { "ModelName": { "original_path": str, "split_positions": Set[int] } }
     tasks_map = {}
     active_models_map_for_save = {}
-    current_min_interval = 2048
 
     if current_pass_id == 0:
         print(f"[Init] Pass 0: Reading from log file: {args.log_file}")
         initial_failures = get_incorrect_models(args.tolerance, args.log_file)
 
-        # [Strategy] Pass 0 Fixed Split: [0, 2048, 4096]
-        # This will generate subgraph_0 (0-2048) and subgraph_1 (2048-4096)
+        # Pass 0 Fixed Split Positions: [0, 2048, 4096]
         initial_splits = [0, 2048, 4096]
-        current_min_interval = 2048
 
         for path in initial_failures:
             name = os.path.basename(path.rstrip("/"))
@@ -194,14 +232,12 @@ def main(args):
         print(
             f"[Init] Resuming from Pass {current_pass_id - 1} (Dir: {prev_pass_dir})..."
         )
-        prev_config = load_prev_config(current_pass_id, base_output_dir)
-        prev_min_interval = prev_config.get("current_min_interval", 2048)
-        prev_map = prev_config.get("active_models_map", {})
-        prev_used_splits = prev_config.get("used_split_positions_map", {})
-        prev_incorrect_subgraphs = prev_config.get("incorrect_models", [])
 
-        # Reduce interval size by half for this pass
-        current_min_interval = max(1, prev_min_interval // 2)
+        prev_config = load_decompose_config(current_pass_id, base_output_dir)
+        prev_map = prev_config.get("active_models_map", {})
+
+        prev_used_splits = prev_config.get("split_positions_map", {})
+        prev_incorrect_subgraphs = prev_config.get("incorrect_models", [])
 
         if not prev_incorrect_subgraphs:
             print(f"[FINISHED] Debugging completed.")
@@ -217,13 +253,12 @@ def main(args):
             subgraph_dirname = parts[-1]
             model_name = parts[-2]
 
-            # Retrieve original model path
             if model_name in prev_map:
                 active_models_map_for_save[model_name] = prev_map[model_name]
                 if model_name not in tasks_map:
                     tasks_map[model_name] = {
                         "original_path": prev_map[model_name],
-                        "split_positions": set(),  # Start fresh for this round
+                        "split_positions": set(),
                     }
             else:
                 continue
@@ -233,28 +268,35 @@ def main(args):
             except ValueError:
                 continue
 
-            # 1. Reconstruct previous intervals to locate the failing segment
-            old_splits = sorted(prev_used_splits.get(model_name, []))
-            intervals = reconstruct_intervals(old_splits)
+            # 1. Reconstruct previous subgraph size to locate the failing segment
+            old_split_position = sorted(prev_used_splits.get(model_name, []))
+            subgraph_size = reconstruct_subgraph_size(old_split_position)
 
-            if sub_idx >= len(intervals):
-                print(f"[WARN] Index {sub_idx} out of bounds for {model_name}")
+            if sub_idx >= len(subgraph_size):
+                print(
+                    f"[WARN] Index {sub_idx} out of bounds for {model_name} (old split position: {old_split_position})"
+                )
                 continue
 
-            # 2. Get the specific failing interval [Start, End]
-            fail_start, fail_end = intervals[sub_idx]
+            # 2. Get the specific failing subgraph size [Start, End]
+            fail_start, fail_end = subgraph_size[sub_idx]
+
+            # Dynamic step calculation
+            subgraph_size_len = fail_end - fail_start
+            new_step = subgraph_size_len // 2
+
+            if new_step < 1:
+                new_step = subgraph_size_len
 
             # 3. Calculate Midpoint
-            mid_point = fail_start + (fail_end - fail_start) // 2
+            mid_point = fail_start + new_step
 
-            # 4. Update split positions: Add Start, Mid, End
-            # This ensures the decomposer only focuses on [Start, Mid] and [Mid, End]
+            # 4. Add split positions
             if mid_point > fail_start and mid_point < fail_end:
                 tasks_map[model_name]["split_positions"].update(
                     [int(fail_start), int(mid_point), int(fail_end)]
                 )
             else:
-                # Cannot split further, keep as is
                 tasks_map[model_name]["split_positions"].update(
                     [int(fail_start), int(fail_end)]
                 )
@@ -263,7 +305,9 @@ def main(args):
         print(f"[FINISHED] No models need processing.")
         sys.exit(0)
 
-    print(f"[INFO] Current Min Interval: {current_min_interval}")
+    # Recalculate based on current map to ensure log accuracy
+    real_subgraph_size = calculate_current_subgraph_size(tasks_map)
+    print(f"[INFO] Current Subgraph Size: {real_subgraph_size}")
     print(f"[INFO] Models to Process: {len(tasks_map)}")
 
     # --- Step 2: Prepare Workspace ---
@@ -274,13 +318,11 @@ def main(args):
 
     # --- Step 3: Decomposition ---
     print("\n--- Phase 1: Decomposition ---")
-    failed_extraction = []
-    final_used_splits_map = {}  # To save into config
+    failed_decomposition = []
+    final_used_splits_map = {}
 
     for model_name, task_info in tasks_map.items():
         original_path = task_info["original_path"]
-
-        # Sort and deduplicate
         split_positions = sorted(list(task_info["split_positions"]))
 
         final_used_splits_map[model_name] = split_positions
@@ -295,10 +337,10 @@ def main(args):
             original_path, model_out_dir, split_positions, decorator_template
         )
         if not success:
-            failed_extraction.append(model_name)
+            failed_decomposition.append(model_name)
 
-    if failed_extraction:
-        print(f"\n[WARN] {len(failed_extraction)} models failed to decompose.")
+    if failed_decomposition:
+        print(f"\n[WARN] {len(failed_decomposition)} models failed to decompose.")
 
     # --- Step 4: Testing ---
     print("\n--- Phase 2: Batch Testing ---")
@@ -315,20 +357,20 @@ def main(args):
         print(f"      [ERROR] Log analysis failed: {e}")
 
     # --- Step 6: Save State ---
-    save_current_config(
+    save_decompose_config(
         pass_work_dir,
-        current_min_interval,
+        real_subgraph_size,
         next_round_models,
         active_models_map_for_save,
         final_used_splits_map,
-        failed_extraction,
+        failed_decomposition,
     )
 
     print("\n" + "=" * 80)
-    if next_round_models and current_min_interval > 1:
+    if next_round_models and real_subgraph_size > 1:
         print(f">>> [SUGGESTION] Issues remain (Count: {len(next_round_models)}).")
         print(">>> Please start next round decomposition test (Run this script again).")
-    elif next_round_models and current_min_interval <= 1:
+    elif next_round_models and real_subgraph_size <= 1:
         print(f">>> [FAILURE] Minimal granularity reached, but errors persist.")
     else:
         print(f">>> [SUCCESS] Debugging converged.")
@@ -341,12 +383,6 @@ if __name__ == "__main__":
     parser.add_argument("--output-dir", type=str, required=True)
     parser.add_argument(
         "--test-config", type=str, required=True, help="Base64 encoded test config"
-    )
-    parser.add_argument(
-        "--decorator-config",
-        type=str,
-        required=True,
-        help="Base64 encoded decorator config template",
     )
     parser.add_argument(
         "--tolerance", type=float, required=True, help="Tolerance level range [-10, 5)"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PYTHONPATH=/work/GraphNet:/work/abstract_pass/Athena:$PYTHONPATH
+export PYTHONPATH=/root/paddlejob/workspace/env_run/liuyiqun/GraphNet:$PYTHONPATH
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(graph_net.__file__))")
 
@@ -10,8 +10,6 @@ LOG_FILE="$GRAPH_NET_ROOT/test/log_xpu.txt"
 OUTPUT_DIR="outputs"
 TOLERANCE=0
 INITIAL_MAX_SIZE=4096
-
-#rm -rf ${OUTPUT_DIR}
 
 test_compiler_config_str=$(cat <<EOF
 { 
@@ -54,13 +52,13 @@ test_target_device_config_str=$(cat <<EOF
 EOF
 )
 
-test_module_name="test_reference_device"
+test_module_name="test_target_device"
 if [ "${test_module_name}" = "test_compiler" ]; then
     TEST_CONFIG_B64=$(echo "$test_compiler_config_str" | base64 -w 0)
 elif [ "${test_module_name}" = "test_reference_device" ]; then
     TEST_CONFIG_B64=$(echo "$test_reference_device_config_str" | base64 -w 0)
 elif [ "${test_module_name}" = "test_target_device" ]; then
-    TEST_CONFIG_B64=$(echo "$test_reference_device_config_str" | base64 -w 0)
+    TEST_CONFIG_B64=$(echo "$test_target_device_config_str" | base64 -w 0)
 else
     echo "test_module_name (${test_module_name}) is unsupported!"
     exit

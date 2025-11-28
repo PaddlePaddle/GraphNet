@@ -19,16 +19,24 @@ def convert_b64_string_to_json(b64str):
 class TaskController:
     def __init__(self, args):
         self.root_output_dir = os.path.abspath(args.output_dir)
-        self.pass_id = self._determine_current_pass_id(self.root_output_dir)
         self.test_config = convert_b64_string_to_json(args.test_config)
         assert "test_module_name" in self.test_config
 
-        self._init_task_scheduler(self.test_config["test_module_name"])
+        test_module_name = self.test_config["test_module_name"]
+        max_pass_id = self._determine_max_pass_id(self.root_output_dir)
+        self.current_pass_id = (
+            max_pass_id if test_module_name == "test_target_device" else max_pass_id + 1
+        )
+        print(
+            f"test_module_name: {test_module_name}, current_pass_id: {self.current_pass_id}"
+        )
 
-    def _determine_current_pass_id(self, output_dir: str) -> int:
+        self._init_task_scheduler(test_module_name)
+
+    def _determine_max_pass_id(self, output_dir: str) -> int:
         """Scans the output directory to determine the next pass ID."""
         if not os.path.exists(output_dir):
-            return 0
+            return -1
         existing_passes = glob.glob(os.path.join(output_dir, "pass_*"))
         valid_ids = []
         for p in existing_passes:
@@ -36,7 +44,7 @@ class TaskController:
             parts = basename.split("_")
             if len(parts) == 2 and parts[1].isdigit():
                 valid_ids.append(int(parts[1]))
-        return max(valid_ids) + 1 if valid_ids else 0
+        return max(valid_ids) if valid_ids else -1
 
     def _init_task_scheduler(self, test_module_name):
         assert test_module_name in [
@@ -177,7 +185,7 @@ def run_evaluation(
     test_module_name = test_config["test_module_name"]
     test_module_arguments = test_config[f"{test_module_name}_arguments"]
     test_module_arguments["model-path"] = work_dir
-    if test_module_name == "test_reference_device":
+    if test_module_name in ["test_reference_device", "test_target_device"]:
         test_module_arguments["reference-dir"] = os.path.join(
             work_dir, "reference_device_outputs"
         )
@@ -204,7 +212,7 @@ def run_evaluation(
 def main(args):
     task_controller = TaskController(args)
     base_output_dir = task_controller.root_output_dir
-    current_pass_id = task_controller.pass_id
+    current_pass_id = task_controller.current_pass_id
 
     print("=" * 80)
     print(f" GraphNet Auto-Debugger | ROUND: PASS_{current_pass_id}")
@@ -236,9 +244,8 @@ def main(args):
 
     # --- Step 2: Prepare Workspace ---
     pass_work_dir = os.path.join(base_output_dir, f"pass_{current_pass_id}")
-    if os.path.exists(pass_work_dir):
-        shutil.rmtree(pass_work_dir)
-    os.makedirs(pass_work_dir, exist_ok=True)
+    if not os.path.exists(pass_work_dir):
+        os.makedirs(pass_work_dir, exist_ok=True)
 
     # --- Step 3: Decomposition ---
     need_decompose = (
@@ -248,8 +255,12 @@ def main(args):
     )
     if need_decompose:
         print("\n--- Phase 1: Decomposition ---", flush=True)
+    failed_extraction = []
     while need_decompose:
-        failed_extraction = []
+        decomposed_samples_dir = os.path.join(
+            pass_work_dir, "samples" if args.framework == "torch" else "paddle_samples"
+        )
+        os.makedirs(decomposed_samples_dir, exist_ok=True)
 
         for idx, model_path in enumerate(target_models):
             rectied_model_path = get_rectfied_model_path(model_path)
@@ -257,19 +268,16 @@ def main(args):
                 rectied_model_path
             ), f"{rectied_model_path} does not exist."
 
-            model_name = get_model_name_with_subgraph_tag(rectied_model_path)
-            model_out_dir = os.path.join(pass_work_dir, model_name)
-            os.makedirs(model_out_dir, exist_ok=True)
-
+            os.makedirs(decomposed_samples_dir, exist_ok=True)
             success = run_decomposer(
                 args.framework,
                 rectied_model_path,
-                model_out_dir,
+                decomposed_samples_dir,
                 current_max_size,
             )
             if not success:
                 failed_extraction.append(rectied_model_path)
-        num_decomposed_samples = count_samples(pass_work_dir)
+        num_decomposed_samples = count_samples(decomposed_samples_dir)
         print(
             f"- number of graphs: {len(target_models)} -> {num_decomposed_samples}",
             flush=True,
@@ -279,8 +287,8 @@ def main(args):
 
         if num_decomposed_samples == len(target_models):
             need_decompose = True
-            shutil.rmtree(pass_work_dir)
-            os.makedirs(pass_work_dir, exist_ok=True)
+            shutil.rmtree(decomposed_samples_dir)
+            os.makedirs(decomposed_samples_dir, exist_ok=True)
             current_max_size = max(1, current_max_size // 2)
         else:
             need_decompose = False
@@ -331,4 +339,5 @@ if __name__ == "__main__":
     )
     parser.add_argument("--max-subgraph-size", type=int, default=4096)
     args = parser.parse_args()
+    print(args)
     main(args)

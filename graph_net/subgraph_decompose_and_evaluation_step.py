@@ -85,29 +85,40 @@ def count_samples(samples_dir):
     return num_samples
 
 
-def load_prev_config(pass_id: int, output_dir: str) -> Dict[str, Any]:
+def get_decompose_config_path(output_dir: str) -> str:
+    """Returns the full path to the decompose configuration file."""
+    return os.path.join(output_dir, "decompose_config.json")
+
+
+def load_decompose_config(pass_id: int, output_dir: str) -> Dict[str, Any]:
     """Loads the configuration file from the previous pass."""
     prev_dir = os.path.join(output_dir, f"pass_{pass_id - 1}")
-    config_path = os.path.join(prev_dir, "decompose_config.json")
+    config_path = get_decompose_config_path(prev_dir)
+
     if not os.path.exists(config_path):
         raise FileNotFoundError(f"Missing configuration file: {config_path}")
     with open(config_path, "r") as f:
         return json.load(f)
 
 
-def save_current_config(
+def save_decompose_config(
     work_dir: str,
-    current_max_size: int,
-    incorrect_models: Union[List[str], Set[str]],
-    failed_models: List[str],
+    max_subgraph_size: int,
+    incorrect_paths: Union[List[str], Set[str]],
+    active_models_map: Dict[str, str],
+    split_positions_map: Dict[str, List[int]],
+    failed_decomposition_models: Union[List[str], Set[str]],
 ):
-    """Saves the current state."""
+    """Saves the current state to a JSON file."""
     config = {
-        "current_max_subgraph_size": current_max_size,
-        "incorrect_models": list(incorrect_models),
-        "failed_extraction_models": list(failed_models),
+        "max_subgraph_size": max_subgraph_size,
+        "incorrect_models": list(incorrect_paths),
+        "active_models_map": active_models_map,
+        "split_positions_map": split_positions_map,
+        "failed_decomposition_models": list(failed_decomposition_models),
     }
-    config_path = os.path.join(work_dir, "decompose_config.json")
+    config_path = get_decompose_config_path(work_dir)
+
     with open(config_path, "w") as f:
         json.dump(config, f, indent=4)
     print(f"[INFO] State saved to: {config_path}")
@@ -123,14 +134,9 @@ def run_decomposer(
     framework: str,
     model_path: str,
     output_dir: str,
-    max_subgraph_size: int,
+    split_positions: List[int],
 ) -> bool:
     """Decomposes a single model."""
-
-    upper_bound = 4096
-    split_positions = list(
-        range(max_subgraph_size, upper_bound + max_subgraph_size, max_subgraph_size)
-    )
 
     graphnet_root = path_utils.get_graphnet_root()
     model_name = get_model_name_with_subgraph_tag(model_path)
@@ -142,7 +148,7 @@ def run_decomposer(
             "custom_extractor_config": {
                 "output_dir": output_dir,
                 "split_positions": split_positions,
-                "group_head_and_tail": True,
+                "group_head_and_tail": False,
                 "chain_style": False,
             },
         },
@@ -151,9 +157,9 @@ def run_decomposer(
         json.dumps(decorator_config).encode()
     ).decode()
 
-    print(
-        f"- [Decomposing] {model_name} (max_subgraph_size={max_subgraph_size}, split_positions={split_positions})"
-    )
+    print(f"[Decomposing] {model_path}")
+    print(f"[Strategy] split_positions: {split_positions}")
+
     cmd = [
         sys.executable,
         "-m",
@@ -196,8 +202,8 @@ def run_evaluation(
         for item in (f"--{key}", str(value))
     ]
 
-    print(f"      [Batch Testing] Logging to: {log_path}")
-    print(f"      [Command] {' '.join(cmd)}")
+    print(f"[Batch Testing] Logging to: {log_path}")
+    print(f"[Command] {' '.join(cmd)}")
 
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
     with open(log_path, "w") as f:
@@ -209,6 +215,47 @@ def run_evaluation(
         sys.exit(proc.returncode)
 
 
+def reconstruct_subgraph_size(split_positions: List[int]) -> List[tuple]:
+    """Reconstructs subgraph size based on sorted split positions."""
+    full_splits = sorted(list(set(split_positions)))
+
+    subgraph_size = []
+    # Needs at least 2 points to form an subgraph size
+    if len(full_splits) < 2:
+        return []
+
+    for i in range(len(full_splits) - 1):
+        subgraph_size.append((full_splits[i], full_splits[i + 1]))
+
+    return subgraph_size
+
+
+def calculate_current_subgraph_size(
+    tasks_map: Dict[str, Dict], fallback_size: int
+) -> int:
+    """Calculates the current subgraph size from generated tasks."""
+    current_subgraph_size = float("inf")
+    found_splits = False
+
+    for _, info in tasks_map.items():
+        splits = sorted(list(info["split_positions"]))
+
+        if len(splits) < 2:
+            continue
+
+        found_splits = True
+        for i in range(len(splits) - 1):
+            diff = splits[i + 1] - splits[i]
+            if diff > 0:
+                current_subgraph_size = min(current_subgraph_size, diff)
+
+    return (
+        int(current_subgraph_size)
+        if found_splits and current_subgraph_size != float("inf")
+        else fallback_size
+    )
+
+
 def main(args):
     task_controller = TaskController(args)
     base_output_dir = task_controller.root_output_dir
@@ -218,28 +265,119 @@ def main(args):
     print(f" GraphNet Auto-Debugger | ROUND: PASS_{current_pass_id}")
     print("=" * 80)
 
-    # --- Step 1: Initialize State ---
-    target_models = []
-    current_max_size = args.max_subgraph_size
+    tasks_map = {}
+    active_models_map_for_save = {}
+    kMaxGraphSize = 4096
+
+    # Initialize using the argument passed from bash
+    max_subgraph_size = args.max_subgraph_size
+
     if current_pass_id == 0:
         print(f"[Init] Pass 0: Reading from log file: {args.log_file}")
-        current_max_size = args.max_subgraph_size
-        target_models = get_incorrect_models(args.tolerance, args.log_file)
+        initial_failures = get_incorrect_models(args.tolerance, args.log_file)
+
+        # Dynamic generation based on step size (args.max_subgraph_size)
+        initial_splits = list(range(0, kMaxGraphSize + 1, max_subgraph_size))
+
+        for path in initial_failures:
+            name = os.path.basename(path.rstrip("/"))
+            active_models_map_for_save[name] = path
+            tasks_map[name] = {
+                "original_path": path,
+                "split_positions": set(initial_splits),
+            }
     else:
-        print(f"[Init] Resuming from Pass {current_pass_id - 1}...")
-        prev_config = load_prev_config(current_pass_id, base_output_dir)
-        target_models = prev_config.get("incorrect_models", [])
+        prev_pass_dir = os.path.join(base_output_dir, f"pass_{current_pass_id - 1}")
+        print(
+            f"[Init] Resuming from Pass {current_pass_id - 1} (Dir: {prev_pass_dir})..."
+        )
 
-        prev_size = prev_config.get("current_max_subgraph_size", 2048)
-        current_max_size = max(1, prev_size // 2)
+        prev_config = load_decompose_config(current_pass_id, base_output_dir)
+        prev_map = prev_config.get("active_models_map", {})
 
-    print(f"[INFO] current max_subgraph_size: {current_max_size}")
-    print(f"[INFO] number of incorrect models: {len(target_models)}")
-    for model_path in target_models:
-        print(f"- {model_path}")
+        prev_used_splits = prev_config.get("split_positions_map", {})
+        prev_incorrect_subgraphs = prev_config.get("incorrect_models", [])
 
-    if not target_models:
-        print(f"[FINISHED] Debugging completed.")
+        # Load previous max size as fallback for calculation
+        prev_max_size = prev_config.get("max_subgraph_size", args.max_subgraph_size)
+        max_subgraph_size = prev_max_size
+
+        if not prev_incorrect_subgraphs:
+            print(f"[FINISHED] Debugging completed.")
+            sys.exit(0)
+
+        print(f"[Analysis] Refining splits based on failures...")
+
+        for sub_path in prev_incorrect_subgraphs:
+            parts = sub_path.rstrip("/").split("/")
+            if len(parts) < 2:
+                continue
+
+            subgraph_dirname = parts[-1]
+            model_name = parts[-2]
+
+            if model_name in prev_map:
+                active_models_map_for_save[model_name] = prev_map[model_name]
+                if model_name not in tasks_map:
+                    tasks_map[model_name] = {
+                        "original_path": prev_map[model_name],
+                        "split_positions": set(),
+                    }
+            else:
+                continue
+
+            try:
+                sub_idx = int(subgraph_dirname.split("_")[-1])
+            except ValueError:
+                continue
+
+            # 1. Reconstruct previous subgraph size to locate the failing segment
+            old_split_position = sorted(prev_used_splits.get(model_name, []))
+            subgraph_size = reconstruct_subgraph_size(old_split_position)
+
+            if sub_idx >= len(subgraph_size):
+                print(
+                    f"[WARN] Index {sub_idx} out of bounds for {model_name} (old split position: {old_split_position})"
+                )
+                continue
+
+            # 2. Get the specific failing subgraph size [Start, End]
+            fail_start, fail_end = subgraph_size[sub_idx]
+
+            # though intervals logic usually handles this via float('inf') replacement if used.
+            if fail_end == float("inf"):
+                fail_end = kMaxGraphSize
+
+            # Dynamic step calculation
+            subgraph_size_len = fail_end - fail_start
+            new_step = subgraph_size_len // 2
+
+            if new_step < 1:
+                new_step = subgraph_size_len
+
+            # 3. Calculate Midpoint
+            mid_point = fail_start + new_step
+
+            # 4. Add split positions
+            if mid_point > fail_start and mid_point < fail_end:
+                tasks_map[model_name]["split_positions"].update(
+                    [int(fail_start), int(mid_point), int(fail_end)]
+                )
+            else:
+                tasks_map[model_name]["split_positions"].update(
+                    [int(fail_start), int(fail_end)]
+                )
+
+    # Recalculate based on current map to ensure log accuracy
+    real_subgraph_size = calculate_current_subgraph_size(tasks_map, max_subgraph_size)
+    print(f"[INFO] Current Subgraph Size: {real_subgraph_size}")
+    print(f"[INFO] Models to Process: {len(tasks_map)}")
+    for model_name, task_info in tasks_map.items():
+        original_path = task_info["original_path"]
+        print(f"- {original_path}")
+
+    if not tasks_map:
+        print(f"[FINISHED] No models need processing.")
         sys.exit(0)
 
     # --- Step 2: Prepare Workspace ---
@@ -250,42 +388,48 @@ def main(args):
     # --- Step 3: Decomposition ---
     need_decompose = (
         True
-        if task_controller.task_scheduler["run_decomposer"] and len(target_models) > 0
+        if task_controller.task_scheduler["run_decomposer"] and len(tasks_map) > 0
         else False
     )
     if need_decompose:
         print("\n--- Phase 1: Decomposition ---", flush=True)
-    failed_extraction = []
+
+    failed_decomposition = []
+    final_used_splits_map = {}
     while need_decompose:
         decomposed_samples_dir = os.path.join(
             pass_work_dir, "samples" if args.framework == "torch" else "paddle_samples"
         )
         os.makedirs(decomposed_samples_dir, exist_ok=True)
 
-        for idx, model_path in enumerate(target_models):
-            rectied_model_path = get_rectfied_model_path(model_path)
+        for model_name, task_info in tasks_map.items():
+            original_path = task_info["original_path"]
+            split_positions = sorted(list(task_info["split_positions"]))
+            final_used_splits_map[model_name] = split_positions
+
+            rectied_model_path = get_rectfied_model_path(original_path)
             assert os.path.exists(
                 rectied_model_path
             ), f"{rectied_model_path} does not exist."
 
-            os.makedirs(decomposed_samples_dir, exist_ok=True)
             success = run_decomposer(
                 args.framework,
                 rectied_model_path,
                 decomposed_samples_dir,
-                current_max_size,
+                split_positions,
             )
             if not success:
-                failed_extraction.append(rectied_model_path)
+                failed_decomposition.append(rectied_model_path)
+
         num_decomposed_samples = count_samples(decomposed_samples_dir)
         print(
-            f"- number of graphs: {len(target_models)} -> {num_decomposed_samples}",
+            f"- number of graphs: {len(tasks_map)} -> {num_decomposed_samples}",
             flush=True,
         )
-        if failed_extraction:
-            print(f"[WARN] {len(failed_extraction)} models failed to decompose.")
+        if failed_decomposition:
+            print(f"[WARN] {len(failed_decomposition)} models failed to decompose.")
 
-        if num_decomposed_samples == len(target_models):
+        if not failed_decomposition and num_decomposed_samples == len(tasks_map):
             need_decompose = True
             shutil.rmtree(decomposed_samples_dir)
             os.makedirs(decomposed_samples_dir, exist_ok=True)
@@ -303,23 +447,24 @@ def main(args):
     next_round_models = set()
     if task_controller.task_scheduler["post_analysis"]:
         print("\n--- Phase 3: Analysis ---")
-        next_round_models = set()
-        try:
-            next_round_models = set(get_incorrect_models(args.tolerance, pass_log_path))
-            print(f"      [Result] Found {len(next_round_models)} incorrect subgraphs.")
-        except Exception as e:
-            print(f"      [ERROR] Log analysis failed: {e}")
+        next_round_models = set(get_incorrect_models(args.tolerance, pass_log_path))
+        print(f"[Result] Found {len(next_round_models)} incorrect subgraphs.")
 
     # --- Step 6: Save State ---
-    save_current_config(
-        pass_work_dir, current_max_size, next_round_models, failed_extraction
+    save_decompose_config(
+        pass_work_dir,
+        real_subgraph_size,
+        next_round_models,
+        active_models_map_for_save,
+        final_used_splits_map,
+        failed_decomposition,
     )
 
     print("\n" + "=" * 80)
-    if next_round_models and current_max_size > 1:
+    if next_round_models and real_subgraph_size > 1:
         print(f">>> [SUGGESTION] Issues remain (Count: {len(next_round_models)}).")
         print(">>> Please start next round decomposition test (Run this script again).")
-    elif next_round_models and current_max_size <= 1:
+    elif next_round_models and real_subgraph_size <= 1:
         print(f">>> [FAILURE] Minimal granularity reached, but errors persist.")
     else:
         print(f">>> [SUCCESS] Debugging converged.")

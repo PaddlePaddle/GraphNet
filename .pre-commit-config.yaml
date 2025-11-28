@@ -16,3 +16,13 @@ repos:
   hooks:
     - id: typos
       args: [--force-exclude]
+
+- repo: https://github.com/Lucas-C/pre-commit-hooks.git
+  rev: v1.5.1
+  hooks:
+    - id: remove-crlf
+    - id: remove-tabs
+      name: Tabs remver (Python)
+      files: (.*\.(py|bzl)|BUILD|.*\.BUILD|WORKSPACE)$
+      args: [--whitespaces-count, '4']
+      exclude: test/dygraph_to_static/test_error.py

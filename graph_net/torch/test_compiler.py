@@ -457,7 +457,7 @@ if __name__ == "__main__":
         type=str,
         required=False,
         default=None,
-        help="Path to configuration file.",
+        help="base64 encode configuration json.",
     )
     args = parser.parse_args()
     main(args=args)

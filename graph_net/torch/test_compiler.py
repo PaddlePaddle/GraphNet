@@ -96,7 +96,10 @@ def load_class_from_file(
 
 def get_compiler_backend(args) -> GraphCompilerBackend:
     assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
-    return registry_backend[args.compiler]
+    backend = registry_backend[args.compiler]
+    if args.config is not None:
+        backend.config = args.config
+    return backend
 
 
 def get_model(args):
@@ -396,15 +399,10 @@ def test_multi_models(args):
 
 
 def main(args):
+    assert os.path.isdir(args.model_path)
+
     initalize_seed = 123
     set_seed(random_seed=initalize_seed)
-
-    if args.compiler == "range_decomposer":
-        compiler = get_compiler_backend(args)
-        compiler(args)
-        return
-
-    assert os.path.isdir(args.model_path)
 
     if path_utils.is_single_model_dir(args.model_path):
         test_single_model(args)
@@ -453,6 +451,13 @@ if __name__ == "__main__":
         required=False,
         default=None,
         help="Path to samples list, each line contains a sample path",
+    )
+    parser.add_argument(
+        "--config",
+        type=str,
+        required=False,
+        default=None,
+        help="Path to configuration file.",
     )
     args = parser.parse_args()
     main(args=args)

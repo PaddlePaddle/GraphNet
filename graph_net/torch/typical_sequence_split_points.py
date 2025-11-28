@@ -1,8 +1,6 @@
 import argparse
-import importlib.util
 import json
 import os
-import sys
 from pathlib import Path
 from typing import Any, Callable, Dict, List
 
@@ -53,8 +51,6 @@ class TypicalSequenceExtractor:
 class TypicalSequenceModelLoader:
     def load_class_from_file(self, model_path: str, device: str) -> Any:
         file_path = os.path.join(model_path, "model.py")
-        file = Path(file_path).resolve()
-        module_name = file.stem
 
         if not os.path.exists(file_path):
             raise FileNotFoundError(f"Model file not found: {file_path}")

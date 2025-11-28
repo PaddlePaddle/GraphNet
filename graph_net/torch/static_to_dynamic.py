@@ -1,6 +1,7 @@
+import logging
 import torch
 import torch.fx as fx
-from graph_net.torch.utils import convert_tensor_meta_attrs_list_to_named_tensors
+from graph_net.torch.utils import get_dummy_named_tensors
 from torch.fx.passes.shape_prop import ShapeProp
 from graph_net.torch.utils import apply_templates
 from pathlib import Path
@@ -25,6 +26,13 @@ class StaticToDynamic:
 
     def __call__(self, module, dim_axes_pairs):
         return StaticToDynamicModulePass(self.config, module, dim_axes_pairs)
+
+    def create_inputs_by_metas(self, module, tensor_meta_attrs_list):
+        named_tensors = get_dummy_named_tensors(tensor_meta_attrs_list)
+        name2tensor = {k: v for k, v in named_tensors}
+        return tuple(
+            name2tensor[name] for name in inspect.signature(module.forward).parameters
+        )
 
 
 class StaticToDynamicModulePass(torch.nn.Module):
@@ -56,19 +64,11 @@ class StaticToDynamicModulePass(torch.nn.Module):
     def get_pass_names(self):
         return self.config["pass_names"]
 
-    def create_inputs_by_metas(self, tensor_meta_attrs_list):
-        named_tensors = convert_tensor_meta_attrs_list_to_named_tensors(
-            tensor_meta_attrs_list
-        )
-        name2tensor = {k: v for k, v in named_tensors}
-        return tuple(
-            name2tensor[name]
-            for name in inspect.signature(self.module.forward).parameters
-        )
-
     def need_rewrite(self, inputs):
         try:
+            logging.warning("before _create_fx_graph_module")
             traced_module = self._create_fx_graph_module(inputs)
+            logging.warning("after _create_fx_graph_module")
             ShapeProp(traced_module).propagate(*inputs)
         except:
             return False

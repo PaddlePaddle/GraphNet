@@ -10,6 +10,11 @@ import sys
 import json
 import base64
 from contextlib import contextmanager
+import logging
+
+logging.basicConfig(
+    level=logging.WARNING, format="%(asctime)s [%(levelname)s] %(message)s"
+)
 
 
 def _convert_to_dict(config_str):

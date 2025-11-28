@@ -30,10 +30,7 @@ def _convert_to_dict(config_str):
     return config
 
 
-def _get_decorator(args):
-    if args.decorator_config is None:
-        return lambda model: model
-    decorator_config = _convert_to_dict(args.decorator_config)
+def _get_decorator(decorator_config):
     if "decorator_path" not in decorator_config:
         return lambda model: model
     class_name = decorator_config.get("decorator_class_name", "RunModelDecorator")
@@ -42,6 +39,17 @@ def _get_decorator(args):
         class_name=class_name,
     )
     return decorator_class(decorator_config.get("decorator_config", {}))
+
+
+def get_flag_use_dummy_inputs(decorator_config):
+    return "use_dummy_inputs" in decorator_config
+
+
+def replay_tensor(info, use_dummy_inputs):
+    if use_dummy_inputs:
+        return utils.get_dummy_tensor(info)
+    else:
+        return utils.replay_tensor(info)
 
 
 def main(args):
@@ -53,11 +61,15 @@ def main(args):
     model = model_class()
     print(f"{model_path=}")
 
-    model = _get_decorator(args)(model)
+    decorator_config = _convert_to_dict(args.decorator_config)
+    if "decorator_path" in args.decorator_config:
+        model = _get_decorator(decorator_config)(model)
 
     inputs_params = utils.load_converted_from_text(f"{model_path}")
     params = inputs_params["weight_info"]
-    state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
+    use_dummy_inputs = get_flag_use_dummy_inputs(decorator_config)
+    print(f"{use_dummy_inputs=}")
+    state_dict = {k: replay_tensor(v, use_dummy_inputs) for k, v in params.items()}
 
     model(**state_dict)
 

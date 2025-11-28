@@ -1,8 +1,6 @@
-import sys
 import sympy
 import importlib.util as imp
 from dataclasses import dataclass
-import copy
 from typing import Callable
 from collections import namedtuple
 
@@ -22,7 +20,7 @@ class DynamicDimConstraints:
     kRelations = "dynamic_dim_constraint_relations"
 
     # len(input_shapes) equals number of Model.forward arguments
-    input_shapes: list[(tuple[sympy.Expr | int], "var-name")]
+    input_shapes: list[(tuple[sympy.Expr | int], str)]
     kInputShapes = "dynamic_dim_constraint_input_shapes"
 
     @classmethod
@@ -44,7 +42,6 @@ class DynamicDimConstraints:
         ]
         Returns created symbol.
         """
-        import logging
 
         InputDim = namedtuple("InputDim", ["input_idx", "axis", "dim"])
         input_dims = [

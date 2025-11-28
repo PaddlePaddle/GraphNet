@@ -77,7 +77,7 @@ def process_single_model(model_dir_path: str, root_dir: str, failures: list):
     relative_path = os.path.relpath(model_dir_path, root_dir)
     potential_model_id = relative_path.replace(os.path.sep, "/")
 
-    print(f"\n{'='*20}\nProcessing: {potential_model_id} (at {model_dir_path})")
+    print(f"\n{'=' * 20}\nProcessing: {potential_model_id} (at {model_dir_path})")
 
     try:
         with open(json_path, "r", encoding="utf-8") as f:
@@ -90,9 +90,9 @@ def process_single_model(model_dir_path: str, root_dir: str, failures: list):
         print(f"  [Phase 1a] Trying precise lookup for '{potential_model_id}'...")
         try:
             best_match_info = model_info(potential_model_id)
-            print(f"  [Phase 1a] Success! Found exact match from path.")
+            print("  [Phase 1a] Success! Found exact match from path.")
         except RepositoryNotFoundError:
-            print(f"  [Phase 1a] Precise lookup failed.")
+            print("  [Phase 1a] Precise lookup failed.")
             # Phase 1b: If that fails, and it's a single-level dir, try replacing the first '_' with '/'
             if "/" not in potential_model_id and "_" in potential_model_id:
                 hypothetical_id = potential_model_id.replace("_", "/", 1)
@@ -102,10 +102,10 @@ def process_single_model(model_dir_path: str, root_dir: str, failures: list):
                 try:
                     best_match_info = model_info(hypothetical_id)
                     print(
-                        f"  [Phase 1b] Success! Found exact match by replacing underscore."
+                        "  [Phase 1b] Success! Found exact match by replacing underscore."
                     )
                 except RepositoryNotFoundError:
-                    print(f"  [Phase 1b] Alternative lookup failed.")
+                    print("  [Phase 1b] Alternative lookup failed.")
 
         # --- Stage 2: Advanced Fuzzy Search (Fallback) ---
         if not best_match_info:
@@ -174,7 +174,7 @@ def process_model_directories(root_dir: str):
     """
     if not root_dir or not os.path.isdir(root_dir):
         print(
-            f"❌ ERROR: Root directory not provided or not found. Please use the --directory argument."
+            "❌ ERROR: Root directory not provided or not found. Please use the --directory argument."
         )
         return
 
@@ -199,7 +199,7 @@ def process_model_directories(root_dir: str):
     for model_path in model_paths_to_process:
         process_single_model(model_path, root_dir, failures)
 
-    print(f"\n{'='*40}\n🎉 All directories processed!")
+    print(f"\n{'=' * 40}\n🎉 All directories processed!")
 
     if failures:
         log_and_print_failures(failures)

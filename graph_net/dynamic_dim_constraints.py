@@ -154,7 +154,7 @@ from sympy import Symbol, Expr, Rel, Eq
         return getattr(module, attr) if hasattr(module, attr) else default
 
     @classmethod
-    def load_module(cls, path, name="unamed"):
+    def load_module(cls, path, name="unnamed"):
         spec = imp.spec_from_file_location(name, path)
         module = imp.module_from_spec(spec)
         spec.loader.exec_module(module)

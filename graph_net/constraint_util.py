@@ -293,20 +293,20 @@ def symbolize_data_input_dims(
     Returns new DynamicDimConstraints if success.
     Returns None if no symbolicable dim .
     """
-    unqiue_dims = []
+    unique_dims = []
     dim2axes = {}
 
     def dumpy_filter_fn(input_name, input_idx, axis, dim):
         if is_data_input(input_name):
             print("data_input", input_name, input_idx, axis, dim)
-            if dim not in unqiue_dims:
-                unqiue_dims.append(dim)
+            if dim not in unique_dims:
+                unique_dims.append(dim)
                 dim2axes[dim] = []
             dim2axes[dim].append(axis)
         # No symbolization by returning False
         return False
 
-    # Collect input dimensions into `unqiue_dims`
+    # Collect input dimensions into `unique_dims`
     assert dyn_dim_cstr.symbolize(dumpy_filter_fn) is None
     total_dim_gen_pass_names = ()
 
@@ -323,7 +323,7 @@ def symbolize_data_input_dims(
             ]
         )
 
-    for i, picked_dim in enumerate(unqiue_dims):
+    for i, picked_dim in enumerate(unique_dims):
         logging.warning(f"{i=} {picked_dim=}")
         cur_dyn_dim_cstr = copy.deepcopy(dyn_dim_cstr)
 
@@ -341,7 +341,7 @@ def symbolize_data_input_dims(
         if not cur_dyn_dim_cstr.check_delta_symbol2example_value(sym2example_value):
             continue
         dim_axes_pairs = tuple(
-            (dim, axes) for dim in unqiue_dims[: i + 1] for axes in [dim2axes[dim]]
+            (dim, axes) for dim in unique_dims[: i + 1] for axes in [dim2axes[dim]]
         )
         ctx_mgr = dyn_dim_cstr_feasibility_ctx_mgr
         logging.warning("before dyn_dim_cstr_feasibility_ctx_mgr")

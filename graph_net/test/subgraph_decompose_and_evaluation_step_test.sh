@@ -1,15 +1,12 @@
 #!/bin/bash
 
-export PYTHONPATH=/work/GraphNet:/work/abstract_pass/Athena:$PYTHONPATH
-
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(graph_net.__file__))")
 
-FRAMEWORK="paddle"
-LOG_FILE="$GRAPH_NET_ROOT/test/log_xpu.txt"
-#LOG_FILE="/work/GraphNet/benchmark_results/log_test_target_device-xpu_p800_nope-pd_20251111_2.txt"
-OUTPUT_DIR="outputs"
+FRAMEWORK="torch"
+LOG_FILE="$GRAPH_NET_ROOT/test/log_file_for_subgraph_decompose_and_evaluation_step.log"
+OUTPUT_DIR="/tmp/decompose_and_evaluation_workspace"
 TOLERANCE=0
-INITIAL_MAX_SIZE=4096
+INITIAL_MAX_SIZE=2048
 
 test_compiler_config_str=$(cat <<EOF
 { 
@@ -52,7 +49,7 @@ test_target_device_config_str=$(cat <<EOF
 EOF
 )
 
-test_module_name="test_reference_device"
+test_module_name="test_compiler"
 if [ "${test_module_name}" = "test_compiler" ]; then
     TEST_CONFIG_B64=$(echo "$test_compiler_config_str" | base64 -w 0)
 elif [ "${test_module_name}" = "test_reference_device" ]; then

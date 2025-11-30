@@ -396,7 +396,7 @@ def main(args):
 
     failed_decomposition = []
     final_used_splits_map = {}
-    while need_decompose:
+    if need_decompose:
         decomposed_samples_dir = os.path.join(
             pass_work_dir, "samples" if args.framework == "torch" else "paddle_samples"
         )
@@ -405,6 +405,7 @@ def main(args):
         for model_name, task_info in tasks_map.items():
             original_path = task_info["original_path"]
             split_positions = sorted(list(task_info["split_positions"]))
+
             final_used_splits_map[model_name] = split_positions
 
             rectied_model_path = get_rectfied_model_path(original_path)
@@ -428,14 +429,6 @@ def main(args):
         )
         if failed_decomposition:
             print(f"[WARN] {len(failed_decomposition)} models failed to decompose.")
-
-        if not failed_decomposition and num_decomposed_samples == len(tasks_map):
-            need_decompose = True
-            shutil.rmtree(decomposed_samples_dir)
-            os.makedirs(decomposed_samples_dir, exist_ok=True)
-            current_max_size = max(1, current_max_size // 2)
-        else:
-            need_decompose = False
 
     # --- Step 4: Testing ---
     if task_controller.task_scheduler["run_evaluation"]:

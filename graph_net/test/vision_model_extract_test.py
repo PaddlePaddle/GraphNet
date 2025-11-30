@@ -30,9 +30,11 @@ def extract_visio_graph(model_name: str, model_path: str):
 
     # 使用torch.hub下载模型
     # 相关使用办法见https://docs.pytorch.org/docs/stable/hub.html
-    endpoints = torch.hub.list("pytorch/vision", force_reload=True)
-    print(endpoints)
-    return
+    torch.hub.set_dir("../../../test")  # 缓存目录默认为$TORCH_HOME/hub 如果没有设置环境变量则为 ~/.cache
+    endpoints = torch.hub.list("pytorch/vision")
+    if model_path not in endpoints:
+        print("Model not found")
+        return
     model = torch.hub.load("pytorch/vision", model_path)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -49,7 +51,7 @@ def extract_visio_graph(model_name: str, model_path: str):
 
 if __name__ == "__main__":
     # get parameters from command line
-    workspace_default = os.environ.get("GRAPH_NET_EXTRACT_WORKSPACE", "workspace")
+    workspace_default = os.environ.get("GRAPH_NET_EXTRACT_WORKSPACE", "../../workspace")
 
     parser = argparse.ArgumentParser()
     parser.add_argument(

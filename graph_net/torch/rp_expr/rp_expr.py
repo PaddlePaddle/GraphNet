@@ -369,7 +369,7 @@ class LetsListTokenRpExpr(TokenRpExpr):
         segments = [
             token_tensor[start:end]
             for consecutive_tensor in consecutive_tensors
-            for start, end in [get_range(int(consecutive_tensor.size(0)))]
+            for start, end in [get_range(len(consecutive_tensor))]
         ]
 
         return segments

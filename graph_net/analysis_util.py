@@ -43,6 +43,9 @@ def detect_sample_status(log_text: str) -> str:
             shape_match = True
         elif "[DataType]" in line and "match:True" in line:
             type_match = True
+        else:
+            # Do nothing
+            pass
 
     if any("Exception:" in line or "Error:" in line for line in lines):
         runtime_fail = True
@@ -166,30 +169,29 @@ def parse_logs_to_data(log_file: str) -> list:
 
     samples, current_lines, processing_lines = [], [], []
 
-    for line in lines:
-        if "[Processing]" in line:
-            if current_lines:  # Process previous sample
-                data = parse_single_sample_log_to_data(current_lines)
-                # Find matching processing line for model_path
-                for p_line in processing_lines:
-                    if data.get("configuration", {}).get("model") in p_line:
-                        data["model_path"] = p_line.split()[-1]
-                        break
-                samples.append(data)
-
-            processing_lines.append(line)
-            current_lines = [line]
-        elif current_lines:
-            current_lines.append(line)
-
-    # Process final sample
-    if current_lines:
+    def process_a_sample():
         data = parse_single_sample_log_to_data(current_lines)
         for p_line in processing_lines:
             if data.get("configuration", {}).get("model") in p_line:
                 data["model_path"] = p_line.split()[-1]
                 break
         samples.append(data)
+
+    for line in lines:
+        if not "[Processing]" in line:
+            if current_lines:
+                current_lines.append(line)
+            continue
+
+        if current_lines:
+            process_a_sample()
+
+        processing_lines.append(line)
+        current_lines = [line]
+
+    # Process final sample
+    if current_lines:
+        process_a_sample()
 
     print(f"Parsed {len(samples)} samples from {log_file}")
     return samples

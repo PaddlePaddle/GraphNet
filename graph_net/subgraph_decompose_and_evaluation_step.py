@@ -303,11 +303,9 @@ def main(args):
             "[Analysis] Refining split_positions based on previous incorrect models ..."
         )
         for subgraph_path in prev_incorrect_subgraphs:
-            print(f"- subgraph_path: {subgraph_path}")
             model_name_with_subgraph_idx = subgraph_path.rstrip("/").split(os.sep)[-1]
             model_name = "_".join(model_name_with_subgraph_idx.split("_")[:-1])
             subgraph_idx = int(model_name_with_subgraph_idx.split("_")[-1])
-            print(f"- model_name: {model_name}, subgraph_idx: {subgraph_idx}")
 
             assert model_name in prev_active_models_map
             active_models_map_for_save[model_name] = prev_active_models_map[model_name]
@@ -404,6 +402,7 @@ def main(args):
             max_subgraph_size = max(1, max_subgraph_size // 2)
         else:
             need_decompose = False
+        print()
 
     if failed_decomposition:
         print(f"[WARN] {len(failed_decomposition)} models failed to decompose.")

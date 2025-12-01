@@ -39,10 +39,10 @@ def detect_sample_status(log_text: str) -> str:
             eager_success = True
         elif "[Datatype][compiled]" in line:
             compile_success = True
-        elif "[Shape]" in line and "match:True" in line:
-            shape_match = True
         elif "[DataType]" in line and "match:True" in line:
             type_match = True
+        elif "all_close" in line:
+            shape_match = True
         else:
             # Do nothing
             pass

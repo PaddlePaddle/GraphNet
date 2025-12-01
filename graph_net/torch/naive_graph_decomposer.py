@@ -1,8 +1,5 @@
 import os
 import torch
-import shutil
-from typing import Union, Callable
-from graph_net.torch import utils
 from graph_net.torch.decompose_util import convert_to_submodules_graph
 from graph_net.torch.extractor import GraphExtractor as BuiltinGraphExtractor
 import graph_net.imp_util as imp_util

@@ -1,3 +1,4 @@
+import traceback
 import logging
 import torch
 import torch.fx as fx
@@ -70,7 +71,8 @@ class StaticToDynamicModulePass(torch.nn.Module):
             traced_module = self._create_fx_graph_module(inputs)
             logging.warning("after _create_fx_graph_module")
             ShapeProp(traced_module).propagate(*inputs)
-        except:
+        except Exception as e:
+            traceback.print_exc()
             return False
         return any(
             pass_obj.need_rewrite(traced_module)

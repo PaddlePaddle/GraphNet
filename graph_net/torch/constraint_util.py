@@ -8,7 +8,9 @@ class NaiveDataInputPredicator:
         self.config = config
 
     def __call__(self, model_path, input_var_name: str) -> bool:
-        return not ("_self_" in input_var_name)
+        return not (
+            "_self_" in input_var_name or "_instance_modules_" in input_var_name
+        )
 
 
 class ModelRunnablePredicator:

@@ -1,18 +1,11 @@
-from . import utils
 import argparse
-import importlib.util
-import inspect
 from graph_net.imp_util import load_module
-import torch
-import logging
-from pathlib import Path
-from typing import Type, Any
 import sys
 import json
 import base64
-from contextlib import contextmanager
 
 
+# added
 def _load_class_from_file(file_path, class_name):
     module = load_module(file_path)
     return getattr(module, class_name)
@@ -52,6 +45,7 @@ def main(args):
         print(e)
 
 
+# dsd
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="load and run model")
     parser.add_argument(

@@ -17,4 +17,4 @@ EOF
 )
 CHECKER_CONFIG=$(echo $checker_config_json_str | base64 -w 0)
 
-python3 -m graph_net.torch.check_model_fusability --model-path $GRAPH_NET_ROOT/../samples/$MODEL_PATH_IN_SAMPLES --checker-config=$CHECKER_CONFIG
+python3 -m graph_net.torch.check_if_a_given_model_is_fully_fusionable --model-path $GRAPH_NET_ROOT/../samples/$MODEL_PATH_IN_SAMPLES --checker-config=$CHECKER_CONFIG

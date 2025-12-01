@@ -178,7 +178,7 @@ def parse_logs_to_data(log_file: str) -> list:
         samples.append(data)
 
     for line in lines:
-        if not "[Processing]" in line:
+        if "[Processing]" not in line:
             if current_lines:
                 current_lines.append(line)
             continue
@@ -418,9 +418,7 @@ def check_sample_correctness(sample: dict, tolerance: int) -> tuple[bool, str]:
 
     # Check correctness based on datatype and tolerance
     performance_data = sample.get("performance", {})
-    datatype_data = performance_data.get("datatype", {})
-    eager_dtypes = datatype_data.get("eager", [])
-    compiled_dtypes = datatype_data.get("compiled", [])
+    eager_dtypes = performance_data.get("datatype", {}).get("eager", [])
 
     # Check all outputs for correctness
     correctness_data = sample.get("correctness", {})

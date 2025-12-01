@@ -56,7 +56,7 @@ def get_device_utilization(device_id, device_count, synchronizer_func):
                 cmd = [
                     "nvidia-smi",
                     f"--id={selected_gpu_id}",
-                    f"--query-gpu=index,gpu_uuid,utilization.gpu,memory.used,memory.total",
+                    "--query-gpu=index,gpu_uuid,utilization.gpu,memory.used,memory.total",
                     "--format=csv,noheader,nounits",
                 ]
                 output = subprocess.check_output(cmd).decode().strip()
@@ -78,7 +78,7 @@ def get_device_utilization(device_id, device_count, synchronizer_func):
             cmd = [
                 "nvidia-smi",
                 f"--id={selected_gpu_id}",
-                f"--query-compute-apps=gpu_uuid,pid,used_memory",
+                "--query-compute-apps=gpu_uuid,pid,used_memory",
                 "--format=csv,noheader,nounits",
             ]
             output = subprocess.check_output(cmd).decode().strip()
@@ -126,14 +126,14 @@ def get_model_name(model_path):
 
     if model_name is None:
         fields = model_path.split(os.sep)
-        pattern = rf"^subgraph(_\d+)?$"
+        pattern = r"^subgraph(_\d+)?$"
         model_name = fields[-2] if re.match(pattern, fields[-1]) else fields[-1]
     return model_name
 
 
 def get_subgraph_tag(model_path):
     fields = model_path.split(os.sep)
-    pattern = rf"^subgraph(_\d+)?$"
+    pattern = r"^subgraph(_\d+)?$"
     return fields[-1] if re.match(pattern, fields[-1]) else ""
 
 

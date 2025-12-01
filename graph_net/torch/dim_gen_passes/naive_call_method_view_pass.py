@@ -1,19 +1,29 @@
-import torch
 import torch.fx as fx
 from graph_net.torch.dim_gen_passes import DimensionGeneralizationPass
+import os
 
 
 class ConcretePass(DimensionGeneralizationPass):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+    def get_pass_name(cls) -> bool:
+        return os.path.basename(__file__)[:-3]
+
     def need_rewrite(self, traced_module: fx.GraphModule) -> bool:
         if 0 not in self.axes:
             return False
-        for node in traced_module.graph.nodes:
-            if node.op == "call_method" and node.target == "view":
-                return True
-        return False
+        return any(self._node_need_rewrite(node) for node in traced_module.graph.nodes)
+
+    def _node_need_rewrite(self, node) -> bool:
+        if not (node.op == "call_method"):
+            return False
+        if not (node.target == "view"):
+            return False
+        print(f"{self.dim=} {node.args[1:]=}")
+        if self.dim not in node.args[1:]:
+            return False
+        return True
 
     def rewrite(self, traced_module: fx.GraphModule) -> fx.GraphModule:
         """

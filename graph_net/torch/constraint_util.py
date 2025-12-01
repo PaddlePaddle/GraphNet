@@ -1,5 +1,6 @@
 import sys
 import os
+import graph_net
 
 
 class NaiveDataInputPredicator:
@@ -7,28 +8,33 @@ class NaiveDataInputPredicator:
         self.config = config
 
     def __call__(self, model_path, input_var_name: str) -> bool:
-        return not ("_self_" in input_var_name)
+        return not (
+            "_self_" in input_var_name or "_instance_modules_" in input_var_name
+        )
 
 
 class ModelRunnablePredicator:
     def __init__(self, config):
-        self.config = config
+        if config is None:
+            config = {}
+
+        decorator_config = {"use_dummy_inputs": True}
+        self.predicator = RunModelPredicator(decorator_config)
 
     def __call__(self, model_path):
-        cmd = f"{sys.executable} -m graph_net.torch.run_model --model-path {model_path}"
-        return os.system(cmd) == 0
+        return self.predicator(model_path)
 
 
 class ShapePropagatablePredicator:
     def __init__(self, config=None):
         if config is None:
             config = {}
-        import graph_net
 
         graph_net_root = os.path.dirname(graph_net.__file__)
         decorator_config = {
             "decorator_path": f"{graph_net_root}/torch/shape_prop.py",
             "decorator_class_name": "ShapePropagate",
+            "use_dummy_inputs": True,
         }
         self.predicator = RunModelPredicator(decorator_config)
 

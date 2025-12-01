@@ -10,6 +10,7 @@ import math
 import inspect
 import argparse
 import importlib
+import logging
 
 kLiteralTensorSize = 64
 
@@ -28,6 +29,8 @@ def apply_templates(forward_code: str) -> str:
 def get_limited_precision_float_str(value):
     if not isinstance(value, float):
         return value
+    if math.isnan(value):
+        return "float('nan')"
     return f"{value:.3f}"
 
 
@@ -215,14 +218,31 @@ def load_converted_from_text(file_path):
 
 
 def convert_tensor_meta_attrs_list_to_named_tensors(tensor_meta_attrs_list):
-    return [
-        (name, tensor)
-        for tensors_wrapper in convert_tensor_meta_attrs_list_to_tensors_wrappers(
-            tensor_meta_attrs_list
-        )
-        for name in [tensors_wrapper["name"]]
-        for tensor in [replay_tensor(tensors_wrapper)]
-    ]
+    tensors_wrappers = convert_tensor_meta_attrs_list_to_tensors_wrappers(
+        tensor_meta_attrs_list
+    )
+    ret = []
+    for i, tensors_wrapper in enumerate(tensors_wrappers):
+        name = tensors_wrapper["name"]
+        # shape = tensors_wrapper["info"]['shape']
+        # logging.warning(f"before replay_tensor {i=} {shape=}")
+        tensor = replay_tensor(tensors_wrapper)
+        # logging.warning(f"after replay_tensor {i=} {shape=}")
+        ret.append((name, tensor))
+    return ret
+
+
+def get_dummy_named_tensors(tensor_meta_attrs_list):
+    tensors_wrappers = convert_tensor_meta_attrs_list_to_tensors_wrappers(
+        tensor_meta_attrs_list
+    )
+    ret = []
+    for i, tensors_wrapper in enumerate(tensors_wrappers):
+        name = tensors_wrapper["name"]
+        # shape = tensors_wrapper["info"]['shape']
+        tensor = get_dummy_tensor(tensors_wrapper)
+        ret.append((name, tensor))
+    return ret
 
 
 def convert_meta_classes_to_tensors(file_path):
@@ -239,7 +259,7 @@ def convert_meta_classes_to_tensors(file_path):
 
 
 def convert_tensor_meta_attrs_list_to_tensors_wrappers(tensor_meta_attrs_list):
-    for attrs in tensor_meta_attrs_list:
+    for i, attrs in enumerate(tensor_meta_attrs_list):
         data_value = None
         data_type = getattr(torch, attrs.get("dtype", "torch.float").split(".")[-1])
         shape = attrs.get("shape", [])
@@ -268,7 +288,7 @@ def convert_tensor_meta_attrs_list_to_tensors_wrappers(tensor_meta_attrs_list):
                 raise ValueError("Unimplemented")
             else:
                 data_value = torch.tensor(attrs["data"], dtype=data_type).reshape(
-                    attrs.get("shape"), []
+                    attrs.get("shape", [])
                 )
         info_dict = {
             "shape": attrs.get("shape", []),
@@ -341,6 +361,17 @@ def replay_tensor(info):
         tensor = torch.clamp(tensor, min=-100.0, max=100.0)
 
     return tensor
+
+
+def get_dummy_tensor(info):
+    name = info["name"]
+    device = info["info"]["device"]
+    dtype = info["info"]["dtype"]
+    shape = info["info"]["shape"]
+
+    if "data" in info and info["data"] is not None:
+        return info["data"].to(device)
+    return torch.empty(shape, dtype=dtype, device=device)
 
 
 def modify_code_by_device(code, new_device_str):

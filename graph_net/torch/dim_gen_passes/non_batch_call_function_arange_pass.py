@@ -2,11 +2,15 @@ import torch
 import torch.fx as fx
 from graph_net.torch.dim_gen_passes import DimensionGeneralizationPass
 from collections import namedtuple
+import os
 
 
 class ConcretePass(DimensionGeneralizationPass):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def get_pass_name(cls) -> bool:
+        return os.path.basename(__file__)[:-3]
 
     def need_rewrite(self, traced_module: fx.GraphModule) -> bool:
         # non batch
@@ -14,20 +18,22 @@ class ConcretePass(DimensionGeneralizationPass):
             return False
         return any(self._node_need_rewrite(node) for node in traced_module.graph.nodes)
 
+    def node_target(self):
+        return torch.arange
+
     def _node_need_rewrite(self, node) -> bool:
-        return (
-            node.op == "call_function"
-            and node.target == torch.arange
-            and len(node.args) >= 2
-            and node.args[0] == 0
-            and node.args[1] == self.dim
-        )
+        if not (node.op == "call_function"):
+            return False
+        if not (node.target == self.node_target()):
+            return False
+        if len(node.args) == 1:
+            return node.args[0] == self.dim
+        elif len(node.args) == 2:
+            return node.args[0] == 0 and node.args[1] == self.dim
+        else:
+            return False
 
     def rewrite(self, traced_module: fx.GraphModule) -> fx.GraphModule:
-        """
-        Fx Pass: Replaces hardcoded constants in 'torch.arange' ops that match an input tensor dimension
-        with a dynamic 'size()' call. The primary goal is to dynamicize the batch size.
-        """
         # Create a new graph to hold the rewritten nodes
         new_graph = fx.Graph()
 
@@ -50,8 +56,8 @@ class ConcretePass(DimensionGeneralizationPass):
                 last_node_axis = NodeAxis(node=new_node, shape_axis=axis)
                 return
 
-        def get_new_node_arg(i, arg):
-            if i != 1:
+        def get_new_node_arg(i, arg, len_args):
+            if not ((len_args == 2 and i == 1) or (len_args == 1 and i == 0)):
                 return val_map[arg] if arg in val_map else arg
             # i == 1
             assert arg == self.dim
@@ -70,12 +76,14 @@ class ConcretePass(DimensionGeneralizationPass):
                 try_reset_last_node_axis(node=node, new_node=new_node)
                 return new_node
 
-            new_arange_args = tuple(
-                get_new_node_arg(i, arg) for i, arg in enumerate(node.args)
+            new_node_args = tuple(
+                get_new_node_arg(i, arg, len(node.args))
+                for i, arg in enumerate(node.args)
             )
 
-            # --- Rebuild the torch.arange node ---
-            new_node = new_graph.call_function(torch.arange, args=new_arange_args)
+            new_node = new_graph.call_function(
+                self.node_target(), args=new_node_args, kwargs=node.kwargs
+            )
 
             return new_node
 

@@ -1,3 +1,4 @@
+import logging
 from graph_net.dynamic_dim_constraints import DynamicDimConstraints
 from contextlib import AbstractContextManager
 from graph_net.imp_util import load_module
@@ -12,6 +13,7 @@ import tempfile
 import shutil
 from pathlib import Path
 import json
+from dataclasses import asdict
 
 
 class UpdateInputTensorConstraints:
@@ -75,7 +77,6 @@ class UpdateInputTensorConstraints:
 
     def __call__(self, model_path):
         model_path = os.path.join(self.config["model_path_prefix"], model_path)
-        print(f"{model_path=}")
         cstr_path = os.path.join(model_path, "input_tensor_constraints.py")
         if (
             self.config["resume"]
@@ -88,6 +89,13 @@ class UpdateInputTensorConstraints:
                 return
 
         tensor_metas = self._get_tensor_metas(model_path)
+        tensor_meta_attrs_list = [asdict(tensor_meta) for tensor_meta in tensor_metas]
+        logging.warning("before create_inputs_by_metas")
+        inputs = self.get_dimension_generalizer().create_inputs_by_metas(
+            module=self.get_model(model_path),
+            tensor_meta_attrs_list=tensor_meta_attrs_list,
+        )
+        logging.warning("after create_inputs_by_metas")
         dyn_dim_cstr = make_dyn_dim_cstr_from_tensor_metas(tensor_metas)
 
         def data_input_predicator(input_var_name):
@@ -95,7 +103,7 @@ class UpdateInputTensorConstraints:
 
         def get_tmp_model_path_ctx_mgr(dim_axes_pairs):
             return self._try_dimension_generalization(
-                dim_axes_pairs, model_path, tensor_metas
+                dim_axes_pairs, model_path, inputs
             )
 
         def get_predicator_is_dyn_dim_cstr_feasible(tmp_model_path):
@@ -128,30 +136,44 @@ class UpdateInputTensorConstraints:
                     )
                     sys.exit(0)
 
-    @contextmanager
-    def _try_dimension_generalization(self, dim_axes_pairs, model_path, tensor_metas):
-        if self.config["dimension_generalizer_filepath"] is None:
-            yield model_path, ()
-            return
-        py_module = load_module(os.path.join(model_path, "model.py"))
-        GraphModule = getattr(py_module, "GraphModule")
-        GraphModule.__graph_net_file_path__ = py_module.__graph_net_file_path__
-        model = GraphModule()
+    def get_dimension_generalizer(self):
+        if hasattr(self, "_dim_generalizer"):
+            return self._dim_generalizer
+        assert self.config["dimension_generalizer_filepath"] is not None
         decorator_cls = getattr(
             load_module(self.config["dimension_generalizer_filepath"]),
             self.config["dimension_generalizer_class_name"],
         )
-        dim_generalizer = decorator_cls(self.config["dimension_generalizer_config"])
-        dim_gen_pass = dim_generalizer(model, dim_axes_pairs)
-        if not dim_gen_pass.need_rewrite():
+        self._dim_generalizer = decorator_cls(
+            self.config["dimension_generalizer_config"]
+        )
+        return self._dim_generalizer
+
+    def get_model(self, model_path):
+        py_module = load_module(os.path.join(model_path, "model.py"))
+        GraphModule = getattr(py_module, "GraphModule")
+        GraphModule.__graph_net_file_path__ = py_module.__graph_net_file_path__
+        return GraphModule()
+
+    @contextmanager
+    def _try_dimension_generalization(self, dim_axes_pairs, model_path, inputs):
+        logging.warning("enter _try_dimension_generalization")
+        if self.config["dimension_generalizer_filepath"] is None:
             yield model_path, ()
             return
-        from dataclasses import asdict
+        model = self.get_model(model_path)
+        dim_generalizer = self.get_dimension_generalizer()
+        dim_gen_pass = dim_generalizer(model, dim_axes_pairs)
+        logging.warning("before need_rewrite")
+        need_rewrite = dim_gen_pass.need_rewrite(inputs)
+        logging.warning("after need_rewrite")
+        if not need_rewrite:
+            yield model_path, ()
+            return
 
-        tensor_meta_attrs_list = [asdict(tensor_meta) for tensor_meta in tensor_metas]
-        graph_module = dim_gen_pass.rewrite_with_tensor_meta_attrs_list(
-            tensor_meta_attrs_list=tensor_meta_attrs_list,
-        )
+        logging.warning("before rewrite")
+        graph_module = dim_gen_pass.rewrite(inputs)
+        logging.warning("after rewrite")
         with tempfile.TemporaryDirectory() as tmp_dir:
             shutil.copytree(Path(model_path), Path(tmp_dir), dirs_exist_ok=True)
             dim_gen_pass.save_graph_module(graph_module, tmp_dir)
@@ -271,20 +293,20 @@ def symbolize_data_input_dims(
     Returns new DynamicDimConstraints if success.
     Returns None if no symbolicable dim .
     """
-    unqiue_dims = []
+    unique_dims = []
     dim2axes = {}
 
     def dumpy_filter_fn(input_name, input_idx, axis, dim):
         if is_data_input(input_name):
             print("data_input", input_name, input_idx, axis, dim)
-            if dim not in unqiue_dims:
-                unqiue_dims.append(dim)
+            if dim not in unique_dims:
+                unique_dims.append(dim)
                 dim2axes[dim] = []
             dim2axes[dim].append(axis)
         # No symbolization by returning False
         return False
 
-    # Collect input dimensions into `unqiue_dims`
+    # Collect input dimensions into `unique_dims`
     assert dyn_dim_cstr.symbolize(dumpy_filter_fn) is None
     total_dim_gen_pass_names = ()
 
@@ -301,7 +323,8 @@ def symbolize_data_input_dims(
             ]
         )
 
-    for i, picked_dim in enumerate(unqiue_dims):
+    for i, picked_dim in enumerate(unique_dims):
+        logging.warning(f"{i=} {picked_dim=}")
         cur_dyn_dim_cstr = copy.deepcopy(dyn_dim_cstr)
 
         def filter_fn(input_name, input_idx, axis, dim):
@@ -318,14 +341,20 @@ def symbolize_data_input_dims(
         if not cur_dyn_dim_cstr.check_delta_symbol2example_value(sym2example_value):
             continue
         dim_axes_pairs = tuple(
-            (dim, axes) for dim in unqiue_dims[: i + 1] for axes in [dim2axes[dim]]
+            (dim, axes) for dim in unique_dims[: i + 1] for axes in [dim2axes[dim]]
         )
         ctx_mgr = dyn_dim_cstr_feasibility_ctx_mgr
+        logging.warning("before dyn_dim_cstr_feasibility_ctx_mgr")
         with ctx_mgr(dim_axes_pairs) as dyn_dim_cstr_feasibility:
+            logging.warning("enter dyn_dim_cstr_feasibility_ctx_mgr")
             tmp_dyn_dim_cstr = copy.deepcopy(cur_dyn_dim_cstr)
             tmp_dyn_dim_cstr.update_symbol2example_value(sym2example_value)
-            if not dyn_dim_cstr_feasibility(tmp_dyn_dim_cstr):
+            logging.warning("before dyn_dim_cstr_feasibility")
+            is_dyn_dim_cstr_feasible = dyn_dim_cstr_feasibility(tmp_dyn_dim_cstr)
+            logging.warning("after dyn_dim_cstr_feasibility")
+            if not is_dyn_dim_cstr_feasible:
                 continue
             dyn_dim_cstr = cur_dyn_dim_cstr
             append_dim_gen_pass_names(dyn_dim_cstr_feasibility.dim_gen_pass_names)
+            logging.warning("leave dyn_dim_cstr_feasibility_ctx_mgr")
     return dyn_dim_cstr, total_dim_gen_pass_names

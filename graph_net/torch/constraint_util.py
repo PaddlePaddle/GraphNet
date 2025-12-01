@@ -8,7 +8,9 @@ class NaiveDataInputPredicator:
         self.config = config
 
     def __call__(self, model_path, input_var_name: str) -> bool:
-        return not ("_self_" in input_var_name)
+        return not (
+            "_self_" in input_var_name or "_instance_modules_" in input_var_name
+        )
 
 
 class ModelRunnablePredicator:
@@ -16,7 +18,6 @@ class ModelRunnablePredicator:
         if config is None:
             config = {}
 
-        graph_net_root = os.path.dirname(graph_net.__file__)
         decorator_config = {"use_dummy_inputs": True}
         self.predicator = RunModelPredicator(decorator_config)
 

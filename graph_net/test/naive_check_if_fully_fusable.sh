@@ -2,7 +2,7 @@
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(
 os.path.dirname(graph_net.__file__))")
-
+# added
 # input model path
 MODEL_NAME=resnet18d.ra2_in1k
 MODEL_PATH_IN_SAMPLES=/timm/$MODEL_NAME

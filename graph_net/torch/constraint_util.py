@@ -18,7 +18,6 @@ class ModelRunnablePredicator:
         if config is None:
             config = {}
 
-        graph_net_root = os.path.dirname(graph_net.__file__)
         decorator_config = {"use_dummy_inputs": True}
         self.predicator = RunModelPredicator(decorator_config)
 

@@ -1,4 +1,3 @@
-import torch
 import torch.fx as fx
 from graph_net.torch.dim_gen_passes import DimensionGeneralizationPass
 import os
@@ -22,7 +21,7 @@ class ConcretePass(DimensionGeneralizationPass):
         if not (node.target == "view"):
             return False
         print(f"{self.dim=} {node.args[1:]=}")
-        if not (self.dim in node.args[1:]):
+        if self.dim not in node.args[1:]:
             return False
         return True
 

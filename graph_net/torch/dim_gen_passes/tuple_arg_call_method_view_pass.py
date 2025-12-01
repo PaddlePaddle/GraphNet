@@ -1,4 +1,3 @@
-import torch
 import torch.fx as fx
 from graph_net.torch.dim_gen_passes import DimensionGeneralizationPass
 import os
@@ -25,7 +24,7 @@ class ConcretePass(DimensionGeneralizationPass):
             return False
         if not (isinstance(node.args[1], tuple)):
             return False
-        if not (self.dim in node.args[1]):
+        if self.dim not in node.args[1]:
             return False
         return True
 

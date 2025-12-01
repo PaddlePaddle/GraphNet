@@ -1,8 +1,7 @@
 import os
 import re
-import numpy as np
+import sys
 from scipy.stats import gmean
-from collections import OrderedDict, defaultdict
 from graph_net.config.datatype_tolerance_config import get_precision
 
 
@@ -265,7 +264,7 @@ def scan_all_folders(benchmark_path: str) -> dict:
         print(f"Detected log file: '{benchmark_path}'")
         samples = parse_logs_to_data(benchmark_path)
         if not samples:
-            print(f"  - No valid data found in log file.")
+            print("  - No valid data found in log file.")
             return {}
 
         folder_name = (

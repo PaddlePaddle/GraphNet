@@ -88,7 +88,7 @@ def print_verification_result(
         )
     else:
         print(
-            f"t={tolerance:3d}: MISMATCH - Microscopic: {microscopic_es:.6f}, Aggregated: {aggregated_es:.6f}, Diff: {diff:.2e} ({relative_diff*100:.4f}%)"
+            f"t={tolerance:3d}: MISMATCH - Microscopic: {microscopic_es:.6f}, Aggregated: {aggregated_es:.6f}, Diff: {diff:.2e} ({relative_diff * 100:.4f}%)"
         )
 
 
@@ -110,9 +110,9 @@ def get_verified_aggregated_es_values(es_scores: dict, folder_name: str) -> dict
     verified_es_values = {}
     mismatches = []
 
-    print(f"\n{'='*80}")
+    print(f"\n{'=' * 80}")
     print(f"Verifying Aggregated/Microscopic Consistency for '{folder_name}'")
-    print(f"{'='*80}")
+    print(f"{'=' * 80}")
 
     for tolerance, microscopic_es in es_scores.items():
         aggregated_es = aggregated_results.get(tolerance)
@@ -136,21 +136,21 @@ def get_verified_aggregated_es_values(es_scores: dict, folder_name: str) -> dict
         elif not is_matched:
             mismatches.append(
                 f"t={tolerance}: Mismatch - Microscopic={microscopic_es:.6f}, "
-                f"Aggregated={aggregated_es:.6f}, Diff={diff:.2e} ({relative_diff*100:.4f}%)"
+                f"Aggregated={aggregated_es:.6f}, Diff={diff:.2e} ({relative_diff * 100:.4f}%)"
             )
         else:
             verified_es_values[tolerance] = microscopic_es
 
     if mismatches:
         error_msg = (
-            f"\n{'='*80}\n"
+            f"\n{'=' * 80}\n"
             f"ERROR: Aggregated and microscopic results do not match for '{folder_name}'!\n"
-            f"{'='*80}\n"
+            f"{'=' * 80}\n"
             f"Mismatches:\n"
             + "\n".join(f"  - {mismatch}" for mismatch in mismatches)
             + f"\n\nCalculation validation failed. Please verify the calculation logic "
             f"using verify_aggregated_params.py\n"
-            f"{'='*80}\n"
+            f"{'=' * 80}\n"
         )
         print(error_msg)
         raise AssertionError(error_msg)
@@ -158,7 +158,7 @@ def get_verified_aggregated_es_values(es_scores: dict, folder_name: str) -> dict
     print(
         f"\nSUCCESS: All aggregated and microscopic results match for '{folder_name}'."
     )
-    print(f"{'='*80}\n")
+    print(f"{'=' * 80}\n")
     return verified_es_values
 
 

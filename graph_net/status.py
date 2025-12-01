@@ -28,7 +28,7 @@ def main():
         prog="python -m graph_net.status",
         description="List contents of the $GRAPH_NET_EXTRACT_WORKSPACE directory (like ls)",
     )
-    args = parser.parse_args()
+    args = parser.parse_args()  # noqa: F841
 
     ws = os.environ.get("GRAPH_NET_EXTRACT_WORKSPACE")
     if not ws:

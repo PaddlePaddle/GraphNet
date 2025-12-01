@@ -374,12 +374,12 @@ def generate_refined_tasks(base_output_dir, current_pass_id, default_max_size):
     return tasks_map, active_models_map_for_save, max_subgraph_size
 
 
-def execute_decomposition_phase(tasks_map, framework, pass_work_dir, should_run):
+def execute_decomposition_phase(tasks_map, framework, pass_work_dir):
     """Executes the decomposition phase (Phase 1)."""
     failed_decomposition = []
     final_used_splits_map = {}
 
-    if not should_run or not tasks_map:
+    if not tasks_map:
         return failed_decomposition, final_used_splits_map
 
     print("\n--- Phase 1: Decomposition ---", flush=True)
@@ -457,7 +457,7 @@ def main(args):
     print(f"[INFO] Current Subgraph Size: {real_subgraph_size}")
     print(f"[INFO] Models to Process: {len(tasks_map)}")
 
-    if not tasks_map and current_pass_id > 0:
+    if not tasks_map:
         print("[FINISHED] No models need processing.")
         sys.exit(0)
 
@@ -467,12 +467,12 @@ def main(args):
         os.makedirs(pass_work_dir, exist_ok=True)
 
     # --- Step 3: Decomposition ---
-    failed_decomposition, final_used_splits_map = execute_decomposition_phase(
-        tasks_map,
-        args.framework,
-        pass_work_dir,
-        task_controller.task_scheduler["run_decomposer"],
-    )
+    failed_decomposition = []
+    final_used_splits_map = {}
+    if task_controller.task_scheduler["run_decomposer"]:
+        failed_decomposition, final_used_splits_map = execute_decomposition_phase(
+            tasks_map, args.framework, pass_work_dir
+        )
 
     # --- Step 4: Testing ---
     pass_log_path = os.path.join(pass_work_dir, "batch_test_result.log")

@@ -9,7 +9,7 @@ repos:
   rev: v0.14.4
   hooks:
     - id: ruff-check
-      args: [--fix, --exit-non-zero-on-fix, --no-cache]
+      args: [--fix, --exit-non-zero-on-fix, --no-cache, --exclude=samples]
 
 - repo: https://github.com/Lucas-C/pre-commit-hooks.git
   rev: v1.5.1

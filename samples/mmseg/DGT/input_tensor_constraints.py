@@ -1,0 +1,1030 @@
+from sympy import Symbol
+
+S0 = Symbol("S0")
+
+dynamic_dim_constraint_symbols = [S0]
+
+dynamic_dim_constraint_symbol2example_value = {S0: 512}
+
+dynamic_dim_constraint_relations = []
+
+dynamic_dim_constraint_input_shapes = [
+    ([1, 3, S0, S0], "L_inputs_"),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_0_modules_attn_modules_attn_modules_out_proj_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_backbone_modules_layers_modules_0_modules_attn_modules_attn_modules_out_proj_parameters_weight_",
+    ),
+    (
+        [2304],
+        "L_self_modules_backbone_modules_layers_modules_0_modules_attn_modules_attn_parameters_in_proj_bias_",
+    ),
+    (
+        [2304, 768],
+        "L_self_modules_backbone_modules_layers_modules_0_modules_attn_modules_attn_parameters_in_proj_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_backbone_modules_layers_modules_0_modules_ffn_modules_layers_modules_0_modules_0_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_backbone_modules_layers_modules_0_modules_ffn_modules_layers_modules_0_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_0_modules_ffn_modules_layers_modules_1_parameters_bias_",
+    ),
+    (
+        [768, 3072],
+        "L_self_modules_backbone_modules_layers_modules_0_modules_ffn_modules_layers_modules_1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_0_modules_ln1_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_0_modules_ln1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_0_modules_ln2_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_0_modules_ln2_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_10_modules_attn_modules_attn_modules_out_proj_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_backbone_modules_layers_modules_10_modules_attn_modules_attn_modules_out_proj_parameters_weight_",
+    ),
+    (
+        [2304],
+        "L_self_modules_backbone_modules_layers_modules_10_modules_attn_modules_attn_parameters_in_proj_bias_",
+    ),
+    (
+        [2304, 768],
+        "L_self_modules_backbone_modules_layers_modules_10_modules_attn_modules_attn_parameters_in_proj_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_backbone_modules_layers_modules_10_modules_ffn_modules_layers_modules_0_modules_0_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_backbone_modules_layers_modules_10_modules_ffn_modules_layers_modules_0_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_10_modules_ffn_modules_layers_modules_1_parameters_bias_",
+    ),
+    (
+        [768, 3072],
+        "L_self_modules_backbone_modules_layers_modules_10_modules_ffn_modules_layers_modules_1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_10_modules_ln1_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_10_modules_ln1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_10_modules_ln2_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_10_modules_ln2_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_11_modules_attn_modules_attn_modules_out_proj_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_backbone_modules_layers_modules_11_modules_attn_modules_attn_modules_out_proj_parameters_weight_",
+    ),
+    (
+        [2304],
+        "L_self_modules_backbone_modules_layers_modules_11_modules_attn_modules_attn_parameters_in_proj_bias_",
+    ),
+    (
+        [2304, 768],
+        "L_self_modules_backbone_modules_layers_modules_11_modules_attn_modules_attn_parameters_in_proj_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_backbone_modules_layers_modules_11_modules_ffn_modules_layers_modules_0_modules_0_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_backbone_modules_layers_modules_11_modules_ffn_modules_layers_modules_0_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_11_modules_ffn_modules_layers_modules_1_parameters_bias_",
+    ),
+    (
+        [768, 3072],
+        "L_self_modules_backbone_modules_layers_modules_11_modules_ffn_modules_layers_modules_1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_11_modules_ln1_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_11_modules_ln1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_11_modules_ln2_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_11_modules_ln2_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_1_modules_attn_modules_attn_modules_out_proj_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_backbone_modules_layers_modules_1_modules_attn_modules_attn_modules_out_proj_parameters_weight_",
+    ),
+    (
+        [2304],
+        "L_self_modules_backbone_modules_layers_modules_1_modules_attn_modules_attn_parameters_in_proj_bias_",
+    ),
+    (
+        [2304, 768],
+        "L_self_modules_backbone_modules_layers_modules_1_modules_attn_modules_attn_parameters_in_proj_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_backbone_modules_layers_modules_1_modules_ffn_modules_layers_modules_0_modules_0_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_backbone_modules_layers_modules_1_modules_ffn_modules_layers_modules_0_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_1_modules_ffn_modules_layers_modules_1_parameters_bias_",
+    ),
+    (
+        [768, 3072],
+        "L_self_modules_backbone_modules_layers_modules_1_modules_ffn_modules_layers_modules_1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_1_modules_ln1_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_1_modules_ln1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_1_modules_ln2_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_1_modules_ln2_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_2_modules_attn_modules_attn_modules_out_proj_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_backbone_modules_layers_modules_2_modules_attn_modules_attn_modules_out_proj_parameters_weight_",
+    ),
+    (
+        [2304],
+        "L_self_modules_backbone_modules_layers_modules_2_modules_attn_modules_attn_parameters_in_proj_bias_",
+    ),
+    (
+        [2304, 768],
+        "L_self_modules_backbone_modules_layers_modules_2_modules_attn_modules_attn_parameters_in_proj_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_backbone_modules_layers_modules_2_modules_ffn_modules_layers_modules_0_modules_0_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_backbone_modules_layers_modules_2_modules_ffn_modules_layers_modules_0_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_2_modules_ffn_modules_layers_modules_1_parameters_bias_",
+    ),
+    (
+        [768, 3072],
+        "L_self_modules_backbone_modules_layers_modules_2_modules_ffn_modules_layers_modules_1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_2_modules_ln1_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_2_modules_ln1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_2_modules_ln2_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_2_modules_ln2_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_3_modules_attn_modules_attn_modules_out_proj_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_backbone_modules_layers_modules_3_modules_attn_modules_attn_modules_out_proj_parameters_weight_",
+    ),
+    (
+        [2304],
+        "L_self_modules_backbone_modules_layers_modules_3_modules_attn_modules_attn_parameters_in_proj_bias_",
+    ),
+    (
+        [2304, 768],
+        "L_self_modules_backbone_modules_layers_modules_3_modules_attn_modules_attn_parameters_in_proj_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_backbone_modules_layers_modules_3_modules_ffn_modules_layers_modules_0_modules_0_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_backbone_modules_layers_modules_3_modules_ffn_modules_layers_modules_0_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_3_modules_ffn_modules_layers_modules_1_parameters_bias_",
+    ),
+    (
+        [768, 3072],
+        "L_self_modules_backbone_modules_layers_modules_3_modules_ffn_modules_layers_modules_1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_3_modules_ln1_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_3_modules_ln1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_3_modules_ln2_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_3_modules_ln2_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_4_modules_attn_modules_attn_modules_out_proj_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_backbone_modules_layers_modules_4_modules_attn_modules_attn_modules_out_proj_parameters_weight_",
+    ),
+    (
+        [2304],
+        "L_self_modules_backbone_modules_layers_modules_4_modules_attn_modules_attn_parameters_in_proj_bias_",
+    ),
+    (
+        [2304, 768],
+        "L_self_modules_backbone_modules_layers_modules_4_modules_attn_modules_attn_parameters_in_proj_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_backbone_modules_layers_modules_4_modules_ffn_modules_layers_modules_0_modules_0_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_backbone_modules_layers_modules_4_modules_ffn_modules_layers_modules_0_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_4_modules_ffn_modules_layers_modules_1_parameters_bias_",
+    ),
+    (
+        [768, 3072],
+        "L_self_modules_backbone_modules_layers_modules_4_modules_ffn_modules_layers_modules_1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_4_modules_ln1_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_4_modules_ln1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_4_modules_ln2_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_4_modules_ln2_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_5_modules_attn_modules_attn_modules_out_proj_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_backbone_modules_layers_modules_5_modules_attn_modules_attn_modules_out_proj_parameters_weight_",
+    ),
+    (
+        [2304],
+        "L_self_modules_backbone_modules_layers_modules_5_modules_attn_modules_attn_parameters_in_proj_bias_",
+    ),
+    (
+        [2304, 768],
+        "L_self_modules_backbone_modules_layers_modules_5_modules_attn_modules_attn_parameters_in_proj_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_backbone_modules_layers_modules_5_modules_ffn_modules_layers_modules_0_modules_0_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_backbone_modules_layers_modules_5_modules_ffn_modules_layers_modules_0_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_5_modules_ffn_modules_layers_modules_1_parameters_bias_",
+    ),
+    (
+        [768, 3072],
+        "L_self_modules_backbone_modules_layers_modules_5_modules_ffn_modules_layers_modules_1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_5_modules_ln1_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_5_modules_ln1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_5_modules_ln2_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_5_modules_ln2_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_6_modules_attn_modules_attn_modules_out_proj_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_backbone_modules_layers_modules_6_modules_attn_modules_attn_modules_out_proj_parameters_weight_",
+    ),
+    (
+        [2304],
+        "L_self_modules_backbone_modules_layers_modules_6_modules_attn_modules_attn_parameters_in_proj_bias_",
+    ),
+    (
+        [2304, 768],
+        "L_self_modules_backbone_modules_layers_modules_6_modules_attn_modules_attn_parameters_in_proj_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_backbone_modules_layers_modules_6_modules_ffn_modules_layers_modules_0_modules_0_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_backbone_modules_layers_modules_6_modules_ffn_modules_layers_modules_0_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_6_modules_ffn_modules_layers_modules_1_parameters_bias_",
+    ),
+    (
+        [768, 3072],
+        "L_self_modules_backbone_modules_layers_modules_6_modules_ffn_modules_layers_modules_1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_6_modules_ln1_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_6_modules_ln1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_6_modules_ln2_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_6_modules_ln2_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_7_modules_attn_modules_attn_modules_out_proj_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_backbone_modules_layers_modules_7_modules_attn_modules_attn_modules_out_proj_parameters_weight_",
+    ),
+    (
+        [2304],
+        "L_self_modules_backbone_modules_layers_modules_7_modules_attn_modules_attn_parameters_in_proj_bias_",
+    ),
+    (
+        [2304, 768],
+        "L_self_modules_backbone_modules_layers_modules_7_modules_attn_modules_attn_parameters_in_proj_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_backbone_modules_layers_modules_7_modules_ffn_modules_layers_modules_0_modules_0_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_backbone_modules_layers_modules_7_modules_ffn_modules_layers_modules_0_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_7_modules_ffn_modules_layers_modules_1_parameters_bias_",
+    ),
+    (
+        [768, 3072],
+        "L_self_modules_backbone_modules_layers_modules_7_modules_ffn_modules_layers_modules_1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_7_modules_ln1_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_7_modules_ln1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_7_modules_ln2_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_7_modules_ln2_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_8_modules_attn_modules_attn_modules_out_proj_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_backbone_modules_layers_modules_8_modules_attn_modules_attn_modules_out_proj_parameters_weight_",
+    ),
+    (
+        [2304],
+        "L_self_modules_backbone_modules_layers_modules_8_modules_attn_modules_attn_parameters_in_proj_bias_",
+    ),
+    (
+        [2304, 768],
+        "L_self_modules_backbone_modules_layers_modules_8_modules_attn_modules_attn_parameters_in_proj_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_backbone_modules_layers_modules_8_modules_ffn_modules_layers_modules_0_modules_0_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_backbone_modules_layers_modules_8_modules_ffn_modules_layers_modules_0_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_8_modules_ffn_modules_layers_modules_1_parameters_bias_",
+    ),
+    (
+        [768, 3072],
+        "L_self_modules_backbone_modules_layers_modules_8_modules_ffn_modules_layers_modules_1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_8_modules_ln1_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_8_modules_ln1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_8_modules_ln2_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_8_modules_ln2_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_9_modules_attn_modules_attn_modules_out_proj_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_backbone_modules_layers_modules_9_modules_attn_modules_attn_modules_out_proj_parameters_weight_",
+    ),
+    (
+        [2304],
+        "L_self_modules_backbone_modules_layers_modules_9_modules_attn_modules_attn_parameters_in_proj_bias_",
+    ),
+    (
+        [2304, 768],
+        "L_self_modules_backbone_modules_layers_modules_9_modules_attn_modules_attn_parameters_in_proj_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_backbone_modules_layers_modules_9_modules_ffn_modules_layers_modules_0_modules_0_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_backbone_modules_layers_modules_9_modules_ffn_modules_layers_modules_0_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_9_modules_ffn_modules_layers_modules_1_parameters_bias_",
+    ),
+    (
+        [768, 3072],
+        "L_self_modules_backbone_modules_layers_modules_9_modules_ffn_modules_layers_modules_1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_9_modules_ln1_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_9_modules_ln1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_9_modules_ln2_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_backbone_modules_layers_modules_9_modules_ln2_parameters_weight_",
+    ),
+    (
+        [768, 3, 16, 16],
+        "L_self_modules_backbone_modules_patch_embed_modules_projection_parameters_weight_",
+    ),
+    ([1, 1, 768], "L_self_modules_backbone_parameters_cls_token_"),
+    ([1, 197, 768], "L_self_modules_backbone_parameters_pos_embed_"),
+    ([150], "L_self_modules_decode_head_modules_conv_seg_parameters_bias_"),
+    (
+        [150, 256, 1, 1],
+        "L_self_modules_decode_head_modules_conv_seg_parameters_weight_",
+    ),
+    (
+        [256, 96, 3, 3],
+        "L_self_modules_decode_head_modules_convs_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [256, 192, 3, 3],
+        "L_self_modules_decode_head_modules_convs_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [256, 384, 3, 3],
+        "L_self_modules_decode_head_modules_convs_modules_2_modules_conv_parameters_weight_",
+    ),
+    (
+        [256, 768, 3, 3],
+        "L_self_modules_decode_head_modules_convs_modules_3_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_0_modules_project_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 256, 1, 1],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_0_modules_project_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_0_modules_res_conv_unit2_modules_conv1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_0_modules_res_conv_unit2_modules_conv1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_0_modules_res_conv_unit2_modules_conv1_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_0_modules_res_conv_unit2_modules_conv1_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_0_modules_res_conv_unit2_modules_conv1_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_0_modules_res_conv_unit2_modules_conv2_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_0_modules_res_conv_unit2_modules_conv2_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_0_modules_res_conv_unit2_modules_conv2_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_0_modules_res_conv_unit2_modules_conv2_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_0_modules_res_conv_unit2_modules_conv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_project_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 256, 1, 1],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_project_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit1_modules_conv1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit1_modules_conv1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit1_modules_conv1_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit1_modules_conv1_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit1_modules_conv1_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit1_modules_conv2_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit1_modules_conv2_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit1_modules_conv2_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit1_modules_conv2_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit1_modules_conv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit2_modules_conv1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit2_modules_conv1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit2_modules_conv1_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit2_modules_conv1_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit2_modules_conv1_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit2_modules_conv2_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit2_modules_conv2_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit2_modules_conv2_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit2_modules_conv2_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_1_modules_res_conv_unit2_modules_conv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_project_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 256, 1, 1],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_project_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit1_modules_conv1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit1_modules_conv1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit1_modules_conv1_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit1_modules_conv1_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit1_modules_conv1_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit1_modules_conv2_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit1_modules_conv2_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit1_modules_conv2_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit1_modules_conv2_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit1_modules_conv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit2_modules_conv1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit2_modules_conv1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit2_modules_conv1_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit2_modules_conv1_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit2_modules_conv1_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit2_modules_conv2_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit2_modules_conv2_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit2_modules_conv2_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit2_modules_conv2_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_2_modules_res_conv_unit2_modules_conv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_project_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 256, 1, 1],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_project_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit1_modules_conv1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit1_modules_conv1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit1_modules_conv1_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit1_modules_conv1_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit1_modules_conv1_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit1_modules_conv2_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit1_modules_conv2_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit1_modules_conv2_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit1_modules_conv2_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit1_modules_conv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit2_modules_conv1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit2_modules_conv1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit2_modules_conv1_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit2_modules_conv1_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit2_modules_conv1_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit2_modules_conv2_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit2_modules_conv2_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit2_modules_conv2_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit2_modules_conv2_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_fusion_blocks_modules_3_modules_res_conv_unit2_modules_conv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_project_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_decode_head_modules_project_modules_bn_buffers_running_var_",
+    ),
+    ([256], "L_self_modules_decode_head_modules_project_modules_bn_parameters_bias_"),
+    ([256], "L_self_modules_decode_head_modules_project_modules_bn_parameters_weight_"),
+    (
+        [256, 256, 3, 3],
+        "L_self_modules_decode_head_modules_project_modules_conv_parameters_weight_",
+    ),
+    (
+        [96],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_projects_modules_0_modules_conv_parameters_bias_",
+    ),
+    (
+        [96, 768, 1, 1],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_projects_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [192],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_projects_modules_1_modules_conv_parameters_bias_",
+    ),
+    (
+        [192, 768, 1, 1],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_projects_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [384],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_projects_modules_2_modules_conv_parameters_bias_",
+    ),
+    (
+        [384, 768, 1, 1],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_projects_modules_2_modules_conv_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_projects_modules_3_modules_conv_parameters_bias_",
+    ),
+    (
+        [768, 768, 1, 1],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_projects_modules_3_modules_conv_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_readout_projects_modules_0_modules_0_parameters_bias_",
+    ),
+    (
+        [768, 1536],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_readout_projects_modules_0_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_readout_projects_modules_1_modules_0_parameters_bias_",
+    ),
+    (
+        [768, 1536],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_readout_projects_modules_1_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_readout_projects_modules_2_modules_0_parameters_bias_",
+    ),
+    (
+        [768, 1536],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_readout_projects_modules_2_modules_0_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_readout_projects_modules_3_modules_0_parameters_bias_",
+    ),
+    (
+        [768, 1536],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_readout_projects_modules_3_modules_0_parameters_weight_",
+    ),
+    (
+        [96],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_resize_layers_modules_0_parameters_bias_",
+    ),
+    (
+        [96, 96, 4, 4],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_resize_layers_modules_0_parameters_weight_",
+    ),
+    (
+        [192],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_resize_layers_modules_1_parameters_bias_",
+    ),
+    (
+        [192, 192, 2, 2],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_resize_layers_modules_1_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_resize_layers_modules_3_parameters_bias_",
+    ),
+    (
+        [768, 768, 3, 3],
+        "L_self_modules_decode_head_modules_reassemble_blocks_modules_resize_layers_modules_3_parameters_weight_",
+    ),
+]

@@ -1,18 +1,1 @@
-{
-    "framework": "torch",
-    "num_devices_required": 1,
-    "num_nodes_required": 1,
-    "dynamic": false,
-    "model_name": "hf-tiny-model-private/tiny-random-SegformerModel",
-    "source": "huggingface_hub",
-    "original_tag": [
-        "transformers",
-        "pytorch",
-        "tf",
-        "segformer",
-        "image-feature-extraction",
-        "endpoints_compatible",
-        "region:us"
-    ],
-    "heuristic_tag": "other"
-}
+{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "model_name": "hf-tiny-model-private/tiny-random-SegformerModel", "source": "huggingface_hub", "original_tag": ["transformers", "pytorch", "tf", "segformer", "image-feature-extraction", "endpoints_compatible", "region:us"], "heuristic_tag": "other", "dimension_generalization_passes": []}

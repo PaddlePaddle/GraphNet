@@ -3,6 +3,7 @@ import sys
 import re
 import json
 import base64
+import shutil
 import argparse
 import subprocess
 import glob
@@ -169,8 +170,8 @@ def run_decomposer(
         json.dumps(decorator_config).encode()
     ).decode()
 
-    print(f"[Decomposing] {model_path}")
-    print(f"[Strategy] split_positions: {split_positions}")
+    print(f"[Decomposing] model_path: {model_path}")
+    print(f"[Decomposing] split_positions: {split_positions}")
 
     cmd = [
         sys.executable,
@@ -227,45 +228,15 @@ def run_evaluation(
         sys.exit(proc.returncode)
 
 
-def reconstruct_subgraph_size(split_positions: List[int]) -> List[tuple]:
+def reconstruct_subgraph_size(split_positions: List[int]) -> List[list]:
     """Reconstructs subgraph size based on sorted split positions."""
-    full_splits = sorted(list(set(split_positions)))
+    deduplicated_splits = list(dict.fromkeys(split_positions))
 
-    subgraph_size = []
-    # Needs at least 2 points to form an subgraph size
-    if len(full_splits) < 2:
-        return []
-
-    for i in range(len(full_splits) - 1):
-        subgraph_size.append((full_splits[i], full_splits[i + 1]))
-
+    subgraph_size = [
+        [deduplicated_splits[i], deduplicated_splits[i + 1]]
+        for i in range(len(deduplicated_splits) - 1)
+    ]
     return subgraph_size
-
-
-def calculate_current_subgraph_size(
-    tasks_map: Dict[str, Dict], fallback_size: int
-) -> int:
-    """Calculates the current subgraph size from generated tasks."""
-    current_subgraph_size = float("inf")
-    found_splits = False
-
-    for _, info in tasks_map.items():
-        splits = sorted(list(info["split_positions"]))
-
-        if len(splits) < 2:
-            continue
-
-        found_splits = True
-        for i in range(len(splits) - 1):
-            diff = splits[i + 1] - splits[i]
-            if diff > 0:
-                current_subgraph_size = min(current_subgraph_size, diff)
-
-    return (
-        int(current_subgraph_size)
-        if found_splits and current_subgraph_size != float("inf")
-        else fallback_size
-    )
 
 
 def calculate_split_positions_for_subgraph(subgraph_size, max_subgraph_size):
@@ -276,8 +247,8 @@ def calculate_split_positions_for_subgraph(subgraph_size, max_subgraph_size):
     end_pos = kMaxGraphSize if end_pos == float("inf") else end_pos
 
     split_positions = list(range(start_pos, end_pos + 1, max_subgraph_size))
-    split_positions = list(dict.fromkeys(split_positions))
-    return split_positions
+    deduplicated_splits = list(dict.fromkeys(split_positions))
+    return deduplicated_splits
 
 
 def main(args):
@@ -298,7 +269,6 @@ def main(args):
     if current_pass_id == 0:
         print(f"[Init] Pass 0: Reading from log file: {args.log_file}")
         initial_failures = get_incorrect_models(args.tolerance, args.log_file)
-        print(f"initial_failures: {initial_failures}")
 
         for model_path in initial_failures:
             model_name = os.path.basename(model_path.rstrip("/"))
@@ -318,19 +288,20 @@ def main(args):
 
         prev_config = load_decompose_config(prev_pass_dir)
         prev_active_models_map = prev_config.get("active_models_map", {})
-        prev_used_splits = prev_config.get("split_positions_map", {})
+        prev_split_positions_map = prev_config.get("split_positions_map", {})
         prev_incorrect_subgraphs = prev_config.get("incorrect_models", [])
 
         # Load previous max size as fallback for calculation
         prev_max_size = prev_config.get("max_subgraph_size", args.max_subgraph_size)
-        max_subgraph_size = prev_max_size // 2
-
-        if not prev_incorrect_subgraphs:
+        if not prev_incorrect_subgraphs or prev_max_size <= 1:
             print("[FINISHED] Debugging completed.")
             sys.exit(0)
 
-        print("[Analysis] Refining splits based on previous incorrect models ...")
+        max_subgraph_size = prev_max_size // 2
 
+        print(
+            "[Analysis] Refining split_positions based on previous incorrect models ..."
+        )
         for subgraph_path in prev_incorrect_subgraphs:
             print(f"- subgraph_path: {subgraph_path}")
             model_name_with_subgraph_idx = subgraph_path.rstrip("/").split(os.sep)[-1]
@@ -342,7 +313,7 @@ def main(args):
             active_models_map_for_save[model_name] = prev_active_models_map[model_name]
 
             # Reconstruct previous subgraph size to locate the failing segment
-            prev_split_positions = sorted(prev_used_splits.get(model_name, []))
+            prev_split_positions = prev_split_positions_map.get(model_name, [])
             subgraph_size = reconstruct_subgraph_size(prev_split_positions)
             assert subgraph_idx < len(
                 subgraph_size
@@ -357,7 +328,7 @@ def main(args):
             else:
                 continue
 
-    print(f"[INFO] max_subgraph_size: {max_subgraph_size}")
+    print(f"[INFO] initial max_subgraph_size: {max_subgraph_size}")
     print(f"[INFO] number of incorrect models: {len(tasks_map)}")
     for model_name, task_info in tasks_map.items():
         original_path = task_info["original_path"]
@@ -383,24 +354,23 @@ def main(args):
 
     failed_decomposition = []
     final_used_splits_map = {}
-    if need_decompose:
+    while need_decompose:
         decomposed_samples_dir = os.path.join(
             pass_work_dir, "samples" if args.framework == "torch" else "paddle_samples"
         )
-        os.makedirs(decomposed_samples_dir, exist_ok=True)
-        print(f"decomposed_samples_dir: {decomposed_samples_dir}")
+        if not os.path.exists(decomposed_samples_dir):
+            os.makedirs(decomposed_samples_dir, exist_ok=True)
+            print(f"decomposed_samples_dir: {decomposed_samples_dir}")
 
         for model_name, task_info in tasks_map.items():
+            print(f"[Decomposing] max_subgraph_size: {max_subgraph_size}")
             original_path = task_info["original_path"]
             split_positions = calculate_split_positions_for_subgraph(
                 task_info["subgraph_size"], max_subgraph_size
             )
-
             final_used_splits_map[model_name] = split_positions
 
             rectied_model_path = get_rectfied_model_path(original_path)
-            print(f"original_path: {original_path}")
-            print(f"rectied_model_path: {rectied_model_path}")
             assert os.path.exists(
                 rectied_model_path
             ), f"{rectied_model_path} does not exist."
@@ -416,11 +386,27 @@ def main(args):
 
         num_decomposed_samples = count_samples(decomposed_samples_dir)
         print(
-            f"- number of graphs: {len(tasks_map)} -> {num_decomposed_samples}",
+            f"[Decomposing] number of graphs: {len(tasks_map)} -> {num_decomposed_samples}",
             flush=True,
         )
-        if failed_decomposition:
-            print(f"[WARN] {len(failed_decomposition)} models failed to decompose.")
+        if (
+            not failed_decomposition
+            and num_decomposed_samples == len(tasks_map)
+            and max_subgraph_size > 1
+        ):
+            need_decompose = True
+            shutil.rmtree(decomposed_samples_dir)
+            os.makedirs(decomposed_samples_dir, exist_ok=True)
+            for model_name, task_info in tasks_map.items():
+                task_info["subgraph_size"][1] = (
+                    task_info["subgraph_size"][0] + max_subgraph_size
+                )
+            max_subgraph_size = max(1, max_subgraph_size // 2)
+        else:
+            need_decompose = False
+
+    if failed_decomposition:
+        print(f"[WARN] {len(failed_decomposition)} models failed to decompose.")
 
     # --- Step 4: Testing ---
     if task_controller.task_scheduler["run_evaluation"]:

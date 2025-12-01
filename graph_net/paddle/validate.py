@@ -36,8 +36,6 @@ def _extract_forward_source(model_path, class_name):
         source = f.read()
 
     tree = ast.parse(source)
-    forward_code = None
-
     for node in tree.body:
         if isinstance(node, ast.ClassDef) and node.name == class_name:
             for fn in node.body:

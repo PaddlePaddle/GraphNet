@@ -1,4 +1,3 @@
-from . import utils
 import argparse
 import importlib.util
 import inspect
@@ -15,6 +14,8 @@ import json
 import random
 import numpy as np
 import platform
+
+from graph_net.torch import utils
 from graph_net.torch.backend.graph_compiler_backend import GraphCompilerBackend
 from graph_net.torch.backend.tvm_backend import TvmBackend
 from graph_net.torch.backend.xla_backend import XlaBackend

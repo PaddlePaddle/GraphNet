@@ -1,10 +1,1 @@
-{
-    "framework": "torch",
-    "num_devices_required": 1,
-    "num_nodes_required": 1,
-    "dynamic": false,
-    "model_name": "NO_VALID_MATCH_FOUND",
-    "source": "huggingface_hub",
-    "original_tag": [],
-    "heuristic_tag": "nlp"
-}
+{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "model_name": "NO_VALID_MATCH_FOUND", "source": "huggingface_hub", "original_tag": [], "heuristic_tag": "nlp", "dimension_generalization_passes": []}

@@ -2,6 +2,18 @@ import torch
 import inspect
 
 
+def _rename_placeholder(name):
+    assert name[:2] == "L_" or name[:2] == "l_", f"{name=}"
+    name = name[2:]
+    if name[0] == "l":
+        name = "L" + name[1:]
+    name = name.replace(
+        "modules_layer_norm_parameters",
+        "modules_LayerNorm_parameters",
+    )
+    return name
+
+
 def parse_sole_graph_module(module, inputs):
     traced_module = None
     traced_sample_inputs = None
@@ -18,14 +30,8 @@ def parse_sole_graph_module(module, inputs):
     for node in traced_module.graph.nodes:
         if node.op != "placeholder":
             continue
-        assert node.target[:2] == "L_" or node.target[:2] == "l_", f"{node.target=}"
-        node.target = node.target[2:]
-        if node.target[0] == "l":
-            node.target = "L" + node.target[1:]
-        assert node.name[:2] == "L_" or node.name[:2] == "l_", f"{node.name=}"
-        node.name = node.name[2:]
-        if node.name[0] == "l":
-            node.name = "L" + node.name[1:]
+        node.target = _rename_placeholder(node.target)
+        node.name = _rename_placeholder(node.name)
 
     def get_input_names_from_signature():
         return inspect.signature(module.forward).parameters
@@ -56,5 +62,26 @@ def parse_sole_graph_module(module, inputs):
             else:
                 break
         traced_module.recompile()
-    assert len(get_diff_input_names()) == 0, f"{get_diff_input_names()=}"
+
+    def get_zip_filter_names():
+        names_from_signature = get_input_names_from_signature()
+        names_from_placeholder = get_input_names_from_placeholder()
+        return list(
+            (i, name_from_signature, name_from_placeholder)
+            for i, name_from_signature, name_from_placeholder in zip(
+                range(len(names_from_signature)),
+                names_from_signature,
+                names_from_placeholder,
+            )
+            if name_from_signature != name_from_placeholder
+        )
+
+    zip_filter_names = get_zip_filter_names()
+
+    def zip_filter_names_str():
+        for triple in zip_filter_names:
+            print(triple)
+        return "<printed before>"
+
+    assert len(zip_filter_names) == 0, f"{zip_filter_names_str()=}"
     return traced_module

@@ -1,18 +1,1 @@
-{
-    "framework": "torch",
-    "num_devices_required": 1,
-    "num_nodes_required": 1,
-    "dynamic": false,
-    "model_name": "Xenova/segformer-b0-finetuned-ade-512-512",
-    "source": "huggingface_hub",
-    "original_tag": [
-        "transformers.js",
-        "onnx",
-        "segformer",
-        "image-segmentation",
-        "base_model:nvidia/segformer-b0-finetuned-ade-512-512",
-        "base_model:quantized:nvidia/segformer-b0-finetuned-ade-512-512",
-        "region:us"
-    ],
-    "heuristic_tag": "computer_vision"
-}
+{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "model_name": "Xenova/segformer-b0-finetuned-ade-512-512", "source": "huggingface_hub", "original_tag": ["transformers.js", "onnx", "segformer", "image-segmentation", "base_model:nvidia/segformer-b0-finetuned-ade-512-512", "base_model:quantized:nvidia/segformer-b0-finetuned-ade-512-512", "region:us"], "heuristic_tag": "computer_vision", "dimension_generalization_passes": []}

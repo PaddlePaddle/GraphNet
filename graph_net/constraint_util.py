@@ -25,7 +25,7 @@ class UpdateInputTensorConstraints:
         self.model_runnable_predicator = self._make_model_runnable_predicator(
             self.config
         )
-        self.num_successful_handled_models = 0
+        self.num_handled_models = 0
 
     def _make_data_input_predicator(self, config):
         module = load_module(config["data_input_predicator_filepath"])
@@ -51,7 +51,7 @@ class UpdateInputTensorConstraints:
         model_path_prefix="",
         resume=False,
         last_model_log_file=None,
-        limits_successfully_handled_models=None,
+        limits_handled_models=None,
     ):
         if data_input_predicator_config is None:
             data_input_predicator_config = {}
@@ -72,7 +72,7 @@ class UpdateInputTensorConstraints:
             "dimension_generalizer_class_name": dimension_generalizer_class_name,
             "dimension_generalizer_config": dimension_generalizer_config,
             "last_model_log_file": last_model_log_file,
-            "limits_successfully_handled_models": limits_successfully_handled_models,
+            "limits_handled_models": limits_handled_models,
         }
 
     def __call__(self, model_path):
@@ -125,16 +125,15 @@ class UpdateInputTensorConstraints:
         )
         self._save_dyn_dim_cstr(dyn_dim_cstr, model_path)
         self._save_dim_gen_pass_names(dim_gen_pass_names, model_path)
-        if len(dyn_dim_cstr.symbols) > 0:
-            self.num_successful_handled_models += 1
-            limits = self.config["limits_successfully_handled_models"]
-            if limits is not None:
-                if self.num_successful_handled_models > limits:
-                    print(
-                        "`num_successful_handled_models` exceeds config `limits_successfully_handled_models`",
-                        file=sys.stderr,
-                    )
-                    sys.exit(0)
+        self.num_handled_models += 1
+        limits = self.config["limits_handled_models"]
+        if limits is not None:
+            if self.num_handled_models >= limits:
+                print(
+                    "`num_handled_models` exceeds config `limits_handled_models`",
+                    file=sys.stderr,
+                )
+                sys.exit(0)
 
     def get_dimension_generalizer(self):
         if hasattr(self, "_dim_generalizer"):
@@ -159,6 +158,7 @@ class UpdateInputTensorConstraints:
     def _try_dimension_generalization(self, dim_axes_pairs, model_path, inputs):
         logging.warning("enter _try_dimension_generalization")
         if self.config["dimension_generalizer_filepath"] is None:
+            self._save_model_to_log_file(model_path)
             yield model_path, ()
             return
         model = self.get_model(model_path)
@@ -168,6 +168,7 @@ class UpdateInputTensorConstraints:
         need_rewrite = dim_gen_pass.need_rewrite(inputs)
         logging.warning("after need_rewrite")
         if not need_rewrite:
+            self._save_model_to_log_file(model_path)
             yield model_path, ()
             return
 
@@ -177,10 +178,13 @@ class UpdateInputTensorConstraints:
         with tempfile.TemporaryDirectory() as tmp_dir:
             shutil.copytree(Path(model_path), Path(tmp_dir), dirs_exist_ok=True)
             dim_gen_pass.save_graph_module(graph_module, tmp_dir)
-            if self.config["last_model_log_file"] is not None:
-                log_file = Path(self.config["last_model_log_file"])
-                shutil.copy(Path(tmp_dir) / "model.py", log_file)
+            self._save_model_to_log_file(tmp_dir)
             yield tmp_dir, dim_gen_pass.get_pass_names()
+
+    def _save_model_to_log_file(self, model_path):
+        if self.config["last_model_log_file"] is not None:
+            log_file = Path(self.config["last_model_log_file"])
+            shutil.copy(Path(model_path) / "model.py", log_file)
 
     def _save_dim_gen_pass_names(self, dim_gen_pass_names, model_path):
         from graph_net.graph_net_json_file_util import kDimensionGeneralizationPasses
@@ -324,7 +328,7 @@ def symbolize_data_input_dims(
         )
 
     for i, picked_dim in enumerate(unique_dims):
-        logging.warning(f"{i=} {picked_dim=}")
+        logging.warning(f"{i=} {picked_dim=} {dim2axes[picked_dim]=}")
         cur_dyn_dim_cstr = copy.deepcopy(dyn_dim_cstr)
 
         def filter_fn(input_name, input_idx, axis, dim):

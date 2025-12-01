@@ -1,4 +1,4 @@
-from sympy import Symbol, Expr, Rel, Eq
+from sympy import Symbol
 
 S0 = Symbol("S0")
 S1 = Symbol("S1")

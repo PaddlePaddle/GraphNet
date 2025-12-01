@@ -1,19 +1,15 @@
+import traceback
 import logging
 import torch
-import torch.fx as fx
 from graph_net.torch.utils import get_dummy_named_tensors
 from torch.fx.passes.shape_prop import ShapeProp
 from graph_net.torch.utils import apply_templates
 from pathlib import Path
 import inspect
-from typing import Any
-from contextlib import contextmanager
-from torch.export import export
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
 from graph_net.torch.fx_graph_cache_util import (
     parse_immutable_model_path_into_sole_graph_module,
 )
-from graph_net.imp_util import load_module
 import os
 
 
@@ -50,12 +46,12 @@ class StaticToDynamicModulePass(torch.nn.Module):
                 "naive_call_method_reshape_pass",
                 "naive_call_method_expand_pass",
                 "non_batch_call_method_expand_pass",
-                "non_batch_call_function_arange_pass",
+                "non_batch_call_function_arange_pass",  # typos: skip
                 "non_batch_call_function_getitem_slice_pass",
                 "non_batch_call_function_full_pass",
                 "non_batch_call_function_full_plus_one_pass",
                 "non_batch_call_function_zeros_pass",
-                "non_batch_call_function_arange_plus_one_pass",
+                "non_batch_call_function_arange_plus_one_pass",  # typos: skip
             )
         return {
             "pass_names": pass_names,
@@ -70,7 +66,8 @@ class StaticToDynamicModulePass(torch.nn.Module):
             traced_module = self._create_fx_graph_module(inputs)
             logging.warning("after _create_fx_graph_module")
             ShapeProp(traced_module).propagate(*inputs)
-        except:
+        except Exception:
+            traceback.print_exc()
             return False
         return any(
             pass_obj.need_rewrite(traced_module)
@@ -110,4 +107,4 @@ class StaticToDynamicModulePass(torch.nn.Module):
         ]
 
     def forward(self, *args, **kwargs):
-        print(f"Do nothing.")
+        print("Do nothing.")

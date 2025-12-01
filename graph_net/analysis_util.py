@@ -167,31 +167,32 @@ def parse_logs_to_data(log_file: str) -> list:
         print(f"No content in {log_file}")
         return []
 
+    model_path = None
     samples, current_lines, processing_lines = [], [], []
 
-    def process_a_sample():
+    def process_a_sample(model_path):
         data = parse_single_sample_log_to_data(current_lines)
-        for p_line in processing_lines:
-            if data.get("configuration", {}).get("model") in p_line:
-                data["model_path"] = p_line.split()[-1]
-                break
+        if data.get("model_path", None) is None and model_path:
+            data["model_path"] = model_path
         samples.append(data)
 
     for line in lines:
-        if "[Processing]" not in line:
+        if "[Processing]" in line:
+            model_path = line.split()[-1]
+        else:
             if current_lines:
                 current_lines.append(line)
             continue
 
         if current_lines:
-            process_a_sample()
+            process_a_sample(model_path)
 
         processing_lines.append(line)
         current_lines = [line]
 
     # Process final sample
     if current_lines:
-        process_a_sample()
+        process_a_sample(model_path)
 
     print(f"Parsed {len(samples)} samples from {log_file}")
     return samples

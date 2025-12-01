@@ -117,4 +117,4 @@ class NaiveDecomposerExtractor(torch.nn.Module):
         if config["post_extract_process_path"] is None:
             return None
         module = imp_util.load_module(config["post_extract_process_path"])
-        return module.PostExtractProcess(config["post_extract_process_path"])
+        return module.GraphFullyFusionable(config["post_extract_process_path"])

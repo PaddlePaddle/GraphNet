@@ -35,14 +35,19 @@ def detect_sample_status(log_text: str) -> str:
 
     # Scan for status and mismatch markers
     for line in lines:
-        if "[Result][status] eager:success" in line:
+        if "[Datatype][eager]" in line:
             eager_success = True
         elif "[Datatype][compiled]" in line:
             compile_success = True
+        elif "[Shape]" in line and "match:True" in line:
+            shape_match = True
         elif "[DataType]" in line and "match:True" in line:
             type_match = True
         elif "all_close" in line:
+            # When there are all_close checking result, the eager and compiled running should be success.
             shape_match = True
+            eager_success = True
+            compile_success = True
         else:
             # Do nothing
             pass
@@ -82,6 +87,7 @@ def parse_single_sample_log_to_data(log_text: str) -> dict:
         lines = log_text
 
     data = {
+        "model_path": None,
         "configuration": {},
         "correctness": {},
         "performance": {
@@ -95,6 +101,7 @@ def parse_single_sample_log_to_data(log_text: str) -> dict:
 
     # Define regex patterns for each type of log line
     patterns = {
+        "processing": re.compile(r"\[Processing\] (.+)"),
         "config": re.compile(r"\[Config\] (\S+): (.+)"),
         "performance": re.compile(r"\[Performance\]\[(\w+)\]: (.+)"),
         "datatype": re.compile(r"\[Datatype\]\[(\w+)\]: (.+)"),
@@ -103,6 +110,11 @@ def parse_single_sample_log_to_data(log_text: str) -> dict:
     }
 
     for line in lines:
+        processing_match = patterns["processing"].search(line)
+        if processing_match:
+            data["model_path"] = line.split()[-1]
+            continue
+
         config_match = patterns["config"].search(line)
         if config_match:
             key, value = config_match.groups()
@@ -167,32 +179,25 @@ def parse_logs_to_data(log_file: str) -> list:
         print(f"No content in {log_file}")
         return []
 
-    model_path = None
-    samples, current_lines, processing_lines = [], [], []
-
-    def process_a_sample(model_path):
+    def process_a_sample(current_lines, samples):
         data = parse_single_sample_log_to_data(current_lines)
-        if data.get("model_path", None) is None and model_path:
-            data["model_path"] = model_path
         samples.append(data)
 
+    samples, current_lines = [], []
     for line in lines:
         if "[Processing]" in line:
-            model_path = line.split()[-1]
-        else:
             if current_lines:
-                current_lines.append(line)
-            continue
+                # parse the logs of the previous sample
+                process_a_sample(current_lines, samples)
+            # clear current_lines of current sample and append the processing line
+            current_lines = [line]
+        else:
+            # append line of current sample
+            current_lines.append(line) if current_lines else None
 
-        if current_lines:
-            process_a_sample(model_path)
-
-        processing_lines.append(line)
-        current_lines = [line]
-
-    # Process final sample
     if current_lines:
-        process_a_sample(model_path)
+        # parse the final sample
+        process_a_sample(current_lines, samples)
 
     print(f"Parsed {len(samples)} samples from {log_file}")
     return samples
@@ -472,11 +477,11 @@ def get_incorrect_models(
                     sample.get("model_path")
                 ) if current_correctness != "correct" else None
             else:
-                iscorrect, err = check_sample_correctness(sample, tolerance)
-                failed_models.add(sample.get("model_path")) if not iscorrect else None
+                is_correct, fail_type = check_sample_correctness(sample, tolerance)
+                failed_models.add(sample.get("model_path")) if not is_correct else None
     else:
         for idx, sample in enumerate(samples):
-            iscorrect, err = check_sample_correctness(sample, tolerance)
-            failed_models.add(sample.get("model_path")) if not iscorrect else None
+            is_correct, fail_type = check_sample_correctness(sample, tolerance)
+            failed_models.add(sample.get("model_path")) if not is_correct else None
 
     return failed_models

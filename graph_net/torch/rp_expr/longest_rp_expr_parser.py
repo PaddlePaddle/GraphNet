@@ -30,6 +30,8 @@ class LongestRpExprParser:
                     token_id2primitive_id
                 )
             ]
+            if not cur_primitive_id_lists:
+                continue
             cur_lets_list_rp_expr, cur_token_id2primitive_id = rp_expr_parser(
                 cur_primitive_id_lists
             )

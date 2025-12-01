@@ -7,7 +7,9 @@ def get_graphnet_root():
 
 
 def is_single_model_dir(model_dir):
-    return os.path.isfile(f"{model_dir}/graph_net.json")
+    return os.path.isfile(f"{model_dir}/graph_net.json") and os.path.isfile(
+        f"{model_dir}/model.py"
+    )
 
 
 def get_recursively_model_path(root_dir):

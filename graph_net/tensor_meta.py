@@ -48,7 +48,7 @@ class TensorMeta:
         return attrs
 
     @classmethod
-    def _get_classes(cls, file_path, name="unamed"):
+    def _get_classes(cls, file_path, name="unnamed"):
         spec = imp.spec_from_file_location("unnamed", file_path)
         unnamed = imp.module_from_spec(spec)
         spec.loader.exec_module(unnamed)

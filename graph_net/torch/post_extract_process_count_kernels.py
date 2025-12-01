@@ -1,6 +1,5 @@
 from graph_net.torch import utils
 import importlib.util
-import shutil
 import torch
 from typing import Type
 from torch.profiler import profile, record_function, ProfilerActivity
@@ -30,25 +29,25 @@ class GraphFullyFusionable:
             model(**state_dict)
         except Exception as e:
             print(f"failed in running model:{e}")
-            print(f"removing: {model_path}")
-            shutil.rmtree(model_path)
+            # print(f"removing: {model_path}")
+            # shutil.rmtree(model_path)
             return False
         # try to compile the model
         try:
             compiled_model = torch.compile(model)
         except Exception as e:
             print(f"failed in compiling model:{e}")
-            print(f"removing: {model_path}")
-            shutil.rmtree(model_path)
+            # print(f"removing: {model_path}")
+            # shutil.rmtree(model_path)
             return False
         compiled_num_of_kernels = count_kernels(compiled_model, state_dict)
         if compiled_num_of_kernels == 1:
             print(model_path, "can be fully integrated")
             return True
         else:
-            print(f"{model_path} can not be fully integrated, to be removed")
-            print(f"removing: {model_path}")
-            shutil.rmtree(model_path)
+            print(f"{model_path} can not be fully integrated")
+            # print(f"removing: {model_path}")
+            # shutil.rmtree(model_path)
             return False
 
 
@@ -84,7 +83,7 @@ def count_kernels(model, sample_inputs) -> int:
         record_shapes=True,
     ) as prof:
         with record_function("model_inference"):
-            output = model(**sample_inputs)
+            _ = model(**sample_inputs)
     events = prof.key_averages()
 
     total_count = 0

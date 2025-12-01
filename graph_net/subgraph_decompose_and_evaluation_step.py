@@ -3,12 +3,10 @@ import sys
 import re
 import json
 import base64
-import shutil
 import argparse
 import subprocess
 import glob
 from typing import List, Set, Dict, Any, Union
-import graph_net
 from graph_net.analysis_util import get_incorrect_models
 from graph_net import path_utils
 
@@ -135,12 +133,12 @@ def save_decompose_config(
 
     with open(config_path, "w") as f:
         json.dump(config, f, indent=4)
-    print(f"[INFO] State saved to: {config_path}")
+    print(f"[INFO] Save state to: {config_path}")
 
 
 def get_model_name_with_subgraph_tag(model_path):
     fields = model_path.rstrip("/").split(os.sep)
-    pattern = rf"^subgraph(_\d+)?$"
+    pattern = r"^subgraph(_\d+)?$"
     return f"{fields[-2]}_{fields[-1]}" if re.match(pattern, fields[-1]) else fields[-1]
 
 
@@ -270,7 +268,7 @@ def calculate_current_subgraph_size(
     )
 
 
-def calculate_split_postions_for_subgraph(subgraph_size):
+def calculate_split_positions_for_subgraph(subgraph_size):
     assert isinstance(subgraph_size, (list, tuple)) and len(subgraph_size) == 2
 
     # Get the specific failing subgraph size [Start, End]
@@ -345,10 +343,10 @@ def main(args):
         max_subgraph_size = prev_max_size
 
         if not prev_incorrect_subgraphs:
-            print(f"[FINISHED] Debugging completed.")
+            print("[FINISHED] Debugging completed.")
             sys.exit(0)
 
-        print(f"[Analysis] Refining splits based on previous incorrect models ...")
+        print("[Analysis] Refining splits based on previous incorrect models ...")
 
         for subgraph_path in prev_incorrect_subgraphs:
             print(f"- subgraph_path: {subgraph_path}")
@@ -367,7 +365,7 @@ def main(args):
                 subgraph_size
             ), f"subgraph_idx {subgraph_idx} is out of bounds for {model_name} (previous split_positions: {prev_split_positions})"
 
-            split_postions = calculate_split_postions_for_subgraph(
+            split_positions = calculate_split_positions_for_subgraph(
                 subgraph_size[subgraph_idx]
             )
             if model_name not in tasks_map:
@@ -375,7 +373,7 @@ def main(args):
                     "subgraph_path": subgraph_path,
                     "original_path": prev_active_models_map[model_name],
                     "subgraph_size": subgraph_size[subgraph_idx],
-                    "split_positions": split_postions,
+                    "split_positions": split_positions,
                 }
             else:
                 continue
@@ -389,7 +387,7 @@ def main(args):
         print(f"- {original_path}")
 
     if not tasks_map:
-        print(f"[FINISHED] No models need processing.")
+        print("[FINISHED] No models need processing.")
         sys.exit(0)
 
     # --- Step 2: Prepare Workspace ---
@@ -473,9 +471,9 @@ def main(args):
         print(f">>> [SUGGESTION] Issues remain (Count: {len(next_round_models)}).")
         print(">>> Please start next round decomposition test (Run this script again).")
     elif next_round_models and real_subgraph_size <= 1:
-        print(f">>> [FAILURE] Minimal granularity reached, but errors persist.")
+        print(">>> [FAILURE] Minimal granularity reached, but errors persist.")
     else:
-        print(f">>> [SUCCESS] Debugging converged.")
+        print(">>> [SUCCESS] Debugging converged.")
     print("=" * 80)
 
 

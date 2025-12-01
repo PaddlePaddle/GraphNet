@@ -3,9 +3,8 @@ import json
 import tempfile
 
 import paddle
-from athena.graphnet_samples import GraphnetSample, RunGeneration
+from athena.graphnet_samples import RunGeneration
 from graph_net import imp_util
-from graph_net.paddle import utils
 
 
 def load_class_from_file(file_path: str, class_name: str):
@@ -167,7 +166,7 @@ class GraphExtractor:
             backend=None,
         )
         static_model.eval()
-        program = static_model.forward.concrete_program.main_program
+        # program = static_model.forward.concrete_program.main_program
         # print(program)
         static_model(**data_dict)
 

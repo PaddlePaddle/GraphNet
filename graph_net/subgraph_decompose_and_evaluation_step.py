@@ -115,7 +115,7 @@ def load_decompose_config(work_dir: str) -> Dict[str, Any]:
 
 
 def save_decompose_config(
-    work_dir: str,
+    workspace: str,
     max_subgraph_size: int,
     tasks_map: Dict[str, Union[int, str, list, dict]],
     incorrect_paths: Union[List[str], Set[str]],
@@ -135,11 +135,11 @@ def save_decompose_config(
         "tasks_map": tasks_map_copy,
         "failed_decomposition_models": list(failed_decomposition_models),
     }
-    config_path = get_decompose_config_path(work_dir)
+    config_path = get_decompose_config_path(workspace)
 
     with open(config_path, "w") as f:
         json.dump(config, f, indent=4)
-    print(f"[INFO] Save state to: {config_path}")
+    print(f"\n[INFO] Save state to: {config_path}")
 
 
 def get_model_name_with_subgraph_tag(model_path):
@@ -153,6 +153,7 @@ def run_decomposer_for_single_model(
     model_path: str,
     output_dir: str,
     split_positions: List[int],
+    log_path: str,
 ) -> bool:
     """Decomposes a single model."""
 
@@ -175,9 +176,9 @@ def run_decomposer_for_single_model(
         json.dumps(decorator_config).encode()
     ).decode()
 
-    print(f"[Decomposition] model_path: {model_path}")
-    print(f"[Decomposition] split_positions: {split_positions}")
-
+    print(
+        f"[Decomposition] model_path: {model_path}, split_positions: {split_positions}"
+    )
     cmd = [
         sys.executable,
         "-m",
@@ -187,26 +188,20 @@ def run_decomposer_for_single_model(
         "--decorator-config",
         decorator_config_b64,
     ]
-    result = subprocess.run(
-        cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-    )
-    # print(result.stdout)
-    if result.returncode != 0:
-        print(
-            f"[ERROR] Decomposition failed for {model_path}\n{result.stderr}",
-            flush=True,
-        )
-        return False
-    return True
+    with open(log_path, "a") as f:
+        result = subprocess.run(cmd, stdout=f, stderr=f, text=True)
+    return result.returncode == 0
 
 
 def run_decomposer_for_multi_models(
-    framework, tasks_map, decomposed_samples_dir, max_subgraph_size
+    framework, tasks_map, decomposed_samples_dir, max_subgraph_size, log_path
 ):
     failed_decomposition = []
 
+    print(
+        f"[Decomposition] max_subgraph_size: {max_subgraph_size}, log_path: {log_path}"
+    )
     for model_name, task_info in tasks_map.items():
-        print(f"[Decomposition] max_subgraph_size: {max_subgraph_size}")
         original_path = task_info["original_path"]
         split_positions = calculate_split_positions_for_subgraph(
             task_info["subgraph_size"], max_subgraph_size
@@ -219,7 +214,11 @@ def run_decomposer_for_multi_models(
         ), f"{rectified_model_path} does not exist."
 
         success = run_decomposer_for_single_model(
-            framework, rectified_model_path, decomposed_samples_dir, split_positions
+            framework,
+            rectified_model_path,
+            decomposed_samples_dir,
+            split_positions,
+            log_path,
         )
         if not success:
             failed_decomposition.append(rectified_model_path)
@@ -227,17 +226,17 @@ def run_decomposer_for_multi_models(
 
 
 def run_evaluation(
-    framework: str, test_cmd_b64: str, work_dir: str, log_path: str
+    framework: str, test_cmd_b64: str, samples_dir: str, log_path: str
 ) -> int:
     """Executes the test command on the batch directory."""
 
     test_config = convert_b64_string_to_json(test_cmd_b64)
     test_module_name = test_config["test_module_name"]
     test_module_arguments = test_config[f"{test_module_name}_arguments"]
-    test_module_arguments["model-path"] = work_dir
+    test_module_arguments["model-path"] = samples_dir
     if test_module_name in ["test_reference_device", "test_target_device"]:
         test_module_arguments["reference-dir"] = os.path.join(
-            work_dir, "reference_device_outputs"
+            samples_dir, "reference_device_outputs"
         )
 
     cmd = [sys.executable, "-m", f"graph_net.{framework}.{test_module_name}"] + [
@@ -251,12 +250,10 @@ def run_evaluation(
 
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
     with open(log_path, "w") as f:
-        proc = subprocess.run(cmd, stdout=f, stderr=subprocess.STDOUT, text=True)
-    if proc.returncode != 0:
-        with open(log_path, "r") as f:
-            content = f.read()
-            print(f"[ERROR] test failed for {work_dir}\n{content}", flush=True)
-        sys.exit(proc.returncode)
+        result = subprocess.run(cmd, stdout=f, stderr=f, text=True)
+    assert (
+        result.returncode == 0
+    ), f"[ERROR] test failed for {samples_dir}, please check the log."
 
 
 def reconstruct_subgraph_size(split_positions: List[int]) -> List[list]:
@@ -288,7 +285,6 @@ def generate_initial_tasks(args):
     initial_failures = get_incorrect_models(args.tolerance, args.log_file)
 
     tasks_map = {}
-
     for model_path in initial_failures:
         model_name = get_model_name_with_subgraph_tag(model_path)
         tasks_map[model_name] = {
@@ -387,8 +383,11 @@ def execute_decomposition_phase(max_subgraph_size, tasks_map, framework, workspa
             os.makedirs(decomposed_samples_dir, exist_ok=True)
             print(f"[Decomposition] decomposed_samples_dir: {decomposed_samples_dir}")
 
+        log_path = os.path.join(
+            workspace, f"log_decompose-max_subgraph_size_{max_subgraph_size}.txt"
+        )
         tasks_map, failed_decomposition = run_decomposer_for_multi_models(
-            framework, tasks_map, decomposed_samples_dir, max_subgraph_size
+            framework, tasks_map, decomposed_samples_dir, max_subgraph_size, log_path
         )
         num_decomposed_samples = count_samples(decomposed_samples_dir)
         print(
@@ -477,9 +476,7 @@ def main(args):
         print("\n--- Phase 3: Analysis ---")
         next_round_models = get_incorrect_models(args.tolerance, pass_log_path)
         print(f"[Analysis] Found {len(next_round_models)} incorrect subgraphs.\n")
-
         print_summary_and_suggestion(next_round_models, max_subgraph_size)
-        print()
 
     # --- Step 5: Save States ---
     save_decompose_config(

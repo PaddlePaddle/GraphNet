@@ -11,6 +11,7 @@ class GraphFullyFusionable:
         self.config = config
 
     def __call__(self, model_path=None):
+        torch._dynamo.reset()
         if model_path is None:
             return False
         # model

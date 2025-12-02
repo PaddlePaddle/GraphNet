@@ -58,7 +58,6 @@ class GraphExtractor:
             for start_pos in range(32 - i):
                 end_pos = start_pos + i
                 self.config["split_positions"] = [start_pos, end_pos]
-                torch._dynamo.reset()
                 self.last_post_process_result = False
                 config = {
                     k: v
@@ -84,11 +83,7 @@ class GraphExtractor:
                 break
         return rewrited_gm
 
-    def get_naive_decomposer_extractor(
-        self,
-        submodule,
-        seq_no,
-    ):
+    def get_naive_decomposer_extractor(self, submodule, seq_no):
         return NaiveDecomposerExtractor(self, submodule, seq_no)
 
 

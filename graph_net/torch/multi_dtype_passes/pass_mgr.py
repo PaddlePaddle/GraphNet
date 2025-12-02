@@ -2,11 +2,18 @@
 Pass manager for dtype conversion passes.
 """
 
-from graph_net.imp_util import load_module
+from __future__ import annotations
+
 import os
+from typing import TYPE_CHECKING
+
+from graph_net.imp_util import load_module
+
+if TYPE_CHECKING:
+    from graph_net.torch.multi_dtype_passes.pass_base import DtypeConversionPass
 
 
-def get_dtype_conversion_pass(pass_name: str) -> "DtypeConversionPass":
+def get_dtype_conversion_pass(pass_name: str) -> type[DtypeConversionPass]:
     """
     Load a dtype conversion pass by name.
 

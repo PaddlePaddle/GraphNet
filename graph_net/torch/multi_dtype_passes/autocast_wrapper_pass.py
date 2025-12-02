@@ -5,8 +5,8 @@ This pass wraps the forward method with torch.autocast context manager
 to handle operators that don't support low-precision computation natively.
 """
 
-import torch
 import torch.fx as fx
+
 from graph_net.torch.multi_dtype_passes.pass_base import DtypeConversionPass
 
 

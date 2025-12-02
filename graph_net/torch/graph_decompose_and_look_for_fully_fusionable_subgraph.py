@@ -1,17 +1,9 @@
 import os
 import torch
 import copy
-import random
 from graph_net.torch.decompose_util import convert_to_submodules_graph
 from graph_net.torch.extractor import GraphExtractor as BuiltinGraphExtractor
 import graph_net.imp_util as imp_util
-
-
-def generate_split_positions(max_pos=32, max_splits=8):
-    num_splits = random.randint(3, max_splits)
-    positions = random.sample(range(1, max_pos), num_splits)
-    positions.sort()
-    return positions
 
 
 class GraphExtractor:
@@ -30,6 +22,7 @@ class GraphExtractor:
         self.placeholder_auto_rename = placeholder_auto_rename
         self.config = self.make_config(**config)
         self.last_post_process_result = False
+        self.decompose_finished = False
 
     def make_config(
         self,
@@ -41,6 +34,7 @@ class GraphExtractor:
         filter_config=None,
         post_extract_process_path=None,
         post_extract_process_class_name=None,
+        max_step=8,
     ):
         for pos in split_positions:
             assert isinstance(
@@ -55,45 +49,46 @@ class GraphExtractor:
             "filter_config": filter_config if filter_config is not None else {},
             "post_extract_process_path": post_extract_process_path,
             "post_extract_process_class_name": post_extract_process_class_name,
+            "max_step": max_step,
         }
 
     def __call__(self, gm: torch.fx.GraphModule, sample_inputs):
-        max_retries = 20
-        for i in range(max_retries):
-            print(f"--- Attempt {i+1} ---")
-            self.last_post_process_result = False
-            config = {
-                k: v
-                for k, v in self.config.items()
-                if k in {"split_positions", "group_head_and_tail", "chain_style"}
-            }
-            print(f"Current Config: {config['split_positions']}")
-
-            gm_to_process = copy.deepcopy(gm)
-
-            rewrited_gm = convert_to_submodules_graph(
-                gm_to_process,
-                submodule_hook=self.get_naive_decomposer_extractor,
-                **config,
-            )
-
-            try:
-                rewrited_gm(*sample_inputs)
-            except Exception as e:
-                print(f"Run failed: {e}")
+        for i in range(self.config["max_step"], -1, -1):
+            start_pos = 0
+            for start_pos in range(32 - i):
+                end_pos = start_pos + i
+                self.config["split_positions"] = [start_pos, end_pos]
+                torch._dynamo.reset()
                 self.last_post_process_result = False
+                config = {
+                    k: v
+                    for k, v in self.config.items()
+                    if k in {"split_positions", "group_head_and_tail", "chain_style"}
+                }
+                print(f"Current Config: {config['split_positions']}")
+                gm_to_process = copy.deepcopy(gm)
+                rewrited_gm = convert_to_submodules_graph(
+                    gm_to_process,
+                    submodule_hook=self.get_naive_decomposer_extractor,
+                    **config,
+                )
+                try:
+                    rewrited_gm(*sample_inputs)
+                except Exception as e:
+                    print(f"Run failed: {e}")
+                    self.last_post_process_result = False
+                if self.last_post_process_result and self.decompose_finished:
+                    print("Success! Subgraph is fully fusionable.")
+                    break
             if self.last_post_process_result:
-                print("Success! Subgraph is fully fusionable.")
                 break
-            else:
-                print("Failed. Generating new split positions...")
-                self.config["split_positions"] = generate_split_positions()
-
-        if i == max_retries - 1:
-            print("failed to find a fully fusionable subgraph")
         return rewrited_gm
 
-    def get_naive_decomposer_extractor(self, submodule, seq_no):
+    def get_naive_decomposer_extractor(
+        self,
+        submodule,
+        seq_no,
+    ):
         return NaiveDecomposerExtractor(self, submodule, seq_no)
 
 
@@ -119,14 +114,16 @@ class NaiveDecomposerExtractor(torch.nn.Module):
         )
 
     def forward(self, *args):
-        print("forward")
         if not self.extracted:
             if self.need_extract(self.submodule, args):
                 self.builtin_extractor(self.submodule, args)
-                success = self._post_extract_process()
-                if success:
-                    print(f"Submodule {self.seq_no} failed fusion check.")
+                if self._post_extract_process() and self.seq_no == 1:
                     self.parent_graph_extractor.last_post_process_result = True
+                    print("biggest fully fusionable subgraph found!!", self.model_name)
+                if self.seq_no == len(
+                    self.parent_graph_extractor.config["split_positions"]
+                ):
+                    self.parent_graph_extractor.decompose_finished = True
             self.extracted = True
         return self.submodule(*args)
 

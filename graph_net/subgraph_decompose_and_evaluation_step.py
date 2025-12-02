@@ -18,6 +18,30 @@ def convert_b64_string_to_json(b64str):
     return json.loads(base64.b64decode(b64str).decode("utf-8"))
 
 
+def get_filtered_incorrect_models(tolerance_args: List[int], log_path: str) -> set:
+    if not os.path.exists(log_path):
+        return set()
+
+    t_start = tolerance_args[0]
+    models_start = set(get_incorrect_models(t_start, log_path))
+
+    if len(tolerance_args) == 1:
+        return models_start
+
+    t_end = tolerance_args[1]
+    models_end = set(get_incorrect_models(t_end, log_path))
+
+    print(f"[Filter] Tolerance Range: {t_start} -> {t_end}")
+    print(
+        f"[Filter] Fail({t_start}): {len(models_start)}, Fail({t_end}): {len(models_end)}"
+    )
+
+    diff_set = models_start - models_end
+    print(f"[Filter] Result (Difference): {len(diff_set)}")
+
+    return diff_set
+
+
 class TaskController:
     def __init__(self, args):
         self.root_output_dir = os.path.abspath(args.output_dir)
@@ -290,7 +314,7 @@ def calculate_split_positions_for_subgraph(subgraph_size, max_subgraph_size):
 def generate_initial_tasks(args):
     """Generates tasks for Pass 0 based on the initial log file."""
     print(f"[Init] Pass 0: Reading from log file: {args.log_file}")
-    initial_failures = get_incorrect_models(args.tolerance, args.log_file)
+    initial_failures = get_filtered_incorrect_models(args.tolerance, args.log_file)
 
     tasks_map = {}
     for model_path in initial_failures:
@@ -487,7 +511,7 @@ def main(args):
     next_round_models = set()
     if task_controller.task_scheduler["post_analysis"]:
         print("\n--- Phase 3: Analysis ---")
-        next_round_models = get_incorrect_models(args.tolerance, pass_log_path)
+        next_round_models = get_filtered_incorrect_models(args.tolerance, pass_log_path)
         print(f"[Analysis] Found {len(next_round_models)} incorrect subgraphs.\n")
         if len(next_round_models) > 0:
             print("[DEBUG] List of detected incorrect models:")
@@ -516,7 +540,11 @@ if __name__ == "__main__":
         "--test-config", type=str, required=True, help="Base64 encoded test config"
     )
     parser.add_argument(
-        "--tolerance", type=int, required=True, help="Tolerance level range [-10, 5)"
+        "--tolerance",
+        type=int,
+        nargs="+",
+        required=True,
+        help="Tolerance level range [-10, 5)",
     )
     parser.add_argument("--max-subgraph-size", type=int, default=4096)
     args = parser.parse_args()

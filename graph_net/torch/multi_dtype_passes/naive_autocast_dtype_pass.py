@@ -5,6 +5,7 @@ This pass wraps the forward method with torch.autocast context manager
 to handle operators that don't support low-precision computation natively.
 """
 
+import torch
 import torch.fx as fx
 
 from graph_net.torch.multi_dtype_passes.pass_base import DtypeConversionPass
@@ -18,13 +19,15 @@ class AutocastWrapperPass(DtypeConversionPass):
     that don't support low precision can still execute.
     """
 
-    def __init__(self, target_dtype: str, device_type: str = "cuda"):
+    def __init__(self, target_dtype: str, device_type: str = None):
         """
         Args:
             target_dtype: Target dtype for autocast
-            device_type: Device type ('cuda' or 'cpu')
+            device_type: Device type ('cuda' or 'cpu'). If None, auto-detect.
         """
         super().__init__(target_dtype, preserve_weights=set())
+        if device_type is None:
+            device_type = "cuda" if torch.cuda.is_available() else "cpu"
         self.device_type = device_type
 
     def get_pass_name(self) -> str:

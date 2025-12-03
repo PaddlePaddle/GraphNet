@@ -1,1 +1,2 @@
 kDimensionGeneralizationPasses = "dimension_generalization_passes"
+kDataTypeGeneralizationPasses = "data_type_generalization_passes"

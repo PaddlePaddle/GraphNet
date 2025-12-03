@@ -30,18 +30,30 @@ class ConcretePass(DtypeConversionPass):
         Check if graph has float32 tensors that need conversion.
         """
         for node in gm.graph.nodes:
-            # Check placeholder nodes (inputs)
-            if node.op == "placeholder":
-                if self._is_float32_tensor(node):
-                    return True
+            if self._node_need_rewrite(node):
+                return True
+        return False
 
-            # Check get_attr nodes (weights)
-            elif node.op == "get_attr":
-                if self._is_float32_tensor(node):
-                    # Only rewrite if not in preserve list
-                    attr_name = node.target
-                    if not self.should_preserve_weight(str(attr_name)):
-                        return True
+    def _node_need_rewrite(self, node: fx.Node) -> bool:
+        """
+        Check if a specific node needs dtype conversion.
+
+        Args:
+            node: FX Node to check
+
+        Returns:
+            True if node should be rewritten
+        """
+        # Check placeholder nodes (inputs)
+        if node.op == "placeholder":
+            return self._is_float32_tensor(node)
+
+        # Check get_attr nodes (weights)
+        if node.op == "get_attr":
+            if self._is_float32_tensor(node):
+                # Only rewrite if not in preserve list
+                attr_name = str(node.target)
+                return not self.should_preserve_weight(attr_name)
 
         return False
 

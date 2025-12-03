@@ -28,8 +28,7 @@ def get_pass_name(pass_id):
 
 
 def get_ranged_incorrect_models(tolerance_args: List[int], log_path: str) -> set:
-    if not os.path.exists(log_path):
-        return set()
+    assert os.path.exists(log_path)
 
     t_start = tolerance_args[0]
     models_start = set(get_incorrect_models(t_start, log_path))
@@ -40,13 +39,10 @@ def get_ranged_incorrect_models(tolerance_args: List[int], log_path: str) -> set
     t_end = tolerance_args[1]
     models_end = set(get_incorrect_models(t_end, log_path))
 
-    print(f"[Filter] Tolerance Range: {t_start} -> {t_end}")
     print(
-        f"[Filter] Fail({t_start}): {len(models_start)}, Fail({t_end}): {len(models_end)}"
+        f"[Init] number of incorrect models: {len(models_start)} (tolerance={t_start}) - {len(models_end)} (tolerance={t_end})"
     )
-
-    diff_set = models_start - models_end
-    return diff_set
+    return models_start - models_end
 
 
 class TaskController:
@@ -326,6 +322,14 @@ def generate_initial_tasks(args):
     return tasks_map, max_subgraph_size, running_states
 
 
+def extract_model_name_and_subgraph_idx(subgraph_path):
+    # Parse model name and subgraph index
+    model_name_with_subgraph_idx = subgraph_path.rstrip("/").split(os.sep)[-1]
+    model_name = "_".join(model_name_with_subgraph_idx.split("_")[:-1])
+    subgraph_idx = int(model_name_with_subgraph_idx.split("_")[-1])
+    return model_name, subgraph_idx
+
+
 def generate_refined_tasks(base_output_dir, current_pass_id):
     """Generates tasks for Pass > 0 based on previous pass results."""
     prev_pass_dir = get_decompose_workspace_path(base_output_dir, current_pass_id - 1)
@@ -340,10 +344,7 @@ def generate_refined_tasks(base_output_dir, current_pass_id):
     prev_tasks_map = prev_config.tasks_map
 
     for subgraph_path in sorted(prev_config.incorrect_models):
-        # Parse model name and subgraph index
-        model_name_with_subgraph_idx = subgraph_path.rstrip("/").split(os.sep)[-1]
-        model_name = "_".join(model_name_with_subgraph_idx.split("_")[:-1])
-        subgraph_idx = int(model_name_with_subgraph_idx.split("_")[-1])
+        model_name, subgraph_idx = extract_model_name_and_subgraph_idx(subgraph_path)
 
         assert model_name in prev_tasks_map
         pre_task_for_model = prev_tasks_map[model_name]
@@ -382,11 +383,11 @@ def prepare_tasks_and_verify(args, current_pass_id, base_output_dir):
             base_output_dir, current_pass_id
         )
 
-    print(f"[INFO] initial max_subgraph_size: {max_subgraph_size}")
-    print(f"[INFO] number of incorrect models: {len(tasks_map)}")
-    for model_name, task_info in tasks_map.items():
+    print(f"[Init] initial max_subgraph_size: {max_subgraph_size}")
+    print(f"[Init] number of incorrect models: {len(tasks_map)}")
+    for idx, (model_name, task_info) in enumerate(tasks_map.items()):
         original_path = task_info["original_path"]
-        print(f"- {original_path}")
+        print(f"- [{idx}] {original_path}")
 
     if not tasks_map:
         print("[FINISHED] No models need processing.")
@@ -525,12 +526,24 @@ def main(args):
         )
         print(f"\n--- Phase 3: Analysis (torlance={tolerance}) ---")
         next_round_models = sorted(get_incorrect_models(tolerance, pass_log_path))
+        original_model_paths = set(
+            [
+                model_name
+                for subgraph_path in next_round_models
+                for model_name, _ in [
+                    extract_model_name_and_subgraph_idx(subgraph_path)
+                ]
+            ]
+        )
+
         running_states[f"pass_{current_pass_id + 1}"] = {
-            "num_incorrect_models": len(next_round_models),
+            "num_incorrect_models": len(original_model_paths),
             "incorrect_models": list(next_round_models),
         }
 
-        print(f"[Analysis] Found {len(next_round_models)} incorrect subgraphs.\n")
+        print(
+            f"[Analysis] Found {len(next_round_models)} incorrect subgraphs ({len(original_model_paths)} original models)."
+        )
         for idx, model_path in enumerate(next_round_models):
             print(f"- [{idx}] {model_path}")
 

@@ -119,7 +119,7 @@ def save_decompose_config(
     max_subgraph_size: int,
     tasks_map: Dict[str, Union[int, str, list, dict]],
     incorrect_paths: Union[List[str], Set[str]],
-    failed_decomposition_models: Union[List[str], Set[str]],
+    running_states: Dict[str, Union[int, str, list, dict]],
 ):
     """Saves the current state to a JSON file."""
 
@@ -133,7 +133,7 @@ def save_decompose_config(
         "max_subgraph_size": max_subgraph_size,
         "incorrect_models": list(incorrect_paths),
         "tasks_map": tasks_map_copy,
-        "failed_decomposition_models": list(failed_decomposition_models),
+        "running_states": running_states,
     }
     config_path = get_decompose_config_path(workspace)
 
@@ -283,6 +283,8 @@ def generate_initial_tasks(args):
     """Generates tasks for Pass 0 based on the initial log file."""
     print(f"[Init] Pass 0: Reading from log file: {args.log_file}")
     initial_failures = get_incorrect_models(args.tolerance, args.log_file)
+    # t1_incorrect_models = get_incorrect_models(1, args.log_file)
+    # initial_failures = initial_failures - t1_incorrect_models
 
     tasks_map = {}
     for model_path in initial_failures:
@@ -295,7 +297,8 @@ def generate_initial_tasks(args):
         }
 
     max_subgraph_size = args.max_subgraph_size
-    return tasks_map, max_subgraph_size
+    running_states = {"pass_0": {"incorrect_models": list(initial_failures)}}
+    return tasks_map, max_subgraph_size, running_states
 
 
 def generate_refined_tasks(base_output_dir, current_pass_id):
@@ -306,13 +309,14 @@ def generate_refined_tasks(base_output_dir, current_pass_id):
     prev_config = load_decompose_config(prev_pass_dir)
     prev_incorrect_subgraphs = prev_config.get("incorrect_models", [])
     prev_tasks_map = prev_config.get("tasks_map", {})
+    running_states = prev_config.get("running_states", {})
 
     # Load previous max size as fallback
     prev_max_subgraph_size = prev_config.get("max_subgraph_size")
     max_subgraph_size = prev_max_subgraph_size // 2
 
     if not prev_incorrect_subgraphs:
-        return {}, max_subgraph_size
+        return {}, max_subgraph_size, running_states
 
     tasks_map = {}
     for subgraph_path in prev_incorrect_subgraphs:
@@ -339,14 +343,14 @@ def generate_refined_tasks(base_output_dir, current_pass_id):
                 "split_positions": set(),
             }
 
-    return tasks_map, max_subgraph_size
+    return tasks_map, max_subgraph_size, running_states
 
 
 def prepare_tasks_and_verify(args, current_pass_id, base_output_dir):
     if current_pass_id == 0:
-        tasks_map, max_subgraph_size = generate_initial_tasks(args)
+        tasks_map, max_subgraph_size, running_states = generate_initial_tasks(args)
     else:
-        tasks_map, max_subgraph_size = generate_refined_tasks(
+        tasks_map, max_subgraph_size, running_states = generate_refined_tasks(
             base_output_dir, current_pass_id
         )
 
@@ -366,7 +370,7 @@ def prepare_tasks_and_verify(args, current_pass_id, base_output_dir):
         )
         sys.exit(0)
 
-    return tasks_map, max_subgraph_size
+    return tasks_map, max_subgraph_size, running_states
 
 
 def execute_decomposition_phase(max_subgraph_size, tasks_map, framework, workspace):
@@ -440,7 +444,7 @@ def main(args):
     print("=" * 80)
 
     # --- Step 1: Prepare Tasks and Workspace ---
-    tasks_map, max_subgraph_size = prepare_tasks_and_verify(
+    tasks_map, max_subgraph_size, running_states = prepare_tasks_and_verify(
         args, current_pass_id, base_output_dir
     )
     pass_work_dir = get_decompose_workspace_path(base_output_dir, current_pass_id)
@@ -448,7 +452,6 @@ def main(args):
         os.makedirs(pass_work_dir, exist_ok=True)
 
     # --- Step 2: Decomposition ---
-    failed_decomposition = []
     if task_controller.task_scheduler["run_decomposer"]:
         print("\n--- Phase 1: Decomposition ---", flush=True)
         (
@@ -458,11 +461,14 @@ def main(args):
         ) = execute_decomposition_phase(
             max_subgraph_size, tasks_map, args.framework, pass_work_dir
         )
+        running_states.get(f"pass_{current_pass_id}", {})[
+            "failed_decomposition_models"
+        ] = list(failed_decomposition)
     else:
         config = load_decompose_config(pass_work_dir)
         max_subgraph_size = config["max_subgraph_size"]
-        failed_decomposition = config["failed_decomposition_models"]
         tasks_map = config.get("tasks_map", {})
+        running_states = config.get("running_states", {})
 
     # --- Step 3: Evaluation ---
     pass_log_path = os.path.join(pass_work_dir, "batch_test_result.log")
@@ -476,6 +482,9 @@ def main(args):
         print("\n--- Phase 3: Analysis ---")
         next_round_models = get_incorrect_models(args.tolerance, pass_log_path)
         print(f"[Analysis] Found {len(next_round_models)} incorrect subgraphs.\n")
+        running_states[f"pass_{current_pass_id + 1}"] = {
+            "incorrect_models": list(next_round_models)
+        }
         print_summary_and_suggestion(next_round_models, max_subgraph_size)
 
     # --- Step 5: Save States ---
@@ -484,7 +493,7 @@ def main(args):
         max_subgraph_size,
         tasks_map,
         next_round_models,
-        failed_decomposition,
+        running_states,
     )
 
 

@@ -7,7 +7,8 @@ import shutil
 import argparse
 import subprocess
 import glob
-from typing import List, Set, Dict, Any, Union
+from dataclasses import dataclass, field
+from typing import List, Dict, Union
 from graph_net.analysis_util import get_incorrect_models
 from graph_net import path_utils
 
@@ -16,6 +17,14 @@ kMaxGraphSize = 4096
 
 def convert_b64_string_to_json(b64str):
     return json.loads(base64.b64decode(b64str).decode("utf-8"))
+
+
+def convert_json_to_b64_string(config):
+    return base64.b64encode(json.dumps(config).encode()).decode()
+
+
+def get_pass_name(pass_id):
+    return f"pass_{pass_id}"
 
 
 class TaskController:
@@ -82,6 +91,37 @@ class TaskController:
         print()
 
 
+@dataclass
+class DecomposeConfig:
+    max_subgraph_size: int = -1
+    incorrect_models: List[str] = field(default_factory=list)
+    tasks_map: Dict[str, Union[int, str, list, dict]] = field(default_factory=dict)
+    running_states: Dict[str, Union[int, str, list, dict]] = field(default_factory=dict)
+
+    def save(self, work_dir):
+        """Save the current config to a JSON file."""
+        config_path = self.get_config_path(work_dir)
+
+        with open(config_path, "w") as f:
+            json.dump(self.__dict__, f, indent=4)
+        print(f"\n[INFO] Save state to: {config_path}")
+
+    @classmethod
+    def load(self, work_dir):
+        """Initialize a object from a JSON file."""
+        config_path = self.get_config_path(work_dir)
+        if not os.path.exists(config_path):
+            raise FileNotFoundError(f"Missing configuration file: {config_path}")
+
+        with open(config_path, "r") as f:
+            data = json.load(f)
+        return self(**data)
+
+    @classmethod
+    def get_config_path(self, work_dir) -> str:
+        return os.path.join(work_dir, "decompose_config.json")
+
+
 def get_rectfied_model_path(model_path):
     graphnet_root = path_utils.get_graphnet_root()
     return os.path.join(graphnet_root, model_path.split("GraphNet/")[-1])
@@ -95,51 +135,8 @@ def count_samples(samples_dir):
     return num_samples
 
 
-def get_decompose_config_path(output_dir: str) -> str:
-    """Returns the full path to the decompose configuration file."""
-    return os.path.join(output_dir, "decompose_config.json")
-
-
 def get_decompose_workspace_path(output_dir, pass_id):
     return os.path.join(output_dir, f"pass_{pass_id}")
-
-
-def load_decompose_config(work_dir: str) -> Dict[str, Any]:
-    """Loads the configuration file from the previous pass."""
-    config_path = get_decompose_config_path(work_dir)
-
-    if not os.path.exists(config_path):
-        raise FileNotFoundError(f"Missing configuration file: {config_path}")
-    with open(config_path, "r") as f:
-        return json.load(f)
-
-
-def save_decompose_config(
-    workspace: str,
-    max_subgraph_size: int,
-    tasks_map: Dict[str, Union[int, str, list, dict]],
-    incorrect_paths: Union[List[str], Set[str]],
-    running_states: Dict[str, Union[int, str, list, dict]],
-):
-    """Saves the current state to a JSON file."""
-
-    tasks_map_copy = {}
-    for model_name, task_info in tasks_map.items():
-        tasks_map_copy[model_name] = {}
-        for key in ["original_path", "split_positions"]:
-            tasks_map_copy[model_name][key] = task_info[key]
-
-    config = {
-        "max_subgraph_size": max_subgraph_size,
-        "incorrect_models": list(incorrect_paths),
-        "tasks_map": tasks_map_copy,
-        "running_states": running_states,
-    }
-    config_path = get_decompose_config_path(workspace)
-
-    with open(config_path, "w") as f:
-        json.dump(config, f, indent=4)
-    print(f"\n[INFO] Save state to: {config_path}")
 
 
 def get_model_name_with_subgraph_tag(model_path):
@@ -172,9 +169,7 @@ def run_decomposer_for_single_model(
             },
         },
     }
-    decorator_config_b64 = base64.b64encode(
-        json.dumps(decorator_config).encode()
-    ).decode()
+    decorator_config_b64 = convert_json_to_b64_string(decorator_config)
 
     print(
         f"[Decomposition] model_path: {model_path}, split_positions: {split_positions}"
@@ -290,7 +285,6 @@ def generate_initial_tasks(args):
     for model_path in initial_failures:
         model_name = get_model_name_with_subgraph_tag(model_path)
         tasks_map[model_name] = {
-            "subgraph_path": model_path,
             "original_path": model_path,
             "subgraph_size": [0, kMaxGraphSize],
             "split_positions": set(),
@@ -306,13 +300,13 @@ def generate_refined_tasks(base_output_dir, current_pass_id):
     prev_pass_dir = get_decompose_workspace_path(base_output_dir, current_pass_id - 1)
     print(f"[Init] Resuming from Pass_{current_pass_id - 1} (Dir: {prev_pass_dir})...")
 
-    prev_config = load_decompose_config(prev_pass_dir)
-    prev_incorrect_subgraphs = prev_config.get("incorrect_models", [])
-    prev_tasks_map = prev_config.get("tasks_map", {})
-    running_states = prev_config.get("running_states", {})
+    prev_config = DecomposeConfig.load(prev_pass_dir)
+    prev_incorrect_subgraphs = prev_config.incorrect_models
+    prev_tasks_map = prev_config.tasks_map
+    running_states = prev_config.running_states
 
     # Load previous max size as fallback
-    prev_max_subgraph_size = prev_config.get("max_subgraph_size")
+    prev_max_subgraph_size = prev_config.max_subgraph_size
     max_subgraph_size = prev_max_subgraph_size // 2
 
     if not prev_incorrect_subgraphs:
@@ -337,7 +331,6 @@ def generate_refined_tasks(base_output_dir, current_pass_id):
 
         if model_name not in tasks_map:
             tasks_map[model_name] = {
-                "subgraph_path": subgraph_path,
                 "original_path": pre_task_for_model["original_path"],
                 "subgraph_size": subgraph_size[subgraph_idx],
                 "split_positions": set(),
@@ -465,10 +458,10 @@ def main(args):
             "failed_decomposition_models"
         ] = list(failed_decomposition)
     else:
-        config = load_decompose_config(pass_work_dir)
-        max_subgraph_size = config["max_subgraph_size"]
-        tasks_map = config.get("tasks_map", {})
-        running_states = config.get("running_states", {})
+        config = DecomposeConfig.load(pass_work_dir)
+        max_subgraph_size = config.max_subgraph_size
+        tasks_map = config.tasks_map
+        running_states = config.running_states
 
     # --- Step 3: Evaluation ---
     pass_log_path = os.path.join(pass_work_dir, "batch_test_result.log")
@@ -488,13 +481,13 @@ def main(args):
         print_summary_and_suggestion(next_round_models, max_subgraph_size)
 
     # --- Step 5: Save States ---
-    save_decompose_config(
-        pass_work_dir,
-        max_subgraph_size,
-        tasks_map,
-        next_round_models,
-        running_states,
+    config = DecomposeConfig(
+        max_subgraph_size=max_subgraph_size,
+        incorrect_models=list(next_round_models),
+        tasks_map=tasks_map,
+        running_states=running_states,
     )
+    config.save(pass_work_dir)
 
 
 if __name__ == "__main__":

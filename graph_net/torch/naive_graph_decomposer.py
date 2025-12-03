@@ -1,5 +1,7 @@
 import os
 import torch
+import sys
+import shutil
 from graph_net.torch.decompose_util import convert_to_submodules_graph
 from graph_net.torch.extractor import GraphExtractor as BuiltinGraphExtractor
 import graph_net.imp_util as imp_util
@@ -89,8 +91,8 @@ class NaiveDecomposerExtractor(torch.nn.Module):
         if not self.extracted:
             if self.need_extract(self.submodule, args):
                 self.builtin_extractor(self.submodule, args)
-                self._post_extract_process()
             self.extracted = True
+        self._post_extract_process()
         return self.submodule(*args)
 
     def need_extract(self, gm, sample_inputs):
@@ -102,7 +104,15 @@ class NaiveDecomposerExtractor(torch.nn.Module):
         model_path = os.path.join(
             self.parent_graph_extractor.config["output_dir"], self.model_name
         )
-        return self.post_extract_process(model_path)
+        fully_fusable = self.post_extract_process(model_path)
+        if fully_fusable:
+            print(f"{model_path} is the biggest fully fusable subgraph!")
+            sys.exit(0)
+        else:
+            # remove if not fully fusable
+            shutil.rmtree(model_path)
+            print(f"remove: {model_path}")
+            sys.exit(1)
 
     def make_filter(self, config):
         if config["filter_path"] is None:
@@ -114,4 +124,5 @@ class NaiveDecomposerExtractor(torch.nn.Module):
         if config["post_extract_process_path"] is None:
             return None
         module = imp_util.load_module(config["post_extract_process_path"])
-        return module.GraphFullyFusionable(config["post_extract_process_path"])
+        cls = getattr(module, config["post_extract_process_class_name"])
+        return cls(config["post_extract_process_path"])

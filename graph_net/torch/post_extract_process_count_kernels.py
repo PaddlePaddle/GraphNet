@@ -1,12 +1,11 @@
 from graph_net.torch import utils
 import importlib.util
 import torch
-import shutil
 from typing import Type
 from torch.profiler import profile, record_function, ProfilerActivity
 
 
-class GraphFullyFusionable:
+class GraphFullyFusable:
     def __init__(self, config):
         self.config = config
 
@@ -20,7 +19,7 @@ class GraphFullyFusionable:
         )
         assert model_class is not None
         model = model_class()
-        print(f"{model_path=}")
+        # print(f"{model_path=}")
 
         inputs_params = utils.load_converted_from_text(f"{model_path}")
         params = inputs_params["weight_info"]
@@ -31,16 +30,12 @@ class GraphFullyFusionable:
             model(**state_dict)
         except Exception as e:
             print(f"failed in running model:{e}")
-            print(f"removing: {model_path}")
-            shutil.rmtree(model_path)
             return False
         # try to compile the model
         try:
             compiled_model = torch.compile(model)
         except Exception as e:
             print(f"failed in compiling model:{e}")
-            print(f"removing: {model_path}")
-            shutil.rmtree(model_path)
             return False
         compiled_num_of_kernels = count_kernels(compiled_model, state_dict)
         if compiled_num_of_kernels == 1:
@@ -48,8 +43,6 @@ class GraphFullyFusionable:
             return True
         else:
             print(f"{model_path} can not be fully integrated, to be removed...")
-            print(f"removing: {model_path}")
-            shutil.rmtree(model_path)
             return False
 
 

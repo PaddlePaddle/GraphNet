@@ -1,7 +1,5 @@
 import os
 import torch
-import sys
-import shutil
 from graph_net.torch.decompose_util import convert_to_submodules_graph
 from graph_net.torch.extractor import GraphExtractor as BuiltinGraphExtractor
 import graph_net.imp_util as imp_util
@@ -104,15 +102,7 @@ class NaiveDecomposerExtractor(torch.nn.Module):
         model_path = os.path.join(
             self.parent_graph_extractor.config["output_dir"], self.model_name
         )
-        fully_fusable = self.post_extract_process(model_path)
-        if fully_fusable:
-            print(f"{model_path} is the biggest fully fusable subgraph!")
-            sys.exit(0)
-        else:
-            # remove if not fully fusable
-            shutil.rmtree(model_path)
-            print(f"remove: {model_path}")
-            sys.exit(1)
+        return self.post_extract_process(model_path)
 
     def make_filter(self, config):
         if config["filter_path"] is None:

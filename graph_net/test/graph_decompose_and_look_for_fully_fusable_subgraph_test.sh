@@ -13,16 +13,11 @@ decorator_config_json_str=$(cat <<EOF
         "name": "$MODEL_NAME",
         "custom_extractor_path": "$GRAPH_NET_ROOT/torch/fully_fusable_subgraph_extractor.py",
         "custom_extractor_config": {
-            "output_dir": "/tmp/naive_decompose_workspace",
             "split_positions": [],
             "group_head_and_tail": true,
-            "filter_path":"$GRAPH_NET_ROOT/torch/naive_subgraph_filter.py",
-            "filter_config": {},
-            "post_extract_process_path":"$GRAPH_NET_ROOT/torch/post_extract_process_count_kernels.py",
-            "post_extract_process_class_name": "GraphFullyFusable",
             "max_step": 5,
             "min_step": 2,
-            "max_nodes": 32
+            "max_nodes": 6
         }
     }
 }

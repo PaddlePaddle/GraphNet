@@ -1,6 +1,7 @@
 from graph_net.torch import utils
 import importlib.util
 import torch
+import sys
 from typing import Type
 from torch.profiler import profile, record_function, ProfilerActivity
 
@@ -12,7 +13,7 @@ class GraphFullyFusable:
     def __call__(self, model_path=None):
         torch._dynamo.reset()
         if model_path is None:
-            return False
+            sys.exit(1)
         # model
         model_class = load_class_from_file(
             f"{model_path}/model.py", class_name="GraphModule"
@@ -30,20 +31,20 @@ class GraphFullyFusable:
             model(**state_dict)
         except Exception as e:
             print(f"failed in running model:{e}")
-            return False
+            sys.exit(1)
         # try to compile the model
         try:
             compiled_model = torch.compile(model)
         except Exception as e:
             print(f"failed in compiling model:{e}")
-            return False
+            sys.exit(1)
         compiled_num_of_kernels = count_kernels(compiled_model, state_dict)
         if compiled_num_of_kernels == 1:
             print(model_path, "can be fully integrated!!!!!!!!!!!")
-            return True
+            sys.exit(0)
         else:
             print(f"{model_path} can not be fully integrated, to be removed...")
-            return False
+            sys.exit(1)
 
 
 def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Module]:

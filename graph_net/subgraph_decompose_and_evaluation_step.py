@@ -278,8 +278,8 @@ def generate_initial_tasks(args):
     """Generates tasks for Pass 0 based on the initial log file."""
     print(f"[Init] Pass 0: Reading from log file: {args.log_file}")
     initial_failures = get_incorrect_models(args.tolerance, args.log_file)
-    # t1_incorrect_models = get_incorrect_models(1, args.log_file)
-    # initial_failures = initial_failures - t1_incorrect_models
+    t1_incorrect_models = get_incorrect_models(1, args.log_file)
+    initial_failures = initial_failures - t1_incorrect_models
 
     tasks_map = {}
     for model_path in initial_failures:
@@ -291,7 +291,12 @@ def generate_initial_tasks(args):
         }
 
     max_subgraph_size = args.max_subgraph_size
-    running_states = {"pass_0": {"incorrect_models": list(initial_failures)}}
+    running_states = {
+        "pass_0": {
+            "num_incorrect_models": len(initial_failures),
+            "incorrect_models": list(sorted(initial_failures)),
+        }
+    }
     return tasks_map, max_subgraph_size, running_states
 
 
@@ -301,19 +306,14 @@ def generate_refined_tasks(base_output_dir, current_pass_id):
     print(f"[Init] Resuming from Pass_{current_pass_id - 1} (Dir: {prev_pass_dir})...")
 
     prev_config = DecomposeConfig.load(prev_pass_dir)
-    prev_incorrect_subgraphs = prev_config.incorrect_models
-    prev_tasks_map = prev_config.tasks_map
-    running_states = prev_config.running_states
-
-    # Load previous max size as fallback
-    prev_max_subgraph_size = prev_config.max_subgraph_size
-    max_subgraph_size = prev_max_subgraph_size // 2
-
-    if not prev_incorrect_subgraphs:
-        return {}, max_subgraph_size, running_states
+    max_subgraph_size = prev_config.max_subgraph_size // 2
+    if not prev_config.incorrect_models:
+        return {}, max_subgraph_size, prev_config.running_states
 
     tasks_map = {}
-    for subgraph_path in prev_incorrect_subgraphs:
+    prev_tasks_map = prev_config.tasks_map
+
+    for subgraph_path in sorted(prev_config.incorrect_models):
         # Parse model name and subgraph index
         model_name_with_subgraph_idx = subgraph_path.rstrip("/").split(os.sep)[-1]
         model_name = "_".join(model_name_with_subgraph_idx.split("_")[:-1])
@@ -336,7 +336,7 @@ def generate_refined_tasks(base_output_dir, current_pass_id):
                 "split_positions": set(),
             }
 
-    return tasks_map, max_subgraph_size, running_states
+    return tasks_map, max_subgraph_size, prev_config.running_states
 
 
 def prepare_tasks_and_verify(args, current_pass_id, base_output_dir):
@@ -473,10 +473,11 @@ def main(args):
     next_round_models = set()
     if task_controller.task_scheduler["post_analysis"]:
         print("\n--- Phase 3: Analysis ---")
-        next_round_models = get_incorrect_models(args.tolerance, pass_log_path)
+        next_round_models = sorted(get_incorrect_models(args.tolerance, pass_log_path))
         print(f"[Analysis] Found {len(next_round_models)} incorrect subgraphs.\n")
         running_states[f"pass_{current_pass_id + 1}"] = {
-            "incorrect_models": list(next_round_models)
+            "num_incorrect_models": len(next_round_models),
+            "incorrect_models": list(next_round_models),
         }
         print_summary_and_suggestion(next_round_models, max_subgraph_size)
 

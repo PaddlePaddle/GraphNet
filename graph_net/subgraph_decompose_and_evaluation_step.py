@@ -27,6 +27,28 @@ def get_pass_name(pass_id):
     return f"pass_{pass_id}"
 
 
+def get_ranged_incorrect_models(tolerance_args: List[int], log_path: str) -> set:
+    if not os.path.exists(log_path):
+        return set()
+
+    t_start = tolerance_args[0]
+    models_start = set(get_incorrect_models(t_start, log_path))
+
+    if len(tolerance_args) == 1:
+        return models_start
+
+    t_end = tolerance_args[1]
+    models_end = set(get_incorrect_models(t_end, log_path))
+
+    print(f"[Filter] Tolerance Range: {t_start} -> {t_end}")
+    print(
+        f"[Filter] Fail({t_start}): {len(models_start)}, Fail({t_end}): {len(models_end)}"
+    )
+
+    diff_set = models_start - models_end
+    return diff_set
+
+
 class TaskController:
     def __init__(self, args):
         self.root_output_dir = os.path.abspath(args.output_dir)
@@ -198,10 +220,10 @@ def run_decomposer_for_multi_models(
     )
     for model_name, task_info in tasks_map.items():
         original_path = task_info["original_path"]
-        split_positions = calculate_split_positions_for_subgraph(
-            task_info["subgraph_size"], max_subgraph_size
-        )
-        task_info["split_positions"] = split_positions
+
+        split_positions = task_info["split_positions"]
+        if isinstance(split_positions, set):
+            split_positions = sorted(list(split_positions))
 
         rectified_model_path = get_rectfied_model_path(original_path)
         assert os.path.exists(
@@ -262,35 +284,39 @@ def reconstruct_subgraph_size(split_positions: List[int]) -> List[list]:
     return subgraph_size
 
 
-def calculate_split_positions_for_subgraph(subgraph_size, max_subgraph_size):
-    assert isinstance(subgraph_size, (list, tuple)) and len(subgraph_size) == 2
+def calculate_split_positions_for_subgraph(subgraph_range, max_subgraph_size):
+    assert isinstance(subgraph_range, (list, tuple)) and len(subgraph_range) == 2
 
     # subgraph_size: the start and end position in original model.
-    start_pos, end_pos = subgraph_size
+    start_pos, end_pos = subgraph_range
     end_pos = kMaxGraphSize if end_pos == float("inf") else end_pos
 
-    split_positions = list(range(start_pos, end_pos + 1, max_subgraph_size))
-    deduplicated_splits = list(dict.fromkeys(split_positions))
+    split_positions = set(range(start_pos, end_pos + 1, max_subgraph_size))
+    deduplicated_splits = list(sorted(split_positions))
     return deduplicated_splits
 
 
 def generate_initial_tasks(args):
     """Generates tasks for Pass 0 based on the initial log file."""
     print(f"[Init] Pass 0: Reading from log file: {args.log_file}")
-    initial_failures = get_incorrect_models(args.tolerance, args.log_file)
-    t1_incorrect_models = get_incorrect_models(1, args.log_file)
-    initial_failures = initial_failures - t1_incorrect_models
+    initial_failures = get_ranged_incorrect_models(args.tolerance, args.log_file)
 
     tasks_map = {}
+    max_subgraph_size = args.max_subgraph_size
+
     for model_path in initial_failures:
         model_name = get_model_name_with_subgraph_tag(model_path)
+
+        initial_range = [0, kMaxGraphSize]
+        initial_splits = calculate_split_positions_for_subgraph(
+            initial_range, max_subgraph_size
+        )
+
         tasks_map[model_name] = {
             "original_path": model_path,
-            "subgraph_size": [0, kMaxGraphSize],
-            "split_positions": set(),
+            "split_positions": list(sorted(initial_splits)),
         }
 
-    max_subgraph_size = args.max_subgraph_size
     running_states = {
         "pass_0": {
             "num_incorrect_models": len(initial_failures),
@@ -322,19 +348,28 @@ def generate_refined_tasks(base_output_dir, current_pass_id):
         assert model_name in prev_tasks_map
         pre_task_for_model = prev_tasks_map[model_name]
 
-        # Reconstruct previous subgraph size to locate the failing segment
         prev_split_positions = pre_task_for_model.get("split_positions", [])
-        subgraph_size = reconstruct_subgraph_size(prev_split_positions)
+        subgraph_ranges = reconstruct_subgraph_size(prev_split_positions)
+
         assert subgraph_idx < len(
-            subgraph_size
+            subgraph_ranges
         ), f"subgraph_idx {subgraph_idx} is out of bounds for {model_name} (previous split_positions: {prev_split_positions})"
 
+        split_positions = calculate_split_positions_for_subgraph(
+            subgraph_ranges[subgraph_idx], max_subgraph_size
+        )
         if model_name not in tasks_map:
             tasks_map[model_name] = {
                 "original_path": pre_task_for_model["original_path"],
-                "subgraph_size": subgraph_size[subgraph_idx],
-                "split_positions": set(),
+                "split_positions": list(sorted(split_positions)),
             }
+        else:
+            merged_split_positions = (
+                tasks_map[model_name]["split_positions"] + split_positions
+            )
+            tasks_map[model_name]["split_positions"] = list(
+                sorted(set(merged_split_positions))
+            )
 
     return tasks_map, max_subgraph_size, prev_config.running_states
 
@@ -399,11 +434,23 @@ def execute_decomposition_phase(max_subgraph_size, tasks_map, framework, workspa
             need_decompose = True
             shutil.rmtree(decomposed_samples_dir)
             os.makedirs(decomposed_samples_dir, exist_ok=True)
-            for model_name, task_info in tasks_map.items():
-                task_info["subgraph_size"][1] = (
-                    task_info["subgraph_size"][0] + max_subgraph_size
-                )
             max_subgraph_size = max(1, max_subgraph_size // 2)
+            for model_name, task_info in tasks_map.items():
+                splits = task_info["split_positions"]
+                if not splits or len(splits) < 2:
+                    continue
+                if isinstance(splits, set):
+                    splits = sorted(list(splits))
+                start_pos = splits[0]
+                first_segment_end = splits[1]
+                new_splits = list(
+                    range(start_pos, first_segment_end + 1, max_subgraph_size)
+                )
+
+                if new_splits[-1] != first_segment_end:
+                    new_splits.append(first_segment_end)
+
+                task_info["split_positions"] = sorted(list(set(new_splits)))
         else:
             need_decompose = False
         print()
@@ -458,6 +505,7 @@ def main(args):
             "failed_decomposition_models"
         ] = list(failed_decomposition)
     else:
+        print("\n--- Phase 1: Decomposition (skipped) ---", flush=True)
         config = DecomposeConfig.load(pass_work_dir)
         max_subgraph_size = config.max_subgraph_size
         tasks_map = config.tasks_map
@@ -466,19 +514,26 @@ def main(args):
     # --- Step 3: Evaluation ---
     pass_log_path = os.path.join(pass_work_dir, "batch_test_result.log")
     if task_controller.task_scheduler["run_evaluation"]:
-        print("\n--- Phase 2: Evaluation ---")
+        print(f"\n--- Phase 2: Evaluation ({task_controller.test_module_name}) ---")
         run_evaluation(args.framework, args.test_config, pass_work_dir, pass_log_path)
 
     # --- Step 4: Analysis ---
     next_round_models = set()
     if task_controller.task_scheduler["post_analysis"]:
-        print("\n--- Phase 3: Analysis ---")
-        next_round_models = sorted(get_incorrect_models(args.tolerance, pass_log_path))
-        print(f"[Analysis] Found {len(next_round_models)} incorrect subgraphs.\n")
+        tolerance = (
+            args.tolerance[0] if isinstance(args.tolerance, list) else args.tolerance
+        )
+        print(f"\n--- Phase 3: Analysis (torlance={tolerance}) ---")
+        next_round_models = sorted(get_incorrect_models(tolerance, pass_log_path))
         running_states[f"pass_{current_pass_id + 1}"] = {
             "num_incorrect_models": len(next_round_models),
             "incorrect_models": list(next_round_models),
         }
+
+        print(f"[Analysis] Found {len(next_round_models)} incorrect subgraphs.\n")
+        for idx, model_path in enumerate(next_round_models):
+            print(f"- [{idx}] {model_path}")
+
         print_summary_and_suggestion(next_round_models, max_subgraph_size)
 
     # --- Step 5: Save States ---
@@ -500,7 +555,11 @@ if __name__ == "__main__":
         "--test-config", type=str, required=True, help="Base64 encoded test config"
     )
     parser.add_argument(
-        "--tolerance", type=int, required=True, help="Tolerance level range [-10, 5)"
+        "--tolerance",
+        type=int,
+        nargs="+",
+        required=True,
+        help="Tolerance level range [-10, 5)",
     )
     parser.add_argument("--max-subgraph-size", type=int, default=4096)
     args = parser.parse_args()

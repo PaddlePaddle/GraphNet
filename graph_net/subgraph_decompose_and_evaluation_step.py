@@ -227,10 +227,7 @@ def run_decomposer_for_multi_models(
     for model_name, task_info in tasks_map.items():
         original_path = task_info["original_path"]
 
-        split_positions = task_info["split_positions"]
-        if isinstance(split_positions, set):
-            split_positions = sorted(list(split_positions))
-
+        split_positions = sorted(list(task_info["split_positions"]))
         rectified_model_path = get_rectfied_model_path(original_path)
         assert os.path.exists(
             rectified_model_path
@@ -298,8 +295,9 @@ def calculate_split_positions_for_subgraph(subgraph_size, max_subgraph_size):
     end_pos = kMaxGraphSize if end_pos == float("inf") else end_pos
 
     split_positions = list(range(start_pos, end_pos + 1, max_subgraph_size))
-    deduplicated_splits = list(dict.fromkeys(split_positions))
-    return deduplicated_splits
+    if split_positions[-1] != end_pos:
+        split_positions.append(end_pos)
+    return sorted(list(set(split_positions)))
 
 
 def generate_initial_tasks(args):
@@ -321,7 +319,7 @@ def generate_initial_tasks(args):
         tasks_map[model_name] = {
             "subgraph_path": model_path,
             "original_path": model_path,
-            "split_positions": set(initial_splits),
+            "split_positions": initial_splits,
         }
 
     for task in tasks_map.values():
@@ -448,18 +446,12 @@ def execute_decomposition_phase(max_subgraph_size, tasks_map, framework, workspa
                 splits = task_info["split_positions"]
                 if not splits or len(splits) < 2:
                     continue
-                if isinstance(splits, set):
-                    splits = sorted(list(splits))
                 start_pos = splits[0]
                 first_segment_end = splits[1]
-                new_splits = list(
-                    range(start_pos, first_segment_end + 1, max_subgraph_size)
+                new_splits = calculate_split_positions_for_subgraph(
+                    [start_pos, first_segment_end], max_subgraph_size
                 )
-
-                if new_splits[-1] != first_segment_end:
-                    new_splits.append(first_segment_end)
-
-                task_info["split_positions"] = sorted(list(set(new_splits)))
+                task_info["split_positions"] = new_splits
         else:
             need_decompose = False
         print()

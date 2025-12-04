@@ -9,15 +9,6 @@ import torch
 import graph_net
 
 
-def convert_to_dict(config_str):
-    if config_str is None:
-        return {}
-    config_str = base64.b64decode(config_str).decode("utf-8")
-    config = json.loads(config_str)
-    assert isinstance(config, dict), f"config should be a dict. {config_str=}"
-    return config
-
-
 def encode_config(config: Dict[str, Any]) -> str:
     json_str = json.dumps(config)
     return base64.b64encode(json_str.encode("utf-8")).decode("utf-8")
@@ -34,7 +25,7 @@ class RangeDecomposerBackend:
         self.graph_net_root = Path(graph_net.__file__).parent
 
     def __call__(self, model: torch.nn.Module) -> torch.nn.Module:
-        config = convert_to_dict(self.config)
+        config = self.config
         workspace_path = Path(config["workspace_path"])
         chain_style = config["chain_style"]
 

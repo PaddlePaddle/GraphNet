@@ -1,0 +1,1060 @@
+from sympy import Symbol
+
+S0 = Symbol("S0")
+S1 = Symbol("S1")
+S2 = Symbol("S2")
+
+dynamic_dim_constraint_symbols = [S0, S1, S2]
+
+dynamic_dim_constraint_symbol2example_value = {S0: 1, S1: 3, S2: 224}
+
+dynamic_dim_constraint_relations = []
+
+dynamic_dim_constraint_input_shapes = [
+    ([64], "L_self_modules_conv1_modules_bn_buffers_running_mean_"),
+    ([64], "L_self_modules_conv1_modules_bn_buffers_running_var_"),
+    ([64], "L_self_modules_conv1_modules_bn_parameters_bias_"),
+    ([64], "L_self_modules_conv1_modules_bn_parameters_weight_"),
+    ([64, 3, 7, 7], "L_self_modules_conv1_modules_conv_parameters_weight_"),
+    ([64], "L_self_modules_conv2_modules_bn_buffers_running_mean_"),
+    ([64], "L_self_modules_conv2_modules_bn_buffers_running_var_"),
+    ([64], "L_self_modules_conv2_modules_bn_parameters_bias_"),
+    ([64], "L_self_modules_conv2_modules_bn_parameters_weight_"),
+    ([64, 64, 1, 1], "L_self_modules_conv2_modules_conv_parameters_weight_"),
+    ([192], "L_self_modules_conv3_modules_bn_buffers_running_mean_"),
+    ([192], "L_self_modules_conv3_modules_bn_buffers_running_var_"),
+    ([192], "L_self_modules_conv3_modules_bn_parameters_bias_"),
+    ([192], "L_self_modules_conv3_modules_bn_parameters_weight_"),
+    ([192, 64, 3, 3], "L_self_modules_conv3_modules_conv_parameters_weight_"),
+    ([1000], "L_self_modules_fc_parameters_bias_"),
+    ([1000, 1024], "L_self_modules_fc_parameters_weight_"),
+    (
+        [64],
+        "L_self_modules_inception3a_modules_branch1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception3a_modules_branch1_modules_bn_buffers_running_var_",
+    ),
+    ([64], "L_self_modules_inception3a_modules_branch1_modules_bn_parameters_bias_"),
+    ([64], "L_self_modules_inception3a_modules_branch1_modules_bn_parameters_weight_"),
+    (
+        [64, 192, 1, 1],
+        "L_self_modules_inception3a_modules_branch1_modules_conv_parameters_weight_",
+    ),
+    (
+        [96],
+        "L_self_modules_inception3a_modules_branch2_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [96],
+        "L_self_modules_inception3a_modules_branch2_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [96],
+        "L_self_modules_inception3a_modules_branch2_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [96],
+        "L_self_modules_inception3a_modules_branch2_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [96, 192, 1, 1],
+        "L_self_modules_inception3a_modules_branch2_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception3a_modules_branch2_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception3a_modules_branch2_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception3a_modules_branch2_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception3a_modules_branch2_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [128, 96, 3, 3],
+        "L_self_modules_inception3a_modules_branch2_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [16],
+        "L_self_modules_inception3a_modules_branch3_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [16],
+        "L_self_modules_inception3a_modules_branch3_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [16],
+        "L_self_modules_inception3a_modules_branch3_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [16],
+        "L_self_modules_inception3a_modules_branch3_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [16, 192, 1, 1],
+        "L_self_modules_inception3a_modules_branch3_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception3a_modules_branch3_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception3a_modules_branch3_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception3a_modules_branch3_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception3a_modules_branch3_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [32, 16, 3, 3],
+        "L_self_modules_inception3a_modules_branch3_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception3a_modules_branch4_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception3a_modules_branch4_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception3a_modules_branch4_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception3a_modules_branch4_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [32, 192, 1, 1],
+        "L_self_modules_inception3a_modules_branch4_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception3b_modules_branch1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception3b_modules_branch1_modules_bn_buffers_running_var_",
+    ),
+    ([128], "L_self_modules_inception3b_modules_branch1_modules_bn_parameters_bias_"),
+    ([128], "L_self_modules_inception3b_modules_branch1_modules_bn_parameters_weight_"),
+    (
+        [128, 256, 1, 1],
+        "L_self_modules_inception3b_modules_branch1_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception3b_modules_branch2_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception3b_modules_branch2_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception3b_modules_branch2_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception3b_modules_branch2_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [128, 256, 1, 1],
+        "L_self_modules_inception3b_modules_branch2_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [192],
+        "L_self_modules_inception3b_modules_branch2_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [192],
+        "L_self_modules_inception3b_modules_branch2_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [192],
+        "L_self_modules_inception3b_modules_branch2_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [192],
+        "L_self_modules_inception3b_modules_branch2_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [192, 128, 3, 3],
+        "L_self_modules_inception3b_modules_branch2_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception3b_modules_branch3_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception3b_modules_branch3_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception3b_modules_branch3_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception3b_modules_branch3_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [32, 256, 1, 1],
+        "L_self_modules_inception3b_modules_branch3_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [96],
+        "L_self_modules_inception3b_modules_branch3_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [96],
+        "L_self_modules_inception3b_modules_branch3_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [96],
+        "L_self_modules_inception3b_modules_branch3_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [96],
+        "L_self_modules_inception3b_modules_branch3_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [96, 32, 3, 3],
+        "L_self_modules_inception3b_modules_branch3_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception3b_modules_branch4_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception3b_modules_branch4_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception3b_modules_branch4_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception3b_modules_branch4_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [64, 256, 1, 1],
+        "L_self_modules_inception3b_modules_branch4_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [192],
+        "L_self_modules_inception4a_modules_branch1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [192],
+        "L_self_modules_inception4a_modules_branch1_modules_bn_buffers_running_var_",
+    ),
+    ([192], "L_self_modules_inception4a_modules_branch1_modules_bn_parameters_bias_"),
+    ([192], "L_self_modules_inception4a_modules_branch1_modules_bn_parameters_weight_"),
+    (
+        [192, 480, 1, 1],
+        "L_self_modules_inception4a_modules_branch1_modules_conv_parameters_weight_",
+    ),
+    (
+        [96],
+        "L_self_modules_inception4a_modules_branch2_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [96],
+        "L_self_modules_inception4a_modules_branch2_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [96],
+        "L_self_modules_inception4a_modules_branch2_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [96],
+        "L_self_modules_inception4a_modules_branch2_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [96, 480, 1, 1],
+        "L_self_modules_inception4a_modules_branch2_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [208],
+        "L_self_modules_inception4a_modules_branch2_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [208],
+        "L_self_modules_inception4a_modules_branch2_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [208],
+        "L_self_modules_inception4a_modules_branch2_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [208],
+        "L_self_modules_inception4a_modules_branch2_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [208, 96, 3, 3],
+        "L_self_modules_inception4a_modules_branch2_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [16],
+        "L_self_modules_inception4a_modules_branch3_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [16],
+        "L_self_modules_inception4a_modules_branch3_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [16],
+        "L_self_modules_inception4a_modules_branch3_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [16],
+        "L_self_modules_inception4a_modules_branch3_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [16, 480, 1, 1],
+        "L_self_modules_inception4a_modules_branch3_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [48],
+        "L_self_modules_inception4a_modules_branch3_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [48],
+        "L_self_modules_inception4a_modules_branch3_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [48],
+        "L_self_modules_inception4a_modules_branch3_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [48],
+        "L_self_modules_inception4a_modules_branch3_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [48, 16, 3, 3],
+        "L_self_modules_inception4a_modules_branch3_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4a_modules_branch4_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4a_modules_branch4_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4a_modules_branch4_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4a_modules_branch4_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [64, 480, 1, 1],
+        "L_self_modules_inception4a_modules_branch4_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [160],
+        "L_self_modules_inception4b_modules_branch1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [160],
+        "L_self_modules_inception4b_modules_branch1_modules_bn_buffers_running_var_",
+    ),
+    ([160], "L_self_modules_inception4b_modules_branch1_modules_bn_parameters_bias_"),
+    ([160], "L_self_modules_inception4b_modules_branch1_modules_bn_parameters_weight_"),
+    (
+        [160, 512, 1, 1],
+        "L_self_modules_inception4b_modules_branch1_modules_conv_parameters_weight_",
+    ),
+    (
+        [112],
+        "L_self_modules_inception4b_modules_branch2_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [112],
+        "L_self_modules_inception4b_modules_branch2_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [112],
+        "L_self_modules_inception4b_modules_branch2_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [112],
+        "L_self_modules_inception4b_modules_branch2_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [112, 512, 1, 1],
+        "L_self_modules_inception4b_modules_branch2_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [224],
+        "L_self_modules_inception4b_modules_branch2_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [224],
+        "L_self_modules_inception4b_modules_branch2_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [224],
+        "L_self_modules_inception4b_modules_branch2_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [224],
+        "L_self_modules_inception4b_modules_branch2_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [224, 112, 3, 3],
+        "L_self_modules_inception4b_modules_branch2_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [24],
+        "L_self_modules_inception4b_modules_branch3_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [24],
+        "L_self_modules_inception4b_modules_branch3_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [24],
+        "L_self_modules_inception4b_modules_branch3_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [24],
+        "L_self_modules_inception4b_modules_branch3_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [24, 512, 1, 1],
+        "L_self_modules_inception4b_modules_branch3_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4b_modules_branch3_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4b_modules_branch3_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4b_modules_branch3_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4b_modules_branch3_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [64, 24, 3, 3],
+        "L_self_modules_inception4b_modules_branch3_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4b_modules_branch4_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4b_modules_branch4_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4b_modules_branch4_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4b_modules_branch4_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [64, 512, 1, 1],
+        "L_self_modules_inception4b_modules_branch4_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4c_modules_branch1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4c_modules_branch1_modules_bn_buffers_running_var_",
+    ),
+    ([128], "L_self_modules_inception4c_modules_branch1_modules_bn_parameters_bias_"),
+    ([128], "L_self_modules_inception4c_modules_branch1_modules_bn_parameters_weight_"),
+    (
+        [128, 512, 1, 1],
+        "L_self_modules_inception4c_modules_branch1_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4c_modules_branch2_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4c_modules_branch2_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4c_modules_branch2_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4c_modules_branch2_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [128, 512, 1, 1],
+        "L_self_modules_inception4c_modules_branch2_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_inception4c_modules_branch2_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_inception4c_modules_branch2_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_inception4c_modules_branch2_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_inception4c_modules_branch2_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [256, 128, 3, 3],
+        "L_self_modules_inception4c_modules_branch2_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [24],
+        "L_self_modules_inception4c_modules_branch3_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [24],
+        "L_self_modules_inception4c_modules_branch3_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [24],
+        "L_self_modules_inception4c_modules_branch3_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [24],
+        "L_self_modules_inception4c_modules_branch3_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [24, 512, 1, 1],
+        "L_self_modules_inception4c_modules_branch3_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4c_modules_branch3_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4c_modules_branch3_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4c_modules_branch3_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4c_modules_branch3_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [64, 24, 3, 3],
+        "L_self_modules_inception4c_modules_branch3_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4c_modules_branch4_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4c_modules_branch4_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4c_modules_branch4_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4c_modules_branch4_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [64, 512, 1, 1],
+        "L_self_modules_inception4c_modules_branch4_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [112],
+        "L_self_modules_inception4d_modules_branch1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [112],
+        "L_self_modules_inception4d_modules_branch1_modules_bn_buffers_running_var_",
+    ),
+    ([112], "L_self_modules_inception4d_modules_branch1_modules_bn_parameters_bias_"),
+    ([112], "L_self_modules_inception4d_modules_branch1_modules_bn_parameters_weight_"),
+    (
+        [112, 512, 1, 1],
+        "L_self_modules_inception4d_modules_branch1_modules_conv_parameters_weight_",
+    ),
+    (
+        [144],
+        "L_self_modules_inception4d_modules_branch2_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [144],
+        "L_self_modules_inception4d_modules_branch2_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [144],
+        "L_self_modules_inception4d_modules_branch2_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [144],
+        "L_self_modules_inception4d_modules_branch2_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [144, 512, 1, 1],
+        "L_self_modules_inception4d_modules_branch2_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [288],
+        "L_self_modules_inception4d_modules_branch2_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [288],
+        "L_self_modules_inception4d_modules_branch2_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [288],
+        "L_self_modules_inception4d_modules_branch2_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [288],
+        "L_self_modules_inception4d_modules_branch2_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [288, 144, 3, 3],
+        "L_self_modules_inception4d_modules_branch2_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception4d_modules_branch3_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception4d_modules_branch3_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception4d_modules_branch3_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception4d_modules_branch3_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [32, 512, 1, 1],
+        "L_self_modules_inception4d_modules_branch3_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4d_modules_branch3_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4d_modules_branch3_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4d_modules_branch3_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4d_modules_branch3_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [64, 32, 3, 3],
+        "L_self_modules_inception4d_modules_branch3_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4d_modules_branch4_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4d_modules_branch4_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4d_modules_branch4_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [64],
+        "L_self_modules_inception4d_modules_branch4_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [64, 512, 1, 1],
+        "L_self_modules_inception4d_modules_branch4_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_inception4e_modules_branch1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_inception4e_modules_branch1_modules_bn_buffers_running_var_",
+    ),
+    ([256], "L_self_modules_inception4e_modules_branch1_modules_bn_parameters_bias_"),
+    ([256], "L_self_modules_inception4e_modules_branch1_modules_bn_parameters_weight_"),
+    (
+        [256, 528, 1, 1],
+        "L_self_modules_inception4e_modules_branch1_modules_conv_parameters_weight_",
+    ),
+    (
+        [160],
+        "L_self_modules_inception4e_modules_branch2_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [160],
+        "L_self_modules_inception4e_modules_branch2_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [160],
+        "L_self_modules_inception4e_modules_branch2_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [160],
+        "L_self_modules_inception4e_modules_branch2_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [160, 528, 1, 1],
+        "L_self_modules_inception4e_modules_branch2_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [320],
+        "L_self_modules_inception4e_modules_branch2_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [320],
+        "L_self_modules_inception4e_modules_branch2_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [320],
+        "L_self_modules_inception4e_modules_branch2_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [320],
+        "L_self_modules_inception4e_modules_branch2_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [320, 160, 3, 3],
+        "L_self_modules_inception4e_modules_branch2_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception4e_modules_branch3_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception4e_modules_branch3_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception4e_modules_branch3_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception4e_modules_branch3_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [32, 528, 1, 1],
+        "L_self_modules_inception4e_modules_branch3_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4e_modules_branch3_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4e_modules_branch3_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4e_modules_branch3_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4e_modules_branch3_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [128, 32, 3, 3],
+        "L_self_modules_inception4e_modules_branch3_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4e_modules_branch4_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4e_modules_branch4_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4e_modules_branch4_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception4e_modules_branch4_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [128, 528, 1, 1],
+        "L_self_modules_inception4e_modules_branch4_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_inception5a_modules_branch1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_inception5a_modules_branch1_modules_bn_buffers_running_var_",
+    ),
+    ([256], "L_self_modules_inception5a_modules_branch1_modules_bn_parameters_bias_"),
+    ([256], "L_self_modules_inception5a_modules_branch1_modules_bn_parameters_weight_"),
+    (
+        [256, 832, 1, 1],
+        "L_self_modules_inception5a_modules_branch1_modules_conv_parameters_weight_",
+    ),
+    (
+        [160],
+        "L_self_modules_inception5a_modules_branch2_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [160],
+        "L_self_modules_inception5a_modules_branch2_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [160],
+        "L_self_modules_inception5a_modules_branch2_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [160],
+        "L_self_modules_inception5a_modules_branch2_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [160, 832, 1, 1],
+        "L_self_modules_inception5a_modules_branch2_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [320],
+        "L_self_modules_inception5a_modules_branch2_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [320],
+        "L_self_modules_inception5a_modules_branch2_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [320],
+        "L_self_modules_inception5a_modules_branch2_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [320],
+        "L_self_modules_inception5a_modules_branch2_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [320, 160, 3, 3],
+        "L_self_modules_inception5a_modules_branch2_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception5a_modules_branch3_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception5a_modules_branch3_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception5a_modules_branch3_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_inception5a_modules_branch3_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [32, 832, 1, 1],
+        "L_self_modules_inception5a_modules_branch3_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5a_modules_branch3_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5a_modules_branch3_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5a_modules_branch3_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5a_modules_branch3_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [128, 32, 3, 3],
+        "L_self_modules_inception5a_modules_branch3_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5a_modules_branch4_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5a_modules_branch4_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5a_modules_branch4_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5a_modules_branch4_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [128, 832, 1, 1],
+        "L_self_modules_inception5a_modules_branch4_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [384],
+        "L_self_modules_inception5b_modules_branch1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [384],
+        "L_self_modules_inception5b_modules_branch1_modules_bn_buffers_running_var_",
+    ),
+    ([384], "L_self_modules_inception5b_modules_branch1_modules_bn_parameters_bias_"),
+    ([384], "L_self_modules_inception5b_modules_branch1_modules_bn_parameters_weight_"),
+    (
+        [384, 832, 1, 1],
+        "L_self_modules_inception5b_modules_branch1_modules_conv_parameters_weight_",
+    ),
+    (
+        [192],
+        "L_self_modules_inception5b_modules_branch2_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [192],
+        "L_self_modules_inception5b_modules_branch2_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [192],
+        "L_self_modules_inception5b_modules_branch2_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [192],
+        "L_self_modules_inception5b_modules_branch2_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [192, 832, 1, 1],
+        "L_self_modules_inception5b_modules_branch2_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [384],
+        "L_self_modules_inception5b_modules_branch2_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [384],
+        "L_self_modules_inception5b_modules_branch2_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [384],
+        "L_self_modules_inception5b_modules_branch2_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [384],
+        "L_self_modules_inception5b_modules_branch2_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [384, 192, 3, 3],
+        "L_self_modules_inception5b_modules_branch2_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [48],
+        "L_self_modules_inception5b_modules_branch3_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [48],
+        "L_self_modules_inception5b_modules_branch3_modules_0_modules_bn_buffers_running_var_",
+    ),
+    (
+        [48],
+        "L_self_modules_inception5b_modules_branch3_modules_0_modules_bn_parameters_bias_",
+    ),
+    (
+        [48],
+        "L_self_modules_inception5b_modules_branch3_modules_0_modules_bn_parameters_weight_",
+    ),
+    (
+        [48, 832, 1, 1],
+        "L_self_modules_inception5b_modules_branch3_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5b_modules_branch3_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5b_modules_branch3_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5b_modules_branch3_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5b_modules_branch3_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [128, 48, 3, 3],
+        "L_self_modules_inception5b_modules_branch3_modules_1_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5b_modules_branch4_modules_1_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5b_modules_branch4_modules_1_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5b_modules_branch4_modules_1_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_inception5b_modules_branch4_modules_1_modules_bn_parameters_weight_",
+    ),
+    (
+        [128, 832, 1, 1],
+        "L_self_modules_inception5b_modules_branch4_modules_1_modules_conv_parameters_weight_",
+    ),
+    ([S0, S1, S2, S2], "L_x_"),
+    ([], "s0"),
+    ([], "s1"),
+]

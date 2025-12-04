@@ -15,7 +15,6 @@ samples/timm/crossvit_15_dagger_240.in1k
 samples/timm/beitv2_large_patch16_224
 samples/timm/vit_base_patch32_clip_quickgelu_224.laion400m_e32
 samples/timm/fastvit_s12.apple_dist_in1k
-samples/timm/ecaresnet101d_pruned.miil_in1k
 samples/timm/coatnext_nano_rw_224
 samples/timm/mambaout_tiny.in1k
 samples/timm/rdnet_base.nv_in1k
@@ -39,7 +38,6 @@ samples/timm/resnetv2_34d.ra4_e3600_r224_in1k
 samples/timm/convnextv2_base.fcmae
 samples/timm/eca_resnet33ts.ra2_in1k
 samples/timm/resnetrs50.tf_in1k
-samples/timm/resnet18.a1_in1k
 samples/timm/mobilenetv3_rw.rmsp_in1k
 samples/timm/mnasnet_small.lamb_in1k
 samples/timm/sequencer2d_l.in1k
@@ -68,7 +66,6 @@ samples/timm/dla60x_c.in1k
 samples/timm/cait_xxs36_224.fb_dist_in1k
 samples/timm/samvit_base_patch16.sa1b
 samples/timm/hgnet_small.paddle_in1k
-samples/timm/inception_v4.tf_in1k
 samples/timm/cs3edgenet_x.c2_in1k
 samples/timm/repvit_m3.dist_in1k
 samples/timm/swinv2_cr_small_ns_224.sw_in1k
@@ -122,7 +119,6 @@ samples/timm/legacy_seresnet50.in1k
 samples/timm/rexnet_300.nav_in1k
 samples/timm/coatnet_rmlp_1_rw2_224
 samples/timm/convmixer_1536_20.in1k
-samples/timm/fastvit_t12.apple_dist_in1k
 samples/timm/resnet50x16_clip_gap.openai
 samples/timm/resnext101_32x4d.fb_ssl_yfcc100m_ft_in1k
 samples/timm/regnetz_b16.ra3_in1k
@@ -178,7 +174,6 @@ samples/timm/mixnet_xl.ra_in1k
 samples/timm/test_efficientnet_ln.r160_in1k
 samples/timm/convnextv2_femto.fcmae_ft_in1k
 samples/timm/regnetx_002.pycls_in1k
-samples/timm/convnext_large_mlp.clip_laion2b_augreg_ft_in1k
 samples/timm/vgg13.tv_in1k
 samples/timm/dla46_c.in1k
 samples/timm/mobileone_s4.apple_in1k
@@ -352,7 +347,6 @@ samples/timm/xception71.tf_in1k
 samples/timm/convnext_base.clip_laion2b
 samples/timm/xception65p.ra3_in1k
 samples/timm/repvgg_b1g4.rvgg_in1k
-samples/timm/ecaresnet50t.a1_in1k
 samples/timm/regnety_320.seer
 samples/timm/cs3sedarknet_xdw
 samples/timm/regnetz_d8.ra3_in1k
@@ -497,7 +491,6 @@ samples/timm/regnety_006.pycls_in1k
 samples/timm/vit_base_patch16_rope_224.naver_in1k
 samples/timm/tinynet_a.in1k
 samples/timm/regnetz_d32.ra3_in1k
-samples/timm/res2net101d.in1k
 samples/timm/convnext_tiny.fb_in1k
 samples/timm/resnet101c.gluon_in1k
 samples/timm/regnetz_040_h.ra3_in1k
@@ -571,11 +564,9 @@ samples/timm/convnextv2_large.fcmae
 samples/timm/mobilenetv4_conv_large.e500_r256_in1k
 samples/timm/resnetv2_18.ra4_e3600_r224_in1k
 samples/timm/starnet_s2.in1k
-samples/timm/ecaresnet50d_pruned.miil_in1k
 samples/timm/mobilenetv1_125.ra4_e3600_r224_in1k
 samples/timm/regnety_1280.seer
 samples/timm/resnet101_clip_gap.openai
-samples/timm/res2net101_26w_4s.in1k
 samples/timm/res2net50_26w_8s.in1k
 samples/timm/darknet21
 samples/timm/ecaresnet269d.ra2_in1k
@@ -641,7 +632,6 @@ samples/transformers-auto-model/AK_ak_nlp
 samples/transformers-auto-model/google_vit-base-patch32-384
 samples/transformers-auto-model/google_vit-base-patch16-224-in21k
 samples/transformers-auto-model/anilguven_albert_tr_turkish_product_reviews
-samples/transformers-auto-model/google
 samples/transformers-auto-model/google/t5-efficient-large-kv128
 samples/transformers-auto-model/google/bert_uncased_L-2_H-768_A-12
 samples/transformers-auto-model/google/siglip-large-patch16-256
@@ -847,7 +837,6 @@ samples/transformers-auto-model/yiyanghkust_finbert-tone
 samples/transformers-auto-model/google_t5-efficient-mini
 samples/transformers-auto-model/hfl_chinese-roberta-wwm-ext
 samples/transformers-auto-model/hf-tiny-model-private_tiny-random-NystromformerForSequenceClassification
-samples/transformers-auto-model/deepseek-ai
 samples/transformers-auto-model/deepseek-ai/deepseek-coder-1.3b-base
 samples/transformers-auto-model/echarlaix_bart-base-cnn-r2-18.7-d23-hybrid
 samples/transformers-auto-model/opus-mt-eo-es
@@ -972,7 +961,6 @@ samples/transformers-auto-model/sadhaklal_wide-and-deep-net-california-housing
 samples/transformers-auto-model/ukr-models_xlm-roberta-base-uk
 samples/transformers-auto-model/Recognai_zeroshot_selectra_medium
 samples/transformers-auto-model/ms-marco-TinyBERT-L2
-samples/transformers-auto-model/TinyLlama
 samples/transformers-auto-model/TinyLlama/TinyLlama-1.1B-Chat-v0.4
 samples/transformers-auto-model/sshleifer_distilbart-cnn-12-6
 samples/transformers-auto-model/GKLMIP_electra-khmer-small-uncased-tokenized
@@ -994,7 +982,6 @@ samples/transformers-auto-model/joeddav_xlm-roberta-large-xnli
 samples/transformers-auto-model/opus-mt-es-swc
 samples/transformers-auto-model/neuralbioinfo_prokbert-mini-c-promoter
 samples/transformers-auto-model/opus-mt-cs-uk
-samples/transformers-auto-model/baidu
 samples/transformers-auto-model/baidu/ERNIE-4.5-0.3B-PT
 samples/transformers-auto-model/facebook_data2vec-vision-base-ft1k
 samples/transformers-auto-model/opus-mt-de-crs
@@ -1019,7 +1006,6 @@ samples/transformers-auto-model/GroNLP_bert-base-dutch-cased-frisian
 samples/transformers-auto-model/distilbert_distilbert-base-multilingual-cased
 samples/transformers-auto-model/opus-mt-tc-bible-big-deu_eng_fra_por_spa-fiu
 samples/transformers-auto-model/facebook_dpt-dinov2-giant-nyu
-samples/transformers-auto-model/bigscience
 samples/transformers-auto-model/bigscience/bloom-560m
 samples/transformers-auto-model/google-bert_bert-base-multilingual-cased
 samples/transformers-auto-model/Intel_dpt-swinv2-tiny-256
@@ -1042,7 +1028,6 @@ samples/transformers-auto-model/hf-tiny-model-private_tiny-random-OpenAIGPTForSe
 samples/transformers-auto-model/msmarco-MiniLM-L6-en-de-v1
 samples/transformers-auto-model/opus-mt-fi-el
 samples/transformers-auto-model/hf-tiny-model-private_tiny-random-ConvNextV2Model
-samples/transformers-auto-model/microsoft
 samples/transformers-auto-model/microsoft/phi-2
 samples/transformers-auto-model/microsoft/phi-1_5
 samples/transformers-auto-model/microsoft/Phi-4-mini-instruct
@@ -1076,7 +1061,6 @@ samples/transformers-auto-model/opus-mt-es-gaa
 samples/transformers-auto-model/opus-mt-es-mt
 samples/transformers-auto-model/Visual-Attention-Network_van-small
 samples/transformers-auto-model/prathmeshrmadhu_detr-finetuned-odorv3
-samples/transformers-auto-model/HuggingFaceTB
 samples/transformers-auto-model/HuggingFaceTB/SmolLM3-3B
 samples/transformers-auto-model/mohsenfayyaz_BERT_Warmup
 samples/transformers-auto-model/opus-mt-en-cel
@@ -1139,7 +1123,6 @@ samples/transformers-auto-model/opus-mt-el-fr
 samples/transformers-auto-model/opus-mt-ceb-fi
 samples/transformers-auto-model/opus-mt-tc-bible-big-deu_eng_fra_por_spa-gmq
 samples/transformers-auto-model/splade-mini
-samples/transformers-auto-model/sentence-transformers
 samples/transformers-auto-model/sentence-transformers/paraphrase-MiniLM-L3-v2
 samples/transformers-auto-model/sentence-transformers/all-roberta-large-v1
 samples/transformers-auto-model/sentence-transformers/gtr-t5-xxl
@@ -1935,7 +1918,6 @@ samples/transformers-auto-model/hf-tiny-model-private_tiny-random-PLBartForSeque
 samples/transformers-auto-model/hossamamer12_BUS15100_MB2_20epoch_notweettokenizer_fp16
 samples/transformers-auto-model/opus-mt-es-ho
 samples/transformers-auto-model/erica_krm_sa2
-samples/transformers-auto-model/openai-community
 samples/transformers-auto-model/openai-community/gpt2
 samples/transformers-auto-model/opus-mt-en-he
 samples/transformers-auto-model/hf-tiny-model-private_tiny-random-LukeForSequenceClassification
@@ -2201,7 +2183,6 @@ samples/torchaudio/wavlm_base
 samples/torchaudio/hubert_base
 samples/torchaudio/squim_objective
 samples/torchaudio/convtasnet_base_libri2mix
-samples/torchaudio/wav2vec2_base
 samples/torchaudio/wav2vec2_xlsr_300m
 samples/torchaudio/wavlm_large
 samples/torchaudio/wav2vec2_large
@@ -2276,9 +2257,7 @@ samples/torchvision/efficientnet_v2_s
 samples/torchvision/resnext50_32x4d
 samples/torchvision/mobilenet_v3_large
 samples/torchvision/regnet_y_128gf
-samples/torchvision/wide_resnet101_2
 samples/torchvision/resnext101_64x4d
-samples/torchvision/wide_resnet50_2
 samples/torchvision/resnet152
 samples/torchvision/shufflenet_v2_x2_0
 samples/torchvision/swin_v2_s

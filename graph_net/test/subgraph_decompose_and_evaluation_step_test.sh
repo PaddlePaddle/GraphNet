@@ -5,7 +5,7 @@ GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(
 FRAMEWORK="torch"
 LOG_FILE="$GRAPH_NET_ROOT/test/log_file_for_subgraph_decompose_and_evaluation_step.log"
 OUTPUT_DIR="/tmp/decompose_and_evaluation_workspace"
-TOLERANCE=0
+TOLERANCE="0 2"
 INITIAL_MAX_SIZE=2048
 
 test_compiler_config_str=$(cat <<EOF
@@ -73,7 +73,7 @@ python3 -m graph_net.subgraph_decompose_and_evaluation_step \
     --output-dir="$OUTPUT_DIR" \
     --framework="${FRAMEWORK}" \
     --test-config="$TEST_CONFIG_B64" \
-    --tolerance="$TOLERANCE" \
+    --tolerance $TOLERANCE \
     --max-subgraph-size="$INITIAL_MAX_SIZE"
 
 if [ $? -ne 0 ]; then

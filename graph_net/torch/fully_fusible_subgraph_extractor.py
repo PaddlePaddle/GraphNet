@@ -82,7 +82,7 @@ class GraphExtractor:
         self.config["split_positions"] = [start_pos, end_pos]
         graph_net_root = os.path.dirname(graph_net.__file__)
 
-        check_fusable_config = {
+        check_fusible_config = {
             "decorator_path": f"{graph_net_root}/torch/extractor.py",
             "decorator_config": {
                 "name": f"{self.name}",
@@ -94,28 +94,28 @@ class GraphExtractor:
                     "filter_path": f"{graph_net_root}/torch/naive_subgraph_filter.py",
                     "filter_config": {},
                     "post_extract_process_path": f"{graph_net_root}/torch/post_extract_process_count_kernels.py",
-                    "post_extract_process_class_name": "GraphFullyFusable",
+                    "post_extract_process_class_name": "GraphFullyFusible",
                 },
             },
         }
-        return check_fusable_config
+        return check_fusible_config
 
     def __call__(self, gm: torch.fx.GraphModule, sample_inputs):
         for start_pos, end_pos in self._get_sub_ranges():
             with tempfile.TemporaryDirectory(
-                prefix="_find_fusable_subgraph_"
+                prefix="_find_fusible_subgraph_"
             ) as temp_dir:
-                check_fusable_config = self._build_decompose_config(
+                check_fusible_config = self._build_decompose_config(
                     temp_dir, start_pos, end_pos
                 )
                 print("current split_positions:", self.config["split_positions"])
-                success = constraint_util.RunModelPredicator(check_fusable_config)(
+                success = constraint_util.RunModelPredicator(check_fusible_config)(
                     self.config["model_path"]
                 )
                 if success:
                     target_path = self._handle_success(temp_dir, start_pos, end_pos)
                     print(
-                        f"SUCCESS in finding the biggest fully fusable subgraph. Result saved to: {target_path}"
+                        f"SUCCESS in finding the biggest fully fusible subgraph. Result saved to: {target_path}"
                     )
                     break
         return gm.forward

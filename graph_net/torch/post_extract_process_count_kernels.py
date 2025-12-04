@@ -6,7 +6,7 @@ from typing import Type
 from torch.profiler import profile, record_function, ProfilerActivity
 
 
-class GraphFullyFusable:
+class GraphFullyFusible:
     def __init__(self, config):
         self.config = config
 

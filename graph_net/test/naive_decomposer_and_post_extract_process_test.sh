@@ -20,7 +20,7 @@ decorator_config_json_str=$(cat <<EOF
             "filter_path":"$GRAPH_NET_ROOT/torch/naive_subgraph_filter.py",
             "filter_config": {},
             "post_extract_process_path":"$GRAPH_NET_ROOT/torch/post_extract_process_count_kernels.py",
-            "post_extract_process_class_name": "GraphFullyFusable"
+            "post_extract_process_class_name": "GraphFullyFusible"
         }
     }
 }

@@ -66,6 +66,16 @@ class GraphExtractor:
                 ), f"Invalid range generated: start={start_pos}, end={end_pos}, max={self.config['max_nodes']}"
                 yield start_pos, end_pos
 
+    def _handle_success(self, temp_dir: str, start_pos: int, end_pos: int) -> str:
+        target_name = f"{self.name}_start{start_pos}_end{end_pos}"
+        target_path = os.path.join(
+            self.config["output_dir"],
+            target_name,
+        )
+        os.makedirs(target_path, exist_ok=True)
+        shutil.move(temp_dir, target_path)
+        return target_path
+
     def _build_decompose_config(
         self, temp_dir: str, start_pos: int, end_pos: int
     ) -> dict:
@@ -103,12 +113,7 @@ class GraphExtractor:
                     self.config["model_path"]
                 )
                 if success:
-                    target_path = os.path.join(
-                        self.config["output_dir"],
-                        f"{self.name}_start{start_pos}_end{end_pos}",
-                    )
-                    os.makedirs(target_path, exist_ok=True)
-                    shutil.move(temp_dir, target_path)
+                    target_path = self._handle_success(temp_dir, start_pos, end_pos)
                     print(
                         f"SUCCESS in finding the biggest fully fusable subgraph. Result saved to: {target_path}"
                     )

@@ -1,15 +1,10 @@
 from . import utils
 import argparse
 import importlib.util
-import inspect
 import torch
-import logging
-from pathlib import Path
-from typing import Type, Any
-import sys
+from typing import Type
 import json
 import base64
-from contextlib import contextmanager
 
 
 def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Module]:
@@ -60,7 +55,6 @@ def main(args):
     assert model_class is not None
     model = model_class()
     print(f"{model_path=}")
-
     decorator_config = _convert_to_dict(args.decorator_config)
     if "decorator_path" in decorator_config:
         model = _get_decorator(decorator_config)(model)
@@ -70,7 +64,7 @@ def main(args):
     use_dummy_inputs = get_flag_use_dummy_inputs(decorator_config)
     print(f"{use_dummy_inputs=}")
     state_dict = {k: replay_tensor(v, use_dummy_inputs) for k, v in params.items()}
-
+    model.__graph_net_file_path__ = model_path
     model(**state_dict)
 
 

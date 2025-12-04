@@ -31,6 +31,7 @@ class GraphExtractor:
         filter_config=None,
         post_extract_process_path=None,
         post_extract_process_class_name=None,
+        **kwargs,
     ):
         for pos in split_positions:
             assert isinstance(

@@ -13,11 +13,12 @@ decorator_config_json_str=$(cat <<EOF
         "name": "$MODEL_NAME",
         "custom_extractor_path": "$GRAPH_NET_ROOT/torch/fully_fusable_subgraph_extractor.py",
         "custom_extractor_config": {
+            "output_dir": "/tmp/find_fully_fusable_output",
             "split_positions": [],
             "group_head_and_tail": true,
-            "max_step": 5,
+            "max_step": 3,
             "min_step": 2,
-            "max_nodes": 6
+            "max_nodes": 5
         }
     }
 }

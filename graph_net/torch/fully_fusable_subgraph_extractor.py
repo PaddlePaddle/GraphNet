@@ -2,6 +2,7 @@ import os
 import torch
 import graph_net
 import tempfile
+import shutil
 from graph_net.torch import constraint_util
 
 
@@ -23,76 +24,93 @@ class GraphExtractor:
 
     def make_config(
         self,
+        output_dir=None,
         split_positions=(),
         group_head_and_tail=False,
         chain_style=False,
         max_step=8,
         min_step=2,
         max_nodes=32,
+        model_path=None,
     ):
         for pos in split_positions:
             assert isinstance(
                 pos, int
             ), f"split_positions should be list of int, {split_positions=}"
         return {
+            "output_dir": output_dir,
             "split_positions": split_positions,
             "group_head_and_tail": group_head_and_tail,
             "chain_style": chain_style,
             "max_step": max_step,
             "min_step": min_step,
             "max_nodes": max_nodes,
+            "model_path": model_path,
         }
 
     def _get_sub_ranges(self):
+        assert self.config["min_step"] >= 1, "min_step must be greater than 1。"
+        assert (
+            self.config["max_step"] >= self.config["min_step"]
+        ), "max_step must be greater than min_step。"
         for step in reversed(
             range(self.config["min_step"], self.config["max_step"] + 1)
         ):
+            assert (
+                self.config["min_step"] <= step <= self.config["max_step"]
+            ), "Internal error: step exceeds configuration range."
             for start_pos in range(self.config["max_nodes"] - step):
                 end_pos = start_pos + step
+                assert (
+                    0 <= start_pos < end_pos <= self.config["max_nodes"]
+                ), f"Invalid range generated: start={start_pos}, end={end_pos}, max={self.config['max_nodes']}"
                 yield start_pos, end_pos
 
-    def __call__(self, gm: torch.fx.GraphModule, sample_inputs):
-        temp_dir_obj = tempfile.TemporaryDirectory(prefix="_check_fusable_")
-        temp_output_dir = temp_dir_obj.name
-        found_fusable_subgraph = False
-        print(f"Using temp output dir: {temp_output_dir}")
-        for start_pos, end_pos in self._get_sub_ranges():
-            self.config["split_positions"] = [start_pos, end_pos]
-            print("current split_positions:", self.config["split_positions"])
-            graph_net_root = os.path.dirname(graph_net.__file__)
-            model_path = os.path.join(
-                graph_net_root, "..", "samples", "timm", self.name
-            )
-            check_fusable_config = {
-                "decorator_path": f"{graph_net_root}/torch/extractor.py",
-                "decorator_config": {
-                    "name": f"{self.name}",
-                    "custom_extractor_path": f"{graph_net_root}/torch/naive_graph_decomposer.py",
-                    "custom_extractor_config": {
-                        "output_dir": temp_output_dir,
-                        "split_positions": self.config["split_positions"],
-                        "group_head_and_tail": False,
-                        "filter_path": f"{graph_net_root}/torch/naive_subgraph_filter.py",
-                        "filter_config": {},
-                        "post_extract_process_path": f"{graph_net_root}/torch/post_extract_process_count_kernels.py",
-                        "post_extract_process_class_name": "GraphFullyFusable",
-                    },
+    def _build_decompose_config(
+        self, temp_dir: str, start_pos: int, end_pos: int
+    ) -> dict:
+        self.config["split_positions"] = [start_pos, end_pos]
+        graph_net_root = os.path.dirname(graph_net.__file__)
+
+        check_fusable_config = {
+            "decorator_path": f"{graph_net_root}/torch/extractor.py",
+            "decorator_config": {
+                "name": f"{self.name}",
+                "custom_extractor_path": f"{graph_net_root}/torch/naive_graph_decomposer.py",
+                "custom_extractor_config": {
+                    "output_dir": temp_dir,
+                    "split_positions": self.config["split_positions"],
+                    "group_head_and_tail": False,
+                    "filter_path": f"{graph_net_root}/torch/naive_subgraph_filter.py",
+                    "filter_config": {},
+                    "post_extract_process_path": f"{graph_net_root}/torch/post_extract_process_count_kernels.py",
+                    "post_extract_process_class_name": "GraphFullyFusable",
                 },
-            }
-            success = constraint_util.RunModelPredicator(check_fusable_config)(
-                model_path
-            )
-            if success:
-                found_fusable_subgraph = True
-                temp_dir_obj.cleanup = lambda: None
-                print(
-                    f"SUCCESS in finding the biggest fully fusable subgraph saved in: {temp_output_dir}."
+            },
+        }
+        return check_fusable_config
+
+    def __call__(self, gm: torch.fx.GraphModule, sample_inputs):
+        for start_pos, end_pos in self._get_sub_ranges():
+            with tempfile.TemporaryDirectory(
+                prefix="_find_fusable_subgraph_"
+            ) as temp_dir:
+                check_fusable_config = self._build_decompose_config(
+                    temp_dir, start_pos, end_pos
                 )
-                break
-            else:
-                print("Failed attempt. clean up the workspace and continue the search.")
-                temp_dir_obj.cleanup()
-                continue
-        if not found_fusable_subgraph:
-            print("No fusable subgraph found")
-        return gm
+                print("current split_positions:", self.config["split_positions"])
+                success = constraint_util.RunModelPredicator(check_fusable_config)(
+                    self.config["model_path"]
+                )
+                if success:
+                    target_path = os.path.join(
+                        self.config["output_dir"],
+                        f"{self.name}_start{start_pos}_end{end_pos}",
+                    )
+                    os.makedirs(target_path, exist_ok=True)
+                    shutil.move(temp_dir, target_path)
+                    print(
+                        f"SUCCESS in finding the biggest fully fusable subgraph. Result saved to: {target_path}"
+                    )
+                    break
+        return gm.forward

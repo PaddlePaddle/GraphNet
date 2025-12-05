@@ -1,5 +1,5 @@
 """
-Concrete implementation of dtype conversion pass.
+Concrete implementation of dtype generalization pass.
 
 This pass converts tensor dtypes in FX Graph by:
 1. Converting placeholder nodes (inputs) to target dtype
@@ -9,10 +9,10 @@ This pass converts tensor dtypes in FX Graph by:
 
 import torch
 import torch.fx as fx
-from graph_net.torch.multi_dtype_passes.pass_base import DtypeConversionPass
+from graph_net.torch.dtype_gen_passes.pass_base import DtypeGeneralizationPass
 
 
-class ConcretePass(DtypeConversionPass):
+class ConcretePass(DtypeGeneralizationPass):
     """
     FX Graph pass that converts dtypes of tensors.
 
@@ -23,7 +23,7 @@ class ConcretePass(DtypeConversionPass):
     """
 
     def get_pass_name(self) -> str:
-        return f"dtype_conversion_{self.target_dtype}"
+        return f"dtype_generalization_{self.target_dtype}"
 
     def need_rewrite(self, gm: fx.GraphModule) -> bool:
         """

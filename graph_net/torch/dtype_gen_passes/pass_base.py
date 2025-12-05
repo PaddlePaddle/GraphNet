@@ -1,12 +1,12 @@
 """
-Base class for dtype conversion passes.
+Base class for dtype generalization passes.
 """
 
 import torch
 import torch.fx as fx
 
 
-class DtypeConversionPass:
+class DtypeGeneralizationPass:
     """
     Base class for FX Graph passes that convert dtypes.
 

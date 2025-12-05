@@ -1,11 +1,12 @@
 """
-MultiDtypeGenerator: Initialize data type generalization passes for samples.
+DtypeGeneralizer: Data type generalization for samples.
 
-This module provides an initializer that tests which dtype conversion passes
-work for a given computation graph, then writes the pass names to graph_net.json.
+This module provides two steps:
+1. InitDataTypeGeneralizationPasses: Test and write pass names to graph_net.json
+2. ApplyDataTypeGeneralizationPasses: Read pass names and generate new samples
 
-When the sample needs to be converted to low precision, it reads the pass names
-from graph_net.json and applies them.
+When a sample needs to be converted to low precision, it reads the pass names
+from graph_net.json and applies them to generate new samples.
 """
 
 import copy
@@ -24,7 +25,7 @@ from graph_net.torch.fx_graph_cache_util import (
     parse_immutable_model_path_into_sole_graph_module,
 )
 from graph_net.torch.fx_graph_serialize_util import serialize_graph_module_to_str
-from graph_net.torch.multi_dtype_passes.pass_mgr import get_dtype_conversion_pass
+from graph_net.torch.dtype_gen_passes.pass_mgr import get_dtype_generalization_pass
 from graph_net.torch import utils
 
 
@@ -42,9 +43,9 @@ FLOAT32_PRESERVED_WEIGHTS = {
 
 class InitDataTypeGeneralizationPasses:
     """
-    Initialize data type generalization passes for a computation graph.
+    Step 1: Initialize data type generalization passes for a computation graph.
 
-    This class tests which dtype conversion passes work for a given graph
+    This class tests which dtype generalization passes work for a given graph
     and writes the successful pass names to graph_net.json.
 
     Config format:
@@ -89,7 +90,7 @@ class InitDataTypeGeneralizationPasses:
         self, model_path: str, traced_model: fx.GraphModule
     ) -> List[str]:
         """
-        Test which dtype conversion passes work for this graph.
+        Test which dtype generalization passes work for this graph.
 
         Args:
             model_path: Path to model
@@ -101,11 +102,11 @@ class InitDataTypeGeneralizationPasses:
         working_passes = []
 
         for dtype in self.dtype_list:
-            pass_name = "dtype_conversion_pass"  # Full pass file name without .py
+            pass_name = "dtype_generalization_pass"  # Full pass file name without .py
 
             try:
                 # Try to apply the pass
-                dtype_pass_class = get_dtype_conversion_pass(pass_name)
+                dtype_pass_class = get_dtype_generalization_pass(pass_name)
                 dtype_pass = dtype_pass_class(
                     target_dtype=dtype,
                     preserve_weights=FLOAT32_PRESERVED_WEIGHTS,
@@ -189,9 +190,162 @@ class InitDataTypeGeneralizationPasses:
         temp_path.replace(graph_net_json_path)
 
 
+class ApplyDataTypeGeneralizationPasses:
+    """
+    Step 2: Apply data type generalization passes to generate new samples.
+
+    This class reads the pass names from graph_net.json (written by Step 1)
+    and applies them to generate low-precision samples.
+
+    Config format:
+        {
+            "output_dir": "/path/to/output",
+        }
+    """
+
+    def __init__(self, config: Dict[str, Any]):
+        self.config = config
+        self.output_dir = config.get("output_dir")
+        if not self.output_dir:
+            raise ValueError("output_dir is required in config")
+
+    def __call__(self, model_path: str) -> List[str]:
+        """
+        Apply dtype passes to generate new samples.
+
+        Args:
+            model_path: Path to the original model directory
+
+        Returns:
+            List of generated sample directories
+        """
+        # Read pass names from graph_net.json
+        dtype_pass_names = self._read_dtype_pass_names(model_path)
+
+        if not dtype_pass_names:
+            logging.warning(f"No dtype passes found in {model_path}/graph_net.json")
+            return []
+
+        # Parse the computation graph
+        traced_model = parse_immutable_model_path_into_sole_graph_module(model_path)
+
+        # Generate samples for each pass
+        generated_samples = []
+        for pass_name in dtype_pass_names:
+            try:
+                sample_dir = self._apply_pass_and_generate(
+                    model_path, traced_model, pass_name
+                )
+                generated_samples.append(sample_dir)
+                logging.info(f"Generated sample: {sample_dir}")
+            except Exception as e:
+                logging.error(f"Failed to apply pass {pass_name}: {e}")
+                continue
+
+        return generated_samples
+
+    def _read_dtype_pass_names(self, model_path: str) -> List[str]:
+        """
+        Read dtype pass names from graph_net.json.
+
+        Args:
+            model_path: Path to model directory
+
+        Returns:
+            List of pass names
+        """
+        graph_net_json_path = Path(model_path) / "graph_net.json"
+
+        if not graph_net_json_path.exists():
+            return []
+
+        with open(graph_net_json_path, "r") as f:
+            metadata = json.load(f)
+
+        return metadata.get(kDataTypeGeneralizationPasses, [])
+
+    def _apply_pass_and_generate(
+        self, model_path: str, traced_model: fx.GraphModule, pass_name: str
+    ) -> str:
+        """
+        Apply a specific pass and generate a new sample.
+
+        Args:
+            model_path: Original model path
+            traced_model: Original traced model
+            pass_name: Name of the pass to apply (e.g., "dtype_generalization_pass_float16")
+
+        Returns:
+            Path to the generated sample directory
+        """
+        # Parse pass name to extract base name and dtype
+        # Format: "dtype_generalization_pass_float16"
+        parts = pass_name.rsplit("_", 1)
+        if len(parts) != 2:
+            raise ValueError(f"Invalid pass name format: {pass_name}")
+
+        base_name, dtype = parts
+
+        # Load and apply the pass
+        dtype_pass_class = get_dtype_generalization_pass(base_name)
+        dtype_pass = dtype_pass_class(
+            target_dtype=dtype,
+            preserve_weights=FLOAT32_PRESERVED_WEIGHTS,
+        )
+
+        gm_copy = copy.deepcopy(traced_model)
+        gm_modified = dtype_pass.rewrite(gm_copy)
+
+        # Generate output directory
+        model_name = Path(model_path).name
+        output_sample_dir = Path(self.output_dir) / f"{model_name}_{dtype}"
+        output_sample_dir.mkdir(parents=True, exist_ok=True)
+
+        # Write modified model.py
+        model_code = serialize_graph_module_to_str(gm_modified)
+        write_code = utils.apply_templates(model_code)
+        with open(output_sample_dir / "model.py", "w") as f:
+            f.write(write_code)
+
+        # Copy metadata files
+        for fname in ["graph_net.json", "weight_meta.py", "input_meta.py"]:
+            src = Path(model_path) / fname
+            if src.exists():
+                shutil.copy(src, output_sample_dir / fname)
+
+        # Update graph_net.json with dtype information
+        self._update_sample_metadata(output_sample_dir, dtype)
+
+        return str(output_sample_dir)
+
+    def _update_sample_metadata(self, sample_dir: Path, dtype: str) -> None:
+        """
+        Update the generated sample's metadata.
+
+        Args:
+            sample_dir: Path to generated sample directory
+            dtype: Target dtype
+        """
+        graph_net_json_path = sample_dir / "graph_net.json"
+
+        with open(graph_net_json_path, "r") as f:
+            metadata = json.load(f)
+
+        # Add dtype information
+        metadata["dtype"] = dtype
+        metadata["precision"] = dtype
+        metadata["generated_from_dtype_generalization"] = True
+
+        # Atomic write
+        temp_path = graph_net_json_path.with_suffix(".json.tmp")
+        with open(temp_path, "w") as f:
+            json.dump(metadata, f, indent=4)
+        temp_path.replace(graph_net_json_path)
+
+
 class MultiDtypeFilter:
     """
-    Filter for graphs that cannot support dtype conversion.
+    Filter for graphs that cannot support dtype generalization.
     """
 
     def __init__(self, config: Dict[str, Any]):

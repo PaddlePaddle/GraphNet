@@ -20,16 +20,18 @@ def extract_visio_graph(model_name: str, model_path: str):
     random_input = torch.rand(batch_size, num_channels, height, width)
     normalized_input = normalize(random_input)
 
-    # 使用get_model下载模型
+    # download models using `torchvision.get_model`
     # all_models = list_models(module=torchvision.models)
     # if(model_path not in all_models):
-    #     print("不存在该模型, 请校验模型名称是否相同")
+    #     print("Model not found")
     #     return
-    # model = get_model(model_path, weights="DEFAULT")
+    # model = torchvision.get_model(model_path, weights="DEFAULT")
 
-    # 使用torch.hub下载模型
-    # 相关使用办法见https://docs.pytorch.org/docs/stable/hub.html
-    torch.hub.set_dir("../../../test")  # 缓存目录默认为$TORCH_HOME/hub 如果没有设置环境变量则为 ~/.cache
+    # download models using torch.hub
+    # Refer to https://docs.pytorch.org/docs/stable/hub.html
+    torch.hub.set_dir(
+        "../../../test"
+    )  # The default cache directory is $TORCH_HOME/hub; if the environment variable is not set, it defaults to ~/.cache
     endpoints = torch.hub.list("pytorch/vision")
     if model_path not in endpoints:
         print("Model not found")
@@ -55,8 +57,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--model_name", type=str, default="resnet18"
-    )  # 模型名称(自定义,推荐与官网相同或者简写)
-    parser.add_argument("--model_path", type=str, default="resnet18")  # 官网定义模型名称
+    )  #  Model name (customizable, recommended to be the same as the official name or an abbreviation)
+    parser.add_argument(
+        "--model_path", type=str, default="resnet18"
+    )  # Model name as defined on the official website
     parser.add_argument("--workspace", type=str, default=workspace_default)
     args = parser.parse_args()
 

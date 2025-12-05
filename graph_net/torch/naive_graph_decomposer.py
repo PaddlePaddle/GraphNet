@@ -101,6 +101,7 @@ class NaiveDecomposerExtractor:
         post_extract_process_path=None,
         post_extract_process_class_name=None,
         post_extract_process_config=None,
+        model_path_prefix="",
         **kwargs,
     ):
         if post_extract_process_config is None:
@@ -119,9 +120,11 @@ class NaiveDecomposerExtractor:
             "post_extract_process_path": post_extract_process_path,
             "post_extract_process_class_name": post_extract_process_class_name,
             "post_extract_process_config": post_extract_process_config,
+            "model_path_prefix": model_path_prefix,
         }
 
-    def __call__(self, model_path):
+    def __call__(self, rel_model_path):
+        model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         config = {
             k: v
             for k, v in self.config.items()
@@ -171,7 +174,9 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
             dynamic=False,
             mut_graph_codes=[],
             placeholder_auto_rename=False,
-            workspace_path=self.config["output_dir"],
+            workspace_path=os.path.join(
+                self.config["output_dir"], f"{parent_graph_name}_decomposed"
+            ),
         )
         self.filter = self.make_filter(self.config)
         self.post_extract_process = self.make_post_extract_process(self.config)

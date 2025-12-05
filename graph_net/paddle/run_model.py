@@ -1,9 +1,7 @@
 import os
-import sys
 import json
 import base64
 import argparse
-from typing import Type
 
 os.environ["FLAGS_logging_pir_py_code_dir"] = "/tmp/dump"
 
@@ -16,6 +14,7 @@ def load_class_from_file(file_path: str, class_name: str):
     print(f"Load {class_name} from {file_path}")
     module = imp_util.load_module(file_path, "unnamed")
     model_class = getattr(module, class_name, None)
+    setattr(model_class, "__graph_net_file_path__", os.path.normpath(file_path))
     return model_class
 
 
@@ -26,7 +25,8 @@ def get_input_dict(model_path):
 
     state_dict = {}
     for k, v in params.items():
-        state_dict[k] = paddle.nn.parameter.Parameter(utils.replay_tensor(v), name=k)
+        name = v["original_name"] if v.get("original_name", None) else k
+        state_dict[k] = paddle.nn.parameter.Parameter(utils.replay_tensor(v), name=name)
     for k, v in inputs.items():
         state_dict[k] = utils.replay_tensor(v)
     return state_dict
@@ -83,4 +83,5 @@ if __name__ == "__main__":
         help="decorator configuration string",
     )
     args = parser.parse_args()
+    print(args)
     main(args=args)

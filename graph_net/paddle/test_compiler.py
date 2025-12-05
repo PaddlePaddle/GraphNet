@@ -335,6 +335,9 @@ def test_single_model(args):
             file=sys.stderr,
             flush=True,
         )
+        compiled_success = True
+    except Exception as e:
+        print(f"Run model in compiled mode failed: {str(e)}\n{traceback.format_exc()}")
 
     # Run on compiling mode
     compiled_success = False

@@ -19,5 +19,6 @@
         "endpoints_compatible",
         "region:us"
     ],
-    "heuristic_tag": "nlp"
+    "heuristic_tag": "nlp",
+    "symbolic_dimension_reifier": "naive_nlp_sym_dim_reifier"
 }

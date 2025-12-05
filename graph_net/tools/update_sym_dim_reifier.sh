@@ -8,10 +8,11 @@ os.path.dirname(graph_net.__file__))")
 model_runnable_predicator=ModelRunnablePredicator
 config_json_str=$(cat <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/tools/_get_in_tensor_symbolic_shapes.py",
-    "handler_class_name": "GetInTensorSymbolicShapes",
+    "handler_path": "$GRAPH_NET_ROOT/tools/_update_sym_dim_reifier.py",
+    "handler_class_name": "UpdateSymDimReifier",
     "handler_config": {
-        "ignore_reified": true,
+        "reifier_factory_path": "$GRAPH_NET_ROOT/torch/reifier_factory.py",
+        "reifier_factory_class_name": "ReifierFactory",
         "model_path_prefix": "$GRAPH_NET_ROOT/../"
     }
 }

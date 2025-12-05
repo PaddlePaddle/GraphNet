@@ -8,11 +8,16 @@ os.path.dirname(graph_net.__file__))")
 model_runnable_predicator=ModelRunnablePredicator
 config_json_str=$(cat <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/tools/_get_in_tensor_symbolic_shapes.py",
-    "handler_class_name": "GetInTensorSymbolicShapes",
+    "handler_path": "$GRAPH_NET_ROOT/dimension_generalizer.py",
+    "handler_class_name": "ApplyDimGenPasses",
     "handler_config": {
-        "ignore_reified": true,
-        "model_path_prefix": "$GRAPH_NET_ROOT/../"
+        "resume": true,
+        "output_dir": "/tmp/dimension_generalized_samples",
+        "model_path_prefix": "$GRAPH_NET_ROOT/../",
+        "dimension_generalizer_filepath": "$GRAPH_NET_ROOT/torch/static_to_dynamic.py",
+        "dimension_generalizer_class_name": "StaticToDynamic",
+        "limits_handled_models": 9999999,
+        "last_model_log_file": "/tmp/a.py"
     }
 }
 EOF

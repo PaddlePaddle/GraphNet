@@ -6,6 +6,11 @@ from torchvision import transforms
 
 import graph_net
 
+EXAMPLE_SAMPLE_REL_MODEL_PATHS = [
+    "samples/torchvision/wide_resnet50_2",
+    "samples/torchvision/wide_resnet101_2",
+]
+
 
 def extract_visio_graph(model_name: str, model_path: str):
     # Normalization parameters for ImageNet

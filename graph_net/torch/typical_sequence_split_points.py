@@ -2,7 +2,7 @@ import argparse
 import json
 import os
 from pathlib import Path
-from typing import Any, Callable, Dict, List
+from typing import Any, Dict, List
 
 import torch
 import torch.nn as nn
@@ -252,7 +252,15 @@ class SplitAnalyzer:
         print("\n")
 
 
-def main():
+def main(args):
+    analyzer = SplitAnalyzer(window_size=args.window_size)
+    results = analyzer.analyze(args.model_list, args.device)
+    if args.output_json:
+        with open(args.output_json, "w") as f:
+            json.dump(results, f, indent=4)
+
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Analyze graph and calculate split points."
     )
@@ -278,14 +286,4 @@ def main():
         help="Path to save the analysis results in JSON format.",
     )
     args = parser.parse_args()
-
-    analyzer = SplitAnalyzer(window_size=args.window_size)
-    results = analyzer.analyze(args.model_list, args.device)
-
-    if args.output_json:
-        with open(args.output_json, "w") as f:
-            json.dump(results, f, indent=4)
-
-
-if __name__ == "__main__":
-    main()
+    main(args)

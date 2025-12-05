@@ -1,17 +1,1 @@
-{
-    "framework": "torch",
-    "num_devices_required": 1,
-    "num_nodes_required": 1,
-    "dynamic": false,
-    "model_name": "hf-tiny-model-private/tiny-random-WavLMForSequenceClassification",
-    "source": "huggingface_hub",
-    "original_tag": [
-        "transformers",
-        "pytorch",
-        "wavlm",
-        "audio-classification",
-        "endpoints_compatible",
-        "region:us"
-    ],
-    "heuristic_tag": "audio"
-}
+{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "model_name": "hf-tiny-model-private/tiny-random-WavLMForSequenceClassification", "source": "huggingface_hub", "original_tag": ["transformers", "pytorch", "wavlm", "audio-classification", "endpoints_compatible", "region:us"], "heuristic_tag": "audio", "dimension_generalization_passes": []}

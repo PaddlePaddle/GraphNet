@@ -19,6 +19,22 @@ config_json_str=$(cat <<EOF
         "model_runnable_predicator_class_name": "$model_runnable_predicator",
         "dimension_generalizer_filepath": "$GRAPH_NET_ROOT/torch/static_to_dynamic.py",
         "dimension_generalizer_class_name": "StaticToDynamic",
+        "dimension_generalizer_config": {
+            "pass_names": [
+                "batch_call_method_view_pass",
+                "tuple_arg_call_method_view_pass",
+                "naive_call_method_reshape_pass",
+                "naive_call_method_expand_pass",
+                "non_batch_call_method_expand_pass",
+                "non_batch_call_function_arange_pass",
+                "non_batch_call_function_getitem_slice_pass",
+                "non_batch_call_function_full_pass",
+                "non_batch_call_function_full_plus_one_pass",
+                "non_batch_call_function_zeros_pass",
+                "non_batch_call_function_arange_plus_one_pass"
+            ]
+        },
+        "limits_handled_models": 1,
         "last_model_log_file": "/tmp/a.py"
     }
 }
@@ -26,4 +42,4 @@ EOF
 )
 CONFIG=$(echo $config_json_str | base64 -w 0)
 
-python3 -m graph_net.model_path_handler --model-path-list $GRAPH_NET_ROOT/config/torch_samples_list.txt --handler-config=$CONFIG
+python3 -m graph_net.model_path_handler --model-path-list $GRAPH_NET_ROOT/config/empty_cstr_torch_samples_list.txt --handler-config=$CONFIG

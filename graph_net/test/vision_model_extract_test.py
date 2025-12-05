@@ -2,9 +2,8 @@ import argparse
 import os
 
 import torch
-import torchvision
 from torchvision import transforms
-from torchvision.models import list_models, get_model
+
 import graph_net
 
 

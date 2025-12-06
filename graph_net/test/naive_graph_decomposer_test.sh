@@ -13,9 +13,8 @@ config_json_str=$(cat <<EOF
     "handler_config": {
         "output_dir": "/tmp/naive_decompose_workspace",
         "split_positions": [8, 16, 32],
-        "group_head_and_tail": true,
-        "filter_path":"$GRAPH_NET_ROOT/torch/naive_subgraph_filter.py",
-        "filter_config": {}
+        "chain_style": true,
+        "group_head_and_tail": true
     }
 }
 EOF

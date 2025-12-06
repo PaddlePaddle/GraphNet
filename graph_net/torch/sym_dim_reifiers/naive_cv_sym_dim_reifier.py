@@ -36,6 +36,10 @@ class ConcreteReifier(ReifierBase):
                 "[(S0,3,256,256)]": cls.reify_mmpose_related_big_batch_s0,
                 "[(S0,3,S1,S2)]": cls.reify_mmpose_related_s0_s1_s2,
                 "[(1,S0,3,S1,S1)]": cls.reify_vivit_related_s0_s1,
+                "[(S0,),(S1,80,S2),(S1,)]": cls.reify_nemo_asr_s0_s1_s2,
+                "[(S0,80,S1),(S0,)]": cls.reify_nemo_asr_s0_s1,
+                "[(S0,3,512,1024)]": cls.reify_semantic_seg_s0,
+                "[(S0,3,640,640)]": cls.reify_yolo_s0,
             }
         return cls.g_cv_sym_shapes_str2reifier
 
@@ -135,4 +139,48 @@ class ConcreteReifier(ReifierBase):
                 [8, 384],
                 [32, 224],
             ],
+        }
+
+    def reify_nemo_asr_s0_s1_s2(self):
+        S0S1S2 = (sympy.Symbol("S0"), sympy.Symbol("S1"), sympy.Symbol("S2"))
+        return {
+            S0S1S2: [
+                [1, 1, 500],
+                [16, 16, 200],
+                [2, 2, 3000],
+                [8, 8, 1000],
+                [4, 4, 2000],
+                [64, 64, 200],
+                [16, 16, 1000],
+                [32, 32, 500],
+                [4, 4, 4000],
+            ],
+        }
+
+    def reify_nemo_asr_s0_s1(self):
+        S0S1 = (sympy.Symbol("S0"), sympy.Symbol("S1"))
+        return {
+            S0S1: [
+                [1, 500],
+                [16, 200],
+                [2, 3000],
+                [8, 1000],
+                [4, 2000],
+                [64, 200],
+                [16, 1000],
+                [32, 500],
+                [4, 4000],
+            ],
+        }
+
+    def reify_semantic_seg_s0(self):
+        S0 = (sympy.Symbol("S0"),)
+        return {
+            S0: [[1], [2], [4], [6], [8], [12], [16], [24], [32]],
+        }
+
+    def reify_yolo_s0(self):
+        S0 = (sympy.Symbol("S0"),)
+        return {
+            S0: [[1], [2], [4], [8], [12], [16], [24], [32], [64]],
         }

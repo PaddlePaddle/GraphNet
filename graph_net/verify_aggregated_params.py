@@ -15,7 +15,7 @@ def determine_tolerances(samples: list) -> range:
     return range(-10, len(default_errnos) + 2)
 
 
-def extract_statistics_at_tolerance(samples: list, tolerance: int) -> dict:
+def extract_statistics_at_tolerance(samples: list, tolerance: int,mode:str = "default") -> dict:
     """Extract statistics for a given tolerance level."""
     sample_data = [
         (
@@ -39,7 +39,7 @@ def extract_statistics_at_tolerance(samples: list, tolerance: int) -> dict:
 
     errno2count = dict(
         Counter(
-            get_errno_from_error_type(fail_type)
+            get_errno_from_error_type(fail_type,mode)
             for _, _, _, _, fail_type in sample_data
             if fail_type is not None
         )
@@ -75,7 +75,6 @@ def _freeze_statistics_at_tolerance(
     )
     return pi
 
-
 def select_statistics_for_calculation(
     tolerance: int, current_stats: dict, frozen_stats: dict
 ) -> dict:
@@ -103,6 +102,7 @@ def calculate_es_constructor_params_for_tolerance(
     pi: dict,
     negative_speedup_penalty: float,
     fpdb: float,
+    mode: str = "default",
 ) -> dict:
     """Calculate ES(t) constructor parameters (alpha, beta, gamma, lambda, eta) and final scores for a tolerance level."""
     aggregated_params = samples_statistics.calculate_es_components_values(
@@ -113,6 +113,7 @@ def calculate_es_constructor_params_for_tolerance(
         negative_speedup_penalty=negative_speedup_penalty,
         b=fpdb,
         pi=pi,
+        mode=mode,
     )
 
     alpha = aggregated_params["alpha"]
@@ -201,6 +202,7 @@ class ToleranceReportBuilder:
         total_samples: int,
         negative_speedup_penalty: float,
         fpdb: float,
+        mode: str,
     ):
         self.samples = samples
         self.total_samples = total_samples
@@ -213,9 +215,10 @@ class ToleranceReportBuilder:
             "slowdown_speedups": [],
             "errno2count": {},
         }
+        self.mode = mode
 
     def build_report(self, tolerance: int) -> dict:
-        current_stats = extract_statistics_at_tolerance(self.samples, tolerance)
+        current_stats = extract_statistics_at_tolerance(self.samples, tolerance,self.mode)
 
         if tolerance == 1:
             self.pi = _freeze_statistics_at_tolerance(
@@ -241,6 +244,7 @@ class ToleranceReportBuilder:
             pi_for_calc,
             self.negative_speedup_penalty,
             self.fpdb,
+            self.mode,
         )
         # Use calculated pi from es_constructor_params for display and return
         calculated_pi = es_constructor_params.get("pi", self.pi)
@@ -284,6 +288,7 @@ def verify_es_constructor_params_across_tolerances(
     folder_name: str,
     negative_speedup_penalty: float = 0,
     fpdb: float = 0.1,
+    mode: str = "default",
 ) -> dict:
     """
     Verify and print ES constructor parameters (alpha, beta, gamma, lambda, eta, pi) for each
@@ -305,6 +310,7 @@ def verify_es_constructor_params_across_tolerances(
         total_samples=total_samples,
         negative_speedup_penalty=negative_speedup_penalty,
         fpdb=fpdb,
+        mode=mode,
     )
 
     results = OrderedDict(

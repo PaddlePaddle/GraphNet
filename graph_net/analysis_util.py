@@ -292,10 +292,15 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
         return bool(result[index])
     return False
 
-
 def fake_perf_degrad(tolerance, error_code, type="default") -> str:
     """
     Judge current correctness based on tolerance t and status.
+
+    Release levels:
+        t = 1 : release accuracy error
+        t = 2 : release nan/inf/type mismatch errors
+        t = 3 : release post-compile execution failures
+        t = 4 : release compile failures
     """
     if type == "default":
         if tolerance >= 3:
@@ -305,29 +310,32 @@ def fake_perf_degrad(tolerance, error_code, type="default") -> str:
         else:
             return error_code
     elif type == "extended":
-        if (
-            error_code == "compile_fail" or error_code == "runtime_fail"
-        ) and tolerance >= 4:
-            return "correct"
-        elif error_code == "eager_fail" and tolerance >= 3:
-            return "correct"
-        elif (
-            error_code == "shape_mismatch" or error_code == "type_mismatch"
-        ) and tolerance >= 2:
-            return "correct"
-        elif error_code == "accuracy" and tolerance >= 1:
-            return "correct"
-        else:
+        if error_code in ["eager_fail", "reference_fail"]:
             return error_code
-    else:
-        raise NotImplementedError
+        if tolerance >= 4:
+            if error_code == "compile_fail":
+                return "correct"
+        if tolerance >= 3:
+            if error_code in ["runtime_fail", "execution_fail"]:
+                return "correct"
+        if tolerance >= 2:
+            if error_code in ["nan", "inf", "type_mismatch", "shape_mismatch"]:
+                return "correct"
+        if tolerance >= 1:
+            if error_code == "accuracy":
+                return "correct"
 
+        return error_code
+
+    else:
+        raise NotImplementedError(f"Type '{type}' is not implemented.")
 
 def calculate_scores(
     samples: list,
     p: float = 0,
     b: float = 0.1,
     type: str = "ESt",
+    mode: str = "default",
 ) -> tuple:
     """
     Use a standard tolerance to evaluate all samples and calculate S(t) and ES(t) scores for each tolerance level.
@@ -374,7 +382,7 @@ def calculate_scores(
             else:
                 if not is_correct_at_t1[idx]:
                     current_correctness = fake_perf_degrad(
-                        tolerance, fail_type_at_t1[idx]
+                        tolerance, fail_type_at_t1[idx],mode
                     )
                     rec_speedup_fake_degrad = (
                         1 if current_correctness == "correct" else b

@@ -271,6 +271,7 @@ def main(args):
             p=args.negative_speedup_penalty,
             b=args.fpdb,
             type="ESt",
+            mode=args.mode,
         )
 
         # Keep original behavior: assign es_scores directly
@@ -285,6 +286,7 @@ def main(args):
                     folder_name,
                     negative_speedup_penalty=args.negative_speedup_penalty,
                     fpdb=args.fpdb,
+                    mode=args.mode
                 )
             )
             # Store aggregated results for plotting
@@ -428,6 +430,13 @@ if __name__ == "__main__":
         dest="enable_aggregation_mode",
         action="store_false",
         help="Disable aggregation mode verification.",
+    )
+    parser.add_argument(
+        "--mode",
+        type=str,
+        choices=["default", "extended"],
+        default="default",
+        help="Select correctness evaluation mode. Options: default, extended. Default: default.",
     )
     parser.set_defaults(enable_aggregation_mode=True)
     args = parser.parse_args()

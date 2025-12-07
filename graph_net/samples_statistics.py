@@ -4,12 +4,27 @@ Aggregated statistics calculation module for S(t) and ES(t) metrics.
 This module provides independent functions for calculating each aggregated parameter
 (alpha, beta, gamma, lambda, eta, pi) according to Appendix B and C of the paper.
 """
+from typing import Union, Optional
 
+import scipy
 from scipy.stats import gmean
 from collections.abc import Callable
 
+DEFAULT_ERRNO_AS_TOLERANCE = {
+    1: 1,  # Accuracy error
+    2: 3,  # Runtime error
+    3: 3,  # Compilation error
+}
 
-def get_errno_from_error_type(error_type: str) -> int:
+EXTENDED_ERRNO_AS_TOLERANCE = {
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    999: 999
+}
+
+def get_errno_from_error_type(error_type: str,mode: str = "default") -> int:
     """
     Map error type string to errno (error number) for sorting.
 
@@ -24,14 +39,24 @@ def get_errno_from_error_type(error_type: str) -> int:
     Returns:
         Errno (1, 2, or 3) based on error type
     """
-    if error_type == "accuracy":
+    if not error_type:
+        # Default fallback if error_type is None/Empty
+        return 2 if mode == "default" else 3
+
+    etype = error_type.lower()
+    if "accuracy" in etype:
         return 1
-    elif error_type in ("eager", "other", "runtime_fail", "eager_fail"):
-        return 2
-    elif error_type in ("compiled", "compile_fail"):
+
+    if mode == "extended":
+        if any(k in etype for k in ["nan", "inf", "type_mismatch", "shape_mismatch"]):
+            return 2
+        if any(k in etype for k in ["compile_fail"]):
+            return 4
         return 3
+
     else:
-        # Default to 2 for unknown error types (runtime errors)
+        if any(k in etype for k in ["compile_fail"]):
+            return 3
         return 2
 
 
@@ -163,29 +188,40 @@ def calculate_pi(
 
 
 def resolve_errno_tolerance(
-    errno2count: dict[int, int], errno_tolerance_overrides: dict[int, int] | None
-) -> dict[int, int]:
+        errno2count: dict[Union[int, str], int],
+        errno_tolerance_overrides: Optional[dict[Union[int, str], int]] = None
+) -> dict[Union[int, str], int]:
     """
     Build a sorted errno -> tolerance map for downstream gamma calculation.
 
     Args:
-        errno2count: Observed errno occurrences in the dataset.
+        errno2count: Observed errno occurrences in the dataset. Keys can be int (default) or str (extended).
         errno_tolerance_overrides: Optional overrides mapping errno to its minimal tolerated tolerance.
+                                   In extended mode, this should contain the full mapping (e.g., "nan": 2).
 
     Returns:
         Ordered dict (by errno) mapping each errno seen in errno2count
-        to the tolerance value where it becomes tolerated. Defaults to:
-        - errno 1 (accuracy) -> 1
-        - errno >=2 (runtime/compile) -> 3
+        to the tolerance value where it becomes tolerated.
+
+        Defaults logic (if not in overrides):
+        - int 1 (accuracy) -> 1
+        - int others -> 3
+        - str (unknown) -> 999 (Treat as severe error if not explicitly mapped)
     """
     errno_tolerance_overrides = errno_tolerance_overrides or {}
 
-    def tolerance_for(errno: int) -> int:
+    def tolerance_for(errno: Union[int, str]) -> int:
         if errno in errno_tolerance_overrides:
             return errno_tolerance_overrides[errno]
-        return 1 if errno == 1 else 3
 
-    return {errno: tolerance_for(errno) for errno in sorted(errno2count.keys())}
+        if isinstance(errno, int):
+            return 1 if errno == 1 else 3
+
+        return 999
+
+    sorted_keys = sorted(errno2count.keys(), key=lambda x: str(x))
+
+    return {errno: tolerance_for(errno) for errno in sorted_keys}
 
 
 def calculate_gamma(
@@ -287,58 +323,43 @@ def calculate_es_t_from_aggregated(
 
 
 def calculate_es_components_values(
-    total_samples: int,
-    correct_speedups: list[float],
-    errno2count: dict[int, int],
-    tolerance: int,
-    negative_speedup_penalty: float = 0.0,
-    b: float = 0.1,
-    pi: dict[int, float] | None = None,
-    errno_as_tolerance: dict[int, int] | None = None,
+        total_samples: int,
+        correct_speedups: list[float],
+        errno2count: dict[Union[int, str], int],  # 更新类型注解支持 str
+        tolerance: int,
+        negative_speedup_penalty: float = 0.0,
+        b: float = 0.1,
+        pi: Optional[dict[Union[int, str], float]] = None,
+        errno_as_tolerance: Optional[dict[Union[int, str], int]] = None,
+        mode: str = "default",
 ) -> dict:
     """
     Calculate aggregated parameters for a given tolerance level.
 
     Args:
-        total_samples: Total number of samples
-        correct_speedups: List of speedup values for correct samples
-        errno2count: Dictionary mapping errno (error number) to their counts.
-            Errno values: 1=accuracy, 2=runtime, 3=compilation.
-        tolerance: Tolerance level
-        negative_speedup_penalty: Penalty power p for negative speedup
-        b: Base penalty for severe errors or accuracy violation
-        pi: Dictionary mapping errno to their proportions (calculated at t=1).
-            If None, will be calculated from errno2count.
-        errno_as_tolerance: Mapping from errno to its minimum tolerated tolerance.
-            An error type is tolerated (not penalized) when tolerance >= its value.
-            If None, defaults to {1: 1} for accuracy, {2: 3, 3: 3} for others.
-
-    Returns:
-        Dictionary containing ES(t) component values:
-        {
-            'alpha': float,
-            'beta': float,
-            'lambda': float,
-            'eta': float,
-            'gamma': float,
-            'pi': dict[int, float]
-        }
+        ...
+        mode: "default" (int error codes) or "extended" (str error codes).
     """
-    # Calculate pi if not provided
+
     if pi is None:
         pi = calculate_pi(errno2count, total_samples, correct_speedups)
 
-    # Prepare errno-ordered tolerance mapping for calculate_gamma
+    if errno_as_tolerance is None:
+        if mode == "extended":
+            errno_as_tolerance = EXTENDED_ERRNO_AS_TOLERANCE
+        else:
+            errno_as_tolerance = DEFAULT_ERRNO_AS_TOLERANCE
+
     errno2tolerance = resolve_errno_tolerance(errno2count, errno_as_tolerance)
 
-    # Create pi_value4errno function that maps errno to pi value
-    def pi_value4errno(errno: int) -> float:
+    def pi_value4errno(errno: Union[int, str]) -> float:
         return pi.get(errno, 0.0)
 
     alpha = calculate_alpha(correct_speedups)
     beta = calculate_beta(correct_speedups)
     lambda_ = calculate_lambda(correct_speedups, total_samples)
     eta = calculate_eta(correct_speedups)
+
     gamma = calculate_gamma(tolerance, pi_value4errno, errno2tolerance, b)
 
     return {

@@ -187,6 +187,19 @@ def run_decomposer_for_single_model(
             },
         },
     }
+    if framework == "paddle":
+        post_process_configs = {
+            "post_extract_process_path": f"{graphnet_root}/graph_net/{framework}/graph_meta_restorer.py",
+            "post_extract_process_class_name": "GraphMetaRestorer",
+            "post_extract_process_config": {
+                "update_inplace": True,
+                "weight_meta_allow_partial_update": True,
+                "input_meta_allow_partial_update": False,
+            },
+        }
+        for key, value in post_process_configs.items():
+            decorator_config["decorator_config"]["custom_extractor_config"][key] = value
+
     decorator_config_b64 = convert_json_to_b64_string(decorator_config)
 
     print(

@@ -2,12 +2,20 @@ import os
 import json
 import base64
 import argparse
+import numpy as np
+import random
 
 os.environ["FLAGS_logging_pir_py_code_dir"] = "/tmp/dump"
 
 import paddle
 from graph_net import imp_util
 from graph_net.paddle import utils
+
+
+def set_seed(random_seed):
+    paddle.seed(random_seed)
+    random.seed(random_seed)
+    np.random.seed(random_seed)
 
 
 def load_class_from_file(file_path: str, class_name: str):
@@ -61,6 +69,9 @@ def main(args):
     assert model_class is not None
     model = model_class()
     print(f"{model_path=}")
+
+    initalize_seed = 123
+    set_seed(random_seed=initalize_seed)
 
     input_dict = get_input_dict(args.model_path)
     model = _get_decorator(args)(model)

@@ -248,8 +248,14 @@ def _get_minimal_submodule_inputs_and_outputs(
             yield arg.start
             yield arg.stop
             yield arg.step
+        elif isinstance(arg, torch.device):
+            pass
+        elif isinstance(arg, torch.dtype):
+            pass
         else:
-            assert isinstance(arg, (int, bool, float, str, type(None))), f"{type(arg)=}"
+            assert isinstance(
+                arg, (int, bool, float, str, type(None), torch.device, torch.dtype)
+            ), f"{type(arg)=}"
 
     def get_args_node_and_self_node(node):
         for arg in node.args:

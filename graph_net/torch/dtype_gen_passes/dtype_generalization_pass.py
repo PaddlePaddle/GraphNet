@@ -134,18 +134,20 @@ class ConcretePass(DtypeGeneralizationPass):
             # Check type annotation if available
             if node.type is not None:
                 type_str = str(node.type).lower()
-                
+
                 # Explicitly check for integer types - these should NOT be converted
                 integer_types = ["long", "int", "short", "byte", "bool"]
                 if any(int_type in type_str for int_type in integer_types):
                     return False
-                
+
                 # Only return True if explicitly a floating point tensor
                 # Check for explicit float types: FloatTensor, float32, float16, etc.
                 float_indicators = ["float", "double", "half", "bfloat"]
-                if any(float_indicator in type_str for float_indicator in float_indicators):
+                if any(
+                    float_indicator in type_str for float_indicator in float_indicators
+                ):
                     return True
-                
+
                 # For generic "Tensor" without explicit dtype, be conservative
                 # Don't assume it's float32 - it might be integer
                 return False

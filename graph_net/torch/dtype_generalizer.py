@@ -82,7 +82,7 @@ class InitDataTypeGeneralizationPasses:
         # Apply model_path_prefix if provided
         if self.model_path_prefix:
             model_path = str(Path(self.model_path_prefix) / model_path)
-        
+
         # Parse the computation graph
         traced_model = parse_immutable_model_path_into_sole_graph_module(model_path)
 
@@ -186,7 +186,9 @@ class InitDataTypeGeneralizationPasses:
             model_path: Path to model directory
         """
         graph_net_json_path = Path(model_path) / "graph_net.json"
-        update_json(graph_net_json_path, {kDataTypeGeneralizationPasses: dtype_pass_names})
+        update_json(
+            graph_net_json_path, {kDataTypeGeneralizationPasses: dtype_pass_names}
+        )
 
 
 class ApplyDataTypeGeneralizationPasses:
@@ -211,9 +213,9 @@ class ApplyDataTypeGeneralizationPasses:
         self.output_dir = config.get("output_dir")
         if not self.output_dir:
             raise ValueError("output_dir is required in config")
-        
+
         self.model_path_prefix = config.get("model_path_prefix", "")
-        
+
         # model_runnable_predicator is required to ensure generated code is runnable
         if "model_runnable_predicator_filepath" not in config:
             raise ValueError(
@@ -221,7 +223,6 @@ class ApplyDataTypeGeneralizationPasses:
                 "Generated code must be validated."
             )
         self.model_runnable_predicator = self._make_model_runnable_predicator(config)
-    
     def _make_model_runnable_predicator(self, config: Dict[str, Any]):
         """Create model runnable predicator from config."""
         module = load_module(config["model_runnable_predicator_filepath"])
@@ -245,7 +246,7 @@ class ApplyDataTypeGeneralizationPasses:
         # Apply model_path_prefix if provided
         if self.model_path_prefix:
             model_path = str(Path(self.model_path_prefix) / model_path)
-        
+
         # Read pass names from graph_net.json
         dtype_pass_names = self._read_dtype_pass_names(model_path)
 

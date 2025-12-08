@@ -249,7 +249,9 @@ def _get_minimal_submodule_inputs_and_outputs(
             yield arg.stop
             yield arg.step
         else:
-            assert isinstance(arg, (int, bool, float, str, type(None))), f"{type(arg)=}"
+            assert isinstance(
+                arg, (int, bool, float, str, type(...), type(None))
+            ), f"{type(arg)=}"
 
     def get_args_node_and_self_node(node):
         for arg in node.args:

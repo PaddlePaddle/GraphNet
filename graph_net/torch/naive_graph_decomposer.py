@@ -5,6 +5,9 @@ from graph_net.torch.extractor import GraphExtractor as BuiltinGraphExtractor
 import graph_net.imp_util as imp_util
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class GraphExtractor:
@@ -124,14 +127,24 @@ class NaiveDecomposerExtractor:
         }
 
     def __call__(self, rel_model_path):
+        # callback = lambda: logger.warning("NaiveDecomposerExtractor-call-end")
+        # logger.warning("NaiveDecomposerExtractor-call-begin")
+        # atexit.register(callback)
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         config = {
             k: v
             for k, v in self.config.items()
             if k in {"split_positions", "group_head_and_tail", "chain_style"}
         }
+        # logger.warning("get_torch_module_and_inputs_begin")
         module, inputs = get_torch_module_and_inputs(model_path)
+        # logger.warning("get_torch_module_and_inputs_end")
+        # logger.warning("parse_sole_graph_module_begin")
         gm = parse_sole_graph_module(module, inputs)
+        # logger.warning("parse_sole_graph_module_end")
+        # callback = lambda: logger.warning("convert_to_submodules_graph-call-end")
+        # logger.warning("convert_to_submodules_graph-call-begin")
+        # atexit.register(callback)
         rewrited_gm: torch.fx.GraphModule = convert_to_submodules_graph(
             gm,
             submodule_hook=self.get_naive_decomposer_extractor(model_path),
@@ -164,6 +177,7 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         self.submodule = submodule
         self.seq_no = seq_no
         self.extracted = False
+        self.parent_graph_name = parent_graph_name
         if self.seq_no is None:
             self.model_name = parent_graph_name
         else:
@@ -181,13 +195,21 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         self.filter = self.make_filter(self.config)
         self.post_extract_process = self.make_post_extract_process(self.config)
 
+    def _get_model_path(self):
+        return os.path.join(
+            self.config["output_dir"],
+            f"{self.parent_graph_name}_decomposed",
+            self.model_name,
+        )
+
     def forward(self, *args):
+        logger.warning("naive decomposer forwarding")
         if not self.extracted:
             if self.need_extract(self.submodule, args):
                 self.builtin_extractor(self.submodule, args)
                 self._post_extract_process()
             self.extracted = True
-        self._post_extract_process()
+        logger.warning("naive decomposer end")
         return self.submodule(*args)
 
     def need_extract(self, gm, sample_inputs):
@@ -196,7 +218,7 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         return self.filter(gm, sample_inputs)
 
     def _post_extract_process(self):
-        model_path = os.path.join(self.config["output_dir"], self.model_name)
+        model_path = self._get_model_path()
         return self.post_extract_process(model_path)
 
     def make_filter(self, config):

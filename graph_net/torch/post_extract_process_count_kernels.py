@@ -11,6 +11,9 @@ class GraphFullyFusible:
         self.config = config
 
     def __call__(self, model_path=None):
+        # def callback = lambda: logger.warning("post-extract-process-call-end")
+        # logger.warning("post-extract-process-call-begin")
+        # atexit.register(callback)
         torch._dynamo.reset()
         if model_path is None:
             sys.exit(1)
@@ -24,7 +27,7 @@ class GraphFullyFusible:
 
         inputs_params = utils.load_converted_from_text(f"{model_path}")
         params = inputs_params["weight_info"]
-        state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
+        state_dict = {k: utils.get_dummy_tensor(v) for k, v in params.items()}
 
         # try to run the model
         try:

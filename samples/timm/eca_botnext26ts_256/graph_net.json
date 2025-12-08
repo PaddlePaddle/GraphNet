@@ -1,1 +1,9 @@
-{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "source": "timm", "heuristic_tag": "computer_vision", "dimension_generalization_passes": []}
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": false,
+    "source": "timm",
+    "heuristic_tag": "computer_vision",
+    "dimension_generalization_passes": []
+}

@@ -1,12 +1,17 @@
-dynamic_dim_constraint_symbols = []
+from sympy import Symbol, Expr, Rel, Eq
 
-dynamic_dim_constraint_symbol2example_value = {}
+S0 = Symbol("S0")
+S1 = Symbol("S1")
+
+dynamic_dim_constraint_symbols = [S0, S1]
+
+dynamic_dim_constraint_symbol2example_value = {S0: 1, S1: 45}
 
 dynamic_dim_constraint_relations = []
 
 dynamic_dim_constraint_input_shapes = [
-    ([1, 45], "L_attention_mask_"),
-    ([1, 45], "L_input_ids_"),
+    ([S0, S1], "L_attention_mask_"),
+    ([S0, S1], "L_input_ids_"),
     ([1, 512], "L_self_modules_embeddings_buffers_position_ids_"),
     ([1024], "L_self_modules_embeddings_modules_LayerNorm_parameters_bias_"),
     ([1024], "L_self_modules_embeddings_modules_LayerNorm_parameters_weight_"),
@@ -1560,5 +1565,5 @@ dynamic_dim_constraint_input_shapes = [
     ),
     ([1024], "L_self_modules_pooler_modules_dense_parameters_bias_"),
     ([1024, 1024], "L_self_modules_pooler_modules_dense_parameters_weight_"),
-    ([1, 45], "L_token_type_ids_"),
+    ([S0, S1], "L_token_type_ids_"),
 ]

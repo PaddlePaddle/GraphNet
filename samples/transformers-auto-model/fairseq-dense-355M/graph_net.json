@@ -1,1 +1,22 @@
-{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "model_name": "KoboldAI/fairseq-dense-355M", "source": "huggingface_hub", "original_tag": ["transformers", "pytorch", "safetensors", "xglm", "text-generation", "en", "arxiv:2112.10684", "autotrain_compatible", "endpoints_compatible", "region:us"], "heuristic_tag": "nlp", "dimension_generalization_passes": []}
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": false,
+    "model_name": "KoboldAI/fairseq-dense-355M",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "safetensors",
+        "xglm",
+        "text-generation",
+        "en",
+        "arxiv:2112.10684",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ],
+    "heuristic_tag": "nlp",
+    "dimension_generalization_passes": []
+}

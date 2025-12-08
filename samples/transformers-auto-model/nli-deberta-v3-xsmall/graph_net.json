@@ -1,1 +1,27 @@
-{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "model_name": "cross-encoder/nli-deberta-v3-xsmall", "source": "huggingface_hub", "original_tag": ["sentence-transformers", "pytorch", "onnx", "safetensors", "deberta-v2", "text-classification", "transformers", "zero-shot-classification", "en", "dataset:nyu-mll/multi_nli", "dataset:stanfordnlp/snli", "base_model:microsoft/deberta-v3-xsmall", "base_model:quantized:microsoft/deberta-v3-xsmall", "license:apache-2.0", "region:us"], "heuristic_tag": "nlp", "dimension_generalization_passes": []}
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": false,
+    "model_name": "cross-encoder/nli-deberta-v3-xsmall",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "pytorch",
+        "onnx",
+        "safetensors",
+        "deberta-v2",
+        "text-classification",
+        "transformers",
+        "zero-shot-classification",
+        "en",
+        "dataset:nyu-mll/multi_nli",
+        "dataset:stanfordnlp/snli",
+        "base_model:microsoft/deberta-v3-xsmall",
+        "base_model:quantized:microsoft/deberta-v3-xsmall",
+        "license:apache-2.0",
+        "region:us"
+    ],
+    "heuristic_tag": "nlp",
+    "dimension_generalization_passes": []
+}

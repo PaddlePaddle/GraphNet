@@ -1,1 +1,22 @@
-{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": true, "model_name": "google/tapas-base-masklm", "source": "huggingface_hub", "original_tag": ["transformers", "pytorch", "tf", "safetensors", "tapas", "fill-mask", "autotrain_compatible", "endpoints_compatible", "region:us"], "heuristic_tag": "nlp", "dimension_generalization_passes": []}
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": true,
+    "model_name": "google/tapas-base-masklm",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "tf",
+        "safetensors",
+        "tapas",
+        "fill-mask",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ],
+    "heuristic_tag": "nlp",
+    "dimension_generalization_passes": [],
+    "symbolic_dimension_reifier": "naive_nlp_sym_dim_reifier"
+}

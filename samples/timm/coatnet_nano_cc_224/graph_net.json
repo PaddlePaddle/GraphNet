@@ -4,5 +4,6 @@
     "num_nodes_required": 1,
     "dynamic": false,
     "source": "timm",
-    "heuristic_tag": "computer_vision"
+    "heuristic_tag": "computer_vision",
+    "symbolic_dimension_reifier": "naive_cv_sym_dim_reifier"
 }

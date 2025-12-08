@@ -1,11 +1,8 @@
 import torch
 import torch.nn as nn
 import os
-import sys
-import inspect
 import importlib.util
-import itertools
-from typing import List, Tuple, Dict, Any, Callable
+from typing import List
 
 
 class ComposedModel(nn.Module):
@@ -14,18 +11,14 @@ class ComposedModel(nn.Module):
         self.subgraphs = nn.ModuleList(subgraph)
 
     def forward(self, **kwargs):
-        subgraph_intput = {
-            key.replace("L", "l_l", 1): value
-            for key, value in kwargs.items()
-            if key.startswith("L")
-        }
-
         output = None
-        for subgraph in self.subgraphs:
+        for i, subgraph in enumerate(self.subgraphs):
+            print(f"{i=} subgraph begin")
             if output is None:
-                output = subgraph(**subgraph_intput)
+                output = subgraph(**kwargs)
             else:
                 output = subgraph(*output)
+            print(f"{i=} subgraph end")
 
         return output
 
@@ -43,10 +36,20 @@ class RangeDecomposerValidatorBackend:
         instance = ModelClass().to(device)
         return instance
 
+    def _make_config(self, decomposed_root, decomposed_model_name_suffix="_decomposed"):
+        return {
+            "decomposed_root": decomposed_root,
+            "decomposed_model_name_suffix": decomposed_model_name_suffix,
+        }
+
     def __call__(self, model: torch.nn.Module) -> torch.nn.Module:
+        config = self._make_config(**self.config)
         model_file_path = model.__class__.__graph_net_file_path__
         model_dir = os.path.dirname(model_file_path)
-        decomposed_parent_dir = model_dir + "_decomposed"
+        model_name = os.path.basename(model_dir)
+        decomposed_parent_dir = os.path.join(
+            config["decomposed_root"], f"{model_name}_decomposed"
+        )
         subgraph_paths = []
         for name in sorted(os.listdir(decomposed_parent_dir)):
             full_path = os.path.join(decomposed_parent_dir, name)

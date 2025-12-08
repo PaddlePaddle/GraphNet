@@ -23,6 +23,21 @@ class DynamicDimConstraints:
     input_shapes: list[(tuple[sympy.Expr | int], str)]
     kInputShapes = "dynamic_dim_constraint_input_shapes"
 
+    def serialize_symbolic_input_shapes_to_str(self):
+        input_shapes = self.get_sorted_symbolic_input_shapes()
+        input_shapes_str = str(input_shapes).replace(" ", "")
+        return input_shapes_str
+
+    def get_sorted_symbolic_input_shapes(self):
+        return sorted(
+            [
+                tuple(shape)
+                for shape, name in self.input_shapes
+                if any(isinstance(dim, sympy.Expr) for dim in shape)
+            ],
+            key=str,
+        )
+
     @classmethod
     def make_by_named_inputs(cls, named_shapes):
         return cls(

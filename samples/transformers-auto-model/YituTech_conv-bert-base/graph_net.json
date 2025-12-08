@@ -14,5 +14,6 @@
         "endpoints_compatible",
         "region:us"
     ],
-    "heuristic_tag": "other"
+    "heuristic_tag": "other",
+    "dimension_generalization_passes": []
 }

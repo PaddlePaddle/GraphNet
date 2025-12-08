@@ -1,1 +1,40 @@
-{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "model_name": "cross-encoder/monoelectra-large", "source": "huggingface_hub", "original_tag": ["sentence-transformers", "onnx", "safetensors", "openvino", "electra", "text-classification", "transformers", "text-ranking", "custom_code", "en", "arxiv:2405.07920", "base_model:google/electra-large-discriminator", "base_model:quantized:google/electra-large-discriminator", "license:apache-2.0", "region:us"], "heuristic_tag": "nlp", "dimension_generalization_passes": ["naive_call_method_view_pass", "tuple_arg_call_method_view_pass", "naive_call_method_reshape_pass", "naive_call_method_expand_pass", "non_batch_call_method_expand_pass", "non_batch_call_function_arange_pass", "non_batch_call_function_getitem_slice_pass", "non_batch_call_function_full_pass", "non_batch_call_function_full_plus_one_pass", "non_batch_call_function_zeros_pass", "non_batch_call_function_arange_plus_one_pass"]}
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": false,
+    "model_name": "cross-encoder/monoelectra-large",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "onnx",
+        "safetensors",
+        "openvino",
+        "electra",
+        "text-classification",
+        "transformers",
+        "text-ranking",
+        "custom_code",
+        "en",
+        "arxiv:2405.07920",
+        "base_model:google/electra-large-discriminator",
+        "base_model:quantized:google/electra-large-discriminator",
+        "license:apache-2.0",
+        "region:us"
+    ],
+    "heuristic_tag": "nlp",
+    "dimension_generalization_passes": [
+        "naive_call_method_view_pass",
+        "tuple_arg_call_method_view_pass",
+        "naive_call_method_reshape_pass",
+        "naive_call_method_expand_pass",
+        "non_batch_call_method_expand_pass",
+        "non_batch_call_function_arange_pass",
+        "non_batch_call_function_getitem_slice_pass",
+        "non_batch_call_function_full_pass",
+        "non_batch_call_function_full_plus_one_pass",
+        "non_batch_call_function_zeros_pass",
+        "non_batch_call_function_arange_plus_one_pass"
+    ],
+    "symbolic_dimension_reifier": "naive_nlp_sym_dim_reifier"
+}

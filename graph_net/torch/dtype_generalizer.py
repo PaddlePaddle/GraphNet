@@ -19,7 +19,10 @@ from typing import Any, Dict, List
 
 import torch.fx as fx
 
-from graph_net.graph_net_json_file_util import kDataTypeGeneralizationPasses
+from graph_net.graph_net_json_file_util import (
+    kDataTypeGeneralizationPasses,
+    update_json,
+)
 from graph_net.torch.constraint_util import RunModelPredicator
 from graph_net.torch.fx_graph_cache_util import (
     parse_immutable_model_path_into_sole_graph_module,
@@ -27,6 +30,7 @@ from graph_net.torch.fx_graph_cache_util import (
 from graph_net.torch.fx_graph_serialize_util import serialize_graph_module_to_str
 from graph_net.torch.dtype_gen_passes.pass_mgr import get_dtype_generalization_pass
 from graph_net.torch import utils
+from graph_net.imp_util import load_module
 
 
 # Weights that must remain float32 for numerical stability
@@ -51,12 +55,14 @@ class InitDataTypeGeneralizationPasses:
     Config format:
         {
             "dtype_list": ["float16", "bfloat16"],
+            "model_path_prefix": "",
         }
     """
 
     def __init__(self, config: Dict[str, Any]):
         self.config = config
         self.dtype_list = config.get("dtype_list", ["float16", "bfloat16"])
+        self.model_path_prefix = config.get("model_path_prefix", "")
 
         # Validate dtypes
         valid_dtypes = {"float16", "bfloat16", "float8"}
@@ -71,8 +77,12 @@ class InitDataTypeGeneralizationPasses:
         Initialize dtype passes for the given model.
 
         Args:
-            model_path: Path to the model directory
+            model_path: Path to the model directory (may be relative to model_path_prefix)
         """
+        # Apply model_path_prefix if provided
+        if self.model_path_prefix:
+            model_path = str(Path(self.model_path_prefix) / model_path)
+        
         # Parse the computation graph
         traced_model = parse_immutable_model_path_into_sole_graph_module(model_path)
 
@@ -176,18 +186,7 @@ class InitDataTypeGeneralizationPasses:
             model_path: Path to model directory
         """
         graph_net_json_path = Path(model_path) / "graph_net.json"
-
-        with open(graph_net_json_path, "r") as f:
-            metadata = json.load(f)
-
-        metadata[kDataTypeGeneralizationPasses] = dtype_pass_names
-
-        # Atomic write: write to temp file then rename
-        temp_path = graph_net_json_path.with_suffix(".json.tmp")
-        with open(temp_path, "w") as f:
-            json.dump(metadata, f, indent=4)
-
-        temp_path.replace(graph_net_json_path)
+        update_json(graph_net_json_path, {kDataTypeGeneralizationPasses: dtype_pass_names})
 
 
 class ApplyDataTypeGeneralizationPasses:
@@ -200,6 +199,10 @@ class ApplyDataTypeGeneralizationPasses:
     Config format:
         {
             "output_dir": "/path/to/output",
+            "model_path_prefix": "",
+            "model_runnable_predicator_filepath": "...",
+            "model_runnable_predicator_class_name": "...",
+            "model_runnable_predicator_config": {...},
         }
     """
 
@@ -208,17 +211,41 @@ class ApplyDataTypeGeneralizationPasses:
         self.output_dir = config.get("output_dir")
         if not self.output_dir:
             raise ValueError("output_dir is required in config")
+        
+        self.model_path_prefix = config.get("model_path_prefix", "")
+        
+        # model_runnable_predicator is required to ensure generated code is runnable
+        if "model_runnable_predicator_filepath" not in config:
+            raise ValueError(
+                "model_runnable_predicator_filepath is required in config. "
+                "Generated code must be validated."
+            )
+        self.model_runnable_predicator = self._make_model_runnable_predicator(config)
+    
+    def _make_model_runnable_predicator(self, config: Dict[str, Any]):
+        """Create model runnable predicator from config."""
+        module = load_module(config["model_runnable_predicator_filepath"])
+        cls = getattr(
+            module,
+            config.get("model_runnable_predicator_class_name", "RunModelPredicator"),
+        )
+        predicator_config = config.get("model_runnable_predicator_config", {})
+        return cls(predicator_config)
 
     def __call__(self, model_path: str) -> List[str]:
         """
         Apply dtype passes to generate new samples.
 
         Args:
-            model_path: Path to the original model directory
+            model_path: Path to the original model directory (may be relative to model_path_prefix)
 
         Returns:
             List of generated sample directories
         """
+        # Apply model_path_prefix if provided
+        if self.model_path_prefix:
+            model_path = str(Path(self.model_path_prefix) / model_path)
+        
         # Read pass names from graph_net.json
         dtype_pass_names = self._read_dtype_pass_names(model_path)
 
@@ -316,6 +343,13 @@ class ApplyDataTypeGeneralizationPasses:
         # Update graph_net.json with dtype information
         self._update_sample_metadata(output_sample_dir, dtype)
 
+        # Validate generated sample (required - generated code must be runnable)
+        if not self.model_runnable_predicator(str(output_sample_dir)):
+            raise RuntimeError(
+                f"Generated sample failed validation: {output_sample_dir}"
+            )
+        logging.info(f"Generated sample validated: {output_sample_dir}")
+
         return str(output_sample_dir)
 
     def _update_sample_metadata(self, sample_dir: Path, dtype: str) -> None:
@@ -327,20 +361,14 @@ class ApplyDataTypeGeneralizationPasses:
             dtype: Target dtype
         """
         graph_net_json_path = sample_dir / "graph_net.json"
-
-        with open(graph_net_json_path, "r") as f:
-            metadata = json.load(f)
-
-        # Add dtype information
-        metadata["dtype"] = dtype
-        metadata["precision"] = dtype
-        metadata["generated_from_dtype_generalization"] = True
-
-        # Atomic write
-        temp_path = graph_net_json_path.with_suffix(".json.tmp")
-        with open(temp_path, "w") as f:
-            json.dump(metadata, f, indent=4)
-        temp_path.replace(graph_net_json_path)
+        update_json(
+            graph_net_json_path,
+            {
+                "dtype": dtype,
+                "precision": dtype,
+                "generated_from_dtype_generalization": True,
+            },
+        )
 
 
 class MultiDtypeFilter:

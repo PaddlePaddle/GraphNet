@@ -129,16 +129,25 @@ class ConcretePass(DtypeGeneralizationPass):
                 return tensor_meta.dtype == torch.float32
 
         # For placeholder and get_attr nodes without metadata,
-        # conservatively assume they might be float32
-        # This is safe because:
-        # 1. .to() on non-float tensors is a no-op for most cases
-        # 2. Integer tensors (like input_ids) won't be affected
+        # we need to be conservative and only return True if explicitly float
         if node.op in ("placeholder", "get_attr"):
             # Check type annotation if available
             if node.type is not None:
-                type_str = str(node.type)
-                # Only return True if it's explicitly a floating point tensor
-                if "Tensor" in type_str and "int" not in type_str.lower():
+                type_str = str(node.type).lower()
+                
+                # Explicitly check for integer types - these should NOT be converted
+                integer_types = ["long", "int", "short", "byte", "bool"]
+                if any(int_type in type_str for int_type in integer_types):
+                    return False
+                
+                # Only return True if explicitly a floating point tensor
+                # Check for explicit float types: FloatTensor, float32, float16, etc.
+                float_indicators = ["float", "double", "half", "bfloat"]
+                if any(float_indicator in type_str for float_indicator in float_indicators):
                     return True
+                
+                # For generic "Tensor" without explicit dtype, be conservative
+                # Don't assume it's float32 - it might be integer
+                return False
 
         return False

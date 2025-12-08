@@ -17,7 +17,7 @@ python3 -m graph_net.torch.typical_sequence_split_points \
 
 decompose_config_json_str=$(cat <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/naive_graph_decomposer.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_decomposer.py",
     "handler_class_name": "RangeDecomposerExtractor",
     "handler_config": {
         "model_path_prefix": "$GRAPH_NET_ROOT",

@@ -8,7 +8,7 @@ MODEL_NAME=resnet18
 MODEL_PATH_IN_SAMPLES=/timm/$MODEL_NAME
 config_json_str=$(cat <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/torch/naive_graph_decomposer.py",
+    "handler_path": "$GRAPH_NET_ROOT/torch/graph_decomposer.py",
     "handler_class_name": "NaiveDecomposerExtractor",
     "handler_config": {
         "model_path_prefix": "$GRAPH_NET_ROOT/../",

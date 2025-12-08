@@ -1,0 +1,873 @@
+from sympy import Symbol
+
+S0 = Symbol("S0")
+S1 = Symbol("S1")
+
+dynamic_dim_constraint_symbols = [S0, S1]
+
+dynamic_dim_constraint_symbol2example_value = {S0: 1, S1: 224}
+
+dynamic_dim_constraint_relations = []
+
+dynamic_dim_constraint_input_shapes = [
+    ([1000], "L_self_modules_head_parameters_bias_"),
+    ([1000, 256], "L_self_modules_head_parameters_weight_"),
+    ([256], "L_self_modules_norm_buffers_running_mean_"),
+    ([256], "L_self_modules_norm_buffers_running_var_"),
+    ([256], "L_self_modules_norm_parameters_bias_"),
+    ([256], "L_self_modules_norm_parameters_weight_"),
+    (
+        [32],
+        "L_self_modules_stages_modules_0_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    ([32], "L_self_modules_stages_modules_0_modules_0_modules_bn_buffers_running_var_"),
+    ([32], "L_self_modules_stages_modules_0_modules_0_modules_bn_parameters_bias_"),
+    ([32], "L_self_modules_stages_modules_0_modules_0_modules_bn_parameters_weight_"),
+    ([32], "L_self_modules_stages_modules_0_modules_0_modules_conv_parameters_bias_"),
+    (
+        [32, 32, 3, 3],
+        "L_self_modules_stages_modules_0_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_stages_modules_0_modules_1_modules_dwconv2_modules_conv_parameters_bias_",
+    ),
+    (
+        [32, 1, 7, 7],
+        "L_self_modules_stages_modules_0_modules_1_modules_dwconv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_stages_modules_0_modules_1_modules_dwconv_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [32],
+        "L_self_modules_stages_modules_0_modules_1_modules_dwconv_modules_bn_buffers_running_var_",
+    ),
+    (
+        [32],
+        "L_self_modules_stages_modules_0_modules_1_modules_dwconv_modules_bn_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_stages_modules_0_modules_1_modules_dwconv_modules_bn_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_stages_modules_0_modules_1_modules_dwconv_modules_conv_parameters_bias_",
+    ),
+    (
+        [32, 1, 7, 7],
+        "L_self_modules_stages_modules_0_modules_1_modules_dwconv_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_0_modules_1_modules_f1_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 32, 1, 1],
+        "L_self_modules_stages_modules_0_modules_1_modules_f1_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_0_modules_1_modules_f2_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 32, 1, 1],
+        "L_self_modules_stages_modules_0_modules_1_modules_f2_modules_conv_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_stages_modules_0_modules_1_modules_g_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [32],
+        "L_self_modules_stages_modules_0_modules_1_modules_g_modules_bn_buffers_running_var_",
+    ),
+    (
+        [32],
+        "L_self_modules_stages_modules_0_modules_1_modules_g_modules_bn_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_stages_modules_0_modules_1_modules_g_modules_bn_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_stages_modules_0_modules_1_modules_g_modules_conv_parameters_bias_",
+    ),
+    (
+        [32, 128, 1, 1],
+        "L_self_modules_stages_modules_0_modules_1_modules_g_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    ([64], "L_self_modules_stages_modules_1_modules_0_modules_bn_buffers_running_var_"),
+    ([64], "L_self_modules_stages_modules_1_modules_0_modules_bn_parameters_bias_"),
+    ([64], "L_self_modules_stages_modules_1_modules_0_modules_bn_parameters_weight_"),
+    ([64], "L_self_modules_stages_modules_1_modules_0_modules_conv_parameters_bias_"),
+    (
+        [64, 32, 3, 3],
+        "L_self_modules_stages_modules_1_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_1_modules_dwconv2_modules_conv_parameters_bias_",
+    ),
+    (
+        [64, 1, 7, 7],
+        "L_self_modules_stages_modules_1_modules_1_modules_dwconv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_1_modules_dwconv_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_1_modules_dwconv_modules_bn_buffers_running_var_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_1_modules_dwconv_modules_bn_parameters_bias_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_1_modules_dwconv_modules_bn_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_1_modules_dwconv_modules_conv_parameters_bias_",
+    ),
+    (
+        [64, 1, 7, 7],
+        "L_self_modules_stages_modules_1_modules_1_modules_dwconv_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_1_modules_1_modules_f1_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 64, 1, 1],
+        "L_self_modules_stages_modules_1_modules_1_modules_f1_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_1_modules_1_modules_f2_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 64, 1, 1],
+        "L_self_modules_stages_modules_1_modules_1_modules_f2_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_1_modules_g_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_1_modules_g_modules_bn_buffers_running_var_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_1_modules_g_modules_bn_parameters_bias_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_1_modules_g_modules_bn_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_1_modules_g_modules_conv_parameters_bias_",
+    ),
+    (
+        [64, 256, 1, 1],
+        "L_self_modules_stages_modules_1_modules_1_modules_g_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_2_modules_dwconv2_modules_conv_parameters_bias_",
+    ),
+    (
+        [64, 1, 7, 7],
+        "L_self_modules_stages_modules_1_modules_2_modules_dwconv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_2_modules_dwconv_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_2_modules_dwconv_modules_bn_buffers_running_var_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_2_modules_dwconv_modules_bn_parameters_bias_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_2_modules_dwconv_modules_bn_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_2_modules_dwconv_modules_conv_parameters_bias_",
+    ),
+    (
+        [64, 1, 7, 7],
+        "L_self_modules_stages_modules_1_modules_2_modules_dwconv_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_1_modules_2_modules_f1_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 64, 1, 1],
+        "L_self_modules_stages_modules_1_modules_2_modules_f1_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_1_modules_2_modules_f2_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 64, 1, 1],
+        "L_self_modules_stages_modules_1_modules_2_modules_f2_modules_conv_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_2_modules_g_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_2_modules_g_modules_bn_buffers_running_var_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_2_modules_g_modules_bn_parameters_bias_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_2_modules_g_modules_bn_parameters_weight_",
+    ),
+    (
+        [64],
+        "L_self_modules_stages_modules_1_modules_2_modules_g_modules_conv_parameters_bias_",
+    ),
+    (
+        [64, 256, 1, 1],
+        "L_self_modules_stages_modules_1_modules_2_modules_g_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_0_modules_bn_buffers_running_var_",
+    ),
+    ([128], "L_self_modules_stages_modules_2_modules_0_modules_bn_parameters_bias_"),
+    ([128], "L_self_modules_stages_modules_2_modules_0_modules_bn_parameters_weight_"),
+    ([128], "L_self_modules_stages_modules_2_modules_0_modules_conv_parameters_bias_"),
+    (
+        [128, 64, 3, 3],
+        "L_self_modules_stages_modules_2_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_1_modules_dwconv2_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 1, 7, 7],
+        "L_self_modules_stages_modules_2_modules_1_modules_dwconv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_1_modules_dwconv_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_1_modules_dwconv_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_1_modules_dwconv_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_1_modules_dwconv_modules_bn_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_1_modules_dwconv_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 1, 7, 7],
+        "L_self_modules_stages_modules_2_modules_1_modules_dwconv_modules_conv_parameters_weight_",
+    ),
+    (
+        [512],
+        "L_self_modules_stages_modules_2_modules_1_modules_f1_modules_conv_parameters_bias_",
+    ),
+    (
+        [512, 128, 1, 1],
+        "L_self_modules_stages_modules_2_modules_1_modules_f1_modules_conv_parameters_weight_",
+    ),
+    (
+        [512],
+        "L_self_modules_stages_modules_2_modules_1_modules_f2_modules_conv_parameters_bias_",
+    ),
+    (
+        [512, 128, 1, 1],
+        "L_self_modules_stages_modules_2_modules_1_modules_f2_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_1_modules_g_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_1_modules_g_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_1_modules_g_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_1_modules_g_modules_bn_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_1_modules_g_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 512, 1, 1],
+        "L_self_modules_stages_modules_2_modules_1_modules_g_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_2_modules_dwconv2_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 1, 7, 7],
+        "L_self_modules_stages_modules_2_modules_2_modules_dwconv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_2_modules_dwconv_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_2_modules_dwconv_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_2_modules_dwconv_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_2_modules_dwconv_modules_bn_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_2_modules_dwconv_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 1, 7, 7],
+        "L_self_modules_stages_modules_2_modules_2_modules_dwconv_modules_conv_parameters_weight_",
+    ),
+    (
+        [512],
+        "L_self_modules_stages_modules_2_modules_2_modules_f1_modules_conv_parameters_bias_",
+    ),
+    (
+        [512, 128, 1, 1],
+        "L_self_modules_stages_modules_2_modules_2_modules_f1_modules_conv_parameters_weight_",
+    ),
+    (
+        [512],
+        "L_self_modules_stages_modules_2_modules_2_modules_f2_modules_conv_parameters_bias_",
+    ),
+    (
+        [512, 128, 1, 1],
+        "L_self_modules_stages_modules_2_modules_2_modules_f2_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_2_modules_g_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_2_modules_g_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_2_modules_g_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_2_modules_g_modules_bn_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_2_modules_g_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 512, 1, 1],
+        "L_self_modules_stages_modules_2_modules_2_modules_g_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_3_modules_dwconv2_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 1, 7, 7],
+        "L_self_modules_stages_modules_2_modules_3_modules_dwconv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_3_modules_dwconv_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_3_modules_dwconv_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_3_modules_dwconv_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_3_modules_dwconv_modules_bn_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_3_modules_dwconv_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 1, 7, 7],
+        "L_self_modules_stages_modules_2_modules_3_modules_dwconv_modules_conv_parameters_weight_",
+    ),
+    (
+        [512],
+        "L_self_modules_stages_modules_2_modules_3_modules_f1_modules_conv_parameters_bias_",
+    ),
+    (
+        [512, 128, 1, 1],
+        "L_self_modules_stages_modules_2_modules_3_modules_f1_modules_conv_parameters_weight_",
+    ),
+    (
+        [512],
+        "L_self_modules_stages_modules_2_modules_3_modules_f2_modules_conv_parameters_bias_",
+    ),
+    (
+        [512, 128, 1, 1],
+        "L_self_modules_stages_modules_2_modules_3_modules_f2_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_3_modules_g_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_3_modules_g_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_3_modules_g_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_3_modules_g_modules_bn_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_3_modules_g_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 512, 1, 1],
+        "L_self_modules_stages_modules_2_modules_3_modules_g_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_4_modules_dwconv2_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 1, 7, 7],
+        "L_self_modules_stages_modules_2_modules_4_modules_dwconv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_4_modules_dwconv_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_4_modules_dwconv_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_4_modules_dwconv_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_4_modules_dwconv_modules_bn_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_4_modules_dwconv_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 1, 7, 7],
+        "L_self_modules_stages_modules_2_modules_4_modules_dwconv_modules_conv_parameters_weight_",
+    ),
+    (
+        [512],
+        "L_self_modules_stages_modules_2_modules_4_modules_f1_modules_conv_parameters_bias_",
+    ),
+    (
+        [512, 128, 1, 1],
+        "L_self_modules_stages_modules_2_modules_4_modules_f1_modules_conv_parameters_weight_",
+    ),
+    (
+        [512],
+        "L_self_modules_stages_modules_2_modules_4_modules_f2_modules_conv_parameters_bias_",
+    ),
+    (
+        [512, 128, 1, 1],
+        "L_self_modules_stages_modules_2_modules_4_modules_f2_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_4_modules_g_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_4_modules_g_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_4_modules_g_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_4_modules_g_modules_bn_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_4_modules_g_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 512, 1, 1],
+        "L_self_modules_stages_modules_2_modules_4_modules_g_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_5_modules_dwconv2_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 1, 7, 7],
+        "L_self_modules_stages_modules_2_modules_5_modules_dwconv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_5_modules_dwconv_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_5_modules_dwconv_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_5_modules_dwconv_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_5_modules_dwconv_modules_bn_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_5_modules_dwconv_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 1, 7, 7],
+        "L_self_modules_stages_modules_2_modules_5_modules_dwconv_modules_conv_parameters_weight_",
+    ),
+    (
+        [512],
+        "L_self_modules_stages_modules_2_modules_5_modules_f1_modules_conv_parameters_bias_",
+    ),
+    (
+        [512, 128, 1, 1],
+        "L_self_modules_stages_modules_2_modules_5_modules_f1_modules_conv_parameters_weight_",
+    ),
+    (
+        [512],
+        "L_self_modules_stages_modules_2_modules_5_modules_f2_modules_conv_parameters_bias_",
+    ),
+    (
+        [512, 128, 1, 1],
+        "L_self_modules_stages_modules_2_modules_5_modules_f2_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_5_modules_g_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_5_modules_g_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_5_modules_g_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_5_modules_g_modules_bn_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_5_modules_g_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 512, 1, 1],
+        "L_self_modules_stages_modules_2_modules_5_modules_g_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_6_modules_dwconv2_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 1, 7, 7],
+        "L_self_modules_stages_modules_2_modules_6_modules_dwconv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_6_modules_dwconv_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_6_modules_dwconv_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_6_modules_dwconv_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_6_modules_dwconv_modules_bn_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_6_modules_dwconv_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 1, 7, 7],
+        "L_self_modules_stages_modules_2_modules_6_modules_dwconv_modules_conv_parameters_weight_",
+    ),
+    (
+        [512],
+        "L_self_modules_stages_modules_2_modules_6_modules_f1_modules_conv_parameters_bias_",
+    ),
+    (
+        [512, 128, 1, 1],
+        "L_self_modules_stages_modules_2_modules_6_modules_f1_modules_conv_parameters_weight_",
+    ),
+    (
+        [512],
+        "L_self_modules_stages_modules_2_modules_6_modules_f2_modules_conv_parameters_bias_",
+    ),
+    (
+        [512, 128, 1, 1],
+        "L_self_modules_stages_modules_2_modules_6_modules_f2_modules_conv_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_6_modules_g_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_6_modules_g_modules_bn_buffers_running_var_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_6_modules_g_modules_bn_parameters_bias_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_6_modules_g_modules_bn_parameters_weight_",
+    ),
+    (
+        [128],
+        "L_self_modules_stages_modules_2_modules_6_modules_g_modules_conv_parameters_bias_",
+    ),
+    (
+        [128, 512, 1, 1],
+        "L_self_modules_stages_modules_2_modules_6_modules_g_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_0_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_0_modules_bn_buffers_running_var_",
+    ),
+    ([256], "L_self_modules_stages_modules_3_modules_0_modules_bn_parameters_bias_"),
+    ([256], "L_self_modules_stages_modules_3_modules_0_modules_bn_parameters_weight_"),
+    ([256], "L_self_modules_stages_modules_3_modules_0_modules_conv_parameters_bias_"),
+    (
+        [256, 128, 3, 3],
+        "L_self_modules_stages_modules_3_modules_0_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_1_modules_dwconv2_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 1, 7, 7],
+        "L_self_modules_stages_modules_3_modules_1_modules_dwconv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_1_modules_dwconv_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_1_modules_dwconv_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_1_modules_dwconv_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_1_modules_dwconv_modules_bn_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_1_modules_dwconv_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 1, 7, 7],
+        "L_self_modules_stages_modules_3_modules_1_modules_dwconv_modules_conv_parameters_weight_",
+    ),
+    (
+        [1024],
+        "L_self_modules_stages_modules_3_modules_1_modules_f1_modules_conv_parameters_bias_",
+    ),
+    (
+        [1024, 256, 1, 1],
+        "L_self_modules_stages_modules_3_modules_1_modules_f1_modules_conv_parameters_weight_",
+    ),
+    (
+        [1024],
+        "L_self_modules_stages_modules_3_modules_1_modules_f2_modules_conv_parameters_bias_",
+    ),
+    (
+        [1024, 256, 1, 1],
+        "L_self_modules_stages_modules_3_modules_1_modules_f2_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_1_modules_g_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_1_modules_g_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_1_modules_g_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_1_modules_g_modules_bn_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_1_modules_g_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 1024, 1, 1],
+        "L_self_modules_stages_modules_3_modules_1_modules_g_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_2_modules_dwconv2_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 1, 7, 7],
+        "L_self_modules_stages_modules_3_modules_2_modules_dwconv2_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_2_modules_dwconv_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_2_modules_dwconv_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_2_modules_dwconv_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_2_modules_dwconv_modules_bn_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_2_modules_dwconv_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 1, 7, 7],
+        "L_self_modules_stages_modules_3_modules_2_modules_dwconv_modules_conv_parameters_weight_",
+    ),
+    (
+        [1024],
+        "L_self_modules_stages_modules_3_modules_2_modules_f1_modules_conv_parameters_bias_",
+    ),
+    (
+        [1024, 256, 1, 1],
+        "L_self_modules_stages_modules_3_modules_2_modules_f1_modules_conv_parameters_weight_",
+    ),
+    (
+        [1024],
+        "L_self_modules_stages_modules_3_modules_2_modules_f2_modules_conv_parameters_bias_",
+    ),
+    (
+        [1024, 256, 1, 1],
+        "L_self_modules_stages_modules_3_modules_2_modules_f2_modules_conv_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_2_modules_g_modules_bn_buffers_running_mean_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_2_modules_g_modules_bn_buffers_running_var_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_2_modules_g_modules_bn_parameters_bias_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_2_modules_g_modules_bn_parameters_weight_",
+    ),
+    (
+        [256],
+        "L_self_modules_stages_modules_3_modules_2_modules_g_modules_conv_parameters_bias_",
+    ),
+    (
+        [256, 1024, 1, 1],
+        "L_self_modules_stages_modules_3_modules_2_modules_g_modules_conv_parameters_weight_",
+    ),
+    ([32], "L_self_modules_stem_modules_0_modules_bn_buffers_running_mean_"),
+    ([32], "L_self_modules_stem_modules_0_modules_bn_buffers_running_var_"),
+    ([32], "L_self_modules_stem_modules_0_modules_bn_parameters_bias_"),
+    ([32], "L_self_modules_stem_modules_0_modules_bn_parameters_weight_"),
+    ([32], "L_self_modules_stem_modules_0_modules_conv_parameters_bias_"),
+    ([32, 3, 3, 3], "L_self_modules_stem_modules_0_modules_conv_parameters_weight_"),
+    ([S0, 3, S1, S1], "L_x_"),
+    ([], "s1"),
+]

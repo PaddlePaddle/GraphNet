@@ -1,0 +1,193 @@
+from sympy import Symbol
+
+S0 = Symbol("S0")
+
+dynamic_dim_constraint_symbols = [S0]
+
+dynamic_dim_constraint_symbol2example_value = {S0: 1}
+
+dynamic_dim_constraint_relations = []
+
+dynamic_dim_constraint_input_shapes = [
+    ([S0, 13], "L_input_ids_"),
+    ([1, 512], "L_self_modules_embeddings_buffers_position_ids_"),
+    ([32], "L_self_modules_embeddings_modules_LayerNorm_parameters_bias_"),
+    ([32], "L_self_modules_embeddings_modules_LayerNorm_parameters_weight_"),
+    (
+        [512, 32],
+        "L_self_modules_embeddings_modules_position_embeddings_parameters_weight_",
+    ),
+    ([32], "L_self_modules_embeddings_modules_projection_parameters_bias_"),
+    ([32, 32], "L_self_modules_embeddings_modules_projection_parameters_weight_"),
+    (
+        [16, 32],
+        "L_self_modules_embeddings_modules_token_type_embeddings_parameters_weight_",
+    ),
+    (
+        [32000, 32],
+        "L_self_modules_embeddings_modules_word_embeddings_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_0_modules_fourier_modules_output_modules_LayerNorm_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_0_modules_fourier_modules_output_modules_LayerNorm_parameters_weight_",
+    ),
+    (
+        [37],
+        "L_self_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_bias_",
+    ),
+    (
+        [37, 32],
+        "L_self_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_0_modules_output_modules_LayerNorm_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_0_modules_output_modules_LayerNorm_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_bias_",
+    ),
+    (
+        [32, 37],
+        "L_self_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_1_modules_fourier_modules_output_modules_LayerNorm_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_1_modules_fourier_modules_output_modules_LayerNorm_parameters_weight_",
+    ),
+    (
+        [37],
+        "L_self_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_bias_",
+    ),
+    (
+        [37, 32],
+        "L_self_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_1_modules_output_modules_LayerNorm_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_1_modules_output_modules_LayerNorm_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_bias_",
+    ),
+    (
+        [32, 37],
+        "L_self_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_2_modules_fourier_modules_output_modules_LayerNorm_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_2_modules_fourier_modules_output_modules_LayerNorm_parameters_weight_",
+    ),
+    (
+        [37],
+        "L_self_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_bias_",
+    ),
+    (
+        [37, 32],
+        "L_self_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_2_modules_output_modules_LayerNorm_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_2_modules_output_modules_LayerNorm_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_bias_",
+    ),
+    (
+        [32, 37],
+        "L_self_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_3_modules_fourier_modules_output_modules_LayerNorm_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_3_modules_fourier_modules_output_modules_LayerNorm_parameters_weight_",
+    ),
+    (
+        [37],
+        "L_self_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_bias_",
+    ),
+    (
+        [37, 32],
+        "L_self_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_3_modules_output_modules_LayerNorm_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_3_modules_output_modules_LayerNorm_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_bias_",
+    ),
+    (
+        [32, 37],
+        "L_self_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_4_modules_fourier_modules_output_modules_LayerNorm_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_4_modules_fourier_modules_output_modules_LayerNorm_parameters_weight_",
+    ),
+    (
+        [37],
+        "L_self_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_bias_",
+    ),
+    (
+        [37, 32],
+        "L_self_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_4_modules_output_modules_LayerNorm_parameters_bias_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_4_modules_output_modules_LayerNorm_parameters_weight_",
+    ),
+    (
+        [32],
+        "L_self_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_bias_",
+    ),
+    (
+        [32, 37],
+        "L_self_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_weight_",
+    ),
+    ([32], "L_self_modules_pooler_modules_dense_parameters_bias_"),
+    ([32, 32], "L_self_modules_pooler_modules_dense_parameters_weight_"),
+    ([S0, 13], "L_token_type_ids_"),
+]

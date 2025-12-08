@@ -1,25 +1,26 @@
 from graph_net.torch import utils
 import importlib.util
 import torch
-import shutil
+import sys
 from typing import Type
 from torch.profiler import profile, record_function, ProfilerActivity
 
 
-class GraphFullyFusionable:
+class GraphFullyFusible:
     def __init__(self, config):
         self.config = config
 
     def __call__(self, model_path=None):
+        torch._dynamo.reset()
         if model_path is None:
-            return False
+            sys.exit(1)
         # model
         model_class = load_class_from_file(
             f"{model_path}/model.py", class_name="GraphModule"
         )
         assert model_class is not None
         model = model_class()
-        print(f"{model_path=}")
+        # print(f"{model_path=}")
 
         inputs_params = utils.load_converted_from_text(f"{model_path}")
         params = inputs_params["weight_info"]
@@ -28,28 +29,18 @@ class GraphFullyFusionable:
         # try to run the model
         try:
             model(**state_dict)
-        except Exception as e:
-            print(f"failed in running model:{e}")
-            print(f"removing: {model_path}")
-            shutil.rmtree(model_path)
-            return False
+        except Exception:
+            sys.exit(1)
         # try to compile the model
         try:
             compiled_model = torch.compile(model)
-        except Exception as e:
-            print(f"failed in compiling model:{e}")
-            print(f"removing: {model_path}")
-            shutil.rmtree(model_path)
-            return False
+        except Exception:
+            sys.exit(1)
         compiled_num_of_kernels = count_kernels(compiled_model, state_dict)
         if compiled_num_of_kernels == 1:
-            print(model_path, "can be fully integrated!!!!!!!!!!!")
-            return True
+            sys.exit(0)
         else:
-            print(f"{model_path} can not be fully integrated, to be removed...")
-            print(f"removing: {model_path}")
-            shutil.rmtree(model_path)
-            return False
+            sys.exit(1)
 
 
 def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Module]:

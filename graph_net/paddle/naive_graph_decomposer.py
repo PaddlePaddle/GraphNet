@@ -82,29 +82,14 @@ class NaiveDecomposerExtractor:
         model_path = os.path.join(
             self.builtin_extractor.workspace_path, self.builtin_extractor.name
         )
-        for (
-            subgraph_idx,
-            samples,
-        ) in self.builtin_extractor.subgraph_idx2samples.items():
-            for seq_idx in range(len(samples)):
-                if (
-                    self.builtin_extractor.num_samples_of_all_subgraphs == 1
-                    and len(samples) == 1
-                ):
-                    subgraph_path = model_path
-                elif len(samples) == 1:
-                    subgraph_path = os.path.join(model_path, f"subgraph_{subgraph_idx}")
-                else:
-                    subgraph_path = os.path.join(
-                        model_path, f"subgraph_{subgraph_idx}_{seq_idx}"
-                    )
-                self.subgraph_path_list.append(subgraph_path)
-                self.builtin_extractor.write_sample_to_file(
-                    subgraph_path, samples[seq_idx]
-                )
-        print(
-            f"Graph and tensors for '{self.builtin_extractor.name}' extracted successfully to: {model_path}"
-        )
+        assert len(self.builtin_extractor.subgraph_idx2samples) == 1
+
+        samples = self.builtin_extractor.subgraph_idx2samples[0]
+        for seq_idx in range(len(samples)):
+            subgraph_path = f"{model_path}_{seq_idx}"
+            self.subgraph_path_list.append(subgraph_path)
+            self.builtin_extractor.write_sample_to_file(subgraph_path, samples[seq_idx])
+            print(f"Save to {subgraph_path}")
         return static_model
 
     def __call__(self, **input_dict):

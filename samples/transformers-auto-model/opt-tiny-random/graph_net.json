@@ -6,5 +6,6 @@
     "model_name": "NO_VALID_MATCH_FOUND",
     "source": "huggingface_hub",
     "original_tag": [],
-    "heuristic_tag": "nlp"
+    "heuristic_tag": "nlp",
+    "dimension_generalization_passes": []
 }

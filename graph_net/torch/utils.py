@@ -1,16 +1,8 @@
-import re
 import torch
-import torch.nn as nn
-from collections import OrderedDict
-import uuid
-import json
-import os
 import ast
 import math
 import inspect
-import argparse
 import importlib
-import logging
 
 kLiteralTensorSize = 64
 
@@ -31,6 +23,8 @@ def get_limited_precision_float_str(value):
         return value
     if math.isnan(value):
         return "float('nan')"
+    if math.isinf(value):
+        return "float('inf')" if value > 0 else "float('-inf')"
     return f"{value:.3f}"
 
 
@@ -134,8 +128,16 @@ def save_converted_to_text(converted, file_path):
             return "None"
         elif isinstance(data, torch.Tensor):
             if data.dtype.is_floating_point:
+
+                def float_to_str(x):
+                    if math.isinf(x):
+                        return "float('inf')" if x > 0 else "float('-inf')"
+                    if math.isnan(x):
+                        return "float('nan')"
+                    return f"{x:.6f}"
+
                 return "[{}]".format(
-                    ", ".join(f"{x:.6f}" for x in data.flatten().tolist())
+                    ", ".join(float_to_str(x) for x in data.flatten().tolist())
                 )
             else:
                 return "[{}]".format(", ".join(f"{x}" for x in data.flatten().tolist()))
@@ -322,7 +324,6 @@ def extract_dynamic_shapes(example_inputs):
 
 
 def replay_tensor(info):
-    name = info["name"]
     device = info["info"]["device"]
     dtype = info["info"]["dtype"]
     shape = info["info"]["shape"]
@@ -364,7 +365,6 @@ def replay_tensor(info):
 
 
 def get_dummy_tensor(info):
-    name = info["name"]
     device = info["info"]["device"]
     dtype = info["info"]["dtype"]
     shape = info["info"]["shape"]

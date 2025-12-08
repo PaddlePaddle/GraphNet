@@ -12,7 +12,6 @@ from contextlib import contextmanager
 import tempfile
 import shutil
 from pathlib import Path
-import json
 from dataclasses import asdict
 
 
@@ -187,12 +186,14 @@ class UpdateInputTensorConstraints:
             shutil.copy(Path(model_path) / "model.py", log_file)
 
     def _save_dim_gen_pass_names(self, dim_gen_pass_names, model_path):
-        from graph_net.graph_net_json_file_util import kDimensionGeneralizationPasses
+        from graph_net.graph_net_json_file_util import (
+            kDimensionGeneralizationPasses,
+            update_json,
+        )
 
-        graph_net_json_file_path = Path(f"{model_path}/graph_net.json")
-        graph_net_json = json.loads(graph_net_json_file_path.read_text())
-        graph_net_json[kDimensionGeneralizationPasses] = list(dim_gen_pass_names)
-        graph_net_json_file_path.write_text(json.dumps(graph_net_json))
+        update_json(
+            model_path, kDimensionGeneralizationPasses, list(dim_gen_pass_names)
+        )
 
     def _save_dyn_dim_cstr(self, dyn_dim_cstr, model_path):
         cstr_code = dyn_dim_cstr.serialize_to_py_str()

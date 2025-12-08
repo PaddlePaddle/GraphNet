@@ -11,6 +11,7 @@ config_json_str=$(cat <<EOF
     "handler_path": "$GRAPH_NET_ROOT/tools/_get_in_tensor_symbolic_shapes.py",
     "handler_class_name": "GetInTensorSymbolicShapes",
     "handler_config": {
+        "ignore_reified": true,
         "model_path_prefix": "$GRAPH_NET_ROOT/../"
     }
 }

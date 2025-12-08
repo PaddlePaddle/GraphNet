@@ -22,5 +22,6 @@
         "license:apache-2.0",
         "region:us"
     ],
-    "heuristic_tag": "nlp"
+    "heuristic_tag": "nlp",
+    "symbolic_dimension_reifier": "naive_nlp_sym_dim_reifier"
 }

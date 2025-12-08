@@ -16,5 +16,6 @@
         "license:mit",
         "region:us"
     ],
-    "heuristic_tag": "multimodal"
+    "heuristic_tag": "multimodal",
+    "symbolic_dimension_reifier": "naive_cv_sym_dim_reifier"
 }

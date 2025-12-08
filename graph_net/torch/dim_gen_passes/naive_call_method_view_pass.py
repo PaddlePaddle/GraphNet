@@ -20,7 +20,6 @@ class ConcretePass(DimensionGeneralizationPass):
             return False
         if not (node.target == "view"):
             return False
-        print(f"{self.dim=} {node.args[1:]=}")
         if self.dim not in node.args[1:]:
             return False
         return True

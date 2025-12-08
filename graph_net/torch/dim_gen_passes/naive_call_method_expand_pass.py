@@ -1,4 +1,3 @@
-import torch
 import torch.fx as fx
 from graph_net.torch.dim_gen_passes import DimensionGeneralizationPass
 import os
@@ -19,6 +18,21 @@ class ConcretePass(DimensionGeneralizationPass):
                 return True
         return False
 
+    def _node_need_rewrite(self, node) -> bool:
+        if not (node.op == "call_method"):
+            return False
+        if not (node.op == "expand"):
+            return False
+        input_tensor_node = node.args[0]
+        input_meta = input_tensor_node.meta.get("tensor_meta")
+        if input_meta is None:
+            return False
+        expand_args = node.args[1:]
+        input_shape = input_meta.shape
+        if not (len(expand_args) == len(input_shape)):
+            return False
+        return True
+
     def rewrite(self, traced_module: fx.GraphModule) -> fx.GraphModule:
         """
         Fx Pass: Replaces hardcoded constants in 'expand' ops that match an input tensor dimension
@@ -31,7 +45,7 @@ class ConcretePass(DimensionGeneralizationPass):
         val_map = {}
 
         for node in traced_module.graph.nodes:
-            if node.op == "call_method" and node.target == "expand":
+            if self._node_need_rewrite(node):
                 # Get the input tensor node
                 input_tensor_node = node.args[0]
                 # Get the target shape arguments for expand (e.g., 1, 4, 6, 64)

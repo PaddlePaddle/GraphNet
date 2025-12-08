@@ -6,5 +6,6 @@
     "model_name": "NO_VALID_MATCH_FOUND",
     "source": "huggingface_hub",
     "original_tag": [],
-    "heuristic_tag": "computer_vision"
+    "heuristic_tag": "computer_vision",
+    "symbolic_dimension_reifier": "naive_cv_sym_dim_reifier"
 }

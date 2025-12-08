@@ -76,7 +76,6 @@ class ConcretePass(DimensionGeneralizationPass):
                 input_tensor_node = node.args[0]
                 # Get the target shape arguments for view (e.g., 1, -1, 6, 64)
                 view_args = node.args[1:]
-                print(f"{view_args=}")
                 new_view_args = get_new_tuple_args(input_tensor_node, view_args)
 
                 # --- Rebuild the view node ---

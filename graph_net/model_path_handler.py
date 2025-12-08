@@ -1,10 +1,10 @@
-import traceback
 import argparse
 from graph_net.imp_util import load_module
 import logging
 import sys
 import json
 import base64
+import subprocess
 
 logging.basicConfig(
     level=logging.WARNING, format="%(asctime)s [%(levelname)s] %(message)s"
@@ -37,33 +37,49 @@ def _get_handler(args):
 
 def main(args):
     handler = _get_handler(args)
-    for model_path in _get_model_paths(args):
-        print(f"{model_path=}")
-        try:
-            handler(model_path)
-        except KeyboardInterrupt:
-            sys.exit(-1)
-        except Exception as e:
-            print("--- Concise Error Message ---")
-            print(e)
-
-            print("\n--- Full Traceback ---")
-            traceback.print_exc()
-
-
-def _get_model_paths(args):
-    assert args.model_path is not None or args.model_path_list is not None
     if args.model_path is not None:
-        yield args.model_path
-    if args.model_path_list is not None:
-        with open(args.model_path_list) as f:
-            yield from (
-                clean_line
-                for line in f
-                for clean_line in [line.strip()]
-                if len(clean_line) > 0
-                if not clean_line.startswith("#")
-            )
+        handle_model_path(handler, args.model_path)
+    elif args.use_subprocess:
+        handle_model_path_list_in_subprocess(args)
+    else:
+        handle_model_path_list_in_current_process(handler, args)
+
+
+def handle_model_path_list_in_current_process(handler, args):
+    for model_path in _get_model_path_list(args):
+        try:
+            handle_model_path(handler, model_path)
+        except KeyboardInterrupt:
+            print("KeyboardInterrupt")
+            return
+
+
+def handle_model_path_list_in_subprocess(args):
+    for model_path in _get_model_path_list(args):
+        cmd = f"{sys.executable} -m graph_net.model_path_handler --model-path {model_path} --handler-config {args.handler_config}"
+        try:
+            subprocess.Popen(cmd, shell=True).wait()
+        except KeyboardInterrupt:
+            print("KeyboardInterrupt")
+            return
+
+
+def handle_model_path(handler, model_path):
+    print(f"{model_path=}", flush=True)
+    handler(model_path)
+
+
+def _get_model_path_list(args):
+    assert args.model_path is None
+    assert args.model_path_list is not None
+    with open(args.model_path_list) as f:
+        yield from (
+            clean_line
+            for line in f
+            for clean_line in [line.strip()]
+            if len(clean_line) > 0
+            if not clean_line.startswith("#")
+        )
 
 
 if __name__ == "__main__":
@@ -88,6 +104,12 @@ if __name__ == "__main__":
         required=False,
         default=None,
         help="handler configuration string",
+    )
+    parser.add_argument(
+        "--use-subprocess",
+        action="store_true",
+        default=False,
+        help="use subprocess",
     )
     args = parser.parse_args()
     main(args=args)

@@ -1,3 +1,4 @@
+import sympy
 from pathlib import Path
 from graph_net.dynamic_dim_constraints import DynamicDimConstraints
 import graph_net.graph_net_json_file_util as gn_json
@@ -27,6 +28,10 @@ class GetInTensorSymbolicShapes:
         dyn_dim_cstrs = DynamicDimConstraints.unserialize_from_py_file(
             str(input_tensor_cstr_filepath)
         )
+        for shape, name in dyn_dim_cstrs.input_shapes:
+            if not any(isinstance(dim, sympy.Expr) for dim in shape):
+                continue
+            print(f"{shape=} {name=}")
         input_shapes_str = str(dyn_dim_cstrs.serialize_symbolic_input_shapes_to_str())
         print(f"get-in-tensor-symbolic-shapes {input_shapes_str} {model_path}")
 

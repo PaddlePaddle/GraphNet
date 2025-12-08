@@ -1,1 +1,28 @@
-{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "model_name": "LGAI-EXAONE/EXAONE-4.0-1.2B", "source": "huggingface_hub", "original_tag": ["transformers", "safetensors", "exaone4", "text-generation", "lg-ai", "exaone", "exaone-4.0", "conversational", "en", "ko", "es", "arxiv:2507.11407", "license:other", "autotrain_compatible", "endpoints_compatible", "region:us"], "heuristic_tag": "nlp", "dimension_generalization_passes": []}
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": false,
+    "model_name": "LGAI-EXAONE/EXAONE-4.0-1.2B",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "exaone4",
+        "text-generation",
+        "lg-ai",
+        "exaone",
+        "exaone-4.0",
+        "conversational",
+        "en",
+        "ko",
+        "es",
+        "arxiv:2507.11407",
+        "license:other",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ],
+    "heuristic_tag": "nlp",
+    "dimension_generalization_passes": []
+}

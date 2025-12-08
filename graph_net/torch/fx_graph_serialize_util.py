@@ -148,7 +148,10 @@ def serialize_graph_module_to_str(gm: torch.fx.GraphModule) -> str:
         # replace this line with modification code for task 122 (torch._C._log_api_usage_once)
         (r"torch\._C\._nn\.pad\(", "torch.nn.functional.pad("),
         (r"torch\._C\._nn\.gelu\(", "torch.nn.functional.gelu("),
-        # replace this line with modification code for task 126 (torch._C._nn.scaled_dot_product_attention)
+        (
+            r"torch\._C\._nn\.scaled_dot_product_attention\(",
+            "torch.nn.functional.scaled_dot_product_attention(",
+        ),
         (r"torch\._C\._nn\.linear\(", "torch.nn.functional.linear("),
     ]
     for pattern, repl in replacements:

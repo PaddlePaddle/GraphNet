@@ -32,6 +32,7 @@ class ConcreteReifier(ReifierBase):
                 "[(S0,S1),(S0,S1),(S0,S1)]": cls.reify_batch_s0_seq_s1,
                 "[(S0,S1),(S0,S1)]": cls.reify_batch_s0_seq_s1,
                 "[(S0,S1,768)]": cls.reify_batch_s0_seq_s1,
+                "[(S0,S1)]": cls.reify_nlp_or_gnn_batch_s0_seq_s1,
             }
         return cls.g_nlp_sym_shapes_str2reifier
 
@@ -49,4 +50,20 @@ class ConcreteReifier(ReifierBase):
                 [64, 128],
                 [128, 64],
             ]
+        }
+
+    def reify_nlp_or_gnn_batch_s0_seq_s1(self):
+        S0S1 = (sympy.Symbol("S0"), sympy.Symbol("S1"))
+        return {
+            S0S1: [
+                [1, 128],
+                [1, 1024],
+                [32, 64],
+                [16, 128],
+                [8, 256],
+                [4, 512],
+                [2, 1024],
+                [64, 128],
+                [128, 64],
+            ],
         }

@@ -1,1 +1,30 @@
-{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "model_name": "hf-tiny-model-private/tiny-random-LevitModel", "source": "huggingface_hub", "original_tag": ["transformers", "pytorch", "levit", "image-feature-extraction", "endpoints_compatible", "region:us"], "heuristic_tag": "other", "dimension_generalization_passes": []}
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": false,
+    "model_name": "hf-tiny-model-private/tiny-random-LevitModel",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "levit",
+        "image-feature-extraction",
+        "endpoints_compatible",
+        "region:us"
+    ],
+    "heuristic_tag": "other",
+    "dimension_generalization_passes": [
+        "batch_call_method_view_pass",
+        "tuple_arg_call_method_view_pass",
+        "naive_call_method_reshape_pass",
+        "naive_call_method_expand_pass",
+        "non_batch_call_method_expand_pass",
+        "non_batch_call_function_arange_pass",
+        "non_batch_call_function_getitem_slice_pass",
+        "non_batch_call_function_full_pass",
+        "non_batch_call_function_full_plus_one_pass",
+        "non_batch_call_function_zeros_pass",
+        "non_batch_call_function_arange_plus_one_pass"
+    ]
+}

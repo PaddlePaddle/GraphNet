@@ -223,6 +223,7 @@ class ApplyDataTypeGeneralizationPasses:
                 "Generated code must be validated."
             )
         self.model_runnable_predicator = self._make_model_runnable_predicator(config)
+
     def _make_model_runnable_predicator(self, config: Dict[str, Any]):
         """Create model runnable predicator from config."""
         module = load_module(config["model_runnable_predicator_filepath"])

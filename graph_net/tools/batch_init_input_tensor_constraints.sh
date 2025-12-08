@@ -34,7 +34,7 @@ config_json_str=$(cat <<EOF
                 "non_batch_call_function_arange_plus_one_pass"
             ]
         },
-        "limits_handled_models": 1,
+        "limits_handled_models": 999999,
         "last_model_log_file": "/tmp/a.py"
     }
 }
@@ -42,4 +42,4 @@ EOF
 )
 CONFIG=$(echo $config_json_str | base64 -w 0)
 
-python3 -m graph_net.model_path_handler --model-path-list $GRAPH_NET_ROOT/config/empty_cstr_torch_samples_list.txt --handler-config=$CONFIG
+python3 -m graph_net.model_path_handler --model-path-list $GRAPH_NET_ROOT/config/empty_cstr_torch_samples_list.txt --handler-config=$CONFIG --use-subprocess

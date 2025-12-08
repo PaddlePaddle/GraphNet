@@ -11,7 +11,7 @@
         "luke",
         "token-classification",
         "ner",
-        "固有表現抽出",
+        "\u56fa\u6709\u8868\u73fe\u62bd\u51fa",
         "named entity recognition",
         "named-entity-recognition",
         "ja",
@@ -20,5 +20,18 @@
         "endpoints_compatible",
         "region:us"
     ],
-    "heuristic_tag": "nlp"
+    "heuristic_tag": "nlp",
+    "dimension_generalization_passes": [
+        "batch_call_method_view_pass",
+        "tuple_arg_call_method_view_pass",
+        "naive_call_method_reshape_pass",
+        "naive_call_method_expand_pass",
+        "non_batch_call_method_expand_pass",
+        "non_batch_call_function_arange_pass",
+        "non_batch_call_function_getitem_slice_pass",
+        "non_batch_call_function_full_pass",
+        "non_batch_call_function_full_plus_one_pass",
+        "non_batch_call_function_zeros_pass",
+        "non_batch_call_function_arange_plus_one_pass"
+    ]
 }

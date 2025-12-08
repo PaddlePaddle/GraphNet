@@ -1,8 +1,6 @@
 import os
 import torch
 import sys
-import inspect
-import ast
 from .graph_compiler_backend import GraphCompilerBackend
 from ..fx_graph_serialize_util import serialize_graph_module_to_str
 
@@ -318,7 +316,26 @@ class UnstableToStableBackend(GraphCompilerBackend):
 
         return gm
 
-    # replace this line with modification code for task 126 (torch._C._nn.scaled_dot_product_attention)
+    def _impl_unstable_to_stable_sdpa(self, gm):
+        """
+        Convert torch._C._nn.scaled_dot_product_attention to torch.nn.functional.scaled_dot_product_attention
+        """
+        issue_nodes = (
+            node
+            for node in gm.graph.nodes
+            if node.op == "call_function"
+            if hasattr(node.target, "__module__")
+            if node.target.__module__ == "torch._C._nn"
+            if hasattr(node.target, "__name__")
+            if node.target.__name__ == "scaled_dot_product_attention"
+        )
+
+        for node in issue_nodes:
+            node.target = torch.nn.functional.scaled_dot_product_attention
+
+        gm.recompile()
+
+        return gm
 
     def _impl_unstable_to_stable_linear_to_functional_linear(self, gm):
         """

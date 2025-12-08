@@ -25,5 +25,6 @@
         "endpoints_compatible",
         "region:us"
     ],
-    "heuristic_tag": "nlp"
+    "heuristic_tag": "nlp",
+    "dimension_generalization_passes": []
 }

@@ -1,12 +1,9 @@
-import os
 import argparse
-import numpy as np
 from collections import OrderedDict, Counter
 from graph_net import analysis_util
 from graph_net import samples_statistics
 from graph_net.samples_statistics import (
     get_errno_from_error_type,
-    get_error_type_from_errno,
 )
 
 
@@ -298,9 +295,9 @@ def verify_es_constructor_params_across_tolerances(
     """
     total_samples = len(samples)
 
-    print(f"\n{'='*80}")
+    print(f"\n{'=' * 80}")
     print(f"Verifying Aggregated Parameters for '{folder_name}'")
-    print(f"{'='*80}")
+    print(f"{'=' * 80}")
 
     tolerances = determine_tolerances(samples)
     builder = ToleranceReportBuilder(
@@ -314,9 +311,9 @@ def verify_es_constructor_params_across_tolerances(
         (tolerance, builder.build_report(tolerance)) for tolerance in tolerances
     )
 
-    print(f"\n{'='*80}")
-    print(f"Aggregated Parameter Verification Complete")
-    print(f"{'='*80}\n")
+    print(f"\n{'=' * 80}")
+    print("Aggregated Parameter Verification Complete")
+    print(f"{'=' * 80}\n")
 
     return results
 
@@ -355,12 +352,12 @@ def main():
 
     # Calculate and print aggregated parameters for each curve
     for folder_name, samples in all_results.items():
-        aggregated_results = verify_es_constructor_params_across_tolerances(
+        _ = verify_es_constructor_params_across_tolerances(
             samples,
             folder_name,
             negative_speedup_penalty=args.negative_speedup_penalty,
             fpdb=args.fpdb,
-        )
+        )  # noqa: F841
 
 
 if __name__ == "__main__":

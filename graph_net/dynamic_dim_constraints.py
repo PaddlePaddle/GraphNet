@@ -1,8 +1,6 @@
-import sys
 import sympy
 import importlib.util as imp
 from dataclasses import dataclass
-import copy
 from typing import Callable
 from collections import namedtuple
 
@@ -22,8 +20,23 @@ class DynamicDimConstraints:
     kRelations = "dynamic_dim_constraint_relations"
 
     # len(input_shapes) equals number of Model.forward arguments
-    input_shapes: list[(tuple[sympy.Expr | int], "var-name")]
+    input_shapes: list[(tuple[sympy.Expr | int], str)]
     kInputShapes = "dynamic_dim_constraint_input_shapes"
+
+    def serialize_symbolic_input_shapes_to_str(self):
+        input_shapes = self.get_sorted_symbolic_input_shapes()
+        input_shapes_str = str(input_shapes).replace(" ", "")
+        return input_shapes_str
+
+    def get_sorted_symbolic_input_shapes(self):
+        return sorted(
+            [
+                tuple(shape)
+                for shape, name in self.input_shapes
+                if any(isinstance(dim, sympy.Expr) for dim in shape)
+            ],
+            key=str,
+        )
 
     @classmethod
     def make_by_named_inputs(cls, named_shapes):
@@ -44,7 +57,6 @@ class DynamicDimConstraints:
         ]
         Returns created symbol.
         """
-        import logging
 
         InputDim = namedtuple("InputDim", ["input_idx", "axis", "dim"])
         input_dims = [
@@ -157,7 +169,7 @@ from sympy import Symbol, Expr, Rel, Eq
         return getattr(module, attr) if hasattr(module, attr) else default
 
     @classmethod
-    def load_module(cls, path, name="unamed"):
+    def load_module(cls, path, name="unnamed"):
         spec = imp.spec_from_file_location(name, path)
         module = imp.module_from_spec(spec)
         spec.loader.exec_module(module)

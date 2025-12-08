@@ -2,7 +2,6 @@ import os
 import torch
 import json
 import shutil
-from typing import Union, Callable
 from graph_net.torch import utils
 from graph_net.torch.fx_graph_serialize_util import serialize_graph_module_to_str
 
@@ -82,7 +81,7 @@ class GraphExtractor:
             subgraph_path = model_path
         else:
             if self.subgraph_counter == 1:
-                subgraph_0_path = os.path.join(model_path, f"subgraph_0")
+                subgraph_0_path = os.path.join(model_path, "subgraph_0")
                 self.move_files(model_path, subgraph_0_path)
 
             subgraph_path = os.path.join(
@@ -239,9 +238,12 @@ def extract(
 
     extractor_config = make_extractor_config(extractor_config)
 
-    def get_graph_extractor_maker():
+    def get_graph_extractor_maker(model_path):
         custom_extractor_path = extractor_config["custom_extractor_path"]
         custom_extractor_config = extractor_config["custom_extractor_config"]
+        if custom_extractor_config is None:
+            custom_extractor_config = {}
+        custom_extractor_config["model_path"] = model_path
         if custom_extractor_path is None:
             return GraphExtractor
         import importlib.util as imp
@@ -254,7 +256,10 @@ def extract(
 
     def wrapper(model: torch.nn.Module):
         assert isinstance(model, torch.nn.Module), f"{type(model)=}"
-        extractor = get_graph_extractor_maker()(
+        model_path = None
+        if hasattr(model, "__graph_net_file_path__"):
+            model_path = os.path.dirname(model.__graph_net_file_path__)
+        extractor = get_graph_extractor_maker(model_path)(
             name, dynamic, mut_graph_codes, placeholder_auto_rename
         )
         # return torch.compile(backend=extractor, dynamic=dynamic)

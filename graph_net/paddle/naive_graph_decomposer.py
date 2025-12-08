@@ -56,6 +56,9 @@ class NaiveDecomposerExtractor:
             workspace_path=self.parent_graph_extractor.config["output_dir"],
         )
         self.split_positions = self.parent_graph_extractor.config["split_positions"]
+        self.group_head_and_tail = self.parent_graph_extractor.config[
+            "group_head_and_tail"
+        ]
         self.post_process = self.make_post_process(self.parent_graph_extractor.config)
 
     def do_extract(self, **input_dict):
@@ -69,7 +72,9 @@ class NaiveDecomposerExtractor:
 
         # 2. Convert pir programs to graphnet samples
         self.builtin_extractor.translate_pir_program_to_sample_codes(
-            model_dump_path, split_positions=self.split_positions
+            model_dump_path,
+            split_positions=self.split_positions,
+            group_head_and_tail=self.group_head_and_tail,
         )
 
         # 3. Save to model_path
@@ -77,29 +82,14 @@ class NaiveDecomposerExtractor:
         model_path = os.path.join(
             self.builtin_extractor.workspace_path, self.builtin_extractor.name
         )
-        for (
-            subgraph_idx,
-            samples,
-        ) in self.builtin_extractor.subgraph_idx2samples.items():
-            for seq_idx in range(len(samples)):
-                if (
-                    self.builtin_extractor.num_samples_of_all_subgraphs == 1
-                    and len(samples) == 1
-                ):
-                    subgraph_path = model_path
-                elif len(samples) == 1:
-                    subgraph_path = os.path.join(model_path, f"subgraph_{subgraph_idx}")
-                else:
-                    subgraph_path = os.path.join(
-                        model_path, f"subgraph_{subgraph_idx}_{seq_idx}"
-                    )
-                self.subgraph_path_list.append(subgraph_path)
-                self.builtin_extractor.write_sample_to_file(
-                    subgraph_path, samples[seq_idx]
-                )
-        print(
-            f"Graph and tensors for '{self.builtin_extractor.name}' extracted successfully to: {model_path}"
-        )
+        assert len(self.builtin_extractor.subgraph_idx2samples) == 1
+
+        samples = self.builtin_extractor.subgraph_idx2samples[0]
+        for seq_idx in range(len(samples)):
+            subgraph_path = f"{model_path}_{seq_idx}"
+            self.subgraph_path_list.append(subgraph_path)
+            self.builtin_extractor.write_sample_to_file(subgraph_path, samples[seq_idx])
+            print(f"Save to {subgraph_path}")
         return static_model
 
     def __call__(self, **input_dict):

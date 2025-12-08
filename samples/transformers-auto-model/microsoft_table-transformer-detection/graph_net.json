@@ -16,5 +16,6 @@
         "endpoints_compatible",
         "region:us"
     ],
-    "heuristic_tag": "computer_vision"
+    "heuristic_tag": "computer_vision",
+    "dimension_generalization_passes": []
 }

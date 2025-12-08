@@ -4,5 +4,6 @@
     "num_nodes_required": 1,
     "dynamic": false,
     "source": "torchgeometric",
-    "heuristic_tag": "other"
+    "heuristic_tag": "other",
+    "dimension_generalization_passes": []
 }

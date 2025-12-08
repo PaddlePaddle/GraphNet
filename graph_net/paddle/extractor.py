@@ -1,11 +1,10 @@
 import os
 import json
-import importlib.util
+import tempfile
 
 import paddle
-from athena.graphnet_samples import GraphnetSample, RunGeneration
+from athena.graphnet_samples import RunGeneration
 from graph_net import imp_util
-from graph_net.paddle import utils
 
 
 def load_class_from_file(file_path: str, class_name: str):
@@ -102,8 +101,8 @@ class GraphExtractor:
         self.num_samples_of_all_subgraphs = 0
         self.subgraph_idx2samples = None
 
-        dump_path = os.environ.get("GRAPH_NET_PIR_DUMP_WORKSPACE", "/tmp")
-        self.dump_path = os.path.abspath(dump_path)
+        dump_path = os.environ.get("GRAPH_NET_PIR_DUMP_WORKSPACE", None)
+        self.dump_path = os.path.abspath(dump_path) if dump_path else tempfile.mkdtemp()
 
         workspace_path = (
             workspace_path
@@ -167,7 +166,7 @@ class GraphExtractor:
             backend=None,
         )
         static_model.eval()
-        program = static_model.forward.concrete_program.main_program
+        # program = static_model.forward.concrete_program.main_program
         # print(program)
         static_model(**data_dict)
 
@@ -176,7 +175,10 @@ class GraphExtractor:
         return static_model
 
     def translate_pir_program_to_sample_codes(
-        self, model_dump_path, split_positions=None
+        self,
+        model_dump_path,
+        split_positions=None,
+        group_head_and_tail=True,
     ):
         ir_programs_path = os.path.join(model_dump_path, "exec_programs.py")
         example_inputs_path = os.path.join(
@@ -201,7 +203,9 @@ class GraphExtractor:
             example_inputs=example_inputs_path,
             op_example_inputs=op_example_inputs_path,
             split_positions=split_positions,
+            group_head_and_tail=group_head_and_tail,
             eval_mode=True,
+            tmp_dir=model_dump_path,
         )
 
         self.subgraph_idx2samples = {}

@@ -14,5 +14,6 @@
         "endpoints_compatible",
         "region:us"
     ],
-    "heuristic_tag": "audio"
+    "heuristic_tag": "audio",
+    "dimension_generalization_passes": []
 }

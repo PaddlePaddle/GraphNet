@@ -15,7 +15,7 @@ class GraphExtractor:
         input_spec=None,
     ):
         self.model = model
-        self.name = name
+        self.name = name.replace("/", "_")
         self.dynamic = dynamic
         self.input_spec = input_spec
         self.config = self.make_config(**config)

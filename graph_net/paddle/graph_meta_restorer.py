@@ -36,34 +36,20 @@ class GraphMetaRestorer:
         is_weight_meta_fully_updated = self._update_by_original_name(
             weight_meta_classes, self.original_name2parent_weight_meta_class
         )
-        if is_weight_meta_fully_updated:
-            new_weight_meta_codes = []
-            for meta_class in weight_meta_classes:
-                new_weight_meta_codes.append(
-                    self._generate_py_code_from_meta_class(meta_class)
-                )
-
-            weight_meta_file_path = os.path.join(model_path, "weight_meta.py")
-            if self.config["update_inplace"]:
-                print(f"[GraphMetaRestorer] Update {weight_meta_file_path}")
-                with open(weight_meta_file_path, "w") as f:
-                    f.write("\n\n".join(new_weight_meta_codes))
+        if (
+            not self.config["weight_meta_allow_partial_update"]
+            or is_weight_meta_fully_updated
+        ):
+            self._rewrite_meta_codes(model_path, weight_meta_classes, "weight_meta.py")
 
         is_input_meta_fully_updated = self._update_by_tensor_spec(
             input_meta_classes, self.original_name2parent_input_meta_class
         )
-        if is_input_meta_fully_updated:
-            new_input_meta_codes = []
-            for meta_class in input_meta_classes:
-                new_input_meta_codes.append(
-                    self._generate_py_code_from_meta_class(meta_class)
-                )
-
-            input_meta_file_path = os.path.join(model_path, "input_meta.py")
-            if self.config["update_inplace"]:
-                print(f"[GraphMetaRestorer] Update {input_meta_file_path}")
-                with open(input_meta_file_path, "w") as f:
-                    f.write("\n\n".join(new_input_meta_codes))
+        if (
+            not self.config["input_meta_allow_partial_update"]
+            or is_input_meta_fully_updated
+        ):
+            self._rewrite_meta_codes(model_path, input_meta_classes, "input_meta.py")
 
     def _load_weight_and_input_meta_classes(self, model_path):
         weight_meta_file_path = os.path.join(model_path, "weight_meta.py")
@@ -115,7 +101,7 @@ class GraphMetaRestorer:
                 updated_class_names.add(meta_class.name)
 
         print(
-            f"[GraphMetaRestorer] {len(updated_class_names)}/{len(meta_classes)} classes are updated."
+            f"[GraphMetaRestorer] {len(updated_class_names)}/{len(meta_classes)} classes can be restored."
         )
         return len(meta_classes) == len(updated_class_names)
 
@@ -133,7 +119,7 @@ class GraphMetaRestorer:
                 updated_class_names.add(meta_class.name)
 
         print(
-            f"[GraphMetaRestorer] {len(updated_class_names)}/{len(meta_classes)} classes are updated."
+            f"[GraphMetaRestorer] {len(updated_class_names)}/{len(meta_classes)} classes can be restored."
         )
         return len(meta_classes) == len(updated_class_names)
 
@@ -151,3 +137,14 @@ class GraphMetaRestorer:
             )
             lines.append(f"    {name} = {value_str}")
         return "\n".join(lines)
+
+    def _rewrite_meta_codes(self, model_path, updated_meta_classes, filename):
+        new_meta_codes = []
+        for meta_class in updated_meta_classes:
+            new_meta_codes.append(self._generate_py_code_from_meta_class(meta_class))
+
+        meta_file_path = os.path.join(model_path, filename)
+        if self.config["update_inplace"]:
+            print(f"[GraphMetaRestorer] Update {meta_file_path}")
+            with open(meta_file_path, "w") as f:
+                f.write("\n\n".join(new_meta_codes))

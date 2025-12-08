@@ -1,13 +1,14 @@
 import os
 import torch
+import shutil
+import inspect
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
 from graph_net.tensor_meta import TensorMeta
 from pathlib import Path
-import shutil
 from graph_net.torch.utils import apply_templates
 from graph_net.imp_util import load_module
-import inspect
+from graph_net.hash_util import get_sha256_hash
 
 
 class GraphVariableRenamer:
@@ -96,6 +97,8 @@ class GraphVariableRenamer:
     def _update_model_py_file(self, graph_module, model_path):
         py_code = apply_templates(graph_module.code)
         (Path(model_path) / "model.py").write_text(py_code)
+        file_hash = get_sha256_hash(py_code)
+        (Path(model_path) / "graph_hash.txt").write_text(file_hash)
 
     def _update_weight_meta_py_file(self, src_model_path, dst_model_path):
         old_name_to_new_name = self._get_original_name_to_new_name(

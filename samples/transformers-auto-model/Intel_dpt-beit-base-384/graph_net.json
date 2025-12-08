@@ -1,1 +1,20 @@
-{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "model_name": "Intel/dpt-beit-base-384", "source": "huggingface_hub", "original_tag": ["transformers", "safetensors", "dpt", "depth-estimation", "arxiv:2103.13413", "license:mit", "endpoints_compatible", "region:us"], "heuristic_tag": "computer_vision", "dimension_generalization_passes": []}
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": false,
+    "model_name": "Intel/dpt-beit-base-384",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "dpt",
+        "depth-estimation",
+        "arxiv:2103.13413",
+        "license:mit",
+        "endpoints_compatible",
+        "region:us"
+    ],
+    "heuristic_tag": "computer_vision",
+    "dimension_generalization_passes": []
+}

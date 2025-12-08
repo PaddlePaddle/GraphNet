@@ -1,1 +1,36 @@
-{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "model_name": "sentence-transformers/gtr-t5-base", "source": "huggingface_hub", "original_tag": ["sentence-transformers", "pytorch", "safetensors", "t5", "feature-extraction", "sentence-similarity", "en", "arxiv:2112.07899", "license:apache-2.0", "autotrain_compatible", "endpoints_compatible", "region:us"], "heuristic_tag": "other", "dimension_generalization_passes": []}
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": false,
+    "model_name": "sentence-transformers/gtr-t5-base",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "sentence-transformers",
+        "pytorch",
+        "safetensors",
+        "t5",
+        "feature-extraction",
+        "sentence-similarity",
+        "en",
+        "arxiv:2112.07899",
+        "license:apache-2.0",
+        "autotrain_compatible",
+        "endpoints_compatible",
+        "region:us"
+    ],
+    "heuristic_tag": "other",
+    "dimension_generalization_passes": [
+        "batch_call_method_view_pass",
+        "tuple_arg_call_method_view_pass",
+        "naive_call_method_reshape_pass",
+        "naive_call_method_expand_pass",
+        "non_batch_call_method_expand_pass",
+        "non_batch_call_function_arange_pass",
+        "non_batch_call_function_getitem_slice_pass",
+        "non_batch_call_function_full_pass",
+        "non_batch_call_function_full_plus_one_pass",
+        "non_batch_call_function_zeros_pass",
+        "non_batch_call_function_arange_plus_one_pass"
+    ]
+}

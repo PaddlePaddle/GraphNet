@@ -78,8 +78,9 @@ class GraphVariableRenamer:
         module, inputs = get_torch_module_and_inputs(src_model_path)
         gm = parse_sole_graph_module(module, inputs)
         gm = self.rename_graph_variables(gm, inputs, src_model_path)
-        # print(gm)
-        dst_model_path = os.path.join(self.config["output_dir"], rel_model_path)
+        dst_model_path = os.path.realpath(
+            os.path.join(self.config["output_dir"], rel_model_path)
+        )
         Path(dst_model_path).parent.mkdir(parents=True, exist_ok=True)
         shutil.copytree(src_model_path, dst_model_path, dirs_exist_ok=True)
         self._update_model_py_file(gm, dst_model_path)

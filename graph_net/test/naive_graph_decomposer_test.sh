@@ -23,4 +23,4 @@ EOF
 CONFIG=$(echo $config_json_str | base64 -w 0)
 
 # python3 -m graph_net.model_path_handler --model-path $GRAPH_NET_ROOT/../samples/$MODEL_PATH_IN_SAMPLES --handler-config=$CONFIG
-python3 -m graph_net.model_path_handler --model-path-list $GRAPH_NET_ROOT/config/decomposition_error_tmp_torch_samples_list.txt --handler-config=$CONFIG
+python3 -m graph_net.model_path_handler --model-path-list $GRAPH_NET_ROOT/test/dev_model_list/decomposition_error_tmp_torch_samples_list.txt --handler-config=$CONFIG

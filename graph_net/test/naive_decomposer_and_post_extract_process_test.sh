@@ -12,7 +12,7 @@ decorator_config_json_str=$(cat <<EOF
     "decorator_path": "$GRAPH_NET_ROOT/torch/extractor.py",
     "decorator_config": {
         "name": "$MODEL_NAME",
-        "custom_extractor_path": "$GRAPH_NET_ROOT/torch/naive_graph_decomposer.py",
+        "custom_extractor_path": "$GRAPH_NET_ROOT/torch/graph_decomposer.py",
         "custom_extractor_config": {
             "output_dir": "/tmp/naive_decompose_workspace",
             "split_positions": [8, 16, 32],

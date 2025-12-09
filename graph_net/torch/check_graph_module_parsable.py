@@ -31,10 +31,15 @@ class CheckGraphModuleParsable:
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         if self.config["resume"] and self._is_model_path_handled(rel_model_path):
             return
-        parse_immutable_model_path_into_sole_graph_module(model_path)
+        gm = parse_immutable_model_path_into_sole_graph_module(model_path)
         output_dir = Path(self.config["output_dir"]) / rel_model_path
         output_dir.mkdir(parents=True, exist_ok=True)
+        (output_dir / "num_ops.txt").write_text(str(self._get_num_ops(gm)))
         self._inc_num_handled_models()
+
+    def _get_num_ops(self, gm):
+        ignored = {"placeholder", "output"}
+        return len([node for node in gm.graph.nodes if node.op not in ignored])
 
     def _is_model_path_handled(self, rel_model_path):
         return (Path(self.config["output_dir"]) / rel_model_path).exists()

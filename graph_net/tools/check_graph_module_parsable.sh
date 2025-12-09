@@ -11,8 +11,8 @@ config_json_str=$(cat <<EOF
     "handler_path": "$GRAPH_NET_ROOT/torch/check_graph_module_parsable.py",
     "handler_class_name": "CheckGraphModuleParsable",
     "handler_config": {
+        "resume": false,
         "model_path_prefix": "$GRAPH_NET_ROOT/../",
-        "resume": true,
         "limits_handled_models": 999999,
         "output_dir": "/tmp/check_graph_module_parsable"
     }

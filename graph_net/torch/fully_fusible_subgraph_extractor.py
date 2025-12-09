@@ -1,8 +1,9 @@
 import os
+from pathlib import Path
 import graph_net
 import tempfile
 import shutil
-from graph_net.torch import constraint_util
+from graph_net.torch import fully_fusible_graph_predicator
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
 import logging
@@ -60,20 +61,16 @@ class FullyFusibleSubgraphExtractor:
                 ), f"Invalid range generated: start={start_pos}, end={end_pos}, max={self.config['max_nodes']}"
                 yield start_pos, end_pos
 
-    def _handle_success(
-        self, temp_dir: str, start_pos: int, end_pos: int, model_name
-    ) -> str:
-        target_name = f"{model_name}_start{start_pos}_end{end_pos}"
+    def _handle_success(self, temp_dir: str, rel_model_path: str) -> str:
+        subdirs = list(Path(temp_dir).iterdir())
+        assert len(subdirs) == 1
+        temp_dir = str(subdirs[0])
         target_path = os.path.join(
             self.config["output_dir"],
-            target_name,
+            rel_model_path,
         )
         os.makedirs(target_path, exist_ok=True)
-        # shutil.move(temp_dir, target_path)
-        for item in os.listdir(temp_dir):
-            source = os.path.join(temp_dir, item)
-            destination = os.path.join(target_path, item)
-            shutil.move(source, destination)
+        shutil.copytree(temp_dir, target_path, dirs_exist_ok=True)
         return target_path
 
     def _build_decompose_config(
@@ -90,7 +87,7 @@ class FullyFusibleSubgraphExtractor:
                 "split_positions": [start_pos, end_pos],
                 "group_head_and_tail": False,
                 "post_extract_process_path": f"{graph_net_root}/torch/post_extract_process_count_kernels.py",
-                "post_extract_process_class_name": "GraphFullyFusible",
+                "post_extract_process_class_name": "ThrowExitStatusIfGraphFullyFusible",
             },
         }
         return check_fusible_config
@@ -106,14 +103,14 @@ class FullyFusibleSubgraphExtractor:
                 check_fusible_config = self._build_decompose_config(
                     temp_dir, start_pos, end_pos, self.config["model_path_prefix"]
                 )
-                predicator = constraint_util.FusibleSubgraphPredicator(
+                predicator = fully_fusible_graph_predicator.FullyFusibleGraphPredicator(
                     check_fusible_config
                 )
+                logger.warning("fully_fusible_graph_predicator-begin")
                 success = predicator(model_path)
+                logger.warning("fully_fusible_graph_predicator-end")
                 if success:
-                    target_path = self._handle_success(
-                        temp_dir, start_pos, end_pos, os.path.basename(model_path)
-                    )
+                    target_path = self._handle_success(temp_dir, rel_model_path)
                     print(
                         f"SUCCESS in finding the biggest fully fusible subgraph. Result saved to: {target_path}"
                     )

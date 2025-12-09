@@ -4,7 +4,7 @@ GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(
 os.path.dirname(graph_net.__file__))")
 
 # input model path
-MODEL_NAME=resnet18
+MODEL_NAME=test_byobnet.r160_in1k
 MODEL_PATH_IN_SAMPLES=/timm/$MODEL_NAME
 config_json_str=$(cat <<EOF
 {

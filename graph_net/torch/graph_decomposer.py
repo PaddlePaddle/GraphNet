@@ -48,13 +48,8 @@ class GraphExtractor:
         output_dir="./tmp/naive_decomposer_dir",
         filter_path=None,
         filter_config=None,
-        post_extract_process_path=None,
-        post_extract_process_class_name=None,
-        post_extract_process_config=None,
         **kwargs,
     ):
-        if post_extract_process_config is None:
-            post_extract_process_config = {}
         for pos in split_positions:
             assert isinstance(
                 pos, int
@@ -66,9 +61,6 @@ class GraphExtractor:
             "output_dir": output_dir,
             "filter_path": filter_path,
             "filter_config": filter_config if filter_config is not None else {},
-            "post_extract_process_path": post_extract_process_path,
-            "post_extract_process_class_name": post_extract_process_class_name,
-            "post_extract_process_config": post_extract_process_config,
         }
 
     def __call__(self, gm: torch.fx.GraphModule, sample_inputs):
@@ -111,14 +103,9 @@ class NaiveDecomposerExtractor:
         chain_style=False,
         filter_path=None,
         filter_config=None,
-        post_extract_process_path=None,
-        post_extract_process_class_name=None,
-        post_extract_process_config=None,
         model_path_prefix="",
         **kwargs,
     ):
-        if post_extract_process_config is None:
-            post_extract_process_config = {}
         for pos in split_positions:
             assert isinstance(
                 pos, int
@@ -130,9 +117,6 @@ class NaiveDecomposerExtractor:
             "output_dir": output_dir,
             "filter_path": filter_path,
             "filter_config": filter_config if filter_config is not None else {},
-            "post_extract_process_path": post_extract_process_path,
-            "post_extract_process_class_name": post_extract_process_class_name,
-            "post_extract_process_config": post_extract_process_config,
             "model_path_prefix": model_path_prefix,
         }
 
@@ -186,9 +170,6 @@ class RangeDecomposerExtractor:
         output_dir="./tmp/naive_decomposer_dir",
         filter_path=None,
         filter_config=None,
-        post_extract_process_path=None,
-        post_extract_process_class_name=None,
-        post_extract_process_config=None,
         model_path_prefix="",
         **kwargs,
     ):
@@ -198,8 +179,6 @@ class RangeDecomposerExtractor:
             raise ValueError(
                 f"split_results_path should be a valid JSON file path, but got {split_results_path=}"
             )
-        if post_extract_process_config is None:
-            post_extract_process_config = {}
         return {
             "split_results_path": split_results_path,
             "group_head_and_tail": group_head_and_tail,
@@ -207,9 +186,6 @@ class RangeDecomposerExtractor:
             "output_dir": output_dir,
             "filter_path": filter_path,
             "filter_config": filter_config if filter_config is not None else {},
-            "post_extract_process_path": post_extract_process_path,
-            "post_extract_process_class_name": post_extract_process_class_name,
-            "post_extract_process_config": post_extract_process_config,
             "model_path_prefix": model_path_prefix,
         }
 
@@ -274,7 +250,6 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
             ),
         )
         self.filter = self.make_filter(self.config)
-        self.post_extract_process = self.make_post_extract_process(self.config)
 
     def _get_model_path(self):
         return os.path.join(
@@ -284,13 +259,10 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         )
 
     def forward(self, *args):
-        logger.warning("naive decomposer forwarding")
         if not self.extracted:
             if self.need_extract(self.submodule, args):
                 self.builtin_extractor(self.submodule, args)
-                self._post_extract_process()
             self.extracted = True
-        logger.warning("naive decomposer end")
         return self.submodule(*args)
 
     def need_extract(self, gm, sample_inputs):
@@ -298,19 +270,8 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
             return True
         return self.filter(gm, sample_inputs)
 
-    def _post_extract_process(self):
-        model_path = self._get_model_path()
-        return self.post_extract_process(model_path)
-
     def make_filter(self, config):
         if config["filter_path"] is None:
             return None
         module = imp_util.load_module(config["filter_path"])
         return module.GraphFilter(config["filter_config"])
-
-    def make_post_extract_process(self, config):
-        if config.get("post_extract_process_path") is None:
-            return lambda *args, **kwargs: None
-        module = imp_util.load_module(config["post_extract_process_path"])
-        cls = getattr(module, config["post_extract_process_class_name"])
-        return cls(config["post_extract_process_config"])

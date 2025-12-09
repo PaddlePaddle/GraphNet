@@ -181,7 +181,7 @@ def fold_range_to_submodule(
     end_node_idx: int,
     submodule_hook=None,
     submodule_name="extracted_submodule",
-    group_head_and_tail=True,
+    group_head_and_tail=False,
 ):
     return convert_to_submodules_graph(
         gm,

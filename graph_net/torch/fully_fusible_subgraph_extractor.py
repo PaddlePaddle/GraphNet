@@ -103,18 +103,28 @@ class FullyFusibleSubgraphExtractor:
                 check_fusible_config = self._build_decompose_config(
                     temp_dir, start_pos, end_pos, self.config["model_path_prefix"]
                 )
-                predicator = fully_fusible_graph_predicator.FullyFusibleGraphPredicator(
-                    check_fusible_config
+                predicator_cls = (
+                    fully_fusible_graph_predicator.FullyFusibleGraphPredicator
                 )
+                predicator = predicator_cls(check_fusible_config)
                 logger.warning("fully_fusible_graph_predicator-begin")
                 success = predicator(model_path)
                 logger.warning("fully_fusible_graph_predicator-end")
-                if success:
-                    target_path = self._handle_success(temp_dir, rel_model_path)
-                    print(
-                        f"SUCCESS in finding the biggest fully fusible subgraph. Result saved to: {target_path}"
-                    )
-                    break
+                if not success:
+                    continue
+                decomposer_config = self._build_decompose_config(
+                    temp_dir, start_pos, end_pos, self.config["model_path_prefix"]
+                )
+                predicator_cls = (
+                    fully_fusible_graph_predicator.FullyFusibleGraphPredicator
+                )
+                predicator = predicator_cls(decomposer_config)
+                predicator(model_path)
+                target_path = self._handle_success(temp_dir, rel_model_path)
+                print(
+                    f"SUCCESS in finding the biggest fully fusible subgraph. Result saved to: {target_path}"
+                )
+                break
         else:
             logger.warning("fail to find fully fusible subgraph")
         return gm.forward

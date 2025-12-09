@@ -5,6 +5,9 @@ from graph_net.torch.decompose_util import convert_to_submodules_graph
 from graph_net.torch.extractor import GraphExtractor as BuiltinGraphExtractor
 import graph_net.imp_util as imp_util
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
+from graph_net.torch.fx_graph_cache_util import (
+    parse_immutable_model_path_into_sole_graph_module,
+)
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
 import logging
 
@@ -134,30 +137,24 @@ class NaiveDecomposerExtractor:
         }
 
     def __call__(self, rel_model_path):
-        # callback = lambda: logger.warning("NaiveDecomposerExtractor-call-end")
-        # logger.warning("NaiveDecomposerExtractor-call-begin")
-        # atexit.register(callback)
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         config = {
             k: v
             for k, v in self.config.items()
             if k in {"split_positions", "group_head_and_tail", "chain_style"}
         }
-        # logger.warning("get_torch_module_and_inputs_begin")
         module, inputs = get_torch_module_and_inputs(model_path)
-        # logger.warning("get_torch_module_and_inputs_end")
-        # logger.warning("parse_sole_graph_module_begin")
-        gm = parse_sole_graph_module(module, inputs)
-        # logger.warning("parse_sole_graph_module_end")
-        # callback = lambda: logger.warning("convert_to_submodules_graph-call-end")
-        # logger.warning("convert_to_submodules_graph-call-begin")
-        # atexit.register(callback)
-        rewrited_gm: torch.fx.GraphModule = convert_to_submodules_graph(
-            gm,
-            submodule_hook=self.get_naive_decomposer_extractor(model_path),
-            **config,
-        )
-        rewrited_gm(*inputs)
+        gm = parse_immutable_model_path_into_sole_graph_module(model_path)
+        try:
+            logger.warning("convert_to_submodules_graph-call-begin")
+            rewrited_gm: torch.fx.GraphModule = convert_to_submodules_graph(
+                gm,
+                submodule_hook=self.get_naive_decomposer_extractor(model_path),
+                **config,
+            )
+            rewrited_gm(*inputs)
+        finally:
+            logger.warning("convert_to_submodules_graph-call-end")
 
     def get_naive_decomposer_extractor(self, model_path):
         def fn(submodule, seq_no):

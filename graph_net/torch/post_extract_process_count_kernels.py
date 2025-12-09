@@ -12,6 +12,31 @@ from graph_net.torch.graph_fusibility_status import (
 )
 
 
+class TorchNNModuleFullyFusibleDecorator:
+    def __init__(self, config):
+        self.config = config
+
+    def __call__(self, module):
+        return TorchNNModuleFullyFusiblePredicator(module)
+
+
+class TorchNNModuleFullyFusiblePredicator(torch.nn.Module):
+    def __init__(self, module):
+        self.module = module
+
+    def forward(self, *inputs):
+        try:
+            compiled_model = torch.compile(self.module)
+        except Exception:
+            raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
+        ret_tensors, compiled_num_of_kernels = count_kernels(compiled_model, inputs)
+        if compiled_num_of_kernels == 1:
+            raise GraphFusibilityStatus(GraphFusibility.kFullyFusible)
+        else:
+            raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
+        return ret_tensors
+
+
 class ThrowExitStatusIfGraphFullyFusible:
     def __init__(self, config):
         self.config = config
@@ -45,7 +70,7 @@ class ThrowExitStatusIfGraphFullyFusible:
             compiled_model = torch.compile(model)
         except Exception:
             raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
-        compiled_num_of_kernels = count_kernels(compiled_model, state_dict)
+        _, compiled_num_of_kernels = count_kernels(compiled_model, state_dict)
         if compiled_num_of_kernels == 1:
             raise GraphFusibilityStatus(GraphFusibility.kFullyFusible)
         else:
@@ -103,11 +128,17 @@ def count_kernels(model, sample_inputs) -> int:
         record_shapes=True,
     ) as prof:
         with record_function("model_inference"):
-            _ = model(**sample_inputs)
+            if isinstance(sample_inputs, dict):
+                ret_tensors = model(**sample_inputs)
+            elif isinstance(sample_inputs, (list, tuple)):
+                ret_tensors = model(*sample_inputs)
+            else:
+                raise NotImplementedError(f"{type(sample_inputs)=}")
+
     events = prof.key_averages()
 
     total_count = 0
     for e in events:
         if e.key == "cuLaunchKernel" or e.key == "cudaLaunchKernel":
             total_count += e.count
-    return total_count
+    return ret_tensors, total_count

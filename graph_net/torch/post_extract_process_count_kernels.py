@@ -1,3 +1,4 @@
+import traceback
 from graph_net.torch import utils
 import importlib.util
 import torch
@@ -5,8 +6,13 @@ import sys
 from typing import Type
 from torch.profiler import profile, record_function, ProfilerActivity
 
+from graph_net.torch.graph_fusibility_status import (
+    GraphFusibilityStatus,
+    GraphFusibility,
+)
 
-class GraphFullyFusible:
+
+class ThrowExitStatusIfGraphFullyFusible:
     def __init__(self, config):
         self.config = config
 
@@ -16,7 +22,7 @@ class GraphFullyFusible:
         # atexit.register(callback)
         torch._dynamo.reset()
         if model_path is None:
-            sys.exit(1)
+            raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
         # model
         model_class = load_class_from_file(
             f"{model_path}/model.py", class_name="GraphModule"
@@ -33,17 +39,36 @@ class GraphFullyFusible:
         try:
             model(**state_dict)
         except Exception:
-            sys.exit(1)
+            raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
         # try to compile the model
         try:
             compiled_model = torch.compile(model)
         except Exception:
-            sys.exit(1)
+            raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
         compiled_num_of_kernels = count_kernels(compiled_model, state_dict)
         if compiled_num_of_kernels == 1:
-            sys.exit(0)
+            raise GraphFusibilityStatus(GraphFusibility.kFullyFusible)
         else:
-            sys.exit(1)
+            raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
+
+
+class GraphFullyFusible:
+    def __init__(self, config):
+        self.predicator = ThrowExitStatusIfGraphFullyFusible(config)
+
+    def __call__(self, model_path=None):
+        try:
+            self.predicator(model_path)
+        except GraphFusibilityStatus as status:
+            if status.graph_fusibility == GraphFusibility.kFullyFusible:
+                sys.exit(0)
+            elif status.graph_fusibility == GraphFusibility.kNotFullyFusible:
+                sys.exit(1)
+            else:
+                raise NotImplementedError(f"{status.graph_fusibility=}")
+        except Exception:
+            traceback.print_exc()
+        sys.exit(1)
 
 
 def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Module]:

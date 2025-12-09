@@ -130,7 +130,7 @@ class NaiveDecomposerExtractor:
         module, inputs = get_torch_module_and_inputs(model_path)
         gm = parse_immutable_model_path_into_sole_graph_module(model_path)
         try:
-            logger.warning("convert_to_submodules_graph-call-begin")
+            # logger.warning("convert_to_submodules_graph-call-begin")
             rewrited_gm: torch.fx.GraphModule = convert_to_submodules_graph(
                 gm,
                 submodule_hook=self.get_naive_decomposer_extractor(model_path),
@@ -138,7 +138,8 @@ class NaiveDecomposerExtractor:
             )
             rewrited_gm(*inputs)
         finally:
-            logger.warning("convert_to_submodules_graph-call-end")
+            pass
+            # logger.warning("convert_to_submodules_graph-call-end")
 
     def get_naive_decomposer_extractor(self, model_path):
         def fn(submodule, seq_no):

@@ -60,14 +60,20 @@ class FullyFusibleSubgraphExtractor:
                 ), f"Invalid range generated: start={start_pos}, end={end_pos}, max={self.config['max_nodes']}"
                 yield start_pos, end_pos
 
-    def _handle_success(self, temp_dir: str, start_pos: int, end_pos: int) -> str:
-        target_name = f"_start{start_pos}_end{end_pos}"
+    def _handle_success(
+        self, temp_dir: str, start_pos: int, end_pos: int, model_name
+    ) -> str:
+        target_name = f"{model_name}_start{start_pos}_end{end_pos}"
         target_path = os.path.join(
             self.config["output_dir"],
             target_name,
         )
         os.makedirs(target_path, exist_ok=True)
-        shutil.move(temp_dir, target_path)
+        # shutil.move(temp_dir, target_path)
+        for item in os.listdir(temp_dir):
+            source = os.path.join(temp_dir, item)
+            destination = os.path.join(target_path, item)
+            shutil.move(source, destination)
         return target_path
 
     def _build_decompose_config(
@@ -76,7 +82,7 @@ class FullyFusibleSubgraphExtractor:
         graph_net_root = os.path.dirname(graph_net.__file__)
 
         check_fusible_config = {
-            "handler_path": f"{graph_net_root}/torch/naive_graph_decomposer.py",
+            "handler_path": f"{graph_net_root}/torch/graph_decomposer.py",
             "handler_class_name": "NaiveDecomposerExtractor",
             "handler_config": {
                 "model_path_prefix": model_path_prefix,
@@ -105,7 +111,9 @@ class FullyFusibleSubgraphExtractor:
                 )
                 success = predicator(model_path)
                 if success:
-                    target_path = self._handle_success(temp_dir, start_pos, end_pos)
+                    target_path = self._handle_success(
+                        temp_dir, start_pos, end_pos, os.path.basename(model_path)
+                    )
                     print(
                         f"SUCCESS in finding the biggest fully fusible subgraph. Result saved to: {target_path}"
                     )

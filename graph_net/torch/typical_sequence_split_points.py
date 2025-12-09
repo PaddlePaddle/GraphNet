@@ -82,8 +82,12 @@ class TypicalSequenceModelLoader:
 
 
 class SplitAnalyzer:
-    def __init__(self, window_size: int = 10):
+    def __init__(
+        self, window_size: int = 10, fold_policy: str = "default", fold_times: int = 0
+    ):
         self.window_size = window_size
+        self.fold_policy = fold_policy
+        self.fold_times = fold_times
 
     def _resolve_token_to_ops(
         self, tid, num_primitives, token_id2primitive_id, symbol_map
@@ -169,7 +173,9 @@ class SplitAnalyzer:
             return {}
 
         rp_parser = RpExprParser(
-            window_size=self.window_size, fold_policy="default", fold_times=0
+            window_size=self.window_size,
+            fold_policy=self.fold_policy,
+            fold_times=self.fold_times,
         )
         rp_expr, token_id2primitive_id = rp_parser(inputs_seqs)
         rp_expr.try_unwrap_body_of_sole_symbol_token()
@@ -253,7 +259,11 @@ class SplitAnalyzer:
 
 
 def main(args):
-    analyzer = SplitAnalyzer(window_size=args.window_size)
+    analyzer = SplitAnalyzer(
+        window_size=args.window_size,
+        fold_policy=args.fold_policy,
+        fold_times=args.fold_times,
+    )
     results = analyzer.analyze(args.model_list, args.device)
     if args.output_json:
         with open(args.output_json, "w") as f:
@@ -278,6 +288,18 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--window-size", type=int, default=10, help="Window size for RP Parser."
+    )
+    parser.add_argument(
+        "--fold-policy",
+        type=str,
+        default="default",
+        help="Policy for split analysis, one of 'default' or 'longest'",
+    )
+    parser.add_argument(
+        "--fold-times",
+        type=int,
+        default=0,
+        help="How many times to fold tokens. If 0, then no folding is done.",
     )
     parser.add_argument(
         "--output-json",

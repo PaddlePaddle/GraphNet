@@ -4,21 +4,15 @@ import paddle
 from pathlib import Path
 import sys
 import os
-from dataclasses import dataclass
-from contextlib import contextmanager
-import time
-import math
 import numpy as np
-import random
 import platform
 import traceback
 import subprocess
 import re
 
-from graph_net.paddle import utils
 from graph_net import path_utils
 from graph_net import test_compiler_util
-
+from graph_net.paddle import utils, random_util
 from graph_net.paddle.backend.graph_compiler_backend import GraphCompilerBackend
 from graph_net.paddle.backend.cinn_backend import CinnBackend
 from graph_net.paddle.backend.nope_backend import NopeBackend
@@ -33,12 +27,6 @@ registry_backend = {
 def get_compiler_backend(args) -> GraphCompilerBackend:
     assert args.compiler in registry_backend, f"Unknown compiler: {args.compiler}"
     return registry_backend[args.compiler]
-
-
-def set_seed(random_seed):
-    paddle.seed(random_seed)
-    random.seed(random_seed)
-    np.random.seed(random_seed)
 
 
 def init_env(args):
@@ -62,7 +50,7 @@ def get_hardward_name(args):
                     )
                 )
             )
-        except Exception as e:
+        except Exception:
             pass
     elif args.device == "cpu":
         hardware = platform.processor()
@@ -100,14 +88,25 @@ def get_model(model_path):
     return model_class()
 
 
-def get_input_dict(model_path):
+def get_input_dict(model_path, random_states_path=None):
     inputs_params = utils.load_converted_from_text(f"{model_path}")
     params = inputs_params["weight_info"]
     inputs = inputs_params["input_info"]
-
     params.update(inputs)
-    state_dict = {k: utils.replay_tensor(v) for k, v in params.items()}
-    return state_dict
+
+    random_states = (
+        random_util.load_random_states(model_path, random_states_path)
+        if random_states_path
+        else None
+    )
+
+    input_dict = {}
+    for name, meta in params.items():
+        if random_states is not None and random_states.get(name, None) is not None:
+            np.random.set_state(random_states[name])
+        tensor = utils.replay_tensor(meta)
+        input_dict[name] = tensor
+    return input_dict
 
 
 def get_input_spec(model_path):
@@ -476,7 +475,7 @@ def main(args):
     assert args.device in ["cuda", "dcu", "xpu", "cpu"]
 
     initalize_seed = 123
-    set_seed(random_seed=initalize_seed)
+    random_util.set_seed(random_seed=initalize_seed)
 
     if path_utils.is_single_model_dir(args.model_path):
         test_single_model(args)

@@ -1,19 +1,13 @@
 import argparse
-import importlib.util
-import time
-import numpy as np
-import random
 import os
-from pathlib import Path
 import json
-import re
 import sys
 import traceback
 
 import paddle
 from graph_net import path_utils
 from graph_net import test_compiler_util
-from graph_net.paddle import test_compiler, test_reference_device
+from graph_net.paddle import random_util, test_compiler, test_reference_device
 
 
 def parse_config_from_reference_log(log_path):
@@ -59,7 +53,7 @@ def update_args_and_set_seed(args, model_path):
     vars(args)["compiler"] = config.get("compiler")
     vars(args)["trials"] = int(config.get("trials"))
     vars(args)["warmup"] = int(config.get("warmup"))
-    test_compiler.set_seed(random_seed=int(config.get("seed")))
+    random_util.set_seed(random_seed=int(config.get("seed")))
     return args
 
 
@@ -67,7 +61,7 @@ def test_single_model(args):
     compiler = test_compiler.get_compiler_backend(args)
     test_compiler.check_and_print_gpu_utilization(compiler)
 
-    input_dict = test_compiler.get_input_dict(args.model_path)
+    input_dict = test_compiler.get_input_dict(args.model_path, args.random_states_path)
     model = test_compiler.get_model(args.model_path)
     model.eval()
 
@@ -146,6 +140,7 @@ def test_multi_models(args):
                     f"--device {args.device}",
                     f"--log-prompt {args.log_prompt}",
                     f"--reference-dir {args.reference_dir}",
+                    f"--random-states-path {args.random_states_path}",
                 ]
             )
             cmd_ret = os.system(cmd)
@@ -210,6 +205,12 @@ if __name__ == "__main__":
         required=False,
         default=None,
         help="Path to samples list, each line contains a sample path",
+    )
+    parser.add_argument(
+        "--random-states-path",
+        type=str,
+        required=False,
+        help="Path to random-states of model (s)",
     )
     args = parser.parse_args()
     main(args=args)

@@ -1,20 +1,15 @@
 import argparse
-import importlib.util
 import paddle
-import time
-import numpy as np
-import random
 import os
 from pathlib import Path
 from contextlib import redirect_stdout, redirect_stderr
 import json
-import re
 import sys
 import traceback
 
 from graph_net import path_utils
 from graph_net import test_compiler_util
-from graph_net.paddle import test_compiler
+from graph_net.paddle import random_util, test_compiler
 
 
 def get_reference_log_path(reference_dir, model_path):
@@ -38,7 +33,9 @@ def test_single_model(args):
             compiler = test_compiler.get_compiler_backend(args)
             test_compiler.check_and_print_gpu_utilization(compiler)
 
-            input_dict = test_compiler.get_input_dict(args.model_path)
+            input_dict = test_compiler.get_input_dict(
+                args.model_path, args.random_states_path
+            )
             model = test_compiler.get_model(args.model_path)
             model.eval()
 
@@ -107,6 +104,7 @@ def test_multi_models(args):
                     f"--trials {args.trials}",
                     f"--log-prompt {args.log_prompt}",
                     f"--seed {args.seed}",
+                    f"--random-states-path {args.random_states_path}",
                     f"--reference-dir {args.reference_dir}",
                 ]
             )
@@ -130,7 +128,7 @@ def main(args):
     assert args.compiler in {"cinn", "nope"}
     assert args.device in ["cuda"]
 
-    test_compiler.set_seed(random_seed=args.seed)
+    random_util.set_seed(random_seed=args.seed)
     test_compiler.init_env(args)
 
     ref_dump_dir = Path(args.reference_dir)
@@ -190,6 +188,12 @@ if __name__ == "__main__":
         required=False,
         default=123,
         help="Random seed (default: 123)",
+    )
+    parser.add_argument(
+        "--random-states-path",
+        type=str,
+        required=False,
+        help="Path to random-states of model (s)",
     )
     parser.add_argument(
         "--reference-dir",

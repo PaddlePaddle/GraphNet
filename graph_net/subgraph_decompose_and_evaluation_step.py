@@ -262,18 +262,19 @@ def run_decomposer_for_multi_models(
 
 
 def run_evaluation(
-    framework: str, test_cmd_b64: str, samples_dir: str, log_path: str
+    framework: str, test_cmd_b64: str, work_dir: str, log_path: str
 ) -> int:
     """Executes the test command on the batch directory."""
 
     test_config = convert_b64_string_to_json(test_cmd_b64)
     test_module_name = test_config["test_module_name"]
     test_module_arguments = test_config[f"{test_module_name}_arguments"]
-    test_module_arguments["model-path"] = samples_dir
+    test_module_arguments["model-path"] = work_dir
     if test_module_name in ["test_reference_device", "test_target_device"]:
         test_module_arguments["reference-dir"] = os.path.join(
-            samples_dir, "reference_device_outputs"
+            work_dir, "reference_device_outputs"
         )
+        test_module_arguments["random-states-path"] = work_dir
 
     cmd = [sys.executable, "-m", f"graph_net.{framework}.{test_module_name}"] + [
         item
@@ -289,7 +290,7 @@ def run_evaluation(
         result = subprocess.run(cmd, stdout=f, stderr=f, text=True)
     assert (
         result.returncode == 0
-    ), f"[ERROR] test failed for {samples_dir}, please check the log."
+    ), f"[ERROR] test failed for {work_dir}, please check the log."
 
 
 def reconstruct_subgraph_size(split_positions: List[int]) -> List[list]:

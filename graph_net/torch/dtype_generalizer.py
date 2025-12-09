@@ -21,6 +21,9 @@ import torch.fx as fx
 
 from graph_net.graph_net_json_file_util import (
     kDataTypeGeneralizationPasses,
+    kDtypeGeneralizationTargetDtype,
+    kDtypeGeneralizationPrecision,
+    kDtypeGeneralizationGenerated,
     update_json,
 )
 from graph_net.torch.constraint_util import RunModelPredicator
@@ -185,10 +188,7 @@ class InitDataTypeGeneralizationPasses:
             dtype_pass_names: List of working pass names
             model_path: Path to model directory
         """
-        graph_net_json_path = Path(model_path) / "graph_net.json"
-        update_json(
-            graph_net_json_path, {kDataTypeGeneralizationPasses: dtype_pass_names}
-        )
+        update_json(model_path, kDataTypeGeneralizationPasses, dtype_pass_names)
 
 
 class ApplyDataTypeGeneralizationPasses:
@@ -308,12 +308,24 @@ class ApplyDataTypeGeneralizationPasses:
             Path to the generated sample directory
         """
         # Parse pass name to extract base name and dtype
-        # Format: "dtype_generalization_pass_float16"
+        # Format: "dtype_generalization_pass_float16" or "dtype_generalization_pass_bfloat16"
+        # The base name "dtype_generalization_pass" corresponds to the file
+        # dtype_generalization_pass.py, which contains the ConcretePass class.
         parts = pass_name.rsplit("_", 1)
         if len(parts) != 2:
-            raise ValueError(f"Invalid pass name format: {pass_name}")
+            raise ValueError(
+                f"Invalid pass name format: {pass_name}. "
+                f"Expected format: 'dtype_generalization_pass_<dtype>'"
+            )
 
         base_name, dtype = parts
+
+        # Validate base name
+        if base_name != "dtype_generalization_pass":
+            raise ValueError(
+                f"Unknown pass base name: {base_name}. "
+                f"Expected: 'dtype_generalization_pass'"
+            )
 
         # Load and apply the pass
         dtype_pass_class = get_dtype_generalization_pass(base_name)
@@ -363,14 +375,9 @@ class ApplyDataTypeGeneralizationPasses:
             dtype: Target dtype
         """
         graph_net_json_path = sample_dir / "graph_net.json"
-        update_json(
-            graph_net_json_path,
-            {
-                "dtype": dtype,
-                "precision": dtype,
-                "generated_from_dtype_generalization": True,
-            },
-        )
+        update_json(graph_net_json_path, kDtypeGeneralizationTargetDtype, dtype)
+        update_json(graph_net_json_path, kDtypeGeneralizationPrecision, dtype)
+        update_json(graph_net_json_path, kDtypeGeneralizationGenerated, True)
 
 
 class MultiDtypeFilter:

@@ -44,7 +44,7 @@ class RangeDecomposerBackend:
             "decorator_config": {
                 "name": model_name,
                 "custom_extractor_path": str(
-                    self.graph_net_root / "torch/naive_graph_decomposer.py"
+                    self.graph_net_root / "torch/graph_decomposer.py"
                 ),
                 "custom_extractor_config": {
                     "output_dir": str(model_output_dir),

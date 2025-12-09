@@ -86,7 +86,7 @@ class GraphExtractor:
             "decorator_path": f"{graph_net_root}/torch/extractor.py",
             "decorator_config": {
                 "name": f"{self.name}",
-                "custom_extractor_path": f"{graph_net_root}/torch/naive_graph_decomposer.py",
+                "custom_extractor_path": f"{graph_net_root}/torch/graph_decomposer.py",
                 "custom_extractor_config": {
                     "output_dir": temp_dir,
                     "split_positions": self.config["split_positions"],

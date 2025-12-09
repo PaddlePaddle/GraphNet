@@ -927,7 +927,7 @@ class Program_weight_tensor_parameter_77:
     original_name = "batch_norm_5.b_0"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -937,7 +937,7 @@ class Program_weight_tensor_parameter_78:
     original_name = "batch_norm_5.w_0"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -947,7 +947,7 @@ class Program_weight_tensor_parameter_79:
     original_name = "batch_norm_5.w_2"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -957,7 +957,7 @@ class Program_weight_tensor_parameter_80:
     original_name = "batch_norm_5.w_1"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -979,7 +979,7 @@ class Program_weight_tensor_parameter_82:
     original_name = "batch_norm_4.b_0"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -989,7 +989,7 @@ class Program_weight_tensor_parameter_83:
     original_name = "batch_norm_4.w_0"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -999,7 +999,7 @@ class Program_weight_tensor_parameter_84:
     original_name = "batch_norm_4.w_2"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1009,7 +1009,7 @@ class Program_weight_tensor_parameter_85:
     original_name = "batch_norm_4.w_1"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1031,7 +1031,7 @@ class Program_weight_tensor_parameter_87:
     original_name = "batch_norm_3.b_0"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1041,7 +1041,7 @@ class Program_weight_tensor_parameter_88:
     original_name = "batch_norm_3.w_0"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1051,7 +1051,7 @@ class Program_weight_tensor_parameter_89:
     original_name = "batch_norm_3.w_2"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1061,7 +1061,7 @@ class Program_weight_tensor_parameter_90:
     original_name = "batch_norm_3.w_1"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1083,7 +1083,7 @@ class Program_weight_tensor_parameter_92:
     original_name = "batch_norm_2.b_0"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1093,7 +1093,7 @@ class Program_weight_tensor_parameter_93:
     original_name = "batch_norm_2.w_0"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1103,7 +1103,7 @@ class Program_weight_tensor_parameter_94:
     original_name = "batch_norm_2.w_2"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1113,7 +1113,7 @@ class Program_weight_tensor_parameter_95:
     original_name = "batch_norm_2.w_1"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1135,7 +1135,7 @@ class Program_weight_tensor_parameter_97:
     original_name = "batch_norm_1.b_0"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1145,7 +1145,7 @@ class Program_weight_tensor_parameter_98:
     original_name = "batch_norm_1.w_0"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1155,7 +1155,7 @@ class Program_weight_tensor_parameter_99:
     original_name = "batch_norm_1.w_2"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1165,7 +1165,7 @@ class Program_weight_tensor_parameter_100:
     original_name = "batch_norm_1.w_1"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1187,7 +1187,7 @@ class Program_weight_tensor_parameter_102:
     original_name = "batch_norm_0.b_0"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1197,7 +1197,7 @@ class Program_weight_tensor_parameter_103:
     original_name = "batch_norm_0.w_0"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1207,7 +1207,7 @@ class Program_weight_tensor_parameter_104:
     original_name = "batch_norm_0.w_2"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 
@@ -1217,7 +1217,7 @@ class Program_weight_tensor_parameter_105:
     original_name = "batch_norm_0.w_1"
     shape = [64]
     dtype = "float32"
-    min_val = float("0.0")
+    min_val = float("0")
     max_val = float("0.5")
     data = None
 

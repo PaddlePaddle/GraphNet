@@ -114,9 +114,7 @@ class FullyFusibleSubgraphExtractor:
             model_path
         )
         for start_pos, end_pos in self._get_sub_ranges():
-            logger.warning("fully_fusible_subgraph_predicator-begin")
             success = fully_fusible_subgraph_predicator(start_pos, end_pos)
-            logger.warning("fully_fusible_subgraph_predicator-end")
             if not success:
                 continue
             with tempfile.TemporaryDirectory(
@@ -126,9 +124,7 @@ class FullyFusibleSubgraphExtractor:
                     temp_dir, start_pos, end_pos
                 )
                 naive_graph_decomposer = NaiveDecomposerExtractor(decomposer_config)
-                logger.warning("naive_graph_decomposer-begin")
                 naive_graph_decomposer(rel_model_path)
-                logger.warning("naive_graph_decomposer-end")
                 fully_fusible_destination_path = self._copy_from_tmp_dir_to_output_dir(
                     temp_dir, rel_model_path
                 )

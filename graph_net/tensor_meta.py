@@ -58,6 +58,11 @@ class TensorMeta:
         lines = [
             (f"class {self.record_class_name}:"),
             (f'\tname = "{self.name}"'),
+            *(
+                [f'\toriginal_name = "{self.original_name}"']
+                if self.original_name is not None
+                else []
+            ),
             (f"\tshape = {self.shape}"),
             (f'\tdtype = "{self.dtype}"'),
             (f'\tdevice = "{self.device}"'),

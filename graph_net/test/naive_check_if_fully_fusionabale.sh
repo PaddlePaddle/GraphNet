@@ -9,7 +9,7 @@ MODEL_PATH_IN_SAMPLES=/timm/$MODEL_NAME
 checker_config_json_str=$(cat <<EOF
 {
     "post_extract_process_config": {
-        "post_extract_process_path":"$GRAPH_NET_ROOT/torch/post_extract_process_count_kernels.py",
+        "post_extract_process_path":"$GRAPH_NET_ROOT/torch/count_kernels_util.py",
         "post_extract_process_class_name": "GraphFullyFusionable"
     }
 }

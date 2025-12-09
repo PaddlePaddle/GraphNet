@@ -15,11 +15,11 @@ config_json_str=$(cat <<EOF
     "handler_path": "$GRAPH_NET_ROOT/torch/fully_fusible_subgraph_extractor.py",
     "handler_class_name":"FullyFusibleSubgraphExtractor",
     "handler_config": {
+        "resume": false,
         "model_path_prefix": "$GRAPH_NET_ROOT/../",
         "output_dir": "$OUTPUT_DIR",
-        "split_positions": [],
-        "group_head_and_tail": false,
-        "chain_style": false,
+        "nn_module_fully_fusible_decorator_path": "$GRAPH_NET_ROOT/torch/count_kernels_util.py",
+        "nn_module_fully_fusible_decorator_class_name": "TorchSubModuleFullyFusibleDecorator",
         "max_step": 3,
         "min_step": 2,
         "max_nodes": 4

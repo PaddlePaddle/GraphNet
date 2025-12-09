@@ -12,16 +12,17 @@ from graph_net.torch.graph_fusibility_status import (
 )
 
 
-class TorchNNModuleFullyFusibleDecorator:
+class TorchSubModuleFullyFusibleDecorator:
     def __init__(self, config):
         self.config = config
 
-    def __call__(self, module):
+    def __call__(self, module, sub_module_idx):
         return TorchNNModuleFullyFusiblePredicator(module)
 
 
 class TorchNNModuleFullyFusiblePredicator(torch.nn.Module):
     def __init__(self, module):
+        super().__init__()
         self.module = module
 
     def forward(self, *inputs):

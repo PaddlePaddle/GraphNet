@@ -45,7 +45,7 @@ class FullyFusibleSubGraphPredicator:
     def __init__(self, config):
         if config is None:
             config = {}
-        self.config = self._make_config(config)
+        self.config = self._make_config(**config)
         self.nn_module_fully_fusible_decorator = (
             self._make_nn_module_fully_fusible_decorator(config)
         )
@@ -79,10 +79,10 @@ class FullyFusibleSubGraphPredicator:
             "nn_module_fully_fusible_decorator_config": nn_module_fully_fusible_decorator_config,
         }
 
-    def __call__(self, gm: torch.fx.GraphModule, start_node_idx, end_node_idx):
+    def __call__(self, start_node_idx, end_node_idx):
         try:
             rewrited_gm: torch.fx.GraphModule = fold_range_to_submodule(
-                gm,
+                self.traced_module,
                 start_node_idx=start_node_idx,
                 end_node_idx=end_node_idx,
                 submodule_hook=self.nn_module_fully_fusible_decorator,

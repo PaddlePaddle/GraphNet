@@ -105,10 +105,10 @@ class NaiveDecomposerExtractor:
 
     def _make_config(
         self,
+        output_dir,
         split_positions=(),
         group_head_and_tail=False,
         chain_style=False,
-        output_dir="./tmp/naive_decomposer_dir",
         filter_path=None,
         filter_config=None,
         post_extract_process_path=None,

@@ -1,11 +1,12 @@
 import os
+import torch
 from pathlib import Path
-import graph_net
 import tempfile
 import shutil
-from graph_net.torch import fully_fusible_graph_predicator
-from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
-from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
+from graph_net.torch.graph_decomposer import NaiveDecomposerExtractor
+from graph_net.torch.fully_fusible_graph_predicator import (
+    FullyFusibleSubGraphPredicator,
+)
 import logging
 
 logger = logging.getLogger(__name__)
@@ -19,24 +20,22 @@ class FullyFusibleSubgraphExtractor:
 
     def _make_config(
         self,
+        nn_module_fully_fusible_decorator_path,
+        nn_module_fully_fusible_decorator_class_name,
+        nn_module_fully_fusible_decorator_config=None,
         output_dir=None,
-        split_positions=(),
-        group_head_and_tail=False,
-        chain_style=False,
+        resume: bool = True,
         max_step=8,
         min_step=2,
         max_nodes=32,
         model_path_prefix="",
     ):
-        for pos in split_positions:
-            assert isinstance(
-                pos, int
-            ), f"split_positions should be list of int, {split_positions=}"
         return {
             "output_dir": output_dir,
-            "split_positions": split_positions,
-            "group_head_and_tail": group_head_and_tail,
-            "chain_style": chain_style,
+            "resume": resume,
+            "nn_module_fully_fusible_decorator_path": nn_module_fully_fusible_decorator_path,
+            "nn_module_fully_fusible_decorator_class_name": nn_module_fully_fusible_decorator_class_name,
+            "nn_module_fully_fusible_decorator_config": nn_module_fully_fusible_decorator_config,
             "max_step": max_step,
             "min_step": min_step,
             "max_nodes": max_nodes,
@@ -61,7 +60,9 @@ class FullyFusibleSubgraphExtractor:
                 ), f"Invalid range generated: start={start_pos}, end={end_pos}, max={self.config['max_nodes']}"
                 yield start_pos, end_pos
 
-    def _handle_success(self, temp_dir: str, rel_model_path: str) -> str:
+    def _copy_from_tmp_dir_to_output_dir(
+        self, temp_dir: str, rel_model_path: str
+    ) -> str:
         subdirs = list(Path(temp_dir).iterdir())
         assert len(subdirs) == 1
         temp_dir = str(subdirs[0])
@@ -74,57 +75,62 @@ class FullyFusibleSubgraphExtractor:
         return target_path
 
     def _build_decompose_config(
-        self, temp_dir: str, start_pos: int, end_pos: int, model_path_prefix
+        self, temp_dir: str, start_pos: int, end_pos: int
     ) -> dict:
-        graph_net_root = os.path.dirname(graph_net.__file__)
-
-        check_fusible_config = {
-            "handler_path": f"{graph_net_root}/torch/graph_decomposer.py",
-            "handler_class_name": "NaiveDecomposerExtractor",
-            "handler_config": {
-                "model_path_prefix": model_path_prefix,
-                "output_dir": temp_dir,
-                "split_positions": [start_pos, end_pos],
-                "group_head_and_tail": False,
-                "post_extract_process_path": f"{graph_net_root}/torch/post_extract_process_count_kernels.py",
-                "post_extract_process_class_name": "ThrowExitStatusIfGraphFullyFusible",
-            },
+        model_path_prefix = self.config["model_path_prefix"]
+        decomposer_config = {
+            "model_path_prefix": model_path_prefix,
+            "output_dir": temp_dir,
+            "split_positions": [start_pos, end_pos],
+            "group_head_and_tail": False,
         }
-        return check_fusible_config
+        return decomposer_config
+
+    def _get_fully_fusible_subgraph_predicator(self, model_path):
+        config = {
+            "model_path": model_path,
+            "nn_module_fully_fusible_decorator_path": self.config[
+                "nn_module_fully_fusible_decorator_path"
+            ],
+            "nn_module_fully_fusible_decorator_class_name": self.config[
+                "nn_module_fully_fusible_decorator_class_name"
+            ],
+            "nn_module_fully_fusible_decorator_config": self.config[
+                "nn_module_fully_fusible_decorator_config"
+            ],
+        }
+        return FullyFusibleSubGraphPredicator(config)
+
+    def _is_model_path_handled(self, rel_model_path):
+        model_path = Path(self.config["output_dir"]) / rel_model_path
+        return model_path.exists() and len(list(model_path.iterdir())) > 0
 
     def __call__(self, rel_model_path):
+        if self.config["resume"] and self._is_model_path_handled(rel_model_path):
+            return
+        torch.cuda.empty_cache()
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
-        module, inputs = get_torch_module_and_inputs(model_path)
-        gm = parse_sole_graph_module(module, inputs)
+        fully_fusible_subgraph_predicator = self._get_fully_fusible_subgraph_predicator(
+            model_path
+        )
         for start_pos, end_pos in self._get_sub_ranges():
+            logger.warning("fully_fusible_subgraph_predicator-begin")
+            success = fully_fusible_subgraph_predicator(start_pos, end_pos)
+            logger.warning("fully_fusible_subgraph_predicator-end")
+            if not success:
+                continue
             with tempfile.TemporaryDirectory(
                 prefix="_find_fusible_subgraph_"
             ) as temp_dir:
-                check_fusible_config = self._build_decompose_config(
-                    temp_dir, start_pos, end_pos, self.config["model_path_prefix"]
-                )
-                predicator_cls = (
-                    fully_fusible_graph_predicator.FullyFusibleGraphPredicator
-                )
-                predicator = predicator_cls(check_fusible_config)
-                logger.warning("fully_fusible_graph_predicator-begin")
-                success = predicator(model_path)
-                logger.warning("fully_fusible_graph_predicator-end")
-                if not success:
-                    continue
                 decomposer_config = self._build_decompose_config(
-                    temp_dir, start_pos, end_pos, self.config["model_path_prefix"]
+                    temp_dir, start_pos, end_pos
                 )
-                predicator_cls = (
-                    fully_fusible_graph_predicator.FullyFusibleGraphPredicator
+                naive_graph_decomposer = NaiveDecomposerExtractor(decomposer_config)
+                logger.warning("naive_graph_decomposer-begin")
+                naive_graph_decomposer(rel_model_path)
+                logger.warning("naive_graph_decomposer-end")
+                fully_fusible_destination_path = self._copy_from_tmp_dir_to_output_dir(
+                    temp_dir, rel_model_path
                 )
-                predicator = predicator_cls(decomposer_config)
-                predicator(model_path)
-                target_path = self._handle_success(temp_dir, rel_model_path)
-                print(
-                    f"SUCCESS in finding the biggest fully fusible subgraph. Result saved to: {target_path}"
-                )
-                break
-        else:
-            logger.warning("fail to find fully fusible subgraph")
-        return gm.forward
+                print(f"{fully_fusible_destination_path=}")
+            return

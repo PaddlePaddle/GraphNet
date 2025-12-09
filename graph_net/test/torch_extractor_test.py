@@ -76,7 +76,7 @@ class TestExtractorSubmodule(unittest.TestCase):
             start_node_idx=0,
             end_node_idx=2,
             submodule_hook=submodule_hook,
-            # group_head_and_tail=False,
+            group_head_and_tail=True,
         )
         folded_output = folded(inp)
 

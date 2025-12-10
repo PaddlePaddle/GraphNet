@@ -1,15 +1,8 @@
-from typing import Type
+from typing import Type, List
 from graph_net.positive_tolerance_interpretation import PositiveToleranceInterpretation
 from graph_net.default_positive_tolerance_interpretation import DefaultPositiveToleranceInterpretation
 from graph_net.mismatch_extended_positive_tolerance_interpretation import \
     MismatchExtendedPositiveToleranceInterpretation
-
-# Registry of available classes
-g_type_name2_positive_tolerance_interpretation_cls: dict[str, Type[PositiveToleranceInterpretation]] = {
-    'default': DefaultPositiveToleranceInterpretation,
-    'mismatch_extended': MismatchExtendedPositiveToleranceInterpretation
-}
-
 
 def get_positive_tolerance_interpretation(type_name: str) -> PositiveToleranceInterpretation:
     """
@@ -24,11 +17,20 @@ def get_positive_tolerance_interpretation(type_name: str) -> PositiveToleranceIn
     Raises:
         ValueError: If type_name is not registered.
     """
-    if type_name not in g_type_name2_positive_tolerance_interpretation_cls:
-        supported = list(g_type_name2_positive_tolerance_interpretation_cls.keys())
+    if type_name not in _g_type_name2_positive_tolerance_interpretation_cls:
+        supported = list(_g_type_name2_positive_tolerance_interpretation_cls.keys())
         raise ValueError(f"Unknown positive tolerance interpretation: '{type_name}'. Supported: {supported}")
 
     # Instantiate and return.
     # If stateful caching is needed, this logic can be modified to return singletons.
-    cls = g_type_name2_positive_tolerance_interpretation_cls[type_name]
+    cls = _g_type_name2_positive_tolerance_interpretation_cls[type_name]
     return cls()
+
+def get_supported_positive_tolerance_interpretation_types() -> List[str]:
+    return list(_g_type_name2_positive_tolerance_interpretation_cls.keys())
+
+# Registry of available classes
+_g_type_name2_positive_tolerance_interpretation_cls: dict[str, Type[PositiveToleranceInterpretation]] = {
+    'default': DefaultPositiveToleranceInterpretation,
+    'mismatch_extended': MismatchExtendedPositiveToleranceInterpretation
+}

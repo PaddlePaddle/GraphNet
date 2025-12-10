@@ -3,7 +3,7 @@ import re
 import sys
 from scipy.stats import gmean
 from graph_net.config.datatype_tolerance_config import get_precision
-from graph_net.positive_tolerance_interpretation_manager import get_positive_tolerance_interpretation
+from graph_net.positive_tolerance_interpretation import PositiveToleranceInterpretation
 from graph_net.verify_aggregated_params import determine_tolerances
 
 
@@ -294,25 +294,22 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
         return bool(result[index])
     return False
 
-def fake_perf_degrad(tolerance, error_code, type="default") -> str:
+def fake_perf_degrad(tolerance, error_code, positive_tolerance_interpretation: PositiveToleranceInterpretation,) -> str:
     """
     Judge current correctness based on tolerance t and status.
     Refactored to delegate logic to PositiveToleranceInterpretation classes.
     """
-
-    strategy = get_positive_tolerance_interpretation(type)
-
-    if strategy.is_error_tolerated(tolerance, error_code):
+    if positive_tolerance_interpretation.is_error_tolerated(tolerance, error_code):
         return "correct"
 
     return error_code
 
 def calculate_scores(
     samples: list,
+    positive_tolerance_interpretation: PositiveToleranceInterpretation,
     p: float = 0,
     b: float = 0.1,
     type: str = "ESt",
-    interpretation_type: str = "default",
 ) -> tuple:
     """
     Use a standard tolerance to evaluate all samples and calculate S(t) and ES(t) scores for each tolerance level.
@@ -324,8 +321,8 @@ def calculate_scores(
 
     scores = {}
 
-    strategy = get_positive_tolerance_interpretation(interpretation_type)
-    tolerances = determine_tolerances(samples,interpretation_type)
+    strategy = positive_tolerance_interpretation
+    tolerances = determine_tolerances(samples,positive_tolerance_interpretation)
 
     for tolerance in tolerances:
         rectified_speedups = []

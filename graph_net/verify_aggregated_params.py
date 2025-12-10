@@ -2,23 +2,26 @@ import argparse
 from collections import OrderedDict, Counter
 from graph_net import analysis_util
 from graph_net import samples_statistics
+from graph_net.positive_tolerance_interpretation import PositiveToleranceInterpretation
 from graph_net.samples_statistics import (
     get_errno_from_error_type,
 )
 
 
-def determine_tolerances(samples: list,interpretation_type = "default") -> range:
+def determine_tolerances(samples: list,
+                         positive_tolerance_interpretation: PositiveToleranceInterpretation,) -> range:
     """Determine tolerance range based on observed errno categories."""
     # Currently errno categories are 1=accuracy, 2=runtime, 3=compile.
     # Keep logic data-driven for future extension.
-    if interpretation_type == "default":
-        default_errnos = {1, 2, 3}
-    elif interpretation_type == "mismatch_extended":
-        default_errnos = {1, 2, 3, 4}
-    return range(-10, len(default_errnos) + 2)
+    mapping = positive_tolerance_interpretation.get_tolerance_mapping()
 
+    if not mapping:
+        max_errno = 3
+    else:
+        max_errno = max(mapping.keys())
+    return range(-10, max_errno + 2)
 
-def extract_statistics_at_tolerance(samples: list, tolerance: int,interpretation_type:str = "default") -> dict:
+def extract_statistics_at_tolerance(samples: list, tolerance: int,positive_tolerance_interpretation: PositiveToleranceInterpretation) -> dict:
     """Extract statistics for a given tolerance level."""
     sample_data = [
         (
@@ -42,7 +45,7 @@ def extract_statistics_at_tolerance(samples: list, tolerance: int,interpretation
 
     errno2count = dict(
         Counter(
-            get_errno_from_error_type(fail_type,interpretation_type)
+            get_errno_from_error_type(fail_type,positive_tolerance_interpretation)
             for _, _, _, _, fail_type in sample_data
             if fail_type is not None
         )
@@ -105,7 +108,7 @@ def calculate_es_constructor_params_for_tolerance(
     pi: dict,
     negative_speedup_penalty: float,
     fpdb: float,
-    interpretation_type: str = "default",
+    positive_tolerance_interpretation: PositiveToleranceInterpretation
 ) -> dict:
     """Calculate ES(t) constructor parameters (alpha, beta, gamma, lambda, eta) and final scores for a tolerance level."""
     aggregated_params = samples_statistics.calculate_es_components_values(
@@ -116,7 +119,7 @@ def calculate_es_constructor_params_for_tolerance(
         negative_speedup_penalty=negative_speedup_penalty,
         b=fpdb,
         pi=pi,
-        interpretation_type=interpretation_type,
+        positive_tolerance_interpretation=positive_tolerance_interpretation,
     )
 
     alpha = aggregated_params["alpha"]
@@ -205,7 +208,7 @@ class ToleranceReportBuilder:
         total_samples: int,
         negative_speedup_penalty: float,
         fpdb: float,
-        interpretation_type: str = "default",
+        positive_tolerance_interpretation: PositiveToleranceInterpretation,
     ):
         self.samples = samples
         self.total_samples = total_samples
@@ -218,10 +221,10 @@ class ToleranceReportBuilder:
             "slowdown_speedups": [],
             "errno2count": {},
         }
-        self.interpretation_type = interpretation_type
+        self.positive_tolerance_interpretation = positive_tolerance_interpretation
 
     def build_report(self, tolerance: int) -> dict:
-        current_stats = extract_statistics_at_tolerance(self.samples, tolerance,self.interpretation_type)
+        current_stats = extract_statistics_at_tolerance(self.samples, tolerance,self.positive_tolerance_interpretation)
 
         if tolerance == 1:
             self.pi = _freeze_statistics_at_tolerance(
@@ -247,7 +250,7 @@ class ToleranceReportBuilder:
             pi_for_calc,
             self.negative_speedup_penalty,
             self.fpdb,
-            self.interpretation_type,
+            self.positive_tolerance_interpretation,
         )
         # Use calculated pi from es_constructor_params for display and return
         calculated_pi = es_constructor_params.get("pi", self.pi)
@@ -289,9 +292,9 @@ class ToleranceReportBuilder:
 def verify_es_constructor_params_across_tolerances(
     samples: list,
     folder_name: str,
+    positive_tolerance_interpretation: PositiveToleranceInterpretation,
     negative_speedup_penalty: float = 0,
     fpdb: float = 0.1,
-    interpretation_type: str = "default",
 ) -> dict:
     """
     Verify and print ES constructor parameters (alpha, beta, gamma, lambda, eta, pi) for each
@@ -307,13 +310,13 @@ def verify_es_constructor_params_across_tolerances(
     print(f"Verifying Aggregated Parameters for '{folder_name}'")
     print(f"{'=' * 80}")
 
-    tolerances = determine_tolerances(samples,interpretation_type)
+    tolerances = determine_tolerances(samples,positive_tolerance_interpretation)
     builder = ToleranceReportBuilder(
         samples=samples,
         total_samples=total_samples,
         negative_speedup_penalty=negative_speedup_penalty,
         fpdb=fpdb,
-        interpretation_type=interpretation_type,
+        positive_tolerance_interpretation=positive_tolerance_interpretation,
     )
 
     results = OrderedDict(

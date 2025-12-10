@@ -9,25 +9,24 @@ from typing import Union, Optional
 import scipy
 from scipy.stats import gmean
 from collections.abc import Callable
-from abc import ABC, abstractmethod
+from graph_net.positive_tolerance_interpretation import PositiveToleranceInterpretation
 
-from graph_net.positive_tolerance_interpretation_manager import get_positive_tolerance_interpretation
-
-def get_errno_from_error_type(error_type: str, interpretation_type: str = "default") -> int:
+def get_errno_from_error_type(error_type: str,
+                              positive_tolerance_interpretation: PositiveToleranceInterpretation) -> int:
     """
         Map error type string to errno (error number) using the appropriate strategy.
 
         Args:
             error_type: Error type string (e.g., "accuracy", "runtime_fail")
-            interpretation_type: Evaluation mode ("default" or "mismatch_extended")
+            positive_tolerance_interpretation: Evaluation mode ("default" or "mismatch_extended")
 
         Returns:
-            int: Errno based on the selected interpretation_type's logic.
+            int: Errno based on the selected positive_tolerance_interpretation's logic.
         """
-    interpreter = get_positive_tolerance_interpretation(interpretation_type)
-    return interpreter.get_errno(error_type)
+    return positive_tolerance_interpretation.get_errno(error_type)
 
-def get_errno_tolerance_mapping(custom_mapping, interpretation_type: str = "default"):
+def get_errno_tolerance_mapping(custom_mapping,
+                                positive_tolerance_interpretation: PositiveToleranceInterpretation):
     """
         Map errno (error number) back to error type string.
 
@@ -36,14 +35,13 @@ def get_errno_tolerance_mapping(custom_mapping, interpretation_type: str = "defa
 
         Args:
             errno: Error number
-            interpretation_type: Evaluation mode ("default" or "mismatch_extended")
+            positive_tolerance_interpretation: Evaluation mode ("default" or "mismatch_extended")
 
         Returns:
             Representative error type string (e.g., "accuracy", "compile_fail")
         """
     if custom_mapping: return custom_mapping
-    interpreter = get_positive_tolerance_interpretation(interpretation_type)
-    return interpreter.get_tolerance_mapping()
+    return positive_tolerance_interpretation.get_tolerance_mapping()
 
 def calculate_alpha(correct_speedups: list[float]) -> float:
     """
@@ -116,8 +114,8 @@ def calculate_eta(correct_speedups: list[float]) -> float:
 
 
 def calculate_pi(
-    errno2count: dict[int, int], total_samples: int, correct_speedups: list[float]
-) -> dict[int, float]:
+    errno2count: dict[Union[int, str], int], total_samples: int, correct_speedups: list[float]
+) -> dict[Union[int, str], float]:
     """
     Calculate pi: error type proportions for t > 0.
 
@@ -285,26 +283,22 @@ def calculate_es_t_from_aggregated(
 def calculate_es_components_values(
     total_samples: int,
     correct_speedups: list[float],
-    errno2count: dict[Union[int, str], int],  # 更新类型注解支持 str
+    errno2count: dict[Union[int, str], int],  # support str
     tolerance: int,
+    positive_tolerance_interpretation: PositiveToleranceInterpretation,
     negative_speedup_penalty: float = 0.0,
     b: float = 0.1,
     pi: Optional[dict[Union[int, str], float]] = None,
     errno_to_tolerance: Optional[dict[Union[int, str], int]] = None,
-    interpretation_type: str = "default"
 ) -> dict:
     """
     Calculate aggregated parameters for a given tolerance level.
-
-    Args:
-        ...
-        interpretation_type: "default" (int error codes) or "mismatch_extended" (str error codes).
     """
 
     if pi is None:
         pi = calculate_pi(errno2count, total_samples, correct_speedups)
 
-    errno_to_tolerance = get_errno_tolerance_mapping(errno_to_tolerance, interpretation_type)
+    errno_to_tolerance = get_errno_tolerance_mapping(errno_to_tolerance, positive_tolerance_interpretation)
 
     errno2tolerance = resolve_errno_tolerance(errno2count, errno_to_tolerance)
 

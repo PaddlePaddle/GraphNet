@@ -221,10 +221,11 @@ def parse_sole_graph_module(module, inputs):
 
     zip_filter_names = get_zip_filter_names()
 
-    def zip_filter_names_str():
+    def zip_filter_names_error_str():
         for triple in zip_filter_names:
             print(triple)
-        return "<printed before>"
+        error_model_path = module.__graph_net_file_path__
+        return f"{error_model_path=}"
 
     from pathlib import Path
 

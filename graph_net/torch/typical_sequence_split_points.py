@@ -203,7 +203,7 @@ class SplitAnalyzer:
                 )
 
             current_idx = 0
-            split_points_set = set()
+            split_positions = set()
             total_len = sum(token2len.get(t, 1) for t in seq_tokens)
 
             for token_id in seq_tokens:
@@ -212,22 +212,22 @@ class SplitAnalyzer:
 
                 if is_pattern:
                     if current_idx > 0:
-                        split_points_set.add(current_idx)
+                        split_positions.add(current_idx)
                     end_idx = current_idx + length
                     if end_idx < total_len:
-                        split_points_set.add(end_idx)
+                        split_positions.add(end_idx)
 
                 current_idx += length
 
-            sorted_splits = sorted(list(split_points_set))
+            sorted_splits = sorted(list(split_positions))
 
             self._print_analysis(
                 model_name, str(original_path), sorted_splits, total_len, full_model_ops
             )
 
-            results[model_name] = {
-                "path": str(original_path),
-                "split_points": sorted_splits,
+            results[str(original_path)] = {
+                "model_name": model_name,
+                "split_positions": sorted_splits,
                 "total_length": total_len,
             }
 

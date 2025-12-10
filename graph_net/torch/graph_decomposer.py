@@ -193,9 +193,7 @@ class RangeDecomposerExtractor:
     def __call__(self, rel_model_path):
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         split_results = load_json(self.config["split_results_path"])
-        split_positions = split_results[os.path.basename(rel_model_path)][
-            "split_points"
-        ]
+        split_positions = split_results[rel_model_path]["split_positions"]
         config = {
             "split_positions": split_positions,
             "group_head_and_tail": self.config.get("group_head_and_tail", False),

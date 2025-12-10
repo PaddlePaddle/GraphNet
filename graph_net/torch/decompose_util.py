@@ -248,6 +248,10 @@ def _get_minimal_submodule_inputs_and_outputs(
             yield arg.start
             yield arg.stop
             yield arg.step
+        elif isinstance(arg, torch.device):
+            pass
+        elif isinstance(arg, torch.dtype):
+            pass
         else:
             assert isinstance(
                 arg,

@@ -111,8 +111,9 @@ class TaskController:
 
 @dataclass
 class DecomposeConfig:
+    method: str
+    tolerance: int | List[int]
     max_subgraph_size: int = -1
-    incorrect_models: List[str] = field(default_factory=list)
     tasks_map: Dict[str, Union[int, str, list, dict]] = field(default_factory=dict)
     running_states: Dict[str, Union[int, str, list, dict]] = field(default_factory=dict)
 
@@ -138,6 +139,11 @@ class DecomposeConfig:
     @classmethod
     def get_config_path(self, work_dir) -> str:
         return os.path.join(work_dir, "decompose_config.json")
+
+    def get_incorrect_models(self, pass_id):
+        pass_key = get_pass_name(pass_id)
+        assert pass_key in self.running_states
+        return self.running_states[pass_key]["incorrect_models"]
 
     def update_running_states(self, pass_id, **kwargs):
         pass_key = get_pass_name(pass_id)
@@ -229,8 +235,13 @@ def run_decomposer_for_multi_models(
     )
     for model_name, task_info in tasks_map.items():
         original_path = task_info["original_path"]
-
         split_positions = sorted(list(task_info["split_positions"]))
+
+        method = "fixed-start"
+        if method == "fixed-start":
+            assert len(split_positions) >= 3, f"{split_positions=}"
+            split_positions = [0, split_positions[1]]
+
         rectified_model_path = get_rectfied_model_path(original_path)
         assert os.path.exists(
             rectified_model_path
@@ -279,18 +290,22 @@ def run_evaluation(
     ), f"[ERROR] test failed for {samples_dir}, please check the log."
 
 
-def reconstruct_split_positions_for_subgraph(
-    split_positions, subgraph_idx, max_subgraph_size
+def reconstruct_split_positions_for_subgraphs(
+    split_positions, subgraph_idxs, max_subgraph_size
 ):
-    assert (
-        subgraph_idx < len(split_positions) - 1
-    ), f"subgraph_idx {subgraph_idx} is out of bounds of split_positions: {split_positions}."
+    subgraph_idxs = [subgraph_idxs] if isinstance(subgraph_idxs, int) else subgraph_idxs
 
-    start_pos, end_pos = split_positions[subgraph_idx : subgraph_idx + 2]
-    new_split_positions = set(
-        range(start_pos, end_pos + max_subgraph_size - 1, max_subgraph_size)
-    )
-    return sorted(list(new_split_positions))
+    new_split_positions = []
+    for subgraph_idx in subgraph_idxs:
+        assert (
+            subgraph_idx < len(split_positions) - 1
+        ), f"subgraph_idx {subgraph_idx} is out of bounds of split_positions: {split_positions}."
+
+        start_pos, end_pos = split_positions[subgraph_idx : subgraph_idx + 2]
+        new_split_positions = new_split_positions + list(
+            range(start_pos, end_pos + max_subgraph_size, max_subgraph_size)
+        )
+    return sorted(list(set(new_split_positions)))
 
 
 def generate_initial_tasks(args):
@@ -299,9 +314,9 @@ def generate_initial_tasks(args):
     initial_failures = get_ranged_incorrect_models(args.tolerance, args.log_file)
 
     tasks_map = {}
-    max_subgraph_size = args.max_subgraph_size
+    max_subgraph_size = min(args.max_subgraph_size, kMaxGraphSize // 2)
 
-    initial_split_positions = reconstruct_split_positions_for_subgraph(
+    initial_split_positions = reconstruct_split_positions_for_subgraphs(
         [0, kMaxGraphSize], 0, max_subgraph_size
     )
     for model_path in initial_failures:
@@ -328,42 +343,61 @@ def extract_model_name_and_subgraph_idx(subgraph_path):
     return model_name, subgraph_idx
 
 
-def generate_successor_tasks(base_output_dir, current_pass_id):
+def collect_incorrect_subgraph_idxs(args, target_model_names, incorrect_models):
+    model_name2subgraph_idxs = {}
+    for subgraph_path in sorted(incorrect_models):
+        model_name, subgraph_idx = extract_model_name_and_subgraph_idx(subgraph_path)
+        print(f"{subgraph_path=}")
+        print(f"{model_name=}, {subgraph_idx=}")
+        assert model_name in target_model_names, f"{model_name=}, {subgraph_idx=}"
+
+        if model_name not in model_name2subgraph_idxs:
+            model_name2subgraph_idxs[model_name] = []
+        model_name2subgraph_idxs[model_name].append(subgraph_idx)
+
+    if args.method == "fixed-start":
+        print(model_name2subgraph_idxs)
+        for model_name in target_model_names:
+            if model_name not in model_name2subgraph_idxs:
+                model_name2subgraph_idxs[model_name] = [1]
+            else:
+                assert len(
+                    model_name2subgraph_idxs[model_name]
+                ) == 1 and model_name2subgraph_idxs[model_name] == [0]
+    return model_name2subgraph_idxs
+
+
+def generate_successor_tasks(args, base_output_dir, current_pass_id):
     """Generates tasks for Pass > 0 based on previous pass results."""
     prev_pass_dir = get_decompose_workspace_path(base_output_dir, current_pass_id - 1)
     print(f"[Init] Resuming from Pass_{current_pass_id - 1} (Dir: {prev_pass_dir})...")
 
     prev_config = DecomposeConfig.load(prev_pass_dir)
     max_subgraph_size = prev_config.max_subgraph_size // 2
-    if not prev_config.incorrect_models:
+    incorrect_models = prev_config.get_incorrect_models(current_pass_id)
+    if args.method != "fixed-start" and not incorrect_models:
         return {}, max_subgraph_size, prev_config.running_states
 
     tasks_map = {}
     prev_tasks_map = prev_config.tasks_map
 
-    for subgraph_path in sorted(prev_config.incorrect_models):
-        model_name, subgraph_idx = extract_model_name_and_subgraph_idx(subgraph_path)
-        print(f"{subgraph_path=}")
+    target_model_names = list(prev_tasks_map.keys())
+    model_name2subgraph_idxs = collect_incorrect_subgraph_idxs(
+        args, target_model_names, incorrect_models
+    )
 
-        assert model_name in prev_tasks_map
+    for model_name, subgraph_idxs in model_name2subgraph_idxs.items():
         pre_task_for_model = prev_tasks_map[model_name]
 
         prev_split_positions = pre_task_for_model.get("split_positions", [])
-        split_positions = reconstruct_split_positions_for_subgraph(
-            prev_split_positions, subgraph_idx, max_subgraph_size
+        split_positions = reconstruct_split_positions_for_subgraphs(
+            prev_split_positions, subgraph_idxs, max_subgraph_size
         )
-        if model_name not in tasks_map:
-            tasks_map[model_name] = {
-                "original_path": pre_task_for_model["original_path"],
-                "split_positions": list(sorted(split_positions)),
-            }
-        else:
-            merged_split_positions = (
-                tasks_map[model_name]["split_positions"] + split_positions
-            )
-            tasks_map[model_name]["split_positions"] = list(
-                sorted(set(merged_split_positions))
-            )
+
+        tasks_map[model_name] = {
+            "original_path": pre_task_for_model["original_path"],
+            "split_positions": split_positions,
+        }
         print(f"{tasks_map=}")
 
     return tasks_map, max_subgraph_size, prev_config.running_states
@@ -374,7 +408,7 @@ def prepare_tasks_and_verify(args, current_pass_id, base_output_dir):
         tasks_map, max_subgraph_size, running_states = generate_initial_tasks(args)
     else:
         tasks_map, max_subgraph_size, running_states = generate_successor_tasks(
-            base_output_dir, current_pass_id
+            args, base_output_dir, current_pass_id
         )
 
     print(f"[Init] initial max_subgraph_size: {max_subgraph_size}")
@@ -393,7 +427,6 @@ def prepare_tasks_and_verify(args, current_pass_id, base_output_dir):
         )
         sys.exit(0)
 
-    sys.exit(0)
     return tasks_map, max_subgraph_size, running_states
 
 
@@ -402,6 +435,7 @@ def execute_decomposition_phase(max_subgraph_size, tasks_map, framework, workspa
 
     failed_decomposition = []
     need_decompose = True if len(tasks_map) > 0 else False
+    method = "fixed-start"
 
     while need_decompose:
         decomposed_samples_dir = os.path.join(
@@ -426,6 +460,7 @@ def execute_decomposition_phase(max_subgraph_size, tasks_map, framework, workspa
             not failed_decomposition
             and num_decomposed_samples == len(tasks_map)
             and max_subgraph_size > 1
+            and method != "fixed-start"
         ):
             need_decompose = True
             shutil.rmtree(decomposed_samples_dir)
@@ -435,7 +470,7 @@ def execute_decomposition_phase(max_subgraph_size, tasks_map, framework, workspa
                 split_positions = task_info["split_positions"]
                 if not split_positions or len(split_positions) < 2:
                     continue
-                new_split_positions = reconstruct_split_positions_for_subgraph(
+                new_split_positions = reconstruct_split_positions_for_subgraphs(
                     split_positions, 0, max_subgraph_size
                 )
                 task_info["split_positions"] = new_split_positions
@@ -458,8 +493,7 @@ def count_unique_original_models(incorrect_models):
     return len(original_model_paths)
 
 
-def print_summary_and_suggestion(next_round_models, max_subgraph_size):
-    """Print suggestion/result."""
+def print_summary_and_suggestion(args, next_round_models, max_subgraph_size):
     print("\n" + "=" * 80)
     if next_round_models and max_subgraph_size > 1:
         print(f">>> [SUGGESTION] Issues remain (Count: {len(next_round_models)}).")
@@ -485,6 +519,8 @@ def main(args):
         args, current_pass_id, base_output_dir
     )
     decompose_config = DecomposeConfig(
+        method=args.method,
+        tolerance=args.tolerance,
         max_subgraph_size=max_subgraph_size,
         tasks_map=tasks_map,
         running_states=running_states,
@@ -517,7 +553,6 @@ def main(args):
         run_evaluation(args.framework, args.test_config, work_dir, log_path)
 
     # --- Step 4: Analysis ---
-    next_pass_incorrect_models = set()
     if task_controller.task_scheduler["post_analysis"]:
         tolerance = (
             args.tolerance[0] if isinstance(args.tolerance, list) else args.tolerance
@@ -530,15 +565,17 @@ def main(args):
             num_incorrect_models=num_original_models,
             incorrect_models=list(next_pass_incorrect_models),
         )
+
         print(
             f"[Analysis] Found {len(next_pass_incorrect_models)} incorrect subgraphs ({num_original_models} original models)."
         )
         for idx, model_path in enumerate(next_pass_incorrect_models):
             print(f"- [{idx}] {model_path}")
-        print_summary_and_suggestion(next_pass_incorrect_models, max_subgraph_size)
+        print_summary_and_suggestion(
+            args, next_pass_incorrect_models, max_subgraph_size
+        )
 
     # --- Step 5: Save States ---
-    decompose_config.incorrect_models = list(next_pass_incorrect_models)
     decompose_config.save(work_dir)
 
 
@@ -550,6 +587,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--test-config", type=str, required=True, help="Base64 encoded test config"
     )
+    parser.add_argument("--method", type=str, required=True)
     parser.add_argument(
         "--tolerance",
         type=int,

@@ -279,27 +279,18 @@ def run_evaluation(
     ), f"[ERROR] test failed for {samples_dir}, please check the log."
 
 
-def reconstruct_subgraph_size(split_positions: List[int]) -> List[list]:
-    """Reconstructs subgraph size based on sorted split positions."""
-    deduplicated_splits = sorted(set(split_positions))
+def reconstruct_split_positions_for_subgraph(
+    split_positions, subgraph_idx, max_subgraph_size
+):
+    assert (
+        subgraph_idx < len(split_positions) - 1
+    ), f"subgraph_idx {subgraph_idx} is out of bounds of split_positions: {split_positions}."
 
-    subgraph_size = [
-        deduplicated_splits[i : i + 2] for i in range(len(deduplicated_splits) - 1)
-    ]
-    return subgraph_size
-
-
-def calculate_split_positions_for_subgraph(subgraph_range, max_subgraph_size):
-    assert isinstance(subgraph_range, (list, tuple)) and len(subgraph_range) == 2
-
-    # subgraph_size: the start and end position in original model.
-    start_pos, end_pos = subgraph_range
-    end_pos = kMaxGraphSize if end_pos == float("inf") else end_pos
-
-    split_positions = set(
+    start_pos, end_pos = split_positions[subgraph_idx : subgraph_idx + 2]
+    new_split_positions = set(
         range(start_pos, end_pos + max_subgraph_size - 1, max_subgraph_size)
     )
-    return sorted(list(set(split_positions)))
+    return sorted(list(new_split_positions))
 
 
 def generate_initial_tasks(args):
@@ -310,17 +301,14 @@ def generate_initial_tasks(args):
     tasks_map = {}
     max_subgraph_size = args.max_subgraph_size
 
+    initial_split_positions = reconstruct_split_positions_for_subgraph(
+        [0, kMaxGraphSize], 0, max_subgraph_size
+    )
     for model_path in initial_failures:
         model_name = get_model_name_with_subgraph_tag(model_path)
-
-        initial_range = [0, kMaxGraphSize]
-        initial_splits = calculate_split_positions_for_subgraph(
-            initial_range, max_subgraph_size
-        )
-
         tasks_map[model_name] = {
             "original_path": model_path,
-            "split_positions": initial_splits,
+            "split_positions": initial_split_positions,
         }
 
     running_states = {
@@ -355,19 +343,14 @@ def generate_successor_tasks(base_output_dir, current_pass_id):
 
     for subgraph_path in sorted(prev_config.incorrect_models):
         model_name, subgraph_idx = extract_model_name_and_subgraph_idx(subgraph_path)
+        print(f"{subgraph_path=}")
 
         assert model_name in prev_tasks_map
         pre_task_for_model = prev_tasks_map[model_name]
 
         prev_split_positions = pre_task_for_model.get("split_positions", [])
-        subgraph_ranges = reconstruct_subgraph_size(prev_split_positions)
-
-        assert subgraph_idx < len(
-            subgraph_ranges
-        ), f"subgraph_idx {subgraph_idx} is out of bounds for {model_name} (previous split_positions: {prev_split_positions})"
-
-        split_positions = calculate_split_positions_for_subgraph(
-            subgraph_ranges[subgraph_idx], max_subgraph_size
+        split_positions = reconstruct_split_positions_for_subgraph(
+            prev_split_positions, subgraph_idx, max_subgraph_size
         )
         if model_name not in tasks_map:
             tasks_map[model_name] = {
@@ -381,6 +364,7 @@ def generate_successor_tasks(base_output_dir, current_pass_id):
             tasks_map[model_name]["split_positions"] = list(
                 sorted(set(merged_split_positions))
             )
+        print(f"{tasks_map=}")
 
     return tasks_map, max_subgraph_size, prev_config.running_states
 
@@ -409,6 +393,7 @@ def prepare_tasks_and_verify(args, current_pass_id, base_output_dir):
         )
         sys.exit(0)
 
+    sys.exit(0)
     return tasks_map, max_subgraph_size, running_states
 
 
@@ -450,8 +435,8 @@ def execute_decomposition_phase(max_subgraph_size, tasks_map, framework, workspa
                 split_positions = task_info["split_positions"]
                 if not split_positions or len(split_positions) < 2:
                     continue
-                new_split_positions = calculate_split_positions_for_subgraph(
-                    split_positions[0:2], max_subgraph_size
+                new_split_positions = reconstruct_split_positions_for_subgraph(
+                    split_positions, 0, max_subgraph_size
                 )
                 task_info["split_positions"] = new_split_positions
         else:

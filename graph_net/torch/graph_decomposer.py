@@ -269,7 +269,6 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         if not self.extracted:
             if self.need_extract(self.submodule, args):
                 self.builtin_extractor(self.submodule, args)
-                self._post_extract_process()
             self.extracted = True
         return self.submodule(*args)
 

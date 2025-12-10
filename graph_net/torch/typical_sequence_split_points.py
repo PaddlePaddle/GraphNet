@@ -3,13 +3,11 @@ import json
 import os
 from pathlib import Path
 from typing import Any, Dict, List
-
 import torch
 import torch.nn as nn
-import tempfile
-import graph_net.imp_util
-from graph_net.torch import utils as graph_utils
 from graph_net.torch.rp_expr.rp_expr_parser import RpExprParser
+from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
+from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module_without_varify
 
 
 class TypicalSequenceExtractor:
@@ -28,9 +26,12 @@ class TypicalSequenceExtractor:
 
             if node.op == "call_module":
                 target_name = type(named_modules[node.target]).__name__
-            else:
+            elif node.op == "call_method":
+                target_name = f"Tensor.{node.target}"
+            elif node.op == "call_function":
                 target_name = getattr(node.target, "__name__", str(node.target))
-
+            else:
+                raise NotImplementedError()
             operator_list.append(
                 {
                     "op_type": node.op,
@@ -46,39 +47,6 @@ class TypicalSequenceExtractor:
         operator = self._extract_operators_from_graph(gm, inputs)
         self.extract_node = operator
         return gm.forward
-
-
-class TypicalSequenceModelLoader:
-    def load_class_from_file(self, model_path: str, device: str) -> Any:
-        file_path = os.path.join(model_path, "model.py")
-
-        if not os.path.exists(file_path):
-            raise FileNotFoundError(f"Model file not found: {file_path}")
-
-        with open(file_path, "r", encoding="utf-8") as f:
-            model_code = f.read()
-        model_code = graph_utils.modify_code_by_device(model_code, device)
-
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".py", encoding="utf-8"
-        ) as temp_file:
-            temp_file.write(model_code)
-            module = graph_net.imp_util.load_module(temp_file.name)
-        model_class = getattr(module, "GraphModule", None)
-
-        return model_class
-
-    def get_input_dict(self, model_path: str, device: str) -> Dict[str, torch.Tensor]:
-        inputs_params = graph_utils.load_converted_from_text(f"{model_path}")
-        params = inputs_params["weight_info"]
-        for tensor_meta in params.values():
-            if hasattr(tensor_meta, "device"):
-                tensor_meta.device = device
-        input_dict = {
-            k: graph_utils.replay_tensor(v).to(torch.device(device))
-            for k, v in params.items()
-        }
-        return input_dict
 
 
 class SplitAnalyzer:
@@ -109,20 +77,11 @@ class SplitAnalyzer:
     def _extract_ops_via_compile(
         self, model_path: str, device: str = "cpu"
     ) -> List[str]:
-        loader = TypicalSequenceModelLoader()
-        print(f"Loading model from {model_path} on {device}...")
-        try:
-            model_class = loader.load_class_from_file(model_path, device)
-            model = model_class().to(torch.device(device))
-            model.eval()
-            input_dict = loader.get_input_dict(model_path, device)
-        except Exception as e:
-            print(f"Error loading/preparing model {model_path}: {e}")
-            return []
-
+        print(f"extracting ops from {model_path}")
         extractor = TypicalSequenceExtractor()
-        compiled_model = torch.compile(model, backend=extractor.extract_compiler)
-        compiled_model(**input_dict)
+        model, inputs = get_torch_module_and_inputs(model_path)
+        compiled_model, _ = parse_sole_graph_module_without_varify(model, inputs)
+        extractor.extract_compiler(compiled_model, inputs)
         ops_info = extractor.extract_node
 
         return [op["target_name"] for op in ops_info]
@@ -174,7 +133,6 @@ class SplitAnalyzer:
 
         if not inputs_seqs:
             return {}
-
         rp_parser = RpExprParser(
             window_size=self.window_size,
             fold_policy=self.fold_policy,

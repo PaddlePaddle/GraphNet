@@ -15,6 +15,7 @@ def get_torch_module_and_inputs(model_path):
 def _get_torch_module(model_path):
     py_module = load_module(f"{model_path}/model.py")
     torch_module_cls = py_module.GraphModule
+    torch_module_cls.__graph_net_file_path__ = model_path
     return torch_module_cls()
 
 

@@ -13,6 +13,20 @@ from abc import ABC, abstractmethod
 
 from graph_net.positive_tolerance_interpretation_manager import get_positive_tolerance_interpretation
 
+DEFAULT_ERRNO_TO_TOLERANCE = {
+    1: 1,  # Accuracy error
+    2: 3,  # Runtime error
+    3: 3,  # Compilation error
+}
+
+EXTENDED_ERRNO_TO_TOLERANCE = {
+    1: 1,
+    2: 2,
+    3: 3,
+    4: 4,
+    999: 999
+}
+
 def get_errno_from_error_type(error_type: str, interpretation_type: str = "default") -> int:
     """
         Map error type string to errno (error number) using the appropriate strategy.

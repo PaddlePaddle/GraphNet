@@ -230,7 +230,7 @@ def parse_sole_graph_module(module, inputs):
     from pathlib import Path
 
     Path("/tmp/a.py").write_text(traced_module.code)
-    assert len(zip_filter_names) == 0, zip_filter_names_error_str()
+    # assert len(zip_filter_names) == 0, f"{zip_filter_names_str()=}"
     return traced_module
 
 

@@ -181,7 +181,7 @@ def fold_range_to_submodule(
     end_node_idx: int,
     submodule_hook=None,
     submodule_name="extracted_submodule",
-    group_head_and_tail=True,
+    group_head_and_tail=False,
 ):
     return convert_to_submodules_graph(
         gm,
@@ -254,7 +254,17 @@ def _get_minimal_submodule_inputs_and_outputs(
             pass
         else:
             assert isinstance(
-                arg, (int, bool, float, str, type(None), torch.device, torch.dtype)
+                arg,
+                (
+                    int,
+                    bool,
+                    float,
+                    str,
+                    type(...),
+                    type(None),
+                    torch.device,
+                    torch.dtype,
+                ),
             ), f"{type(arg)=}"
 
     def get_args_node_and_self_node(node):

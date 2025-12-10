@@ -254,15 +254,7 @@ def _get_minimal_submodule_inputs_and_outputs(
             pass
         else:
             assert isinstance(
-                arg,
-                (
-                    int,
-                    bool,
-                    float,
-                    str,
-                    type(...),
-                    type(None),
-                ),
+                arg, (int, bool, float, str, type(...), type(None))
             ), f"{type(arg)=}"
 
     def get_args_node_and_self_node(node):

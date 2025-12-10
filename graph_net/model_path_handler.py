@@ -1,4 +1,5 @@
 import argparse
+import traceback
 from graph_net.imp_util import load_module
 import logging
 import sys
@@ -52,6 +53,12 @@ def handle_model_path_list_in_current_process(handler, args):
         except KeyboardInterrupt:
             print("KeyboardInterrupt")
             return
+        except Exception as e:
+            print(f"Handle {model_path} failed: {str(e)}", file=sys.stderr)
+            print("\n--- Full Traceback ---")
+            traceback.print_exc()
+            print("\n--- End of Traceback ---")
+            return
 
 
 def handle_model_path_list_in_subprocess(args):
@@ -61,6 +68,12 @@ def handle_model_path_list_in_subprocess(args):
             subprocess.Popen(cmd, shell=True).wait()
         except KeyboardInterrupt:
             print("KeyboardInterrupt")
+            return
+        except Exception as e:
+            print(f"Handle {model_path} failed: {str(e)}", file=sys.stderr)
+            print("\n--- Full Traceback ---")
+            traceback.print_exc()
+            print("\n--- End of Traceback ---")
             return
 
 

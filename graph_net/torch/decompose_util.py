@@ -262,8 +262,6 @@ def _get_minimal_submodule_inputs_and_outputs(
                     str,
                     type(...),
                     type(None),
-                    torch.device,
-                    torch.dtype,
                 ),
             ), f"{type(arg)=}"
 

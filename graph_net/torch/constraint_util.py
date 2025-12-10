@@ -1,6 +1,9 @@
 import sys
 import os
 import graph_net
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class NaiveDataInputPredicator:

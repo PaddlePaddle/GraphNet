@@ -186,7 +186,7 @@ def run_decomposer_for_single_model(
         "decorator_path": f"{graphnet_root}/graph_net/{framework}/extractor.py",
         "decorator_config": {
             "name": model_name,
-            "custom_extractor_path": f"{graphnet_root}/graph_net/{framework}/naive_graph_decomposer.py",
+            "custom_extractor_path": f"{graphnet_root}/graph_net/{framework}/graph_decomposer.py",
             "custom_extractor_config": {
                 "output_dir": output_dir,
                 "split_positions": split_positions,

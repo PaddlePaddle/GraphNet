@@ -1,5 +1,4 @@
 #!/bin/bash
-# bash graph_net/test/naive_decomposer_and_post_extract_process_test.sh
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(
 os.path.dirname(graph_net.__file__))")

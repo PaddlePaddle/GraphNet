@@ -122,19 +122,28 @@ def _rename_placeholder(name, pattern2replacement):
     return name
 
 
-def parse_sole_graph_module(module, inputs):
+def parse_sole_graph_module_without_varify(module, inputs):
     traced_module = None
     traced_sample_inputs = None
 
     def my_backend(gm, sample_inputs):
         nonlocal traced_module
-        traced_module = gm
         nonlocal traced_sample_inputs
+        assert traced_module is None
+        assert traced_sample_inputs is None
+        traced_module = gm
         traced_sample_inputs = sample_inputs
         return gm.forward
 
     torch.compile(module, backend=my_backend)(*inputs)
     assert traced_module is not None
+    return traced_module, traced_sample_inputs
+
+
+def parse_sole_graph_module(module, inputs):
+    traced_module, traced_sample_inputs = parse_sole_graph_module_without_varify(
+        module, inputs
+    )
 
     def get_input_names_from_signature():
         return inspect.signature(module.forward).parameters

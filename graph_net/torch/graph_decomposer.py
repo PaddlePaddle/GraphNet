@@ -260,6 +260,7 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         )
 
     def forward(self, *args):
+        logger.warning("naive decomposer forwarding")
         if not self.extracted:
             if self.need_extract(self.submodule, args):
                 self.builtin_extractor(self.submodule, args)

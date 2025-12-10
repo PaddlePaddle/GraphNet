@@ -20,7 +20,7 @@ config_json_str=$(cat <<EOF
         "output_dir": "$OUTPUT_DIR",
         "nn_module_fully_fusible_decorator_path": "$GRAPH_NET_ROOT/torch/count_kernels_util.py",
         "nn_module_fully_fusible_decorator_class_name": "TorchSubModuleFullyFusibleDecorator",
-        "max_step": 3,
+        "max_step": 8,
         "min_step": 2,
         "max_nodes": 32
     }
@@ -30,4 +30,4 @@ EOF
 CONFIG=$(echo $config_json_str | base64 -w 0)
 
 # python3 -m graph_net.model_path_handler --model-path $GRAPH_NET_ROOT/../samples/$MODEL_PATH_IN_SAMPLES --handler-config=$CONFIG
-python3 -m graph_net.model_path_handler --model-path-list $INPUT_MODEL_LIST --handler-config=$CONFIG
+python3 -m graph_net.model_path_handler --model-path-list $INPUT_MODEL_LIST --handler-config=$CONFIG &> /work/.BCloud/fusibletest.log

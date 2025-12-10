@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from graph_net import analysis_util
 from graph_net import verify_aggregated_params
+from graph_net.positive_tolerance_interpretation_manager import g_type_name2_positive_tolerance_interpretation_cls
 
 
 class ESScoresWrapper:
@@ -271,7 +272,7 @@ def main(args):
             p=args.negative_speedup_penalty,
             b=args.fpdb,
             type="ESt",
-            mode=args.mode,
+            interpretation_type=args.interpretation_type,
         )
 
         # Keep original behavior: assign es_scores directly
@@ -286,7 +287,7 @@ def main(args):
                     folder_name,
                     negative_speedup_penalty=args.negative_speedup_penalty,
                     fpdb=args.fpdb,
-                    mode=args.mode
+                    interpretation_type=args.interpretation_type
                 )
             )
             # Store aggregated results for plotting
@@ -432,11 +433,11 @@ if __name__ == "__main__":
         help="Disable aggregation mode verification.",
     )
     parser.add_argument(
-        "--mode",
-        type=str,
-        choices=["default", "extended"],
+        "--positive-tolerance-interpretation",
+        dest="interpretation_type",
+        choices=list(g_type_name2_positive_tolerance_interpretation_cls.keys()),
         default="default",
-        help="Select correctness evaluation mode. Options: default, extended. Default: default.",
+        help="Select how positive tolerance values are interpreted into error types."
     )
     parser.set_defaults(enable_aggregation_mode=True)
     args = parser.parse_args()

@@ -7,15 +7,18 @@ from graph_net.samples_statistics import (
 )
 
 
-def determine_tolerances(samples: list) -> range:
+def determine_tolerances(samples: list,interpretation_type = "default") -> range:
     """Determine tolerance range based on observed errno categories."""
     # Currently errno categories are 1=accuracy, 2=runtime, 3=compile.
     # Keep logic data-driven for future extension.
-    default_errnos = {1, 2, 3}
+    if interpretation_type == "default":
+        default_errnos = {1, 2, 3}
+    elif interpretation_type == "mismatch_extended":
+        default_errnos = {1, 2, 3, 4}
     return range(-10, len(default_errnos) + 2)
 
 
-def extract_statistics_at_tolerance(samples: list, tolerance: int,mode:str = "default") -> dict:
+def extract_statistics_at_tolerance(samples: list, tolerance: int,interpretation_type:str = "default") -> dict:
     """Extract statistics for a given tolerance level."""
     sample_data = [
         (
@@ -39,7 +42,7 @@ def extract_statistics_at_tolerance(samples: list, tolerance: int,mode:str = "de
 
     errno2count = dict(
         Counter(
-            get_errno_from_error_type(fail_type,mode)
+            get_errno_from_error_type(fail_type,interpretation_type)
             for _, _, _, _, fail_type in sample_data
             if fail_type is not None
         )
@@ -102,7 +105,7 @@ def calculate_es_constructor_params_for_tolerance(
     pi: dict,
     negative_speedup_penalty: float,
     fpdb: float,
-    mode: str = "default",
+    interpretation_type: str = "default",
 ) -> dict:
     """Calculate ES(t) constructor parameters (alpha, beta, gamma, lambda, eta) and final scores for a tolerance level."""
     aggregated_params = samples_statistics.calculate_es_components_values(
@@ -113,7 +116,7 @@ def calculate_es_constructor_params_for_tolerance(
         negative_speedup_penalty=negative_speedup_penalty,
         b=fpdb,
         pi=pi,
-        mode=mode,
+        interpretation_type=interpretation_type,
     )
 
     alpha = aggregated_params["alpha"]
@@ -202,7 +205,7 @@ class ToleranceReportBuilder:
         total_samples: int,
         negative_speedup_penalty: float,
         fpdb: float,
-        mode: str,
+        interpretation_type: str = "default",
     ):
         self.samples = samples
         self.total_samples = total_samples
@@ -215,10 +218,10 @@ class ToleranceReportBuilder:
             "slowdown_speedups": [],
             "errno2count": {},
         }
-        self.mode = mode
+        self.interpretation_type = interpretation_type
 
     def build_report(self, tolerance: int) -> dict:
-        current_stats = extract_statistics_at_tolerance(self.samples, tolerance,self.mode)
+        current_stats = extract_statistics_at_tolerance(self.samples, tolerance,self.interpretation_type)
 
         if tolerance == 1:
             self.pi = _freeze_statistics_at_tolerance(
@@ -244,7 +247,7 @@ class ToleranceReportBuilder:
             pi_for_calc,
             self.negative_speedup_penalty,
             self.fpdb,
-            self.mode,
+            self.interpretation_type,
         )
         # Use calculated pi from es_constructor_params for display and return
         calculated_pi = es_constructor_params.get("pi", self.pi)
@@ -288,7 +291,7 @@ def verify_es_constructor_params_across_tolerances(
     folder_name: str,
     negative_speedup_penalty: float = 0,
     fpdb: float = 0.1,
-    mode: str = "default",
+    interpretation_type: str = "default",
 ) -> dict:
     """
     Verify and print ES constructor parameters (alpha, beta, gamma, lambda, eta, pi) for each
@@ -304,13 +307,13 @@ def verify_es_constructor_params_across_tolerances(
     print(f"Verifying Aggregated Parameters for '{folder_name}'")
     print(f"{'=' * 80}")
 
-    tolerances = determine_tolerances(samples)
+    tolerances = determine_tolerances(samples,interpretation_type)
     builder = ToleranceReportBuilder(
         samples=samples,
         total_samples=total_samples,
         negative_speedup_penalty=negative_speedup_penalty,
         fpdb=fpdb,
-        mode=mode,
+        interpretation_type=interpretation_type,
     )
 
     results = OrderedDict(

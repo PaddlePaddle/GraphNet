@@ -2,10 +2,12 @@
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 DECOMPOSE_PATH=/tmp/decompose_workspace
+# DECOMPOSE_PATH=$GRAPH_NET_ROOT/decompose_test_level5_100
 
 mkdir -p "$DECOMPOSE_PATH"
 
-model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt"
+# model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt"
+model_list="$GRAPH_NET_ROOT/graph_net/test/dev_model_list/validation_error_model_list.txt"
 
 python3 -m graph_net.torch.typical_sequence_split_points \
     --model-list "$model_list" \

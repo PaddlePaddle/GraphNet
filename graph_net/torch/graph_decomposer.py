@@ -257,20 +257,6 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         )
         self.filter = self.make_filter(self.config)
 
-    def _get_model_path(self):
-        return os.path.join(
-            self.config["output_dir"],
-            f"{self.parent_graph_name}_decomposed",
-            self.model_name,
-        )
-
-    def _get_model_path(self):
-        return os.path.join(
-            self.config["output_dir"],
-            f"{self.parent_graph_name}_decomposed",
-            self.model_name,
-        )
-
     def forward(self, *args):
         logger.warning("naive decomposer forwarding")
         if not self.extracted:

@@ -150,12 +150,14 @@ class SplitAnalyzer:
             get_len(sym_id)
         return token2len
 
-    def analyze(self, model_paths_file: str, device: str) -> Dict[str, Dict]:
+    def analyze(
+        self, model_path_prefix: str, model_paths_file: str, device: str
+    ) -> Dict[str, Dict]:
         input_file = Path(model_paths_file)
 
         with open(input_file, "r") as f:
             model_paths = [
-                Path(line.strip())
+                Path(model_path_prefix) / line.strip()
                 for line in f
                 if line.strip() and not line.startswith("#")
             ]
@@ -264,7 +266,7 @@ def main(args):
         fold_policy=args.fold_policy,
         fold_times=args.fold_times,
     )
-    results = analyzer.analyze(args.model_list, args.device)
+    results = analyzer.analyze(args.model_path_prefix, args.model_list, args.device)
     if args.output_json:
         with open(args.output_json, "w") as f:
             json.dump(results, f, indent=4)
@@ -279,6 +281,12 @@ if __name__ == "__main__":
         type=str,
         required=True,
         help="Path to a text file containing paths to models (one per line).",
+    )
+    parser.add_argument(
+        "--model-path-prefix",
+        type=str,
+        default="./",
+        help="Prefix to add to each model path in the list.",
     )
     parser.add_argument(
         "--device",

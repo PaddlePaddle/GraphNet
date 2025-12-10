@@ -11,6 +11,7 @@ model_list="$GRAPH_NET_ROOT/graph_net/test/dev_model_list/validation_error_model
 
 python3 -m graph_net.torch.typical_sequence_split_points \
     --model-list "$model_list" \
+    --model-path-prefix "$GRAPH_NET_ROOT" \
     --device "cuda" \
     --window-size 10 \
     --fold-policy default \

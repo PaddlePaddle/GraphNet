@@ -162,10 +162,16 @@ class GraphVariableRenamer:
         w_cnt = 0
         tmp_cnt = 0
 
-        arg_iter = iter(sample_inputs)
+        arg_iter = iter(sample_inputs) if sample_inputs else iter([])
+
         for node in gm.graph.nodes:
+            old_name = node.name
+
             if "original_name" not in node.meta:
                 node.meta["original_name"] = node.name
+
+            new_name = old_name
+            should_update_target = False
 
             if node.op == "placeholder":
                 real_arg = next(arg_iter)
@@ -186,8 +192,7 @@ class GraphVariableRenamer:
                     new_name = f"in_{in_cnt}"
                     in_cnt += 1
 
-                node.name = new_name
-                node.target = new_name
+                should_update_target = True
 
             elif node.op == "get_attr":
                 node.name = f"w_{w_cnt}"
@@ -196,6 +201,11 @@ class GraphVariableRenamer:
             elif node.op != "output":
                 node.name = f"tmp_{tmp_cnt}"
                 tmp_cnt += 1
+
+            if new_name != old_name:
+                node.name = new_name
+                if should_update_target:
+                    node.target = new_name
 
         gm.graph.lint()
         gm.recompile()

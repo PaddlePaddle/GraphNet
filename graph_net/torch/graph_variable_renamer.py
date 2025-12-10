@@ -91,8 +91,9 @@ class GraphVariableRenamer:
             self._update_weight_meta_py_file(src_model_path, dst_model_path)
             self._update_input_meta_py_file(src_model_path, dst_model_path)
             self._try_run(dst_model_path)
-        except Exception:
+        except Exception as e:
             print("Failed to rename variables of ", src_model_path)
+            print(f"Error: {repr(e)}")
             print("Skipping this model and continuing...\n")
 
     def _try_run(self, model_path):

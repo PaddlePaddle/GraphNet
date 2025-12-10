@@ -1,6 +1,7 @@
 import os
 import torch
 import json
+import sys
 from graph_net.torch.decompose_util import convert_to_submodules_graph
 from graph_net.torch.extractor import GraphExtractor as BuiltinGraphExtractor
 import graph_net.imp_util as imp_util
@@ -193,6 +194,12 @@ class RangeDecomposerExtractor:
     def __call__(self, rel_model_path):
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         split_results = load_json(self.config["split_results_path"])
+        if (
+            split_results[rel_model_path]["split_positions"] is None
+            or len(split_results[rel_model_path]["split_positions"]) == 0
+        ):
+            sys.stderr.write(f"Error: {rel_model_path} has no split positions.\n")
+            os._exit(1)
         split_positions = split_results[rel_model_path]["split_positions"]
         config = {
             "split_positions": split_positions,

@@ -78,6 +78,8 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
         processed_inputs = {"type": "unknown", "value": example_inputs}
 
     def handle_named_tensors(tensor):
+        if not isinstance(tensor, torch.Tensor):
+            return {"type": "unknown", "value": tensor}
         info = tensor_info(tensor)
         if tensor.dtype in [torch.int8, torch.int16, torch.int32, torch.int64]:
             if tensor.numel() < kLiteralTensorSize:

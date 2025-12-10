@@ -113,7 +113,8 @@ def _get_name_pattern2replacement(names_from_signature, names_from_placeholder):
 
 
 def _rename_placeholder(name, pattern2replacement):
-    assert name[:2] == "L_" or name[:2] == "l_", f"{name=}"
+    if not (name[:2] == "L_" or name[:2] == "l_"):
+        return name
     name = name[2:]
     if name[0] == "l":
         name = "L" + name[1:]

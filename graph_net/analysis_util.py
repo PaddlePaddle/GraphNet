@@ -3,8 +3,6 @@ import re
 import sys
 from scipy.stats import gmean
 from graph_net.config.datatype_tolerance_config import get_precision
-from graph_net.positive_tolerance_interpretation_manager import get_positive_tolerance_interpretation
-from graph_net.verify_aggregated_params import determine_tolerances
 
 
 def detect_sample_status(log_text: str) -> str:
@@ -297,23 +295,47 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
 def fake_perf_degrad(tolerance, error_code, type="default") -> str:
     """
     Judge current correctness based on tolerance t and status.
-    Refactored to delegate logic to PositiveToleranceInterpretation classes.
+
+    Release levels:
+        t = 1 : release accuracy error
+        t = 2 : release nan/inf/type mismatch errors
+        t = 3 : release post-compile execution failures
+        t = 4 : release compile failures
     """
-    # 通过工厂获取对应的策略实例
-    strategy = get_positive_tolerance_interpretation(type)
+    if type == "default":
+        if tolerance >= 3:
+            return "correct"
+        elif error_code == "accuracy" and tolerance >= 1:
+            return "correct"
+        else:
+            return error_code
+    elif type == "extended":
+        if error_code in ["eager_fail", "reference_fail"]:
+            return error_code
+        if tolerance >= 4:
+            if error_code == "compile_fail":
+                return "correct"
+        if tolerance >= 3:
+            if error_code in ["runtime_fail", "execution_fail"]:
+                return "correct"
+        if tolerance >= 2:
+            if error_code in ["nan", "inf", "type_mismatch", "shape_mismatch"]:
+                return "correct"
+        if tolerance >= 1:
+            if error_code == "accuracy":
+                return "correct"
 
-    # 使用策略类判断错误是否被允许
-    if strategy.is_error_tolerated(tolerance, error_code):
-        return "correct"
+        return error_code
 
-    return error_code
+    else:
+        raise NotImplementedError(f"Type '{type}' is not implemented.")
 
 def calculate_scores(
     samples: list,
     p: float = 0,
     b: float = 0.1,
     type: str = "ESt",
-    interpretation_type: str = "default",
+    mode: str = "default",
 ) -> tuple:
     """
     Use a standard tolerance to evaluate all samples and calculate S(t) and ES(t) scores for each tolerance level.
@@ -325,10 +347,7 @@ def calculate_scores(
 
     scores = {}
 
-    strategy = get_positive_tolerance_interpretation(interpretation_type)
-    tolerances = determine_tolerances(samples,interpretation_type)
-
-    for tolerance in tolerances:
+    for tolerance in range(-10, 5):
         rectified_speedups = []
         rectified_speedups_fake_degrad = []
 
@@ -362,9 +381,11 @@ def calculate_scores(
                     )
             else:
                 if not is_correct_at_t1[idx]:
-                    is_tolerated = strategy.is_error_tolerated(tolerance, fail_type_at_t1[idx])
+                    current_correctness = fake_perf_degrad(
+                        tolerance, fail_type_at_t1[idx],mode
+                    )
                     rec_speedup_fake_degrad = (
-                        1 if is_tolerated else b
+                        1 if current_correctness == "correct" else b
                     )
                 else:
                     rec_speedup_fake_degrad = (

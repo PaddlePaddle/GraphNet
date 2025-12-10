@@ -9,17 +9,14 @@ from typing import Union, Optional
 import scipy
 from scipy.stats import gmean
 from collections.abc import Callable
-from abc import ABC, abstractmethod
 
-from graph_net.positive_tolerance_interpretation_manager import get_positive_tolerance_interpretation
-
-DEFAULT_ERRNO_TO_TOLERANCE = {
+DEFAULT_ERRNO_AS_TOLERANCE = {
     1: 1,  # Accuracy error
     2: 3,  # Runtime error
     3: 3,  # Compilation error
 }
 
-EXTENDED_ERRNO_TO_TOLERANCE = {
+EXTENDED_ERRNO_AS_TOLERANCE = {
     1: 1,
     2: 2,
     3: 3,
@@ -27,37 +24,65 @@ EXTENDED_ERRNO_TO_TOLERANCE = {
     999: 999
 }
 
-def get_errno_from_error_type(error_type: str, interpretation_type: str = "default") -> int:
+def get_errno_from_error_type(error_type: str,mode: str = "default") -> int:
     """
-        Map error type string to errno (error number) using the appropriate strategy.
+    Map error type string to errno (error number) for sorting.
 
-        Args:
-            error_type: Error type string (e.g., "accuracy", "runtime_fail")
-            interpretation_type: Evaluation mode ("default" or "mismatch_extended")
+    According to the paper:
+    - c=1: accuracy errors (精度错误)
+    - c=2: runtime crashes (运行时崩溃)
+    - c=3: compilation failures (编译失败)
 
-        Returns:
-            int: Errno based on the selected interpretation_type's logic.
-        """
-    interpreter = get_positive_tolerance_interpretation(interpretation_type)
-    return interpreter.get_errno(error_type)
+    Args:
+        error_type: Error type string (e.g., "accuracy", "eager", "compiled")
 
-def get_errno_tolerance_mapping(custom_mapping, interpretation_type: str = "default"):
+    Returns:
+        Errno (1, 2, or 3) based on error type
     """
-        Map errno (error number) back to error type string.
+    if not error_type:
+        # Default fallback if error_type is None/Empty
+        return 2 if mode == "default" else 3
 
-        This is the reverse mapping of get_errno_from_error_type.
-        Used when error type string information is needed.
+    etype = error_type.lower()
+    if "accuracy" in etype:
+        return 1
 
-        Args:
-            errno: Error number
-            interpretation_type: Evaluation mode ("default" or "mismatch_extended")
+    if mode == "extended":
+        if any(k in etype for k in ["nan", "inf", "type_mismatch", "shape_mismatch"]):
+            return 2
+        if any(k in etype for k in ["compile_fail"]):
+            return 4
+        return 3
 
-        Returns:
-            Representative error type string (e.g., "accuracy", "compile_fail")
-        """
-    if custom_mapping: return custom_mapping
-    interpreter = get_positive_tolerance_interpretation(interpretation_type)
-    return interpreter.get_tolerance_mapping()
+    else:
+        if any(k in etype for k in ["compile_fail"]):
+            return 3
+        return 2
+
+
+def get_error_type_from_errno(errno: int) -> str:
+    """
+    Map errno (error number) back to error type string.
+
+    This is the reverse mapping of get_errno_from_error_type.
+    Used when error type string information is needed.
+
+    Args:
+        errno: Error number (1, 2, or 3)
+
+    Returns:
+        Error type string:
+        - 1 -> "accuracy"
+        - 2 -> "runtime_fail"
+        - 3 -> "compile_fail"
+    """
+    errno_to_error_type = {
+        1: "accuracy",
+        2: "runtime_fail",
+        3: "compile_fail",
+    }
+    return errno_to_error_type.get(errno, "runtime_fail")
+
 
 def calculate_alpha(correct_speedups: list[float]) -> float:
     """
@@ -170,7 +195,7 @@ def resolve_errno_tolerance(
     Build a sorted errno -> tolerance map for downstream gamma calculation.
 
     Args:
-        errno2count: Observed errno occurrences in the dataset. Keys can be int (default) or str (mismatch_extended).
+        errno2count: Observed errno occurrences in the dataset. Keys can be int (default) or str (extended).
         errno_tolerance_overrides: Optional overrides mapping errno to its minimal tolerated tolerance.
                                    In extended mode, this should contain the full mapping (e.g., "nan": 2).
 
@@ -197,6 +222,7 @@ def resolve_errno_tolerance(
     sorted_keys = sorted(errno2count.keys(), key=lambda x: str(x))
 
     return {errno: tolerance_for(errno) for errno in sorted_keys}
+
 
 def calculate_gamma(
     tolerance: int,
@@ -297,30 +323,34 @@ def calculate_es_t_from_aggregated(
 
 
 def calculate_es_components_values(
-    total_samples: int,
-    correct_speedups: list[float],
-    errno2count: dict[Union[int, str], int],  # 更新类型注解支持 str
-    tolerance: int,
-    negative_speedup_penalty: float = 0.0,
-    b: float = 0.1,
-    pi: Optional[dict[Union[int, str], float]] = None,
-    errno_to_tolerance: Optional[dict[Union[int, str], int]] = None,
-    interpretation_type: str = "default"
+        total_samples: int,
+        correct_speedups: list[float],
+        errno2count: dict[Union[int, str], int],  # 更新类型注解支持 str
+        tolerance: int,
+        negative_speedup_penalty: float = 0.0,
+        b: float = 0.1,
+        pi: Optional[dict[Union[int, str], float]] = None,
+        errno_as_tolerance: Optional[dict[Union[int, str], int]] = None,
+        mode: str = "default",
 ) -> dict:
     """
     Calculate aggregated parameters for a given tolerance level.
 
     Args:
         ...
-        interpretation_type: "default" (int error codes) or "mismatch_extended" (str error codes).
+        mode: "default" (int error codes) or "extended" (str error codes).
     """
 
     if pi is None:
         pi = calculate_pi(errno2count, total_samples, correct_speedups)
 
-    errno_to_tolerance = get_errno_tolerance_mapping(errno_to_tolerance, interpretation_type)
+    if errno_as_tolerance is None:
+        if mode == "extended":
+            errno_as_tolerance = EXTENDED_ERRNO_AS_TOLERANCE
+        else:
+            errno_as_tolerance = DEFAULT_ERRNO_AS_TOLERANCE
 
-    errno2tolerance = resolve_errno_tolerance(errno2count, errno_to_tolerance)
+    errno2tolerance = resolve_errno_tolerance(errno2count, errno_as_tolerance)
 
     def pi_value4errno(errno: Union[int, str]) -> float:
         return pi.get(errno, 0.0)

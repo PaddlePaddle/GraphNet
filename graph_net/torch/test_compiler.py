@@ -1,4 +1,5 @@
 from . import utils
+import subprocess
 import argparse
 import importlib.util
 import torch
@@ -249,6 +250,12 @@ def test_single_model(args):
         compiled_failure = True
         print("\n--- Full Traceback ---")
         traceback.print_exc()
+        print(f"debug-model-execution {type(e).__name__} {args.model_path}", flush=True)
+    except Exception as e:
+        compiled_failure = True
+        print("\n--- Full Traceback ---")
+        traceback.print_exc()
+        print(f"debug-model-execution {type(e).__name__} {args.model_path}", flush=True)
 
     if eager_failure:
         print(f"{args.log_prompt} [Result] status: failed", file=sys.stderr, flush=True)
@@ -394,8 +401,15 @@ def test_multi_models(args):
                     f"--config {args.config}",
                 ]
             )
-            cmd_ret = os.system(cmd)
-            # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+            try:
+                process = subprocess.Popen(cmd, shell=True)
+                cmd_ret = process.wait()
+            except KeyboardInterrupt:
+                print("KeyboardInterrupt")
+                sys.exit(1)
+            except Exception:
+                print("\n--- Full Traceback ---")
+                traceback.print_exc()
             if cmd_ret != 0:
                 failed_samples.append(model_path)
             sample_idx += 1
@@ -433,7 +447,15 @@ def test_multi_models_with_prefix(args):
                 f"--config {args.config}",
             ]
         )
-        os.system(cmd)
+        try:
+            process = subprocess.Popen(cmd, shell=True)
+            process.wait()
+        except KeyboardInterrupt:
+            print("KeyboardInterrupt")
+            sys.exit(1)
+        except Exception:
+            print("\n--- Full Traceback ---")
+            traceback.print_exc()
 
 
 def main(args):

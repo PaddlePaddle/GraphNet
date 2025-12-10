@@ -156,8 +156,8 @@ class SplitAnalyzer:
         input_file = Path(model_paths_file)
 
         with open(input_file, "r") as f:
-            model_paths = [
-                Path(model_path_prefix) / line.strip()
+            rel_model_paths = [
+                Path(line.strip())
                 for line in f
                 if line.strip() and not line.startswith("#")
             ]
@@ -165,8 +165,9 @@ class SplitAnalyzer:
         inputs_seqs = []
         valid_models = []
 
-        for p in model_paths:
-            seq = self._extract_ops_via_compile(str(p), device)
+        for p in rel_model_paths:
+            model_full_path = os.path.join(model_path_prefix, p)
+            seq = self._extract_ops_via_compile(model_full_path, device)
             if seq:
                 inputs_seqs.append(seq)
                 valid_models.append((p.name, p))

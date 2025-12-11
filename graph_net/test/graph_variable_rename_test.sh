@@ -29,6 +29,7 @@ python3 -m graph_net.model_path_handler --model-path samples/$MODEL_PATH_IN_SAMP
 
 test_compiler_config_json_str=$(cat <<EOF
 {
+    "model_path_prefix": "$GRAPH_NET_ROOT",
     "renamed_root": "$WORKSPACE"
 }
 EOF

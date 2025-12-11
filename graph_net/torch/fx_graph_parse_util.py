@@ -130,8 +130,6 @@ def parse_sole_graph_module_without_varify(module, inputs):
     def my_backend(gm, sample_inputs):
         nonlocal traced_module
         nonlocal traced_sample_inputs
-        assert traced_module is None
-        assert traced_sample_inputs is None
         traced_module = gm
         traced_sample_inputs = sample_inputs
         return gm.forward

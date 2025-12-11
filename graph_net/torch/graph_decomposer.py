@@ -1,4 +1,5 @@
 import os
+import shutil
 from pathlib import Path
 import torch
 import json
@@ -197,13 +198,15 @@ class RangeDecomposerExtractor:
         num_subgraphs = len(split_positions) + 1
         decomposed_model_path = Path(self.config["output_dir"]) / rel_model_path
         num_decomposed = len(list(decomposed_model_path.rglob("model.py")))
-        if num_decomposed > 0:
-            assert (
-                num_subgraphs <= num_decomposed
-            ), f"{num_subgraphs=} {num_decomposed=} {str(decomposed_model_path)=}"
+        if num_decomposed > 0 and num_subgraphs != num_decomposed:
+            shutil.rmtree(decomposed_model_path / "_decomposed")
+            return False
         return num_subgraphs == num_decomposed
 
     def __call__(self, rel_model_path):
+        assert os.path.realpath(self.config["model_path_prefix"]) != os.path.realpath(
+            self.config["output_dir"]
+        )
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         split_results = load_json(self.config["split_results_path"])
         split_positions = split_results[rel_model_path]["split_positions"]

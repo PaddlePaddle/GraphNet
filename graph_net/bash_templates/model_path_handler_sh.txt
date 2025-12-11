@@ -1,0 +1,26 @@
+#!/bin/bash
+
+GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
+model_path_handler_config_json_str=$(cat <<EOF
+{
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/customize_your_sample_pass.py",
+    "handler_class_name": "customize_your_class_name",
+    "handler_config": {
+        "resume": true,
+        "model_path_prefix": "/customize_your_model_path_prefix",
+        "output_dir": "/customize_your_output_file"
+    }
+}
+EOF
+)
+
+model_path_handler_model_path_list="customize_your_model_path_list"
+MODEL_PATH_HANDLER_CONFIG=$(echo $model_path_handler_config_json_str | base64 -w 0)
+
+python3 -m graph_net.model_path_handler \
+    --model-path-list $model_path_handler_model_path_list \
+    --handler-config $MODEL_PATH_HANDLER_CONFIG \
+
+unset model_path_handler_model_path_list
+unset MODEL_PATH_HANDLER_CONFIG
+

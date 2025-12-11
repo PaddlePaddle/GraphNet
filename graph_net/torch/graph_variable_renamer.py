@@ -79,8 +79,10 @@ class GraphVariableRenamer:
         module, inputs = get_torch_module_and_inputs(src_model_path)
         gm = parse_sole_graph_module(module, inputs)
         gm = self.rename_graph_variables(gm, inputs, src_model_path)
+        model_name = os.path.basename(rel_model_path.rstrip(os.sep))
+        new_rel_path = f"{model_name}_renamed"
         dst_model_path = os.path.realpath(
-            os.path.join(self.config["output_dir"], rel_model_path)
+            os.path.join(self.config["output_dir"], new_rel_path)
         )
         Path(dst_model_path).parent.mkdir(parents=True, exist_ok=True)
         shutil.copytree(src_model_path, dst_model_path, dirs_exist_ok=True)
@@ -158,45 +160,47 @@ class GraphVariableRenamer:
     def rename_graph_variables(
         self, gm: torch.fx.GraphModule, sample_inputs, model_path
     ):
-        in_cnt = 0
-        w_cnt = 0
-        tmp_cnt = 0
-
-        arg_iter = iter(sample_inputs)
+        counters = {"in": 0, "w": 0, "tmp": 0}
+        # graph may not have input, only contain weights
+        arg_iter = iter(sample_inputs) if sample_inputs else iter([])
         for node in gm.graph.nodes:
-            if "original_name" not in node.meta:
-                node.meta["original_name"] = node.name
-
-            if node.op == "placeholder":
-                real_arg = next(arg_iter)
-                is_weight = not self.data_input_predicator(model_path, node.name)
-                if node.type is not None:
-                    if isinstance(node.type, type) and issubclass(
-                        node.type, torch.nn.parameter.Parameter
-                    ):
-                        is_weight = True
-                elif real_arg is not None:
-                    if isinstance(real_arg, torch.nn.Parameter):
-                        is_weight = True
-
-                if is_weight:
-                    new_name = f"w_{w_cnt}"
-                    w_cnt += 1
-                else:
-                    new_name = f"in_{in_cnt}"
-                    in_cnt += 1
-
-                node.name = new_name
-                node.target = new_name
-
-            elif node.op == "get_attr":
-                node.name = f"w_{w_cnt}"
-                w_cnt += 1
-
-            elif node.op != "output":
-                node.name = f"tmp_{tmp_cnt}"
-                tmp_cnt += 1
-
+            self._process_single_node(node, arg_iter, counters, model_path)
         gm.graph.lint()
         gm.recompile()
         return gm
+
+    def _process_single_node(self, node, arg_iter, counters, model_path):
+        if "original_name" not in node.meta:
+            node.meta["original_name"] = node.name
+        if node.op == "placeholder":
+            self._handle_placeholder(node, arg_iter, counters, model_path)
+        elif node.op == "get_attr":
+            self._apply_rename(node, "w", counters)
+        elif node.op != "output":
+            self._apply_rename(node, "tmp", counters)
+        else:
+            # Do nothing
+            pass
+
+    def _handle_placeholder(self, node, arg_iter, counters, model_path):
+        real_arg = next(arg_iter, None)
+        is_weight = self._is_weight_node(node, real_arg, model_path)
+        prefix = "w" if is_weight else "in"
+        self._apply_rename(node, prefix, counters, update_target=True)
+
+    def _apply_rename(self, node, prefix, counters, update_target=False):
+        new_name = f"{prefix}_{counters[prefix]}"
+        counters[prefix] += 1
+        node.name = new_name
+        if update_target:
+            node.target = new_name
+
+    def _is_weight_node(self, node, real_arg, model_path):
+        is_not_data_input = not self.data_input_predicator(model_path, node.name)
+        is_parameter_type = (
+            node.type is not None
+            and isinstance(node.type, type)
+            and issubclass(node.type, torch.nn.parameter.Parameter)
+        )
+        is_parameter_value = isinstance(real_arg, torch.nn.Parameter)
+        return is_not_data_input or is_parameter_type or is_parameter_value

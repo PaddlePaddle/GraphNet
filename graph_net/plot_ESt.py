@@ -5,8 +5,10 @@ import matplotlib.pyplot as plt
 from graph_net import analysis_util
 from graph_net import verify_aggregated_params
 from graph_net.positive_tolerance_interpretation_manager import (
-    get_supported_positive_tolerance_interpretation_types, get_positive_tolerance_interpretation
+    get_supported_positive_tolerance_interpretation_types,
+    get_positive_tolerance_interpretation,
 )
+
 
 class ESScoresWrapper:
     """Wrapper for es_scores dict to allow attribute assignment."""
@@ -264,7 +266,9 @@ def main(args):
     # 2. Calculate scores for each curve and verify aggregated/microscopic consistency
     all_es_scores = {}
     all_aggregated_results = {}
-    positive_tolerance_interpretation = get_positive_tolerance_interpretation(args.interpretation_type)
+    positive_tolerance_interpretation = get_positive_tolerance_interpretation(
+        args.interpretation_type
+    )
 
     for folder_name, samples in all_results.items():
         print(f"\nCalculating ESt scores for '{folder_name}'...")
@@ -439,7 +443,7 @@ if __name__ == "__main__":
         dest="interpretation_type",
         choices=get_supported_positive_tolerance_interpretation_types(),
         default="default",
-        help="Select how positive tolerance values are interpreted into error types."
+        help="Select how positive tolerance values are interpreted into error types.",
     )
     parser.set_defaults(enable_aggregation_mode=True)
     args = parser.parse_args()

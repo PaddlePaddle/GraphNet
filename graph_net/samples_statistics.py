@@ -6,42 +6,47 @@ This module provides independent functions for calculating each aggregated param
 """
 from typing import Union, Optional
 
-import scipy
 from scipy.stats import gmean
 from collections.abc import Callable
 from graph_net.positive_tolerance_interpretation import PositiveToleranceInterpretation
 
-def get_errno_from_error_type(error_type: str,
-                              positive_tolerance_interpretation: PositiveToleranceInterpretation) -> int:
+
+def get_errno_from_error_type(
+    error_type: str, positive_tolerance_interpretation: PositiveToleranceInterpretation
+) -> int:
     """
-        Map error type string to errno (error number) using the appropriate strategy.
+    Map error type string to errno (error number) using the appropriate strategy.
 
-        Args:
-            error_type: Error type string (e.g., "accuracy", "runtime_fail")
-            positive_tolerance_interpretation: Evaluation mode ("default" or "mismatch_extended")
+    Args:
+        error_type: Error type string (e.g., "accuracy", "runtime_fail")
+        positive_tolerance_interpretation: Evaluation mode ("default" or "mismatch_extended")
 
-        Returns:
-            int: Errno based on the selected positive_tolerance_interpretation's logic.
-        """
+    Returns:
+        int: Errno based on the selected positive_tolerance_interpretation's logic.
+    """
     return positive_tolerance_interpretation.get_errno(error_type)
 
-def get_errno_tolerance_mapping(custom_mapping,
-                                positive_tolerance_interpretation: PositiveToleranceInterpretation):
+
+def get_errno_tolerance_mapping(
+    custom_mapping, positive_tolerance_interpretation: PositiveToleranceInterpretation
+):
     """
-        Map errno (error number) back to error type string.
+    Map errno (error number) back to error type string.
 
-        This is the reverse mapping of get_errno_from_error_type.
-        Used when error type string information is needed.
+    This is the reverse mapping of get_errno_from_error_type.
+    Used when error type string information is needed.
 
-        Args:
-            errno: Error number
-            positive_tolerance_interpretation: Evaluation mode ("default" or "mismatch_extended")
+    Args:
+        errno: Error number
+        positive_tolerance_interpretation: Evaluation mode ("default" or "mismatch_extended")
 
-        Returns:
-            Representative error type string (e.g., "accuracy", "compile_fail")
-        """
-    if custom_mapping: return custom_mapping
+    Returns:
+        Representative error type string (e.g., "accuracy", "compile_fail")
+    """
+    if custom_mapping:
+        return custom_mapping
     return positive_tolerance_interpretation.get_tolerance_mapping()
+
 
 def calculate_alpha(correct_speedups: list[float]) -> float:
     """
@@ -114,7 +119,9 @@ def calculate_eta(correct_speedups: list[float]) -> float:
 
 
 def calculate_pi(
-    errno2count: dict[Union[int, str], int], total_samples: int, correct_speedups: list[float]
+    errno2count: dict[Union[int, str], int],
+    total_samples: int,
+    correct_speedups: list[float],
 ) -> dict[Union[int, str], float]:
     """
     Calculate pi: error type proportions for t > 0.
@@ -147,8 +154,8 @@ def calculate_pi(
 
 
 def resolve_errno_tolerance(
-        errno2count: dict[Union[int, str], int],
-        errno_tolerance_overrides: Optional[dict[Union[int, str], int]] = None
+    errno2count: dict[Union[int, str], int],
+    errno_tolerance_overrides: Optional[dict[Union[int, str], int]] = None,
 ) -> dict[Union[int, str], int]:
     """
     Build a sorted errno -> tolerance map for downstream gamma calculation.
@@ -181,6 +188,7 @@ def resolve_errno_tolerance(
     sorted_keys = sorted(errno2count.keys(), key=lambda x: str(x))
 
     return {errno: tolerance_for(errno) for errno in sorted_keys}
+
 
 def calculate_gamma(
     tolerance: int,
@@ -298,7 +306,9 @@ def calculate_es_components_values(
     if pi is None:
         pi = calculate_pi(errno2count, total_samples, correct_speedups)
 
-    errno_to_tolerance = get_errno_tolerance_mapping(errno_to_tolerance, positive_tolerance_interpretation)
+    errno_to_tolerance = get_errno_tolerance_mapping(
+        errno_to_tolerance, positive_tolerance_interpretation
+    )
 
     errno2tolerance = resolve_errno_tolerance(errno2count, errno_to_tolerance)
 

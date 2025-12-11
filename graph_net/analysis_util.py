@@ -294,7 +294,12 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
         return bool(result[index])
     return False
 
-def fake_perf_degrad(tolerance, error_code, positive_tolerance_interpretation: PositiveToleranceInterpretation,) -> str:
+
+def fake_perf_degrad(
+    tolerance,
+    error_code,
+    positive_tolerance_interpretation: PositiveToleranceInterpretation,
+) -> str:
     """
     Judge current correctness based on tolerance t and status.
     Refactored to delegate logic to PositiveToleranceInterpretation classes.
@@ -303,6 +308,7 @@ def fake_perf_degrad(tolerance, error_code, positive_tolerance_interpretation: P
         return "correct"
 
     return error_code
+
 
 def calculate_scores(
     samples: list,
@@ -322,7 +328,7 @@ def calculate_scores(
     scores = {}
 
     strategy = positive_tolerance_interpretation
-    tolerances = determine_tolerances(samples,positive_tolerance_interpretation)
+    tolerances = determine_tolerances(samples, positive_tolerance_interpretation)
 
     for tolerance in tolerances:
         rectified_speedups = []
@@ -358,10 +364,10 @@ def calculate_scores(
                     )
             else:
                 if not is_correct_at_t1[idx]:
-                    is_tolerated = strategy.is_error_tolerated(tolerance, fail_type_at_t1[idx])
-                    rec_speedup_fake_degrad = (
-                        1 if is_tolerated else b
+                    is_tolerated = strategy.is_error_tolerated(
+                        tolerance, fail_type_at_t1[idx]
                     )
+                    rec_speedup_fake_degrad = 1 if is_tolerated else b
                 else:
                     rec_speedup_fake_degrad = (
                         speedup_at_t1[idx] ** (p + 1)

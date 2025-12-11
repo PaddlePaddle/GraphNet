@@ -1,4 +1,32 @@
+from enum import IntEnum
+
 from graph_net.positive_tolerance_interpretation import PositiveToleranceInterpretation
+
+
+class MismatchExtendedErrorEnum(IntEnum):
+    """
+    Values correspond to the minimum tolerance level required.
+    """
+
+    kAccuracyViolation = 1
+    kValueTypeOrMetaMismatch = 2
+    kExecutionFailed = 3
+    kCompilationFailed = 4
+
+    @classmethod
+    def get_error_enum(cls, base_error_type: str) -> "MismatchExtendedErrorEnum":
+        if not base_error_type:
+            return cls.kExecutionFailed
+
+        etype = base_error_type.lower()
+        if "accuracy" in etype:
+            return cls.kAccuracyViolation
+        if any(x in etype for x in ["nan", "inf", "type_mismatch", "shape_mismatch"]):
+            return cls.kValueTypeOrMetaMismatch
+        if "compile_fail" in etype:
+            return cls.kCompilationFailed
+
+        return cls.kExecutionFailed
 
 
 class MismatchExtendedPositiveToleranceInterpretation(PositiveToleranceInterpretation):
@@ -34,39 +62,20 @@ class MismatchExtendedPositiveToleranceInterpretation(PositiveToleranceInterpret
             1: "accuracy",
             2: "type/shape_mismatch",
             3: "runtime_fail",
-            4: "compile_fail"
+            4: "compile_fail",
         }
         return mapping.get(errno, "unknown_error")
 
     def get_tolerance_mapping(self) -> dict[int, int]:
-        return {
-            1: 1,
-            2: 2,
-            3: 3,
-            4: 4
-        }
+        return {1: 1, 2: 2, 3: 3, 4: 4}
 
     def is_error_tolerated(self, tolerance: int, base_error_code: str) -> bool:
         if base_error_code == "correct":
             return True
-
         if base_error_code in ["eager_fail", "reference_fail"]:
             return False
-
-        # Level 4: Compile
-        if tolerance >= 4 and base_error_code == "compile_fail":
-            return True
-
-        # Level 3: Runtime
-        if tolerance >= 3 and base_error_code in ["runtime_fail", "execution_fail"]:
-            return True
-
-        # Level 2: Data/Type
-        if tolerance >= 2 and base_error_code in ["nan", "inf", "type_mismatch", "shape_mismatch"]:
-            return True
-
-        # Level 1: Accuracy
-        if tolerance >= 1 and base_error_code == "accuracy":
-            return True
-
-        return False
+        try:
+            error_level = MismatchExtendedErrorEnum.get_error_enum(base_error_code)
+            return tolerance >= error_level.value
+        except (ValueError, KeyError):
+            return False

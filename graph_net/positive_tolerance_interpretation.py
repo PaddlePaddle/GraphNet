@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+
 class PositiveToleranceInterpretation(ABC):
     """
     Abstract base class defining how positive tolerance values (t > 0)

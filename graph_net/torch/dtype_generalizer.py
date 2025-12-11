@@ -110,20 +110,18 @@ class InitDataTypeGeneralizationPasses:
             traced_model: Traced FX GraphModule
 
         Returns:
-            List of pass names that work
+            List of pass names that work (pass file names without .py extension)
         """
         working_passes = []
 
         for dtype in self.dtype_list:
-            pass_name = "dtype_generalization_pass"  # Full pass file name without .py
+            # Pass name directly corresponds to file name (without .py)
+            pass_name = f"dtype_generalization_pass_{dtype}"
 
             try:
-                # Try to apply the pass
+                # Try to load and apply the pass
                 dtype_pass_class = get_dtype_generalization_pass(pass_name)
-                dtype_pass = dtype_pass_class(
-                    target_dtype=dtype,
-                    preserve_weights=FLOAT32_PRESERVED_WEIGHTS,
-                )
+                dtype_pass = dtype_pass_class()
 
                 # Check if pass is needed
                 if not dtype_pass.need_rewrite(traced_model):
@@ -135,11 +133,11 @@ class InitDataTypeGeneralizationPasses:
 
                 # Try to run the modified graph
                 if self._test_graph_runnable(model_path, gm_copy, dtype):
-                    working_passes.append(f"{pass_name}_{dtype}")
-                    logging.info(f"Pass {pass_name}_{dtype} works for {model_path}")
+                    working_passes.append(pass_name)
+                    logging.info(f"Pass {pass_name} works for {model_path}")
 
             except (RuntimeError, ValueError, TypeError) as e:
-                logging.warning(f"Pass {pass_name}_{dtype} failed: {e}")
+                logging.warning(f"Pass {pass_name} failed: {e}")
                 continue
 
         return working_passes
@@ -302,37 +300,25 @@ class ApplyDataTypeGeneralizationPasses:
         Args:
             model_path: Original model path
             traced_model: Original traced model
-            pass_name: Name of the pass to apply (e.g., "dtype_generalization_pass_float16")
+            pass_name: Name of the pass file (without .py extension),
+                       e.g., "dtype_generalization_pass_float16"
 
         Returns:
             Path to the generated sample directory
         """
-        # Parse pass name to extract base name and dtype
-        # Format: "dtype_generalization_pass_float16" or "dtype_generalization_pass_bfloat16"
-        # The base name "dtype_generalization_pass" corresponds to the file
-        # dtype_generalization_pass.py, which contains the ConcretePass class.
-        parts = pass_name.rsplit("_", 1)
-        if len(parts) != 2:
+        # Pass name directly corresponds to file name (without .py)
+        # Extract dtype from pass name for output directory naming
+        if not pass_name.startswith("dtype_generalization_pass_"):
             raise ValueError(
-                f"Invalid pass name format: {pass_name}. "
+                f"Invalid pass name: {pass_name}. "
                 f"Expected format: 'dtype_generalization_pass_<dtype>'"
             )
 
-        base_name, dtype = parts
-
-        # Validate base name
-        if base_name != "dtype_generalization_pass":
-            raise ValueError(
-                f"Unknown pass base name: {base_name}. "
-                f"Expected: 'dtype_generalization_pass'"
-            )
+        dtype = pass_name.replace("dtype_generalization_pass_", "")
 
         # Load and apply the pass
-        dtype_pass_class = get_dtype_generalization_pass(base_name)
-        dtype_pass = dtype_pass_class(
-            target_dtype=dtype,
-            preserve_weights=FLOAT32_PRESERVED_WEIGHTS,
-        )
+        dtype_pass_class = get_dtype_generalization_pass(pass_name)
+        dtype_pass = dtype_pass_class()
 
         gm_copy = copy.deepcopy(traced_model)
         gm_modified = dtype_pass.rewrite(gm_copy)

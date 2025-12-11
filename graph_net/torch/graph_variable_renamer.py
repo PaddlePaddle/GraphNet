@@ -178,6 +178,9 @@ class GraphVariableRenamer:
             self._apply_rename(node, "w", counters)
         elif node.op != "output":
             self._apply_rename(node, "tmp", counters)
+        else:
+            # Do nothing
+            pass
 
     def _handle_placeholder(self, node, arg_iter, counters, model_path):
         real_arg = next(arg_iter, None)
@@ -188,19 +191,16 @@ class GraphVariableRenamer:
     def _apply_rename(self, node, prefix, counters, update_target=False):
         new_name = f"{prefix}_{counters[prefix]}"
         counters[prefix] += 1
-        if node.name != new_name:
-            node.name = new_name
-            if update_target:
-                node.target = new_name
+        node.name = new_name
+        if update_target:
+            node.target = new_name
 
     def _is_weight_node(self, node, real_arg, model_path):
-        if not self.data_input_predicator(model_path, node.name):
-            return True
-        if node.type is not None:
-            if isinstance(node.type, type) and issubclass(
-                node.type, torch.nn.parameter.Parameter
-            ):
-                return True
-        if real_arg is not None and isinstance(real_arg, torch.nn.Parameter):
-            return True
-        return False
+        is_not_data_input = not self.data_input_predicator(model_path, node.name)
+        is_parameter_type = (
+            node.type is not None
+            and isinstance(node.type, type)
+            and issubclass(node.type, torch.nn.parameter.Parameter)
+        )
+        is_parameter_value = isinstance(real_arg, torch.nn.Parameter)
+        return is_not_data_input or is_parameter_type or is_parameter_value

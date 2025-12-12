@@ -237,6 +237,7 @@ def _get_minimal_submodule_inputs_and_outputs(
         defaultdict(int),
     )
     node_list = list(gm.graph.nodes)
+    assert end_node_idx <= len(node_list)
 
     def get_args_node(arg):
         if isinstance(arg, torch.fx.Node):
@@ -274,17 +275,44 @@ def _get_minimal_submodule_inputs_and_outputs(
         for related_node in get_args_node_and_self_node(node):
             count_ctx.node2after_output[related_node] += 1
 
-    input_nodes = [
-        node
-        for node in node_list
-        if count_ctx.node2before_input[node] > 0
-        if count_ctx.node2body[node] > 0
-    ]
-    output_nodes = [
-        node
-        for node in node_list
-        if not (count_ctx.node2before_input[node] > 0)
-        if count_ctx.node2body[node] > 0
-        if count_ctx.node2after_output[node] > 0
-    ]
+    if _is_node_idx_out_of_range(gm, start_node_idx):
+        input_nodes = list(_get_return_nodes(gm))
+    else:
+        input_nodes = [
+            node
+            for node in node_list
+            if count_ctx.node2before_input[node] > 0
+            if count_ctx.node2body[node] > 0
+        ]
+    if _is_node_idx_out_of_range(gm, end_node_idx):
+        output_nodes = list(_get_return_nodes(gm))
+    else:
+        output_nodes = [
+            node
+            for node in node_list
+            if not (count_ctx.node2before_input[node] > 0)
+            if count_ctx.node2body[node] > 0
+            if count_ctx.node2after_output[node] > 0
+        ]
     return input_nodes, output_nodes
+
+
+def _get_return_nodes(gm):
+    for node in gm.graph.nodes:
+        if node.op != "output":
+            continue
+        for arg in node.args:
+            if isinstance(arg, (tuple, list)):
+                yield from arg
+            else:
+                yield arg
+
+
+def _is_node_idx_out_of_range(gm, node_idx: int):
+    node_list = list(gm.graph.nodes)
+    num_nodes = len(node_list)
+    if node_idx < 0:
+        return True
+    if node_idx >= num_nodes:
+        return True
+    return node_list[node_idx].op in {"output", "placeholder"}

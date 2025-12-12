@@ -1,11 +1,4 @@
-samples/timm/convnextv2_base.fcmae_ft_in1k
-samples/timm/hgnet_tiny.paddle_in1k
-samples/timm/mobilenetv4_conv_aa_large.e230_r384_in12k
-samples/timm/regnety_080_tv.tv2_in1k
-samples/timm/res2net50_14w_8s.in1k
-samples/torchaudio/wavlm_base
 samples/torchgeometric/RECT_L
-samples/torchvision/vgg16_bn
 samples/transformers-auto-model/bge-small-en-v1.5
 samples/transformers-auto-model/distilbert_distilbert-base-multilingual-cased
 samples/transformers-auto-model/OFA-Sys_chinese-clip-vit-large-patch14
@@ -17,4 +10,3 @@ samples/transformers-auto-model/opus-mt-en-tw
 samples/transformers-auto-model/opus-mt-fi-niu
 samples/transformers-auto-model/opus-mt-tc-bible-big-deu_eng_fra_por_spa-bat
 samples/transformers-auto-model/opus-mt-tc-bible-big-gmw-deu_eng_fra_por_spa
-samples/ultralytics/yolov3-tinyu

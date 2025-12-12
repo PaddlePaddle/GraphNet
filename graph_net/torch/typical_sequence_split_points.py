@@ -49,6 +49,47 @@ class TypicalSequenceExtractor:
         return gm.forward
 
 
+class OpNamesExtractor:
+    def __init__(self, config=None):
+        if config is None:
+            config = {}
+
+        self.config = self._make_config(**config)
+
+    def _make_config(
+        self, model_path_prefix: str, output_dir: str, resume: bool = False
+    ):
+        return {
+            "model_path_prefix": model_path_prefix,
+            "resume": resume,
+            "output_dir": output_dir,
+        }
+
+    def __call__(self, rel_model_path: str):
+        model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
+        output_path = self._get_output_path(rel_model_path)
+        if self.config["resume"] and output_path.exists():
+            return
+        op_names = self._extract_ops(model_path)
+        output_path.write_text("\n".join(op_names))
+        print(f"Save op-names to {str(output_path)}")
+
+    def _get_output_path(self, rel_model_path: str):
+        output_path_dir = Path(self.config["output_dir"]) / rel_model_path
+        output_path_dir.mkdir(parents=True, exist_ok=True)
+        output_path = output_path_dir / "op_names.txt"
+        return output_path
+
+    def _extract_ops(self, model_path: str) -> List[str]:
+        extractor = TypicalSequenceExtractor()
+        model, inputs = get_torch_module_and_inputs(model_path)
+        compiled_model, _ = parse_sole_graph_module_without_varify(model, inputs)
+        extractor.extract_compiler(compiled_model, inputs)
+        ops_info = extractor.extract_node
+
+        return [op["target_name"] for op in ops_info]
+
+
 class SplitAnalyzer:
     def __init__(
         self, window_size: int = 10, fold_policy: str = "default", fold_times: int = 0
@@ -74,17 +115,9 @@ class SplitAnalyzer:
             return ops
         return [f"Unknown({tid})"]
 
-    def _extract_ops_via_compile(
-        self, model_path: str, device: str = "cpu"
-    ) -> List[str]:
-        print(f"extracting ops from {model_path}")
-        extractor = TypicalSequenceExtractor()
-        model, inputs = get_torch_module_and_inputs(model_path)
-        compiled_model, _ = parse_sole_graph_module_without_varify(model, inputs)
-        extractor.extract_compiler(compiled_model, inputs)
-        ops_info = extractor.extract_node
-
-        return [op["target_name"] for op in ops_info]
+    def _load_op_names_from_file(self, txt_path: Path) -> List[str]:
+        assert txt_path.exists(), f"{str(txt_path)=}"
+        return txt_path.read_text().split("\n")
 
     def _calculate_token_lengths(
         self, rp_expr, num_primitives, symbol_map
@@ -110,7 +143,7 @@ class SplitAnalyzer:
         return token2len
 
     def analyze(
-        self, model_path_prefix: str, model_paths_file: str, device: str
+        self, op_names_path_prefix: str, model_paths_file: str, device: str
     ) -> Dict[str, Dict]:
         input_file = Path(model_paths_file)
 
@@ -124,12 +157,12 @@ class SplitAnalyzer:
         inputs_seqs = []
         valid_models = []
 
-        for p in rel_model_paths:
-            model_full_path = os.path.join(model_path_prefix, p)
-            seq = self._extract_ops_via_compile(model_full_path, device)
+        for rel_model_path in rel_model_paths:
+            txt_path = Path(op_names_path_prefix) / rel_model_path / "op_names.txt"
+            seq = self._load_op_names_from_file(txt_path)
             if seq:
                 inputs_seqs.append(seq)
-                valid_models.append((p.name, p))
+                valid_models.append((rel_model_path.name, rel_model_path))
 
         if not inputs_seqs:
             return {}
@@ -219,13 +252,27 @@ class SplitAnalyzer:
         print("\n")
 
 
+def _all_models_handled(args):
+    output_json_path = Path(args.output_json)
+    if not output_json_path.exists():
+        return False
+    with open(output_json_path) as f:
+        output_json = json.load(f)
+    rel_model_paths = [
+        path for path in Path(args.model_list).read_text().split("\n") if len(path) > 0
+    ]
+    return all(path in output_json for path in rel_model_paths)
+
+
 def main(args):
+    if args.enable_resume and _all_models_handled(args):
+        return
     analyzer = SplitAnalyzer(
         window_size=args.window_size,
         fold_policy=args.fold_policy,
         fold_times=args.fold_times,
     )
-    results = analyzer.analyze(args.model_path_prefix, args.model_list, args.device)
+    results = analyzer.analyze(args.op_names_path_prefix, args.model_list, args.device)
     if args.output_json:
         with open(args.output_json, "w") as f:
             json.dump(results, f, indent=4)
@@ -242,10 +289,10 @@ if __name__ == "__main__":
         help="Path to a text file containing paths to models (one per line).",
     )
     parser.add_argument(
-        "--model-path-prefix",
+        "--op-names-path-prefix",
         type=str,
         default="./",
-        help="Prefix to add to each model path in the list.",
+        help="Prefix to add to each op_names.txt file path in the list.",
     )
     parser.add_argument(
         "--device",
@@ -273,6 +320,12 @@ if __name__ == "__main__":
         type=str,
         default="split_results.json",
         help="Path to save the analysis results in JSON format.",
+    )
+    parser.add_argument(
+        "--enable-resume",
+        action="store_true",
+        default=False,
+        help="Resume process",
     )
     args = parser.parse_args()
     main(args)

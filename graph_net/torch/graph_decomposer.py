@@ -1,4 +1,6 @@
 import os
+import shutil
+from pathlib import Path
 import torch
 import json
 import sys
@@ -80,7 +82,7 @@ class GraphExtractor:
     def get_naive_decomposer_extractor(self, submodule, seq_no):
         return NaiveDecomposerExtractorModule(
             config=self.config,
-            parent_graph_name=self.name,
+            parent_graph_rel_model_path=self.name,
             submodule=submodule,
             seq_no=seq_no,
         )
@@ -146,7 +148,7 @@ class NaiveDecomposerExtractor:
         def fn(submodule, seq_no):
             return NaiveDecomposerExtractorModule(
                 config=self.config,
-                parent_graph_name=os.path.basename(model_path),
+                parent_graph_rel_model_path=os.path.basename(model_path),
                 submodule=submodule,
                 seq_no=seq_no,
             )
@@ -166,6 +168,7 @@ class RangeDecomposerExtractor:
 
     def _make_config(
         self,
+        resume: bool = False,
         split_results_path=None,
         group_head_and_tail=False,
         chain_style=False,
@@ -182,6 +185,7 @@ class RangeDecomposerExtractor:
                 f"split_results_path should be a valid JSON file path, but got {split_results_path=}"
             )
         return {
+            "resume": resume,
             "split_results_path": split_results_path,
             "group_head_and_tail": group_head_and_tail,
             "chain_style": chain_style,
@@ -191,7 +195,19 @@ class RangeDecomposerExtractor:
             "model_path_prefix": model_path_prefix,
         }
 
+    def _is_model_handled(self, rel_model_path, split_positions):
+        num_subgraphs = len(split_positions) + 1
+        decomposed_model_path = Path(self.config["output_dir"]) / rel_model_path
+        num_decomposed = len(list(decomposed_model_path.rglob("model.py")))
+        if num_decomposed > 0 and num_subgraphs != num_decomposed:
+            shutil.rmtree(decomposed_model_path / "_decomposed")
+            return False
+        return num_subgraphs == num_decomposed
+
     def __call__(self, rel_model_path):
+        assert os.path.realpath(self.config["model_path_prefix"]) != os.path.realpath(
+            self.config["output_dir"]
+        )
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         split_results = load_json(self.config["split_results_path"])
         if (
@@ -201,6 +217,11 @@ class RangeDecomposerExtractor:
             sys.stderr.write(f"Error: {rel_model_path} has no split positions.\n")
             os._exit(1)
         split_positions = split_results[rel_model_path]["split_positions"]
+        if self.config["resume"] and self._is_model_handled(
+            rel_model_path, split_positions
+        ):
+            return
+        torch.cuda.empty_cache()
         config = {
             "split_positions": split_positions,
             "group_head_and_tail": self.config.get("group_head_and_tail", False),
@@ -210,16 +231,16 @@ class RangeDecomposerExtractor:
         gm = parse_sole_graph_module(module, inputs)
         rewrited_gm: torch.fx.GraphModule = convert_to_submodules_graph(
             gm,
-            submodule_hook=self.get_naive_decomposer_extractor(model_path),
+            submodule_hook=self.get_naive_decomposer_extractor(rel_model_path),
             **config,
         )
         rewrited_gm(*inputs)
 
-    def get_naive_decomposer_extractor(self, model_path):
+    def get_naive_decomposer_extractor(self, rel_model_path):
         def fn(submodule, seq_no):
             return NaiveDecomposerExtractorModule(
                 config=self.config,
-                parent_graph_name=os.path.basename(model_path),
+                parent_graph_rel_model_path=rel_model_path,
                 submodule=submodule,
                 seq_no=seq_no,
             )
@@ -231,7 +252,7 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
     def __init__(
         self,
         config: dict,
-        parent_graph_name: str,
+        parent_graph_rel_model_path: str,
         submodule: torch.nn.Module,
         seq_no: int,
     ):
@@ -240,11 +261,12 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         self.submodule = submodule
         self.seq_no = seq_no
         self.extracted = False
-        self.parent_graph_name = parent_graph_name
+        self.parent_graph_rel_model_path = parent_graph_rel_model_path
+        parent_graph_model_name = os.path.basename(parent_graph_rel_model_path)
         if self.seq_no is None:
-            self.model_name = parent_graph_name
+            self.model_name = parent_graph_model_name
         else:
-            submodule_name = f"{parent_graph_name}_{self.seq_no}"
+            submodule_name = f"{parent_graph_model_name}_{self.seq_no}"
             self.model_name = submodule_name
         self.builtin_extractor = BuiltinGraphExtractor(
             name=submodule_name,
@@ -252,10 +274,17 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
             mut_graph_codes=[],
             placeholder_auto_rename=False,
             workspace_path=os.path.join(
-                self.config["output_dir"], f"{parent_graph_name}_decomposed"
+                self.config["output_dir"], parent_graph_rel_model_path, "_decomposed"
             ),
         )
         self.filter = self.make_filter(self.config)
+
+    def _get_model_path(self):
+        return os.path.join(
+            self.config["output_dir"],
+            f"{self.parent_graph_model_name}/_decomposed",
+            self.model_name,
+        )
 
     def forward(self, *args):
         logger.warning("naive decomposer forwarding")

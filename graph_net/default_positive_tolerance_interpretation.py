@@ -8,28 +8,24 @@ class DefaultErrorEnum(IntEnum):
     Values correspond to the minimum tolerance level required.
     """
 
-    kAccuracyViolation = 1
-    kValueTypeOrMetaMismatch = 3
-    kExecutionFailed = 3
-    kCompilationFailed = 3
+    kAccuracyViolation = 1  # Accuracy
+    kRuntimeFailure = 2  # Includes Runtime, NaN, Inf, TypeMismatch, etc.
+    kCompilationFailed = 3  # Compile Failure
 
     @classmethod
     def get_error_enum(cls, base_error_type: str) -> "DefaultErrorEnum":
         if not base_error_type:
-            return cls.kExecutionFailed
+            return cls.kRuntimeFailure
 
         etype = base_error_type.lower()
 
         if "accuracy" in etype:
             return cls.kAccuracyViolation
 
-        if any(x in etype for x in ["nan", "inf", "type_mismatch", "shape_mismatch"]):
-            return cls.kValueTypeOrMetaMismatch
-
         if "compile_fail" in etype:
             return cls.kCompilationFailed
 
-        return cls.kExecutionFailed
+        return cls.kRuntimeFailure
 
 
 class DefaultPositiveToleranceInterpretation(PositiveToleranceInterpretation):
@@ -46,14 +42,7 @@ class DefaultPositiveToleranceInterpretation(PositiveToleranceInterpretation):
         return "default"
 
     def get_errno(self, error_type: str) -> int:
-        if not error_type:
-            return 2
-        etype = error_type.lower()
-        if "accuracy" in etype:
-            return 1
-        if "compile_fail" in etype:
-            return 3
-        return 2
+        return DefaultErrorEnum.get_error_enum(error_type).value
 
     def get_error_type(self, errno: int) -> str:
         mapping = {1: "accuracy", 2: "runtime_fail", 3: "compile_fail"}
@@ -61,9 +50,9 @@ class DefaultPositiveToleranceInterpretation(PositiveToleranceInterpretation):
 
     def get_tolerance_mapping(self) -> dict[int, int]:
         return {
-            1: 1,  # Accuracy -> t >= 1
-            2: 3,  # Runtime  -> t >= 3
-            3: 3,  # Compile  -> t >= 3
+            DefaultErrorEnum.kAccuracyViolation.value: 1,
+            DefaultErrorEnum.kRuntimeFailure.value: 3,
+            DefaultErrorEnum.kCompilationFailed.value: 3,
         }
 
     def is_error_tolerated(self, tolerance: int, base_error_code: str) -> bool:
@@ -72,8 +61,17 @@ class DefaultPositiveToleranceInterpretation(PositiveToleranceInterpretation):
         if base_error_code in ["eager_fail", "reference_fail"]:
             return False
 
-        try:
-            error_level = DefaultErrorEnum.get_error_enum(base_error_code)
-            return tolerance >= error_level.value
-        except (ValueError, KeyError):
-            return False
+        error_enum = DefaultErrorEnum.get_error_enum(base_error_code)
+        mapping = self.get_tolerance_mapping()
+        required_threshold = mapping.get(error_enum.value, 999)
+
+        return tolerance >= required_threshold
+
+    def num_errno_enum_values(self) -> int:
+        """
+        Default mode defines 3 levels of errors:
+        1: Accuracy
+        2: Runtime (Generic)
+        3: Compilation
+        """
+        return len(DefaultErrorEnum)

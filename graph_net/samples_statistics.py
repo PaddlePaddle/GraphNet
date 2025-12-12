@@ -155,6 +155,7 @@ def calculate_pi(
 
 def resolve_errno_tolerance(
     errno2count: dict[Union[int, str], int],
+    positive_tolerance_interpretation: PositiveToleranceInterpretation,
     errno_tolerance_overrides: Optional[dict[Union[int, str], int]] = None,
 ) -> dict[Union[int, str], int]:
     """
@@ -176,12 +177,20 @@ def resolve_errno_tolerance(
     """
     errno_tolerance_overrides = errno_tolerance_overrides or {}
 
-    def tolerance_for(errno: Union[int, str]) -> int:
-        if errno in errno_tolerance_overrides:
-            return errno_tolerance_overrides[errno]
+    base_mapping = positive_tolerance_interpretation.get_tolerance_mapping()
 
-        if isinstance(errno, int):
-            return 1 if errno == 1 else 3
+    def tolerance_for(err_key: Union[int, str]) -> int:
+        if err_key in errno_tolerance_overrides:
+            return errno_tolerance_overrides[err_key]
+
+        errno_id = None
+        if isinstance(err_key, int):
+            errno_id = err_key
+        elif isinstance(err_key, str):
+            errno_id = positive_tolerance_interpretation.get_errno(err_key)
+
+        if errno_id is not None and errno_id in base_mapping:
+            return base_mapping[errno_id]
 
         return 999
 
@@ -310,7 +319,9 @@ def calculate_es_components_values(
         errno_to_tolerance, positive_tolerance_interpretation
     )
 
-    errno2tolerance = resolve_errno_tolerance(errno2count, errno_to_tolerance)
+    errno2tolerance = resolve_errno_tolerance(
+        errno2count, positive_tolerance_interpretation, errno_to_tolerance
+    )
 
     def pi_value4errno(errno: Union[int, str]) -> float:
         return pi.get(errno, 0.0)

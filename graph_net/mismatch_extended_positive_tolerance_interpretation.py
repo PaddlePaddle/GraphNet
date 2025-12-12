@@ -45,17 +45,7 @@ class MismatchExtendedPositiveToleranceInterpretation(PositiveToleranceInterpret
         return "mismatch_extended"
 
     def get_errno(self, error_type: str) -> int:
-        if not error_type:
-            return 3
-        etype = error_type.lower()
-
-        if "accuracy" in etype:
-            return 1
-        if any(k in etype for k in ["nan", "inf", "type_mismatch", "shape_mismatch"]):
-            return 2
-        if "compile_fail" in etype:
-            return 4
-        return 3
+        return MismatchExtendedErrorEnum.get_error_enum(error_type).value
 
     def get_error_type(self, errno: int) -> str:
         mapping = {
@@ -67,15 +57,31 @@ class MismatchExtendedPositiveToleranceInterpretation(PositiveToleranceInterpret
         return mapping.get(errno, "unknown_error")
 
     def get_tolerance_mapping(self) -> dict[int, int]:
-        return {1: 1, 2: 2, 3: 3, 4: 4}
+        return {
+            MismatchExtendedErrorEnum.kAccuracyViolation.value: 1,
+            MismatchExtendedErrorEnum.kValueTypeOrMetaMismatch.value: 2,
+            MismatchExtendedErrorEnum.kExecutionFailed.value: 3,
+            MismatchExtendedErrorEnum.kCompilationFailed.value: 4,
+        }
 
     def is_error_tolerated(self, tolerance: int, base_error_code: str) -> bool:
         if base_error_code == "correct":
             return True
         if base_error_code in ["eager_fail", "reference_fail"]:
             return False
-        try:
-            error_level = MismatchExtendedErrorEnum.get_error_enum(base_error_code)
-            return tolerance >= error_level.value
-        except (ValueError, KeyError):
-            return False
+
+        error_enum = MismatchExtendedErrorEnum.get_error_enum(base_error_code)
+        mapping = self.get_tolerance_mapping()
+        required_threshold = mapping.get(error_enum.value, 999)
+
+        return tolerance >= required_threshold
+
+    def num_errno_enum_values(self) -> int:
+        """
+        Extended mode defines 4 levels of errors:
+        1: Accuracy
+        2: Type/Shape/NaN
+        3: Runtime
+        4: Compilation
+        """
+        return len(MismatchExtendedErrorEnum)

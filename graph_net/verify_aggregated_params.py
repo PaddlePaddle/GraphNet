@@ -13,14 +13,11 @@ def determine_tolerances(
     positive_tolerance_interpretation: PositiveToleranceInterpretation,
 ) -> range:
     """Determine tolerance range based on observed errno categories."""
-    # Currently errno categories are 1=accuracy, 2=runtime, 3=compile.
-    # Keep logic data-driven for future extension.
-    mapping = positive_tolerance_interpretation.get_tolerance_mapping()
-
-    if not mapping:
-        max_errno = 3
+    if samples:
+        max_errno = len(samples)
     else:
-        max_errno = max(mapping.keys())
+        max_errno = positive_tolerance_interpretation.num_errno_enum_values()
+
     return range(-10, max_errno + 2)
 
 

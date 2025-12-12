@@ -40,3 +40,14 @@ class PositiveToleranceInterpretation(ABC):
         Replaces the old 'fake_perf_degrad' logic.
         """
         raise NotImplementedError
+
+    @abstractmethod
+    def num_errno_enum_values(self) -> int:
+        """
+        Return the number of defined error categories (or the maximum errno).
+
+        Example:
+            - Default: returns 3 (Accuracy, Runtime, Compile)
+            - MismatchExtended: returns 4 (Accuracy, Data, Runtime, Compile)
+        """
+        raise NotImplementedError

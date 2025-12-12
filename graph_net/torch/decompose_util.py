@@ -85,7 +85,8 @@ def convert_to_submodules_graph(
     def sort_key(node):
         return new_node2original_node[node].name
 
-    for range_idx in range(len(range_idx2submodule_body_nodes)):
+    num_subgraphs = len(range_idx2submodule_body_nodes)
+    for range_idx in range(num_subgraphs):
         (
             submodule_input_nodes,
             submodule_output_nodes,
@@ -96,6 +97,7 @@ def convert_to_submodules_graph(
             end_node_idx=get_end_node_idx(range_idx),
             chain_style=chain_style,
         )
+        identity_node_set = set(identity_nodes)
 
         def get_input_nodes(range_idx):
             return sorted(submodule_input_nodes, key=sort_key)
@@ -153,13 +155,13 @@ def convert_to_submodules_graph(
                 prev_node = new_output_node
 
         # Replace all use of outputs
-        identity_node_set = set(identity_nodes)
         for original_output in get_output_nodes(range_idx):
-            if original_output not in identity_node_set:
-                original_output.replace_all_uses_with(node_map[original_output])
-                new_node2original_node[
-                    node_map[original_output]
-                ] = new_node2original_node[original_output]
+            if original_output in identity_node_set:
+                continue
+            original_output.replace_all_uses_with(node_map[original_output])
+            new_node2original_node[node_map[original_output]] = new_node2original_node[
+                original_output
+            ]
 
         # Erase old nodes
         for node in reversed(get_body_nodes(range_idx)):
@@ -215,12 +217,18 @@ def _get_submodule_inputs_and_outputs(
         return minimal_input_nodes, minimal_output_nodes, []
     else:
         node_list = list(gm.graph.nodes)
-        input_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
-            gm=gm, start_node_idx=start_node_idx, end_node_idx=len(node_list)
-        )
-        output_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
-            gm=gm, start_node_idx=end_node_idx, end_node_idx=len(node_list)
-        )
+        if _is_node_idx_out_of_range(gm, start_node_idx):
+            input_nodes = list(_get_return_nodes(gm))
+        else:
+            input_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
+                gm=gm, start_node_idx=start_node_idx, end_node_idx=len(node_list)
+            )
+        if _is_node_idx_out_of_range(gm, end_node_idx):
+            output_nodes = list(_get_return_nodes(gm))
+        else:
+            output_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
+                gm=gm, start_node_idx=end_node_idx, end_node_idx=len(node_list)
+            )
         identity_nodes_set = set(input_nodes) & set(output_nodes)
         identity_nodes = [node for node in input_nodes if node in identity_nodes_set]
         return input_nodes, output_nodes, identity_nodes
@@ -275,25 +283,19 @@ def _get_minimal_submodule_inputs_and_outputs(
         for related_node in get_args_node_and_self_node(node):
             count_ctx.node2after_output[related_node] += 1
 
-    if _is_node_idx_out_of_range(gm, start_node_idx):
-        input_nodes = list(_get_return_nodes(gm))
-    else:
-        input_nodes = [
-            node
-            for node in node_list
-            if count_ctx.node2before_input[node] > 0
-            if count_ctx.node2body[node] > 0
-        ]
-    if _is_node_idx_out_of_range(gm, end_node_idx):
-        output_nodes = list(_get_return_nodes(gm))
-    else:
-        output_nodes = [
-            node
-            for node in node_list
-            if not (count_ctx.node2before_input[node] > 0)
-            if count_ctx.node2body[node] > 0
-            if count_ctx.node2after_output[node] > 0
-        ]
+    input_nodes = [
+        node
+        for node in node_list
+        if count_ctx.node2before_input[node] > 0
+        if count_ctx.node2body[node] > 0
+    ]
+    output_nodes = [
+        node
+        for node in node_list
+        if not (count_ctx.node2before_input[node] > 0)
+        if count_ctx.node2body[node] > 0
+        if count_ctx.node2after_output[node] > 0
+    ]
     return input_nodes, output_nodes
 
 

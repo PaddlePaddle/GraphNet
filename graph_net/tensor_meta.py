@@ -1,6 +1,7 @@
 import importlib.util as imp
 import inspect
 from dataclasses import dataclass
+import math
 
 
 @dataclass
@@ -83,6 +84,8 @@ class TensorMeta:
     def _get_limited_precision_float_str(self, value):
         if not isinstance(value, float):
             return value
+        if math.isnan(value) or math.isinf(value):
+            return f'float("{value}")'
         return f"{value:.3f}"
 
     def _format_data(self, data):

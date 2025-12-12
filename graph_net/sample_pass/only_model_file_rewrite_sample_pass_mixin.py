@@ -2,6 +2,7 @@ import abc
 import shutil
 from graph_net.sample_pass.sample_pass_mixin import SamplePassMixin
 from pathlib import Path
+from graph_net.hash_util import get_sha256_hash
 
 
 class OnlyModelFileRewriteSamplePassMixin(SamplePassMixin):
@@ -26,3 +27,5 @@ class OnlyModelFileRewriteSamplePassMixin(SamplePassMixin):
         shutil.copytree(src_model_path, dst_model_path, dirs_exist_ok=True)
         model_py_code = self.handle_model_py_file(rel_model_path)
         (dst_model_path / "model.py").write_text(model_py_code)
+        file_hash = get_sha256_hash(model_py_code)
+        (dst_model_path / "graph_hash.txt").write_text(file_hash)

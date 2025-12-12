@@ -215,7 +215,7 @@ class RangeDecomposerExtractor:
             or len(split_results[rel_model_path]["split_positions"]) == 0
         ):
             sys.stderr.write(f"Error: {rel_model_path} has no split positions.\n")
-            os._exit(1)
+            return
         split_positions = split_results[rel_model_path]["split_positions"]
         if self.config["resume"] and self._is_model_handled(
             rel_model_path, split_positions

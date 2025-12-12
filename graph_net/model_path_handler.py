@@ -66,12 +66,6 @@ def handle_model_path_list_in_subprocess(args):
         except KeyboardInterrupt:
             print("KeyboardInterrupt")
             return
-        except Exception as e:
-            print(f"Handle {model_path} failed: {str(e)}", file=sys.stderr)
-            print("\n--- Full Traceback ---")
-            traceback.print_exc()
-            print("\n--- End of Traceback ---")
-            return
 
 
 def handle_model_path(handler, model_path):

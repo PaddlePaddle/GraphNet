@@ -4,6 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from graph_net import analysis_util
 from graph_net import verify_aggregated_params
+from graph_net.positive_tolerance_interpretation_manager import (
+    get_supported_positive_tolerance_interpretation_types,
+    get_positive_tolerance_interpretation,
+)
 
 
 class ESScoresWrapper:
@@ -262,6 +266,9 @@ def main(args):
     # 2. Calculate scores for each curve and verify aggregated/microscopic consistency
     all_es_scores = {}
     all_aggregated_results = {}
+    positive_tolerance_interpretation = get_positive_tolerance_interpretation(
+        args.interpretation_type
+    )
 
     for folder_name, samples in all_results.items():
         print(f"\nCalculating ESt scores for '{folder_name}'...")
@@ -271,6 +278,7 @@ def main(args):
             p=args.negative_speedup_penalty,
             b=args.fpdb,
             type="ESt",
+            positive_tolerance_interpretation=positive_tolerance_interpretation,
         )
 
         # Keep original behavior: assign es_scores directly
@@ -285,6 +293,7 @@ def main(args):
                     folder_name,
                     negative_speedup_penalty=args.negative_speedup_penalty,
                     fpdb=args.fpdb,
+                    positive_tolerance_interpretation=positive_tolerance_interpretation,
                 )
             )
             # Store aggregated results for plotting
@@ -428,6 +437,13 @@ if __name__ == "__main__":
         dest="enable_aggregation_mode",
         action="store_false",
         help="Disable aggregation mode verification.",
+    )
+    parser.add_argument(
+        "--positive-tolerance-interpretation",
+        dest="interpretation_type",
+        choices=get_supported_positive_tolerance_interpretation_types(),
+        default="default",
+        help="Select how positive tolerance values are interpreted into error types.",
     )
     parser.set_defaults(enable_aggregation_mode=True)
     args = parser.parse_args()

@@ -69,40 +69,29 @@ class ConcretePass(DtypeGeneralizationPass):
         new_graph = fx.Graph()
         val_map = {}
 
+        def create_placeholder(node: fx.Node) -> fx.Node:
+            """Create a placeholder node with dtype conversion if needed."""
+            new_node = new_graph.node_copy(node, lambda x: val_map.get(x, x))
+            if self._is_float32_tensor(node):
+                return new_graph.call_method("to", args=(new_node, self.torch_dtype))
+            return new_node
+
+        def create_get_attr(node: fx.Node) -> fx.Node:
+            """Create a get_attr node with dtype conversion if needed."""
+            new_node = new_graph.node_copy(node, lambda x: val_map.get(x, x))
+            attr_name = str(node.target)
+            if self._is_float32_tensor(node) and not self.should_preserve_weight(
+                attr_name
+            ):
+                return new_graph.call_method("to", args=(new_node, self.torch_dtype))
+            return new_node
+
         for node in gm.graph.nodes:
             if node.op == "placeholder":
-                # Copy placeholder node
-                new_node = new_graph.node_copy(node, lambda x: val_map.get(x, x))
-
-                # Insert dtype conversion if needed
-                if self._is_float32_tensor(node):
-                    converted_node = new_graph.call_method(
-                        "to",
-                        args=(new_node, self.torch_dtype),
-                    )
-                    val_map[node] = converted_node
-                else:
-                    val_map[node] = new_node
-
+                val_map[node] = create_placeholder(node)
             elif node.op == "get_attr":
-                # Copy get_attr node
-                new_node = new_graph.node_copy(node, lambda x: val_map.get(x, x))
-
-                # Insert dtype conversion if needed and not preserved
-                attr_name = str(node.target)
-                if self._is_float32_tensor(node) and not self.should_preserve_weight(
-                    attr_name
-                ):
-                    converted_node = new_graph.call_method(
-                        "to",
-                        args=(new_node, self.torch_dtype),
-                    )
-                    val_map[node] = converted_node
-                else:
-                    val_map[node] = new_node
-
+                val_map[node] = create_get_attr(node)
             else:
-                # Copy other nodes
                 new_node = new_graph.node_copy(node, lambda x: val_map.get(x, x))
                 val_map[node] = new_node
 

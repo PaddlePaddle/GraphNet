@@ -1,20 +1,12 @@
-from sympy import Symbol
+from sympy import Symbol, Expr, Rel, Eq
 
 S0 = Symbol("S0")
 S1 = Symbol("S1")
 S2 = Symbol("S2")
-S3 = Symbol("S3")
-S4 = Symbol("S4")
 
-dynamic_dim_constraint_symbols = [S0, S1, S2, S3, S4]
+dynamic_dim_constraint_symbols = [S0, S1, S2]
 
-dynamic_dim_constraint_symbol2example_value = {
-    S0: 5000,
-    S1: 1,
-    S2: 2048,
-    S3: 9999,
-    S4: 521,
-}
+dynamic_dim_constraint_symbol2example_value = {S0: 5000, S1: 1, S2: 521}
 
 dynamic_dim_constraint_relations = []
 
@@ -63,11 +55,11 @@ dynamic_dim_constraint_input_shapes = [
     ([512], "L_instance_modules_layers_modules_0_modules_conv_scale_parameters_bias_"),
     ([512], "L_instance_modules_layers_modules_0_modules_conv_scale_parameters_scale_"),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_0_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_0_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -75,7 +67,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_0_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_0_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -87,11 +79,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_0_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_0_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_0_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -99,7 +91,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_0_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_0_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -234,11 +226,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_10_modules_conv_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_10_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_10_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -246,7 +238,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_10_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_10_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -258,11 +250,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_10_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_10_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_10_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -270,7 +262,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_10_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_10_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -408,11 +400,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_11_modules_conv_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_11_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_11_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -420,7 +412,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_11_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_11_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -432,11 +424,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_11_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_11_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_11_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -444,7 +436,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_11_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_11_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -582,11 +574,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_12_modules_conv_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_12_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_12_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -594,7 +586,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_12_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_12_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -606,11 +598,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_12_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_12_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_12_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -618,7 +610,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_12_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_12_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -756,11 +748,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_13_modules_conv_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_13_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_13_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -768,7 +760,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_13_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_13_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -780,11 +772,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_13_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_13_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_13_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -792,7 +784,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_13_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_13_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -930,11 +922,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_14_modules_conv_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_14_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_14_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -942,7 +934,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_14_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_14_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -954,11 +946,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_14_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_14_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_14_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -966,7 +958,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_14_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_14_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -1104,11 +1096,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_15_modules_conv_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_15_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_15_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -1116,7 +1108,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_15_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_15_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -1128,11 +1120,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_15_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_15_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_15_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -1140,7 +1132,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_15_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_15_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -1278,11 +1270,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_16_modules_conv_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_16_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_16_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -1290,7 +1282,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_16_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_16_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -1302,11 +1294,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_16_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_16_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_16_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -1314,7 +1306,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_16_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_16_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -1452,11 +1444,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_17_modules_conv_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_17_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_17_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -1464,7 +1456,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_17_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_17_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -1476,11 +1468,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_17_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_17_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_17_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -1488,7 +1480,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_17_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_17_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -1623,11 +1615,11 @@ dynamic_dim_constraint_input_shapes = [
     ([512], "L_instance_modules_layers_modules_1_modules_conv_scale_parameters_bias_"),
     ([512], "L_instance_modules_layers_modules_1_modules_conv_scale_parameters_scale_"),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_1_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_1_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -1635,7 +1627,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_1_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_1_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -1647,11 +1639,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_1_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_1_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_1_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -1659,7 +1651,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_1_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_1_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -1791,11 +1783,11 @@ dynamic_dim_constraint_input_shapes = [
     ([512], "L_instance_modules_layers_modules_2_modules_conv_scale_parameters_bias_"),
     ([512], "L_instance_modules_layers_modules_2_modules_conv_scale_parameters_scale_"),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_2_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_2_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -1803,7 +1795,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_2_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_2_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -1815,11 +1807,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_2_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_2_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_2_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -1827,7 +1819,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_2_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_2_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -1959,11 +1951,11 @@ dynamic_dim_constraint_input_shapes = [
     ([512], "L_instance_modules_layers_modules_3_modules_conv_scale_parameters_bias_"),
     ([512], "L_instance_modules_layers_modules_3_modules_conv_scale_parameters_scale_"),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_3_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_3_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -1971,7 +1963,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_3_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_3_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -1983,11 +1975,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_3_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_3_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_3_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -1995,7 +1987,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_3_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_3_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -2127,11 +2119,11 @@ dynamic_dim_constraint_input_shapes = [
     ([512], "L_instance_modules_layers_modules_4_modules_conv_scale_parameters_bias_"),
     ([512], "L_instance_modules_layers_modules_4_modules_conv_scale_parameters_scale_"),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_4_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_4_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -2139,7 +2131,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_4_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_4_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -2151,11 +2143,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_4_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_4_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_4_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -2163,7 +2155,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_4_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_4_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -2295,11 +2287,11 @@ dynamic_dim_constraint_input_shapes = [
     ([512], "L_instance_modules_layers_modules_5_modules_conv_scale_parameters_bias_"),
     ([512], "L_instance_modules_layers_modules_5_modules_conv_scale_parameters_scale_"),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_5_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_5_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -2307,7 +2299,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_5_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_5_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -2319,11 +2311,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_5_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_5_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_5_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -2331,7 +2323,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_5_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_5_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -2463,11 +2455,11 @@ dynamic_dim_constraint_input_shapes = [
     ([512], "L_instance_modules_layers_modules_6_modules_conv_scale_parameters_bias_"),
     ([512], "L_instance_modules_layers_modules_6_modules_conv_scale_parameters_scale_"),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_6_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_6_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -2475,7 +2467,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_6_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_6_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -2487,11 +2479,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_6_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_6_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_6_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -2499,7 +2491,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_6_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_6_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -2631,11 +2623,11 @@ dynamic_dim_constraint_input_shapes = [
     ([512], "L_instance_modules_layers_modules_7_modules_conv_scale_parameters_bias_"),
     ([512], "L_instance_modules_layers_modules_7_modules_conv_scale_parameters_scale_"),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_7_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_7_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -2643,7 +2635,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_7_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_7_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -2655,11 +2647,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_7_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_7_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_7_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -2667,7 +2659,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_7_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_7_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -2799,11 +2791,11 @@ dynamic_dim_constraint_input_shapes = [
     ([512], "L_instance_modules_layers_modules_8_modules_conv_scale_parameters_bias_"),
     ([512], "L_instance_modules_layers_modules_8_modules_conv_scale_parameters_scale_"),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_8_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_8_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -2811,7 +2803,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_8_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_8_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -2823,11 +2815,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_8_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_8_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_8_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -2835,7 +2827,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_8_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_8_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -2967,11 +2959,11 @@ dynamic_dim_constraint_input_shapes = [
     ([512], "L_instance_modules_layers_modules_9_modules_conv_scale_parameters_bias_"),
     ([512], "L_instance_modules_layers_modules_9_modules_conv_scale_parameters_scale_"),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_9_modules_feed_forward1_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_9_modules_feed_forward1_modules_linear1_parameters_weight_",
     ),
     (
@@ -2979,7 +2971,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_9_modules_feed_forward1_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_9_modules_feed_forward1_modules_linear2_parameters_weight_",
     ),
     (
@@ -2991,11 +2983,11 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_9_modules_feed_forward1_scale_parameters_scale_",
     ),
     (
-        [S2],
+        [2048],
         "L_instance_modules_layers_modules_9_modules_feed_forward2_modules_linear1_parameters_bias_",
     ),
     (
-        [S2, 512],
+        [2048, 512],
         "L_instance_modules_layers_modules_9_modules_feed_forward2_modules_linear1_parameters_weight_",
     ),
     (
@@ -3003,7 +2995,7 @@ dynamic_dim_constraint_input_shapes = [
         "L_instance_modules_layers_modules_9_modules_feed_forward2_modules_linear2_parameters_bias_",
     ),
     (
-        [512, S2],
+        [512, 2048],
         "L_instance_modules_layers_modules_9_modules_feed_forward2_modules_linear2_parameters_weight_",
     ),
     (
@@ -3092,7 +3084,7 @@ dynamic_dim_constraint_input_shapes = [
         [512],
         "L_instance_modules_layers_modules_9_modules_self_attn_scale_parameters_scale_",
     ),
-    ([S1, S3, 512], "L_instance_modules_pos_enc_buffers_pe_"),
+    ([1, 9999, 512], "L_instance_modules_pos_enc_buffers_pe_"),
     ([512], "L_instance_modules_pre_encode_modules_conv_modules_0_parameters_bias_"),
     (
         [512, 1, 3, 3],
@@ -3124,7 +3116,7 @@ dynamic_dim_constraint_input_shapes = [
         [512, 512, 1],
         "L_instance_modules_time_reduce_layer_modules_pw_conv_parameters_weight_",
     ),
-    ([S1, S3, 512], "L_instance_modules_time_reduce_pos_enc_buffers_pe_"),
-    ([S1, 80, S4], "L_kwargs_audio_signal_"),
+    ([1, 9999, 512], "L_instance_modules_time_reduce_pos_enc_buffers_pe_"),
+    ([S1, 80, S2], "L_kwargs_audio_signal_"),
     ([S1], "L_kwargs_length_"),
 ]

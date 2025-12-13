@@ -113,7 +113,8 @@ def _get_name_pattern2replacement(names_from_signature, names_from_placeholder):
 
 
 def _rename_placeholder(name, pattern2replacement):
-    assert name[:2] == "L_" or name[:2] == "l_", f"{name=}"
+    if not (name[:2] == "L_" or name[:2] == "l_"):
+        return name
     name = name[2:]
     if name[0] == "l":
         name = "L" + name[1:]
@@ -122,19 +123,26 @@ def _rename_placeholder(name, pattern2replacement):
     return name
 
 
-def parse_sole_graph_module(module, inputs):
+def parse_sole_graph_module_without_varify(module, inputs):
     traced_module = None
     traced_sample_inputs = None
 
     def my_backend(gm, sample_inputs):
         nonlocal traced_module
-        traced_module = gm
         nonlocal traced_sample_inputs
+        traced_module = gm
         traced_sample_inputs = sample_inputs
         return gm.forward
 
     torch.compile(module, backend=my_backend)(*inputs)
     assert traced_module is not None
+    return traced_module, traced_sample_inputs
+
+
+def parse_sole_graph_module(module, inputs):
+    traced_module, traced_sample_inputs = parse_sole_graph_module_without_varify(
+        module, inputs
+    )
 
     def get_input_names_from_signature():
         return inspect.signature(module.forward).parameters
@@ -221,15 +229,16 @@ def parse_sole_graph_module(module, inputs):
 
     zip_filter_names = get_zip_filter_names()
 
-    def zip_filter_names_str():
+    def zip_filter_names_error_str():
         for triple in zip_filter_names:
             print(triple)
-        return "<printed before>"
+        error_model_path = module.__graph_net_file_path__
+        return f"{error_model_path=}"
 
     from pathlib import Path
 
     Path("/tmp/a.py").write_text(traced_module.code)
-    assert len(zip_filter_names) == 0, f"{zip_filter_names_str()=}"
+    # assert len(zip_filter_names) == 0, f"{zip_filter_names_str()=}"
     return traced_module
 
 

@@ -1,0 +1,21 @@
+llm_name: "gpt-5"
+temperature: 1.0
+top_p: 1.0
+max_tokens: 16384
+parallel_query_nums: 1
+iterative_query_nums: 2
+
+# responses and logs will be saved in <top_save_dir>/<llm_name>
+top_save_dir: "./tmp/llm_cache" 
+
+# network settings
+timeout_seconds: 600.0
+max_retries: 3
+backoff_initial_seconds: 1.0
+backoff_max_seconds: 16.0
+
+# local Inference settings
+is_local_inference: False
+local_inference_vendor: "vllm"  # only for print logs
+local_inference_port: 30000
+local_inference_address: "localhost"

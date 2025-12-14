@@ -15,6 +15,7 @@ import numpy as np
 import platform
 import base64
 from graph_net.torch.backend.graph_compiler_backend import GraphCompilerBackend
+from graph_net.torch.backend.agent_backend import AgentBackend
 from graph_net.torch.backend.tvm_backend import TvmBackend
 from graph_net.torch.backend.xla_backend import XlaBackend
 from graph_net.torch.backend.inductor_backend import InductorBackend
@@ -39,6 +40,7 @@ registry_backend = {
     "tensorrt": TensorRTBackend(),
     "bladedisc": BladeDISCBackend(),
     "nope": NopeBackend(),
+    "agent": AgentBackend(),
     "unstable_to_stable": UnstableToStableBackend(),
     "range_decomposer_validator": RangeDecomposerValidatorBackend(),
     "graph_variable_renamer_validator": GraphVariableRenamerValidatorBackend(),

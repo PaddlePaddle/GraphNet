@@ -17,9 +17,6 @@ def convert_to_submodules_graph(
     chain_style=True: decompose gm into g0 * g1 * g2 * g3
     """
     gm = copy.deepcopy(gm)
-    num_placeholders = len(
-        [node for node in gm.graph.nodes if node.op == "placeholder"]
-    )
     submodules_body_nodes = [
         node
         for node in gm.graph.nodes
@@ -88,7 +85,8 @@ def convert_to_submodules_graph(
     def sort_key(node):
         return new_node2original_node[node].name
 
-    for range_idx in range(len(range_idx2submodule_body_nodes)):
+    num_subgraphs = len(range_idx2submodule_body_nodes)
+    for range_idx in range(num_subgraphs):
         (
             submodule_input_nodes,
             submodule_output_nodes,
@@ -99,6 +97,7 @@ def convert_to_submodules_graph(
             end_node_idx=get_end_node_idx(range_idx),
             chain_style=chain_style,
         )
+        identity_node_set = set(identity_nodes)
 
         def get_input_nodes(range_idx):
             return sorted(submodule_input_nodes, key=sort_key)
@@ -156,13 +155,13 @@ def convert_to_submodules_graph(
                 prev_node = new_output_node
 
         # Replace all use of outputs
-        identity_node_set = set(identity_nodes)
         for original_output in get_output_nodes(range_idx):
-            if original_output not in identity_node_set:
-                original_output.replace_all_uses_with(node_map[original_output])
-                new_node2original_node[
-                    node_map[original_output]
-                ] = new_node2original_node[original_output]
+            if original_output in identity_node_set:
+                continue
+            original_output.replace_all_uses_with(node_map[original_output])
+            new_node2original_node[node_map[original_output]] = new_node2original_node[
+                original_output
+            ]
 
         # Erase old nodes
         for node in reversed(get_body_nodes(range_idx)):
@@ -184,7 +183,7 @@ def fold_range_to_submodule(
     end_node_idx: int,
     submodule_hook=None,
     submodule_name="extracted_submodule",
-    group_head_and_tail=True,
+    group_head_and_tail=False,
 ):
     return convert_to_submodules_graph(
         gm,
@@ -208,40 +207,80 @@ def _get_submodule_inputs_and_outputs(
     end_node_idx: int,
     chain_style=False,
 ):
+    if not chain_style:
+        (
+            minimal_input_nodes,
+            minimal_output_nodes,
+        ) = _get_minimal_submodule_inputs_and_outputs(
+            gm=gm, start_node_idx=start_node_idx, end_node_idx=end_node_idx
+        )
+        return minimal_input_nodes, minimal_output_nodes, []
+    else:
+        node_list = list(gm.graph.nodes)
+        if _is_node_idx_out_of_range(gm, start_node_idx):
+            input_nodes = list(_get_return_nodes(gm))
+        else:
+            input_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
+                gm=gm, start_node_idx=start_node_idx, end_node_idx=len(node_list)
+            )
+        if _is_node_idx_out_of_range(gm, end_node_idx):
+            output_nodes = list(_get_return_nodes(gm))
+        else:
+            output_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
+                gm=gm, start_node_idx=end_node_idx, end_node_idx=len(node_list)
+            )
+        identity_nodes_set = set(input_nodes) & set(output_nodes)
+        identity_nodes = [node for node in input_nodes if node in identity_nodes_set]
+        return input_nodes, output_nodes, identity_nodes
+
+
+def _get_minimal_submodule_inputs_and_outputs(
+    gm: torch.fx.GraphModule,
+    start_node_idx: int,
+    end_node_idx: int,
+):
     count_ctx = NodeProducedOrConsumedCountCtx(
         defaultdict(int),
         defaultdict(int),
         defaultdict(int),
     )
     node_list = list(gm.graph.nodes)
+    assert end_node_idx <= len(node_list)
 
-    def _hashable(obj):
-        if isinstance(obj, slice):
-            return ("__slice__", obj.start, obj.stop, obj.step)
-        elif isinstance(obj, (list, tuple)):
-            return tuple(_hashable(x) for x in obj)
+    def get_args_node(arg):
+        if isinstance(arg, torch.fx.Node):
+            yield arg
+        elif isinstance(arg, (tuple, list)):
+            for x in arg:
+                yield from get_args_node(x)
+        elif isinstance(arg, slice):
+            yield arg.start
+            yield arg.stop
+            yield arg.step
+        elif isinstance(arg, torch.device):
+            pass
+        elif isinstance(arg, torch.dtype):
+            pass
         else:
-            return obj
+            assert isinstance(
+                arg, (int, bool, float, str, type(...), type(None))
+            ), f"{type(arg)=}"
 
-    def get_related_node(node):
+    def get_args_node_and_self_node(node):
         for arg in node.args:
-            if isinstance(arg, tuple):
-                for x in arg:
-                    yield _hashable(x)
-            else:
-                yield _hashable(arg)
-        yield _hashable(node)
+            yield from get_args_node(arg)
+        yield node
 
     for node in node_list[0:start_node_idx]:
-        for related_node in get_related_node(node):
+        for related_node in get_args_node_and_self_node(node):
             count_ctx.node2before_input[related_node] += 1
 
     for node in node_list[start_node_idx:end_node_idx]:
-        for related_node in get_related_node(node):
+        for related_node in get_args_node_and_self_node(node):
             count_ctx.node2body[related_node] += 1
 
     for node in node_list[end_node_idx:]:
-        for related_node in get_related_node(node):
+        for related_node in get_args_node_and_self_node(node):
             count_ctx.node2after_output[related_node] += 1
 
     input_nodes = [
@@ -257,24 +296,25 @@ def _get_submodule_inputs_and_outputs(
         if count_ctx.node2body[node] > 0
         if count_ctx.node2after_output[node] > 0
     ]
-    if not chain_style:
-        identity_nodes = []
-    else:
-        identity_nodes = [
-            node
-            for node in node_list
-            if count_ctx.node2before_input[node] > 0
-            if count_ctx.node2body[node] == 0
-            if count_ctx.node2after_output[node] > 0
-        ]
-        input_nodes_set = set(input_nodes)
-        input_nodes = [
-            *input_nodes,
-            *[node for node in identity_nodes if node not in input_nodes_set],
-        ]
-        output_nodes_set = set(output_nodes)
-        output_nodes = [
-            *output_nodes,
-            *[node for node in identity_nodes if node not in output_nodes_set],
-        ]
-    return input_nodes, output_nodes, identity_nodes
+    return input_nodes, output_nodes
+
+
+def _get_return_nodes(gm):
+    for node in gm.graph.nodes:
+        if node.op != "output":
+            continue
+        for arg in node.args:
+            if isinstance(arg, (tuple, list)):
+                yield from arg
+            else:
+                yield arg
+
+
+def _is_node_idx_out_of_range(gm, node_idx: int):
+    node_list = list(gm.graph.nodes)
+    num_nodes = len(node_list)
+    if node_idx < 0:
+        return True
+    if node_idx >= num_nodes:
+        return True
+    return node_list[node_idx].op in {"output", "placeholder"}

@@ -18,5 +18,6 @@
         "endpoints_compatible",
         "region:us"
     ],
-    "heuristic_tag": "other"
+    "heuristic_tag": "other",
+    "symbolic_dimension_reifier": "naive_cv_sym_dim_reifier"
 }

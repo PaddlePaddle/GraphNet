@@ -1,33 +1,40 @@
 import torch
+import inspect
 import torch.nn as nn
 import os
-import sys
-import inspect
 import importlib.util
-import itertools
-from typing import List, Tuple, Dict, Any, Callable
+from typing import List
 
 
 class ComposedModel(nn.Module):
-    def __init__(self, subgraph: List[nn.Module]):
+    def __init__(self, subgraphs: List[nn.Module]):
         super().__init__()
-        self.subgraphs = nn.ModuleList(subgraph)
+        self.subgraphs = nn.ModuleList(subgraphs)
 
     def forward(self, **kwargs):
-        subgraph_intput = {
-            key.replace("L", "l_l", 1): value
-            for key, value in kwargs.items()
-            if key.startswith("L")
-        }
-
         output = None
-        for subgraph in self.subgraphs:
+        for i, subgraph in enumerate(self.subgraphs):
             if output is None:
-                output = subgraph(**subgraph_intput)
+                output = subgraph(**self._convert_inputs(subgraph, kwargs))
             else:
                 output = subgraph(*output)
 
         return output
+
+    def _convert_inputs(self, subgraph, input_kwargs):
+        input_keywords = set(name for name, _ in input_kwargs.items())
+        sub_graph_arg_names = set(inspect.signature(subgraph.forward).parameters)
+        assert (
+            len(sub_graph_arg_names - input_keywords) == 0
+        ), f"{(sub_graph_arg_names - input_keywords)=}"
+        for remainder in input_keywords - sub_graph_arg_names:
+            assert remainder.startswith("s")
+            assert remainder[1:].isdigit()
+        return {
+            name: value
+            for name, value in input_kwargs.items()
+            if name in sub_graph_arg_names
+        }
 
 
 class RangeDecomposerValidatorBackend:
@@ -43,19 +50,49 @@ class RangeDecomposerValidatorBackend:
         instance = ModelClass().to(device)
         return instance
 
-    def __call__(self, model: torch.nn.Module) -> torch.nn.Module:
-        model_file_path = model.__class__.__graph_net_file_path__
-        model_dir = os.path.dirname(model_file_path)
-        decomposed_parent_dir = model_dir + "_decomposed"
-        subgraph_paths = []
-        for name in sorted(os.listdir(decomposed_parent_dir)):
-            full_path = os.path.join(decomposed_parent_dir, name)
-            if os.path.isdir(full_path) and name[-1].isdigit():
-                subgraph_paths.append(full_path)
+    def _make_config(
+        self,
+        model_path_prefix: str,
+        decomposed_root: str,
+        decomposed_dentry: str = "_decomposed",
+    ):
+        return {
+            "model_path_prefix": model_path_prefix,
+            "decomposed_root": decomposed_root,
+            "decomposed_dentry": decomposed_dentry,
+        }
 
-        print(
-            f"[RangeDecomposerValidatorBackend] Found subgraphs: {[os.path.basename(p) for p in subgraph_paths]}"
+    def _get_rel_model_path(self, model_path) -> str:
+        model_path = os.path.realpath(model_path)
+        model_path_prefix = os.path.realpath(self.config["model_path_prefix"])
+        assert model_path.startswith(model_path_prefix)
+        rel_model_path = model_path[len(model_path_prefix) :]
+        if rel_model_path.startswith("/"):
+            rel_model_path = rel_model_path[1:]
+        assert not rel_model_path.startswith("/")
+        return rel_model_path
+
+    def _get_model_name_order(self, name):
+        lst = name.split("_")
+        if not (len(lst) > 0):
+            return -1
+        if not (lst[-1].isdigit()):
+            return -1
+        return int(lst[-1])
+
+    def __call__(self, model: torch.nn.Module) -> torch.nn.Module:
+        config = self._make_config(**self.config)
+        model_path = os.path.dirname(model.__class__.__graph_net_file_path__)
+        rel_model_path = self._get_rel_model_path(model_path)
+        decomposed_parent_dir = os.path.join(
+            config["decomposed_root"], rel_model_path, config["decomposed_dentry"]
         )
+        subgraph_paths = []
+        dentries = os.listdir(decomposed_parent_dir)
+        for name in sorted(dentries, key=self._get_model_name_order):
+            full_path = os.path.join(decomposed_parent_dir, name)
+            if os.path.isdir(full_path) and self._get_model_name_order(name) >= 0:
+                subgraph_paths.append(full_path)
 
         device = model.__class__.__graph_net_device__
         subgraph_instances = []
@@ -63,10 +100,6 @@ class RangeDecomposerValidatorBackend:
         for path in subgraph_paths:
             instance = self._load_model_instance(path, device)
             subgraph_instances.append(instance)
-            dir_name = os.path.basename(path)
-            print(
-                f"[RangeDecomposerValidatorBackend] Loaded and instantiated '{dir_name}'"
-            )
 
         composed_model = ComposedModel(subgraph_instances)
         return composed_model.eval()

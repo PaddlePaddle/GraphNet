@@ -1,6 +1,11 @@
-dynamic_dim_constraint_symbols = []
+from sympy import Symbol, Expr, Rel, Eq
 
-dynamic_dim_constraint_symbol2example_value = {}
+S0 = Symbol("S0")
+S1 = Symbol("S1")
+
+dynamic_dim_constraint_symbols = [S0, S1]
+
+dynamic_dim_constraint_symbol2example_value = {S0: 1, S1: 64000}
 
 dynamic_dim_constraint_relations = []
 
@@ -801,5 +806,5 @@ dynamic_dim_constraint_input_shapes = [
         [512, 512, 2],
         "L_self_modules_feature_extractor_modules_conv_layers_modules_6_modules_conv_parameters_weight_",
     ),
-    ([1, 64000], "L_waveforms_"),
+    ([S0, S1], "L_waveforms_"),
 ]

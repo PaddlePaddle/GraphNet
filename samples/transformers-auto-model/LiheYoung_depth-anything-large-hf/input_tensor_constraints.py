@@ -1,6 +1,10 @@
-dynamic_dim_constraint_symbols = []
+from sympy import Symbol, Expr, Rel, Eq
 
-dynamic_dim_constraint_symbol2example_value = {}
+S0 = Symbol("S0")
+
+dynamic_dim_constraint_symbols = [S0]
+
+dynamic_dim_constraint_symbol2example_value = {S0: 1}
 
 dynamic_dim_constraint_relations = []
 
@@ -227,8 +231,8 @@ dynamic_dim_constraint_input_shapes = [
         [1024, 1024, 3, 3],
         "L_self_modules_neck_modules_reassemble_stage_modules_layers_modules_3_modules_resize_parameters_weight_",
     ),
-    ([1, 1370, 1024], "L_stack0_feature_maps_0_"),
-    ([1, 1370, 1024], "L_stack0_feature_maps_1_"),
-    ([1, 1370, 1024], "L_stack0_feature_maps_2_"),
-    ([1, 1370, 1024], "L_stack0_feature_maps_3_"),
+    ([S0, 1370, 1024], "L_stack0_feature_maps_0_"),
+    ([S0, 1370, 1024], "L_stack0_feature_maps_1_"),
+    ([S0, 1370, 1024], "L_stack0_feature_maps_2_"),
+    ([S0, 1370, 1024], "L_stack0_feature_maps_3_"),
 ]

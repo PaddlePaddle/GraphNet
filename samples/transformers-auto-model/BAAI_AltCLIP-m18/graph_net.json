@@ -14,5 +14,7 @@
         "endpoints_compatible",
         "region:us"
     ],
-    "heuristic_tag": "multimodal"
+    "heuristic_tag": "multimodal",
+    "dimension_generalization_passes": [],
+    "symbolic_dimension_reifier": "naive_cv_sym_dim_reifier"
 }

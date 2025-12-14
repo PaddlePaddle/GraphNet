@@ -1,1 +1,20 @@
-{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "model_name": "polejowska/cdetr-cd45rb-s", "source": "huggingface_hub", "original_tag": ["transformers", "pytorch", "conditional_detr", "object-detection", "generated_from_trainer", "license:apache-2.0", "endpoints_compatible", "region:us"], "heuristic_tag": "computer_vision", "dimension_generalization_passes": []}
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": false,
+    "model_name": "polejowska/cdetr-cd45rb-s",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "pytorch",
+        "conditional_detr",
+        "object-detection",
+        "generated_from_trainer",
+        "license:apache-2.0",
+        "endpoints_compatible",
+        "region:us"
+    ],
+    "heuristic_tag": "computer_vision",
+    "dimension_generalization_passes": []
+}

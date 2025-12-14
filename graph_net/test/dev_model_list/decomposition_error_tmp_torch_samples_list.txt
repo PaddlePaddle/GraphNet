@@ -1,0 +1,1 @@
+samples/transformers-auto-model/dbmdz_electra-large-discriminator-finetuned-conll03-english

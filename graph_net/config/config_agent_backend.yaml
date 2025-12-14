@@ -5,6 +5,9 @@ max_tokens: 16384
 parallel_query_nums: 1
 iterative_query_nums: 2
 
+# support "CUDA", "Triton", future will support "TileLang", etc.
+DSL: "CUDA"
+
 # responses and logs will be saved in <top_save_dir>/<llm_name>
 top_save_dir: "./tmp/llm_cache" 
 

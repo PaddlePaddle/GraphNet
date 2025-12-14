@@ -19,7 +19,6 @@ class AgentCompiledModule(torch.nn.Module):
             self.module,
             model_inputs=dummy_input,
             task_name=f"default_task_{self.count_compile}",
-            language="cuda",
         )
         self.count_compile += 1
         return optimized_module

@@ -35,21 +35,19 @@ def generate(prompt, system_prompt, llm_query_config: LLMQueryConfig):
         raise RuntimeError(f"LLM query failed with exception: {e}")
 
 
-def optimize(
-    module, model_inputs=None, language: str = "cuda", task_name: str = "default_task"
-):
+def optimize(module, model_inputs=None, task_name: str = "default_task"):
     """Optimize the given PyTorch module using custom DSL operators."""
 
     llm_config = get_llm_config()
     llm_query_config = LLMQueryConfig(**llm_config)
     traced_module = torch.fx.symbolic_trace(module)
 
-    if "cuda" == language:
+    if "cuda" == llm_config.dsl.lower():
         return cuda_optimize(traced_module, model_inputs, task_name, llm_query_config)
-    elif "triton" == language:
+    elif "triton" == llm_config.dsl.lower():
         return torch.compile(module)  # TODO add custom triton optimize
     else:
-        raise NotImplementedError(f"Unsupported language: {language}")
+        raise NotImplementedError(f"Unsupported language: {llm_config.dsl}")
 
     # return the best of optimized models
 

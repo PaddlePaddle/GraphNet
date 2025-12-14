@@ -17,6 +17,8 @@ class LLMQueryConfig:
     parallel_query_nums: int = 1
     iterative_query_nums: int = 10
 
+    dsl: str = "CUDA"
+
     # cache settings
     # responses will be saved in <tmp_llm_cache>/<llm_name>/
     top_save_dir: str = "./tmp_llm_cache"

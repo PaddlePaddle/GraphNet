@@ -85,7 +85,9 @@ class GraphVariableRenamer:
         dst_model_path = os.path.realpath(
             os.path.join(self.config["output_dir"], rel_model_path)
         )
-        if self.config["resume"] and os.path.exists(dst_model_path):
+        if self.config["resume"] and os.path.exists(
+            os.path.join(dst_model_path, "model.py")
+        ):
             return
         Path(dst_model_path).parent.mkdir(parents=True, exist_ok=True)
         temp_dir = tempfile.mkdtemp(prefix="graph_variable_renamer_")

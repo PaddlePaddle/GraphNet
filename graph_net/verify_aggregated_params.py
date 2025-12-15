@@ -13,11 +13,7 @@ def determine_tolerances(
     positive_tolerance_interpretation: PositiveToleranceInterpretation,
 ) -> range:
     """Determine tolerance range based on observed errno categories."""
-    if samples:
-        max_errno = len(samples)
-    else:
-        max_errno = positive_tolerance_interpretation.num_errno_enum_values()
-
+    max_errno = positive_tolerance_interpretation.num_errno_enum_values()
     return range(-10, max_errno + 2)
 
 

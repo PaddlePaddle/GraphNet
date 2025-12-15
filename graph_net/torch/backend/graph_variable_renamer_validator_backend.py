@@ -56,32 +56,38 @@ class GraphVariableRenamerValidatorBackend:
         self,
         model_path_prefix: str,
         renamed_root: str,
-        renamed_dentry: str = "_renamed",
     ):
         return {
             "model_path_prefix": model_path_prefix,
             "renamed_root": renamed_root,
-            "renamed_dentry": renamed_dentry,
         }
+
+    def _get_rel_model_path(self, model_path) -> str:
+        model_path = os.path.realpath(model_path)
+        model_path_prefix = os.path.realpath(self.config["model_path_prefix"])
+        assert model_path.startswith(model_path_prefix)
+        rel_model_path = model_path[len(model_path_prefix) :]
+        if rel_model_path.startswith("/"):
+            rel_model_path = rel_model_path[1:]
+        assert not rel_model_path.startswith("/")
+        return rel_model_path
 
     def __call__(self, model: torch.nn.Module) -> torch.nn.Module:
         config = self._make_config(**self.config)
         model_path = os.path.dirname(model.__class__.__graph_net_file_path__)
         model_name = os.path.basename(model_path)
-        renamed_dir_name = f"{model_name}_renamed"
-        renamed_model_dir = os.path.join(config["renamed_root"], renamed_dir_name)
+        rel_model_path = self._get_rel_model_path(model_path)
+        renamed_parent_dir = os.path.join(config["renamed_root"], rel_model_path)
 
         print(f"[GraphVariableRenamerValidatorBackend] Processing: {model_name}")
         print(
-            f"[GraphVariableRenamerValidatorBackend] Loading from: {renamed_model_dir}"
+            f"[GraphVariableRenamerValidatorBackend] Loading from: {renamed_parent_dir}"
         )
 
         device = model.__class__.__graph_net_device__
-        renamed_model = self._load_model_instance(renamed_model_dir, device)
-        mapping = self._get_rename_mapping(Path(renamed_model_dir))
-        assert (
-            mapping
-        ), f"Mapping is empty for {renamed_dir_name} at {renamed_model_dir}"
+        renamed_model = self._load_model_instance(renamed_parent_dir, device)
+        mapping = self._get_rename_mapping(Path(renamed_parent_dir))
+        assert mapping, f"Mapping is empty for {model_name} at {renamed_parent_dir}"
         adapter = RenamedModelAdapter(renamed_model, mapping)
         return adapter.eval()
 

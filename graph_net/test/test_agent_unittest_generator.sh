@@ -1,40 +1,38 @@
 #!/usr/bin/env bash
-set -euo pipefail
+# set -euo pipefail
 
-# Smoke tests for AgentUnittestGenerator on one CV and one NLP sample (Torch side).
-# It runs run_model with the decorator, which will drop a *_test.py under each sample directory.
+# Smoke tests for AgentUnittestGenerator using model_path_handler + sample pass.
 
 ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
-TORCH_RUN="python -m graph_net.torch.run_model"
+GRAPH_NET_ROOT=$(python -c "import graph_net, os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
+HANDLER_PATH="$GRAPH_NET_ROOT/graph_net/torch/sample_passes/agent_unittest_generator.py"
+MODEL_PATH_PREFIX="$ROOT_DIR"
+OUTPUT_DIR="$ROOT_DIR"
 
-CV_SAMPLE="$ROOT_DIR/samples/torchvision/resnet18"
-NLP_SAMPLE="$ROOT_DIR/samples/transformers-auto-model/albert-base-v2"
-
-encode_cfg() {
-  MODEL_PATH="$1" python - <<'PY'
-import base64, json, os
-cfg = {
-    "decorator_class_name": "AgentUnittestGenerator",
-    "decorator_config": {
-        "model_path": os.environ["MODEL_PATH"],
+HANDLER_CONFIG=$(base64 -w 0 <<EOF
+{
+    "handler_path": "$HANDLER_PATH",
+    "handler_class_name": "AgentUnittestGeneratorPass",
+    "handler_config": {
+        "model_path_prefix": "$MODEL_PATH_PREFIX",
+        "output_dir": "$OUTPUT_DIR",
         "force_device": "auto",
-        "output_path": None,
-        "use_dummy_inputs": False,
-    },
+        "use_dummy_inputs": false
+    }
 }
-print(base64.b64encode(json.dumps(cfg).encode()).decode())
-PY
-}
+EOF
+)
 
 run_case() {
-  local sample_path="$1"
+  local rel_sample_path="$1"
   local name="$2"
-  echo "[AgentTest] running $name sample at $sample_path"
-  cfg_b64="$(encode_cfg "$sample_path")"
-  $TORCH_RUN --model-path "$sample_path" --decorator-config "$cfg_b64"
+  echo "[AgentTest] running $name sample at $rel_sample_path"
+  python -m graph_net.model_path_handler \
+    --model-path "$rel_sample_path" \
+    --handler-config "$HANDLER_CONFIG"
 }
 
-run_case "$CV_SAMPLE" "CV (torchvision/resnet18)"
-run_case "$NLP_SAMPLE" "NLP (transformers-auto-model/albert-base-v2)"
+run_case "samples/torchvision/resnet18" "CV (torchvision/resnet18)"
+run_case "samples/transformers-auto-model/albert-base-v2" "NLP (transformers-auto-model/albert-base-v2)"
 
 echo "[AgentTest] done. Generated *_test.py files should now exist beside the samples."

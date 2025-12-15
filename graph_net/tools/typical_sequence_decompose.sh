@@ -68,6 +68,7 @@ python3 -m graph_net.model_path_handler \
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_variable_renamer.py",
     "handler_class_name": "GraphVariableRenamer",
     "handler_config": {
+        "resume": true,
         "model_path_prefix": "$DECOMPOSE_WORKSPACE",
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
         "data_input_predicator_class_name": "NaiveDataInputPredicator",

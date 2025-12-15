@@ -2,6 +2,7 @@ import os
 import torch
 import shutil
 import inspect
+import tempfile
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
 from graph_net.tensor_meta import TensorMeta
@@ -37,8 +38,9 @@ class GraphVariableRenamer:
 
     def _make_config(
         self,
-        data_input_predicator_filepath,
-        model_runnable_predicator_filepath,
+        resume: bool = False,
+        data_input_predicator_filepath=None,
+        model_runnable_predicator_filepath=None,
         output_dir="./tmp/graph_variable_renamer_dir",
         filter_path=None,
         filter_config=None,
@@ -59,6 +61,7 @@ class GraphVariableRenamer:
         if model_runnable_predicator_config is None:
             model_runnable_predicator_config = {}
         return {
+            "resume": resume,
             "output_dir": output_dir,
             "filter_path": filter_path,
             "filter_config": filter_config if filter_config is not None else {},
@@ -82,12 +85,25 @@ class GraphVariableRenamer:
         dst_model_path = os.path.realpath(
             os.path.join(self.config["output_dir"], rel_model_path)
         )
+        if self.config["resume"] and os.path.exists(dst_model_path):
+            return
         Path(dst_model_path).parent.mkdir(parents=True, exist_ok=True)
-        shutil.copytree(src_model_path, dst_model_path, dirs_exist_ok=True)
-        self._update_model_py_file(gm, dst_model_path)
-        self._update_weight_meta_py_file(src_model_path, dst_model_path)
-        self._update_input_meta_py_file(src_model_path, dst_model_path)
-        self._try_run(dst_model_path)
+        temp_dir = tempfile.mkdtemp(prefix="graph_variable_renamer_")
+        temp_model_path = os.path.join(temp_dir, os.path.basename(dst_model_path))
+        try:
+            shutil.copytree(src_model_path, temp_model_path, dirs_exist_ok=True)
+            self._update_model_py_file(gm, temp_model_path)
+            self._update_weight_meta_py_file(src_model_path, temp_model_path)
+            self._update_input_meta_py_file(src_model_path, temp_model_path)
+            print("Try to run renamed model...")
+            self._try_run(temp_model_path)
+            if os.path.exists(dst_model_path):
+                shutil.rmtree(dst_model_path)
+            shutil.copytree(temp_model_path, dst_model_path)
+        except Exception as e:
+            raise RuntimeError(f"Failed to handle {src_model_path}: {e}")
+        finally:
+            shutil.rmtree(temp_dir, ignore_errors=True)
 
     def _try_run(self, model_path):
         assert self.model_runnable_predicator(

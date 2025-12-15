@@ -90,22 +90,15 @@ class GraphVariableRenamer:
         ):
             return
         Path(dst_model_path).parent.mkdir(parents=True, exist_ok=True)
-        temp_dir = tempfile.mkdtemp(prefix="graph_variable_renamer_")
-        temp_model_path = os.path.join(temp_dir, os.path.basename(dst_model_path))
-        try:
+        with tempfile.TemporaryDirectory(prefix="graph_variable_renamer_") as temp_dir:
+            temp_model_path = os.path.join(temp_dir, os.path.basename(dst_model_path))
             shutil.copytree(src_model_path, temp_model_path, dirs_exist_ok=True)
             self._update_model_py_file(gm, temp_model_path)
             self._update_weight_meta_py_file(src_model_path, temp_model_path)
             self._update_input_meta_py_file(src_model_path, temp_model_path)
             print("Try to run renamed model...")
             self._try_run(temp_model_path)
-            if os.path.exists(dst_model_path):
-                shutil.rmtree(dst_model_path)
             shutil.copytree(temp_model_path, dst_model_path)
-        except Exception as e:
-            raise RuntimeError(f"Failed to handle {src_model_path}: {e}")
-        finally:
-            shutil.rmtree(temp_dir, ignore_errors=True)
 
     def _try_run(self, model_path):
         assert self.model_runnable_predicator(

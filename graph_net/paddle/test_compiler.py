@@ -4,10 +4,6 @@ import paddle
 from pathlib import Path
 import sys
 import os
-from dataclasses import dataclass
-from contextlib import contextmanager
-import time
-import math
 import numpy as np
 import random
 import platform
@@ -62,7 +58,7 @@ def get_hardward_name(args):
                     )
                 )
             )
-        except Exception as e:
+        except Exception:
             pass
     elif args.device == "cpu":
         hardware = platform.processor()
@@ -128,7 +124,7 @@ def get_static_model(args, model):
         backend=None,
     )
     static_model.eval()
-    program = static_model.forward.concrete_program.main_program
+    program = static_model.forward.concrete_program.main_program  # noqa
     return static_model
 
 
@@ -308,11 +304,16 @@ def check_and_print_gpu_utilization(compiler):
 
 
 def test_single_model(args):
+    model_path = os.path.normpath(args.model_path)
+    test_compiler_util.print_with_log_prompt(
+        "[Processing]", model_path, args.log_prompt
+    )
+
     compiler = get_compiler_backend(args)
     check_and_print_gpu_utilization(compiler)
 
-    input_dict = get_input_dict(args.model_path)
-    model = get_model(args.model_path)
+    input_dict = get_input_dict(model_path)
+    model = get_model(model_path)
     model.eval()
 
     test_compiler_util.print_basic_config(
@@ -341,7 +342,7 @@ def test_single_model(args):
     compiled_time_stats = {}
     try:
         print("Run model in compiled mode.", file=sys.stderr, flush=True)
-        input_spec = get_input_spec(args.model_path)
+        input_spec = get_input_spec(model_path)
         compiled_model = compiler(model, input_spec)
         compiled_out, compiled_time_stats = measure_performance(
             lambda: compiled_model(**input_dict), args, compiler, profile=False

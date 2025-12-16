@@ -166,8 +166,12 @@ class AgentUnittestGenerator:
             raise ValueError("AgentUnittestGenerator requires 'model_path' in config")
 
         self.model_path = Path(merged["model_path"]).resolve()
-        self.output_path = Path(merged["output_path"]) if merged.get("output_path") else None
-        self.output_dir = Path(merged["output_dir"]) if merged.get("output_dir") else None
+        self.output_path = (
+            Path(merged["output_path"]) if merged.get("output_path") else None
+        )
+        self.output_dir = (
+            Path(merged["output_dir"]) if merged.get("output_dir") else None
+        )
         self.force_device = merged["force_device"]
         self.use_numpy = merged["use_numpy"]
 

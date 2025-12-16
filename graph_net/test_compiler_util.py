@@ -143,8 +143,6 @@ def print_with_log_prompt(key, value, log_prompt):
 
 def print_basic_config(args, hardware_name, compile_framework_version):
     model_path = os.path.normpath(args.model_path)
-    print_with_log_prompt("[Processing]", model_path, args.log_prompt)
-
     model_name = get_model_name(model_path)
     print_with_log_prompt("[Config] model:", model_name, args.log_prompt)
 

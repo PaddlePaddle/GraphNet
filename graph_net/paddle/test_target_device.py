@@ -1,12 +1,6 @@
 import argparse
-import importlib.util
-import time
-import numpy as np
-import random
 import os
-from pathlib import Path
 import json
-import re
 import sys
 import traceback
 
@@ -64,11 +58,17 @@ def update_args_and_set_seed(args, model_path):
 
 
 def test_single_model(args):
+    model_path = os.path.normpath(args.model_path)
+    test_compiler_util.print_with_log_prompt(
+        "[Processing]", model_path, args.log_prompt
+    )
+    args = update_args_and_set_seed(args, model_path)
+
     compiler = test_compiler.get_compiler_backend(args)
     test_compiler.check_and_print_gpu_utilization(compiler)
 
-    input_dict = test_compiler.get_input_dict(args.model_path)
-    model = test_compiler.get_model(args.model_path)
+    input_dict = test_compiler.get_input_dict(model_path)
+    model = test_compiler.get_model(model_path)
     model.eval()
 
     test_compiler_util.print_basic_config(
@@ -80,7 +80,7 @@ def test_single_model(args):
     success = False
     time_stats = {}
     try:
-        input_spec = test_compiler.get_input_spec(args.model_path)
+        input_spec = test_compiler.get_input_spec(model_path)
         compiled_model = compiler(model, input_spec)
         outputs, time_stats = test_compiler.measure_performance(
             lambda: compiled_model(**input_dict), args, compiler, profile=False
@@ -95,17 +95,17 @@ def test_single_model(args):
 
     test_compiler_util.print_running_status(args, success)
 
-    model_name = test_compiler_util.get_model_name(args.model_path)
-    if test_compiler_util.get_subgraph_tag(args.model_path):
-        model_name += "_" + test_compiler_util.get_subgraph_tag(args.model_path)
+    model_name = test_compiler_util.get_model_name(model_path)
+    if test_compiler_util.get_subgraph_tag(model_path):
+        model_name += "_" + test_compiler_util.get_subgraph_tag(model_path)
 
     ref_dump = test_reference_device.get_reference_output_path(
-        args.reference_dir, args.model_path
+        args.reference_dir, model_path
     )
     ref_out = paddle.load(str(ref_dump))
 
     ref_log = test_reference_device.get_reference_log_path(
-        args.reference_dir, args.model_path
+        args.reference_dir, model_path
     )
     ref_time_stats = parse_time_stats_from_reference_log(ref_log)
 
@@ -170,7 +170,6 @@ def main(args):
     test_compiler.init_env(args)
 
     if path_utils.is_single_model_dir(args.model_path):
-        args = update_args_and_set_seed(args, args.model_path)
         test_single_model(args)
     else:
         test_multi_models(args)

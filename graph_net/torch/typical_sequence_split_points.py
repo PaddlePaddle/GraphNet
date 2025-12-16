@@ -3,13 +3,11 @@ import json
 import os
 from pathlib import Path
 from typing import Any, Dict, List
-
 import torch
 import torch.nn as nn
-import tempfile
-import graph_net.imp_util
-from graph_net.torch import utils as graph_utils
 from graph_net.torch.rp_expr.rp_expr_parser import RpExprParser
+from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
+from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module_without_varify
 
 
 class TypicalSequenceExtractor:
@@ -28,9 +26,12 @@ class TypicalSequenceExtractor:
 
             if node.op == "call_module":
                 target_name = type(named_modules[node.target]).__name__
-            else:
+            elif node.op == "call_method":
+                target_name = f"Tensor.{node.target}"
+            elif node.op == "call_function":
                 target_name = getattr(node.target, "__name__", str(node.target))
-
+            else:
+                raise NotImplementedError()
             operator_list.append(
                 {
                     "op_type": node.op,
@@ -48,37 +49,45 @@ class TypicalSequenceExtractor:
         return gm.forward
 
 
-class TypicalSequenceModelLoader:
-    def load_class_from_file(self, model_path: str, device: str) -> Any:
-        file_path = os.path.join(model_path, "model.py")
+class OpNamesExtractor:
+    def __init__(self, config=None):
+        if config is None:
+            config = {}
 
-        if not os.path.exists(file_path):
-            raise FileNotFoundError(f"Model file not found: {file_path}")
+        self.config = self._make_config(**config)
 
-        with open(file_path, "r", encoding="utf-8") as f:
-            model_code = f.read()
-        model_code = graph_utils.modify_code_by_device(model_code, device)
-
-        with tempfile.NamedTemporaryFile(
-            mode="w", suffix=".py", encoding="utf-8"
-        ) as temp_file:
-            temp_file.write(model_code)
-            module = graph_net.imp_util.load_module(temp_file.name)
-        model_class = getattr(module, "GraphModule", None)
-
-        return model_class
-
-    def get_input_dict(self, model_path: str, device: str) -> Dict[str, torch.Tensor]:
-        inputs_params = graph_utils.load_converted_from_text(f"{model_path}")
-        params = inputs_params["weight_info"]
-        for tensor_meta in params.values():
-            if hasattr(tensor_meta, "device"):
-                tensor_meta.device = device
-        input_dict = {
-            k: graph_utils.replay_tensor(v).to(torch.device(device))
-            for k, v in params.items()
+    def _make_config(
+        self, model_path_prefix: str, output_dir: str, resume: bool = False
+    ):
+        return {
+            "model_path_prefix": model_path_prefix,
+            "resume": resume,
+            "output_dir": output_dir,
         }
-        return input_dict
+
+    def __call__(self, rel_model_path: str):
+        model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
+        output_path = self._get_output_path(rel_model_path)
+        if self.config["resume"] and output_path.exists():
+            return
+        op_names = self._extract_ops(model_path)
+        output_path.write_text("\n".join(op_names))
+        print(f"Save op-names to {str(output_path)}")
+
+    def _get_output_path(self, rel_model_path: str):
+        output_path_dir = Path(self.config["output_dir"]) / rel_model_path
+        output_path_dir.mkdir(parents=True, exist_ok=True)
+        output_path = output_path_dir / "op_names.txt"
+        return output_path
+
+    def _extract_ops(self, model_path: str) -> List[str]:
+        extractor = TypicalSequenceExtractor()
+        model, inputs = get_torch_module_and_inputs(model_path)
+        compiled_model, _ = parse_sole_graph_module_without_varify(model, inputs)
+        extractor.extract_compiler(compiled_model, inputs)
+        ops_info = extractor.extract_node
+
+        return [op["target_name"] for op in ops_info]
 
 
 class SplitAnalyzer:
@@ -106,26 +115,11 @@ class SplitAnalyzer:
             return ops
         return [f"Unknown({tid})"]
 
-    def _extract_ops_via_compile(
-        self, model_path: str, device: str = "cpu"
-    ) -> List[str]:
-        loader = TypicalSequenceModelLoader()
-        print(f"Loading model from {model_path} on {device}...")
-        try:
-            model_class = loader.load_class_from_file(model_path, device)
-            model = model_class().to(torch.device(device))
-            model.eval()
-            input_dict = loader.get_input_dict(model_path, device)
-        except Exception as e:
-            print(f"Error loading/preparing model {model_path}: {e}")
+    def _load_op_names_from_file(self, txt_path: Path) -> List[str]:
+        if not txt_path.exists():
+            print(f"File not found: {txt_path}")
             return []
-
-        extractor = TypicalSequenceExtractor()
-        compiled_model = torch.compile(model, backend=extractor.extract_compiler)
-        compiled_model(**input_dict)
-        ops_info = extractor.extract_node
-
-        return [op["target_name"] for op in ops_info]
+        return txt_path.read_text().split("\n")
 
     def _calculate_token_lengths(
         self, rp_expr, num_primitives, symbol_map
@@ -150,11 +144,13 @@ class SplitAnalyzer:
             get_len(sym_id)
         return token2len
 
-    def analyze(self, model_paths_file: str, device: str) -> Dict[str, Dict]:
+    def analyze(
+        self, op_names_path_prefix: str, model_paths_file: str, device: str
+    ) -> Dict[str, Dict]:
         input_file = Path(model_paths_file)
 
         with open(input_file, "r") as f:
-            model_paths = [
+            rel_model_paths = [
                 Path(line.strip())
                 for line in f
                 if line.strip() and not line.startswith("#")
@@ -163,15 +159,15 @@ class SplitAnalyzer:
         inputs_seqs = []
         valid_models = []
 
-        for p in model_paths:
-            seq = self._extract_ops_via_compile(str(p), device)
+        for rel_model_path in rel_model_paths:
+            txt_path = Path(op_names_path_prefix) / rel_model_path / "op_names.txt"
+            seq = self._load_op_names_from_file(txt_path)
             if seq:
                 inputs_seqs.append(seq)
-                valid_models.append((p.name, p))
+                valid_models.append((rel_model_path.name, rel_model_path))
 
         if not inputs_seqs:
             return {}
-
         rp_parser = RpExprParser(
             window_size=self.window_size,
             fold_policy=self.fold_policy,
@@ -203,7 +199,7 @@ class SplitAnalyzer:
                 )
 
             current_idx = 0
-            split_points_set = set()
+            split_positions = set()
             total_len = sum(token2len.get(t, 1) for t in seq_tokens)
 
             for token_id in seq_tokens:
@@ -212,22 +208,22 @@ class SplitAnalyzer:
 
                 if is_pattern:
                     if current_idx > 0:
-                        split_points_set.add(current_idx)
+                        split_positions.add(current_idx)
                     end_idx = current_idx + length
                     if end_idx < total_len:
-                        split_points_set.add(end_idx)
+                        split_positions.add(end_idx)
 
                 current_idx += length
 
-            sorted_splits = sorted(list(split_points_set))
+            sorted_splits = sorted(list(split_positions))
 
             self._print_analysis(
                 model_name, str(original_path), sorted_splits, total_len, full_model_ops
             )
 
-            results[model_name] = {
-                "path": str(original_path),
-                "split_points": sorted_splits,
+            results[str(original_path)] = {
+                "model_name": model_name,
+                "split_positions": sorted_splits,
                 "total_length": total_len,
             }
 
@@ -258,13 +254,27 @@ class SplitAnalyzer:
         print("\n")
 
 
+def _all_models_handled(args):
+    output_json_path = Path(args.output_json)
+    if not output_json_path.exists():
+        return False
+    with open(output_json_path) as f:
+        output_json = json.load(f)
+    rel_model_paths = [
+        path for path in Path(args.model_list).read_text().split("\n") if len(path) > 0
+    ]
+    return all(path in output_json for path in rel_model_paths)
+
+
 def main(args):
+    if args.enable_resume and _all_models_handled(args):
+        return
     analyzer = SplitAnalyzer(
         window_size=args.window_size,
         fold_policy=args.fold_policy,
         fold_times=args.fold_times,
     )
-    results = analyzer.analyze(args.model_list, args.device)
+    results = analyzer.analyze(args.op_names_path_prefix, args.model_list, args.device)
     if args.output_json:
         with open(args.output_json, "w") as f:
             json.dump(results, f, indent=4)
@@ -279,6 +289,12 @@ if __name__ == "__main__":
         type=str,
         required=True,
         help="Path to a text file containing paths to models (one per line).",
+    )
+    parser.add_argument(
+        "--op-names-path-prefix",
+        type=str,
+        default="./",
+        help="Prefix to add to each op_names.txt file path in the list.",
     )
     parser.add_argument(
         "--device",
@@ -306,6 +322,12 @@ if __name__ == "__main__":
         type=str,
         default="split_results.json",
         help="Path to save the analysis results in JSON format.",
+    )
+    parser.add_argument(
+        "--enable-resume",
+        action="store_true",
+        default=False,
+        help="Resume process",
     )
     args = parser.parse_args()
     main(args)

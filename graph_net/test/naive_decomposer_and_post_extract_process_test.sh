@@ -1,5 +1,4 @@
 #!/bin/bash
-# bash graph_net/test/naive_decomposer_and_post_extract_process_test.sh
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(
 os.path.dirname(graph_net.__file__))")
@@ -19,7 +18,7 @@ decorator_config_json_str=$(cat <<EOF
             "group_head_and_tail": true,
             "filter_path":"$GRAPH_NET_ROOT/torch/naive_subgraph_filter.py",
             "filter_config": {},
-            "post_extract_process_path":"$GRAPH_NET_ROOT/torch/post_extract_process_count_kernels.py",
+            "post_extract_process_path":"$GRAPH_NET_ROOT/torch/count_kernels_util.py",
             "post_extract_process_class_name": "GraphFullyFusible"
         }
     }

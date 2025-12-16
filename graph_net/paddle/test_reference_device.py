@@ -1,14 +1,9 @@
 import argparse
-import importlib.util
 import paddle
-import time
-import numpy as np
-import random
 import os
 from pathlib import Path
 from contextlib import redirect_stdout, redirect_stderr
 import json
-import re
 import sys
 import traceback
 
@@ -28,18 +23,23 @@ def get_reference_output_path(reference_dir, model_path):
 
 
 def test_single_model(args):
-    ref_log = get_reference_log_path(args.reference_dir, args.model_path)
-    ref_dump = get_reference_output_path(args.reference_dir, args.model_path)
+    model_path = os.path.normpath(args.model_path)
+    ref_log = get_reference_log_path(args.reference_dir, model_path)
+    ref_dump = get_reference_output_path(args.reference_dir, model_path)
     print(f"Reference log path: {ref_log}", file=sys.stderr, flush=True)
     print(f"Reference outputs path: {ref_dump}", file=sys.stderr, flush=True)
 
     with open(ref_log, "w", encoding="utf-8") as log_f:
         with redirect_stdout(log_f), redirect_stderr(log_f):
+            test_compiler_util.print_with_log_prompt(
+                "[Processing]", model_path, args.log_prompt
+            )
+
             compiler = test_compiler.get_compiler_backend(args)
             test_compiler.check_and_print_gpu_utilization(compiler)
 
-            input_dict = test_compiler.get_input_dict(args.model_path)
-            model = test_compiler.get_model(args.model_path)
+            input_dict = test_compiler.get_input_dict(model_path)
+            model = test_compiler.get_model(model_path)
             model.eval()
 
             test_compiler_util.print_with_log_prompt(
@@ -55,7 +55,7 @@ def test_single_model(args):
             success = False
             time_stats = {}
             try:
-                input_spec = test_compiler.get_input_spec(args.model_path)
+                input_spec = test_compiler.get_input_spec(model_path)
                 compiled_model = compiler(model, input_spec)
                 outputs, time_stats = test_compiler.measure_performance(
                     lambda: compiled_model(**input_dict),

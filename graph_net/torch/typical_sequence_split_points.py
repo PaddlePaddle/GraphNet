@@ -116,7 +116,9 @@ class SplitAnalyzer:
         return [f"Unknown({tid})"]
 
     def _load_op_names_from_file(self, txt_path: Path) -> List[str]:
-        assert txt_path.exists(), f"{str(txt_path)=}"
+        if not txt_path.exists():
+            print(f"File not found: {txt_path}")
+            return []
         return txt_path.read_text().split("\n")
 
     def _calculate_token_lengths(

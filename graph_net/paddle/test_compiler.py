@@ -4,10 +4,6 @@ import paddle
 from pathlib import Path
 import sys
 import os
-from dataclasses import dataclass
-from contextlib import contextmanager
-import time
-import math
 import numpy as np
 import random
 import platform
@@ -62,7 +58,7 @@ def get_hardward_name(args):
                     )
                 )
             )
-        except Exception as e:
+        except Exception:
             pass
     elif args.device == "cpu":
         hardware = platform.processor()
@@ -128,7 +124,7 @@ def get_static_model(args, model):
         backend=None,
     )
     static_model.eval()
-    program = static_model.forward.concrete_program.main_program
+    program = static_model.forward.concrete_program.main_program  # noqa
     return static_model
 
 
@@ -225,47 +221,56 @@ def measure_performance(model_call, args, compiler, profile=False):
 
 
 def check_outputs(args, expected_out, compiled_out):
-    if isinstance(expected_out, paddle.Tensor):
-        expected_out = [expected_out]
-    if isinstance(compiled_out, paddle.Tensor):
-        compiled_out = [compiled_out]
+    def _flatten_outputs_to_list(outs):
+        flattened_outs = outs
+        if isinstance(outs, paddle.Tensor):
+            flattened_outs = [outs]
+        else:
+            flattened_outs = [
+                x
+                for out in outs
+                for x in (out if isinstance(out, (tuple, list)) else (out,))
+            ]
+        return flattened_outs
 
-    eager_dtypes = [None] * len(expected_out)
-    for i, tensor in enumerate(expected_out):
-        eager_dtypes[i] = (
-            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "None"
-        )
+    expected_out = _flatten_outputs_to_list(expected_out)
+    compiled_out = _flatten_outputs_to_list(compiled_out)
 
-    compiled_dtypes = [None] * len(compiled_out)
-    for i, tensor in enumerate(compiled_out):
-        compiled_dtypes[i] = (
-            str(tensor.dtype).replace("paddle.", "") if tensor is not None else "None"
-        )
+    def _get_output_dtypes(outs):
+        dtypes = [
+            str(tensor.dtype).replace("paddle.", "")
+            if isinstance(tensor, paddle.Tensor)
+            else None
+            for i, tensor in enumerate(outs)
+        ]
+        return dtypes
 
+    eager_dtypes = _get_output_dtypes(expected_out)
+    compiled_dtypes = _get_output_dtypes(compiled_out)
     type_match = test_compiler_util.check_output_datatype(
         args, eager_dtypes, compiled_dtypes
     )
 
-    eager_shapes = [None] * len(expected_out)
-    for i, tensor in enumerate(expected_out):
-        eager_shapes[i] = tensor.shape if tensor is not None else None
+    def _get_output_shapes(outs):
+        shapes = [
+            tensor.shape if isinstance(tensor, paddle.Tensor) else None
+            for i, tensor in enumerate(outs)
+        ]
+        return shapes
 
-    compiled_shapes = [None] * len(compiled_out)
-    for i, tensor in enumerate(compiled_out):
-        compiled_shapes[i] = tensor.shape if tensor is not None else None
-
+    eager_shapes = _get_output_shapes(expected_out)
+    compiled_shapes = _get_output_shapes(compiled_out)
     shape_match = test_compiler_util.check_output_shape(
         args, eager_shapes, compiled_shapes
     )
 
-    def transfer_to_float(origin_outputs):
+    def _transfer_to_float(origin_outputs):
         outputs = []
         for item in origin_outputs:
-            if (
-                item is not None
-                and isinstance(item, paddle.Tensor)
-                and item.dtype not in [paddle.float32, paddle.float64]
-            ):
+            if isinstance(item, paddle.Tensor) and item.dtype not in [
+                paddle.float32,
+                paddle.float64,
+            ]:
                 item = item.astype("float32")
             outputs.append(item)
         return outputs
@@ -278,8 +283,8 @@ def check_outputs(args, expected_out, compiled_out):
             cmp_equal_func=get_cmp_equal,
         )
 
-        expected_out_fp32 = transfer_to_float(expected_out)
-        compiled_out_fp32 = transfer_to_float(compiled_out)
+        expected_out_fp32 = _transfer_to_float(expected_out)
+        compiled_out_fp32 = _transfer_to_float(compiled_out)
         test_compiler_util.check_allclose(
             args,
             expected_out_fp32,
@@ -308,11 +313,16 @@ def check_and_print_gpu_utilization(compiler):
 
 
 def test_single_model(args):
+    model_path = os.path.normpath(args.model_path)
+    test_compiler_util.print_with_log_prompt(
+        "[Processing]", model_path, args.log_prompt
+    )
+
     compiler = get_compiler_backend(args)
     check_and_print_gpu_utilization(compiler)
 
-    input_dict = get_input_dict(args.model_path)
-    model = get_model(args.model_path)
+    input_dict = get_input_dict(model_path)
+    model = get_model(model_path)
     model.eval()
 
     test_compiler_util.print_basic_config(
@@ -341,7 +351,7 @@ def test_single_model(args):
     compiled_time_stats = {}
     try:
         print("Run model in compiled mode.", file=sys.stderr, flush=True)
-        input_spec = get_input_spec(args.model_path)
+        input_spec = get_input_spec(model_path)
         compiled_model = compiler(model, input_spec)
         compiled_out, compiled_time_stats = measure_performance(
             lambda: compiled_model(**input_dict), args, compiler, profile=False

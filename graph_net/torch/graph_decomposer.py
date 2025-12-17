@@ -1,7 +1,9 @@
 import os
+import shutil
 from pathlib import Path
 import torch
 import json
+import sys
 from graph_net.torch.decompose_util import convert_to_submodules_graph
 from graph_net.torch.extractor import GraphExtractor as BuiltinGraphExtractor
 import graph_net.imp_util as imp_util
@@ -197,15 +199,23 @@ class RangeDecomposerExtractor:
         num_subgraphs = len(split_positions) + 1
         decomposed_model_path = Path(self.config["output_dir"]) / rel_model_path
         num_decomposed = len(list(decomposed_model_path.rglob("model.py")))
-        if num_decomposed > 0:
-            assert (
-                num_subgraphs <= num_decomposed
-            ), f"{num_subgraphs=} {num_decomposed=} {str(decomposed_model_path)=}"
+        if num_decomposed > 0 and num_subgraphs != num_decomposed:
+            shutil.rmtree(decomposed_model_path / "_decomposed")
+            return False
         return num_subgraphs == num_decomposed
 
     def __call__(self, rel_model_path):
+        assert os.path.realpath(self.config["model_path_prefix"]) != os.path.realpath(
+            self.config["output_dir"]
+        )
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         split_results = load_json(self.config["split_results_path"])
+        if (
+            split_results[rel_model_path]["split_positions"] is None
+            or len(split_results[rel_model_path]["split_positions"]) == 0
+        ):
+            sys.stderr.write(f"Error: {rel_model_path} has no split positions.\n")
+            return
         split_positions = split_results[rel_model_path]["split_positions"]
         if self.config["resume"] and self._is_model_handled(
             rel_model_path, split_positions

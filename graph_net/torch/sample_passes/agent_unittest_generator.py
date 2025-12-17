@@ -47,17 +47,14 @@ import torch
 
 
 def init_float_tensor(shape, dtype, mean, std, max_val=None, min_val=None):
-    if std < 1e-5:
-        tensor = torch.full(size=shape, fill_value=mean, dtype=dtype)
-    else:
-        tensor = torch.randn(size=shape) * std * 0.2 + mean
+    tensor = torch.randn(size=shape) * std * 0.2 + mean
     if min_val is not None or max_val is not None:
         tensor = torch.clamp(tensor, min=min_val, max=max_val)
     return tensor.to(dtype).to('{{graph_module_desc.device}}')
 
 
 class Model(torch.nn.Module):
-    def __init__(self) -> None:
+    def __init__(self):
         super().__init__()
         {%- for arg_name in graph_module_desc.weight_arg_names %}
         {%- set input_idx = loop.index0 %}
@@ -143,7 +140,7 @@ class AgentUnittestGenerator:
 
     def generate(self):
         model_name = "".join(
-            word.capitalize() for word in re.split(r"[_-]", self.model_path.name)
+            word.capitalize() for word in re.split(r"[_.-]", self.model_path.name)
         )
         graph_module = load_class_from_file(
             self.model_path / "model.py", class_name="GraphModule"
@@ -164,7 +161,9 @@ class AgentUnittestGenerator:
             input_tensor_metas=input_tensor_metas,
             weight_arg_names=weight_arg_names,
             weight_tensor_metas=weight_tensor_metas,
-            forward_body=self._get_forward_body(graph_module, weight_arg_names),
+            forward_body=self._get_forward_body(
+                graph_module, input_arg_names, weight_arg_names
+            ),
         )
         unittest = self._render_template(graph_module_desc)
         self._write_to_file(unittest)
@@ -215,19 +214,52 @@ class AgentUnittestGenerator:
         weight_tensor_metas = [name2tensor_metas[name] for name in weight_arg_names]
         return input_tensor_metas, weight_tensor_metas
 
-    def _get_forward_body(self, graph_module, weight_arg_names):
-        def _update_assign_for_weight(stmt):
+    def _get_forward_body(self, graph_module, input_arg_names, weight_arg_names):
+        def _remove_clear_stmt_of_args(stmt):
+            arg_names = input_arg_names + weight_arg_names
+            # remove stmt like w_0 = None
             if (
                 isinstance(stmt, ast.Assign)
-                and len(stmt.targets) == 1
-                and isinstance(stmt.value, ast.Name)
-                and stmt.value.id in weight_arg_names
+                and isinstance(stmt.value, ast.Constant)
+                and stmt.value.value is None
             ):
-                stmt.value = ast.Attribute(
-                    value=ast.Name(id="self", ctx=ast.Load()),
-                    attr=stmt.value.id,
-                    ctx=ast.Load(),
-                )
+                new_targets = [
+                    t
+                    for t in stmt.targets
+                    if not isinstance(t, ast.Name) or t.id not in arg_names
+                ]
+                if not new_targets:
+                    return None
+                stmt.targets = new_targets
+            return stmt
+
+        def _rewrite_reference_for_weight(stmt):
+            if isinstance(stmt, ast.Name):
+                if isinstance(stmt.ctx, ast.Load) and stmt.id in weight_arg_names:
+                    return ast.Attribute(
+                        value=ast.Name(id="self", ctx=ast.Load()),
+                        attr=stmt.id,
+                        ctx=ast.Load(),
+                    )
+                return stmt
+
+            for field, value in ast.iter_fields(stmt):
+                if isinstance(value, list):
+                    new_list = []
+                    for item in value:
+                        if isinstance(item, ast.AST):
+                            item = _rewrite_reference_for_weight(item)
+                        new_list.append(item)
+                    setattr(stmt, field, new_list)
+                elif isinstance(value, ast.AST):
+                    setattr(stmt, field, _rewrite_reference_for_weight(value))
+            return stmt
+
+        def _update_for_weight(stmt):
+            stmt = _remove_clear_stmt_of_args(stmt)
+            if stmt is not None:
+                stmt = _rewrite_reference_for_weight(stmt)
+                ast.fix_missing_locations(stmt)
             return stmt
 
         source = inspect.getsource(graph_module.forward)
@@ -237,7 +269,9 @@ class AgentUnittestGenerator:
         tree = ast.parse(textwrap.dedent(source))
         func_def = tree.body[0]
         dedented_stmts = [
-            ast.unparse(_update_assign_for_weight(stmt)) for stmt in func_def.body
+            ast.unparse(s)
+            for stmt in func_def.body
+            if (s := _update_for_weight(stmt)) is not None
         ]
 
         indent = " " * num_indents

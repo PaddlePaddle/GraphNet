@@ -1,23 +1,22 @@
 #!/usr/bin/env bash
-# set -euo pipefail
-
-# Smoke tests for AgentUnittestGenerator using model_path_handler + sample pass.
 
 ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
 GRAPH_NET_ROOT=$(python -c "import graph_net, os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
-HANDLER_PATH="$GRAPH_NET_ROOT/graph_net/torch/sample_passes/agent_unittest_generator.py"
+
 MODEL_PATH_PREFIX="$ROOT_DIR"
-OUTPUT_DIR="$ROOT_DIR"
+OUTPUT_DIR="/tmp/agent_unittests"
 
 HANDLER_CONFIG=$(base64 -w 0 <<EOF
 {
-    "handler_path": "$HANDLER_PATH",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/agent_unittest_generator.py",
     "handler_class_name": "AgentUnittestGeneratorPass",
     "handler_config": {
         "model_path_prefix": "$MODEL_PATH_PREFIX",
         "output_dir": "$OUTPUT_DIR",
-        "force_device": "auto",
-        "use_dummy_inputs": false
+        "device": "auto",
+        "generate_main": true,
+        "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",                                                                                     
+        "data_input_predicator_class_name": "NaiveDataInputPredicator"
     }
 }
 EOF

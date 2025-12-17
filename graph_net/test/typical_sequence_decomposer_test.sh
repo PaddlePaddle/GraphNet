@@ -33,6 +33,8 @@ python3 -m graph_net.torch.typical_sequence_split_points \
     --window-size 10 \
     --fold-policy default \
     --fold-times 10 \
+    --min-seq-ops 4 \
+    --max-seq-ops 16 \
     --output-json "$DECOMPOSE_PATH/split_results.json"
 
 python3 -m graph_net.model_path_handler \

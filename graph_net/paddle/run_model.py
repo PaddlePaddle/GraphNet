@@ -1,10 +1,7 @@
-import argparse
-import base64
-import importlib
-import importlib.util
-import json
 import os
-import sys
+import json
+import base64
+import argparse
 
 os.environ["FLAGS_logging_pir_py_code_dir"] = "/tmp/dump"
 
@@ -13,27 +10,11 @@ from graph_net import imp_util
 from graph_net.paddle import utils
 
 
-BUILTIN_DECORATORS = {
-    "AgentUnittestGenerator": "graph_net.paddle.sample_passes.agent_unittest_generator",
-}
-
-
 def load_class_from_file(file_path: str, class_name: str):
     print(f"Load {class_name} from {file_path}")
     module = imp_util.load_module(file_path, "unnamed")
     model_class = getattr(module, class_name, None)
     return model_class
-
-
-def _load_builtin_decorator(class_name: str):
-    module_path = BUILTIN_DECORATORS.get(class_name)
-    if not module_path:
-        return None
-    try:
-        module = importlib.import_module(module_path)
-    except ModuleNotFoundError:
-        return None
-    return getattr(module, class_name, None)
 
 
 def get_input_dict(model_path):
@@ -58,37 +39,16 @@ def _convert_to_dict(config_str):
     return config
 
 
-def _get_decorator(arg):
-    """Accept argparse.Namespace or already-parsed dict configs."""
-    if arg is None:
+def _get_decorator(args):
+    if args.decorator_config is None:
         return lambda model: model
-
-    decorator_config = (
-        _convert_to_dict(arg.decorator_config)
-        if hasattr(arg, "decorator_config")
-        else arg
+    decorator_config = _convert_to_dict(args.decorator_config)
+    if "decorator_path" not in decorator_config:
+        return lambda model: model
+    decorator_class = load_class_from_file(
+        decorator_config["decorator_path"], class_name="RunModelDecorator"
     )
-    if not decorator_config:
-        return lambda model: model
-
-    class_name = decorator_config.get("decorator_class_name", "RunModelDecorator")
-    decorator_kwargs = decorator_config.get("decorator_config", {})
-
-    if "decorator_path" in decorator_config:
-        decorator_class = load_class_from_file(
-            decorator_config["decorator_path"], class_name=class_name
-        )
-        return decorator_class(decorator_kwargs)
-
-    builtin_decorator = _load_builtin_decorator(class_name)
-    if builtin_decorator:
-        return builtin_decorator(decorator_kwargs)
-
-    if hasattr(sys.modules[__name__], class_name):
-        decorator_class = getattr(sys.modules[__name__], class_name)
-        return decorator_class(decorator_kwargs)
-
-    return lambda model: model
+    return decorator_class(decorator_config.get("decorator_config", {}))
 
 
 def main(args):
@@ -99,15 +59,9 @@ def main(args):
     assert model_class is not None
     model = model_class()
     print(f"{model_path=}")
-    decorator_config = _convert_to_dict(args.decorator_config)
-    if decorator_config:
-        decorator_config.setdefault("decorator_config", {})
-        decorator_config["decorator_config"].setdefault("model_path", model_path)
-        decorator_config["decorator_config"].setdefault("output_dir", None)
-        decorator_config["decorator_config"].setdefault("use_numpy", True)
 
-    model = _get_decorator(decorator_config)(model)
     input_dict = get_input_dict(args.model_path)
+    model = _get_decorator(args)(model)
     model(**input_dict)
 
 

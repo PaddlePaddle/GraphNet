@@ -1,18 +1,10 @@
 from . import utils
 import argparse
-import base64
-import importlib
 import importlib.util
-import json
-import sys
-from typing import Type
-
 import torch
-
-
-BUILTIN_DECORATORS = {
-    "AgentUnittestGenerator": "graph_net.torch.sample_passes.agent_unittest_generator",
-}
+from typing import Type
+import json
+import base64
 
 
 def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Module]:
@@ -24,17 +16,6 @@ def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Modul
     return model_class
 
 
-def _load_builtin_decorator(class_name: str):
-    module_path = BUILTIN_DECORATORS.get(class_name)
-    if not module_path:
-        return None
-    try:
-        module = importlib.import_module(module_path)
-    except ModuleNotFoundError:
-        return None
-    return getattr(module, class_name, None)
-
-
 def _convert_to_dict(config_str):
     if config_str is None:
         return {}
@@ -44,47 +25,26 @@ def _convert_to_dict(config_str):
     return config
 
 
-def _get_decorator(arg):
-    """Accept argparse.Namespace or already-parsed dict configs."""
-    if arg is None:
+def _get_decorator(decorator_config):
+    if "decorator_path" not in decorator_config:
         return lambda model: model
-
-    decorator_config = (
-        _convert_to_dict(arg.decorator_config)
-        if hasattr(arg, "decorator_config")
-        else arg
-    )
-    if not decorator_config:
-        return lambda model: model
-
     class_name = decorator_config.get("decorator_class_name", "RunModelDecorator")
-    decorator_kwargs = decorator_config.get("decorator_config", {})
-
-    if "decorator_path" in decorator_config:
-        decorator_class = load_class_from_file(
-            decorator_config["decorator_path"], class_name=class_name
-        )
-        return decorator_class(decorator_kwargs)
-
-    builtin_decorator = _load_builtin_decorator(class_name)
-    if builtin_decorator:
-        return builtin_decorator(decorator_kwargs)
-
-    if hasattr(sys.modules[__name__], class_name):
-        decorator_class = getattr(sys.modules[__name__], class_name)
-        return decorator_class(decorator_kwargs)
-
-    return lambda model: model
+    decorator_class = load_class_from_file(
+        decorator_config["decorator_path"],
+        class_name=class_name,
+    )
+    return decorator_class(decorator_config.get("decorator_config", {}))
 
 
 def get_flag_use_dummy_inputs(decorator_config):
-    return "use_dummy_inputs" in decorator_config if decorator_config else False
+    return "use_dummy_inputs" in decorator_config
 
 
 def replay_tensor(info, use_dummy_inputs):
     if use_dummy_inputs:
         return utils.get_dummy_tensor(info)
-    return utils.replay_tensor(info)
+    else:
+        return utils.replay_tensor(info)
 
 
 def main(args):
@@ -96,13 +56,8 @@ def main(args):
     model = model_class()
     print(f"{model_path=}")
     decorator_config = _convert_to_dict(args.decorator_config)
-    if decorator_config:
-        decorator_config.setdefault("decorator_config", {})
-        decorator_config["decorator_config"].setdefault("model_path", model_path)
-        decorator_config["decorator_config"].setdefault("output_dir", None)
-        decorator_config["decorator_config"].setdefault("use_dummy_inputs", False)
-
-    model = _get_decorator(decorator_config)(model)
+    if "decorator_path" in decorator_config:
+        model = _get_decorator(decorator_config)(model)
 
     inputs_params = utils.load_converted_from_text(f"{model_path}")
     params = inputs_params["weight_info"]

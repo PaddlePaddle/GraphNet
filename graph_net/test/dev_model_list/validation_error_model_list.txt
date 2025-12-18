@@ -2,7 +2,7 @@ samples/torchgeometric/RECT_L
 samples/transformers-auto-model/bge-small-en-v1.5
 samples/transformers-auto-model/distilbert_distilbert-base-multilingual-cased
 samples/transformers-auto-model/OFA-Sys_chinese-clip-vit-large-patch14
-samples/transformers-auto-model/opus-mt-ase-es
+samples/transformers-auto-model/miangoar_esm2_t12_35M_UR50D-finetuned-secondary-structure-classification
 samples/transformers-auto-model/opus-mt-en-gv
 samples/transformers-auto-model/opus-mt-en-phi
 samples/transformers-auto-model/opus-mt-en-sal

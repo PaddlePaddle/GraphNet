@@ -6,6 +6,9 @@ from typing import Any, Dict, List
 import torch
 import torch.nn as nn
 from graph_net.torch.rp_expr.rp_expr_parser import RpExprParser
+from graph_net.torch.rp_expr.rp_expr_util import (
+    MakeNestedIndexRangeFromLetsListTokenRpExpr,
+)
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module_without_varify
 
@@ -92,11 +95,18 @@ class OpNamesExtractor:
 
 class SplitAnalyzer:
     def __init__(
-        self, window_size: int = 10, fold_policy: str = "default", fold_times: int = 0
+        self,
+        window_size: int = 10,
+        fold_policy: str = "default",
+        fold_times: int = 0,
+        min_seq_ops: int = 2,
+        max_seq_ops: int = 64,
     ):
         self.window_size = window_size
         self.fold_policy = fold_policy
         self.fold_times = fold_times
+        self.min_seq_ops = min_seq_ops
+        self.max_seq_ops = max_seq_ops
 
     def _resolve_token_to_ops(
         self, tid, num_primitives, token_id2primitive_id, symbol_map
@@ -174,8 +184,18 @@ class SplitAnalyzer:
             fold_times=self.fold_times,
         )
         rp_expr, token_id2primitive_id = rp_parser(inputs_seqs)
-        rp_expr.try_unwrap_body_of_sole_symbol_token()
-        rp_expr.try_recursive_inline_symbol_sole_used(token_id2primitive_id)
+        trees = MakeNestedIndexRangeFromLetsListTokenRpExpr(rp_expr)
+
+        def get_debug_sprintf():
+            var_and_vals = zip(rp_expr.symbol_token_ids, rp_expr.symbol_token_tensors)
+            ret_lst = [
+                *(f"{var}: {val}" for var, val in var_and_vals),
+                "",
+                str(rp_expr.body_rp_expr),
+            ]
+            return "\n".join(ret_lst)
+
+        # Path("/tmp/rp_expr.txt").write_text(get_debug_sprintf())
 
         num_primitives = len(token_id2primitive_id)
         symbol_map = dict(zip(rp_expr.symbol_token_ids, rp_expr.symbol_token_tensors))
@@ -186,6 +206,8 @@ class SplitAnalyzer:
         for i, (model_name, original_path) in enumerate(valid_models):
             if i >= len(rp_expr.body_rp_expr):
                 break
+
+            tree = trees[i]
 
             target_body_tensor = rp_expr.body_rp_expr[i]
             seq_tokens = target_body_tensor.tolist()
@@ -198,24 +220,18 @@ class SplitAnalyzer:
                     )
                 )
 
-            current_idx = 0
-            split_positions = set()
             total_len = sum(token2len.get(t, 1) for t in seq_tokens)
 
-            for token_id in seq_tokens:
-                length = token2len.get(token_id, 1)
-                is_pattern = token_id >= num_primitives
-
-                if is_pattern:
-                    if current_idx > 0:
-                        split_positions.add(current_idx)
-                    end_idx = current_idx + length
-                    if end_idx < total_len:
-                        split_positions.add(end_idx)
-
-                current_idx += length
-
-            sorted_splits = sorted(list(split_positions))
+            sorted_splits = sorted(
+                set(
+                    split_pos
+                    for start, end in tree.FilterSubTreeRangeBySize(
+                        self.min_seq_ops, self.max_seq_ops
+                    )
+                    for split_pos in (start, end)
+                    if end - start > 1
+                )
+            )
 
             self._print_analysis(
                 model_name, str(original_path), sorted_splits, total_len, full_model_ops
@@ -273,6 +289,8 @@ def main(args):
         window_size=args.window_size,
         fold_policy=args.fold_policy,
         fold_times=args.fold_times,
+        min_seq_ops=args.min_seq_ops,
+        max_seq_ops=args.max_seq_ops,
     )
     results = analyzer.analyze(args.op_names_path_prefix, args.model_list, args.device)
     if args.output_json:
@@ -328,6 +346,18 @@ if __name__ == "__main__":
         action="store_true",
         default=False,
         help="Resume process",
+    )
+    parser.add_argument(
+        "--min-seq-ops",
+        type=int,
+        default=2,
+        help="minimum number of sequence operators",
+    )
+    parser.add_argument(
+        "--max-seq-ops",
+        type=int,
+        default=64,
+        help="maximum number of sequence operators",
     )
     args = parser.parse_args()
     main(args)

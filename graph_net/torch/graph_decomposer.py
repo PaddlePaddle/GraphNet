@@ -170,6 +170,7 @@ class RangeDecomposerExtractor:
         self,
         resume: bool = False,
         split_results_path=None,
+        subgraph_ranges_path=None,
         group_head_and_tail=False,
         chain_style=False,
         output_dir="./tmp/naive_decomposer_dir",
@@ -180,6 +181,10 @@ class RangeDecomposerExtractor:
     ):
         if os.path.isfile(split_results_path) and split_results_path.endswith(".json"):
             pass
+        elif os.path.isfile(subgraph_ranges_path) and subgraph_ranges_path.endswith(
+            ".json"
+        ):
+            pass
         else:
             raise ValueError(
                 f"split_results_path should be a valid JSON file path, but got {split_results_path=}"
@@ -187,6 +192,7 @@ class RangeDecomposerExtractor:
         return {
             "resume": resume,
             "split_results_path": split_results_path,
+            "subgraph_ranges_path": subgraph_ranges_path,
             "group_head_and_tail": group_head_and_tail,
             "chain_style": chain_style,
             "output_dir": output_dir,
@@ -195,8 +201,19 @@ class RangeDecomposerExtractor:
             "model_path_prefix": model_path_prefix,
         }
 
-    def _is_model_handled(self, rel_model_path, split_positions):
-        num_subgraphs = len(split_positions) + 1
+    def _is_model_handled(self, rel_model_path, split_positions, subgraph_ranges):
+        if self.config["chain_style"]:
+            return self._has_enough_subgraphs(
+                rel_model_path,
+                num_subgraphs=len(split_positions) + 1,
+            )
+        else:
+            return self._has_enough_subgraphs(
+                rel_model_path,
+                num_subgraphs=len(subgraph_ranges),
+            )
+
+    def _has_enough_subgraphs(self, rel_model_path, num_subgraphs):
         decomposed_model_path = Path(self.config["output_dir"]) / rel_model_path
         num_decomposed = len(list(decomposed_model_path.rglob("model.py")))
         if num_decomposed > 0 and num_subgraphs != num_decomposed:
@@ -209,21 +226,26 @@ class RangeDecomposerExtractor:
             self.config["output_dir"]
         )
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
-        split_results = load_json(self.config["split_results_path"])
+        split_positions_json = load_json(self.config["split_results_path"])
+        subgraph_ranges_json = load_json(self.config["subgraph_ranges_path"])
         if (
-            split_results[rel_model_path]["split_positions"] is None
-            or len(split_results[rel_model_path]["split_positions"]) == 0
+            split_positions_json[rel_model_path]["split_positions"] is None
+            or len(split_positions_json[rel_model_path]["split_positions"]) == 0
+            or subgraph_ranges_json[rel_model_path]["subgraph_ranges"] is None
+            or len(subgraph_ranges_json[rel_model_path]["subgraph_ranges"]) == 0
         ):
             sys.stderr.write(f"Error: {rel_model_path} has no split positions.\n")
             return
-        split_positions = split_results[rel_model_path]["split_positions"]
+        split_positions = split_positions_json[rel_model_path]["split_positions"]
+        subgraph_ranges = subgraph_ranges_json[rel_model_path]["subgraph_ranges"]
         if self.config["resume"] and self._is_model_handled(
-            rel_model_path, split_positions
+            rel_model_path, split_positions, subgraph_ranges
         ):
             return
         torch.cuda.empty_cache()
         config = {
             "split_positions": split_positions,
+            "subgraph_ranges": subgraph_ranges,
             "group_head_and_tail": self.config.get("group_head_and_tail", False),
             "chain_style": self.config.get("chain_style", False),
         }

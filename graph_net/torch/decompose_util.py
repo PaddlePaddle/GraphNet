@@ -8,6 +8,7 @@ from dataclasses import dataclass
 def convert_to_submodules_graph(
     gm: torch.fx.GraphModule,
     split_positions: list[int],
+    subgraph_ranges: list[(int, int)] = None,
     submodule_hook=None,
     submodule_name_prefix="extracted_submodule",
     chain_style=False,
@@ -26,21 +27,42 @@ def convert_to_submodules_graph(
             "output",
         }
     ]
-    split_positions = (
-        [0, *split_positions, len(submodules_body_nodes)]
-        if group_head_and_tail
-        else split_positions
+
+    def get_range_idx2range_by_split_positions():
+        nonlocal split_positions
+        split_positions = (
+            [0, *split_positions, len(submodules_body_nodes)]
+            if group_head_and_tail
+            else split_positions
+        )
+        split_positions = [
+            max(0, min(pos, len(submodules_body_nodes))) for pos in split_positions
+        ]
+        return [
+            (start, end)
+            for i in range(len(split_positions) - 1)
+            for start in [split_positions[i]]
+            for end in [split_positions[i + 1]]
+            if end > start
+        ]
+
+    def get_range_idx2range_by_subgraph_ranges():
+        assert submodules_body_nodes is not None
+        num_nodes = len(submodules_body_nodes)
+        for i in range(len(subgraph_ranges)):
+            start, end = subgraph_ranges[i]
+            assert start >= 0
+            assert start < end
+            assert end <= num_nodes
+            # check disjoint
+            assert i == 0 or start >= subgraph_ranges[i - 1][1], f"{i=}"
+        return subgraph_ranges
+
+    range_idx2range = (
+        get_range_idx2range_by_split_positions()
+        if (chain_style or submodules_body_nodes is None)
+        else get_range_idx2range_by_subgraph_ranges()
     )
-    split_positions = [
-        max(0, min(pos, len(submodules_body_nodes))) for pos in split_positions
-    ]
-    range_idx2range = [
-        (start, end)
-        for i in range(len(split_positions) - 1)
-        for start in [split_positions[i]]
-        for end in [split_positions[i + 1]]
-        if end > start
-    ]
     range_idx2submodule_body_nodes = [
         submodules_body_nodes[start:end] for start, end in range_idx2range
     ]

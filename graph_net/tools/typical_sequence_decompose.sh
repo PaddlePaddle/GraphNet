@@ -24,13 +24,15 @@ EOF
 )
 
 python3 -m graph_net.torch.typical_sequence_split_points \
-    --enable-resume \
     --model-list "$model_list" \
     --op-names-path-prefix "$DECOMPOSE_WORKSPACE" \
     --device "cuda" \
     --window-size 10 \
     --fold-policy default \
     --fold-times 10 \
+    --min-seq-ops 4 \
+    --max-seq-ops 16 \
+    --subgraph-ranges-json "$DECOMPOSE_WORKSPACE/subgraph_ranges.json" \
     --output-json "$DECOMPOSE_WORKSPACE/split_results.json"
 
 python3 -m graph_net.model_path_handler \
@@ -40,10 +42,11 @@ python3 -m graph_net.model_path_handler \
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_decomposer.py",
     "handler_class_name": "RangeDecomposerExtractor",
     "handler_config": {
-        "resume": true,
+        "resume": false,
         "model_path_prefix": "$GRAPH_NET_ROOT",
         "output_dir": "$DECOMPOSE_WORKSPACE",
         "split_results_path": "$DECOMPOSE_WORKSPACE/split_results.json",
+        "subgraph_ranges_path": "$DECOMPOSE_WORKSPACE/subgraph_ranges.json",
         "group_head_and_tail": true,
         "chain_style": false
     }

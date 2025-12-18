@@ -5,12 +5,14 @@ from pathlib import Path
 from typing import Any, Dict, List
 import torch
 import torch.nn as nn
+
 from graph_net.torch.rp_expr.rp_expr_parser import RpExprParser
 from graph_net.torch.rp_expr.rp_expr_util import (
     MakeNestedIndexRangeFromLetsListTokenRpExpr,
 )
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module_without_varify
+from graph_net.torch.decompose_util import cuda_gc
 
 
 class TypicalSequenceExtractor:
@@ -85,10 +87,12 @@ class OpNamesExtractor:
 
     def _extract_ops(self, model_path: str) -> List[str]:
         extractor = TypicalSequenceExtractor()
-        model, inputs = get_torch_module_and_inputs(model_path)
-        compiled_model, _ = parse_sole_graph_module_without_varify(model, inputs)
-        extractor.extract_compiler(compiled_model, inputs)
-        ops_info = extractor.extract_node
+        with cuda_gc():
+            model, inputs = get_torch_module_and_inputs(model_path)
+            compiled_model, _ = parse_sole_graph_module_without_varify(model, inputs)
+            extractor.extract_compiler(compiled_model, inputs)
+            ops_info = extractor.extract_node
+            del model, inputs, compiled_model
 
         return [op["target_name"] for op in ops_info]
 

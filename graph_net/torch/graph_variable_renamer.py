@@ -80,12 +80,6 @@ class GraphVariableRenamer:
         }
 
     def __call__(self, rel_model_path):
-        src_model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
-        with cuda_gc(enabled=self.config["release_gpu_memory"]):
-            module, inputs = get_torch_module_and_inputs(src_model_path)
-            gm = parse_sole_graph_module(module, inputs)
-            gm = self.rename_graph_variables(gm, inputs, src_model_path)
-            del module, inputs
         dst_model_path = os.path.realpath(
             os.path.join(self.config["output_dir"], rel_model_path)
         )
@@ -93,6 +87,14 @@ class GraphVariableRenamer:
             os.path.join(dst_model_path, "model.py")
         ):
             return
+
+        src_model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
+        with cuda_gc(enabled=self.config["release_gpu_memory"]):
+            module, inputs = get_torch_module_and_inputs(src_model_path)
+            gm = parse_sole_graph_module(module, inputs)
+            gm = self.rename_graph_variables(gm, inputs, src_model_path)
+            del module, inputs
+
         Path(dst_model_path).parent.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="graph_variable_renamer_") as temp_dir:
             temp_model_path = os.path.join(temp_dir, os.path.basename(dst_model_path))

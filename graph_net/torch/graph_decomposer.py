@@ -130,7 +130,7 @@ class NaiveDecomposerExtractor:
             for k, v in self.config.items()
             if k in {"split_positions", "group_head_and_tail", "chain_style"}
         }
-        module, inputs = get_torch_module_and_inputs(model_path)
+        module, inputs = get_torch_module_and_inputs(model_path, use_dummy_inputs=False)
         gm = parse_immutable_model_path_into_sole_graph_module(model_path)
         try:
             # logger.warning("convert_to_submodules_graph-call-begin")
@@ -227,7 +227,7 @@ class RangeDecomposerExtractor:
             "group_head_and_tail": self.config.get("group_head_and_tail", False),
             "chain_style": self.config.get("chain_style", False),
         }
-        module, inputs = get_torch_module_and_inputs(model_path)
+        module, inputs = get_torch_module_and_inputs(model_path, use_dummy_inputs=False)
         gm = parse_sole_graph_module(module, inputs)
         rewrited_gm: torch.fx.GraphModule = convert_to_submodules_graph(
             gm,

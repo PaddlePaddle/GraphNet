@@ -236,7 +236,7 @@ def convert_tensor_meta_attrs_list_to_named_tensors(tensor_meta_attrs_list):
     return ret
 
 
-def get_dummy_named_tensors(tensor_meta_attrs_list):
+def get_named_tensors(tensor_meta_attrs_list, use_dummy_inputs):
     tensors_wrappers = convert_tensor_meta_attrs_list_to_tensors_wrappers(
         tensor_meta_attrs_list
     )
@@ -244,7 +244,10 @@ def get_dummy_named_tensors(tensor_meta_attrs_list):
     for i, tensors_wrapper in enumerate(tensors_wrappers):
         name = tensors_wrapper["name"]
         # shape = tensors_wrapper["info"]['shape']
-        tensor = get_dummy_tensor(tensors_wrapper)
+        if use_dummy_inputs:
+            tensor = get_dummy_tensor(tensors_wrapper)
+        else:
+            tensor = replay_tensor(tensors_wrapper)
         ret.append((name, tensor))
     return ret
 

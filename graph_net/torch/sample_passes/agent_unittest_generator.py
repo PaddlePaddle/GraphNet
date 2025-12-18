@@ -1,272 +1,285 @@
+import re
+import ast
+import inspect
+import jinja2
+import textwrap
 from pathlib import Path
-from typing import Any, Dict
+from typing import Literal
+from collections import namedtuple
 
 import torch
-from jinja2 import Template
 
+from graph_net import imp_util
 from graph_net.sample_pass.sample_pass import SamplePass
+from graph_net.tensor_meta import TensorMeta
 
 
 TORCH_UNITTEST_TEMPLATE = r"""
-import ast
-import importlib.util
-import os
-import tempfile
+{%- if graph_module_desc.generate_main -%}
 import unittest
-from typing import Any, Dict
-
+{%- endif -%}
+{{"\n"}}
 import torch
 
 
-def _get_classes(file_path: str):
-    spec = importlib.util.spec_from_file_location("agent_meta", file_path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return [
-        (name, cls)
-        for name, cls in vars(module).items()
-        if isinstance(cls, type)
-    ]
+{% macro get_input_tensor_instance(tensor_meta, device) -%}
+{%- set shape = tensor_meta.shape -%}
+{%- set dtype = tensor_meta.dtype -%}
+{%- set data = tensor_meta.data -%}
+{%- set min_val = tensor_meta.min_val -%}
+{%- set max_val = tensor_meta.max_val -%}
+{%- set mean = tensor_meta.mean -%}
+{%- set std = tensor_meta.std -%}
+{%- if data is not none -%}
+    torch.tensor({{data}}, dtype={{dtype}}).reshape({{shape}}).to(device='{{device}}')
+{%- elif dtype == "torch.bool" -%}
+    torch.rand({{shape}}, device={{device}}) > 0.5
+{%- elif dtype in ["torch.int8", "torch.int16", "torch.int32", "torch.int64"] -%}
+    torch.randint({{min_val}}, {{max_val}} + 1, size={{shape}}, dtype={{dtype}}).to(device='{{device}}')
+{%- elif dtype in ["torch.float16", "torch.bfloat16", "torch.float32", "torch.float64"] -%}
+    {%- if max_val is not none or min_val is not none -%}
+    init_float_tensor(shape={{shape}}, dtype={{dtype}}, mean={{mean}}, std={{std}}, max_val={{max_val}}, min_val={{min_val}})
+    {%- else -%}
+    init_float_tensor(shape={{shape}}, dtype={{dtype}}, mean={{mean}}, std={{std}})
+    {%- endif -%}
+{%- endif -%}
+{%- endmacro -%}
 
 
-def _convert_meta_classes_to_wrappers(file_path: str):
-    for _, cls in _get_classes(file_path):
-        attrs = {
-            k: v for k, v in vars(cls).items() if not k.startswith("__") and not callable(v)
-        }
-        dtype_attr = attrs.get("dtype", "torch.float32")
-        dtype = getattr(torch, str(dtype_attr).split(".")[-1])
-        shape = [1 if dim is None else dim for dim in attrs.get("shape", [])]
-        info = {
-            "shape": shape,
-            "dtype": dtype,
-            "device": attrs.get("device", "cpu"),
-            "mean": attrs.get("mean", 0.0),
-            "std": attrs.get("std", 1.0),
-            "min_val": attrs.get("min_val"),
-            "max_val": attrs.get("max_val"),
-        }
-        data = attrs.get("data")
-        if data is not None and not isinstance(data, torch.Tensor):
-            data = torch.tensor(data, dtype=dtype).reshape(info["shape"])
-        yield {"info": info, "data": data, "name": attrs.get("name")}
+def init_float_tensor(shape, dtype, mean, std, max_val=None, min_val=None):
+    tensor = torch.randn(size=shape) * std * 0.2 + mean
+    if min_val is not None or max_val is not None:
+        tensor = torch.clamp(tensor, min=min_val, max=max_val)
+    return tensor.to(dtype).to('{{graph_module_desc.device}}')
 
 
-def _convert_meta_to_tensors(model_path: str):
-    weight_meta = os.path.join(model_path, "weight_meta.py")
-    input_meta = os.path.join(model_path, "input_meta.py")
-    weight_info = {
-        item["name"]: item for item in _convert_meta_classes_to_wrappers(weight_meta)
-    }
-    input_info = list(_convert_meta_classes_to_wrappers(input_meta))
-    return {"weight_info": weight_info, "input_info": input_info}
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        {%- for arg_name in graph_module_desc.weight_arg_names %}
+        {%- set input_idx = loop.index0 %}
+        self.{{arg_name}} = {{get_input_tensor_instance(graph_module_desc.weight_tensor_metas[input_idx], graph_module_desc.device)}}
+        {%- endfor %}
+
+    def forward(self, {{graph_module_desc.input_arg_names | join(", ")}}):
+        {{graph_module_desc.forward_body}}
 
 
-def _replay_tensor(info: Dict[str, Any]):
-    device = torch.device(info["info"].get("device", "cpu"))
-    dtype = info["info"].get("dtype", torch.float32)
-    shape = info["info"].get("shape", [])
-    mean = info["info"].get("mean", 0.0)
-    std = info["info"].get("std", 1.0)
-    min_val = info["info"].get("min_val")
-    max_val = info["info"].get("max_val")
-    if info.get("data") is not None:
-        return info["data"].to(dtype=dtype, device=device)
-    if dtype is torch.bool:
-        return (torch.rand(shape, device=device) > 0.5)
-    if std is None:
-        std = 0.1
-    if mean is None:
-        mean = 0.0
-    tensor = torch.randn(shape, device=device, dtype=dtype) * std * 0.2 + mean
-    if min_val is not None:
-        tensor = torch.clamp(tensor, min=min_val)
-    if max_val is not None:
-        tensor = torch.clamp(tensor, max=max_val)
-    tensor = torch.where(torch.isfinite(tensor), tensor, torch.zeros_like(tensor))
-    return tensor
+def get_inputs():
+    {%- for arg_name in graph_module_desc.input_arg_names %}
+    {%- set input_idx = loop.index0 %}
+    {{arg_name}} = {{get_input_tensor_instance(graph_module_desc.input_tensor_metas[input_idx], graph_module_desc.device)}}
+    {%- endfor %}
+    return [{{graph_module_desc.input_arg_names | join(", ")}}]
 
 
-def _get_dummy_tensor(info: Dict[str, Any]):
-    device = torch.device(info["info"].get("device", "cpu"))
-    dtype = info["info"].get("dtype", torch.float32)
-    shape = info["info"].get("shape", [])
-    if info.get("data") is not None:
-        return info["data"].to(dtype=dtype, device=device)
-    return torch.empty(shape, dtype=dtype, device=device)
+def get_init_inputs():
+    return []
 
-
-def _modify_code_by_device(code: str, new_device_str: str):
-    tree = ast.parse(code)
-
-    class DeviceReplacer(ast.NodeTransformer):
-        def __init__(self, new_device):
-            super().__init__()
-            self.new_device = new_device
-
-        def visit_Call(self, node):
-            if (
-                isinstance(node.func, ast.Attribute)
-                and isinstance(node.func.value, ast.Name)
-                and node.func.value.id == "device"
-                and node.func.attr == "type"
-            ):
-                if (
-                    node.args
-                    and isinstance(node.args[0], ast.Constant)
-                    and isinstance(node.args[0].value, str)
-                ):
-                    node.args[0].value = self.new_device
-                return node
-
-            if (
-                isinstance(node.func, ast.Attribute)
-                and node.func.attr == "to"
-                and len(node.args) == 1
-                and isinstance(node.args[0], ast.Call)
-                and isinstance(node.args[0].func, ast.Name)
-                and node.args[0].func.id == "device"
-            ):
-                device_call = node.args[0]
-                for keyword in device_call.keywords:
-                    if (
-                        keyword.arg == "type"
-                        and isinstance(keyword.value, ast.Constant)
-                        and isinstance(keyword.value.value, str)
-                    ):
-                        keyword.value.value = self.new_device
-                return node
-
-            new_keywords = []
-            for keyword in node.keywords:
-                if (
-                    keyword.arg == "device"
-                    and isinstance(keyword.value, ast.Call)
-                    and isinstance(keyword.value.func, ast.Name)
-                    and keyword.value.func.id == "device"
-                ):
-                    device_call = keyword.value
-                    for kw in device_call.keywords:
-                        if (
-                            kw.arg == "type"
-                            and isinstance(kw.value, ast.Constant)
-                            and isinstance(kw.value.value, str)
-                        ):
-                            kw.value.value = self.new_device
-                    new_keywords.append(keyword)
-                else:
-                    new_keywords.append(keyword)
-            node.keywords = new_keywords
-            return self.generic_visit(node)
-
-    transformer = DeviceReplacer(new_device_str)
-    modified_tree = transformer.visit(tree)
-    ast.fix_missing_locations(modified_tree)
-    return ast.unparse(modified_tree)
-
-
-def _load_graph_module(model_path: str, target_device: str):
-    source_path = os.path.join(model_path, "model.py")
-    with open(source_path, "r", encoding="utf-8") as f:
-        code = f.read()
-
-    if target_device != "cuda":
-        code = _modify_code_by_device(code, target_device)
-
-    tmp_dir = tempfile.mkdtemp(prefix="agent_unittest_")
-    tmp_file = os.path.join(tmp_dir, "model_tmp.py")
-    with open(tmp_file, "w", encoding="utf-8") as f:
-        f.write(code)
-
-    spec = importlib.util.spec_from_file_location("agent_graph_module", tmp_file)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module.GraphModule
-
-
-class AgentGraphTest(unittest.TestCase):
+{{"\n"}}
+{%- if graph_module_desc.generate_main -%}
+class {{graph_module_desc.model_name}}Test(unittest.TestCase):
     def setUp(self):
-        self.model_path = os.path.dirname(__file__)
-        self.target_device = "{{ target_device }}"
-        self.use_dummy_inputs = {{ use_dummy_inputs }}
-        self.GraphModule = _load_graph_module(self.model_path, self.target_device)
-        self.meta = _convert_meta_to_tensors(self.model_path)
+        torch.manual_seed(123)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed(123)
 
-    def _with_device(self, info: Dict[str, Any]):
-        cloned = {"info": dict(info["info"]), "data": info.get("data")}
-        cloned["info"]["device"] = self.target_device
-        return cloned
+        self.model = Model()
 
-    def test_forward_runs(self):
-        model = self.GraphModule()
-        weight_info = self.meta["weight_info"]
-
-        def build_tensor(val):
-            wrapped = self._with_device(val)
-            return _get_dummy_tensor(wrapped) if self.use_dummy_inputs else _replay_tensor(wrapped)
-
-        state_dict = {k: build_tensor(v) for k, v in weight_info.items()}
-        model.__graph_net_file_path__ = self.model_path
-        output = model(**state_dict)
-        self.assertIsNotNone(output)
+    def test_main(self):
+        inputs = get_inputs()
+        outputs = self.model(*inputs)
 
 
 if __name__ == "__main__":
     unittest.main()
+{%- endif -%}
 """
+
+GraphModuleDescriptor = namedtuple(
+    "GraphModuleDescriptor",
+    [
+        "device",
+        "generate_main",
+        "model_name",
+        "input_arg_names",
+        "input_tensor_metas",
+        "weight_arg_names",
+        "weight_tensor_metas",
+        "forward_body",
+    ],
+)
+
+
+def load_class_from_file(file_path: str, class_name: str):
+    print(f"Load {class_name} from {file_path}")
+    module = imp_util.load_module(file_path, "unnamed")
+    model_class = getattr(module, class_name, None)
+    return model_class
 
 
 class AgentUnittestGenerator:
     """Generate standalone unittest scripts for Torch samples."""
 
-    def __init__(self, config: Dict[str, Any]):
-        defaults = {
-            "model_path": None,
-            "output_path": None,
-            "output_dir": None,
-            "force_device": "auto",  # auto / cpu / cuda
-            "use_dummy_inputs": False,
-        }
-        merged = {**defaults, **(config or {})}
-        if not merged["model_path"]:
-            raise ValueError("AgentUnittestGenerator requires 'model_path' in config")
-
-        self.model_path = Path(merged["model_path"]).resolve()
-        self.output_path = (
-            Path(merged["output_path"]) if merged.get("output_path") else None
+    def __init__(
+        self,
+        model_path: str,
+        output_dir: str,
+        device: Literal["auto", "cpu", "cuda"] = "auto",
+        generate_main: bool = False,
+        data_input_predicator_filepath: str = None,
+        data_input_predicator_class_name: str = None,
+    ):
+        self.model_path = Path(model_path).resolve()
+        self.output_dir = Path(output_dir)
+        self.device = self._choose_device(device)
+        self.generate_main = generate_main
+        self.data_input_predicator = self._make_data_input_predicator(
+            data_input_predicator_filepath, data_input_predicator_class_name
         )
-        self.output_dir = (
-            Path(merged["output_dir"]) if merged.get("output_dir") else None
-        )
-        self.force_device = merged["force_device"]
-        self.use_dummy_inputs = merged["use_dummy_inputs"]
-
-    def __call__(self, model):
-        self.generate()
-        return model
 
     def generate(self):
-        output_path = self._resolve_output_path()
-        target_device = self._choose_device()
-        rendered = Template(TORCH_UNITTEST_TEMPLATE).render(
-            target_device=target_device, use_dummy_inputs=self.use_dummy_inputs
+        model_name = "".join(
+            word.capitalize() for word in re.split(r"[_.-]", self.model_path.name)
         )
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.write_text(rendered, encoding="utf-8")
-        print(f"[Agent] unittest generated: {output_path} (device={target_device})")
+        graph_module = load_class_from_file(
+            self.model_path / "model.py", class_name="GraphModule"
+        )
+        input_arg_names, weight_arg_names = self._get_input_and_weight_arg_names(
+            graph_module
+        )
+        (
+            input_tensor_metas,
+            weight_tensor_metas,
+        ) = self._get_input_and_weight_tensor_metas(input_arg_names, weight_arg_names)
+        print(f"{input_arg_names=}")
+        graph_module_desc = GraphModuleDescriptor(
+            device=self.device,
+            generate_main=self.generate_main,
+            model_name=model_name,
+            input_arg_names=input_arg_names,
+            input_tensor_metas=input_tensor_metas,
+            weight_arg_names=weight_arg_names,
+            weight_tensor_metas=weight_tensor_metas,
+            forward_body=self._get_forward_body(
+                graph_module, input_arg_names, weight_arg_names
+            ),
+        )
+        unittest = self._render_template(graph_module_desc)
+        self._write_to_file(unittest)
 
-    def _resolve_output_path(self) -> Path:
-        if self.output_path:
-            return self.output_path
-        target_dir = self.output_dir or self.model_path
-        return Path(target_dir) / f"{self.model_path.name}_test.py"
-
-    def _choose_device(self) -> str:
-        if self.force_device == "cpu":
-            return "cpu"
-        if self.force_device == "cuda":
-            return "cuda"
+    def _choose_device(self, device) -> str:
+        if device in ["cpu", "cuda"]:
+            return device
         return "cuda" if torch.cuda.is_available() else "cpu"
+
+    def _make_data_input_predicator(
+        self, data_input_predicator_filepath, data_input_predicator_class_name
+    ):
+        if data_input_predicator_filepath and data_input_predicator_class_name:
+            module = imp_util.load_module(data_input_predicator_filepath)
+            cls = getattr(module, data_input_predicator_class_name)
+            return cls(config={})
+        return lambda *args, **kwargs: False
+
+    def _write_to_file(self, unittest):
+        output_path = Path(self.output_dir) / f"{self.model_path.name}_test.py"
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(unittest, encoding="utf-8")
+        print(
+            f"[AgentUnittestGenerator] Generate unittest: {output_path} (device={self.device})"
+        )
+
+    def _get_input_and_weight_arg_names(self, graph_module):
+        input_arg_names = []
+        weight_arg_names = []
+        sig = inspect.signature(graph_module.forward)
+        for name, param in sig.parameters.items():
+            if name == "self":
+                continue
+            is_not_data_input = not self.data_input_predicator(self.model_path, name)
+            is_parameter_type = param.annotation is torch.nn.parameter.Parameter
+            if is_not_data_input or is_parameter_type:
+                weight_arg_names.append(name)
+            else:
+                input_arg_names.append(name)
+        return input_arg_names, weight_arg_names
+
+    def _get_input_and_weight_tensor_metas(self, input_arg_names, weight_arg_names):
+        tensor_metas = TensorMeta.unserialize_from_py_file(
+            self.model_path / "weight_meta.py"
+        )
+        name2tensor_metas = {meta.name: meta for meta in tensor_metas}
+        input_tensor_metas = [name2tensor_metas[name] for name in input_arg_names]
+        weight_tensor_metas = [name2tensor_metas[name] for name in weight_arg_names]
+        return input_tensor_metas, weight_tensor_metas
+
+    def _get_forward_body(self, graph_module, input_arg_names, weight_arg_names):
+        def _remove_clear_stmt_of_args(stmt):
+            arg_names = input_arg_names + weight_arg_names
+            # remove stmt like w_0 = None
+            if (
+                isinstance(stmt, ast.Assign)
+                and isinstance(stmt.value, ast.Constant)
+                and stmt.value.value is None
+            ):
+                new_targets = [
+                    t
+                    for t in stmt.targets
+                    if not isinstance(t, ast.Name) or t.id not in arg_names
+                ]
+                if not new_targets:
+                    return None
+                stmt.targets = new_targets
+            return stmt
+
+        def _rewrite_reference_for_weight(stmt):
+            if isinstance(stmt, ast.Name):
+                if isinstance(stmt.ctx, ast.Load) and stmt.id in weight_arg_names:
+                    return ast.Attribute(
+                        value=ast.Name(id="self", ctx=ast.Load()),
+                        attr=stmt.id,
+                        ctx=ast.Load(),
+                    )
+                return stmt
+
+            for field, value in ast.iter_fields(stmt):
+                if isinstance(value, list):
+                    new_list = []
+                    for item in value:
+                        if isinstance(item, ast.AST):
+                            item = _rewrite_reference_for_weight(item)
+                        new_list.append(item)
+                    setattr(stmt, field, new_list)
+                elif isinstance(value, ast.AST):
+                    setattr(stmt, field, _rewrite_reference_for_weight(value))
+            return stmt
+
+        def _update_for_weight(stmt):
+            stmt = _remove_clear_stmt_of_args(stmt)
+            if stmt is not None:
+                stmt = _rewrite_reference_for_weight(stmt)
+                ast.fix_missing_locations(stmt)
+            return stmt
+
+        source = inspect.getsource(graph_module.forward)
+        lines = source.splitlines()
+        num_indents = len(lines[-1]) - len(lines[-1].lstrip())
+
+        tree = ast.parse(textwrap.dedent(source))
+        func_def = tree.body[0]
+        dedented_stmts = [
+            ast.unparse(s)
+            for stmt in func_def.body
+            if (s := _update_for_weight(stmt)) is not None
+        ]
+
+        indent = " " * num_indents
+        return f"\n{indent}".join(dedented_stmts)
+
+    def _render_template(self, graph_module_desc):
+        template = jinja2.Template(TORCH_UNITTEST_TEMPLATE)
+        return template.render(graph_module_desc=graph_module_desc)
 
 
 class AgentUnittestGeneratorPass(SamplePass):
@@ -274,26 +287,33 @@ class AgentUnittestGeneratorPass(SamplePass):
 
     def __init__(self, config=None):
         super().__init__(config)
+        print(f"[AgentUnittestGeneratorPass] {self.config=}")
 
     def declare_config(
         self,
         model_path_prefix: str,
-        output_dir: str = None,
-        force_device: str = "auto",
-        use_dummy_inputs: bool = False,
+        output_dir: str,
+        device: str = "auto",
+        generate_main: bool = False,
+        data_input_predicator_filepath: str = None,
+        data_input_predicator_class_name: str = None,
     ):
         pass
 
     def __call__(self, rel_model_path: str):
+        print(f"[AgentUnittestGeneratorPass] {rel_model_path=}")
         model_path_prefix = Path(self.config["model_path_prefix"])
-        target_root = Path(self.config.get("output_dir") or model_path_prefix)
-        model_path = model_path_prefix / rel_model_path
+        output_dir = Path(self.config["output_dir"])
         generator = AgentUnittestGenerator(
-            {
-                "model_path": str(model_path),
-                "output_dir": str(target_root / rel_model_path),
-                "force_device": self.config["force_device"],
-                "use_dummy_inputs": self.config["use_dummy_inputs"],
-            }
+            model_path=str(model_path_prefix / rel_model_path),
+            output_dir=str(output_dir / rel_model_path),
+            device=self.config["device"],
+            generate_main=self.config["generate_main"],
+            data_input_predicator_filepath=self.config[
+                "data_input_predicator_filepath"
+            ],
+            data_input_predicator_class_name=self.config[
+                "data_input_predicator_class_name"
+            ],
         )
         generator.generate()

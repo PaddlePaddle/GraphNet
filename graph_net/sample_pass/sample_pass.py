@@ -55,7 +55,8 @@ class SamplePass(abc.ABC):
         sig = inspect.signature(self.declare_config)
         mut_config = copy.deepcopy(config)
         for name, param in sig.parameters.items():
-            self._complete_default(name, param, mut_config)
+            if name not in mut_config:
+                self._complete_default(name, param, mut_config)
             class_name = type(self).__name__
             assert name in mut_config, f"{name=} {class_name=}"
 

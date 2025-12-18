@@ -47,7 +47,7 @@ def convert_to_submodules_graph(
         ]
 
     def get_range_idx2range_by_subgraph_ranges():
-        assert submodules_body_nodes is not None
+        assert subgraph_ranges is not None
         num_nodes = len(submodules_body_nodes)
         for i in range(len(subgraph_ranges)):
             start, end = subgraph_ranges[i]
@@ -60,7 +60,7 @@ def convert_to_submodules_graph(
 
     range_idx2range = (
         get_range_idx2range_by_split_positions()
-        if (chain_style or submodules_body_nodes is None)
+        if (chain_style or subgraph_ranges is None)
         else get_range_idx2range_by_subgraph_ranges()
     )
     range_idx2submodule_body_nodes = [

@@ -1,7 +1,6 @@
 import os
 import torch
 import shutil
-import inspect
 import tempfile
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
@@ -81,7 +80,7 @@ class GraphVariableRenamer:
         src_model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         module, inputs = get_torch_module_and_inputs(src_model_path)
         gm = parse_sole_graph_module(module, inputs)
-        gm = self.rename_graph_variables(gm, inputs, src_model_path)
+        gm, rename_map = self.rename_graph_variables(gm, inputs, src_model_path)
         dst_model_path = os.path.realpath(
             os.path.join(self.config["output_dir"], rel_model_path)
         )
@@ -94,8 +93,10 @@ class GraphVariableRenamer:
             temp_model_path = os.path.join(temp_dir, os.path.basename(dst_model_path))
             shutil.copytree(src_model_path, temp_model_path, dirs_exist_ok=True)
             self._update_model_py_file(gm, temp_model_path)
-            self._update_weight_meta_py_file(src_model_path, temp_model_path)
-            self._update_input_meta_py_file(src_model_path, temp_model_path)
+            self._update_weight_meta_py_file(
+                src_model_path, temp_model_path, rename_map
+            )
+            self._update_input_meta_py_file(src_model_path, temp_model_path, rename_map)
             print("Try to run renamed model...")
             self._try_run(temp_model_path)
             shutil.copytree(temp_model_path, dst_model_path)
@@ -111,51 +112,50 @@ class GraphVariableRenamer:
         file_hash = get_sha256_hash(py_code)
         (Path(model_path) / "graph_hash.txt").write_text(file_hash)
 
-    def _update_weight_meta_py_file(self, src_model_path, dst_model_path):
-        old_name_to_new_name = self._get_original_name_to_new_name(
-            src_model_path, dst_model_path
-        )
+    def _update_weight_meta_py_file(self, src_model_path, dst_model_path, rename_map):
         tensor_metas = TensorMeta.unserialize_from_py_file(
             os.path.join(src_model_path, "weight_meta.py"),
         )
         for weight_meta in tensor_metas:
-            assert weight_meta.name in old_name_to_new_name
+            meta_name = self._find_name_in_rename_map(weight_meta.name, rename_map)
+            assert (
+                meta_name is not None
+            ), f"{weight_meta.name} is not found in rename_map"
             if weight_meta.original_name is None:
                 weight_meta.original_name = weight_meta.name
-            weight_meta.name = old_name_to_new_name[weight_meta.name]
+            weight_meta.name = rename_map[meta_name]
+
         py_code = "\n\n".join(
             [weight_meta.serialize_to_py_str() for weight_meta in tensor_metas]
         )
         (Path(dst_model_path) / "weight_meta.py").write_text(py_code)
 
-    def _update_input_meta_py_file(self, src_model_path, dst_model_path):
-        old_name_to_new_name = self._get_original_name_to_new_name(
-            src_model_path, dst_model_path
-        )
+    def _update_input_meta_py_file(self, src_model_path, dst_model_path, rename_map):
         tensor_metas = TensorMeta.unserialize_from_py_file(
             os.path.join(src_model_path, "input_meta.py"),
         )
         for input_meta in tensor_metas:
-            assert input_meta.name in old_name_to_new_name
+            meta_name = self._find_name_in_rename_map(input_meta.name, rename_map)
+            assert (
+                meta_name is not None
+            ), f"{input_meta.name} is not found in rename_map"
             if input_meta.original_name is None:
                 input_meta.original_name = input_meta.name
-            input_meta.name = old_name_to_new_name[input_meta.name]
+            input_meta.name = rename_map[meta_name]
+
         py_code = "\n\n".join(
             [input_meta.serialize_to_py_str() for input_meta in tensor_metas]
         )
         (Path(dst_model_path) / "input_meta.py").write_text(py_code)
 
-    def _get_original_name_to_new_name(self, src_model_path, dst_model_path):
-        src_model = self._get_model(src_model_path)
-        dst_model = self._get_model(dst_model_path)
-        old_name_and_new_name_pairs = zip(
-            self._get_input_names_from_signature(src_model),
-            self._get_input_names_from_signature(dst_model),
-            strict=True,
-        )
-        return {
-            old_name: new_name for old_name, new_name in old_name_and_new_name_pairs
-        }
+    def _find_name_in_rename_map(self, raw_name, rename_map):
+        if raw_name in rename_map:
+            return raw_name
+        # s1 -> s1_
+        elif (raw_name + "_") in rename_map:
+            return raw_name + "_"
+        else:
+            return None
 
     def _get_model(self, model_path):
         py_module = load_module(os.path.join(model_path, "model.py"))
@@ -163,46 +163,47 @@ class GraphVariableRenamer:
         GraphModule.__graph_net_file_path__ = py_module.__graph_net_file_path__
         return GraphModule()
 
-    def _get_input_names_from_signature(self, module):
-        return inspect.signature(module.forward).parameters
-
     def rename_graph_variables(
         self, gm: torch.fx.GraphModule, sample_inputs, model_path
     ):
         counters = {"in": 0, "w": 0, "tmp": 0}
+        rename_map = {}
         # graph may not have input, only contain weights
         arg_iter = iter(sample_inputs) if sample_inputs else iter([])
         for node in gm.graph.nodes:
-            self._process_single_node(node, arg_iter, counters, model_path)
+            self._process_single_node(node, arg_iter, counters, model_path, rename_map)
         gm.graph.lint()
         gm.recompile()
-        return gm
+        return gm, rename_map
 
-    def _process_single_node(self, node, arg_iter, counters, model_path):
+    def _process_single_node(self, node, arg_iter, counters, model_path, rename_map):
         if "original_name" not in node.meta:
             node.meta["original_name"] = node.name
         if node.op == "placeholder":
-            self._handle_placeholder(node, arg_iter, counters, model_path)
+            self._handle_placeholder(node, arg_iter, counters, model_path, rename_map)
         elif node.op == "get_attr":
-            self._apply_rename(node, "w", counters)
+            self._apply_rename(node, "w", counters, rename_map)
         elif node.op != "output":
-            self._apply_rename(node, "tmp", counters)
+            self._apply_rename(node, "tmp", counters, rename_map)
         else:
             # Do nothing
             pass
 
-    def _handle_placeholder(self, node, arg_iter, counters, model_path):
+    def _handle_placeholder(self, node, arg_iter, counters, model_path, rename_map):
         real_arg = next(arg_iter, None)
         is_weight = self._is_weight_node(node, real_arg, model_path)
         prefix = "w" if is_weight else "in"
-        self._apply_rename(node, prefix, counters, update_target=True)
+        self._apply_rename(node, prefix, counters, rename_map, update_target=True)
 
-    def _apply_rename(self, node, prefix, counters, update_target=False):
+    def _apply_rename(self, node, prefix, counters, rename_map, update_target=False):
+        old_name = node.name
         new_name = f"{prefix}_{counters[prefix]}"
         counters[prefix] += 1
         node.name = new_name
         if update_target:
             node.target = new_name
+
+        rename_map[old_name] = new_name
 
     def _is_weight_node(self, node, real_arg, model_path):
         is_not_data_input = not self.data_input_predicator(model_path, node.name)

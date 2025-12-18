@@ -4,7 +4,8 @@ from pathlib import Path
 import torch
 import json
 import sys
-from graph_net.torch.decompose_util import convert_to_submodules_graph
+
+from graph_net.torch.decompose_util import convert_to_submodules_graph, cuda_gc
 from graph_net.torch.extractor import GraphExtractor as BuiltinGraphExtractor
 import graph_net.imp_util as imp_util
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
@@ -12,15 +13,15 @@ from graph_net.torch.fx_graph_cache_util import (
     parse_immutable_model_path_into_sole_graph_module,
 )
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
+
 import logging
 
 logger = logging.getLogger(__name__)
 
 
 def load_json(file_path):
-    with open(file_path, "r", encoding="utf-8") as file:
-        data_dict = json.load(file)
-    return data_dict
+    with open(file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 
 class GraphExtractor:
@@ -221,20 +222,27 @@ class RangeDecomposerExtractor:
             rel_model_path, split_positions
         ):
             return
-        torch.cuda.empty_cache()
-        config = {
-            "split_positions": split_positions,
-            "group_head_and_tail": self.config.get("group_head_and_tail", False),
-            "chain_style": self.config.get("chain_style", False),
-        }
-        module, inputs = get_torch_module_and_inputs(model_path, use_dummy_inputs=False)
+
+        with cuda_gc():
+            module, inputs = get_torch_module_and_inputs(
+                model_path, use_dummy_inputs=False
+            )
         gm = parse_sole_graph_module(module, inputs)
-        rewrited_gm: torch.fx.GraphModule = convert_to_submodules_graph(
-            gm,
-            submodule_hook=self.get_naive_decomposer_extractor(rel_model_path),
-            **config,
-        )
-        rewrited_gm(*inputs)
+        del module
+
+        with cuda_gc():
+            rewrited_gm: torch.fx.GraphModule = convert_to_submodules_graph(
+                gm,
+                submodule_hook=self.get_naive_decomposer_extractor(rel_model_path),
+                split_positions=split_positions,
+                group_head_and_tail=self.config.get("group_head_and_tail", False),
+                chain_style=self.config.get("chain_style", False),
+            )
+            rewrited_gm(*inputs)
+        del inputs, rewrited_gm
+
+        with cuda_gc():
+            pass
 
     def get_naive_decomposer_extractor(self, rel_model_path):
         def fn(submodule, seq_no):

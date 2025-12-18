@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Utility for moving duplicate sample models based on their graph hash."""
 
 from __future__ import annotations
@@ -22,25 +21,29 @@ def collect_graph_hash_files(samples_dir: Path) -> List[Path]:
 def build_hash_to_models(graph_hash_files: Iterable[Path]) -> Dict[str, List[Path]]:
     """Map each graph hash value to the model directories that contain it."""
 
-    hash_to_models: Dict[str, List[Path]] = defaultdict(list)
+    hash2model_paths: Dict[str, List[Path]] = defaultdict(list)
 
     for hash_file in graph_hash_files:
         model_dir = hash_file.parent
         hash_value = hash_file.read_text(encoding="utf-8").strip()
-        hash_to_models[hash_value].append(model_dir)
+        hash2model_paths[hash_value].append(model_dir)
 
-    return hash_to_models
+    return hash2model_paths
 
 
-def compute_duplicates(hash_to_models: Dict[str, List[Path]]) -> Dict[str, List[Path]]:
+def collect_duplicates(
+    hash2model_paths: Dict[str, List[Path]]
+) -> Dict[str, List[Path]]:
     """Filter the mapping to only hash values that appear more than once."""
 
     return {
-        hash_value: dirs for hash_value, dirs in hash_to_models.items() if len(dirs) > 1
+        hash_value: dirs
+        for hash_value, dirs in hash2model_paths.items()
+        if len(dirs) > 1
     }
 
 
-def move_duplicates(
+def remove_duplicates(
     duplicates: Dict[str, List[Path]],
     samples_dir: Path,
     redundant_dir: Path,
@@ -72,7 +75,21 @@ def move_duplicates(
             shutil.move(str(dupe_dir), str(destination))
 
 
-def parse_args() -> argparse.Namespace:
+def main(args):
+    graph_hash_files = collect_graph_hash_files(args.samples_dir)
+    hash2model_paths = build_hash_to_models(graph_hash_files)
+    duplicates = collect_duplicates(hash2model_paths)
+
+    if not duplicates:
+        print("No duplicate graph hashes found.")
+        return
+
+    remove_duplicates(
+        duplicates, args.samples_dir, args.redundant_dir, dry_run=args.dry_run
+    )
+
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--samples-dir",
@@ -91,23 +108,5 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Only report duplicate moves without performing them.",
     )
-    return parser.parse_args()
-
-
-def main() -> None:
-    args = parse_args()
-    graph_hash_files = collect_graph_hash_files(args.samples_dir)
-    hash_to_models = build_hash_to_models(graph_hash_files)
-    duplicates = compute_duplicates(hash_to_models)
-
-    if not duplicates:
-        print("No duplicate graph hashes found.")
-        return
-
-    move_duplicates(
-        duplicates, args.samples_dir, args.redundant_dir, dry_run=args.dry_run
-    )
-
-
-if __name__ == "__main__":
-    main()
+    args = parser.parse_args()
+    main(args)

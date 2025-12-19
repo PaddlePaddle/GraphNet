@@ -129,6 +129,7 @@ class AgentUnittestGenerator:
     def __init__(
         self,
         model_path: str,
+        output_name: str,
         output_dir: str,
         device: Literal["auto", "cpu", "cuda"] = "auto",
         generate_main: bool = False,
@@ -137,6 +138,7 @@ class AgentUnittestGenerator:
         data_input_predicator_class_name: str = None,
     ):
         self.model_path = Path(model_path).resolve()
+        self.output_name = output_name
         self.output_dir = Path(output_dir)
         self.device = self._choose_device(device)
         self.generate_main = generate_main
@@ -191,7 +193,7 @@ class AgentUnittestGenerator:
         return lambda *args, **kwargs: True
 
     def _write_to_file(self, unittest, output_dir):
-        output_path = Path(output_dir) / f"{self.model_path.name}_test.py"
+        output_path = Path(output_dir) / self.output_name
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(unittest, encoding="utf-8")
         print(
@@ -326,11 +328,24 @@ class AgentUnittestGeneratorPass(SamplePass, ResumableSamplePassMixin):
     def __call__(self, rel_model_path: str):
         self.resumable_handle_sample(rel_model_path)
 
+    def sample_handled(self, rel_model_path: str) -> bool:
+        dst_model_path = Path(self.config["output_dir"]) / rel_model_path
+        if not dst_model_path.exists():
+            return False
+        output_name = self._get_output_name(rel_model_path)
+        num_model_py_files = len(list(dst_model_path.rglob(output_name)))
+        assert num_model_py_files <= 1
+        return num_model_py_files == 1
+
+    def _get_output_name(self, rel_model_path: str):
+        return f"{Path(rel_model_path).name}_test.py"
+
     def resume(self, rel_model_path: str):
         model_path_prefix = Path(self.config["model_path_prefix"])
         output_dir = Path(self.config["output_dir"])
         generator = AgentUnittestGenerator(
             model_path=str(model_path_prefix / rel_model_path),
+            output_name=self._get_output_name(rel_model_path),
             output_dir=str(output_dir / rel_model_path),
             device=self.config["device"],
             generate_main=self.config["generate_main"],

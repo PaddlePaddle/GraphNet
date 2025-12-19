@@ -116,8 +116,8 @@ def _rename_placeholder(name, pattern2replacement):
     if not (name[:2] == "L_" or name[:2] == "l_"):
         return name
     name = name[2:]
-    if name[0] == "l":
-        name = "L" + name[1:]
+    if name[:2] == "l_":
+        name = "L_" + name[2:]
     for pattern, replacement in pattern2replacement.items():
         name = name.replace(pattern, replacement)
     return name
@@ -161,7 +161,7 @@ def parse_sole_graph_module(module, inputs):
         if node.op != "placeholder":
             continue
         node.target = _rename_placeholder(node.target, pattern2replacement)
-        node.name = _rename_placeholder(node.name, pattern2replacement)
+        node.name = node.target
 
     def get_diff_input_names():
         placeholder_names = set(get_input_names_from_placeholder())

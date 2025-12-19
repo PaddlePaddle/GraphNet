@@ -88,7 +88,7 @@ class GraphVariableRenamer:
             return
 
         src_model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
-        with cuda_gc(enabled=self.config["release_gpu_memory"]):
+        with cuda_gc():
             module, inputs = get_torch_module_and_inputs(src_model_path)
             gm = parse_sole_graph_module(module, inputs)
             gm, rename_map = self.rename_graph_variables(gm, inputs, src_model_path)

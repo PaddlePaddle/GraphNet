@@ -161,7 +161,7 @@ def parse_sole_graph_module(module, inputs):
         if node.op != "placeholder":
             continue
         node.target = _rename_placeholder(node.target, pattern2replacement)
-        node.name = _rename_placeholder(node.name, pattern2replacement)
+        node.name = node.target
 
     def get_diff_input_names():
         placeholder_names = set(get_input_names_from_placeholder())

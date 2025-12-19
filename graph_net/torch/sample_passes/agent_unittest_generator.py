@@ -1,6 +1,6 @@
 import re
-import os
 import sys
+import subprocess
 import ast
 import inspect
 import jinja2
@@ -204,8 +204,11 @@ class AgentUnittestGenerator:
 
         with tempfile.TemporaryDirectory(prefix="unittest_") as temp_dir:
             output_path = self._write_to_file(unittest, temp_dir)
-            cmd = f"{sys.executable} {output_path}"
-            return os.system(cmd) == 0
+            result = subprocess.run(
+                [sys.executable, output_path],
+                check=True,
+            )
+            return result.returncode == 0
 
     def _get_input_and_weight_arg_names(self, graph_module):
         input_arg_names = []

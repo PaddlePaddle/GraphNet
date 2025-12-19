@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-ROOT_DIR="$(cd "$(dirname "$0")/../.." && pwd)"
+
+
 GRAPH_NET_ROOT=$(python -c "import graph_net, os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 OUTPUT_DIR="/tmp/agent_unittests"
 
@@ -14,6 +15,7 @@ HANDLER_CONFIG=$(base64 -w 0 <<EOF
         "device": "auto",
         "generate_main": true,
         "try_run": true,
+        "resume": false,
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",                                                                                     
         "data_input_predicator_class_name": "NaiveDataInputPredicator"
     }

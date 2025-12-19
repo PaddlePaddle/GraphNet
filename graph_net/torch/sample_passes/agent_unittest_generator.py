@@ -14,6 +14,7 @@ import torch
 
 from graph_net import imp_util
 from graph_net.sample_pass.sample_pass import SamplePass
+from graph_net.sample_pass.resumable_sample_pass_mixin import ResumableSamplePassMixin
 from graph_net.tensor_meta import TensorMeta
 
 
@@ -298,7 +299,7 @@ class AgentUnittestGenerator:
         return template.render(graph_module_desc=graph_module_desc)
 
 
-class AgentUnittestGeneratorPass(SamplePass):
+class AgentUnittestGeneratorPass(SamplePass, ResumableSamplePassMixin):
     """SamplePass wrapper to generate Torch unittests via model_path_handler."""
 
     def __init__(self, config=None):
@@ -313,10 +314,15 @@ class AgentUnittestGeneratorPass(SamplePass):
         try_run: bool = False,
         data_input_predicator_filepath: str = None,
         data_input_predicator_class_name: str = None,
+        resume: bool = False,
+        limits_handled_models: int = None,
     ):
         pass
 
     def __call__(self, rel_model_path: str):
+        self.resumable_handle_sample(rel_model_path)
+
+    def resume(self, rel_model_path: str):
         model_path_prefix = Path(self.config["model_path_prefix"])
         output_dir = Path(self.config["output_dir"])
         generator = AgentUnittestGenerator(

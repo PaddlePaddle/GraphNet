@@ -1,20 +1,8 @@
 import torch
 import copy
 import operator
-import gc
-from contextlib import contextmanager
 from collections import defaultdict
 from dataclasses import dataclass
-
-
-@contextmanager
-def cuda_gc(enabled: bool = True):
-    try:
-        yield
-    finally:
-        if enabled:
-            gc.collect()
-            torch.cuda.empty_cache()
 
 
 def convert_to_submodules_graph(

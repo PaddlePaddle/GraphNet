@@ -5,7 +5,7 @@ import torch
 import json
 import sys
 
-from graph_net.torch.decompose_util import convert_to_submodules_graph, cuda_gc
+from graph_net.torch.decompose_util import convert_to_submodules_graph
 from graph_net.torch.extractor import GraphExtractor as BuiltinGraphExtractor
 import graph_net.imp_util as imp_util
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
@@ -244,27 +244,20 @@ class RangeDecomposerExtractor:
         ):
             return
 
-        with cuda_gc():
-            module, inputs = get_torch_module_and_inputs(
-                model_path, use_dummy_inputs=False
-            )
+        torch.cuda.empty_cache()
+        module, inputs = get_torch_module_and_inputs(model_path, use_dummy_inputs=False)
         gm = parse_sole_graph_module(module, inputs)
-        del module
 
-        with cuda_gc():
-            rewrited_gm: torch.fx.GraphModule = convert_to_submodules_graph(
-                gm,
-                submodule_hook=self.get_naive_decomposer_extractor(rel_model_path),
-                split_positions=split_positions,
-                subgraph_ranges=subgraph_ranges,
-                group_head_and_tail=self.config.get("group_head_and_tail", False),
-                chain_style=self.config.get("chain_style", False),
-            )
-            rewrited_gm(*inputs)
-        del inputs, rewrited_gm
-
-        with cuda_gc():
-            pass
+        torch.cuda.empty_cache()
+        rewrited_gm: torch.fx.GraphModule = convert_to_submodules_graph(
+            gm,
+            submodule_hook=self.get_naive_decomposer_extractor(rel_model_path),
+            split_positions=split_positions,
+            subgraph_ranges=subgraph_ranges,
+            group_head_and_tail=self.config.get("group_head_and_tail", False),
+            chain_style=self.config.get("chain_style", False),
+        )
+        rewrited_gm(*inputs)
 
     def get_naive_decomposer_extractor(self, rel_model_path):
         def fn(submodule, seq_no):

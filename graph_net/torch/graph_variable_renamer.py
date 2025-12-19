@@ -10,7 +10,6 @@ from pathlib import Path
 from graph_net.torch.utils import apply_templates
 from graph_net.imp_util import load_module
 from graph_net.hash_util import get_sha256_hash
-from graph_net.torch.decompose_util import cuda_gc
 
 
 class GraphVariableRenamer:
@@ -79,6 +78,8 @@ class GraphVariableRenamer:
         }
 
     def __call__(self, rel_model_path):
+        torch.cuda.empty_cache()
+
         dst_model_path = os.path.realpath(
             os.path.join(self.config["output_dir"], rel_model_path)
         )
@@ -88,11 +89,9 @@ class GraphVariableRenamer:
             return
 
         src_model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
-        with cuda_gc():
-            module, inputs = get_torch_module_and_inputs(src_model_path)
-            gm = parse_sole_graph_module(module, inputs)
-            gm, rename_map = self.rename_graph_variables(gm, inputs, src_model_path)
-            del module, inputs
+        module, inputs = get_torch_module_and_inputs(src_model_path)
+        gm = parse_sole_graph_module(module, inputs)
+        gm, rename_map = self.rename_graph_variables(gm, inputs, src_model_path)
 
         Path(dst_model_path).parent.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="graph_variable_renamer_") as temp_dir:
@@ -103,8 +102,8 @@ class GraphVariableRenamer:
                 src_model_path, temp_model_path, rename_map
             )
             self._update_input_meta_py_file(src_model_path, temp_model_path, rename_map)
-            print("Try to run renamed model...")
-            self._try_run(temp_model_path)
+            # print("Try to run renamed model...")
+            # self._try_run(temp_model_path)
             shutil.copytree(temp_model_path, dst_model_path)
 
     def _try_run(self, model_path):

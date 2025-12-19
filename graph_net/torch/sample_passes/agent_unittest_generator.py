@@ -24,6 +24,7 @@ import unittest
 {%- endif -%}
 {{"\n"}}
 import torch
+from torch import device
 
 
 {% macro get_input_tensor_instance(tensor_meta, device) -%}

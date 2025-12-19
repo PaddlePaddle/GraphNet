@@ -11,14 +11,29 @@ DECOMPOSE_WORKSPACE=/work/graphnet_test_workspace/subgraph_dataset_20251218
 LEVEL_DECOMPOSE_WORKSPACE=$DECOMPOSE_WORKSPACE/decomposed_${OP_NUM}ops
 OP_NAMES_OUTPUT_DIR=${LEVEL_DECOMPOSE_WORKSPACE}/sample_op_names
 RANGE_DECOMPOSE_OUTPUT_DIR="${LEVEL_DECOMPOSE_WORKSPACE}/range_decompose"
-GRAPH_VAR_RENAME_WORKSPACE=$LEVEL_DECOMPOSE_WORKSPACE/graph_var_renamed
+GRAPH_VAR_RENAME_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/graph_var_renamed
+DEDUPLICATED_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/deduplicated
 
 mkdir -p "$LEVEL_DECOMPOSE_WORKSPACE"
 
 model_list="$GRAPH_NET_ROOT/graph_net/config/torch_samples_list.txt"
-subgraph_sample_list=$RANGE_DECOMPOSE_OUTPUT_DIR/subgraph_sample_list.txt
+range_decomposed_subgraph_list=${LEVEL_DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_sample_list.txt
+deduplicated_subgraph_list=${LEVEL_DECOMPOSE_WORKSPACE}/deduplicated_subgraph_sample_list.txt
 
-generate_op_names() {
+function generate_subgraph_list() {
+    local target_dir="$1"
+    local sample_list="$2"
+    echo ">>> Generate subgraph_sample_list for samples under ${target_dir}."
+    echo ">>>"
+    cat $model_list \
+        | grep -v '# ' \
+        | xargs -I {} find ${target_dir}/{} -name "model.py" \
+        | xargs dirname \
+        | xargs realpath --relative-to=$target_dir \
+        | tee $sample_list
+}
+
+function generate_op_names() {
     echo ">>> [1] Generate op_names.txt for samples in ${model_list}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
@@ -37,7 +52,7 @@ EOF
 )
 }
 
-generate_split_point() {
+function generate_split_point() {
     echo ">>> [2] Generate split points for samples in ${model_list}."
     echo ">>>"
     python3 -m graph_net.torch.typical_sequence_split_points \
@@ -50,10 +65,10 @@ generate_split_point() {
         --fold-times 16 \
         --min-seq-ops $((${OP_NUM} / 2)) \
         --max-seq-ops $((${OP_NUM} * 2)) \
-        --output-json "$DECOMPOSE_WORKSPACE/split_results_${OP_NUM}.json"
+        --output-json "$LEVEL_DECOMPOSE_WORKSPACE/split_results_${OP_NUM}.json"
 }
 
-range_decompose() {
+function range_decompose() {
     echo ">>> [3] Decompose according to split_results.json for samples in ${model_list}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
@@ -66,7 +81,7 @@ range_decompose() {
         "resume": true,
         "model_path_prefix": "$GRAPH_NET_ROOT",
         "output_dir": "${RANGE_DECOMPOSE_OUTPUT_DIR}",
-        "split_results_path": "$DECOMPOSE_WORKSPACE/split_results_${OP_NUM}.json",
+        "split_results_path": "$LEVEL_DECOMPOSE_WORKSPACE/split_results_${OP_NUM}.json",
         "group_head_and_tail": true,
         "chain_style": false
     }
@@ -75,22 +90,11 @@ EOF
 )
 }
 
-generate_subgraph_list() {
-    echo ">>> [4] Generate subgraph_sample_list for samples under ${RANGE_DECOMPOSE_OUTPUT_DIR}."
-    echo ">>>"
-    cat $model_list \
-        | grep -v '# ' \
-        | xargs -I {} find ${RANGE_DECOMPOSE_OUTPUT_DIR}/{} -name "model.py" \
-        | xargs dirname \
-        | xargs realpath --relative-to=$RANGE_DECOMPOSE_OUTPUT_DIR \
-        | tee $subgraph_sample_list
-}
-
-rename_subgraph() {
-    echo ">>> [5] Rename subgraph samples under ${RANGE_DECOMPOSE_OUTPUT_DIR}."
+function rename_subgraph() {
+    echo ">>> [4] Rename subgraph samples under ${RANGE_DECOMPOSE_OUTPUT_DIR}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
-        --model-path-list $subgraph_sample_list \
+        --model-path-list ${range_decomposed_subgraph_list} \
         --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_variable_renamer.py",
@@ -103,19 +107,33 @@ rename_subgraph() {
         "data_input_predicator_class_name": "NaiveDataInputPredicator",
         "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
         "model_runnable_predicator_class_name": "ModelRunnablePredicator",
-        "output_dir": "$GRAPH_VAR_RENAME_WORKSPACE"
+        "output_dir": "$GRAPH_VAR_RENAME_OUTPUT_DIR"
     }
 }
 EOF
 )
 }
 
+function remove_duplicates() {
+    echo ">>> [5] Remove duplicated subgraph samples under ${GRAPH_VAR_RENAME_OUTPUT_DIR}."
+    echo ">>>"
+    python3 -m graph_net.tools.deduplicated \
+        --samples-dir ${GRAPH_VAR_RENAME_OUTPUT_DIR} \
+        --target-dir ${DEDUPLICATED_OUTPUT_DIR}
+}
+
 main() {
-    generate_op_names
-    generate_split_point
-    range_decompose
-    generate_subgraph_list
-    rename_subgraph
+    suffix="subgraph_${OP_NUM}ops_20251219"
+    generate_op_names 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_generate_op_names_${suffix}.txt
+    generate_split_point 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_generate_split_point_${suffix}.txt
+    range_decompose 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_range_decompose_${suffix}.txt
+    
+    generate_subgraph_list ${RANGE_DECOMPOSE_OUTPUT_DIR} ${range_decomposed_subgraph_list}
+
+    rename_subgraph 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_rename_subgraph_${suffix}.txt
+    remove_duplicates 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_remove_duplicates_${suffix}.txt
+
+    generate_subgraph_list ${DEDUPLICATED_OUTPUT_DIR} ${deduplicated_subgraph_list}
 }
 
 main

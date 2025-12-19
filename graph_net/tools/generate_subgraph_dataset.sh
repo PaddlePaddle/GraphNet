@@ -13,6 +13,7 @@ OP_NAMES_OUTPUT_DIR=${LEVEL_DECOMPOSE_WORKSPACE}/sample_op_names
 RANGE_DECOMPOSE_OUTPUT_DIR="${LEVEL_DECOMPOSE_WORKSPACE}/range_decompose"
 GRAPH_VAR_RENAME_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/graph_var_renamed
 DEDUPLICATED_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/deduplicated
+UNITTESTS_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/unittests
 
 mkdir -p "$LEVEL_DECOMPOSE_WORKSPACE"
 
@@ -122,6 +123,28 @@ function remove_duplicates() {
         --target-dir ${DEDUPLICATED_OUTPUT_DIR}
 }
 
+function generate_unittests() {
+    echo ">>> [6] Generate unittests for subgraph samples under ${DEDUPLICATED_OUTPUT_DIR}."
+    echo ">>>"
+    python3 -m graph_net.model_path_handler \
+        --model-path-list ${deduplicated_subgraph_list} \
+        --handler-config=$(base64 -w 0 <<EOF
+{
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/agent_unittest_generator.py",
+    "handler_class_name": "AgentUnittestGeneratorPass",
+    "handler_config": {
+        "model_path_prefix": "${DEDUPLICATED_OUTPUT_DIR}",
+        "output_dir": "$UNITTESTS_OUTPUT_DIR",
+        "device": "cuda",
+        "generate_main": false,
+        "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",                                                                                     
+        "data_input_predicator_class_name": "RenamedDataInputPredicator"
+    }
+}
+EOF
+)
+}
+
 main() {
     suffix="subgraph_${OP_NUM}ops_20251219"
     generate_op_names 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_generate_op_names_${suffix}.txt
@@ -134,6 +157,8 @@ main() {
     remove_duplicates 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_remove_duplicates_${suffix}.txt
 
     generate_subgraph_list ${DEDUPLICATED_OUTPUT_DIR} ${deduplicated_subgraph_list}
+
+    generate_unittests 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_generate_unittests_${suffix}.txt
 }
 
 main

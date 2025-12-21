@@ -1,16 +1,18 @@
 import re
+import sys
+import subprocess
 import ast
 import inspect
 import jinja2
 import textwrap
+import tempfile
 from pathlib import Path
 from typing import Literal
 from collections import namedtuple
 
-import torch
-
 from graph_net import imp_util
 from graph_net.sample_pass.sample_pass import SamplePass
+from graph_net.sample_pass.resumable_sample_pass_mixin import ResumableSamplePassMixin
 from graph_net.tensor_meta import TensorMeta
 
 
@@ -20,6 +22,7 @@ import unittest
 {%- endif -%}
 {{"\n"}}
 import torch
+from torch import device
 
 
 {% macro get_input_tensor_instance(tensor_meta, device) -%}
@@ -96,6 +99,88 @@ if __name__ == "__main__":
 {%- endif -%}
 """
 
+
+PADDLE_UNITTEST_TEMPLATE = r"""
+{%- if graph_module_desc.generate_main -%}
+import unittest
+{%- endif -%}
+{{"\n"}}
+import paddle
+
+{% macro get_input_tensor_instance(tensor_meta, device) -%}
+{%- set shape = tensor_meta.shape -%}
+{%- set dtype = tensor_meta.dtype -%}
+{%- set data = tensor_meta.data -%}
+{%- set min_val = tensor_meta.min_val -%}
+{%- set max_val = tensor_meta.max_val -%}
+{%- set mean = tensor_meta.mean -%}
+{%- set std = tensor_meta.std -%}
+{%- if data is not none -%}
+    paddle.to_tensor({{data}}, dtype='{{dtype}}', shape={{shape}}).to(device='{{device}}')
+{%- elif dtype == "bool" -%}
+    paddle.randint(low=0, high=2, shape={{shape}}, dtype='{{dtype}}')
+{%- elif dtype in ["int8", "int16", "int32", "int64"] -%}
+    paddle.randint(low={{min_val}}, high={{max_val}} + 1, shape={{shape}}, dtype='{{dtype}}').to(device='{{device}}')
+{%- elif dtype in ["float16", "bfloat16", "float32", "float64"] -%}
+    {%- if mean is not none or std is not none -%}
+    init_float_tensor(shape={{shape}}, dtype='{{dtype}}', max_val={{max_val}}, min_val={{min_val}}, mean={{mean}}, std={{std}})
+    {%- else -%}
+    init_float_tensor(shape={{shape}}, dtype='{{dtype}}', max_val={{max_val}}, min_val={{min_val}})
+    {%- endif -%}
+{%- endif -%}
+{%- endmacro -%}
+
+
+def init_float_tensor(shape, dtype, max_val, min_val, mean=None, std=None):
+    if mean is not None and std is not None:
+        tensor = paddle.randn(shape, dtype="float32") * std * 0.2 + mean
+        tensor = paddle.clip(tensor, min=min_val, max=max_val)
+    else:
+        tensor = paddle.uniform(shape=shape, dtype="float32", min=min_val, max=max_val)
+    return tensor.to(dtype).to('{{graph_module_desc.device}}')
+
+
+class Model(paddle.nn.Layer):
+    def __init__(self):
+        super().__init__()
+        {%- for arg_name in graph_module_desc.weight_arg_names %}
+        {%- set input_idx = loop.index0 %}
+        self.{{arg_name}} = {{get_input_tensor_instance(graph_module_desc.weight_tensor_metas[input_idx], graph_module_desc.device)}}
+        {%- endfor %}
+
+    def forward(self, {{graph_module_desc.input_arg_names | join(", ")}}):
+        {{graph_module_desc.forward_body}}
+
+
+def get_inputs():
+    {%- for arg_name in graph_module_desc.input_arg_names %}
+    {%- set input_idx = loop.index0 %}
+    {{arg_name}} = {{get_input_tensor_instance(graph_module_desc.input_tensor_metas[input_idx], graph_module_desc.device)}}
+    {%- endfor %}
+    return [{{graph_module_desc.input_arg_names | join(", ")}}]
+
+
+def get_init_inputs():
+    return []
+
+{{"\n"}}
+{%- if graph_module_desc.generate_main -%}
+class {{graph_module_desc.model_name}}Test(unittest.TestCase):
+    def setUp(self):
+        paddle.seed(123)
+        self.model = Model()
+
+    def test_main(self):
+        inputs = get_inputs()
+        outputs = self.model(*inputs)
+
+
+if __name__ == "__main__":
+    unittest.main()
+{%- endif -%}
+"""
+
+
 GraphModuleDescriptor = namedtuple(
     "GraphModuleDescriptor",
     [
@@ -123,22 +208,29 @@ class AgentUnittestGenerator:
 
     def __init__(
         self,
+        framework: str,
         model_path: str,
+        output_name: str,
         output_dir: str,
         device: Literal["auto", "cpu", "cuda"] = "auto",
         generate_main: bool = False,
+        try_run: bool = False,
         data_input_predicator_filepath: str = None,
         data_input_predicator_class_name: str = None,
     ):
+        self.framework = framework
         self.model_path = Path(model_path).resolve()
+        self.output_name = output_name
         self.output_dir = Path(output_dir)
         self.device = self._choose_device(device)
         self.generate_main = generate_main
+        self.try_run = try_run and generate_main
         self.data_input_predicator = self._make_data_input_predicator(
             data_input_predicator_filepath, data_input_predicator_class_name
         )
 
     def generate(self):
+        print(f"[AgentUnittestGenerator] Generate unittest for {self.model_path}")
         model_name = "".join(
             word.capitalize() for word in re.split(r"[_.-]", self.model_path.name)
         )
@@ -152,7 +244,6 @@ class AgentUnittestGenerator:
             input_tensor_metas,
             weight_tensor_metas,
         ) = self._get_input_and_weight_tensor_metas(input_arg_names, weight_arg_names)
-        print(f"{input_arg_names=}")
         graph_module_desc = GraphModuleDescriptor(
             device=self.device,
             generate_main=self.generate_main,
@@ -166,12 +257,23 @@ class AgentUnittestGenerator:
             ),
         )
         unittest = self._render_template(graph_module_desc)
-        self._write_to_file(unittest)
+        if self._try_to_run_unittest(unittest):
+            self._write_to_file(unittest, self.output_dir)
 
     def _choose_device(self, device) -> str:
-        if device in ["cpu", "cuda"]:
-            return device
-        return "cuda" if torch.cuda.is_available() else "cpu"
+        assert self.framework in ["torch", "paddle"], f"{self.framework=}"
+        if self.framework == "torch":
+            import torch
+
+            if device in ["cpu", "cuda"]:
+                return device
+            return "cuda" if torch.cuda.is_available() else "cpu"
+        elif self.framework == "paddle":
+            import paddle
+
+            if device in ["cpu", "gpu"]:
+                return device
+            return "gpu" if paddle.device.is_compiled_with_cuda() else "cpu"
 
     def _make_data_input_predicator(
         self, data_input_predicator_filepath, data_input_predicator_class_name
@@ -180,15 +282,38 @@ class AgentUnittestGenerator:
             module = imp_util.load_module(data_input_predicator_filepath)
             cls = getattr(module, data_input_predicator_class_name)
             return cls(config={})
-        return lambda *args, **kwargs: False
+        return lambda *args, **kwargs: True
 
-    def _write_to_file(self, unittest):
-        output_path = Path(self.output_dir) / f"{self.model_path.name}_test.py"
+    def _write_to_file(self, unittest, output_dir):
+        output_path = Path(output_dir) / self.output_name
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(unittest, encoding="utf-8")
         print(
             f"[AgentUnittestGenerator] Generate unittest: {output_path} (device={self.device})"
         )
+        return output_path
+
+    def _try_to_run_unittest(self, unittest):
+        if not self.try_run:
+            return True
+
+        with tempfile.TemporaryDirectory(prefix="unittest_") as temp_dir:
+            output_path = self._write_to_file(unittest, temp_dir)
+            result = subprocess.run(
+                [sys.executable, output_path],
+                check=True,
+            )
+            return result.returncode == 0
+
+    def _is_parameter_type(self, annotation):
+        if self.framework == "torch":
+            import torch
+
+            return annotation is torch.nn.parameter.Parameter
+        elif self.framework == "paddle":
+            import paddle
+
+            return annotation is paddle.nn.parameter.Parameter
 
     def _get_input_and_weight_arg_names(self, graph_module):
         input_arg_names = []
@@ -198,7 +323,7 @@ class AgentUnittestGenerator:
             if name == "self":
                 continue
             is_not_data_input = not self.data_input_predicator(self.model_path, name)
-            is_parameter_type = param.annotation is torch.nn.parameter.Parameter
+            is_parameter_type = self._is_parameter_type(param.annotation)
             if is_not_data_input or is_parameter_type:
                 weight_arg_names.append(name)
             else:
@@ -209,6 +334,9 @@ class AgentUnittestGenerator:
         tensor_metas = TensorMeta.unserialize_from_py_file(
             self.model_path / "weight_meta.py"
         )
+        tensor_metas.extend(
+            TensorMeta.unserialize_from_py_file(self.model_path / "input_meta.py")
+        )
         name2tensor_metas = {meta.name: meta for meta in tensor_metas}
         input_tensor_metas = [name2tensor_metas[name] for name in input_arg_names]
         weight_tensor_metas = [name2tensor_metas[name] for name in weight_arg_names]
@@ -216,18 +344,30 @@ class AgentUnittestGenerator:
 
     def _get_forward_body(self, graph_module, input_arg_names, weight_arg_names):
         def _remove_clear_stmt_of_args(stmt):
+            def _need_remove(target):
+                return isinstance(target, ast.Name) and target.id in arg_names
+
             arg_names = input_arg_names + weight_arg_names
-            # remove stmt like w_0 = None
             if (
                 isinstance(stmt, ast.Assign)
                 and isinstance(stmt.value, ast.Constant)
                 and stmt.value.value is None
             ):
-                new_targets = [
-                    t
-                    for t in stmt.targets
-                    if not isinstance(t, ast.Name) or t.id not in arg_names
-                ]
+                # remove stmt like w_0 = None
+                new_targets = [t for t in stmt.targets if not _need_remove(t)]
+                if not new_targets:
+                    return None
+                stmt.targets = new_targets
+            elif isinstance(stmt, ast.Delete):
+                # remove stmt like del w_0
+                new_targets = []
+                for t in stmt.targets:
+                    if isinstance(t, ast.Tuple):
+                        kept = [e for e in t.elts if not _need_remove(e)]
+                        if kept:
+                            new_targets.append(ast.Tuple(elts=kept, ctx=ast.Del()))
+                    elif not _need_remove(t):
+                        new_targets.append(t)
                 if not new_targets:
                     return None
                 stmt.targets = new_targets
@@ -257,7 +397,7 @@ class AgentUnittestGenerator:
 
         def _update_for_weight(stmt):
             stmt = _remove_clear_stmt_of_args(stmt)
-            if stmt is not None:
+            if stmt is not None and weight_arg_names:
                 stmt = _rewrite_reference_for_weight(stmt)
                 ast.fix_missing_locations(stmt)
             return stmt
@@ -278,37 +418,60 @@ class AgentUnittestGenerator:
         return f"\n{indent}".join(dedented_stmts)
 
     def _render_template(self, graph_module_desc):
-        template = jinja2.Template(TORCH_UNITTEST_TEMPLATE)
-        return template.render(graph_module_desc=graph_module_desc)
+        if self.framework == "torch":
+            template_str = TORCH_UNITTEST_TEMPLATE
+        elif self.framework == "paddle":
+            template_str = PADDLE_UNITTEST_TEMPLATE
+        return jinja2.Template(template_str).render(graph_module_desc=graph_module_desc)
 
 
-class AgentUnittestGeneratorPass(SamplePass):
+class AgentUnittestGeneratorPass(SamplePass, ResumableSamplePassMixin):
     """SamplePass wrapper to generate Torch unittests via model_path_handler."""
 
     def __init__(self, config=None):
         super().__init__(config)
-        print(f"[AgentUnittestGeneratorPass] {self.config=}")
 
     def declare_config(
         self,
+        framework: str,
         model_path_prefix: str,
         output_dir: str,
         device: str = "auto",
         generate_main: bool = False,
+        try_run: bool = False,
         data_input_predicator_filepath: str = None,
         data_input_predicator_class_name: str = None,
+        resume: bool = False,
+        limits_handled_models: int = None,
     ):
         pass
 
     def __call__(self, rel_model_path: str):
-        print(f"[AgentUnittestGeneratorPass] {rel_model_path=}")
+        self.resumable_handle_sample(rel_model_path)
+
+    def sample_handled(self, rel_model_path: str) -> bool:
+        dst_model_path = Path(self.config["output_dir"]) / rel_model_path
+        if not dst_model_path.exists():
+            return False
+        output_name = self._get_output_name(rel_model_path)
+        num_model_py_files = len(list(dst_model_path.rglob(output_name)))
+        assert num_model_py_files <= 1
+        return num_model_py_files == 1
+
+    def _get_output_name(self, rel_model_path: str):
+        return f"{Path(rel_model_path).name}_test.py"
+
+    def resume(self, rel_model_path: str):
         model_path_prefix = Path(self.config["model_path_prefix"])
         output_dir = Path(self.config["output_dir"])
         generator = AgentUnittestGenerator(
+            framework=self.config["framework"],
             model_path=str(model_path_prefix / rel_model_path),
+            output_name=self._get_output_name(rel_model_path),
             output_dir=str(output_dir / rel_model_path),
             device=self.config["device"],
             generate_main=self.config["generate_main"],
+            try_run=self.config["try_run"],
             data_input_predicator_filepath=self.config[
                 "data_input_predicator_filepath"
             ],

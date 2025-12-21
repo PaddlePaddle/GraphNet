@@ -2,6 +2,7 @@ import os
 import torch
 import shutil
 import tempfile
+
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
 from graph_net.tensor_meta import TensorMeta
@@ -77,10 +78,8 @@ class GraphVariableRenamer:
         }
 
     def __call__(self, rel_model_path):
-        src_model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
-        module, inputs = get_torch_module_and_inputs(src_model_path)
-        gm = parse_sole_graph_module(module, inputs)
-        gm, rename_map = self.rename_graph_variables(gm, inputs, src_model_path)
+        torch.cuda.empty_cache()
+
         dst_model_path = os.path.realpath(
             os.path.join(self.config["output_dir"], rel_model_path)
         )
@@ -88,6 +87,12 @@ class GraphVariableRenamer:
             os.path.join(dst_model_path, "model.py")
         ):
             return
+
+        src_model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
+        module, inputs = get_torch_module_and_inputs(src_model_path)
+        gm = parse_sole_graph_module(module, inputs)
+        gm, rename_map = self.rename_graph_variables(gm, inputs, src_model_path)
+
         Path(dst_model_path).parent.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="graph_variable_renamer_") as temp_dir:
             temp_model_path = os.path.join(temp_dir, os.path.basename(dst_model_path))
@@ -97,8 +102,8 @@ class GraphVariableRenamer:
                 src_model_path, temp_model_path, rename_map
             )
             self._update_input_meta_py_file(src_model_path, temp_model_path, rename_map)
-            print("Try to run renamed model...")
-            self._try_run(temp_model_path)
+            # print("Try to run renamed model...")
+            # self._try_run(temp_model_path)
             shutil.copytree(temp_model_path, dst_model_path)
 
     def _try_run(self, model_path):

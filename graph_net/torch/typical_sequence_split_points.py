@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 import torch
 import torch.nn as nn
+
 from graph_net.torch.rp_expr.rp_expr_parser import RpExprParser
 from graph_net.torch.rp_expr.rp_expr_util import (
     MakeNestedIndexRangeFromLetsListTokenRpExpr,
@@ -69,6 +70,7 @@ class OpNamesExtractor:
         }
 
     def __call__(self, rel_model_path: str):
+        torch.cuda.empty_cache()
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         output_path = self._get_output_path(rel_model_path)
         if self.config["resume"] and output_path.exists():

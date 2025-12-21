@@ -124,8 +124,8 @@ def get_input_dict(args):
     inputs_params = utils.load_converted_from_text(f"{args.model_path}")
     params = inputs_params["weight_info"]
     for tensor_meta in params.values():
-        if hasattr(tensor_meta, "device"):
-            tensor_meta.device = args.device
+        if "device" in tensor_meta["info"]:
+            tensor_meta["info"]["device"] = args.device
     return {
         k: utils.replay_tensor(v).to(torch.device(args.device))
         for k, v in params.items()

@@ -26,6 +26,9 @@ class DeviceRewriteSamplePass(
     def __call__(self, rel_model_path: str):
         self.resumable_handle_sample(rel_model_path)
 
+    def sample_handled(self, rel_model_path: str) -> bool:
+        return self.naive_sample_handled(rel_model_path, search_file_name="model.py")
+
     def resume(self, rel_model_path: str):
         return self.copy_sample_and_handle_model_py_file(rel_model_path)
 

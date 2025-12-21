@@ -5,6 +5,13 @@ from graph_net.imp_util import load_module
 from dataclasses import asdict
 
 
+def get_fx_graph_num_ops(fx_graph_module):
+    def get_num_ops(node):
+        return 0 if node.op in {"placeholder", "output"} else 1
+
+    return sum(map(get_num_ops, fx_graph_module.graph.nodes))
+
+
 def get_torch_module_and_inputs(model_path, use_dummy_inputs=True):
     module = _get_torch_module(model_path)
     tensor_metas = _get_tensor_metas(model_path)

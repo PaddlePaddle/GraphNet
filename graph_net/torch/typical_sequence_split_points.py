@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Any, Dict, List
 import torch
 import torch.nn as nn
+
 from graph_net.torch.rp_expr.rp_expr_parser import RpExprParser
 from graph_net.torch.rp_expr.rp_expr_util import (
     MakeNestedIndexRangeFromLetsListTokenRpExpr,
@@ -69,6 +70,7 @@ class OpNamesExtractor:
         }
 
     def __call__(self, rel_model_path: str):
+        torch.cuda.empty_cache()
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         output_path = self._get_output_path(rel_model_path)
         if self.config["resume"] and output_path.exists():
@@ -201,7 +203,8 @@ class SplitAnalyzer:
         symbol_map = dict(zip(rp_expr.symbol_token_ids, rp_expr.symbol_token_tensors))
         token2len = self._calculate_token_lengths(rp_expr, num_primitives, symbol_map)
 
-        results = {}
+        split_positions_json = {}
+        subgraph_ranges_json = {}
 
         for i, (model_name, original_path) in enumerate(valid_models):
             if i >= len(rp_expr.body_rp_expr):
@@ -222,12 +225,14 @@ class SplitAnalyzer:
 
             total_len = sum(token2len.get(t, 1) for t in seq_tokens)
 
+            subgraph_ranges = list(
+                tree.FilterSubTreeRangeBySize(self.min_seq_ops, self.max_seq_ops)
+            )
+
             sorted_splits = sorted(
                 set(
                     split_pos
-                    for start, end in tree.FilterSubTreeRangeBySize(
-                        self.min_seq_ops, self.max_seq_ops
-                    )
+                    for start, end in subgraph_ranges
                     for split_pos in (start, end)
                     if end - start > 1
                 )
@@ -237,13 +242,31 @@ class SplitAnalyzer:
                 model_name, str(original_path), sorted_splits, total_len, full_model_ops
             )
 
-            results[str(original_path)] = {
+            split_positions_json[str(original_path)] = {
                 "model_name": model_name,
                 "split_positions": sorted_splits,
                 "total_length": total_len,
             }
 
-        return results
+            sorted_subgraph_ranges = sorted(
+                set((start, end) for start, end in subgraph_ranges if end - start > 1)
+            )
+
+            # make sorted_subgraph_ranges is a disjoint set
+            sorted_subgraph_ranges = [
+                sorted_subgraph_ranges[i]
+                for i in range(len(sorted_subgraph_ranges))
+                if i == 0
+                or sorted_subgraph_ranges[i][0] >= sorted_subgraph_ranges[i - 1][1]
+            ]
+
+            subgraph_ranges_json[str(original_path)] = {
+                "model_name": model_name,
+                "subgraph_ranges": sorted_subgraph_ranges,
+                "total_length": total_len,
+            }
+
+        return split_positions_json, subgraph_ranges_json
 
     def _print_analysis(self, name, path, splits, total_len, full_ops):
         print("=" * 60)
@@ -292,10 +315,16 @@ def main(args):
         min_seq_ops=args.min_seq_ops,
         max_seq_ops=args.max_seq_ops,
     )
-    results = analyzer.analyze(args.op_names_path_prefix, args.model_list, args.device)
+    split_positions_json, subgraph_ranges_json = analyzer.analyze(
+        args.op_names_path_prefix, args.model_list, args.device
+    )
     if args.output_json:
         with open(args.output_json, "w") as f:
-            json.dump(results, f, indent=4)
+            json.dump(split_positions_json, f, indent=4)
+    print(f"{args.subgraph_ranges_json=}")
+    if args.subgraph_ranges_json:
+        with open(args.subgraph_ranges_json, "w") as f:
+            json.dump(subgraph_ranges_json, f, indent=4)
 
 
 if __name__ == "__main__":
@@ -334,6 +363,12 @@ if __name__ == "__main__":
         type=int,
         default=0,
         help="How many times to fold tokens. If 0, then no folding is done.",
+    )
+    parser.add_argument(
+        "--subgraph-ranges-json",
+        type=str,
+        default="subgraph_ranges.json",
+        help="Path to save the subgraph ranges in JSON format.",
     )
     parser.add_argument(
         "--output-json",

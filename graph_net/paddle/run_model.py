@@ -14,6 +14,7 @@ def load_class_from_file(file_path: str, class_name: str):
     print(f"Load {class_name} from {file_path}")
     module = imp_util.load_module(file_path, "unnamed")
     model_class = getattr(module, class_name, None)
+    setattr(model_class, "__graph_net_file_path__", os.path.normpath(file_path))
     return model_class
 
 

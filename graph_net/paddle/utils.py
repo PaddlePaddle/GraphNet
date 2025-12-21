@@ -1,11 +1,4 @@
-import re
-from collections import OrderedDict
-import uuid
-import json
-import os
-import argparse
 import importlib
-import inspect
 import ast
 import math
 import numpy as np
@@ -141,7 +134,7 @@ def convert_to_valid_number(data_type, value):
 
 def convert_meta_classes_to_tensors(file_path):
     current_device = paddle.device.get_device()
-    for name, cls in _get_classes(file_path):
+    for name, cls in get_meta_classes(file_path):
         attrs = {
             k: v
             for k, v in cls.__dict__.items()
@@ -169,10 +162,11 @@ def convert_meta_classes_to_tensors(file_path):
             },
             "data": data_value,
             "name": attrs.get("name"),
+            "original_name": attrs.get("original_name", None),
         }
 
 
-def _get_classes(file_path):
+def get_meta_classes(file_path):
     with open(file_path, "r", encoding="utf-8") as f:
         tree = ast.parse(f.read(), filename=file_path)
 

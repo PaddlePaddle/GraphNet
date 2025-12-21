@@ -327,6 +327,19 @@ def run_decomposer_for_single_model(
             },
         },
     }
+    if framework == "paddle":
+        post_process_configs = {
+            "post_extract_process_path": f"{graphnet_root}/graph_net/{framework}/graph_meta_restorer.py",
+            "post_extract_process_class_name": "GraphMetaRestorer",
+            "post_extract_process_config": {
+                "update_inplace": True,
+                "weight_meta_allow_partial_update": True,
+                "input_meta_allow_partial_update": False,
+            },
+        }
+        for key, value in post_process_configs.items():
+            decorator_config["decorator_config"]["custom_extractor_config"][key] = value
+
     decorator_config_b64 = convert_json_to_b64_string(decorator_config)
 
     print(
@@ -373,17 +386,17 @@ def run_decomposer_for_multi_models(
 
 
 def run_evaluation(
-    framework: str, test_cmd_b64: str, samples_dir: str, log_path: str
+    framework: str, test_cmd_b64: str, work_dir: str, log_path: str
 ) -> int:
     """Executes the test command on the batch directory."""
 
     test_config = convert_b64_string_to_json(test_cmd_b64)
     test_module_name = test_config["test_module_name"]
     test_module_arguments = test_config[f"{test_module_name}_arguments"]
-    test_module_arguments["model-path"] = samples_dir
+    test_module_arguments["model-path"] = work_dir
     if test_module_name in ["test_reference_device", "test_target_device"]:
         test_module_arguments["reference-dir"] = os.path.join(
-            samples_dir, "reference_device_outputs"
+            work_dir, "reference_device_outputs"
         )
 
     cmd = [sys.executable, "-m", f"graph_net.{framework}.{test_module_name}"] + [
@@ -400,7 +413,7 @@ def run_evaluation(
         result = subprocess.run(cmd, stdout=f, stderr=f, text=True)
     assert (
         result.returncode == 0
-    ), f"[ERROR] test failed for {samples_dir}, please check the log."
+    ), f"[ERROR] test failed for {work_dir}, please check the log."
 
 
 def reconstruct_split_positions_for_subgraphs(
@@ -632,7 +645,6 @@ def main(args):
 
     # --- Step 1: Prepare Tasks and Workspace ---
     decompose_config = prepare_tasks_and_verify(args, current_pass_id, base_output_dir)
-
     work_dir = get_decompose_workspace_path(base_output_dir, current_pass_id)
     if not os.path.exists(work_dir):
         os.makedirs(work_dir, exist_ok=True)

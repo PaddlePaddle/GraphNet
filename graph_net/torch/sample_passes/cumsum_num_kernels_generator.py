@@ -24,6 +24,7 @@ class CumSumNumKernelsGenerator(SamplePass, ResumableSamplePassMixin):
         model_path_prefix: str,
         output_dir: str,
         resume: bool = False,
+        start_offset_in_origin_graph: int = 0,
         limits_handled_models: int = None,
         output_json_file_name: str = "cumsum_num_kernels.json",
     ):
@@ -38,26 +39,27 @@ class CumSumNumKernelsGenerator(SamplePass, ResumableSamplePassMixin):
 
     def resume(self, rel_model_path: str):
         model_path = Path(self.config["model_path_prefix"]) / rel_model_path
-        analyzer = CumsumNumKernelsAnalyzer(model_path)
+        start_offset_in_origin_graph = self.config["start_offset_in_origin_graph"]
+        analyzer = CumsumNumKernelsAnalyzer(model_path, start_offset_in_origin_graph)
         cumsum_num_kernels = analyzer.analyze()
         cumsum_num_kernels_json = json.dumps(cumsum_num_kernels, indent=4)
         output_dir_path = Path(self.config["output_dir"]) / rel_model_path
         output_dir_path.mkdir(parents=True, exist_ok=True)
-        (output_dir_path / self.config["output_json_file_name"]).write_text(
-            cumsum_num_kernels_json
-        )
+        output_file_path = output_dir_path / self.config["output_json_file_name"]
+        output_file_path.write_text(cumsum_num_kernels_json)
 
 
 class CumsumNumKernelsAnalyzer:
-    def __init__(self, model_path: Path):
+    def __init__(self, model_path: Path, start_offset_in_origin_graph: int):
         self.model_path = model_path
+        self.start_offset_in_origin_graph = start_offset_in_origin_graph
 
     def analyze(self):
         triples = list(self._get_cumsum_num_kernels())
         data = {
             "num_kernels": [num_kernels for start, end, num_kernels in triples],
-            "starts": [start for start, end, num_kernels in triples],
-            "ends": [end for start, end, num_kernels in triples],
+            "start_offset_in_origin_graph": self.start_offset_in_origin_graph,
+            "num_subgraph_ops": [end for start, end, num_kernels in triples],
         }
         return data
 

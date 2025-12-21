@@ -18,11 +18,15 @@ class ResumableSamplePassMixin(SamplePassMixin):
     ):
         pass
 
+    @abc.abstractmethod
     def sample_handled(self, rel_model_path: str) -> bool:
+        raise NotImplementedError()
+
+    def naive_sample_handled(self, rel_model_path: str, search_file_name: str) -> bool:
         dst_model_path = Path(self.config["output_dir"]) / rel_model_path
         if not dst_model_path.exists():
             return False
-        num_model_py_files = len(list(dst_model_path.rglob("model.py")))
+        num_model_py_files = len(list(dst_model_path.rglob(search_file_name)))
         assert num_model_py_files <= 1
         return num_model_py_files == 1
 

@@ -224,7 +224,7 @@ class AgentUnittestGenerator:
         self.output_dir = Path(output_dir)
         self.device = self._choose_device(device)
         self.generate_main = generate_main
-        self.try_run = try_run and generate_main
+        self.try_run = try_run
         self.data_input_predicator = self._make_data_input_predicator(
             data_input_predicator_filepath, data_input_predicator_class_name
         )
@@ -244,20 +244,26 @@ class AgentUnittestGenerator:
             input_tensor_metas,
             weight_tensor_metas,
         ) = self._get_input_and_weight_tensor_metas(input_arg_names, weight_arg_names)
-        graph_module_desc = GraphModuleDescriptor(
-            device=self.device,
-            generate_main=self.generate_main,
-            model_name=model_name,
-            input_arg_names=input_arg_names,
-            input_tensor_metas=input_tensor_metas,
-            weight_arg_names=weight_arg_names,
-            weight_tensor_metas=weight_tensor_metas,
-            forward_body=self._get_forward_body(
-                graph_module, input_arg_names, weight_arg_names
-            ),
-        )
-        unittest = self._render_template(graph_module_desc)
-        if self._try_to_run_unittest(unittest):
+
+        def _generate_unittest(generate_main):
+            graph_module_desc = GraphModuleDescriptor(
+                device=self.device,
+                generate_main=generate_main,
+                model_name=model_name,
+                input_arg_names=input_arg_names,
+                input_tensor_metas=input_tensor_metas,
+                weight_arg_names=weight_arg_names,
+                weight_tensor_metas=weight_tensor_metas,
+                forward_body=self._get_forward_body(
+                    graph_module, input_arg_names, weight_arg_names
+                ),
+            )
+            return self._render_template(graph_module_desc)
+
+        # Generate unittest with main for try-run.
+        unittest_for_try_run = _generate_unittest(generate_main=self.try_run)
+        if self._try_to_run_unittest(unittest_for_try_run):
+            unittest = _generate_unittest(generate_main=self.generate_main)
             self._write_to_file(unittest, self.output_dir)
 
     def _choose_device(self, device) -> str:

@@ -12,7 +12,7 @@ config_json_str=$(cat <<EOF
     "handler_class_name": "CheckGraphModuleParsable",
     "handler_config": {
         "resume": false,
-        "model_path_prefix": "/tmp/find_fully_fusible_output/",
+        "model_path_prefix": "/tmp/find_fully_fusible_output_test3/",
         "limits_handled_models": 999999,
         "output_dir": "/tmp/check_graph_module_parsable"
     }

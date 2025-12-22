@@ -121,6 +121,7 @@ class NaiveDecomposerExtractor:
         }
 
     def __call__(self, rel_model_path):
+        logger.warning("naive decomposer called")
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         config = {
             k: v
@@ -137,6 +138,17 @@ class NaiveDecomposerExtractor:
                 **config,
             )
             rewrited_gm(*inputs)
+        except Exception as e:
+            if "CppCompileError" in type(e).__name__:
+                error_type = "Inductor Compile Error"
+            elif isinstance(e, AssertionError):
+                error_type = "FX Tracing/Assertion Error"
+            else:
+                error_type = "Unknown Execution Error"
+
+            logger.error(f"[{model_path}] FAILED during graph conversion/execution.")
+            logger.error(f"[{model_path}] Error Type: {error_type}. Message: {e}")
+            logger.exception(f"[{model_path}] Full traceback details:")
         finally:
             pass
             # logger.warning("convert_to_submodules_graph-call-end")

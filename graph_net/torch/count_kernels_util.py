@@ -1,9 +1,4 @@
-import traceback
-from graph_net.torch import utils
-import importlib.util
 import torch
-import sys
-from typing import Type
 from torch.profiler import profile, record_function, ProfilerActivity
 
 from graph_net.torch.graph_fusibility_status import (
@@ -26,11 +21,15 @@ class TorchNNModuleFullyFusiblePredicator(torch.nn.Module):
         self.module = module
 
     def forward(self, *inputs):
+        print(self.module)
         try:
+            # compiled_model = self.module
             compiled_model = torch.compile(self.module)
+            print("222222", compiled_model)
         except Exception:
             raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
         ret_tensors, compiled_num_of_kernels = count_kernels(compiled_model, inputs)
+        print("!!!!! count two keys = ", compiled_num_of_kernels)
         if compiled_num_of_kernels == 1:
             raise GraphFusibilityStatus(GraphFusibility.kFullyFusible)
         else:
@@ -38,71 +37,71 @@ class TorchNNModuleFullyFusiblePredicator(torch.nn.Module):
         return ret_tensors
 
 
-class ThrowExitStatusIfGraphFullyFusible:
-    def __init__(self, config):
-        self.config = config
+# class ThrowExitStatusIfGraphFullyFusible:
+#     def __init__(self, config):
+#         self.config = config
 
-    def __call__(self, model_path=None):
-        # def callback = lambda: logger.warning("post-extract-process-call-end")
-        # logger.warning("post-extract-process-call-begin")
-        # atexit.register(callback)
-        torch._dynamo.reset()
-        if model_path is None:
-            raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
-        # model
-        model_class = load_class_from_file(
-            f"{model_path}/model.py", class_name="GraphModule"
-        )
-        assert model_class is not None
-        model = model_class()
-        # print(f"{model_path=}")
+#     def __call__(self, model_path=None):
+#         # def callback = lambda: logger.warning("post-extract-process-call-end")
+#         # logger.warning("post-extract-process-call-begin")
+#         # atexit.register(callback)
+#         torch._dynamo.reset()
+#         if model_path is None:
+#             raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
+#         # model
+#         model_class = load_class_from_file(
+#             f"{model_path}/model.py", class_name="GraphModule"
+#         )
+#         assert model_class is not None
+#         model = model_class()
+#         # print(f"{model_path=}")
 
-        inputs_params = utils.load_converted_from_text(f"{model_path}")
-        params = inputs_params["weight_info"]
-        state_dict = {k: utils.get_dummy_tensor(v) for k, v in params.items()}
+#         inputs_params = utils.load_converted_from_text(f"{model_path}")
+#         params = inputs_params["weight_info"]
+#         state_dict = {k: utils.get_dummy_tensor(v) for k, v in params.items()}
 
-        # try to run the model
-        try:
-            model(**state_dict)
-        except Exception:
-            raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
-        # try to compile the model
-        try:
-            compiled_model = torch.compile(model)
-        except Exception:
-            raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
-        _, compiled_num_of_kernels = count_kernels(compiled_model, state_dict)
-        if compiled_num_of_kernels == 1:
-            raise GraphFusibilityStatus(GraphFusibility.kFullyFusible)
-        else:
-            raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
-
-
-class GraphFullyFusible:
-    def __init__(self, config):
-        self.predicator = ThrowExitStatusIfGraphFullyFusible(config)
-
-    def __call__(self, model_path=None):
-        try:
-            self.predicator(model_path)
-        except GraphFusibilityStatus as status:
-            if status.graph_fusibility == GraphFusibility.kFullyFusible:
-                sys.exit(0)
-            elif status.graph_fusibility == GraphFusibility.kNotFullyFusible:
-                sys.exit(1)
-            else:
-                raise NotImplementedError(f"{status.graph_fusibility=}")
-        except Exception:
-            traceback.print_exc()
-        sys.exit(1)
+#         # try to run the model
+#         try:
+#             model(**state_dict)
+#         except Exception:
+#             raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
+#         # try to compile the model
+#         try:
+#             compiled_model = torch.compile(model)
+#         except Exception:
+#             raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
+#         _, compiled_num_of_kernels = count_kernels(compiled_model, state_dict)
+#         if compiled_num_of_kernels == 1:
+#             raise GraphFusibilityStatus(GraphFusibility.kFullyFusible)
+#         else:
+#             raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
 
 
-def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Module]:
-    spec = importlib.util.spec_from_file_location("unnamed", file_path)
-    unnamed = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(unnamed)
-    model_class = getattr(unnamed, class_name, None)
-    return model_class
+# class GraphFullyFusible:
+#     def __init__(self, config):
+#         self.predicator = ThrowExitStatusIfGraphFullyFusible(config)
+
+#     def __call__(self, model_path=None):
+#         try:
+#             self.predicator(model_path)
+#         except GraphFusibilityStatus as status:
+#             if status.graph_fusibility == GraphFusibility.kFullyFusible:
+#                 sys.exit(0)
+#             elif status.graph_fusibility == GraphFusibility.kNotFullyFusible:
+#                 sys.exit(1)
+#             else:
+#                 raise NotImplementedError(f"{status.graph_fusibility=}")
+#         except Exception:
+#             traceback.print_exc()
+#         sys.exit(1)
+
+
+# def load_class_from_file(file_path: str, class_name: str) -> Type[torch.nn.Module]:
+#     spec = importlib.util.spec_from_file_location("unnamed", file_path)
+#     unnamed = importlib.util.module_from_spec(spec)
+#     spec.loader.exec_module(unnamed)
+#     model_class = getattr(unnamed, class_name, None)
+#     return model_class
 
 
 def count_kernels(model, sample_inputs) -> int:
@@ -123,9 +122,19 @@ def count_kernels(model, sample_inputs) -> int:
     """
     model.eval()
     # Use PyTorch Profiler
+    with torch.no_grad():
+        if isinstance(sample_inputs, dict):
+            _ = model(**sample_inputs)
+        elif isinstance(sample_inputs, (list, tuple)):
+            _ = model(*sample_inputs)
+        else:
+            raise NotImplementedError(f"{type(sample_inputs)=}")
+    # 强制预热运行完成，确保profiler捕获干净
+    if torch.cuda.is_available():
+        torch.cuda.synchronize()
 
     with profile(
-        activities=[ProfilerActivity.CUDA, ProfilerActivity.CPU],
+        activities=[ProfilerActivity.CUDA],
         record_shapes=True,
     ) as prof:
         with record_function("model_inference"):
@@ -135,7 +144,8 @@ def count_kernels(model, sample_inputs) -> int:
                 ret_tensors = model(*sample_inputs)
             else:
                 raise NotImplementedError(f"{type(sample_inputs)=}")
-
+            torch.cuda.synchronize()
+    print(prof.key_averages())
     events = prof.key_averages()
 
     total_count = 0

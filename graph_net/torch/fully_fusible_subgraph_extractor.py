@@ -11,6 +11,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# 启用比 VERBOSE 更多的诊断信息，显示融合决策和回退原因
+os.environ["TORCH_LOGS"] = "inductor"
+# 再次确保详细信息开启
+os.environ["TORCH_INDUCTOR_VERBOSE"] = "1"
+
 
 class FullyFusibleSubgraphExtractor:
     def __init__(self, config: dict = None):
@@ -25,9 +30,9 @@ class FullyFusibleSubgraphExtractor:
         nn_module_fully_fusible_decorator_config=None,
         output_dir=None,
         resume: bool = True,
-        max_step=8,
-        min_step=2,
-        max_nodes=32,
+        subgraph_max_size=8,
+        subgraph_min_size=2,
+        graph_max_search_nodes=32,
         model_path_prefix="",
     ):
         return {
@@ -36,28 +41,34 @@ class FullyFusibleSubgraphExtractor:
             "nn_module_fully_fusible_decorator_path": nn_module_fully_fusible_decorator_path,
             "nn_module_fully_fusible_decorator_class_name": nn_module_fully_fusible_decorator_class_name,
             "nn_module_fully_fusible_decorator_config": nn_module_fully_fusible_decorator_config,
-            "max_step": max_step,
-            "min_step": min_step,
-            "max_nodes": max_nodes,
+            "subgraph_max_size": subgraph_max_size,
+            "subgraph_min_size": subgraph_min_size,
+            "graph_max_search_nodes": graph_max_search_nodes,
             "model_path_prefix": model_path_prefix,
         }
 
     def _get_sub_ranges(self):
-        assert self.config["min_step"] >= 1, "min_step must be greater than 1。"
         assert (
-            self.config["max_step"] >= self.config["min_step"]
-        ), "max_step must be greater than min_step。"
+            self.config["subgraph_min_size"] >= 1
+        ), "subgraph_min_size must be greater than 1。"
+        assert (
+            self.config["subgraph_max_size"] >= self.config["subgraph_min_size"]
+        ), "subgraph_max_size must be greater than subgraph_min_size。"
         for step in reversed(
-            range(self.config["min_step"], self.config["max_step"] + 1)
+            range(
+                self.config["subgraph_min_size"], self.config["subgraph_max_size"] + 1
+            )
         ):
             assert (
-                self.config["min_step"] <= step <= self.config["max_step"]
+                self.config["subgraph_min_size"]
+                <= step
+                <= self.config["subgraph_max_size"]
             ), "Internal error: step exceeds configuration range."
-            for start_pos in range(self.config["max_nodes"] - step):
+            for start_pos in range(0, self.config["graph_max_search_nodes"] - step, 2):
                 end_pos = start_pos + step
                 assert (
-                    0 <= start_pos < end_pos <= self.config["max_nodes"]
-                ), f"Invalid range generated: start={start_pos}, end={end_pos}, max={self.config['max_nodes']}"
+                    0 <= start_pos < end_pos <= self.config["graph_max_search_nodes"]
+                ), f"Invalid range generated: start={start_pos}, end={end_pos}, max={self.config['graph_max_search_nodes']}"
                 yield start_pos, end_pos
 
     def _copy_from_tmp_dir_to_output_dir(
@@ -107,6 +118,7 @@ class FullyFusibleSubgraphExtractor:
 
     def __call__(self, rel_model_path):
         if self.config["resume"] and self._is_model_path_handled(rel_model_path):
+            print(f"Skip '{rel_model_path}'.")
             return
         torch.cuda.empty_cache()
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
@@ -114,6 +126,7 @@ class FullyFusibleSubgraphExtractor:
             model_path
         )
         for start_pos, end_pos in self._get_sub_ranges():
+            # print("current split postions:", start_pos, end_pos)
             success = fully_fusible_subgraph_predicator(start_pos, end_pos)
             if not success:
                 continue
@@ -130,3 +143,4 @@ class FullyFusibleSubgraphExtractor:
                 )
                 print(f"{fully_fusible_destination_path=}")
             return
+        print("failed to find fully fusible sub graph.")

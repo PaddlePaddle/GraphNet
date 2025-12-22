@@ -70,7 +70,9 @@ class SubgraphGenerator(SamplePass, ResumableSamplePassMixin):
         split_positions = self._get_split_positions(subgraph_ranges)
         rewrited_gm: torch.fx.GraphModule = convert_to_submodules_graph(
             gm,
-            submodule_hook=self.get_naive_decomposer_extractor(rel_model_path),
+            submodule_hook=self.get_naive_decomposer_extractor(
+                rel_model_path, subgraph_ranges
+            ),
             split_positions=split_positions,
             subgraph_ranges=subgraph_ranges,
             group_head_and_tail=self.config.get("group_head_and_tail", False),
@@ -90,13 +92,15 @@ class SubgraphGenerator(SamplePass, ResumableSamplePassMixin):
         split_positions = [position for pair in subgraph_ranges for position in pair]
         return sorted(set(split_positions))
 
-    def get_naive_decomposer_extractor(self, rel_model_path):
+    def get_naive_decomposer_extractor(self, rel_model_path, subgraph_ranges):
         def fn(submodule, seq_no):
             return NaiveDecomposerExtractorModule(
                 config=self.config,
                 parent_graph_rel_model_path=rel_model_path,
                 submodule=submodule,
                 seq_no=seq_no,
+                subgraph_start=subgraph_ranges[seq_no][0],
+                subgraph_end=subgraph_ranges[seq_no][1],
             )
 
         return fn
@@ -109,6 +113,8 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         parent_graph_rel_model_path: str,
         submodule: torch.nn.Module,
         seq_no: int,
+        subgraph_start: int,
+        subgraph_end: int,
     ):
         super().__init__()
         self.config = config
@@ -120,7 +126,7 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         if self.seq_no is None:
             self.model_name = parent_graph_model_name
         else:
-            submodule_name = f"{parent_graph_model_name}_{self.seq_no}"
+            submodule_name = f"{parent_graph_model_name}_start{subgraph_start}_end{subgraph_end}_{self.seq_no}"
             self.model_name = submodule_name
         self.builtin_extractor = BuiltinGraphExtractor(
             name=submodule_name,

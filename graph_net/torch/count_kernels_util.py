@@ -2,6 +2,7 @@ import traceback
 from graph_net.torch import utils
 import importlib.util
 import torch
+from graph_net.optional import Optional
 import sys
 from typing import Type
 from torch.profiler import profile, record_function, ProfilerActivity
@@ -18,6 +19,21 @@ class TorchSubModuleFullyFusibleDecorator:
 
     def __call__(self, module, sub_module_idx):
         return TorchNNModuleFullyFusiblePredicator(module)
+
+
+class CountNumKernelsNNModule(torch.nn.Module):
+    def __init__(self, module, mut_opt_num_kernels: Optional):
+        super().__init__()
+        self.module = module
+        self.compiled_module = torch.compile(self.module)
+        self.mut_opt_num_kernels = mut_opt_num_kernels
+
+    def forward(self, *inputs):
+        ret_tensors, compiled_num_of_kernels = count_kernels(
+            self.compiled_module, inputs
+        )
+        self.mut_opt_num_kernels.reset(Optional(compiled_num_of_kernels))
+        return ret_tensors
 
 
 class TorchNNModuleFullyFusiblePredicator(torch.nn.Module):

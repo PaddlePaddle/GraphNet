@@ -2,25 +2,26 @@
 set -x
 
 OP_NUM=${1:-64}
-GPU_ID=${2:-4}
+GPU_ID=${2:-0}
 
 export CUDA_VISIBLE_DEVICES="${GPU_ID}"
-export PYTHONPATH=/work/GraphNet:/work/abstract_pass/Athena:$PYTHONPATH
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 
-DECOMPOSE_WORKSPACE=/work/graphnet_test_workspace/subgraph_dataset_20251221
+DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
 LEVEL_DECOMPOSE_WORKSPACE=$DECOMPOSE_WORKSPACE/decomposed_${OP_NUM}ops
 OP_NAMES_OUTPUT_DIR=${DECOMPOSE_WORKSPACE}/sample_op_names
 RANGE_DECOMPOSE_OUTPUT_DIR="${LEVEL_DECOMPOSE_WORKSPACE}/range_decompose"
 GRAPH_VAR_RENAME_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/graph_var_renamed
 DEDUPLICATED_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/deduplicated
+DEVICE_REWRITED_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/device_rewrited
 UNITTESTS_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/unittests
 
 mkdir -p "$LEVEL_DECOMPOSE_WORKSPACE"
 
 model_list="$GRAPH_NET_ROOT/graph_net/config/torch_samples_list.txt"
 range_decomposed_subgraph_list=${LEVEL_DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_sample_list.txt
+device_rewrited_subgraph_list=${LEVEL_DECOMPOSE_WORKSPACE}/device_rewrited_subgraph_sample_list.txt
 deduplicated_subgraph_list=${LEVEL_DECOMPOSE_WORKSPACE}/deduplicated_subgraph_sample_list.txt
 
 function generate_subgraph_list() {
@@ -64,6 +65,7 @@ function generate_split_point() {
     # level 5: 32, 64
     MIN_SEQ_OPS=$((${OP_NUM} / 2))
     MAX_SEQ_OPS=${OP_NUM}
+
     echo ">>> [2] Generate split points for samples in ${model_list}."
     echo ">>>   OP_NUM: ${OP_NUM}, MIN_SEQ_OPS: ${MIN_SEQ_OPS}, MAX_SEQ_OPS: ${MAX_SEQ_OPS}"
     echo ">>>"
@@ -90,7 +92,7 @@ function range_decompose() {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_decomposer.py",
     "handler_class_name": "RangeDecomposerExtractor",
     "handler_config": {
-        "resume": false,
+        "resume": true,
         "model_path_prefix": "$GRAPH_NET_ROOT",
         "output_dir": "${RANGE_DECOMPOSE_OUTPUT_DIR}",
         "split_results_path": "$LEVEL_DECOMPOSE_WORKSPACE/split_results_${OP_NUM}.json",
@@ -135,21 +137,41 @@ function remove_duplicates() {
         --target-dir ${DEDUPLICATED_OUTPUT_DIR}
 }
 
-function generate_unittests() {
-    echo ">>> [6] Generate unittests for subgraph samples under ${DEDUPLICATED_OUTPUT_DIR}."
+function rewrite_device() {
+    echo ">>> [6] Rewrite devices for subgraph samples under ${DEDUPLICATED_OUTPUT_DIR}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
         --model-path-list ${deduplicated_subgraph_list} \
+        --handler-config=$(base64 -w 0 <<EOF
+{
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/device_rewrite_sample_pass.py",
+    "handler_class_name": "DeviceRewriteSamplePass",
+    "handler_config": {
+        "device": "cuda",
+        "resume": true,
+        "model_path_prefix": "${DEDUPLICATED_OUTPUT_DIR}",
+        "output_dir": "${DEVICE_REWRITED_OUTPUT_DIR}"
+    }
+}
+EOF
+)
+}
+
+function generate_unittests() {
+    echo ">>> [7] Generate unittests for subgraph samples under ${DEDUPLICATED_OUTPUT_DIR}."
+    echo ">>>"
+    python3 -m graph_net.model_path_handler \
+        --model-path-list ${device_rewrited_subgraph_list} \
         --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/sample_pass/agent_unittest_generator.py",
     "handler_class_name": "AgentUnittestGeneratorPass",
     "handler_config": {
         "framework": "torch",
-        "model_path_prefix": "${DEDUPLICATED_OUTPUT_DIR}",
+        "model_path_prefix": "${DEVICE_REWRITED_OUTPUT_DIR}",
         "output_dir": "$UNITTESTS_OUTPUT_DIR",
         "device": "cuda",
-        "generate_main": true,
+        "generate_main": false,
         "try_run": true,
         "resume": true,
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",                                                                                     
@@ -163,7 +185,8 @@ EOF
 main() {
     timestamp=`date +%Y%m%d_%H%M`
     suffix="${OP_NUM}ops_${timestamp}"
-    #generate_op_names 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_op_names_${suffix}.txt
+    
+    generate_op_names 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_op_names_${suffix}.txt
     generate_split_point 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_split_point_${suffix}.txt
     range_decompose 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_range_decompose_${suffix}.txt
 
@@ -172,7 +195,10 @@ main() {
     remove_duplicates 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_remove_duplicates_${suffix}.txt
 
     generate_subgraph_list ${DEDUPLICATED_OUTPUT_DIR} ${deduplicated_subgraph_list}
-    generate_unittests 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_generate_unittests_${suffix}.txt
+    rewrite_device 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_rewrite_device_${suffix}.txt
+
+    generate_subgraph_list ${DEVICE_REWRITED_OUTPUT_DIR} ${device_rewrited_subgraph_list}
+    generate_unittests 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_unittests_${suffix}.txt
 }
 
 main

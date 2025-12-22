@@ -126,7 +126,7 @@ class ModelRecord:
     original_path: str
     uniform_split_positions: List[int] = field(default_factory=list)
     subgraph_paths: List[str] = field(default_factory=list)
-    incorrect_subgraph_idxs: List[int] = field(default_factory=list)
+    incorrect_subgraph_idxs: List[int] = None
 
     def get_split_positions(self, decompose_method):
         if decompose_method == "fixed-start":
@@ -466,7 +466,9 @@ def generate_initial_tasks(args):
     )
     decompose_config.update_running_state(
         pass_id=-1,
-        running_state=RunningState(incorrect_models_from_log=initial_incorrect_models),
+        running_state=RunningState(
+            incorrect_models_from_log=list(sorted(initial_incorrect_models))
+        ),
     )
     decompose_config.update_running_state(
         pass_id=0, running_state=RunningState(model_name2record=model_name2record)

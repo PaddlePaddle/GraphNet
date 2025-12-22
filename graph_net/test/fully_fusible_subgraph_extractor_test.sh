@@ -9,7 +9,7 @@ MODEL_PATH_IN_SAMPLES=/timm/$MODEL_NAME
 # INPUT_MODEL_LIST=$GRAPH_NET_ROOT/test/dev_model_list/get_fusible_subgraph_sample_list.txt
 INPUT_MODEL_LIST=$GRAPH_NET_ROOT/test/dev_model_list/small_sample_list_for_get_fusible_subgraph.txt
 
-OUTPUT_DIR="/tmp/find_fully_fusible_output_test4"
+OUTPUT_DIR="/tmp/find_fully_fusible_output_test5"
 config_json_str=$(cat <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/torch/fully_fusible_subgraph_extractor.py",

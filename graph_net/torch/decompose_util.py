@@ -8,6 +8,7 @@ from dataclasses import dataclass
 def convert_to_submodules_graph(
     gm: torch.fx.GraphModule,
     split_positions: list[int],
+    subgraph_ranges: list[(int, int)] = None,
     submodule_hook=None,
     submodule_name_prefix="extracted_submodule",
     chain_style=False,
@@ -26,21 +27,42 @@ def convert_to_submodules_graph(
             "output",
         }
     ]
-    split_positions = (
-        [0, *split_positions, len(submodules_body_nodes)]
-        if group_head_and_tail
-        else split_positions
+
+    def get_range_idx2range_by_split_positions():
+        nonlocal split_positions
+        split_positions = (
+            [0, *split_positions, len(submodules_body_nodes)]
+            if group_head_and_tail
+            else split_positions
+        )
+        split_positions = [
+            max(0, min(pos, len(submodules_body_nodes))) for pos in split_positions
+        ]
+        return [
+            (start, end)
+            for i in range(len(split_positions) - 1)
+            for start in [split_positions[i]]
+            for end in [split_positions[i + 1]]
+            if end > start
+        ]
+
+    def get_range_idx2range_by_subgraph_ranges():
+        assert subgraph_ranges is not None
+        num_nodes = len(submodules_body_nodes)
+        for i in range(len(subgraph_ranges)):
+            start, end = subgraph_ranges[i]
+            assert start >= 0
+            assert start < end
+            assert end <= num_nodes
+            # check disjoint
+            assert i == 0 or start >= subgraph_ranges[i - 1][1], f"{i=}"
+        return subgraph_ranges
+
+    range_idx2range = (
+        get_range_idx2range_by_split_positions()
+        if (chain_style or subgraph_ranges is None)
+        else get_range_idx2range_by_subgraph_ranges()
     )
-    split_positions = [
-        max(0, min(pos, len(submodules_body_nodes))) for pos in split_positions
-    ]
-    range_idx2range = [
-        (start, end)
-        for i in range(len(split_positions) - 1)
-        for start in [split_positions[i]]
-        for end in [split_positions[i + 1]]
-        if end > start
-    ]
     range_idx2submodule_body_nodes = [
         submodules_body_nodes[start:end] for start, end in range_idx2range
     ]
@@ -85,7 +107,8 @@ def convert_to_submodules_graph(
     def sort_key(node):
         return new_node2original_node[node].name
 
-    for range_idx in range(len(range_idx2submodule_body_nodes)):
+    num_subgraphs = len(range_idx2submodule_body_nodes)
+    for range_idx in range(num_subgraphs):
         (
             submodule_input_nodes,
             submodule_output_nodes,
@@ -96,6 +119,7 @@ def convert_to_submodules_graph(
             end_node_idx=get_end_node_idx(range_idx),
             chain_style=chain_style,
         )
+        identity_node_set = set(identity_nodes)
 
         def get_input_nodes(range_idx):
             return sorted(submodule_input_nodes, key=sort_key)
@@ -153,13 +177,13 @@ def convert_to_submodules_graph(
                 prev_node = new_output_node
 
         # Replace all use of outputs
-        identity_node_set = set(identity_nodes)
         for original_output in get_output_nodes(range_idx):
-            if original_output not in identity_node_set:
-                original_output.replace_all_uses_with(node_map[original_output])
-                new_node2original_node[
-                    node_map[original_output]
-                ] = new_node2original_node[original_output]
+            if original_output in identity_node_set:
+                continue
+            original_output.replace_all_uses_with(node_map[original_output])
+            new_node2original_node[node_map[original_output]] = new_node2original_node[
+                original_output
+            ]
 
         # Erase old nodes
         for node in reversed(get_body_nodes(range_idx)):
@@ -215,12 +239,18 @@ def _get_submodule_inputs_and_outputs(
         return minimal_input_nodes, minimal_output_nodes, []
     else:
         node_list = list(gm.graph.nodes)
-        input_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
-            gm=gm, start_node_idx=start_node_idx, end_node_idx=len(node_list)
-        )
-        output_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
-            gm=gm, start_node_idx=end_node_idx, end_node_idx=len(node_list)
-        )
+        if _is_node_idx_out_of_range(gm, start_node_idx):
+            input_nodes = list(_get_return_nodes(gm))
+        else:
+            input_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
+                gm=gm, start_node_idx=start_node_idx, end_node_idx=len(node_list)
+            )
+        if _is_node_idx_out_of_range(gm, end_node_idx):
+            output_nodes = list(_get_return_nodes(gm))
+        else:
+            output_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
+                gm=gm, start_node_idx=end_node_idx, end_node_idx=len(node_list)
+            )
         identity_nodes_set = set(input_nodes) & set(output_nodes)
         identity_nodes = [node for node in input_nodes if node in identity_nodes_set]
         return input_nodes, output_nodes, identity_nodes
@@ -237,6 +267,7 @@ def _get_minimal_submodule_inputs_and_outputs(
         defaultdict(int),
     )
     node_list = list(gm.graph.nodes)
+    assert end_node_idx <= len(node_list)
 
     def get_args_node(arg):
         if isinstance(arg, torch.fx.Node):
@@ -298,3 +329,24 @@ def _get_minimal_submodule_inputs_and_outputs(
         if count_ctx.node2after_output[node] > 0
     ]
     return input_nodes, output_nodes
+
+
+def _get_return_nodes(gm):
+    for node in gm.graph.nodes:
+        if node.op != "output":
+            continue
+        for arg in node.args:
+            if isinstance(arg, (tuple, list)):
+                yield from arg
+            else:
+                yield arg
+
+
+def _is_node_idx_out_of_range(gm, node_idx: int):
+    node_list = list(gm.graph.nodes)
+    num_nodes = len(node_list)
+    if node_idx < 0:
+        return True
+    if node_idx >= num_nodes:
+        return True
+    return node_list[node_idx].op in {"output", "placeholder"}

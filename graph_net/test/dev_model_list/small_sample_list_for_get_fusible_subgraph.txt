@@ -1,3 +1,4 @@
+samples/timm/resnet18
 #samples/timm/crossvit_small_240.in1k
 #samples/timm/poolformerv2_s12.sail_in1k
 #samples/timm/regnety_080.pycls_in1k
@@ -11,10 +12,10 @@
 #samples/timm/vit_small_patch16_rope_ape_224.naver_in1k
 #samples/timm/gmixer_24_224.ra3_in1k
 
-samples/timm/convit_small
-samples/timm/regnetz_b16.ra3_in1k
-samples/timm/skresnet18.ra_in1k
-samples/timm/ecaresnet26t.ra2_in1k
-samples/timm/poolformerv2_m36.sail_in1k
-samples/timm/beit3_base_patch16_224.in22k_ft_in1k
-samples/timm/cait_s24_224.fb_dist_in1k
+#samples/timm/convit_small
+#samples/timm/regnetz_b16.ra3_in1k
+#samples/timm/skresnet18.ra_in1k
+#samples/timm/ecaresnet26t.ra2_in1k
+#samples/timm/poolformerv2_m36.sail_in1k
+#samples/timm/beit3_base_patch16_224.in22k_ft_in1k
+#samples/timm/cait_s24_224.fb_dist_in1k

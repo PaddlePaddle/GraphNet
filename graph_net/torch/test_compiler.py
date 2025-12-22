@@ -1,4 +1,5 @@
 from . import utils
+import subprocess
 import argparse
 import importlib.util
 import torch
@@ -24,6 +25,9 @@ from graph_net.torch.backend.unstable_to_stable_backend import UnstableToStableB
 from graph_net.torch.backend.range_decomposer_validator_backend import (
     RangeDecomposerValidatorBackend,
 )
+from graph_net.torch.backend.graph_variable_renamer_validator_backend import (
+    GraphVariableRenamerValidatorBackend,
+)
 from graph_net import test_compiler_util
 from graph_net import path_utils
 
@@ -37,6 +41,7 @@ registry_backend = {
     "nope": NopeBackend(),
     "unstable_to_stable": UnstableToStableBackend(),
     "range_decomposer_validator": RangeDecomposerValidatorBackend(),
+    "graph_variable_renamer_validator": GraphVariableRenamerValidatorBackend(),
 }
 
 
@@ -119,8 +124,8 @@ def get_input_dict(args):
     inputs_params = utils.load_converted_from_text(f"{args.model_path}")
     params = inputs_params["weight_info"]
     for tensor_meta in params.values():
-        if hasattr(tensor_meta, "device"):
-            tensor_meta.device = args.device
+        if "device" in tensor_meta["info"]:
+            tensor_meta["info"]["device"] = args.device
     return {
         k: utils.replay_tensor(v).to(torch.device(args.device))
         for k, v in params.items()
@@ -249,6 +254,12 @@ def test_single_model(args):
         compiled_failure = True
         print("\n--- Full Traceback ---")
         traceback.print_exc()
+        print(f"debug-model-execution {type(e).__name__} {args.model_path}", flush=True)
+    except Exception as e:
+        compiled_failure = True
+        print("\n--- Full Traceback ---")
+        traceback.print_exc()
+        print(f"debug-model-execution {type(e).__name__} {args.model_path}", flush=True)
 
     if eager_failure:
         print(f"{args.log_prompt} [Result] status: failed", file=sys.stderr, flush=True)
@@ -394,8 +405,15 @@ def test_multi_models(args):
                     f"--config {args.config}",
                 ]
             )
-            cmd_ret = os.system(cmd)
-            # assert cmd_ret == 0, f"{cmd_ret=}, {cmd=}"
+            try:
+                process = subprocess.Popen(cmd, shell=True)
+                cmd_ret = process.wait()
+            except KeyboardInterrupt:
+                print("KeyboardInterrupt")
+                sys.exit(1)
+            except Exception:
+                print("\n--- Full Traceback ---")
+                traceback.print_exc()
             if cmd_ret != 0:
                 failed_samples.append(model_path)
             sample_idx += 1
@@ -433,7 +451,15 @@ def test_multi_models_with_prefix(args):
                 f"--config {args.config}",
             ]
         )
-        os.system(cmd)
+        try:
+            process = subprocess.Popen(cmd, shell=True)
+            process.wait()
+        except KeyboardInterrupt:
+            print("KeyboardInterrupt")
+            sys.exit(1)
+        except Exception:
+            print("\n--- Full Traceback ---")
+            traceback.print_exc()
 
 
 def main(args):

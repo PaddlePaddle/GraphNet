@@ -1,9 +1,7 @@
 import os
-import sys
 import json
 import base64
 import argparse
-from typing import Type
 
 os.environ["FLAGS_logging_pir_py_code_dir"] = "/tmp/dump"
 

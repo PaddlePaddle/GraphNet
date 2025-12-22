@@ -16,6 +16,14 @@ class NaiveDataInputPredicator:
         )
 
 
+class RenamedDataInputPredicator:
+    def __init__(self, config):
+        self.config = config
+
+    def __call__(self, model_path, input_var_name: str) -> bool:
+        return input_var_name.startswith("in_")
+
+
 class ModelRunnablePredicator:
     def __init__(self, config):
         if config is None:

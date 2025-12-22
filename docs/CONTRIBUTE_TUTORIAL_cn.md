@@ -247,32 +247,22 @@ python -m graph_net.config \
     --username "john_doe" \
     --email "john@example.com"
 ```
-2. **打包计算图**
 
+2. **提交修改**
+
+移动新增的计算图样本到**samples**目录，然后提交。
 ```bash
-python -m graph_net.pack --output /path/to/output.zip --clear-after-pack True
-```
-该API的功能为：
-
- a. 打包`$GRAPH_NET_EXTRACT_WORKSPACE`下的所有文件到`/path/to/output.zip` （可以设置到`GraphNet/samples`）
-   
- b. 若`--clear-after-pack`为`True`，则打包后清空`$GRAPH_NET_EXTRACT_WORKSPACE`
-
-请注意，如果有第三方算子，需要贡献者自行打包到计算图压缩包内。目前没有特别规定存放的目录结构，但只要通过了validate环节，就可以达到验收标准。
-
-3. **提交修改**
-
-移动上一步打包完成的计算图压缩包到**samples**目录，然后提交。
-```bash
-git add <计算图压缩包>
+git add <新计算图样本>
 git commit -m "描述"
 ```
-4. **推送分支到远程**（你的 Fork 仓库）
+请注意，如果有第三方算子，需要贡献者自行打包到计算图压缩包内。
+
+3. **推送分支到远程**（你的 Fork 仓库）
 
 ```bash
 git push origin feature/your-branch-name
 ```
-5. **提交 Pull Request**
+4. **提交 Pull Request**
 
 > **注意**：为方便管理，每个PR应遵守Single Responsibility Principle (SRP)原则，**仅新增单一份计算图、或聚焦于单一功能改进**，避免将多个修改混合提交。例如，如果您修改了抓取方法，然后为支持某类模型收集了数据，那么其中每份单个模型的计算图、修改的新一份抓取方法，都应打开为独立的PR。
 

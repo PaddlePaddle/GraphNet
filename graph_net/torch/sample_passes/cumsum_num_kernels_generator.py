@@ -13,6 +13,7 @@ from graph_net.torch.fx_graph_module_util import (
 from pathlib import Path
 import json
 import torch
+import gc
 
 
 class CumSumNumKernelsGenerator(SamplePass, ResumableSamplePassMixin):
@@ -84,7 +85,6 @@ class CumsumNumKernelsAnalyzer:
     def _get_num_kernels_if_submodule_compiled(
         self, graph_module, nn_module, inputs, submodule_start, submodule_end
     ):
-        torch.cuda.empty_cache()
         mut_opt_num_kernels = Optional(None)
 
         def compile_and_count_num_kernels(m, seq_no):
@@ -98,7 +98,11 @@ class CumsumNumKernelsAnalyzer:
             group_head_and_tail=False,
             chain_style=False,
         )
+        gc.collect()
+        torch.cuda.empty_cache()
         rewrited_gm(*inputs)
+        gc.collect()
+        torch.cuda.empty_cache()
         assert mut_opt_num_kernels.is_some()
         return mut_opt_num_kernels.unwrap()
 

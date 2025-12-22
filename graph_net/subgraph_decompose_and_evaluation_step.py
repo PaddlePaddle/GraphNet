@@ -163,14 +163,15 @@ class RunningState:
 
         incorrect_models = []
         for model_name, model_record in self.model_name2record.items():
-            for subgraph_path in model_record.subgraph_paths:
-                (
-                    extracted_model_name,
-                    subgraph_idx,
-                ) = extract_model_name_and_subgraph_idx(subgraph_path)
-                assert extracted_model_name == model_name
-                if subgraph_idx in model_record.incorrect_subgraph_idxs:
-                    incorrect_models.append(subgraph_path)
+            assert model_record.subgraph_paths
+            model_path_prefix = os.path.dirname(model_record.subgraph_paths[0])
+            for subgraph_idx in model_record.incorrect_subgraph_idxs:
+                subgraph_path = os.path.join(
+                    model_path_prefix, f"{model_name}_{subgraph_idx}"
+                )
+                if subgraph_idx == 0:
+                    assert subgraph_path in model_record.subgraph_paths
+                incorrect_models.append(subgraph_path)
         return incorrect_models
 
     def collect_decomposed_subgraphs(self, decomposed_samples_dir):

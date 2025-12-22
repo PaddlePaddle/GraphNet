@@ -22,7 +22,7 @@ import unittest
 {%- endif -%}
 {{"\n"}}
 import torch
-from torch import device
+from torch import device, inf
 
 
 {% macro get_input_tensor_instance(tensor_meta, device) -%}
@@ -36,7 +36,7 @@ from torch import device
 {%- if data is not none -%}
     torch.tensor({{data}}, dtype={{dtype}}).reshape({{shape}}).to(device='{{device}}')
 {%- elif dtype == "torch.bool" -%}
-    torch.rand({{shape}}, device={{device}}) > 0.5
+    torch.rand({{shape}}, device='{{device}}') > 0.5
 {%- elif dtype in ["torch.int8", "torch.int16", "torch.int32", "torch.int64"] -%}
     torch.randint({{min_val}}, {{max_val}} + 1, size={{shape}}, dtype={{dtype}}).to(device='{{device}}')
 {%- elif dtype in ["torch.float16", "torch.bfloat16", "torch.float32", "torch.float64"] -%}
@@ -118,7 +118,7 @@ import paddle
 {%- if data is not none -%}
     paddle.to_tensor({{data}}, dtype='{{dtype}}', shape={{shape}}).to(device='{{device}}')
 {%- elif dtype == "bool" -%}
-    paddle.randint(low=0, high=2, shape={{shape}}, dtype='{{dtype}}')
+    paddle.randint(low=0, high=2, shape={{shape}}, dtype='{{dtype}}').to(device='{{device}}')
 {%- elif dtype in ["int8", "int16", "int32", "int64"] -%}
     paddle.randint(low={{min_val}}, high={{max_val}} + 1, shape={{shape}}, dtype='{{dtype}}').to(device='{{device}}')
 {%- elif dtype in ["float16", "bfloat16", "float32", "float64"] -%}
@@ -456,13 +456,8 @@ class AgentUnittestGeneratorPass(SamplePass, ResumableSamplePassMixin):
         self.resumable_handle_sample(rel_model_path)
 
     def sample_handled(self, rel_model_path: str) -> bool:
-        dst_model_path = Path(self.config["output_dir"]) / rel_model_path
-        if not dst_model_path.exists():
-            return False
         output_name = self._get_output_name(rel_model_path)
-        num_model_py_files = len(list(dst_model_path.rglob(output_name)))
-        assert num_model_py_files <= 1
-        return num_model_py_files == 1
+        return self.naive_sample_handled(rel_model_path, search_file_name=output_name)
 
     def _get_output_name(self, rel_model_path: str):
         return f"{Path(rel_model_path).name}_test.py"

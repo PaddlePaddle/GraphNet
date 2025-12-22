@@ -54,7 +54,7 @@ class FullyFusibleSubGraphPredicator:
         }
 
     def __call__(self, start_node_idx, end_node_idx):
-        logger.warning("fully fusible sub-graph predicator called")
+        # logger.warning("fully fusible sub-graph predicator called")
         print("start_node_idx", start_node_idx)
         print("end_node_idx", end_node_idx)
         try:

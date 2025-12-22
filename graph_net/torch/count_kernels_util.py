@@ -80,7 +80,7 @@ def count_kernels(model, sample_inputs) -> int:
             else:
                 raise NotImplementedError(f"{type(sample_inputs)=}")
             torch.cuda.synchronize()
-    print(prof.key_averages())
+    # print(prof.key_averages())
     events = prof.key_averages()
 
     total_count = 0

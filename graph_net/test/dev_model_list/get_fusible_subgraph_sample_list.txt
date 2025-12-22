@@ -1,8 +1,10 @@
-# kind 1 error
-samples/timm/seresnextaa201d_32x8d.sw_in12k
-samples/timm/vgg16_bn.tv_in1k
-samples/timm/vit_large_patch16_rope_224.naver_in1k
-
-#dbmdz_electra-large-discriminator-finetuned-conll03-english_decomposed/dbmdz_electra-large-discriminator-finetuned-conll03-english_0
-#dbmdz_electra-large-discriminator-finetuned-conll03-english_decomposed/dbmdz_electra-large-discriminator-finetuned-conll03-english_1
-#dbmdz_electra-large-discriminator-finetuned-conll03-english_decomposed/dbmdz_electra-large-discriminator-finetuned-conll03-english_2
+samples/timm/eca_resnext26ts.ch_in1k
+samples/timm/eca_vovnet39b
+samples/timm/efficientnet_b0.ra4_e3600_r224_in1k
+samples/timm/efficientnet_b1.ft_in1k
+samples/timm/efficientnet_b2.ra_in1k
+samples/timm/efficientnet_b3.ra2_in1k
+samples/timm/efficientnet_b4.ra2_in1k
+samples/timm/efficientnet_b5.sw_in12k
+samples/timm/efficientnet_el.ra_in1k
+samples/timm/efficientnet_em.ra2_in1k

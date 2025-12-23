@@ -17,7 +17,7 @@ from dataclasses import asdict
 import graph_net.graph_net_json_file_util as gn_json
 
 
-class DimensionGeneralizer(
+class DimensionSymbolizer(
     SamplePass, ResumableSamplePassMixin, OnlyModelFileRewriteSamplePassMixin
 ):
     def __init__(self, config):

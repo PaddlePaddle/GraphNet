@@ -2,19 +2,6 @@ import torch
 from graph_net.optional import Optional
 from torch.profiler import profile, record_function, ProfilerActivity
 
-from graph_net.torch.graph_fusibility_status import (
-    GraphFusibilityStatus,
-    GraphFusibility,
-)
-
-
-class TorchSubModuleFullyFusibleDecorator:
-    def __init__(self, config):
-        self.config = config
-
-    def __call__(self, module, sub_module_idx):
-        return TorchNNModuleFullyFusiblePredicator(module)
-
 
 class CountNumKernelsNNModule(torch.nn.Module):
     def __init__(self, module, mut_opt_num_kernels: Optional):
@@ -28,27 +15,6 @@ class CountNumKernelsNNModule(torch.nn.Module):
             self.compiled_module, inputs
         )
         self.mut_opt_num_kernels.reset(Optional(compiled_num_of_kernels))
-        return ret_tensors
-
-
-class TorchNNModuleFullyFusiblePredicator(torch.nn.Module):
-    def __init__(self, module):
-        super().__init__()
-        self.module = module
-
-    def forward(self, *inputs):
-        # print(self.module)
-        try:
-            # compiled_model = self.module
-            compiled_model = torch.compile(self.module)
-        except Exception:
-            raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
-        ret_tensors, compiled_num_of_kernels = count_kernels(compiled_model, inputs)
-        print("!!!!! count two keys = ", compiled_num_of_kernels)
-        if compiled_num_of_kernels == 1:
-            raise GraphFusibilityStatus(GraphFusibility.kFullyFusible)
-        else:
-            raise GraphFusibilityStatus(GraphFusibility.kNotFullyFusible)
         return ret_tensors
 
 
@@ -85,5 +51,4 @@ def count_kernels(model, sample_inputs) -> int:
     for e in events:
         if e.key == "cuLaunchKernel" or e.key == "cudaLaunchKernel":
             total_count += e.count
-    print("!!!!!!!!!!!!!!! = ", total_count)
     return ret_tensors, total_count

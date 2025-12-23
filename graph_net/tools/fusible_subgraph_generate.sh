@@ -2,8 +2,7 @@
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 
-# model_path_list=$GRAPH_NET_ROOT/graph_net/test/dev_model_list/cumsum_num_kernels_sample_list.txt
-model_path_list=$GRAPH_NET_ROOT/graph_net/test/dev_model_list/get_fusible_subgraph_sample_list.txt
+model_path_list=$GRAPH_NET_ROOT/graph_net/test/dev_model_list/cumsum_num_kernels_sample_list.txt
 WORKSPACE_ROOT=/tmp/fusible_subgraphs
 CUMSUM_NUM_KERNELS_WORKSPACE=$WORKSPACE_ROOT/workspace_cumsum_num_kernels
 FUSIBLE_SUBGRAPH_RANGES_WORKSPACE=$WORKSPACE_ROOT/workspace_fusible_subgraph_ranges

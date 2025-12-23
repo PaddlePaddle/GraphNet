@@ -1,1 +1,11 @@
 samples/timm/resnet18
+samples/timm/eca_resnext26ts.ch_in1k
+samples/timm/eca_vovnet39b
+samples/timm/efficientnet_b0.ra4_e3600_r224_in1k
+samples/timm/efficientnet_b1.ft_in1k
+samples/timm/efficientnet_b2.ra_in1k
+samples/timm/efficientnet_b3.ra2_in1k
+samples/timm/efficientnet_b4.ra2_in1k
+samples/timm/efficientnet_b5.sw_in12k
+samples/timm/efficientnet_el.ra_in1k
+samples/timm/efficientnet_em.ra2_in1k

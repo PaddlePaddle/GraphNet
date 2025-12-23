@@ -57,7 +57,7 @@ function generate_op_names() {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/typical_sequence_split_points.py",
     "handler_class_name": "OpNamesExtractor",
     "handler_config": {
-        "resume": true,
+        "resume": ${RESUME},
         "model_path_prefix": "$GRAPH_NET_ROOT",
         "output_dir": "${OP_NAMES_OUTPUT_DIR}"
     }
@@ -93,7 +93,7 @@ function range_decompose() {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_decomposer.py",
     "handler_class_name": "RangeDecomposerExtractor",
     "handler_config": {
-        "resume": true,
+        "resume": ${RESUME},
         "model_path_prefix": "$GRAPH_NET_ROOT",
         "output_dir": "${RANGE_DECOMPOSE_OUTPUT_DIR}",
         "split_results_path": "$DECOMPOSE_WORKSPACE/split_results_${OP_RANGE}ops.json",
@@ -117,7 +117,7 @@ function rename_decomposed_subgraph() {
     "handler_class_name": "GraphVariableRenamer",
     "handler_config": {
         "device": "cuda",
-        "resume": true,
+        "resume": ${RESUME},
         "model_path_prefix": "${RANGE_DECOMPOSE_OUTPUT_DIR}",
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
         "data_input_predicator_class_name": "NaiveDataInputPredicator",
@@ -149,7 +149,7 @@ function rewrite_device() {
     "handler_class_name": "DeviceRewriteSamplePass",
     "handler_config": {
         "device": "cuda",
-        "resume": true,
+        "resume": ${RESUME},
         "model_path_prefix": "${DEDUPLICATED_OUTPUT_DIR}",
         "output_dir": "${DEVICE_REWRITED_OUTPUT_DIR}"
     }
@@ -225,7 +225,7 @@ function rename_fusible_subgraph() {
     "handler_class_name": "GraphVariableRenamer",
     "handler_config": {
         "device": "cuda",
-        "resume": true,
+        "resume": ${RESUME},
         "model_path_prefix": "${FUSIBLE_SUBGRAPH_SAMPLES_DIR}",
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
         "data_input_predicator_class_name": "RenamedDataInputPredicator",
@@ -262,7 +262,7 @@ function generate_unittests() {
         "device": "cuda",
         "generate_main": false,
         "try_run": true,
-        "resume": true,
+        "resume": ${RESUME},
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",                                                                                     
         "data_input_predicator_class_name": "RenamedDataInputPredicator"
     }

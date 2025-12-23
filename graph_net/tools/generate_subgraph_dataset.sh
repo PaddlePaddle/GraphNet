@@ -163,6 +163,7 @@ function cumsum_num_kernels() {
         "output_json_file_name": "cumsum_num_kernels.json",
         "model_path_prefix": "$2",
         "output_dir": "$3",
+        "device": "cuda",
         "resume": ${RESUME}
     }
 }

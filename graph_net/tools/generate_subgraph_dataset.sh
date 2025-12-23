@@ -17,7 +17,7 @@ model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt"
 mkdir -p "$LEVEL_WORKSPACE"
 
 declare -A DIRS=(
-    ["OP_NAMES"]="$DECOMPOSE_WORKSPACE/original_sample_op_names"
+    ["OP_NAMES"]="$DECOMPOSE_WORKSPACE/sample_op_names"
     ["RANGE_DECOMPOSE_SAMPLES"]="$LEVEL_WORKSPACE/decomposed_subgraphs"
     ["RENAMED_SAMPLES"]="$LEVEL_WORKSPACE/decomposed_subgraphs_renamed"
     ["DEDUPED_SAMPLES"]="$LEVEL_WORKSPACE/decomposed_subgraphs_deduped"

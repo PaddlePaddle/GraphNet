@@ -199,6 +199,7 @@ function gen_fusible_subgraphs() {
         "model_path_prefix": "$2",
         "output_dir": "$4",
         "subgraph_ranges_json_root": "$3",
+        "device": "cuda",
         "resume": ${RESUME}
     }
 }

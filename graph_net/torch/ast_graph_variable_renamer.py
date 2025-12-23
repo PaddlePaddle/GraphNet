@@ -98,6 +98,8 @@ class AstGraphRenamer(ast.NodeTransformer):
             return ast.Tuple(elts=kept_elts, ctx=ast.Del()) if kept_elts else None
         elif not self._is_protected_var(target):  # del a
             return target
+        else:
+            pass
         return None
 
     def visit_Assign(self, node):

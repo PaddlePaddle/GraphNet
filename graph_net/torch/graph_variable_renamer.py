@@ -44,9 +44,6 @@ class GraphVariableRenamer:
         output_dir="./tmp/graph_variable_renamer_dir",
         filter_path=None,
         filter_config=None,
-        post_extract_process_path=None,
-        post_extract_process_class_name=None,
-        post_extract_process_config=None,
         data_input_predicator_class_name="DataInputPredicator",
         model_runnable_predicator_class_name="ModelRunner",
         data_input_predicator_config=None,
@@ -54,8 +51,6 @@ class GraphVariableRenamer:
         model_path_prefix="",
         **kwargs,
     ):
-        if post_extract_process_config is None:
-            post_extract_process_config = {}
         if data_input_predicator_config is None:
             data_input_predicator_config = {}
         if model_runnable_predicator_config is None:
@@ -65,9 +60,6 @@ class GraphVariableRenamer:
             "output_dir": output_dir,
             "filter_path": filter_path,
             "filter_config": filter_config if filter_config is not None else {},
-            "post_extract_process_path": post_extract_process_path,
-            "post_extract_process_class_name": post_extract_process_class_name,
-            "post_extract_process_config": post_extract_process_config,
             "data_input_predicator_filepath": data_input_predicator_filepath,
             "data_input_predicator_class_name": data_input_predicator_class_name,
             "data_input_predicator_config": data_input_predicator_config,

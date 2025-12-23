@@ -204,7 +204,10 @@ def test_single_model(args):
     compiler = get_compiler_backend(args)
     input_dict = get_input_dict(args)
     model = get_model(args)
-
+    model_path = os.path.normpath(args.model_path)
+    test_compiler_util.print_with_log_prompt(
+        "[Processing]", model_path, args.log_prompt
+    )
     test_compiler_util.print_basic_config(
         args, get_hardward_name(args), get_compile_framework_version(args)
     )

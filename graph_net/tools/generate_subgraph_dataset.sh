@@ -4,41 +4,36 @@ set -x
 MIN_SEQ_OPS=${1:-16}
 MAX_SEQ_OPS=${2:-64}
 GPU_ID=${3:-0}
-OP_RANGE="${MIN_SEQ_OPS}-${MAX_SEQ_OPS}"
-RESUME="true"
 
-export CUDA_VISIBLE_DEVICES=$GPU_ID
+OP_RANGE=$MIN_SEQ_OPS-$MAX_SEQ_OPS
+
+export CUDA_VISIBLE_DEVICES="${GPU_ID}"
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
-DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
-LEVEL_WORKSPACE=$DECOMPOSE_WORKSPACE/decomposed_${OP_RANGE}ops
+RESUME="true"
+
+DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace/test100
+LEVEL_DECOMPOSE_WORKSPACE=$DECOMPOSE_WORKSPACE/decomposed_${OP_RANGE}ops
+OP_NAMES_OUTPUT_DIR=${DECOMPOSE_WORKSPACE}/sample_op_names
+RANGE_DECOMPOSE_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/range_decompose
+GRAPH_VAR_RENAME_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/graph_var_renamed
+DEDUPLICATED_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/deduplicated
+DEVICE_REWRITED_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/device_rewrited
+CUMSUM_NUM_KERNELS_DIR=$LEVEL_DECOMPOSE_WORKSPACE/cumsum_num_kernels
+FUSIBLE_SUBGRAPH_RANGES_DIR=$LEVEL_DECOMPOSE_WORKSPACE/fusible_subgraph_ranges
+FUSIBLE_SUBGRAPH_SAMPLES_DIR=$LEVEL_DECOMPOSE_WORKSPACE/fusible_subgraph_samples
+RENAMED_FUSIBLE_SUBGRAPH_DIR=$LEVEL_DECOMPOSE_WORKSPACE/renamed_fusible_subgraphs
+DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR=$LEVEL_DECOMPOSE_WORKSPACE/deduplicated_fusible_subgraphs
+UNITTESTS_OUTPUT_DIR=$LEVEL_DECOMPOSE_WORKSPACE/unittests
+
+mkdir -p "$LEVEL_DECOMPOSE_WORKSPACE"
+
 model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt"
-
-mkdir -p "$LEVEL_WORKSPACE"
-
-declare -A DIRS=(
-    ["OP_NAMES"]="$DECOMPOSE_WORKSPACE/sample_op_names"
-    ["RANGE_DECOMPOSE_SAMPLES"]="$LEVEL_WORKSPACE/decomposed_subgraphs"
-    ["RENAMED_SAMPLES"]="$LEVEL_WORKSPACE/decomposed_subgraphs_renamed"
-    ["DEDUPED_SAMPLES"]="$LEVEL_WORKSPACE/decomposed_subgraphs_deduped"
-    ["CUMSUM_NUM_KERNELS"]="$LEVEL_WORKSPACE/cumsum_num_kernels"
-    ["FUSIBLE_RANGES"]="$LEVEL_WORKSPACE/fusible_subgraph_ranges"
-    ["FUSIBLE_SAMPLES"]="$LEVEL_WORKSPACE/fusible_subgraphs"
-    ["RENAMED_FUSIBLE_SAMPLES"]="$LEVEL_WORKSPACE/fusible_subgraphs_renamed"
-    ["DEDUPED_FUSIBLE_SAMPLES"]="$LEVEL_WORKSPACE/fusible_subgraphs_deduped"
-    ["DEVICE_REWRITTEN_SAMPLES"]="$LEVEL_WORKSPACE/fusible_subgraphs_device_rewritten"
-    ["UNITTESTS"]="$LEVEL_WORKSPACE/fusible_subgraphs_unittests"
-)
-
-function RUN_PIPELINE_STEP() {
-    local step="$1"
-    local command="$2"
-    shift 2
-    
-    echo ">>> [$step] Performing: $command"
-    echo ">>>"
-    eval "$command \"\$@\"" 2>&1 | tee "${LEVEL_WORKSPACE}/log_${command}_${OP_RANGE}ops_$(date +%Y%m%d_%H%M).txt"
-}
+range_decomposed_subgraph_list=${LEVEL_DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_sample_list.txt
+deduplicated_subgraph_list=${LEVEL_DECOMPOSE_WORKSPACE}/deduplicated_subgraph_sample_list.txt
+device_rewrited_subgraph_list=${LEVEL_DECOMPOSE_WORKSPACE}/device_rewrited_subgraph_sample_list.txt
+fusible_subgraph_list=${LEVEL_DECOMPOSE_WORKSPACE}/fusible_subgraph_sample_list.txt
+deduplicated_fusible_subgraphs_list=${LEVEL_DECOMPOSE_WORKSPACE}/deduplicated_fusible_subgraph_sample_list.txt
 
 function generate_subgraph_list() {
     local target_dir="$1"
@@ -54,16 +49,18 @@ function generate_subgraph_list() {
 }
 
 function generate_op_names() {
+    echo ">>> [1] Generate op_names.txt for samples in ${model_list}."
+    echo ">>>"
     python3 -m graph_net.model_path_handler \
-        --model-path-list "$1" \
+        --model-path-list $model_list \
         --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/typical_sequence_split_points.py",
     "handler_class_name": "OpNamesExtractor",
     "handler_config": {
-        "resume": ${RESUME},
+        "resume": true,
         "model_path_prefix": "$GRAPH_NET_ROOT",
-        "output_dir": "$2"
+        "output_dir": "${OP_NAMES_OUTPUT_DIR}"
     }
 }
 EOF
@@ -71,32 +68,37 @@ EOF
 }
 
 function generate_split_point() {
+    echo ">>> [2] Generate split points for samples in ${model_list}."
+    echo ">>>   MIN_SEQ_OPS: ${MIN_SEQ_OPS}, MAX_SEQ_OPS: ${MAX_SEQ_OPS}"
+    echo ">>>"
     python3 -m graph_net.torch.typical_sequence_split_points \
-        --model-list "$1" \
-        --op-names-path-prefix "$2" \
+        --model-list "$model_list" \
+        --op-names-path-prefix "${OP_NAMES_OUTPUT_DIR}" \
         --device "cuda" \
         --window-size 64 \
         --fold-policy default \
         --fold-times 16 \
         --min-seq-ops ${MIN_SEQ_OPS} \
         --max-seq-ops ${MAX_SEQ_OPS} \
-        --subgraph-ranges-json "$3/subgraph_ranges_${OP_RANGE}ops.json" \
-        --output-json "$3/split_results_${OP_RANGE}ops.json"
+        --subgraph-ranges-json "$LEVEL_DECOMPOSE_WORKSPACE/subgraph_ranges_${OP_RANGE}ops.json" \
+        --output-json "$LEVEL_DECOMPOSE_WORKSPACE/split_results_${OP_RANGE}ops.json"
 }
 
 function range_decompose() {
+    echo ">>> [3] Decompose according to split_results.json for samples in ${model_list}."
+    echo ">>>"
     python3 -m graph_net.model_path_handler \
-        --model-path-list "$1" \
+        --model-path-list "$model_list" \
         --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_decomposer.py",
     "handler_class_name": "RangeDecomposerExtractor",
     "handler_config": {
-        "resume": ${RESUME},
+        "resume": true,
         "model_path_prefix": "$GRAPH_NET_ROOT",
-        "output_dir": "$3",
-        "split_results_path": "$2/split_results_${OP_RANGE}ops.json",
-        "subgraph_ranges_path": "$2/subgraph_ranges_${OP_RANGE}ops.json",
+        "output_dir": "${RANGE_DECOMPOSE_OUTPUT_DIR}",
+        "split_results_path": "$LEVEL_DECOMPOSE_WORKSPACE/split_results_${OP_RANGE}ops.json",
+        "subgraph_ranges_path": "$LEVEL_DECOMPOSE_WORKSPACE/subgraph_ranges_${OP_RANGE}ops.json",
         "group_head_and_tail": true,
         "chain_style": false
     }
@@ -105,101 +107,106 @@ EOF
 )
 }
 
-function rename_subgraph() {
+function rename_decomposed_subgraph() {
+    echo ">>> [4] Rename subgraph samples under ${RANGE_DECOMPOSE_OUTPUT_DIR}."
+    echo ">>>"
     python3 -m graph_net.model_path_handler \
-        --model-path-list $1 \
+        --model-path-list ${range_decomposed_subgraph_list} \
         --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_variable_renamer.py",
     "handler_class_name": "GraphVariableRenamer",
     "handler_config": {
         "device": "cuda",
-        "resume": ${RESUME},
-        "model_path_prefix": "$2",
+        "resume": true,
+        "model_path_prefix": "${RANGE_DECOMPOSE_OUTPUT_DIR}",
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
-        "data_input_predicator_class_name": "RenamedDataInputPredicator",
+        "data_input_predicator_class_name": "NaiveDataInputPredicator",
         "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
         "model_runnable_predicator_class_name": "ModelRunnablePredicator",
-        "output_dir": "$3"
+        "output_dir": "$GRAPH_VAR_RENAME_OUTPUT_DIR"
     }
 }
 EOF
 )
 }
 
-function remove_duplicates() {
+function remove_duplicate_renamed_graphs() {
+    echo ">>> [5] Remove duplicated subgraph samples under ${GRAPH_VAR_RENAME_OUTPUT_DIR}."
+    echo ">>>"
     python3 -m graph_net.tools.deduplicated \
-        --samples-dir "$1" \
-        --target-dir "$2"
+        --samples-dir ${GRAPH_VAR_RENAME_OUTPUT_DIR} \
+        --target-dir ${DEDUPLICATED_OUTPUT_DIR}
 }
 
 function rewrite_device() {
+    echo ">>> [6] Rewrite devices for subgraph samples under ${DEDUPLICATED_OUTPUT_DIR}."
+    echo ">>>"
     python3 -m graph_net.model_path_handler \
-        --model-path-list "$1" \
+        --model-path-list ${deduplicated_subgraph_list} \
         --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/device_rewrite_sample_pass.py",
     "handler_class_name": "DeviceRewriteSamplePass",
     "handler_config": {
         "device": "cuda",
-        "resume": ${RESUME},
-        "model_path_prefix": "$2",
-        "output_dir": "$3"
+        "resume": true,
+        "model_path_prefix": "${DEDUPLICATED_OUTPUT_DIR}",
+        "output_dir": "${DEVICE_REWRITED_OUTPUT_DIR}"
     }
 }
 EOF
 )
 }
 
-function cumsum_num_kernels() {
+function gen_fusible_subgraphs() {
+    echo ">>> [7] Generate fusible subgraphs for subgraph samples under ${DEVICE_REWRITED_OUTPUT_DIR}."
+    echo ">>>"
     python3 -m graph_net.model_path_handler \
         --use-subprocess    \
-        --model-path-list "$1" \
+        --model-path-list "$device_rewrited_subgraph_list" \
         --handler-config $(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/cumsum_num_kernels_generator.py",
     "handler_class_name": "CumSumNumKernelsGenerator",
     "handler_config": {
         "output_json_file_name": "cumsum_num_kernels.json",
-        "model_path_prefix": "$2",
-        "output_dir": "$3",
+        "model_path_prefix": "${DEVICE_REWRITED_OUTPUT_DIR}",
+        "output_dir": "$CUMSUM_NUM_KERNELS_DIR",
         "device": "cuda",
         "resume": ${RESUME}
     }
 }
 EOF
 )
-}
-function gen_fusible_subgraphs_ranges(){
+
     python3 -m graph_net.model_path_handler \
-        --model-path-list "$1" \
+        --model-path-list "$device_rewrited_subgraph_list" \
         --handler-config $(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/sample_pass/fusible_subgraph_ranges_generator.py",
     "handler_class_name": "FusibleSubgraphRangesGenerator",
     "handler_config": {
-        "model_path_prefix": "$2",
+        "model_path_prefix": "$CUMSUM_NUM_KERNELS_DIR",
         "input_json_file_name": "cumsum_num_kernels.json",
         "output_json_file_name": "fusible_subgraph_ranges.json",
-        "output_dir": "$3",
+        "output_dir": "$FUSIBLE_SUBGRAPH_RANGES_DIR",
         "resume": ${RESUME}
     }
 }
 EOF
 )
-}
-    
-function gen_fusible_subgraphs() {
+
     python3 -m graph_net.model_path_handler \
-        --model-path-list "$1" \
+        --model-path-list "$device_rewrited_subgraph_list" \
         --handler-config $(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/subgraph_generator.py",
     "handler_class_name": "SubgraphGenerator",
     "handler_config": {
-        "model_path_prefix": "$2",
-        "output_dir": "$4",
-        "subgraph_ranges_json_root": "$3",
+        "model_path_prefix": "${DEVICE_REWRITED_OUTPUT_DIR}",
+        "output_dir": "$FUSIBLE_SUBGRAPH_SAMPLES_DIR",
+        "subgraph_ranges_json_root": "$FUSIBLE_SUBGRAPH_RANGES_DIR",
         "device": "cuda",
         "resume": ${RESUME}
     }
@@ -208,21 +215,55 @@ EOF
 )
 }
 
-function generate_unittests() {
+function rename_fusible_subgraph() {
+    echo ">>> [8] Rename subgraph samples under ${FUSIBLE_SUBGRAPH_SAMPLES_DIR}."
+    echo ">>>"
     python3 -m graph_net.model_path_handler \
-        --model-path-list $1 \
+        --model-path-list ${range_decomposed_subgraph_list} \
+        --handler-config=$(base64 -w 0 <<EOF
+{
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_variable_renamer.py",
+    "handler_class_name": "GraphVariableRenamer",
+    "handler_config": {
+        "device": "cuda",
+        "resume": true,
+        "model_path_prefix": "${FUSIBLE_SUBGRAPH_SAMPLES_DIR}",
+        "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
+        "data_input_predicator_class_name": "RenamedDataInputPredicator",
+        "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
+        "model_runnable_predicator_class_name": "ModelRunnablePredicator",
+        "output_dir": "$RENAMED_FUSIBLE_SUBGRAPH_DIR"
+    }
+}
+EOF
+)
+}
+
+function remove_duplicate_fusible_graphs() {
+    echo ">>> [9] Remove duplicated subgraph samples under ${RENAMED_FUSIBLE_SUBGRAPH_DIR}."
+    echo ">>>"
+    python3 -m graph_net.tools.deduplicated \
+        --samples-dir ${RENAMED_FUSIBLE_SUBGRAPH_DIR} \
+        --target-dir ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}
+}
+
+function generate_unittests() {
+    echo ">>> [10] Generate unittests for subgraph samples under ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}."
+    echo ">>>"
+    python3 -m graph_net.model_path_handler \
+        --model-path-list ${deduplicated_fusible_subgraphs_list} \
         --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/sample_pass/agent_unittest_generator.py",
     "handler_class_name": "AgentUnittestGeneratorPass",
     "handler_config": {
         "framework": "torch",
-        "model_path_prefix": "$2",
-        "output_dir": "$3",
+        "model_path_prefix": "${DEVICE_REWRITED_OUTPUT_DIR}",
+        "output_dir": "$UNITTESTS_OUTPUT_DIR",
         "device": "cuda",
         "generate_main": false,
         "try_run": true,
-        "resume": ${RESUME},
+        "resume": true,
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",                                                                                     
         "data_input_predicator_class_name": "RenamedDataInputPredicator"
     }
@@ -232,33 +273,29 @@ EOF
 }
 
 main() {
-    RUN_PIPELINE_STEP "1" generate_op_names "$model_list" ${DIRS["OP_NAMES"]}
-    RUN_PIPELINE_STEP "2" generate_split_point "$model_list" ${DIRS["OP_NAMES"]} ${LEVEL_WORKSPACE}
-    RUN_PIPELINE_STEP "3" range_decompose "$model_list" ${LEVEL_WORKSPACE} ${DIRS["RANGE_DECOMPOSE_SAMPLES"]}
+    timestamp=`date +%Y%m%d_%H%M`
+    suffix="${OP_RANGE}ops_${timestamp}"
+    
+    generate_op_names 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_op_names_${suffix}.txt
+    generate_split_point 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_split_point_${suffix}.txt
+    range_decompose 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_range_decompose_${suffix}.txt
 
-    range_decomposed_subgraphs_list="$LEVEL_WORKSPACE/range_decomposed_subgraph_sample_list.txt"
-    generate_subgraph_list ${DIRS["RANGE_DECOMPOSE_SAMPLES"]} $range_decomposed_subgraphs_list
-    RUN_PIPELINE_STEP "4" rename_subgraph "$range_decomposed_subgraphs_list" ${DIRS["RANGE_DECOMPOSE_SAMPLES"]} ${DIRS["RENAMED_SAMPLES"]}
-    RUN_PIPELINE_STEP "5" remove_duplicates ${DIRS["RENAMED_SAMPLES"]} ${DIRS["DEDUPED_SAMPLES"]}
+    generate_subgraph_list ${RANGE_DECOMPOSE_OUTPUT_DIR} ${range_decomposed_subgraph_list}
+    rename_decomposed_subgraph 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_rename_decomposed_subgraph_${suffix}.txt
+    remove_duplicate_renamed_graphs 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_remove_duplicate_renamed_graphs_${suffix}.txt
 
-    deduped_subgraphs_list="$LEVEL_WORKSPACE/deduplicated_subgraph_sample_list.txt"
-    generate_subgraph_list ${DIRS["DEDUPED_SAMPLES"]} $deduped_subgraphs_list
-    RUN_PIPELINE_STEP "6" cumsum_num_kernels "$deduped_subgraphs_list" ${DIRS["DEDUPED_SAMPLES"]} ${DIRS["CUMSUM_NUM_KERNELS"]}
-    RUN_PIPELINE_STEP "7" gen_fusible_subgraphs_ranges "$deduped_subgraphs_list" ${DIRS["CUMSUM_NUM_KERNELS"]} ${DIRS["FUSIBLE_RANGES"]}
-    RUN_PIPELINE_STEP "8" gen_fusible_subgraphs "$deduped_subgraphs_list" ${DIRS["DEDUPED_SAMPLES"]} ${DIRS["FUSIBLE_RANGES"]} ${DIRS["FUSIBLE_SAMPLES"]}
+    generate_subgraph_list ${DEDUPLICATED_OUTPUT_DIR} ${deduplicated_subgraph_list}
+    rewrite_device 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_rewrite_device_${suffix}.txt
 
-    fusible_subgraphs_list="$LEVEL_WORKSPACE/fusible_subgraphs_list.txt"
-    generate_subgraph_list ${DIRS["FUSIBLE_SAMPLES"]} $fusible_subgraphs_list
-    RUN_PIPELINE_STEP "9" rename_subgraph "$fusible_subgraphs_list" ${DIRS["FUSIBLE_SAMPLES"]} ${DIRS["RENAMED_FUSIBLE_SAMPLES"]}
-    RUN_PIPELINE_STEP "10" remove_duplicates ${DIRS["RENAMED_FUSIBLE_SAMPLES"]} ${DIRS["DEDUPED_FUSIBLE_SAMPLES"]}
+    generate_subgraph_list ${DEVICE_REWRITED_OUTPUT_DIR} ${device_rewrited_subgraph_list}
+    gen_fusible_subgraphs 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_fusible_subgraphs_${suffix}.txt
 
-    deduped_fusible_subgraphs_list="$LEVEL_WORKSPACE/deduplicated_fusible_subgraph_sample_list.txt"
-    generate_subgraph_list ${DIRS["DEDUPED_FUSIBLE_SAMPLES"]} $deduped_fusible_subgraphs_list
-    RUN_PIPELINE_STEP "11" rewrite_device "$deduped_fusible_subgraphs_list" ${DIRS["DEDUPED_FUSIBLE_SAMPLES"]} ${DIRS["DEVICE_REWRITTEN_SAMPLES"]}
+    generate_subgraph_list ${FUSIBLE_SUBGRAPH_SAMPLES_DIR} ${fusible_subgraph_list}
+    rename_fusible_subgraph 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_rename_fusible_subgraph_${suffix}.txt
+    remove_duplicate_fusible_graphs 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_remove_duplicate_fusible_graphs_${suffix}.txt
 
-    device_rewrited_subgraphs_list="$LEVEL_WORKSPACE/device_rewrited_fusible_subgraph_sample_list.txt"
-    generate_subgraph_list ${DIRS["DEVICE_REWRITTEN_SAMPLES"]} $device_rewrited_subgraphs_list
-    RUN_PIPELINE_STEP "12" generate_unittests "$device_rewrited_subgraphs_list" ${DIRS["DEVICE_REWRITTEN_SAMPLES"]} ${DIRS["UNITTESTS"]}
+    generate_subgraph_list ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR} ${deduplicated_fusible_subgraphs_list}
+    generate_unittests 2>&1 | tee ${LEVEL_DECOMPOSE_WORKSPACE}/log_unittests_${suffix}.txt
 }
 
 main

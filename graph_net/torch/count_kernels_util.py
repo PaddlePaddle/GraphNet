@@ -39,7 +39,7 @@ def count_kernels(model, sample_inputs) -> int:
 
     # Use PyTorch Profiler
     with profile(
-        activities=[ProfilerActivity.CUDA],
+        activities=[ProfilerActivity.CUDA, ProfilerActivity.CPU],
         record_shapes=True,
     ) as prof:
         with record_function("model_inference"):

@@ -138,19 +138,27 @@ def count_kernels(model, sample_inputs) -> int:
         to the number of CUDA kernel launches.
     """
     model.eval()
-    # Use PyTorch Profiler
 
+    def run():
+        if isinstance(sample_inputs, dict):
+            ret_tensors = model(**sample_inputs)
+        elif isinstance(sample_inputs, (list, tuple)):
+            ret_tensors = model(*sample_inputs)
+        else:
+            raise NotImplementedError(f"{type(sample_inputs)=}")
+        return ret_tensors
+
+    # warmup
+    for _ in range(3):
+        run()
+
+    # Use PyTorch Profiler
     with profile(
         activities=[ProfilerActivity.CUDA, ProfilerActivity.CPU],
         record_shapes=True,
     ) as prof:
         with record_function("model_inference"):
-            if isinstance(sample_inputs, dict):
-                ret_tensors = model(**sample_inputs)
-            elif isinstance(sample_inputs, (list, tuple)):
-                ret_tensors = model(*sample_inputs)
-            else:
-                raise NotImplementedError(f"{type(sample_inputs)=}")
+            ret_tensors = run()
 
     events = prof.key_averages()
 

@@ -164,6 +164,7 @@ function gen_fusible_subgraphs() {
     echo ">>> [7] Generate fusible subgraphs for subgraph samples under ${DEDUPLICATED_OUTPUT_DIR}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
+        --use-subprocess    \
         --model-path-list "$device_rewrited_subgraph_list" \
         --handler-config $(base64 -w 0 <<EOF
 {

@@ -12,10 +12,12 @@ def get_fx_graph_num_ops(fx_graph_module):
     return sum(map(get_num_ops, fx_graph_module.graph.nodes))
 
 
-def get_torch_module_and_inputs(model_path, use_dummy_inputs=True):
+def get_torch_module_and_inputs(model_path, use_dummy_inputs=True, device=None):
     module = _get_torch_module(model_path)
     tensor_metas = _get_tensor_metas(model_path)
     inputs = _create_inputs_by_metas(module, tensor_metas, use_dummy_inputs)
+    if device:
+        inputs = [tensor.to(device=device) for tensor in inputs]
     return module, inputs
 
 

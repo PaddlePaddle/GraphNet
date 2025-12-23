@@ -24,6 +24,7 @@ class CumSumNumKernelsGenerator(SamplePass, ResumableSamplePassMixin):
         model_path_prefix: str,
         output_dir: str,
         resume: bool = False,
+        device: str = "auto",
         start_offset_in_original_graph: int = 0,
         limits_handled_models: int = None,
         output_json_file_name: str = "cumsum_num_kernels.json",
@@ -39,8 +40,11 @@ class CumSumNumKernelsGenerator(SamplePass, ResumableSamplePassMixin):
 
     def resume(self, rel_model_path: str):
         model_path = Path(self.config["model_path_prefix"]) / rel_model_path
+        device = self._choose_device(self.config["device"])
         start_offset_in_original_graph = self.config["start_offset_in_original_graph"]
-        analyzer = CumsumNumKernelsAnalyzer(model_path, start_offset_in_original_graph)
+        analyzer = CumsumNumKernelsAnalyzer(
+            model_path, device, start_offset_in_original_graph
+        )
         cumsum_num_kernels = analyzer.analyze()
         cumsum_num_kernels_json = json.dumps(cumsum_num_kernels, indent=4)
         output_dir_path = Path(self.config["output_dir"]) / rel_model_path
@@ -48,10 +52,18 @@ class CumSumNumKernelsGenerator(SamplePass, ResumableSamplePassMixin):
         output_file_path = output_dir_path / self.config["output_json_file_name"]
         output_file_path.write_text(cumsum_num_kernels_json)
 
+    def _choose_device(self, device) -> str:
+        if device in ["cpu", "cuda"]:
+            return device
+        return "cuda" if torch.cuda.is_available() else "cpu"
+
 
 class CumsumNumKernelsAnalyzer:
-    def __init__(self, model_path: Path, start_offset_in_original_graph: int):
+    def __init__(
+        self, model_path: Path, device: str, start_offset_in_original_graph: int
+    ):
         self.model_path = model_path
+        self.device = device
         self.start_offset_in_original_graph = start_offset_in_original_graph
 
     def analyze(self):
@@ -67,8 +79,12 @@ class CumsumNumKernelsAnalyzer:
 
     def _get_cumsum_num_kernels(self):
         model_path = str(self.model_path)
-        module, inputs = get_torch_module_and_inputs(model_path, use_dummy_inputs=False)
-        gm = parse_immutable_model_path_into_sole_graph_module(model_path)
+        module, inputs = get_torch_module_and_inputs(
+            model_path, use_dummy_inputs=False, device=self.device
+        )
+        gm = parse_immutable_model_path_into_sole_graph_module(
+            model_path, device=self.device
+        )
         for start, end in self._get_ranges(gm):
             assert start == 0
             num_kernels = self._get_num_kernels_if_submodule_compiled(
@@ -97,6 +113,7 @@ class CumsumNumKernelsAnalyzer:
             group_head_and_tail=False,
             chain_style=False,
         )
+
         rewrited_gm(*inputs)
         assert mut_opt_num_kernels.is_some()
         return mut_opt_num_kernels.unwrap()

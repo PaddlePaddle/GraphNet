@@ -8,6 +8,7 @@ MODEL_NAME=resnet18
 MODEL_PATH_IN_SAMPLES=/timm/$MODEL_NAME
 INPUT_MODEL_LIST=$GRAPH_NET_ROOT/test/dev_model_list/get_fusible_subgraph_sample_list.txt
 # INPUT_MODEL_LIST=$GRAPH_NET_ROOT/test/dev_model_list/small_sample_list_for_get_fusible_subgraph.txt
+# INPUT_MODEL_LIST=$GRAPH_NET_ROOT/test/dev_model_list/cumsum_num_kernels_sample_list.txt
 
 OUTPUT_DIR="/tmp/find_fully_fusible_output_test5"
 config_json_str=$(cat <<EOF
@@ -21,8 +22,8 @@ config_json_str=$(cat <<EOF
         "nn_module_fully_fusible_decorator_path": "$GRAPH_NET_ROOT/torch/count_kernels_util.py",
         "nn_module_fully_fusible_decorator_class_name": "TorchSubModuleFullyFusibleDecorator",
         "subgraph_max_size": 10,
-        "subgraph_min_size": 1,
-        "graph_max_search_nodes": 20
+        "subgraph_min_size": 2,
+        "graph_max_search_nodes": 32
     }
 }
 EOF

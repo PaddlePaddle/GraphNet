@@ -218,7 +218,7 @@ function rename_fusible_subgraph() {
     echo ">>> [8] Rename subgraph samples under ${FUSIBLE_SUBGRAPH_SAMPLES_DIR}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
-        --model-path-list ${range_decomposed_subgraph_list} \
+        --model-path-list ${fusible_subgraph_list} \
         --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_variable_renamer.py",
@@ -257,7 +257,7 @@ function generate_unittests() {
     "handler_class_name": "AgentUnittestGeneratorPass",
     "handler_config": {
         "framework": "torch",
-        "model_path_prefix": "${DEVICE_REWRITED_OUTPUT_DIR}",
+        "model_path_prefix": "${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}",
         "output_dir": "$UNITTESTS_OUTPUT_DIR",
         "device": "cuda",
         "generate_main": false,

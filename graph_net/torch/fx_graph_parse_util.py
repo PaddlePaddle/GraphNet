@@ -157,11 +157,14 @@ def parse_sole_graph_module(module, inputs):
         names_from_placeholder=get_input_names_from_placeholder(),
     )
 
-    for node in traced_module.graph.nodes:
-        if node.op != "placeholder":
-            continue
-        node.target = _rename_placeholder(node.target, pattern2replacement)
-        node.name = node.target
+    def handle_placeholder_name(pattern2replacement):
+        for node in traced_module.graph.nodes:
+            if node.op != "placeholder":
+                continue
+            node.target = _rename_placeholder(node.target, pattern2replacement)
+            node.name = node.target
+
+    handle_placeholder_name(pattern2replacement)
 
     def get_diff_input_names():
         placeholder_names = set(get_input_names_from_placeholder())
@@ -226,13 +229,34 @@ def parse_sole_graph_module(module, inputs):
         for node in traced_module.graph.nodes:
             if not (node.op == "placeholder"):
                 continue
-            if node.target not in names:
+            if node.name not in names:
                 continue
             node.target = node.target[:-1]
             node.name = node.name[:-1]
         traced_module.recompile()
 
     handle_underscore_suffix_difference()
+
+    def handle_prefix_difference():
+        zip_filter_names = get_zip_filter_names()
+        if not (len(zip_filter_names) > 0):
+            return
+        names = set(
+            name_in_placeholder
+            for _0, name_in_signature, name_in_placeholder in zip_filter_names
+            if (f"l_{name_in_signature[2:]}" == name_in_placeholder)
+            if (name_in_signature == f"L_{name_in_placeholder[2:]}")
+        )
+        for node in traced_module.graph.nodes:
+            if not (node.op == "placeholder"):
+                continue
+            if node.name not in names:
+                continue
+            node.target = f"L_{node.target[2:]}"
+            node.name = f"L_{node.name[2:]}"
+        traced_module.recompile()
+
+    handle_prefix_difference()
 
     if len(get_zip_filter_names()) > 0 and set(get_input_names_from_signature()) == set(
         get_input_names_from_placeholder()
@@ -243,15 +267,14 @@ def parse_sole_graph_module(module, inputs):
 
     zip_filter_names = get_zip_filter_names()
 
-    def zip_filter_names_error_str():
+    def get_error_model_path():
         for triple in zip_filter_names:
             print(triple)
-        error_model_path = module.__graph_net_file_path__
-        return f"{error_model_path=}"
+        return module.__graph_net_file_path__
 
     # from pathlib import Path
     # Path("/tmp/a.py").write_text(traced_module.code)
-    assert len(zip_filter_names) == 0, f"{zip_filter_names_error_str()=}"
+    assert len(zip_filter_names) == 0, f"{get_error_model_path()=}"
     return traced_module
 
 

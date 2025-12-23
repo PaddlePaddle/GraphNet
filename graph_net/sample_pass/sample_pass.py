@@ -10,6 +10,7 @@ class SamplePass(abc.ABC):
 
         self._check_config_declaration_valid()
         self.config = self._make_config_by_config_declare(config)
+        super().__init__()
 
     @abc.abstractmethod
     def declare_config(self):

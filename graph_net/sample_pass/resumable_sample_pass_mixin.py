@@ -8,6 +8,7 @@ import os
 class ResumableSamplePassMixin(SamplePassMixin):
     def __init__(self, *args, **kwargs):
         self.num_handled_models = 0
+        super().__init__()
 
     def declare_config(
         self,

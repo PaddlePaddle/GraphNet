@@ -57,34 +57,33 @@ def count_kernels(model, sample_inputs) -> int:
     Count the number of CUDA kernel launches performed during a model's forward pass.
     """
     model.eval()
-    # Use PyTorch Profiler
-    with torch.no_grad():
+
+    def run():
         if isinstance(sample_inputs, dict):
-            _ = model(**sample_inputs)
+            ret_tensors = model(**sample_inputs)
         elif isinstance(sample_inputs, (list, tuple)):
-            _ = model(*sample_inputs)
+            ret_tensors = model(*sample_inputs)
         else:
             raise NotImplementedError(f"{type(sample_inputs)=}")
-    if torch.cuda.is_available():
-        torch.cuda.synchronize()
+        return ret_tensors
 
+    # warmup
+    for _ in range(3):
+        run()
+
+    # Use PyTorch Profiler
     with profile(
         activities=[ProfilerActivity.CUDA],
         record_shapes=True,
     ) as prof:
         with record_function("model_inference"):
-            if isinstance(sample_inputs, dict):
-                ret_tensors = model(**sample_inputs)
-            elif isinstance(sample_inputs, (list, tuple)):
-                ret_tensors = model(*sample_inputs)
-            else:
-                raise NotImplementedError(f"{type(sample_inputs)=}")
-            torch.cuda.synchronize()
-    # print(prof.key_averages())
+            ret_tensors = run()
+
     events = prof.key_averages()
 
     total_count = 0
     for e in events:
         if e.key == "cuLaunchKernel" or e.key == "cudaLaunchKernel":
             total_count += e.count
+    print("!!!!!!!!!!!!!!! = ", total_count)
     return ret_tensors, total_count

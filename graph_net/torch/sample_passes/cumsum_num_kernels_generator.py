@@ -84,7 +84,6 @@ class CumsumNumKernelsAnalyzer:
     def _get_num_kernels_if_submodule_compiled(
         self, graph_module, nn_module, inputs, submodule_start, submodule_end
     ):
-        torch.cuda.empty_cache()
         mut_opt_num_kernels = Optional(None)
 
         def compile_and_count_num_kernels(m, seq_no):

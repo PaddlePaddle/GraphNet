@@ -102,11 +102,11 @@ class GraphVariableRenamer:
                 src_model_path, temp_model_path, rename_map
             )
             self._update_input_meta_py_file(src_model_path, temp_model_path, rename_map)
-            # print("Try to run renamed model...")
-            # self._try_run(temp_model_path)
+            self._try_run(temp_model_path)
             shutil.copytree(temp_model_path, dst_model_path)
 
     def _try_run(self, model_path):
+        print(f"[GraphVariableRenamer] Try to run {model_path}")
         assert self.model_runnable_predicator(
             model_path
         ), f"{model_path} is not a runnable model"

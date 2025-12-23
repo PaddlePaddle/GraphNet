@@ -30,6 +30,7 @@ class SubgraphGenerator(SamplePass, ResumableSamplePassMixin):
         subgraph_ranges_json_key: str = "subgraph_ranges",
         group_head_and_tail: bool = False,
         chain_style: bool = False,
+        device: str = "auto",
         resume: bool = False,
         limits_handled_models: int = None,
     ):
@@ -63,7 +64,10 @@ class SubgraphGenerator(SamplePass, ResumableSamplePassMixin):
     def resume(self, rel_model_path: str):
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         torch.cuda.empty_cache()
-        module, inputs = get_torch_module_and_inputs(model_path, use_dummy_inputs=False)
+        device = self._choose_device(self.config["device"])
+        module, inputs = get_torch_module_and_inputs(
+            model_path, use_dummy_inputs=False, device=device
+        )
         gm = parse_sole_graph_module(module, inputs)
         torch.cuda.empty_cache()
         subgraph_ranges = self._get_subgraph_ranges(rel_model_path)
@@ -104,6 +108,11 @@ class SubgraphGenerator(SamplePass, ResumableSamplePassMixin):
             )
 
         return fn
+
+    def _choose_device(self, device) -> str:
+        if device in ["cpu", "cuda"]:
+            return device
+        return "cuda" if torch.cuda.is_available() else "cpu"
 
 
 class NaiveDecomposerExtractorModule(torch.nn.Module):

@@ -10,6 +10,7 @@ OP_RANGE=$MIN_SEQ_OPS-$MAX_SEQ_OPS
 export CUDA_VISIBLE_DEVICES="${GPU_ID}"
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
+RESUME="true"
 
 DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace/test100
 LEVEL_DECOMPOSE_WORKSPACE=$DECOMPOSE_WORKSPACE/decomposed_${OP_RANGE}ops
@@ -64,11 +65,6 @@ EOF
 }
 
 function generate_split_point() {
-    # level 1:  2,  4
-    # level 2:  4,  8
-    # level 3:  8, 16
-    # level 4: 16, 32
-    # level 5: 32, 64
     echo ">>> [2] Generate split points for samples in ${model_list}."
     echo ">>>   MIN_SEQ_OPS: ${MIN_SEQ_OPS}, MAX_SEQ_OPS: ${MAX_SEQ_OPS}"
     echo ">>>"
@@ -174,7 +170,8 @@ function gen_fusible_subgraphs() {
         "output_json_file_name": "cumsum_num_kernels.json",
         "model_path_prefix": "${DEVICE_REWRITED_OUTPUT_DIR}",
         "output_dir": "$CUMSUM_NUM_KERNELS_DIR",
-        "resume": true
+        "device": "cuda",
+        "resume": ${RESUME}
     }
 }
 EOF
@@ -191,7 +188,7 @@ EOF
         "input_json_file_name": "cumsum_num_kernels.json",
         "output_json_file_name": "fusible_subgraph_ranges.json",
         "output_dir": "$FUSIBLE_SUBGRAPH_RANGES_DIR",
-        "resume": true
+        "resume": ${RESUME}
     }
 }
 EOF
@@ -207,7 +204,7 @@ EOF
         "model_path_prefix": "${DEVICE_REWRITED_OUTPUT_DIR}",
         "output_dir": "$FUSIBLE_SUBGRAPH_SAMPLES_DIR",
         "subgraph_ranges_json_root": "$FUSIBLE_SUBGRAPH_RANGES_DIR",
-        "resume": true
+        "resume": ${RESUME}
     }
 }
 EOF

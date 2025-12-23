@@ -117,7 +117,7 @@ function rename_subgraph() {
         "resume": ${RESUME},
         "model_path_prefix": "$2",
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
-        "data_input_predicator_class_name": "NaiveDataInputPredicator",
+        "data_input_predicator_class_name": "RenamedDataInputPredicator",
         "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
         "model_runnable_predicator_class_name": "ModelRunnablePredicator",
         "output_dir": "$3"

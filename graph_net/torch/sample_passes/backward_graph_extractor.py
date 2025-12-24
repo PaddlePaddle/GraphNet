@@ -37,7 +37,7 @@ class BackwardGraphExtractor:
             self.model_path, module, example_inputs
         )
         bw_gm, backward_inputs = self.capture_backward_graph(module, example_inputs)
-        print(bw_gm.graph)
+        # print(bw_gm.graph)
         self.builtin_extractor(bw_gm, backward_inputs)
 
     def capture_backward_graph(self, module, example_inputs):
@@ -76,7 +76,28 @@ class BackwardGraphExtractor:
 
         outs_grad = [torch.ones_like(out) for out in outs]
         torch.autograd.backward(outs, outs_grad)
-        return backward_gm_holder["gm"], backward_inputs
+        bw_gm = self._remove_none_from_output(backward_gm_holder["gm"])
+        return bw_gm, backward_inputs
+
+    def _remove_none_from_output(self, gm):
+        output_node = next(
+            (n for n in gm.graph.nodes if n.op == "output"),
+            None,
+        )
+        outs = (
+            output_node.args[0]
+            if output_node and isinstance(output_node.args, (tuple, list))
+            else output_node.args
+        )
+        if isinstance(outs, (tuple, list)):
+            new_outs = tuple(out for out in outs if out is not None)
+            if new_outs != outs:
+                output_node.args = (new_outs,)
+
+        gm.graph.eliminate_dead_code()
+        gm.graph.lint()
+        gm.recompile()
+        return gm
 
     def _requires_grad(self, name, tensor):
         if not tensor.is_floating_point():

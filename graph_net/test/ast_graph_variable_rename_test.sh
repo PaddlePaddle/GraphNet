@@ -15,6 +15,7 @@ python3 -m graph_net.model_path_handler \
     "handler_config": {
         "device": "cuda",
         "resume": true,
+        "try_run": true,
         "model_path_prefix": "$GRAPH_NET_ROOT/",
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
         "data_input_predicator_class_name": "NaiveDataInputPredicator",

@@ -36,6 +36,7 @@ class AstGraphVariableRenamer(SamplePass, ResumableSamplePassMixin):
         output_dir: str,
         device: str,
         resume: bool = False,
+        try_run: bool = False,
         limits_handled_models: int = None,
         data_input_predicator_filepath: str = None,
         data_input_predicator_class_name: str = None,
@@ -73,7 +74,8 @@ class AstGraphVariableRenamer(SamplePass, ResumableSamplePassMixin):
             )
             self._update_meta_file(temp_model_path, "weight_meta.py", rename_map)
             self._update_meta_file(temp_model_path, "input_meta.py", rename_map)
-            self._try_run(temp_model_path)
+            if self.config["try_run"]:
+                self._try_run(temp_model_path)
             shutil.copytree(temp_model_path, dst_model_path, dirs_exist_ok=True)
 
     def _get_input_and_weight_arg_names(self, graph_module, model_path):
@@ -133,7 +135,7 @@ class AstGraphVariableRenamer(SamplePass, ResumableSamplePassMixin):
         meta_file.write_text(py_code)
 
     def _try_run(self, model_path):
-        (f"[AstGraphVariableRenamer] Try to run {model_path}")
+        print(f"[AstGraphVariableRenamer] Try to run {model_path}")
         assert self.model_runnable_predicator(
             model_path
         ), f"{model_path} is not a runnable model"

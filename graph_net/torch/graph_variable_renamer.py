@@ -39,6 +39,7 @@ class GraphVariableRenamer:
     def _make_config(
         self,
         resume: bool = False,
+        try_run: bool = False,
         data_input_predicator_filepath=None,
         model_runnable_predicator_filepath=None,
         output_dir="./tmp/graph_variable_renamer_dir",
@@ -58,6 +59,7 @@ class GraphVariableRenamer:
         return {
             "resume": resume,
             "output_dir": output_dir,
+            "try_run": try_run,
             "filter_path": filter_path,
             "filter_config": filter_config if filter_config is not None else {},
             "data_input_predicator_filepath": data_input_predicator_filepath,
@@ -94,7 +96,8 @@ class GraphVariableRenamer:
                 src_model_path, temp_model_path, rename_map
             )
             self._update_input_meta_py_file(src_model_path, temp_model_path, rename_map)
-            self._try_run(temp_model_path)
+            if self.config["try_run"]:
+                self._try_run(temp_model_path)
             shutil.copytree(temp_model_path, dst_model_path)
 
     def _try_run(self, model_path):

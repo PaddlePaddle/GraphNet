@@ -10,7 +10,7 @@ python3 -m graph_net.model_path_handler \
     --model-path-list $model_list \
     --handler-config=$(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/ast_graph_variable_renamer.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/sample_pass/ast_graph_variable_renamer.py",
     "handler_class_name": "AstGraphVariableRenamer",
     "handler_config": {
         "device": "cuda",

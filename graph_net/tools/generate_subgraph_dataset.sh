@@ -145,7 +145,7 @@ function rewrite_device() {
         --model-path-list ${deduplicated_subgraph_list} \
         --handler-config=$(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/device_rewrite_sample_pass.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/device_rewrite_sample_pass.py",
     "handler_class_name": "DeviceRewriteSamplePass",
     "handler_config": {
         "device": "cuda",
@@ -166,7 +166,7 @@ function gen_fusible_subgraphs() {
         --model-path-list "$device_rewrited_subgraph_list" \
         --handler-config $(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/cumsum_num_kernels_generator.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/cumsum_num_kernels_generator.py",
     "handler_class_name": "CumSumNumKernelsGenerator",
     "handler_config": {
         "output_json_file_name": "cumsum_num_kernels.json",
@@ -200,7 +200,7 @@ EOF
         --model-path-list "$device_rewrited_subgraph_list" \
         --handler-config $(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/subgraph_generator.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_generator.py",
     "handler_class_name": "SubgraphGenerator",
     "handler_config": {
         "model_path_prefix": "${DEVICE_REWRITED_OUTPUT_DIR}",

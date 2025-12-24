@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
-RENAMED_PATH=/tmp/graph_variable_rename_workspace
+RENAMED_PATH=/tmp/ast_graph_variable_rename_workspace
 
 mkdir -p "$RENAMED_PATH"
 model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt"
@@ -10,8 +10,8 @@ python3 -m graph_net.model_path_handler \
     --model-path-list $model_list \
     --handler-config=$(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_variable_renamer.py",
-    "handler_class_name": "GraphVariableRenamer",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/sample_pass/ast_graph_variable_renamer.py",
+    "handler_class_name": "AstGraphVariableRenamer",
     "handler_config": {
         "device": "cuda",
         "resume": true,

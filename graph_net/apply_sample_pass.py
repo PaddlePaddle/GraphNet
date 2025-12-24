@@ -58,12 +58,11 @@ def handle_model_path_list_in_current_process(handler, args):
 
 def handle_model_path_list_in_subprocess(args):
     for model_path in _get_model_path_list(args):
-        # 构造新版参数格式的命令，方便 bash -x 调试
         cmd = (
             f"{sys.executable} -m graph_net.apply_sample_pass "
-            f"--file-path {args.sample_pass_file_path} "
-            f"--class-name {args.sample_pass_class_name} "
-            f"--sample_pass_config '{args.sample_pass_config}' "
+            f"--sample-pass-file-path {args.sample_pass_file_path} "
+            f"--sample-pass-class-name {args.sample_pass_class_name} "
+            f"--sample-pass-config '{args.sample_pass_config}' "
             f"--model-path {model_path}"
         )
         try:

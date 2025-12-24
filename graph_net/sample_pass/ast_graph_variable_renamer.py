@@ -234,7 +234,7 @@ class AstGraphRenamer(ast.NodeTransformer):
         if isinstance(target, ast.Tuple):  # del (a, b)
             kept_elts = [e for e in target.elts if not self._is_input_or_weight_var(e)]
             return ast.Tuple(elts=kept_elts, ctx=ast.Del()) if kept_elts else None
-        elif not self._is_input_or_weight_var(target):
+        elif not self._is_input_or_weight_var(target):  # del a
             return target
         else:
             pass

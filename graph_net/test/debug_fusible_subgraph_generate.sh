@@ -13,7 +13,7 @@ python3 -m graph_net.model_path_handler \
     --model-path-list "$model_path_list" \
     --handler-config $(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/cumsum_num_kernels_generator.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/cumsum_num_kernels_generator.py",
     "handler_class_name": "CumSumNumKernelsGenerator",
     "handler_config": {
         "output_json_file_name": "cumsum_num_kernels.json",

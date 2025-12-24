@@ -3,7 +3,7 @@
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 model_path_handler_config_json_str=$(cat <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/device_rewrite_sample_pass.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/device_rewrite_sample_pass.py",
     "handler_class_name": "DeviceRewriteSamplePass",
     "handler_config": {
         "device": "cuda",

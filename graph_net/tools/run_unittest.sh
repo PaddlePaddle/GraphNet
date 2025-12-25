@@ -8,20 +8,21 @@ function LOG {
 }
 
 function prepare_torch_env() {
-  git config --global --add safe.directory "*"
-  num_changed_samples=$(git diff --diff-filter=ACM --name-only develop | grep -E "\bsamples\b/.*/(model\.py|input_meta\.py|weight_meta\.py)$" | wc -l)
-  if [ ${num_changed_samples} -ne 0 ]; then
-    LOG "[INFO] Device Id: ${CUDA_VISIBLE_DEVICES}"
-    # Update pip
-    LOG "[INFO] Update pip ..."
-    env http_proxy="" https_proxy="" python3.10 -m pip install -U pip > /dev/null
-    [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
-    # install torch
-    python3.10 -m pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu126 > /dev/null
-    [ $? -ne 0 ] && LOG "[FATAL] Install torch2.9.0 failed!" && exit -1
-  else
-    LOG "[INFO] This pull request doesn't change any torch samples, skip the CI."
-  fi
+    LOG "[INFO] Initializing environment for Unit Tests..."
+    git config --global --add safe.directory "*"
+
+    if ! python3.10 -c "import torch" &> /dev/null; then
+        LOG "[INFO] Device Id: ${CUDA_VISIBLE_DEVICES}"
+        # Update pip
+        LOG "[INFO] Update pip ..."
+        env http_proxy="" https_proxy="" python3.10 -m pip install -U pip > /dev/null
+        [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
+        # install torch
+        python3.10 -m pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu126 > /dev/null
+        [ $? -ne 0 ] && LOG "[FATAL] Install torch2.9.0 failed!" && exit -1
+    else
+        LOG "[INFO] Torch environment is already ready."
+    fi
 }
 function run_unit_test() {
     UNITTEST_PATH="$GRAPH_NET_ROOT/graph_net/torch/unittest"

@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
-
-GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
+export GRAPH_NET_ROOT=$(cd $(dirname "$0")/../.. && pwd)
+export PYTHONPATH=${GRAPH_NET_ROOT}:$PYTHONPATH
 
 UNITTEST_PATH="$GRAPH_NET_ROOT/graph_net/torch/unittest"
 

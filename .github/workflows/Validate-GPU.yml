@@ -88,7 +88,9 @@ jobs:
       - name: Run Unit Test
         if: steps.check-bypass.outputs.can-skip != 'true'
         run: |
-          docker exec -t ${{ env.container_name }} /bin/bash -c "bash ${{ github.workspace }}/graph_net/tools/run_unittest.sh"
+          docker exec -t ${{ env.container_name }} /bin/bash -c '
+          bash ${{ github.workspace }}/graph_net/tools/run_unittest.sh
+          '
       
       - name: Terminate and delete the container
         if: always()

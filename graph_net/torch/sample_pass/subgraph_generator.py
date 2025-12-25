@@ -26,7 +26,7 @@ class SubgraphGenerator(SamplePass, ResumableSamplePassMixin):
         output_dir: str,
         model_path_prefix: str,
         subgraph_ranges_json_root: str,
-        subgraph_ranges_json_file_name: str = "fusible_subgraph_ranges.json",
+        subgraph_ranges_json_file_name: str = "subgraph_ranges.json",
         subgraph_ranges_json_key: str = "subgraph_ranges",
         group_head_and_tail: bool = False,
         chain_style: bool = False,

@@ -5,6 +5,7 @@ import logging
 import sys
 import json
 import subprocess
+import base64
 
 logging.basicConfig(
     level=logging.WARNING, format="%(asctime)s [%(levelname)s] %(message)s"
@@ -24,7 +25,8 @@ def _get_handler(args):
     sample_pass_config = {}
     if args.sample_pass_config:
         try:
-            sample_pass_config = json.loads(args.sample_pass_config)
+            config_str = base64.b64decode(args.sample_pass_config).decode("utf-8")
+            sample_pass_config = json.loads(config_str)
         except json.JSONDecodeError:
             print(
                 f"Error: Failed to parse --sample_pass_config as JSON. Received: {args.sample_pass_config}"

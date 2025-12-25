@@ -207,6 +207,7 @@ EOF
         "model_path_prefix": "${DEVICE_REWRITED_OUTPUT_DIR}",
         "output_dir": "$FUSIBLE_SUBGRAPH_SAMPLES_DIR",
         "subgraph_ranges_json_root": "$FUSIBLE_SUBGRAPH_RANGES_DIR",
+        "subgraph_ranges_json_file_name": "fusible_subgraph_ranges.json",
         "device": "cuda",
         "resume": ${RESUME}
     }

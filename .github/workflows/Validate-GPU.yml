@@ -89,6 +89,7 @@ jobs:
         if: steps.check-bypass.outputs.can-skip != 'true'
         run: |
           docker exec -t ${{ env.container_name }} /bin/bash -c '
+          source ${{ github.workspace }}/../../../proxy
           bash ${{ github.workspace }}/graph_net/tools/run_unittest.sh
           '
       

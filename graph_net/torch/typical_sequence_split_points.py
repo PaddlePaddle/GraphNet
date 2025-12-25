@@ -173,7 +173,6 @@ class SplitAnalyzer:
 
         for rel_model_path in rel_model_paths:
             txt_path = Path(op_names_path_prefix) / rel_model_path / "op_names.txt"
-            print(f"{txt_path=}")
             seq = self._load_op_names_from_file(txt_path)
             if seq:
                 inputs_seqs.append(seq)

@@ -5,7 +5,7 @@ export PYTHONPATH=${GRAPH_NET_ROOT}:$PYTHONPATH
 
 UNITTEST_PATH="$GRAPH_NET_ROOT/graph_net/torch/unittest"
 
-python3 -m unittest discover \
+python3.10 -m unittest discover \
     -s "$UNITTEST_PATH" \
     -p "test_*.py"
 RET=$?

@@ -39,14 +39,12 @@ class GraphVariableRenamer:
     def _make_config(
         self,
         resume: bool = False,
+        try_run: bool = False,
         data_input_predicator_filepath=None,
         model_runnable_predicator_filepath=None,
         output_dir="./tmp/graph_variable_renamer_dir",
         filter_path=None,
         filter_config=None,
-        post_extract_process_path=None,
-        post_extract_process_class_name=None,
-        post_extract_process_config=None,
         data_input_predicator_class_name="DataInputPredicator",
         model_runnable_predicator_class_name="ModelRunner",
         data_input_predicator_config=None,
@@ -54,8 +52,6 @@ class GraphVariableRenamer:
         model_path_prefix="",
         **kwargs,
     ):
-        if post_extract_process_config is None:
-            post_extract_process_config = {}
         if data_input_predicator_config is None:
             data_input_predicator_config = {}
         if model_runnable_predicator_config is None:
@@ -63,11 +59,9 @@ class GraphVariableRenamer:
         return {
             "resume": resume,
             "output_dir": output_dir,
+            "try_run": try_run,
             "filter_path": filter_path,
             "filter_config": filter_config if filter_config is not None else {},
-            "post_extract_process_path": post_extract_process_path,
-            "post_extract_process_class_name": post_extract_process_class_name,
-            "post_extract_process_config": post_extract_process_config,
             "data_input_predicator_filepath": data_input_predicator_filepath,
             "data_input_predicator_class_name": data_input_predicator_class_name,
             "data_input_predicator_config": data_input_predicator_config,
@@ -102,7 +96,8 @@ class GraphVariableRenamer:
                 src_model_path, temp_model_path, rename_map
             )
             self._update_input_meta_py_file(src_model_path, temp_model_path, rename_map)
-            self._try_run(temp_model_path)
+            if self.config["try_run"]:
+                self._try_run(temp_model_path)
             shutil.copytree(temp_model_path, dst_model_path)
 
     def _try_run(self, model_path):

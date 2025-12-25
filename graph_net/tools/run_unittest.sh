@@ -1,14 +1,15 @@
 #!/bin/bash
-set -e
-export GRAPH_NET_ROOT=$(cd $(dirname "$0")/../.. && pwd)
-export PYTHONPATH=${GRAPH_NET_ROOT}:$PYTHONPATH
+set +ex
 
 function LOG {
   echo "[$0:${BASH_LINENO[0]}] $*" >&2
 }
 
+export GRAPH_NET_ROOT=$(cd $(dirname "$0")/../.. && pwd)
+export PYTHONPATH=${GRAPH_NET_ROOT}:$PYTHONPATH
+
 function prepare_torch_env() {
-    LOG "[INFO] Initializing environment for Unit Tests..."
+    LOG "[INFO] Initializing torch environment for Unit Tests..."
     git config --global --add safe.directory "*"
 
     if ! python3.10 -c "import torch" &> /dev/null; then

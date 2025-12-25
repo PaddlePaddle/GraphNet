@@ -13,7 +13,7 @@ python3 -m graph_net.apply_sample_pass \
     --model-path-list "$model_path_list" \
     --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/cumsum_num_kernels_generator.py" \
     --sample-pass-class-name "CumSumNumKernelsGenerator" \
-    --sample-pass-config "$(cat <<EOF
+    --sample-pass-config $(base64 -w 0 <<EOF
 {
     "output_json_file_name": "cumsum_num_kernels.json",
     "model_path_prefix": "$GRAPH_NET_ROOT",
@@ -21,13 +21,13 @@ python3 -m graph_net.apply_sample_pass \
     "resume": $resume
 }
 EOF
-)"
+)
 
 python3 -m graph_net.apply_sample_pass \
     --model-path-list "$model_path_list" \
     --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/sample_pass/fusible_subgraph_ranges_generator.py" \
     --sample-pass-class-name "FusibleSubgraphRangesGenerator" \
-    --sample-pass-config "$(cat <<EOF
+    --sample-pass-config $(base64 -w 0 <<EOF
 {
     "model_path_prefix": "$CUMSUM_NUM_KERNELS_WORKSPACE",
     "input_json_file_name": "cumsum_num_kernels.json",
@@ -36,13 +36,13 @@ python3 -m graph_net.apply_sample_pass \
     "resume": $resume
 }
 EOF
-)"
+)
 
 python3 -m graph_net.apply_sample_pass \
     --model-path-list "$model_path_list" \
-    --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/sample_pass/subgraph_generator.py" \
+    --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_generator.py" \
     --sample-pass-class-name "SubgraphGenerator" \
-    --sample-pass-config "$(cat <<EOF
+    --sample-pass-config $(base64 -w 0 <<EOF
 {
     "model_path_prefix": "$GRAPH_NET_ROOT",
     "output_dir": "$FUSIBLE_SUBGRAPH_SAMPLES_WORKSPACE",
@@ -50,4 +50,4 @@ python3 -m graph_net.apply_sample_pass \
     "resume": $resume
 }
 EOF
-)"
+)

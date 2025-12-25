@@ -13,11 +13,9 @@ function prepare_torch_env() {
 
     if ! python3.10 -c "import torch" &> /dev/null; then
         LOG "[INFO] Device Id: ${CUDA_VISIBLE_DEVICES}"
-        # Update pip
         LOG "[INFO] Update pip ..."
         env http_proxy="" https_proxy="" python3.10 -m pip install -U pip > /dev/null
         [ $? -ne 0 ] && LOG "[FATAL] Update pip failed!" && exit -1
-        # install torch
         python3.10 -m pip install --pre torch --index-url https://download.pytorch.org/whl/nightly/cu126 > /dev/null
         [ $? -ne 0 ] && LOG "[FATAL] Install torch2.9.0 failed!" && exit -1
     else

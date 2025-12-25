@@ -11,8 +11,8 @@ python3.10 -m unittest discover \
 RET=$?
 
 if [ $RET -eq 0 ]; then
-    echo "✅ [SUCCESS] All unit tests passed!"
+    echo "All unit tests passed!"
 else
-    echo "❌ [FAILURE] Unit tests failed with exit code $RET"
+    echo "Unit tests failed with exit code $RET"
 fi
 exit $RET

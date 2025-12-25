@@ -85,13 +85,10 @@ jobs:
           bash ${work_dir}/tools/ci/check_validate.sh
           '
 
-      - name: Run AST Renamer Unit Test
+      - name: Run Unit Test
         if: steps.check-bypass.outputs.can-skip != 'true'
         run: |
-          docker exec -t ${{ env.container_name }} /bin/bash -c '
-          export PYTHONPATH=$PYTHONPATH:${{ github.workspace }}
-          python3 -m unittest graph_net/torch/unittest/test_ast_renamer.py
-          '
+          docker exec -t ${{ env.container_name }} /bin/bash -c "bash ${{ github.workspace }}/graph_net/tools/run_unittest.sh"
       
       - name: Terminate and delete the container
         if: always()

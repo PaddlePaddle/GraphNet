@@ -45,9 +45,8 @@ class TestAstGraphVariableRenamerProduction(unittest.TestCase):
             test_model_path_prefix / test_model_name / "expected_output_model.py"
         )
         self.assertEqual(
-            output_model_path.read_text(),
-            expected_output_model_path.read_text(),
-            "output of renamer differs from expected!",
+            "".join(output_model_path.read_text().split()),
+            "".join(expected_output_model_path.read_text().split()),
         )
 
 

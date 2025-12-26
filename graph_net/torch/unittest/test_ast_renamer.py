@@ -10,6 +10,7 @@ class TestAstGraphVariableRenamerProduction(unittest.TestCase):
         test_model_path_prefix = Path(__file__).parent / "workspace_test_ast_renamer"
         test_model_name = "test_sample_demo"
         test_ast_renamer_output_dir = test_model_path_prefix / "test_ast_renamer_output"
+        expected_output_model_path = test_model_path_prefix / "expected_output"
         if test_ast_renamer_output_dir.exists():
             shutil.rmtree(test_ast_renamer_output_dir)
         test_ast_renamer_output_dir.mkdir(parents=True)
@@ -36,18 +37,20 @@ class TestAstGraphVariableRenamerProduction(unittest.TestCase):
         renamer(test_model_name)
 
         target_dir = test_ast_renamer_output_dir / test_model_name
-        output_model_path = target_dir / "model.py"
-        self.assertTrue(
-            output_model_path.exists(),
-            f"failed to find any output in {output_model_path}",
-        )
-        expected_output_model_path = (
-            test_model_path_prefix / test_model_name / "expected_output_model.py"
-        )
-        self.assertEqual(
-            "".join(output_model_path.read_text().split()),
-            "".join(expected_output_model_path.read_text().split()),
-        )
+        self.compare_output_and_expected(target_dir, expected_output_model_path)
+
+    def compare_output_and_expected(self, target_dir, expected_output_model_path):
+        self.assertTrue(target_dir.exists(), "failed to find any output")
+        for expected_file in expected_output_model_path.glob("*.py"):
+            output_file = target_dir / expected_file.name
+            self.assertTrue(
+                output_file.exists(), f"{output_file.name} was not generated!"
+            )
+            self.assertEqual(
+                "".join(output_file.read_text().split()),
+                "".join(expected_file.read_text().split()),
+                f"Content mismatch in {output_file.name}",
+            )
 
 
 if __name__ == "__main__":

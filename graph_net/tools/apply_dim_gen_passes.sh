@@ -18,4 +18,4 @@ python3 -m graph_net.apply_sample_pass \
     "last_model_log_file": "/tmp/a.py"
 }
 EOF
-) > /work/.BCloud/维度泛化日志.log 2>&1
+)

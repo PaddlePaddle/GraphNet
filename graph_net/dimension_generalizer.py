@@ -242,5 +242,7 @@ def update_tensor_metas_by_dyn_dim_cstr(
         if tensor_meta.data is not None:
             assert isinstance(tensor_meta.data, (list, tuple))
             size = functools.reduce(lambda a, b: a * b, tensor_meta.shape, 1)
-            doubled_data = [*tensor_meta.data, *tensor_meta.data]
-            tensor_meta.data = doubled_data[:size]
+            new_data = list(tensor_meta.data)
+            while len(new_data) < size:
+                new_data.extend(new_data)
+            tensor_meta.data = new_data[:size]

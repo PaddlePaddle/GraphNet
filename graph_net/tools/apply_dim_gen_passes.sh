@@ -4,7 +4,7 @@ GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(
 os.path.dirname(graph_net.__file__))")
 
 python3 -m graph_net.apply_sample_pass \
-    --model-path-list $GRAPH_NET_ROOT/config/torch_samples_list.txt \
+    --model-path-list $GRAPH_NET_ROOT/config/small_sample_list_for_get_fusible_subgraph.txt \
     --sample-pass-file-path "$GRAPH_NET_ROOT/dimension_generalizer.py" \
     --sample-pass-class-name "ApplyDimGenPasses" \
     --sample-pass-config $(base64 -w 0 <<EOF
@@ -18,4 +18,4 @@ python3 -m graph_net.apply_sample_pass \
     "last_model_log_file": "/tmp/a.py"
 }
 EOF
-)
+) > /work/.BCloud/维度泛化日志.log 2>&1

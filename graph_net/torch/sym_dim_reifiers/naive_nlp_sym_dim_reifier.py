@@ -16,7 +16,14 @@ class ConcreteReifier(ReifierBase):
         if self.dyn_dim_cstrs is None:
             return False
         sym_shapes_str = self.dyn_dim_cstrs.serialize_symbolic_input_shapes_to_str()
-        return sym_shapes_str in self._get_map_nlp_sym_shapes_str2reifier()
+        if sym_shapes_str == "[]":
+            return False
+        elif sym_shapes_str not in self._get_map_nlp_sym_shapes_str2reifier():
+            print(
+                f"[NLP SymDim Reify] No reifier matched symbolic shapes:{sym_shapes_str} \nPlease add a reify rule to _get_map_nlp_sym_shapes_str2reifier()"
+            )
+            return False
+        return True
 
     def reify(self):
         assert self.match()

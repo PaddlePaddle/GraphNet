@@ -19,7 +19,7 @@ class ConcreteReifier(ReifierBase):
         return sym_shapes_str in self._get_map_nlp_sym_shapes_str2reifier()
 
     def reify(self):
-        assert self.need_reify()
+        assert self.match()
         sym_shapes_str = self.dyn_dim_cstrs.serialize_symbolic_input_shapes_to_str()
         reifier = self._get_map_nlp_sym_shapes_str2reifier()[sym_shapes_str]
         return reifier(self)

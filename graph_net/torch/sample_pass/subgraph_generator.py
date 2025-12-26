@@ -1,5 +1,6 @@
 from graph_net.sample_pass.sample_pass import SamplePass
 from graph_net.sample_pass.resumable_sample_pass_mixin import ResumableSamplePassMixin
+import graph_net.subgraph_range_util as range_util
 import os
 import shutil
 from pathlib import Path
@@ -105,6 +106,7 @@ class SubgraphGenerator(SamplePass, ResumableSamplePassMixin):
                 seq_no=seq_no,
                 subgraph_start=subgraph_ranges[seq_no][0],
                 subgraph_end=subgraph_ranges[seq_no][1],
+                parent_graph_model_path_root=self.config["model_path_prefix"],
             )
 
         return fn
@@ -124,13 +126,17 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         seq_no: int,
         subgraph_start: int,
         subgraph_end: int,
+        parent_graph_model_path_root: str,
     ):
         super().__init__()
+        self.extracted = False
         self.config = config
+        self.parent_graph_rel_model_path = parent_graph_rel_model_path
         self.submodule = submodule
         self.seq_no = seq_no
-        self.extracted = False
-        self.parent_graph_rel_model_path = parent_graph_rel_model_path
+        self.subgraph_start = subgraph_start
+        self.subgraph_end = subgraph_end
+        self.parent_graph_model_path_root = parent_graph_model_path_root
         parent_graph_model_name = os.path.basename(parent_graph_rel_model_path)
         if self.seq_no is None:
             self.model_name = parent_graph_model_name
@@ -146,12 +152,14 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
                 self.config["output_dir"], parent_graph_rel_model_path, "_decomposed"
             ),
         )
+        self._save_subgraph_sources()
 
-    def _get_model_path(self):
-        return os.path.join(
-            self.config["output_dir"],
-            f"{self.parent_graph_model_name}/_decomposed",
-            self.model_name,
+    def _get_model_path(self) -> Path:
+        return (
+            Path(self.config["output_dir"])
+            / self.parent_graph_rel_model_path
+            / "_decomposed"
+            / self.model_name
         )
 
     def forward(self, *args):
@@ -159,3 +167,53 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
             self.builtin_extractor(self.submodule, args)
             self.extracted = True
         return self.submodule(*args)
+
+    def _save_subgraph_sources(self):
+        sources_json_obj = self._get_sources_json_obj()
+        model_path = self._get_model_path()
+        model_path.mkdir(parents=True, exist_ok=True)
+        print(f"{str(model_path)=}")
+        with open(model_path / self._get_subgraph_range_json_file_name(), "w") as f:
+            json.dump(sources_json_obj, f, indent=4)
+
+    def _get_sources_json_obj(self):
+        cur_sources_json_obj = self._get_cur_sources_json_obj()
+        parent_sources_json_obj = self._get_parent_sources_json_obj()
+        return self._compose_sources_json_obj(
+            cur_sources_json_obj, parent_sources_json_obj
+        )
+
+    def _get_cur_sources_json_obj(self):
+        return {
+            self.parent_graph_rel_model_path: [(self.subgraph_start, self.subgraph_end)]
+        }
+
+    def _get_parent_sources_json_obj(self):
+        file_path = self._get_parent_sources_json_file_path()
+
+        def get_grand_parent_subgraph_ranges():
+            return json.load(open(file_path)) if file_path.exists() else {}
+
+        return {self.parent_graph_rel_model_path: get_grand_parent_subgraph_ranges()}
+
+    def _get_parent_sources_json_file_path(self):
+        return (
+            Path(self._get_parent_model_path_root())
+            / self.parent_graph_rel_model_path
+            / self._get_subgraph_range_json_file_name()
+        )
+
+    def _get_parent_model_path_root(self):
+        return self.parent_graph_model_path_root
+
+    def _get_subgraph_range_json_file_name(self):
+        return "subgraph_sources.json"
+
+    def _compose_sources_json_obj(
+        self,
+        cur_sources_json_obj: dict[str, list[(int, int)]],
+        parent_sources_json_obj: dict[str, dict[str, list[(int, int)]]],
+    ):
+        return range_util.compose_subgraph_ranges(
+            cur_sources_json_obj, parent_sources_json_obj
+        )

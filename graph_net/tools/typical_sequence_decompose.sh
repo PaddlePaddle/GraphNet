@@ -6,7 +6,7 @@ DECOMPOSE_WORKSPACE=/tmp/workspace_typical_sequence_decompose
 
 mkdir -p "$DECOMPOSE_WORKSPACE"
 
-model_list="$GRAPH_NET_ROOT/graph_net/test/dev_model_list/validation_error_model_list.txt"
+model_list="$GRAPH_NET_ROOT/graph_net/config/small10_torch_samples_list.txt"
 
 python3 -m graph_net.apply_sample_pass \
     --model-path-list $model_list \

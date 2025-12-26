@@ -79,6 +79,8 @@ function generate_split_point() {
         --fold-times 16 \
         --min-seq-ops ${MIN_SEQ_OPS} \
         --max-seq-ops ${MAX_SEQ_OPS} \
+        --output-dir "$DECOMPOSE_WORKSPACE" \
+        --subgraph-ranges-file-name "typical_subgraph_ranges.json" \
         --subgraph-ranges-json "$DECOMPOSE_WORKSPACE/subgraph_ranges_${OP_RANGE}ops.json" \
         --output-json "$DECOMPOSE_WORKSPACE/split_results_${OP_RANGE}ops.json"
 }
@@ -90,15 +92,15 @@ function range_decompose() {
         --model-path-list "$model_list" \
         --handler-config=$(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_decomposer.py",
-    "handler_class_name": "RangeDecomposerExtractor",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_generator.py",
+    "handler_class_name": "SubgraphGenerator",
     "handler_config": {
         "resume": ${RESUME},
         "model_path_prefix": "$GRAPH_NET_ROOT",
         "output_dir": "${RANGE_DECOMPOSE_OUTPUT_DIR}",
-        "split_results_path": "$DECOMPOSE_WORKSPACE/split_results_${OP_RANGE}ops.json",
-        "subgraph_ranges_path": "$DECOMPOSE_WORKSPACE/subgraph_ranges_${OP_RANGE}ops.json",
-        "group_head_and_tail": true,
+        "subgraph_ranges_json_root": "$DECOMPOSE_WORKSPACE",
+        "subgraph_ranges_json_file_name": "typical_subgraph_ranges.json",
+        "group_head_and_tail": false,
         "chain_style": false
     }
 }

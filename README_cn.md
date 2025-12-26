@@ -11,6 +11,7 @@
 **GraphNet** 是一个大规模深度学习**计算图数据集**，旨在为**张量编译器**优化提供一个标准的基准测试平台。它包含了从覆盖多种任务和机器学习框架的先进深度学习模型中提取的超过 2700个 计算图。凭借其标准化的格式和丰富的元数据，GraphNet 能够对张量编译器的通用优化能力进行公平比较和可复现的评估，从而支持诸如面向编译器的“AI for System”等前沿研究。
 
 ## 📣 最新动态
+- [2025-11-19] ✨ 在 GTOC Forum 2025 上的主题演讲：[GraphNet 助力 AI 软件栈催熟](https://b23.tv/PFzSKK1)
 - [2025-10-14] ✨ 我们的技术报告已发布：这是一份关于数据集构建和编译器基准测试的详细研究，并引入了新颖的性能指标——加速分数 S(t) 和感知错误的加速分数 ES(t)。[📘 GraphNet: A Large-Scale Computational Graph Dataset for Tensor Compiler Research](https://arxiv.org/abs/2510.24035)
 - [2025-8-20] 🚀 第二轮 [开源贡献任务](https://github.com/PaddlePaddle/Paddle/issues/74773) 已发布。（已完成 ✅）
 - [2025-7-30] 🚀 第一轮 [开源贡献任务](https://github.com/PaddlePaddle/GraphNet/issues/44) 已发布。（已完成 ✅）
@@ -86,10 +87,10 @@ python -m graph_net.plot_violin \
 这些脚本设计用于处理 `/benchmark_path/category_name/` 这样的文件结构，x 轴上的项目由子目录名称标识。执行后，按类别（模型任务、库等）划分的结果汇总图表将被导出到 `$GRAPH_NET_BENCHMARK_PATH`。
 
 ### 硬件回归测试
-我们还提供了一个两步工作流，用于根据“黄金标准”参考验证编译器的正确性和性能，这对于硬件专用测试和回归跟踪至关重要。详情可参阅 [指南](./docs/hardware_test.md)。
+我们还提供了一个两步工作流，用于根据“黄金标准”参考验证编译器的正确性和性能，这对于硬件专用测试和回归跟踪至关重要。详情可参阅 [指南](./docs/hardware_test_cn.md)。
 
 ### 🧱 构建与贡献指南
-想了解 GraphNet 如何构建或贡献新样本？查看 [构建指南](./docs/README_contribute.md) 以获取有关提取和验证工作流的详细信息。
+想了解 GraphNet 如何构建或贡献新样本？查看 [构建指南](./docs/README_contribute_cn.md) 以获取有关提取和验证工作流的详细信息。
 
 ## 🚀 未来路线图
 

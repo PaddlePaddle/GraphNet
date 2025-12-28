@@ -6,7 +6,7 @@ OUTPUT_DIR=/tmp/backward_graph_workspace
 FRAMEWORK="torch"
 HANDLER_CONFIG=$(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/backward_graph_extractor.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/backward_graph_extractor.py",
     "handler_class_name": "BackwardGraphExtractorPass",
     "handler_config": {
         "model_path_prefix": "$MODEL_PATH_PREFIX",

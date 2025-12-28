@@ -79,6 +79,8 @@ function generate_split_point() {
         --fold-times 16 \
         --min-seq-ops ${MIN_SEQ_OPS} \
         --max-seq-ops ${MAX_SEQ_OPS} \
+        --output-dir "$DECOMPOSE_WORKSPACE" \
+        --subgraph-ranges-file-name "typical_subgraph_ranges.json" \
         --subgraph-ranges-json "$DECOMPOSE_WORKSPACE/subgraph_ranges_${OP_RANGE}ops.json" \
         --output-json "$DECOMPOSE_WORKSPACE/split_results_${OP_RANGE}ops.json"
 }
@@ -90,15 +92,15 @@ function range_decompose() {
         --model-path-list "$model_list" \
         --handler-config=$(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_decomposer.py",
-    "handler_class_name": "RangeDecomposerExtractor",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_generator.py",
+    "handler_class_name": "SubgraphGenerator",
     "handler_config": {
         "resume": ${RESUME},
         "model_path_prefix": "$GRAPH_NET_ROOT",
         "output_dir": "${RANGE_DECOMPOSE_OUTPUT_DIR}",
-        "split_results_path": "$DECOMPOSE_WORKSPACE/split_results_${OP_RANGE}ops.json",
-        "subgraph_ranges_path": "$DECOMPOSE_WORKSPACE/subgraph_ranges_${OP_RANGE}ops.json",
-        "group_head_and_tail": true,
+        "subgraph_ranges_json_root": "$DECOMPOSE_WORKSPACE",
+        "subgraph_ranges_json_file_name": "typical_subgraph_ranges.json",
+        "group_head_and_tail": false,
         "chain_style": false
     }
 }
@@ -113,10 +115,11 @@ function rename_decomposed_subgraph() {
         --model-path-list ${range_decomposed_subgraph_list} \
         --handler-config=$(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_variable_renamer.py",
-    "handler_class_name": "GraphVariableRenamer",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/sample_pass/ast_graph_variable_renamer.py",
+    "handler_class_name": "AstGraphVariableRenamer",
     "handler_config": {
         "device": "cuda",
+        "try_run": false,
         "resume": ${RESUME},
         "model_path_prefix": "${RANGE_DECOMPOSE_OUTPUT_DIR}",
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
@@ -145,7 +148,7 @@ function rewrite_device() {
         --model-path-list ${deduplicated_subgraph_list} \
         --handler-config=$(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/device_rewrite_sample_pass.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/device_rewrite_sample_pass.py",
     "handler_class_name": "DeviceRewriteSamplePass",
     "handler_config": {
         "device": "cuda",
@@ -166,7 +169,7 @@ function gen_fusible_subgraphs() {
         --model-path-list "$device_rewrited_subgraph_list" \
         --handler-config $(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/cumsum_num_kernels_generator.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/cumsum_num_kernels_generator.py",
     "handler_class_name": "CumSumNumKernelsGenerator",
     "handler_config": {
         "output_json_file_name": "cumsum_num_kernels.json",
@@ -200,12 +203,13 @@ EOF
         --model-path-list "$device_rewrited_subgraph_list" \
         --handler-config $(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/subgraph_generator.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_generator.py",
     "handler_class_name": "SubgraphGenerator",
     "handler_config": {
         "model_path_prefix": "${DEVICE_REWRITED_OUTPUT_DIR}",
         "output_dir": "$FUSIBLE_SUBGRAPH_SAMPLES_DIR",
         "subgraph_ranges_json_root": "$FUSIBLE_SUBGRAPH_RANGES_DIR",
+        "subgraph_ranges_json_file_name": "fusible_subgraph_ranges.json",
         "device": "cuda",
         "resume": ${RESUME}
     }
@@ -221,10 +225,11 @@ function rename_fusible_subgraph() {
         --model-path-list ${fusible_subgraph_list} \
         --handler-config=$(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/graph_variable_renamer.py",
-    "handler_class_name": "GraphVariableRenamer",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/sample_pass/ast_graph_variable_renamer.py",
+    "handler_class_name": "AstGraphVariableRenamer",
     "handler_config": {
         "device": "cuda",
+        "try_run": false,
         "resume": ${RESUME},
         "model_path_prefix": "${FUSIBLE_SUBGRAPH_SAMPLES_DIR}",
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",

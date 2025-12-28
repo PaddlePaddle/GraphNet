@@ -125,6 +125,7 @@ class NaiveDecomposerExtractor:
         }
 
     def __call__(self, rel_model_path):
+        # logger.warning("naive decomposer called")
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
         config = {
             k: v
@@ -310,7 +311,7 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         )
 
     def forward(self, *args):
-        logger.warning("naive decomposer forwarding")
+        # logger.warning("naive decomposer forwarding")
         if not self.extracted:
             if self.need_extract(self.submodule, args):
                 self.builtin_extractor(self.submodule, args)

@@ -21,7 +21,7 @@ class RenamedDataInputPredicator:
         self.config = config
 
     def __call__(self, model_path, input_var_name: str) -> bool:
-        return input_var_name.startswith("in_")
+        return not input_var_name.startswith("w_")
 
 
 class ModelRunnablePredicator:

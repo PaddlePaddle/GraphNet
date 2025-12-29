@@ -85,7 +85,11 @@ class ConcretePass(DimensionGeneralizationPass):
                 self.node_target(), args=new_node_args, kwargs=node.kwargs
             )
 
-            return new_node
+            safe_arange_node = new_graph.call_function(
+                torch.remainder, args=(new_node, 512)
+            )
+
+            return safe_arange_node
 
         for node in traced_module.graph.nodes:
             val_map[node] = create_new_node(node)

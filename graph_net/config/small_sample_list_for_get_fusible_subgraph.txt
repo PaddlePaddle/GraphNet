@@ -8,4 +8,3 @@ samples/timm/vit_base_patch16_rope_ape_224.naver_in1k
 #samples/timm/fastvit_t8.apple_dist_in1k
 #samples/timm/test_byobnet.r160_in1k
 #samples/timm/mambaout_base.in1k
-samples/transformers-auto-model/opus-mt-en-gv

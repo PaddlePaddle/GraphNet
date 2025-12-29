@@ -1,5 +1,0 @@
-samples/transformers-auto-model/opus-mt-en-gv
-samples/transformers-auto-model/opus-mt-eo-it
-samples/transformers-auto-model/opus-mt-es-csg
-samples/transformers-auto-model/distilbert_distilbert-base-multilingual-cased
-samples/transformers-auto-model/opus-mt-de-tl

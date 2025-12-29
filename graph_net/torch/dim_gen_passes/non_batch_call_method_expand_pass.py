@@ -1,4 +1,3 @@
-import torch
 import torch.fx as fx
 from graph_net.torch.dim_gen_passes import DimensionGeneralizationPass
 from collections import namedtuple
@@ -55,6 +54,9 @@ class ConcretePass(DimensionGeneralizationPass):
                 return
 
         def get_new_node_arg(arg):
+            if isinstance(arg, int) and arg == 1:
+                return -1
+
             if not (isinstance(arg, int) and arg == self.dim):
                 return val_map[arg] if arg in val_map else arg
 

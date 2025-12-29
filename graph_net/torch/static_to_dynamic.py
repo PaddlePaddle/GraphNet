@@ -85,21 +85,23 @@ class StaticToDynamicModulePass(torch.nn.Module):
             if pass_obj.need_rewrite(traced_module):
                 ShapeProp(traced_module).propagate(*inputs)
                 traced_module = pass_obj.rewrite(traced_module)
-        for node in traced_module.graph.nodes:
+        traced_module = self._fix_expanded_nodes(traced_module)
+        return traced_module
+
+    def _fix_expanded_nodes(self, graph_module):
+        for node in graph_module.graph.nodes:
             if node.op == "call_method" and node.target == "expand":
-                new_args = list(node.args)
-                has_one = False
+                if_expaned = False
                 updated_args = []
-                for arg in new_args:
+                for arg in list(node.args):
                     if isinstance(arg, int) and arg == 1:
                         updated_args.append(-1)
-                        has_one = True
+                        if_expaned = True
                     else:
                         updated_args.append(arg)
-
-                if has_one:
+                if if_expaned:
                     node.args = tuple(updated_args)
-        return traced_module
+        return graph_module
 
     def _create_fx_graph_module(self, inputs):
         if hasattr(self.module, "__graph_net_file_path__"):

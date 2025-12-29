@@ -3,8 +3,8 @@
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(
 os.path.dirname(graph_net.__file__))")
 
-MODEL_LIST_FILE="/work/.BCloud/run_model_use_small_sample_list.log"
-RUN_LOG="/work/.BCloud/run_model_samll.log"
+MODEL_LIST_FILE="$GRAPH_NET_ROOT/test/dev_model_list/run_model_use_small_sample_list.log"
+RUN_LOG="$GRAPH_NET_ROOT/test/run_model.log"
 
 while IFS= read -r FULL_PATH || [[ -n "$FULL_PATH" ]]
 do

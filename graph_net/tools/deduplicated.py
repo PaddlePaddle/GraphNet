@@ -7,6 +7,9 @@ import shutil
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List
+from graph_net.sample_pass.merge_subgraph_sources import (
+    MergeSubgraphSources,
+)
 
 
 def collect_graph_hashs(samples_dir: Path) -> Dict[str, List[Path]]:
@@ -26,13 +29,21 @@ def main(args):
     print(f"Copy samples: {args.samples_dir} -> {args.target_dir}")
     shutil.copytree(args.samples_dir, args.target_dir)
     graph_hash2model_paths = collect_graph_hashs(args.target_dir)
+    merge_sources_pass = MergeSubgraphSources()
     num_removed_samples = 0
     for graph_hash, model_paths in graph_hash2model_paths.items():
-        # Keep the first sample and move the rest.
-        for idx in range(1, len(model_paths)):
-            print(f"Remove  {model_paths[idx]}")
-            shutil.rmtree(model_paths[idx])
-            num_removed_samples += 1
+        if len(model_paths) > 1:
+            # Keep the first sample and merge sources from all duplicates
+            target_path = model_paths[0]
+            duplicate_paths = model_paths[1:]
+            merge_sources_pass.merge_sources_for_deduplication(
+                target_path, duplicate_paths
+            )
+            # Remove the duplicate samples
+            for dup_path in duplicate_paths:
+                print(f"Remove  {dup_path}")
+                shutil.rmtree(dup_path)
+                num_removed_samples += 1
     print(
         f"Totally {len(graph_hash2model_paths)} different graph_hashs, {num_removed_samples} samples are removed."
     )

@@ -46,6 +46,7 @@ class StaticToDynamicModulePass(torch.nn.Module):
                 "naive_call_method_reshape_pass",
                 "naive_call_method_expand_pass",
                 "non_batch_call_method_expand_pass",
+                "non_batch_call_method_view_pass",
                 "non_batch_call_function_arange_pass",  # typos: skip
                 "non_batch_call_function_getitem_slice_pass",
                 "non_batch_call_function_full_pass",

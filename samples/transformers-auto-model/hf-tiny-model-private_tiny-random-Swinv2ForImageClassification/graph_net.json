@@ -15,8 +15,6 @@
         "region:us"
     ],
     "heuristic_tag": "computer_vision",
-    "dimension_generalization_passes": [
-        "non_batch_call_method_view_pass"
-    ],
-    "symbolic_dimension_reifier": "naive_cv_sym_dim_reifier"
+    "symbolic_dimension_reifier": "naive_cv_sym_dim_reifier",
+    "dimension_generalization_passes": []
 }

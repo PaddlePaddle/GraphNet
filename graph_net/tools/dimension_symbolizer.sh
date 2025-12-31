@@ -7,7 +7,7 @@ python3 -m graph_net.apply_sample_pass \
     --model-path-list $GRAPH_NET_ROOT/graph_net/config/small_sample_list_for_get_fusible_subgraph.txt \
     --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/dimension_symbolizer.py" \
     --sample-pass-class-name "DimensionSymbolizer" \
-    --sample-pass-config "$(cat <<EOF
+    --sample-pass-config $(base64 -w 0 <<EOF
 {
     "resume": false,
     "output_dir": "/tmp/workspace_dimension_symbolizer",
@@ -16,4 +16,4 @@ python3 -m graph_net.apply_sample_pass \
     "last_model_log_file": "/tmp/a.py"
 }
 EOF
-)"
+)

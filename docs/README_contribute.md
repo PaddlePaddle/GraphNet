@@ -25,7 +25,7 @@ export GRAPH_NET_EXTRACT_WORKSPACE=/home/yourname/graphnet_workspace/
 # Extract the ResNet‑18 computation graph
 python graph_net/test/vision_model_test.py
 
-# Validate the extracted graph (e.g. /home/yourname/graphnet_workspace/resnet18/)
+# Validate the extracted graph (e.g.,/home/yourname/graphnet_workspace/resnet18/)
 python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/resnet18/
 ```
@@ -45,7 +45,7 @@ Wrap the model with the extractor — that’s all you need:
 ```bash
 import graph_net
 
-# Instantiate the model (e.g. a torchvision model)
+# Instantiate the model (e.g., a torchvision model)
 model = ...  
 
 # Extract your own model
@@ -58,14 +58,14 @@ For more details, see docstring of `graph_net.torch.extract` defined in `graph_n
 
 **Step 2: graph_net.torch.validate**
 
-To verify that the extracted model meets requirements, we use `graph_net.torch.validate` in CI tool and also ask contributors to self-check in advance:
+To verify that the extracted model meets requirements, we use `graph_net.torch.validate` in the CI tool and also ask contributors to self-check in advance:
 
 ```bash
 python -m graph_net.torch.validate \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name
 ```
 
-All the **construction constraints** will be examined automatically. After passing validation, a unique `graph_hash.txt` will be generated and later checked in CI procedure to avoid redundant.
+All **construction constraints** will be examined automatically. After passing validation, a unique `graph_hash.txt` will be generated and later checked in the CI procedure to avoid redundancy.
 
 ## 📁 Repository Structure
 This repository is organized as follows:

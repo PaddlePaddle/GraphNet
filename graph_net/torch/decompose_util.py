@@ -5,6 +5,82 @@ from collections import defaultdict
 from dataclasses import dataclass
 
 
+def gen_submodule_input_nodes(
+    gm: torch.fx.GraphModule,
+    subgraph_ranges: list[(int, int)],
+    chain_style=False,
+    group_head_and_tail=True,
+):
+    """
+    chain_style=True: decompose gm into g0 * g1 * g2 * g3
+    """
+    submodules_body_nodes = [
+        node
+        for node in gm.graph.nodes
+        if node.op
+        not in {
+            "placeholder",
+            "output",
+        }
+    ]
+
+    def get_range_idx2range_by_split_positions():
+        split_positions = sorted(
+            set(pos for subgraph_range in subgraph_ranges for pos in subgraph_range)
+        )
+        split_positions = (
+            [0, *split_positions, len(submodules_body_nodes)]
+            if group_head_and_tail
+            else split_positions
+        )
+        split_positions = [
+            max(0, min(pos, len(submodules_body_nodes))) for pos in split_positions
+        ]
+        return [
+            (start, end)
+            for i in range(len(split_positions) - 1)
+            for start in [split_positions[i]]
+            for end in [split_positions[i + 1]]
+            if end > start
+        ]
+
+    def get_range_idx2range_by_subgraph_ranges():
+        assert subgraph_ranges is not None
+        num_nodes = len(submodules_body_nodes)
+        for i in range(len(subgraph_ranges)):
+            start, end = subgraph_ranges[i]
+            assert start >= 0
+            assert start < end
+            assert end <= num_nodes
+            # check disjoint
+            assert i == 0 or start >= subgraph_ranges[i - 1][1], f"{i=}"
+        return subgraph_ranges
+
+    range_idx2range = (
+        get_range_idx2range_by_split_positions()
+        if chain_style
+        else get_range_idx2range_by_subgraph_ranges()
+    )
+    range_idx2submodule_body_nodes = [
+        submodules_body_nodes[start:end] for start, end in range_idx2range
+    ]
+
+    num_subgraphs = len(range_idx2submodule_body_nodes)
+    for range_idx in range(num_subgraphs):
+        start, end = range_idx2range[range_idx]
+        (
+            submodule_input_nodes,
+            submodule_output_nodes,
+            identity_nodes,
+        ) = _get_submodule_inputs_and_outputs(
+            gm=gm,
+            start_node_idx=start,
+            end_node_idx=end,
+            chain_style=chain_style,
+        )
+        yield start, end, submodule_input_nodes
+
+
 def convert_to_submodules_graph(
     gm: torch.fx.GraphModule,
     split_positions: list[int],

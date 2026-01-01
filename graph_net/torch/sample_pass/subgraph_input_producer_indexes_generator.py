@@ -22,8 +22,10 @@ class SubgraphInputProducerIndexesGenerator(SamplePass, ResumableSamplePassMixin
         subgraph_ranges_json_root: str,
         subgraph_ranges_json_file_name: str,
         subgraph_ranges_json_key: str,
+        subgraph_ranges_json_rel_model_path_key: str = "subgraph_rel_model_paths",
         output_json_file_name: str = "subgraph_input_producer_indexes.json",
         output_json_key: str = "input_producer_indexes",
+        output_json_subgraph_rel_model_path_key: str = "subgraph_rel_model_paths",
         group_head_and_tail: bool = False,
         chain_style: bool = False,
         device: str = "auto",
@@ -57,30 +59,52 @@ class SubgraphInputProducerIndexesGenerator(SamplePass, ResumableSamplePassMixin
         )
         gm = parse_sole_graph_module(module, inputs)
         torch.cuda.empty_cache()
-        subgraph_ranges = self._get_subgraph_ranges(rel_model_path)
-        triples: Generator[(int, int, torch.fx.Node)] = gen_submodule_input_nodes(
-            gm,
-            subgraph_ranges=subgraph_ranges,
-            group_head_and_tail=self.config.get("group_head_and_tail", False),
-            chain_style=self.config.get("chain_style", False),
-        )
-        node2node_idx = dict((node, i) for i, node in enumerate(gm.graph.nodes))
-        input_producer_indexes = [
-            {
-                "range": (start, end),
-                "input_producer_indexes": [node2node_idx[node] for node in nodes],
-            }
-            for start, end, nodes in triples
-        ]
-        return {self.config["output_json_key"]: input_producer_indexes}
+        subgraph_info_json = self._get_subgraph_info_json(rel_model_path)
 
-    def _get_subgraph_ranges(self, rel_model_path: str) -> list[(int, int)]:
+        def get_subgraph_input_producer_indexes_json_obj():
+            subgraph_ranges = self._get_subgraph_ranges(subgraph_info_json)
+            triples: Generator[(int, int, torch.fx.Node)] = gen_submodule_input_nodes(
+                gm,
+                subgraph_ranges=subgraph_ranges,
+                group_head_and_tail=self.config.get("group_head_and_tail", False),
+                chain_style=self.config.get("chain_style", False),
+            )
+            node2node_idx = dict((node, i) for i, node in enumerate(gm.graph.nodes))
+            input_producer_indexes = [
+                {
+                    "range_start": start,
+                    "range_end": end,
+                    "input_producer_indexes": [node2node_idx[node] for node in nodes],
+                }
+                for start, end, nodes in triples
+            ]
+            return {self.config["output_json_key"]: input_producer_indexes}
+
+        def get_subgraph_rel_model_paths_json_obj():
+            return {
+                self.config[
+                    "output_json_subgraph_rel_model_path_key"
+                ]: self._get_subgraph_paths(subgraph_info_json)
+            }
+
+        return {
+            **get_subgraph_input_producer_indexes_json_obj(),
+            **get_subgraph_rel_model_paths_json_obj(),
+        }
+
+    def _get_subgraph_info_json(self, rel_model_path: str) -> dict[str, list]:
         model_path = Path(self.config["subgraph_ranges_json_root"]) / rel_model_path
         file_path = model_path / self.config["subgraph_ranges_json_file_name"]
         json_str = file_path.read_text()
-        json_obj = json.loads(json_str)
+        return json.loads(json_str)
+
+    def _get_subgraph_ranges(self, subgraph_ranges_and_paths_json) -> list[(int, int)]:
         key = self.config["subgraph_ranges_json_key"]
-        return json_obj[key]
+        return subgraph_ranges_and_paths_json[key]
+
+    def _get_subgraph_paths(self, subgraph_ranges_and_paths_json) -> list[str]:
+        key = self.config["subgraph_ranges_json_rel_model_path_key"]
+        return subgraph_ranges_and_paths_json[key]
 
     def _choose_device(self, device) -> str:
         if device in ["cpu", "cuda"]:

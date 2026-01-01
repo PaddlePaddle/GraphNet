@@ -93,6 +93,6 @@ class FxGraphShapePropagator:
         gm = parse_immutable_model_path_into_sole_graph_module(
             model_path, device=self.device
         )
-        propagated_model = ShapeProp(gm).propagate(*inputs)
-        for node in propagated_model.graph.nodes:
+        ShapeProp(gm).propagate(*inputs)
+        for node in gm.graph.nodes:
             yield node

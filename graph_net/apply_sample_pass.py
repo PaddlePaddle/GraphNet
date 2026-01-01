@@ -39,23 +39,32 @@ def _get_handler(args):
 def main(args):
     handler = _get_handler(args)
     if args.model_path is not None:
+        assert not hasattr(handler, "BEGIN")
+        assert not hasattr(handler, "END")
         handle_model_path(handler, args.model_path)
     elif args.use_subprocess:
+        assert not hasattr(handler, "BEGIN")
+        assert not hasattr(handler, "END")
         handle_model_path_list_in_subprocess(args)
     else:
         handle_model_path_list_in_current_process(handler, args)
 
 
 def handle_model_path_list_in_current_process(handler, args):
-    for model_path in _get_model_path_list(args):
+    rel_model_paths = list(_get_model_path_list(args))
+    if hasattr(handler, "BEGIN"):
+        handler.BEGIN(rel_model_paths)
+    for rel_model_path in rel_model_paths:
         try:
-            handle_model_path(handler, model_path)
+            handle_model_path(handler, rel_model_path)
         except KeyboardInterrupt:
             print("KeyboardInterrupt")
             return
         except Exception:
             print("------------[apply_sample_pass failed]------------", flush=True)
             traceback.print_exc()
+    if hasattr(handler, "END"):
+        handler.END(rel_model_paths)
 
 
 def handle_model_path_list_in_subprocess(args):

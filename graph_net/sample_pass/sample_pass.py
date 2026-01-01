@@ -61,7 +61,7 @@ class SamplePass(abc.ABC):
             class_name = type(self).__name__
             assert name in mut_config, f"{name=} {class_name=}"
 
-        def get_extra_config_fields():
+        def get_undefined_config_fields():
             return set(name for name, _ in mut_config.items()) - set(
                 name for name, _ in sig.parameters.items()
             )
@@ -71,10 +71,10 @@ class SamplePass(abc.ABC):
             for _, param in sig.parameters.items()
         )
         if no_varadic_keyword:
-            no_extra_config_fields = all(
+            no_undefined_config_fields = all(
                 name in sig.parameters for name, _ in mut_config.items()
             )
-            assert no_extra_config_fields, f"{get_extra_config_fields()=}"
+            assert no_undefined_config_fields, f"{get_undefined_config_fields()=}"
         return mut_config
 
     def _complete_default(self, name, param, mut_config):

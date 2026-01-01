@@ -1,0 +1,8 @@
+{
+    "samples/timm/convnextv2_base.fcmae_ft_in1k": [
+        [
+            287,
+            297
+        ]
+    ]
+}

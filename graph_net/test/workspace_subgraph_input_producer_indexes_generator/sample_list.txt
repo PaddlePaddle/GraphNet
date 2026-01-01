@@ -1,0 +1,2 @@
+samples/timm/mobilenetv4_conv_aa_large.e230_r384_in12k
+samples/timm/convnextv2_base.fcmae_ft_in1k

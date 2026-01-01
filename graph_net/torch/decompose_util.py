@@ -65,6 +65,23 @@ def gen_submodule_input_nodes(
         submodules_body_nodes[start:end] for start, end in range_idx2range
     ]
 
+    def get_body_nodes(range_idx):
+        return range_idx2submodule_body_nodes[range_idx]
+
+    def get_start_node_idx(range_idx):
+        start_node = get_body_nodes(range_idx)[0]
+        for i, node in enumerate(gm.graph.nodes):
+            if node == start_node:
+                return i
+        raise NotImplementedError("Dead code.")
+
+    def get_end_node_idx(range_idx):
+        last_node = get_body_nodes(range_idx)[-1]
+        for i, node in enumerate(gm.graph.nodes):
+            if node == last_node:
+                return i + 1
+        raise NotImplementedError("Dead code.")
+
     num_subgraphs = len(range_idx2submodule_body_nodes)
     for range_idx in range(num_subgraphs):
         start, end = range_idx2range[range_idx]
@@ -74,8 +91,8 @@ def gen_submodule_input_nodes(
             identity_nodes,
         ) = _get_submodule_inputs_and_outputs(
             gm=gm,
-            start_node_idx=start,
-            end_node_idx=end,
+            start_node_idx=get_start_node_idx(range_idx),
+            end_node_idx=get_end_node_idx(range_idx),
             chain_style=chain_style,
         )
         yield start, end, submodule_input_nodes

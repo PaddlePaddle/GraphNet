@@ -19,6 +19,9 @@ class SubgraphInputProducerIndexesGenerator(SamplePass, ResumableSamplePassMixin
         self,
         output_dir: str,
         model_path_prefix: str,
+        subgraph_ranges_json_root: str,
+        subgraph_ranges_json_file_name: str,
+        subgraph_ranges_json_key: str,
         output_json_file_name: str = "subgraph_input_producer_indexes.json",
         output_json_key: str = "input_producer_indexes",
         group_head_and_tail: bool = False,
@@ -42,7 +45,7 @@ class SubgraphInputProducerIndexesGenerator(SamplePass, ResumableSamplePassMixin
         )
         dst_model_path = Path(self.config["output_dir"]) / rel_model_path
         dst_model_path.mkdir(parents=True, exist_ok=True)
-        json_str = json.dumps(subgraph_input_producer_indexes)
+        json_str = json.dumps(subgraph_input_producer_indexes, indent=4)
         (dst_model_path / self.config["output_json_file_name"]).write_text(json_str)
 
     def _get_subgraph_input_producer_indexes(self, rel_model_path):

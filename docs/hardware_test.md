@@ -11,10 +11,10 @@ python -m graph_net.paddle.test_reference_device \
 # --compiler: Specifies the compiler backend.
 ```
 ### Step 2: Run Regression Test
-After changing hardware, run the correctness test script. This script reads the reference data, re-runs the models using the exact same configuration, and compares the new results against the "golden" reference.
+After changing hardware, run the correctness test script. This script reads the reference data, re-runs the models using the same configuration, and compares the new results against the "golden" reference.
 ```bash
 python -m graph_net.paddle.test_device_correctness \
     --reference-dir ./golden_reference \
     --device cuda
 ```
-This script will report any failures (e.g., compilation errors, output mismatches) and print a performance comparison (speedup/slowdown) against the reference log, allowing you to quickly identify regressions.
+This script will report any failures (e.g., compilation errors, output mismatches) and print a performance comparison (speedup/slowdown) against the reference log, allowing you to identify regressions quickly.

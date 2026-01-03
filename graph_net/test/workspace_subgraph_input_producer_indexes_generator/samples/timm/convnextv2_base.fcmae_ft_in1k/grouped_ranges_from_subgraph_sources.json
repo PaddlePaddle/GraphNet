@@ -1,0 +1,16 @@
+{
+    "grouped_ranges_from_subgraph_sources": [
+        [
+            287,
+            297
+        ],
+        [
+            401,
+            411
+        ]
+    ],
+    "subgraph_rel_model_paths": [
+        "samples/timm/convnextv2_base.fcmae_ft_in1k/_decomposed/convnextv2_base.fcmae_ft_in1k_start287_end297_32",
+        "samples/timm/convnextv2_base.fcmae_ft_in1k/_decomposed/convnextv2_base.fcmae_ft_in1k_start401_end411_44"
+    ]
+}

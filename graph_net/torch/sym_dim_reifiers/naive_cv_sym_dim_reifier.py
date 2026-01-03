@@ -16,7 +16,14 @@ class ConcreteReifier(ReifierBase):
         if self.dyn_dim_cstrs is None:
             return False
         sym_shapes_str = self.dyn_dim_cstrs.serialize_symbolic_input_shapes_to_str()
-        return sym_shapes_str in self._get_map_cv_sym_shapes_str2reifier()
+        if sym_shapes_str == "[]":
+            return False
+        elif sym_shapes_str not in self._get_map_cv_sym_shapes_str2reifier():
+            print(
+                f"[CV SymDim Reify] No reifier matched symbolic shapes:{sym_shapes_str} \nPlease add a reify rule to _get_map_cv_sym_shapes_str2reifier()"
+            )
+            return False
+        return True
 
     def reify(self):
         assert self.match()
@@ -40,6 +47,15 @@ class ConcreteReifier(ReifierBase):
                 "[(S0,80,S1),(S0,)]": cls.reify_nemo_asr_s0_s1,
                 "[(S0,3,512,1024)]": cls.reify_semantic_seg_s0,
                 "[(S0,3,640,640)]": cls.reify_yolo_s0,
+                "[(S0,)]": cls.reify_s0,
+                "[(S0,S1,S2)]": cls.reify_s0_s1_s2,
+                "[(S0,S1,S2,S2)]": cls.reify_s0_s1_s2,
+                "[(S0,3,S1,S2,S2)]": cls.reify_s0_s1_s2,
+                "[(S0,S1,S1,384)]": cls.reify_s0_s1_384,
+                "[(S0,S1),(S0,S1,2560)]": cls.reify_s0_s1_2560,
+                "[(S0,S1,256),(S0,S1,256)]": cls.reify_s0_s1_256,
+                "[(S0,S1),(S0,S1,3072)]": cls.reify_s0_s1_128_1024,
+                "[(S0,S1),(S0,S1,1024),(S0,S1,1024)]": cls.reify_s0_s1_128_1024,
             }
         return cls.g_cv_sym_shapes_str2reifier
 
@@ -183,4 +199,90 @@ class ConcreteReifier(ReifierBase):
         S0 = (sympy.Symbol("S0"),)
         return {
             S0: [[1], [2], [4], [8], [12], [16], [24], [32], [64]],
+        }
+
+    def reify_s0(self):
+        S0 = (sympy.Symbol("S0"),)
+        return {
+            S0: [[1], [2], [4], [8], [16], [32], [48], [64], [128]],
+        }
+
+    def reify_s0_s1_s2(self):
+        S0S1S2 = (sympy.Symbol("S0"), sympy.Symbol("S1"), sympy.Symbol("S2"))
+        return {
+            S0S1S2: [
+                [1, 8, 8],
+                [1, 8, 16],
+                [1, 16, 16],
+                [2, 16, 16],
+                [1, 16, 32],
+                [2, 16, 32],
+                [4, 16, 32],
+                [1, 32, 32],
+                [2, 32, 32],
+            ],
+        }
+
+    def reify_s0_s1_384(self):
+        S0S1 = (sympy.Symbol("S0"), sympy.Symbol("S1"))
+        return {
+            S0S1: [
+                [1, 64],
+                [1, 128],
+                [1, 192],
+                [1, 224],
+                [1, 256],
+                [4, 224],
+                [8, 224],
+                [32, 224],
+                [64, 224],
+            ],
+        }
+
+    def reify_s0_s1_2560(self):
+        S0S1 = (sympy.Symbol("S0"), sympy.Symbol("S1"))
+        return {
+            S0S1: [
+                [1, 16],
+                [1, 32],
+                [2, 32],
+                [1, 64],
+                [2, 64],
+                [1, 128],
+                [2, 128],
+                [1, 256],
+                [2, 256],
+            ],
+        }
+
+    def reify_s0_s1_256(self):
+        S0S1 = (sympy.Symbol("S0"), sympy.Symbol("S1"))
+        return {
+            S0S1: [
+                [1, 8],
+                [1, 16],
+                [2, 16],
+                [1, 32],
+                [2, 32],
+                [4, 32],
+                [1, 64],
+                [2, 64],
+                [4, 64],
+            ],
+        }
+
+    def reify_s0_s1_128_1024(self):
+        S0S1 = (sympy.Symbol("S0"), sympy.Symbol("S1"))
+        return {
+            S0S1: [
+                [1, 8],
+                [1, 16],
+                [2, 16],
+                [1, 32],
+                [2, 32],
+                [4, 32],
+                [1, 64],
+                [2, 64],
+                [4, 64],
+            ],
         }

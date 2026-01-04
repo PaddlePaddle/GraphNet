@@ -334,7 +334,6 @@ def run_decomposer_for_single_model(
             "post_extract_process_class_name": "GraphMetaRestorer",
             "post_extract_process_config": {
                 "update_inplace": True,
-                "weight_meta_allow_partial_update": True,
                 "input_meta_allow_partial_update": False,
             },
         }

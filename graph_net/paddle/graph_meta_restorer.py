@@ -33,14 +33,14 @@ class GraphMetaRestorer:
         ) = self._load_weight_and_input_meta_classes(model_path)
 
         assert self.config["update_inplace"]
-        is_weight_meta_fully_updated = self._update_by_original_name(
+        (
+            is_weight_meta_fully_updated,
+            weight_meta_classes,
+        ) = self._update_by_original_name(
             weight_meta_classes, self.original_name2parent_weight_meta_class
         )
-        if (
-            not self.config["weight_meta_allow_partial_update"]
-            or is_weight_meta_fully_updated
-        ):
-            self._rewrite_meta_codes(model_path, weight_meta_classes, "weight_meta.py")
+        assert is_weight_meta_fully_updated
+        self._rewrite_meta_codes(model_path, weight_meta_classes, "weight_meta.py")
 
         is_input_meta_fully_updated = self._update_by_tensor_spec(
             input_meta_classes, self.original_name2parent_input_meta_class
@@ -103,7 +103,18 @@ class GraphMetaRestorer:
         print(
             f"[GraphMetaRestorer] {len(updated_class_names)}/{len(meta_classes)} classes can be restored."
         )
-        return len(meta_classes) == len(updated_class_names)
+        if len(meta_classes) == len(updated_class_names):
+            meta_classes = self._reorder_by_original_name(
+                meta_classes, list(original_name2parent_meta_class.keys())
+            )
+        return len(meta_classes) == len(updated_class_names), meta_classes
+
+    def _reorder_by_original_name(self, meta_classes, original_names):
+        order = {name: idx for idx, name in enumerate(original_names)}
+        sorted_meta_classess = sorted(
+            meta_classes, key=lambda cls: order[cls.original_name]
+        )
+        return sorted_meta_classess
 
     def _update_by_tensor_spec(self, meta_classes, original_name2parent_meta_class):
         updated_class_names = set()

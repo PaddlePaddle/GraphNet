@@ -44,7 +44,8 @@ def get_ranged_incorrect_models(tolerance_args: List[int], log_path: str) -> set
     models_end = set(get_incorrect_models(t_end, log_path))
 
     print(
-        f"[Init] number of incorrect models: {len(models_start)} (tolerance={t_start}) - {len(models_end)} (tolerance={t_end})"
+        f"[Init] number of incorrect models: {len(models_start)} (tolerance={t_start}) - {len(models_end)} (tolerance={t_end})",
+        flush=True,
     )
     return models_start - models_end
 
@@ -233,7 +234,7 @@ class DecomposeConfig:
 
         with open(config_path, "w") as f:
             json.dump(asdict(self), f, indent=4)
-        print(f"\n[INFO] Save state to: {config_path}")
+        print(f"\n[INFO] Save state to: {config_path}", flush=True)
 
     @classmethod
     def load(cls, work_dir):
@@ -343,7 +344,8 @@ def run_decomposer_for_single_model(
     decorator_config_b64 = convert_json_to_b64_string(decorator_config)
 
     print(
-        f"[Decomposition] model_path: {model_path}, split_positions: {split_positions}"
+        f"[Decomposition] model_path: {model_path}, split_positions: {split_positions}",
+        flush=True,
     )
     cmd = [
         sys.executable,
@@ -405,8 +407,8 @@ def run_evaluation(
         for item in (f"--{key}", str(value))
     ]
 
-    print(f"[Evaluation] Logging to: {log_path}")
-    print(f"[Evaluation] command: {' '.join(cmd)}")
+    print(f"[Evaluation] Logging to: {log_path}", flush=True)
+    print(f"[Evaluation] command: {' '.join(cmd)}", flush=True)
 
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
     with open(log_path, "w") as f:
@@ -436,7 +438,7 @@ def reconstruct_split_positions_for_subgraphs(
 
 def generate_initial_tasks(args):
     """Generates tasks for Pass 0 based on the initial log file."""
-    print(f"[Init] Pass 0: Reading from log file: {args.log_file}")
+    print(f"[Init] Pass 0: Reading from log file: {args.log_file}", flush=True)
 
     if args.decompose_method == "fixed-start":
         max_subgraph_size = MAX_GRAPH_SIZE
@@ -480,7 +482,9 @@ def generate_successor_tasks(args, output_dir, pass_id):
     """Generates tasks for Pass > 0 based on previous pass results."""
 
     prev_pass_dir = get_decompose_workspace_path(output_dir, pass_id - 1)
-    print(f"[Init] Resuming from Pass_{pass_id - 1} (Dir: {prev_pass_dir})...")
+    print(
+        f"[Init] Resuming from Pass_{pass_id - 1} (Dir: {prev_pass_dir})...", flush=True
+    )
 
     prev_config = DecomposeConfig.load(prev_pass_dir)
     max_subgraph_size = prev_config.max_subgraph_size // 2
@@ -527,16 +531,20 @@ def prepare_tasks_and_verify(args, pass_id, output_dir):
     else:
         decompose_config = generate_successor_tasks(args, output_dir, pass_id)
 
-    print(f"[Init] initial max_subgraph_size: {decompose_config.max_subgraph_size}")
+    print(
+        f"[Init] initial max_subgraph_size: {decompose_config.max_subgraph_size}",
+        flush=True,
+    )
     print_incorrect_models(decompose_config, pass_id - 1, log_prompt="[Init]")
 
     if not decompose_config.get_incorrect_models(pass_id - 1):
-        print("[FINISHED] No models need processing.")
+        print("[FINISHED] No models need processing.", flush=True)
         sys.exit(0)
 
     if decompose_config.max_subgraph_size <= 0:
         print(
-            f"[FINISHED] Cannot decompose with max_subgraph_size {decompose_config.max_subgraph_size}."
+            f"[FINISHED] Cannot decompose with max_subgraph_size {decompose_config.max_subgraph_size}.",
+            flush=True,
         )
         sys.exit(0)
 
@@ -559,13 +567,17 @@ def execute_decomposition_phase(decompose_config, pass_id, workspace):
     while need_decompose:
         if not os.path.exists(decomposed_samples_dir):
             os.makedirs(decomposed_samples_dir, exist_ok=True)
-            print(f"[Decomposition] decomposed_samples_dir: {decomposed_samples_dir}")
+            print(
+                f"[Decomposition] decomposed_samples_dir: {decomposed_samples_dir}",
+                flush=True,
+            )
 
         log_path = os.path.join(
             workspace, f"log_decompose-max_subgraph_size_{max_subgraph_size}.txt"
         )
         print(
-            f"[Decomposition] max_subgraph_size: {max_subgraph_size}, log_path: {log_path}"
+            f"[Decomposition] max_subgraph_size: {max_subgraph_size}, log_path: {log_path}",
+            flush=True,
         )
         failed_decomposition_models = run_decomposer_for_multi_models(
             decompose_config.framework,
@@ -601,7 +613,10 @@ def execute_decomposition_phase(decompose_config, pass_id, workspace):
         print()
 
     if failed_decomposition_models:
-        print(f"[WARN] {len(failed_decomposition_models)} models failed to decompose.")
+        print(
+            f"[WARN] {len(failed_decomposition_models)} models failed to decompose.",
+            flush=True,
+        )
 
     running_state.collect_decomposed_subgraphs(decomposed_samples_dir)
     decompose_config.max_subgraph_size = max_subgraph_size
@@ -617,23 +632,32 @@ def print_incorrect_models(decompose_config, pass_id, log_prompt):
     )
 
     print(
-        f"{log_prompt} number of incorrect subgraphs: {len(incorrect_models)}; number of incorrect original models: {len(original_model_paths)}"
+        f"{log_prompt} number of incorrect subgraphs: {len(incorrect_models)}; number of incorrect original models: {len(original_model_paths)}",
+        flush=True,
     )
     for idx, model_path in enumerate(incorrect_models):
-        print(f"- [{idx}] {model_path}")
+        print(f"- [{idx}] {model_path}", flush=True)
 
 
 def print_summary_and_suggestion(decompose_config, pass_id):
-    print("\n" + "=" * 80)
+    print("\n" + "=" * 80, flush=True)
     num_incorrect_models = len(decompose_config.get_incorrect_models(pass_id))
     if num_incorrect_models > 0 and decompose_config.max_subgraph_size > 1:
-        print(f">>> [SUGGESTION] Issues remain (Count: {num_incorrect_models}).")
-        print(">>> Please start next round decomposition test (Run this script again).")
+        print(
+            f">>> [SUGGESTION] Issues remain (Count: {num_incorrect_models}).",
+            flush=True,
+        )
+        print(
+            ">>> Please start next round decomposition test (Run this script again).",
+            flush=True,
+        )
     elif num_incorrect_models > 0 and decompose_config.max_subgraph_size <= 1:
-        print(">>> [FAILURE] Minimal granularity reached, but errors persist.")
+        print(
+            ">>> [FAILURE] Minimal granularity reached, but errors persist.", flush=True
+        )
     else:
-        print(">>> [SUCCESS] Debugging converged.")
-    print("=" * 80)
+        print(">>> [SUCCESS] Debugging converged.", flush=True)
+    print("=" * 80, flush=True)
 
 
 def main(args):

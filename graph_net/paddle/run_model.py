@@ -2,6 +2,8 @@ import os
 import json
 import base64
 import argparse
+import numpy as np
+import random
 
 os.environ["FLAGS_logging_pir_py_code_dir"] = "/tmp/dump"
 
@@ -10,10 +12,17 @@ from graph_net import imp_util
 from graph_net.paddle import utils
 
 
+def set_seed(random_seed):
+    paddle.seed(random_seed)
+    random.seed(random_seed)
+    np.random.seed(random_seed)
+
+
 def load_class_from_file(file_path: str, class_name: str):
     print(f"Load {class_name} from {file_path}")
     module = imp_util.load_module(file_path, "unnamed")
     model_class = getattr(module, class_name, None)
+    setattr(model_class, "__graph_net_file_path__", os.path.normpath(file_path))
     return model_class
 
 
@@ -22,12 +31,17 @@ def get_input_dict(model_path):
     params = inputs_params["weight_info"]
     inputs = inputs_params["input_info"]
 
-    state_dict = {}
-    for k, v in params.items():
-        state_dict[k] = paddle.nn.parameter.Parameter(utils.replay_tensor(v), name=k)
-    for k, v in inputs.items():
-        state_dict[k] = utils.replay_tensor(v)
-    return state_dict
+    input_dict = {}
+    for name, meta in params.items():
+        original_name = (
+            meta["original_name"] if meta.get("original_name", None) else name
+        )
+        input_dict[name] = paddle.nn.parameter.Parameter(
+            utils.replay_tensor(meta), name=original_name
+        )
+    for name, meta in inputs.items():
+        input_dict[name] = utils.replay_tensor(meta)
+    return input_dict
 
 
 def _convert_to_dict(config_str):
@@ -52,6 +66,9 @@ def _get_decorator(args):
 
 
 def main(args):
+    initalize_seed = 123
+    set_seed(random_seed=initalize_seed)
+
     model_path = args.model_path
     model_class = load_class_from_file(
         f"{model_path}/model.py", class_name="GraphModule"

@@ -1,3 +1,4 @@
+import os
 import re
 import sys
 import subprocess
@@ -7,104 +8,70 @@ import jinja2
 import textwrap
 import tempfile
 from pathlib import Path
-from typing import Literal
+from typing import Literal, List
 from collections import namedtuple
 
+import paddle
+from athena.graphnet_samples import SubgraphGenerator
 from graph_net import imp_util
-from graph_net.sample_pass.sample_pass import SamplePass
-from graph_net.sample_pass.resumable_sample_pass_mixin import ResumableSamplePassMixin
+from graph_net.paddle.extractor import GraphExtractor as BuiltinGraphExtractor
 from graph_net.tensor_meta import TensorMeta
 
 
-TORCH_UNITTEST_TEMPLATE = r"""
-{%- if graph_module_desc.generate_main -%}
-import unittest
-{%- endif -%}
-{{"\n"}}
-import torch
-from torch import device, inf
+class GraphExtractor:
+    def __init__(
+        self,
+        config: dict,
+        model,
+        name,
+        dynamic,
+        input_spec=None,
+    ):
+        self.model = model
+        self.name = name.replace("/", "_")
+        self.dynamic = dynamic
+        self.input_spec = input_spec
+        self.config = self.make_config(**config)
 
+    def make_config(
+        self,
+        subgraph_range: list,
+        device: Literal["auto", "cpu", "cuda", "xpu"] = "auto",
+        try_run: bool = False,
+        data_input_predicator_filepath: str = None,
+        data_input_predicator_class_name: str = None,
+        output_dir: str = "/tmp/prologue_unittests",
+    ):
+        assert isinstance(subgraph_range, (tuple, list)) and len(subgraph_range) == 2
+        for pos in subgraph_range:
+            assert isinstance(
+                pos, int
+            ), f"subgraph_range should be list of int, {subgraph_range=}"
+        return {
+            "subgraph_range": subgraph_range,
+            "device": device,
+            "try_run": try_run,
+            "data_input_predicator_filepath": data_input_predicator_filepath,
+            "data_input_predicator_class_name": data_input_predicator_class_name,
+            "output_dir": output_dir,
+        }
 
-{% macro get_input_tensor_instance(tensor_meta, device) -%}
-{%- set shape = tensor_meta.shape -%}
-{%- set dtype = tensor_meta.dtype -%}
-{%- set data = tensor_meta.data -%}
-{%- set min_val = tensor_meta.min_val -%}
-{%- set max_val = tensor_meta.max_val -%}
-{%- set mean = tensor_meta.mean -%}
-{%- set std = tensor_meta.std -%}
-{%- if data is not none -%}
-    torch.tensor({{data}}, dtype={{dtype}}).reshape({{shape}}).to(device='{{device}}')
-{%- elif dtype == "torch.bool" -%}
-    torch.rand({{shape}}, device='{{device}}') > 0.5
-{%- elif dtype in ["torch.int8", "torch.int16", "torch.int32", "torch.int64"] -%}
-    torch.randint({{min_val}}, {{max_val}} + 1, size={{shape}}, dtype={{dtype}}).to(device='{{device}}')
-{%- elif dtype in ["torch.float16", "torch.bfloat16", "torch.float32", "torch.float64"] -%}
-    {%- if max_val is not none or min_val is not none -%}
-    init_float_tensor(shape={{shape}}, dtype={{dtype}}, mean={{mean}}, std={{std}}, max_val={{max_val}}, min_val={{min_val}})
-    {%- else -%}
-    init_float_tensor(shape={{shape}}, dtype={{dtype}}, mean={{mean}}, std={{std}})
-    {%- endif -%}
-{%- endif -%}
-{%- endmacro -%}
+    def __call__(self, **input_dict):
+        extracted_model = self.get_prologue_subgraph_unittest_generator()(**input_dict)
+        return extracted_model
 
-
-def init_float_tensor(shape, dtype, mean, std, max_val=None, min_val=None):
-    tensor = torch.randn(size=shape) * std * 0.2 + mean
-    if min_val is not None or max_val is not None:
-        tensor = torch.clamp(tensor, min=min_val, max=max_val)
-    return tensor.to(dtype).to('{{graph_module_desc.device}}')
-
-
-class Model(torch.nn.Module):
-    def __init__(self):
-        super().__init__()
-        {%- for arg_name in graph_module_desc.weight_arg_names %}
-        {%- set input_idx = loop.index0 %}
-        self.{{arg_name}} = {{get_input_tensor_instance(graph_module_desc.weight_tensor_metas[input_idx], graph_module_desc.device)}}
-        {%- endfor %}
-
-    def forward(self, {{graph_module_desc.input_arg_names | join(", ")}}):
-        {{graph_module_desc.forward_body}}
-
-
-def get_inputs():
-    {%- for arg_name in graph_module_desc.input_arg_names %}
-    {%- set input_idx = loop.index0 %}
-    {{arg_name}} = {{get_input_tensor_instance(graph_module_desc.input_tensor_metas[input_idx], graph_module_desc.device)}}
-    {%- endfor %}
-    return [{{graph_module_desc.input_arg_names | join(", ")}}]
-
-
-def get_init_inputs():
-    return []
-
-{{"\n"}}
-{%- if graph_module_desc.generate_main -%}
-class {{graph_module_desc.model_name}}Test(unittest.TestCase):
-    def setUp(self):
-        torch.manual_seed(123)
-        if torch.cuda.is_available():
-            torch.cuda.manual_seed(123)
-
-        self.model = Model()
-
-    def test_main(self):
-        inputs = get_inputs()
-        outputs = self.model(*inputs)
-
-
-if __name__ == "__main__":
-    unittest.main()
-{%- endif -%}
-"""
+    def get_prologue_subgraph_unittest_generator(self):
+        return PrologueSubgraphUnittestGenerator(
+            config=self.config,
+            parent_model=self.model,
+            parent_model_name=self.name,
+            parent_input_spec=self.input_spec,
+        )
 
 
 PADDLE_UNITTEST_TEMPLATE = r"""
-{%- if graph_module_desc.generate_main -%}
 import unittest
-{%- endif -%}
-{{"\n"}}
+import numpy as np
 import paddle
 
 {% macro get_input_tensor_instance(tensor_meta, device) -%}
@@ -140,15 +107,19 @@ def init_float_tensor(shape, dtype, max_val, min_val, mean=None, std=None):
     return tensor.to(dtype).to('{{graph_module_desc.device}}')
 
 
+class PrologueLayer(paddle.nn.Layer):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, {{graph_module_desc.prologue_weight_arg_names | join(", ")}}, {{graph_module_desc.prologue_input_arg_names | join(", ")}}):
+        {{graph_module_desc.prologue_forward_body}}
+
+
 class Model(paddle.nn.Layer):
     def __init__(self):
         super().__init__()
-        {%- for arg_name in graph_module_desc.weight_arg_names %}
-        {%- set input_idx = loop.index0 %}
-        self.{{arg_name}} = {{get_input_tensor_instance(graph_module_desc.weight_tensor_metas[input_idx], graph_module_desc.device)}}
-        {%- endfor %}
 
-    def forward(self, {{graph_module_desc.input_arg_names | join(", ")}}):
+    def forward(self, {{graph_module_desc.weight_arg_names | join(", ")}}, {{graph_module_desc.input_arg_names | join(", ")}}):
         {{graph_module_desc.forward_body}}
 
 
@@ -160,11 +131,6 @@ def get_inputs():
     return [{{graph_module_desc.input_arg_names | join(", ")}}]
 
 
-def get_init_inputs():
-    return []
-
-{{"\n"}}
-{%- if graph_module_desc.generate_main -%}
 class {{graph_module_desc.model_name}}Test(unittest.TestCase):
     def setUp(self):
         paddle.seed(123)
@@ -177,7 +143,6 @@ class {{graph_module_desc.model_name}}Test(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-{%- endif -%}
 """
 
 
@@ -185,7 +150,6 @@ GraphModuleDescriptor = namedtuple(
     "GraphModuleDescriptor",
     [
         "device",
-        "generate_main",
         "model_name",
         "input_arg_names",
         "input_tensor_metas",
@@ -203,32 +167,71 @@ def load_class_from_file(file_path: str, class_name: str):
     return model_class
 
 
-class AgentUnittestGenerator:
+class PrologueSubgraphUnittestGenerator:
     def __init__(
         self,
-        framework: str,
-        model_path: str,
-        output_name: str,
-        output_dir: str,
-        device: Literal["auto", "cpu", "cuda"] = "auto",
-        generate_main: bool = False,
-        try_run: bool = False,
-        data_input_predicator_filepath: str = None,
-        data_input_predicator_class_name: str = None,
+        config: dict,
+        parent_model: paddle.nn.Layer,
+        parent_model_name: str,
+        parent_input_spec: List[paddle.static.InputSpec],
     ):
-        self.framework = framework
-        self.model_path = Path(model_path).resolve()
-        self.output_name = output_name
-        self.output_dir = Path(output_dir)
-        self.device = self._choose_device(device)
-        self.generate_main = generate_main
-        self.try_run = try_run
+        self.config = config
+        self.extracted = False
+        self.parent_model_path = os.path.dirname(parent_model.__graph_net_file_path__)
+        self.builtin_extractor = BuiltinGraphExtractor(
+            model=parent_model,
+            name=parent_model_name,
+            dynamic=False,
+            input_spec=parent_input_spec,
+            workspace_path=self.config["output_dir"],
+        )
+        self.subgraph_range = self.config["subgraph_range"]
+        self.device = self._choose_device(self.config["device"])
+        self.try_run = self.config["try_run"]
         self.data_input_predicator = self._make_data_input_predicator(
-            data_input_predicator_filepath, data_input_predicator_class_name
+            self.config["data_input_predicator_filepath"],
+            self.config["data_input_predicator_class_name"],
         )
 
+    def __call__(self, **input_dict):
+        extracted_model = None
+        if not self.extracted:
+            extracted_model = self.do_extract(**input_dict)
+            self.extracted = True
+        return extracted_model
+
+    def do_extract(self, **input_dict):
+        # 1. Run the model to dump pir programs
+        model_dump_path = os.path.join(
+            self.builtin_extractor.dump_path, self.builtin_extractor.name
+        )
+        static_model = self.builtin_extractor.run_model_with_dump_enabled(
+            model_dump_path, **input_dict
+        )
+
+        # 2. Convert pir programs to graphnet samples
+        ir_programs_path = self.builtin_extractor.get_ir_programs_path(model_dump_path)
+        example_inputs_path = self.builtin_extractor.get_example_inputs_path(
+            model_dump_path
+        )
+        op_example_inputs_path = self.builtin_extractor.generate_op_example_inputs_path(
+            model_dump_path, self.subgraph_range
+        )
+        generator = SubgraphGenerator(
+            model_name=self.builtin_extractor.name,
+            programs_file=ir_programs_path,
+            example_inputs_file=example_inputs_path,
+            op_example_inputs_file=op_example_inputs_path,
+            eval_mode=True,
+            tmp_dir=model_dump_path,
+        )
+        graphnet_sample_results = generator(self.subgraph_range, False)
+        assert len(graphnet_sample_results) == 1
+
+        return static_model
+
     def generate(self):
-        print(f"[AgentUnittestGenerator] Generate unittest for {self.model_path}")
+        print(f"[PrologueUnittestGenerator] Generate unittest for {self.model_path}")
         model_name = "".join(
             word.capitalize() for word in re.split(r"[_.-]", self.model_path.name)
         )
@@ -243,10 +246,9 @@ class AgentUnittestGenerator:
             weight_tensor_metas,
         ) = self._get_input_and_weight_tensor_metas(input_arg_names, weight_arg_names)
 
-        def _generate_unittest(generate_main):
+        def _generate_unittest():
             graph_module_desc = GraphModuleDescriptor(
                 device=self.device,
-                generate_main=generate_main,
                 model_name=model_name,
                 input_arg_names=input_arg_names,
                 input_tensor_metas=input_tensor_metas,
@@ -259,25 +261,17 @@ class AgentUnittestGenerator:
             return self._render_template(graph_module_desc)
 
         # Generate unittest with main for try-run.
-        unittest_for_try_run = _generate_unittest(generate_main=self.try_run)
-        if self._try_to_run_unittest(unittest_for_try_run):
-            unittest = _generate_unittest(generate_main=self.generate_main)
+        unittest = _generate_unittest()
+        self._write_to_file(unittest, self.output_dir)
+        if self._try_to_run_unittest(unittest):
             self._write_to_file(unittest, self.output_dir)
 
     def _choose_device(self, device) -> str:
-        assert self.framework in ["torch", "paddle"], f"{self.framework=}"
-        if self.framework == "torch":
-            import torch
+        import paddle
 
-            if device in ["cpu", "cuda"]:
-                return device
-            return "cuda" if torch.cuda.is_available() else "cpu"
-        elif self.framework == "paddle":
-            import paddle
-
-            if device in ["cpu", "gpu"]:
-                return device
-            return "gpu" if paddle.device.is_compiled_with_cuda() else "cpu"
+        if device in ["cpu", "gpu", "xpu"]:
+            return device
+        return "gpu" if paddle.device.is_compiled_with_cuda() else "cpu"
 
     def _make_data_input_predicator(
         self, data_input_predicator_filepath, data_input_predicator_class_name
@@ -309,16 +303,6 @@ class AgentUnittestGenerator:
             )
             return result.returncode == 0
 
-    def _is_parameter_type(self, annotation):
-        if self.framework == "torch":
-            import torch
-
-            return annotation is torch.nn.parameter.Parameter
-        elif self.framework == "paddle":
-            import paddle
-
-            return annotation is paddle.nn.parameter.Parameter
-
     def _get_input_and_weight_arg_names(self, graph_module):
         input_arg_names = []
         weight_arg_names = []
@@ -327,8 +311,7 @@ class AgentUnittestGenerator:
             if name == "self":
                 continue
             is_not_data_input = not self.data_input_predicator(self.model_path, name)
-            is_parameter_type = self._is_parameter_type(param.annotation)
-            if is_not_data_input or is_parameter_type:
+            if is_not_data_input:
                 weight_arg_names.append(name)
             else:
                 input_arg_names.append(name)
@@ -422,60 +405,5 @@ class AgentUnittestGenerator:
         return f"\n{indent}".join(dedented_stmts)
 
     def _render_template(self, graph_module_desc):
-        if self.framework == "torch":
-            template_str = TORCH_UNITTEST_TEMPLATE
-        elif self.framework == "paddle":
-            template_str = PADDLE_UNITTEST_TEMPLATE
+        template_str = PADDLE_UNITTEST_TEMPLATE
         return jinja2.Template(template_str).render(graph_module_desc=graph_module_desc)
-
-
-class AgentUnittestGeneratorPass(SamplePass, ResumableSamplePassMixin):
-    """SamplePass to generate unittests in KernelBench format."""
-
-    def __init__(self, config=None):
-        super().__init__(config)
-
-    def declare_config(
-        self,
-        framework: str,
-        model_path_prefix: str,
-        output_dir: str,
-        device: str = "auto",
-        generate_main: bool = False,
-        try_run: bool = False,
-        data_input_predicator_filepath: str = None,
-        data_input_predicator_class_name: str = None,
-        resume: bool = False,
-        limits_handled_models: int = None,
-    ):
-        pass
-
-    def __call__(self, rel_model_path: str):
-        self.resumable_handle_sample(rel_model_path)
-
-    def sample_handled(self, rel_model_path: str) -> bool:
-        output_name = self._get_output_name(rel_model_path)
-        return self.naive_sample_handled(rel_model_path, search_file_name=output_name)
-
-    def _get_output_name(self, rel_model_path: str):
-        return f"{Path(rel_model_path).name}_test.py"
-
-    def resume(self, rel_model_path: str):
-        model_path_prefix = Path(self.config["model_path_prefix"])
-        output_dir = Path(self.config["output_dir"])
-        generator = AgentUnittestGenerator(
-            framework=self.config["framework"],
-            model_path=str(model_path_prefix / rel_model_path),
-            output_name=self._get_output_name(rel_model_path),
-            output_dir=str(output_dir / rel_model_path),
-            device=self.config["device"],
-            generate_main=self.config["generate_main"],
-            try_run=self.config["try_run"],
-            data_input_predicator_filepath=self.config[
-                "data_input_predicator_filepath"
-            ],
-            data_input_predicator_class_name=self.config[
-                "data_input_predicator_class_name"
-            ],
-        )
-        generator.generate()

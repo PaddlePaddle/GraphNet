@@ -46,8 +46,6 @@
 # python3 -m graph_net.model_path_handler --model-path "timm/resnet18" --handler-config=$CONFIG_APPLY
 # python3 -m graph_net.model_path_handler --model-path "transformers-auto-model/opus-mt-en-gmw" --handler-config=$CONFIG_APPLY
 
-set -u
-
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(
 os.path.dirname(graph_net.__file__))")
 SAMPLES_ROOT="$GRAPH_NET_ROOT/../samples"
@@ -60,9 +58,7 @@ echo "Testing samples under: $TORCHVISION_ROOT"
 echo "Output dir: $OUTPUT_DIR"
 echo
 
-############################################
 # Step 1: Initialize dtype generalization passes
-############################################
 config_json_str_init=$(cat <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/torch/dtype_generalizer.py",
@@ -76,9 +72,7 @@ EOF
 )
 CONFIG_INIT=$(echo "$config_json_str_init" | base64 -w 0)
 
-############################################
 # Step 2: Apply passes
-############################################
 config_json_str_apply=$(cat <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/torch/dtype_generalizer.py",
@@ -97,9 +91,7 @@ EOF
 )
 CONFIG_APPLY=$(echo "$config_json_str_apply" | base64 -w 0)
 
-############################################
 # Collect all torchvision model paths
-############################################
 MODEL_LIST=()
 while IFS= read -r -d '' d; do
     rel_path="${d#$SAMPLES_ROOT/}"
@@ -113,9 +105,7 @@ FAIL=0
 echo "Found $TOTAL torchvision models"
 echo "----------------------------------------"
 
-############################################
 # Run dtype generalization
-############################################
 for model_path in "${MODEL_LIST[@]}"; do
     echo "[INIT ] $model_path"
     python3 -m graph_net.model_path_handler \
@@ -129,18 +119,16 @@ for model_path in "${MODEL_LIST[@]}"; do
         --handler-config="$CONFIG_APPLY" \
         >/dev/null 2>&1
     then
-        echo "  SUCCESS"
+        echo "SUCCESS"
         SUCCESS=$((SUCCESS + 1))
     else
-        echo "  FAIL"
+        echo "FAIL"
         FAIL=$((FAIL + 1))
     fi
     echo
 done
 
-############################################
 # Statistics
-############################################
 echo "========================================"
 echo "Torchvision dtype generalization summary"
 echo "----------------------------------------"
@@ -177,10 +165,10 @@ for model_path in "$SAMPLES_DIR"/*; do
         --model-path "$model_path" 2>&1)
 
     if echo "$output" | grep -q "Validation success, model_path="; then
-        echo "  SUCCESS"
+        echo "SUCCESS"
         SUCCESS=$((SUCCESS + 1))
     else
-        echo "  FAIL"
+        echo "FAIL"
         FAIL=$((FAIL + 1))
         echo "  ---- error output ----"
         echo "$output" | sed 's/^/  /'

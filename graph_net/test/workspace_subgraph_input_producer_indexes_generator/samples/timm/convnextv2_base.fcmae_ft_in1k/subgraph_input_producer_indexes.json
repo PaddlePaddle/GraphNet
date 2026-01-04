@@ -1,0 +1,36 @@
+{
+    "subgraph_input_producer_indexes": [
+        {
+            "range_start": 287,
+            "range_end": 297,
+            "input_producer_indexes": [
+                160,
+                161,
+                162,
+                163,
+                659,
+                665,
+                666,
+                668
+            ]
+        },
+        {
+            "range_start": 401,
+            "range_end": 411,
+            "input_producer_indexes": [
+                220,
+                221,
+                222,
+                223,
+                773,
+                779,
+                780,
+                782
+            ]
+        }
+    ],
+    "subgraph_relative_model_paths": [
+        "samples/timm/convnextv2_base.fcmae_ft_in1k/_decomposed/convnextv2_base.fcmae_ft_in1k_start287_end297_32",
+        "samples/timm/convnextv2_base.fcmae_ft_in1k/_decomposed/convnextv2_base.fcmae_ft_in1k_start401_end411_44"
+    ]
+}

@@ -2,6 +2,8 @@ import importlib.util as imp
 import inspect
 from dataclasses import dataclass
 import math
+import functools
+from pathlib import Path
 
 
 @dataclass
@@ -19,7 +21,7 @@ class TensorMeta:
     min_val: int | None
 
     @classmethod
-    def unserialize_from_py_file(cls, file_path) -> list["TensorMeta"]:
+    def unserialize_from_py_file(cls, file_path: str) -> list["TensorMeta"]:
         return [
             TensorMeta(
                 record_class_name=attrs.get("record_class_name"),
@@ -54,6 +56,24 @@ class TensorMeta:
         unnamed = imp.module_from_spec(spec)
         spec.loader.exec_module(unnamed)
         yield from inspect.getmembers(unnamed, inspect.isclass)
+
+    def update_shape_safely(self, shape):
+        self.shape = shape
+        if self.data is None:
+            return
+        assert isinstance(self.data, (list, tuple))
+        size = functools.reduce(lambda a, b: a * b, self.shape, 1)
+        extended_tensor_data = list(self.data)
+        while len(extended_tensor_data) < size:
+            extended_tensor_data.extend(extended_tensor_data)
+        self.data = extended_tensor_data[:size]
+
+    @classmethod
+    def save_tensor_metas(cls, file_path: str, tensor_metas: list):
+        py_code = "\n\n".join(
+            tensor_meta.serialize_to_py_str() for tensor_meta in tensor_metas
+        )
+        Path(file_path).write_text(py_code)
 
     def serialize_to_py_str(self) -> str:
         lines = [

@@ -18,7 +18,7 @@ class GroupRangesFromSubgraphSources(SamplePass):
         subgraph_sources_json_file_name: str = "subgraph_sources.json",
         output_json_file_name: str = "grouped_ranges_from_subgraph_sources.json",
         output_json_key: str = "grouped_ranges_from_subgraph_sources",
-        output_json_subgraph_rel_model_path_key: str = "subgraph_rel_model_paths",
+        output_json_subgraph_rel_model_path_key: str = "subgraph_relative_model_paths",
     ):
         pass
 

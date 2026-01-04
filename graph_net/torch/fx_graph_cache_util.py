@@ -2,13 +2,22 @@ import copy
 import os
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
+from torch.fx.passes.shape_prop import ShapeProp
 
 
 def parse_immutable_model_path_into_sole_graph_module(model_path, device=None):
     model_path = os.path.realpath(model_path)
     if model_path not in g_model_path2graph_module:
+        # module, inputs = get_torch_module_and_inputs(model_path, device=device)
+        # g_model_path2graph_module[model_path] = parse_sole_graph_module(module, inputs)
         module, inputs = get_torch_module_and_inputs(model_path, device=device)
-        g_model_path2graph_module[model_path] = parse_sole_graph_module(module, inputs)
+
+        gm = parse_sole_graph_module(module, inputs)
+
+        # ShapeProp
+        ShapeProp(gm).propagate(*inputs)
+
+        g_model_path2graph_module[model_path] = gm
     return copy.deepcopy(g_model_path2graph_module[model_path])
 
 

@@ -1,0 +1,2 @@
+samples/transformers-auto-model/hf-tiny-model-private_tiny-random-Swinv2ForImageClassification/_decomposed/hf-tiny-model-private_tiny-random-Swinv2ForImageClassification_1
+# samples/transformers-auto-model/hf-tiny-model-private_tiny-random-Swinv2ForImageClassification/_decomposed/hf-tiny-model-private_tiny-random-Swinv2ForImageClassification_0

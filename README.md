@@ -8,9 +8,10 @@
 <a href="https://github.com/user-attachments/assets/125e3494-25c9-4494-9acd-8ad65ca85d03"><img src="https://img.shields.io/badge/微信-green?logo=wechat&amp"></a>
 </div>
 
-**GraphNet** is a large-scale dataset of deep learning **computation graphs**, built as a standard benchmark for **tensor compiler** optimization. It provides over 2.7K computation graphs extracted from state-of-the-art deep learning models spanning diverse tasks and ML frameworks. With standardized formats and rich metadata, GraphNet enables fair comparison and reproducible evaluation of the general optimization capabilities of tensor compilers, thereby supporting advanced research such as AI for System on compilers.
+**GraphNet** is a large-scale dataset of deep learning **computation graphs**, built as a standard benchmark for **tensor compiler** optimization. It provides over 2.7K computation graphs extracted from state-of-the-art deep learning models spanning diverse tasks and ML frameworks. With standardized formats and rich metadata, GraphNet enables fair comparison and reproducible evaluation of the general optimization capabilities of tensor compilers, thereby supporting advanced research such as AI for System on Compilers.
 
 ## 📣 News
+- [2025-11-19] ✨ Keynote Speech at GTOC Forum 2025: [GraphNet Empowering the AI Software Stack]( https://b23.tv/PFzSKK1)
 - [2025-10-14] ✨ Our technical report is out: a detailed study of dataset construction and compiler benchmarking, introducing the novel performance metrics Speedup Score S(t) and Error-aware Speedup Score ES(t). [📘 GraphNet: A Large-Scale Computational Graph Dataset for Tensor Compiler Research](https://arxiv.org/abs/2510.24035)
 - [2025-8-20] 🚀 The second round of [open contribution tasks](https://github.com/PaddlePaddle/Paddle/issues/74773) was released. (completed ✅)
 - [2025-7-30] 🚀 The first round of [open contribution tasks](https://github.com/PaddlePaddle/GraphNet/issues/44) was released.  (completed ✅)
@@ -84,7 +85,7 @@ python -m graph_net.plot_violin \
   --output-dir $GRAPH_NET_BENCHMARK_PATH
 ```
 
-The scripts are designed to process a file structure as `/benchmark_path/category_name/`, and items on x-axis are identified by name of the sub-directories. After executing, several summary plots of result in categories (model tasks, libraries...) will be exported to `$GRAPH_NET_BENCHMARK_PATH`.
+The scripts are designed to process a file structure as `/benchmark_path/category_name/`, and items on the x-axis are identified by the name of the sub-directories. After executing, several summary plots of results in categories (model tasks, libraries...) will be exported to `$GRAPH_NET_BENCHMARK_PATH`.
 
 ### Hardware Regression Testing
 We also provide a two-step workflow that validates compiler correctness and performance against a "golden" reference, which is crucial for hardware-specific testing and regression tracking. Details can be found in this [guide](./docs/hardware_test.md).
@@ -105,7 +106,7 @@ Check out the [Construction Guide](./docs/README_contribute.md) for details on t
 
 ## GraphNet Community
 
-You can join our community via following group chats. Welcome to ask any questions about using and building GraphNet.
+You can join our community by following the group chats. Welcome to ask any questions about using and building GraphNet.
 
 <div align="center">
 <table>

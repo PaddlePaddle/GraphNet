@@ -178,8 +178,7 @@ class SplitAnalyzer:
                 inputs_seqs.append(seq)
                 valid_models.append((rel_model_path.name, rel_model_path))
 
-        if not inputs_seqs:
-            return {}
+        assert len(inputs_seqs) > 0
         rp_parser = RpExprParser(
             window_size=self.window_size,
             fold_policy=self.fold_policy,
@@ -325,6 +324,40 @@ def main(args):
     if args.subgraph_ranges_json:
         with open(args.subgraph_ranges_json, "w") as f:
             json.dump(subgraph_ranges_json, f, indent=4)
+    assert args.output_dir is not None
+    _save_subgraph_ranges_json_into_different_directorys(
+        subgraph_ranges_json,
+        output_dir=args.output_dir,
+        file_name=args.subgraph_ranges_file_name,
+        key_name=args.subgraph_ranges_key_name,
+    )
+
+
+def _save_subgraph_ranges_json_into_different_directorys(
+    subgraph_ranges_json: dict[str, dict],
+    output_dir: str,
+    file_name: str,
+    key_name: str,
+):
+    for filepath, json_obj in _get_model_subgraph_ranges(
+        subgraph_ranges_json, output_dir=output_dir, file_name=file_name
+    ):
+        json_obj = {key_name: json_obj}
+        with open(filepath, "w") as f:
+            json.dump(json_obj, f, indent=4)
+
+
+def _get_model_subgraph_ranges(
+    subgraph_ranges_json: dict[str, dict],
+    output_dir: str,
+    file_name: str,
+):
+    for rel_model_path, json_data in subgraph_ranges_json.items():
+        file_dir = Path(output_dir) / rel_model_path
+        file_dir.mkdir(parents=True, exist_ok=True)
+        filepath = file_dir / file_name
+        subgraph_ranges = json_data["subgraph_ranges"]
+        yield filepath, subgraph_ranges
 
 
 if __name__ == "__main__":
@@ -363,6 +396,24 @@ if __name__ == "__main__":
         type=int,
         default=0,
         help="How many times to fold tokens. If 0, then no folding is done.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default=None,
+        help="output directory",
+    )
+    parser.add_argument(
+        "--subgraph-ranges-file-name",
+        type=str,
+        default="subgraph_ranges.json",
+        help="Path to save the subgraph ranges in JSON format.",
+    )
+    parser.add_argument(
+        "--subgraph-ranges-key-name",
+        type=str,
+        default="subgraph_ranges",
+        help="key name in json dict",
     )
     parser.add_argument(
         "--subgraph-ranges-json",

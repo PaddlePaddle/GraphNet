@@ -1,0 +1,21 @@
+{
+    "grouped_ranges_from_subgraph_sources": [
+        [
+            33,
+            38
+        ],
+        [
+            55,
+            60
+        ],
+        [
+            60,
+            64
+        ]
+    ],
+    "subgraph_rel_model_paths": [
+        "samples/timm/mobilenetv4_conv_aa_large.e230_r384_in12k/_decomposed/mobilenetv4_conv_aa_large.e230_r384_in12k_start33_end38_6",
+        "samples/timm/mobilenetv4_conv_aa_large.e230_r384_in12k/_decomposed/mobilenetv4_conv_aa_large.e230_r384_in12k_start55_end60_10",
+        "samples/timm/mobilenetv4_conv_aa_large.e230_r384_in12k/_decomposed/mobilenetv4_conv_aa_large.e230_r384_in12k_start60_end64_11"
+    ]
+}

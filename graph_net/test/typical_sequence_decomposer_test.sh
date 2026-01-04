@@ -69,7 +69,7 @@ python3 -m graph_net.model_path_handler \
     --model-path-list $device_rewrite_sample_list \
     --handler-config $(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_passes/device_rewrite_sample_pass.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/device_rewrite_sample_pass.py",
     "handler_class_name": "DeviceRewriteSamplePass",
     "handler_config": {
         "device": "cuda",

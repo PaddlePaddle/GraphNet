@@ -16,6 +16,7 @@
     "heuristic_tag": "audio",
     "dimension_generalization_passes": [
         "batch_call_method_view_pass",
+        "batch_call_method_zeros_pass",
         "tuple_arg_call_method_view_pass",
         "naive_call_method_reshape_pass",
         "naive_call_method_expand_pass",

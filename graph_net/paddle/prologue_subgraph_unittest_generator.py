@@ -247,7 +247,7 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
             np.testing.assert_allclose(_convert_to_numpy(reference), _convert_to_numpy(target), atol, rtol)
 
     def test_main(self):
-        prologue_output_path = os.path.join(self.reference_dir, "prologue.pdout")
+        prologue_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_prologue.pdout")
         if self.is_reference:
             prologue_outputs = self.run_prologue_model()
             print(f"Save prologue output tensors to {prologue_output_path}.")
@@ -256,7 +256,7 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
             print(f"Load prologue output tensors from {prologue_output_path}")
             prologue_outputs = paddle.load(prologue_output_path)
         
-        test_output_path = os.path.join(self.reference_dir, "test_reference.pdout")
+        test_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_test_reference.pdout")
         test_outputs = self.run_test_model(prologue_outputs)
         if self.is_reference:
             print(f"Save test output tensors to {test_output_path}.")
@@ -285,6 +285,7 @@ if __name__ == "__main__":
 GraphModuleDescriptor = namedtuple(
     "GraphModuleDescriptor",
     [
+        "model_name",
         "test_name",
         "tensor_metas",
         "prologue_arg_names",
@@ -412,6 +413,7 @@ class PrologueSubgraphUnittestGenerator:
 
         def _generate_unittest():
             graph_module_desc = GraphModuleDescriptor(
+                model_name=self.model_name,
                 test_name=test_name,
                 tensor_metas=tensor_metas,
                 prologue_arg_names=prologue_arg_names,
@@ -503,11 +505,10 @@ class PrologueSubgraphUnittestGenerator:
         return_node_values = [
             node.value for node in ast.walk(func_def) if isinstance(node, ast.Return)
         ]
-        return_codes = [
-            ast.unparse(value) if value is not None else "None"
-            for value in return_node_values
-        ]
-        return forward_func, return_codes
+        assert len(return_node_values) == 1 and return_node_values[0] is not None
+        return_code = ast.unparse(return_node_values[0])
+        return_names = [name.strip() for name in return_code.strip("()").split(",")]
+        return forward_func, return_names
 
     def _render_template(self, graph_module_desc):
         template_str = PADDLE_UNITTEST_TEMPLATE

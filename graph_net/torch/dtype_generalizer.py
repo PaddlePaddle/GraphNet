@@ -35,6 +35,8 @@ from graph_net.torch.dtype_gen_passes.pass_mgr import get_dtype_generalization_p
 from graph_net.torch import utils
 from graph_net.imp_util import load_module
 
+from torch.fx.passes.shape_prop import ShapeProp
+from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
 
 # Weights that must remain float32 for numerical stability
 FLOAT32_PRESERVED_WEIGHTS = {
@@ -113,6 +115,9 @@ class InitDataTypeGeneralizationPasses:
             List of pass names that work (pass file names without .py extension)
         """
         working_passes = []
+        
+        _, inputs = get_torch_module_and_inputs(model_path)
+        ShapeProp(traced_model).propagate(inputs)
 
         for dtype in self.dtype_list:
             # Pass name directly corresponds to file name (without .py)

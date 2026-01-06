@@ -7,14 +7,14 @@ DECOMPOSE_PATH=/tmp/decompose_workspace
 
 mkdir -p "$DECOMPOSE_PATH"
 
-# model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt"
+#model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt"
 model_list="$GRAPH_NET_ROOT/graph_net/test/dev_model_list/validation_error_model_list.txt"
 
 python3 -m graph_net.model_path_handler \
     --model-path-list $model_list \
     --handler-config=$(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/typical_sequence_split_points.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/op_names_extrator.py",
     "handler_class_name": "OpNamesExtractor",
     "handler_config": {
         "resume": true,
@@ -24,6 +24,7 @@ python3 -m graph_net.model_path_handler \
 }
 EOF
 )
+
 
 python3 -m graph_net.torch.typical_sequence_split_points \
     --enable-resume \

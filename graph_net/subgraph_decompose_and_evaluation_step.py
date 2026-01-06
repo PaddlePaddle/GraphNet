@@ -418,6 +418,81 @@ def run_evaluation(
     ), f"[ERROR] test failed for {work_dir}, please check the log."
 
 
+def generate_unittest_for_single_model(
+    framework, model_name, model_path, subgraph_range, tolerance, output_dir, log_path
+):
+    graphnet_root = path_utils.get_graphnet_root()
+    decorator_config = {
+        "decorator_path": f"{graphnet_root}/graph_net/paddle/extractor.py",
+        "decorator_config": {
+            "name": model_name,
+            "custom_extractor_path": f"{graphnet_root}/graph_net/paddle/prologue_subgraph_unittest_generator.py",
+            "custom_extractor_config": {
+                "output_dir": output_dir,
+                "subgraph_range": subgraph_range,
+                "device": "auto",
+                "tolerance": tolerance,
+                "try_run": True,
+            },
+        },
+    }
+
+    decorator_config_b64 = convert_json_to_b64_string(decorator_config)
+
+    print(
+        f"[Unittest] model_path: {model_path}, subgraph_range: {subgraph_range}",
+        flush=True,
+    )
+    cmd = [
+        sys.executable,
+        "-m",
+        f"graph_net.{framework}.run_model",
+        "--model-path",
+        model_path,
+        "--decorator-config",
+        decorator_config_b64,
+    ]
+    with open(log_path, "a") as f:
+        result = subprocess.run(cmd, stdout=f, stderr=f, text=True)
+    assert result.returncode == 0
+
+
+def generate_unittest(decompose_config, pass_id, output_dir):
+    running_state = decompose_config.get_running_state(pass_id)
+
+    unittest_dir = os.path.join(output_dir, "unittests")
+    log_path = os.path.join(output_dir, "log_unittest_generation.txt")
+    print(f"[Unittest] log_path: {log_path}", flush=True)
+    for model_name, model_record in running_state.model_name2record.items():
+        if not model_record.incorrect_subgraph_idxs:
+            continue
+
+        original_path = model_record.original_path
+        subgraph_idx = model_record.incorrect_subgraph_idxs[0]
+        if decompose_config.decompose_method == "fixed-start":
+            subgraph_range = [0, model_record.uniform_split_positions[subgraph_idx + 1]]
+        else:
+            subgraph_range = [
+                model_record.uniform_split_positions[subgraph_idx],
+                model_record.uniform_split_positions[subgraph_idx + 1],
+            ]
+
+        rectified_model_path = get_rectfied_model_path(original_path)
+        assert os.path.exists(
+            rectified_model_path
+        ), f"{rectified_model_path} does not exist."
+
+        generate_unittest_for_single_model(
+            decompose_config.framework,
+            model_name,
+            rectified_model_path,
+            subgraph_range,
+            decompose_config.tolerance[0],
+            unittest_dir,
+            log_path,
+        )
+
+
 def reconstruct_split_positions_for_subgraphs(
     split_positions, subgraph_idxs, max_subgraph_size
 ):
@@ -496,6 +571,8 @@ def generate_successor_tasks(args, output_dir, pass_id):
         max_subgraph_size=max_subgraph_size,
         running_states=prev_config.running_states,
     )
+    if max_subgraph_size <= 0:
+        return decompose_config
 
     prev_running_state = prev_config.get_running_state(pass_id - 1)
     assert prev_running_state is not None
@@ -538,14 +615,17 @@ def prepare_tasks_and_verify(args, pass_id, output_dir):
     print_incorrect_models(decompose_config, pass_id - 1, log_prompt="[Init]")
 
     if not decompose_config.get_incorrect_models(pass_id - 1):
-        print("[FINISHED] No models need processing.", flush=True)
+        print(
+            f"\n[Conclusion] No incorrect models after {pass_id - 1} steps.", flush=True
+        )
         sys.exit(0)
 
     if decompose_config.max_subgraph_size <= 0:
         print(
-            f"[FINISHED] Cannot decompose with max_subgraph_size {decompose_config.max_subgraph_size}.",
+            f"\n[Conclusion] Decomposition has reached the minimal granularity (max_subgraph_size = 1) after {pass_id - 1} steps.",
             flush=True,
         )
+        generate_unittest(decompose_config, pass_id - 1, output_dir)
         sys.exit(0)
 
     return decompose_config
@@ -648,15 +728,14 @@ def print_summary_and_suggestion(decompose_config, pass_id):
             flush=True,
         )
         print(
-            ">>> Please start next round decomposition test (Run this script again).",
+            ">>> Please start next decomposition step (Run this script again).",
             flush=True,
         )
-    elif num_incorrect_models > 0 and decompose_config.max_subgraph_size <= 1:
+    elif decompose_config.max_subgraph_size <= 1:
         print(
-            ">>> [FAILURE] Minimal granularity reached, but errors persist.", flush=True
+            ">>> [Conclusion] Decomposition has reached the minimal granularity (max_subgraph_size = 1) after {pass_id - 1} steps.",
+            flush=True,
         )
-    else:
-        print(">>> [SUCCESS] Debugging converged.", flush=True)
     print("=" * 80, flush=True)
 
 
@@ -693,9 +772,7 @@ def main(args):
 
     # --- Step 4: Analysis ---
     if task_controller.task_scheduler["post_analysis"]:
-        tolerance = (
-            args.tolerance[0] if isinstance(args.tolerance, list) else args.tolerance
-        )
+        tolerance = args.tolerance[0]
         print(f"\n--- Phase 3: Analysis (torlance={tolerance}) ---")
         next_pass_incorrect_models = sorted(get_incorrect_models(tolerance, log_path))
         decompose_config.update_running_state_with_incorrect_models(

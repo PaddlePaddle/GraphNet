@@ -38,6 +38,7 @@ class GraphExtractor:
         self,
         subgraph_range: list,
         device: Literal["auto", "cpu", "cuda", "xpu"] = "auto",
+        tolerance: int = 0,
         try_run: bool = False,
         output_dir: str = "/tmp/prologue_unittests",
     ):
@@ -49,6 +50,7 @@ class GraphExtractor:
         return {
             "subgraph_range": subgraph_range,
             "device": device,
+            "tolerance": tolerance,
             "try_run": try_run,
             "output_dir": output_dir,
         }
@@ -116,12 +118,24 @@ def init_float_tensor(shape, dtype, device, min_val, max_val, mean=None, std=Non
     return paddle.to_tensor(array).to(dtype).to(device)
 
 
-class PrologueModel(paddle.nn.Layer):
+class PrologueLayer(paddle.nn.Layer):
 {{graph_module_desc.prologue_forward_func}}
 
 
+class SuspectLayer(paddle.nn.Layer):
+{{graph_module_desc.suspect_forward_func}}
+
+
 class TestModel(paddle.nn.Layer):
-{{graph_module_desc.test_forward_func}}
+    def __init__(self):
+        super().__init__()
+        self.prologue_layer = PrologueLayer()
+        self.suspect_layer = SuspectLayer()
+
+    def forward(self, {{graph_module_desc.arg_names | join(", ")}}):
+        {{graph_module_desc.prologue_returns | join(", ")}} = self.prologue_layer({{graph_module_desc.prologue_arg_names | join(", ")}})
+        {{graph_module_desc.suspect_returns | join(", ")}} = self.suspect_layer({{graph_module_desc.suspect_arg_names | join(", ")}})
+        return ({{graph_module_desc.suspect_returns | join(", ")}},)
 
 
 def get_input_dict(device):
@@ -151,14 +165,13 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
         self.device = TEST_ARGS.device
         self.is_reference = TEST_ARGS.is_reference
         self.reference_dir = TEST_ARGS.reference_dir
-        self.tolerance = TEST_ARGS.tolerance
+        self.tolerance = {{graph_module_desc.tolerance}}
 
         paddle.seed(123)
         random.seed(123)
         np.random.seed(123)
 
         self.input_dict = get_input_dict(self.device)
-        self.prologue_model = PrologueModel()
         self.test_model = TestModel()
 
     def _flatten_outputs_to_list(self, outs):
@@ -173,18 +186,18 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
             ]
         return flattened_outs
 
-    def run_prologue_model(self):
+    def run_prologue_layer(self):
         prologue_inputs = [
             {%- for arg_name in graph_module_desc.prologue_arg_names %}
             self.input_dict['{{arg_name}}'],
             {%- endfor %}
         ]
-        prologue_outputs = self.prologue_model(*prologue_inputs)
+        prologue_outputs = self.test_model.prologue_layer(*prologue_inputs)
         return self._flatten_outputs_to_list(prologue_outputs)
 
-    def run_test_model(self, prologue_outputs):
-        test_inputs = [
-        {%- for arg_name in graph_module_desc.test_arg_names %}
+    def run_suspect_layer(self, prologue_outputs):
+        suspect_inputs = [
+        {%- for arg_name in graph_module_desc.suspect_arg_names %}
             {%- if arg_name not in graph_module_desc.prologue_returns %}
             self.input_dict['{{arg_name}}'],
             {%- else %}
@@ -196,7 +209,11 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
             {%- endif %}
         {%- endfor %}
         ]
-        test_outputs = self.test_model(*test_inputs)
+        suspect_outputs = self.test_model.suspect_layer(*suspect_inputs)
+        return self._flatten_outputs_to_list(suspect_outputs)
+
+    def run_test_model(self):
+        test_outputs = self.test_model(**self.input_dict)
         return self._flatten_outputs_to_list(test_outputs)
 
     def check_dtypes(self, reference_outputs, target_outputs):
@@ -246,18 +263,29 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
             atol, rtol = tolerance_generator(self.tolerance, reference.dtype)
             np.testing.assert_allclose(_convert_to_numpy(reference), _convert_to_numpy(target), atol, rtol)
 
-    def test_main(self):
-        prologue_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_prologue.pdout")
+    def test_separated(self):
+        prologue_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_separate_prologue.pdout")
         if self.is_reference:
-            prologue_outputs = self.run_prologue_model()
+            prologue_outputs = self.run_prologue_layer()
             print(f"Save prologue output tensors to {prologue_output_path}.")
             paddle.save(prologue_outputs, prologue_output_path)
         else:
             print(f"Load prologue output tensors from {prologue_output_path}")
             prologue_outputs = paddle.load(prologue_output_path)
         
-        test_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_test_reference.pdout")
-        test_outputs = self.run_test_model(prologue_outputs)
+        test_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_separate_reference.pdout")
+        test_outputs = self.run_suspect_layer(prologue_outputs)
+        if self.is_reference:
+            print(f"Save test output tensors to {test_output_path}.")
+            paddle.save(test_outputs, test_output_path)
+        else:
+            print(f"Load test output tensors on reference device from {test_output_path}.")
+            test_reference_outputs = paddle.load(test_output_path)
+            self.check_results(test_reference_outputs, test_outputs)
+
+    def test_combined(self):
+        test_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_combined_reference.pdout")
+        test_outputs = self.run_test_model()
         if self.is_reference:
             print(f"Save test output tensors to {test_output_path}.")
             paddle.save(test_outputs, test_output_path)
@@ -272,7 +300,6 @@ if __name__ == "__main__":
     parser.add_argument("--is-reference", action="store_true", default=False)
     parser.add_argument("--device", type=str, required=True)
     parser.add_argument("--reference-dir", type=str, required=True)
-    parser.add_argument("--tolerance", type=int, choices=range(-10, 5), default=0)
     args, remaining = parser.parse_known_args()
 
     global TEST_ARGS
@@ -287,12 +314,15 @@ GraphModuleDescriptor = namedtuple(
     [
         "model_name",
         "test_name",
+        "tolerance",
+        "arg_names",
         "tensor_metas",
         "prologue_arg_names",
         "prologue_returns",
         "prologue_forward_func",
-        "test_arg_names",
-        "test_forward_func",
+        "suspect_arg_names",
+        "suspect_returns",
+        "suspect_forward_func",
     ],
 )
 
@@ -325,6 +355,7 @@ class PrologueSubgraphUnittestGenerator:
         )
         self.subgraph_range = self.config["subgraph_range"]
         self.device = self._choose_device(self.config["device"])
+        self.tolerance = self.config["tolerance"]
         self.try_run = self.config["try_run"]
         self.output_dir = self.config["output_dir"]
         self.graph_meta_restorer = self._make_graph_meta_restorer()
@@ -390,6 +421,7 @@ class PrologueSubgraphUnittestGenerator:
         graph_module, output_path = self._save_and_get_graph_module(
             subgraph_generator, self.subgraph_range, tmp_dir
         )
+        arg_names = self._get_forward_arg_names(graph_module)
         self.graph_meta_restorer(output_path)
         tensor_metas = self._get_tensor_metas(output_path)
 
@@ -403,24 +435,29 @@ class PrologueSubgraphUnittestGenerator:
         )
         prologue_arg_names = self._get_forward_arg_names(prologue_graph_module)
 
-        # test model information
-        test_subgraph_range = [self.subgraph_range[1] - 1, self.subgraph_range[1]]
-        test_graph_module, _ = self._save_and_get_graph_module(
-            subgraph_generator, test_subgraph_range, tmp_dir
+        # suspect model information
+        suspect_subgraph_range = [self.subgraph_range[1] - 1, self.subgraph_range[1]]
+        suspect_graph_module, _ = self._save_and_get_graph_module(
+            subgraph_generator, suspect_subgraph_range, tmp_dir
         )
-        test_forward_func, _ = self._get_forward_func_and_returns(test_graph_module)
-        test_arg_names = self._get_forward_arg_names(test_graph_module)
+        suspect_forward_func, suspect_returns = self._get_forward_func_and_returns(
+            suspect_graph_module
+        )
+        suspect_arg_names = self._get_forward_arg_names(suspect_graph_module)
 
         def _generate_unittest():
             graph_module_desc = GraphModuleDescriptor(
                 model_name=self.model_name,
                 test_name=test_name,
+                tolerance=self.tolerance,
+                arg_names=arg_names,
                 tensor_metas=tensor_metas,
                 prologue_arg_names=prologue_arg_names,
                 prologue_returns=prologue_returns,
                 prologue_forward_func=prologue_forward_func,
-                test_arg_names=test_arg_names,
-                test_forward_func=test_forward_func,
+                suspect_arg_names=suspect_arg_names,
+                suspect_returns=suspect_returns,
+                suspect_forward_func=suspect_forward_func,
             )
             return self._render_template(graph_module_desc)
 

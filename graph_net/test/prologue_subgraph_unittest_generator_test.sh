@@ -13,6 +13,7 @@ decorator_config_json_str=$(cat <<EOF
             "output_dir": "/tmp/prologue_unittests",
             "subgraph_range": [0, 6],
             "device": "auto",
+            "tolerance": 0,
             "try_run": true
         }
     }

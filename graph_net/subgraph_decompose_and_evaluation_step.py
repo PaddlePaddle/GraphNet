@@ -419,7 +419,7 @@ def run_evaluation(
 
 
 def generate_unittest_for_single_model(
-    framework, model_name, model_path, subgraph_range, output_dir, log_path
+    framework, model_name, model_path, subgraph_range, tolerance, output_dir, log_path
 ):
     graphnet_root = path_utils.get_graphnet_root()
     decorator_config = {
@@ -431,6 +431,7 @@ def generate_unittest_for_single_model(
                 "output_dir": output_dir,
                 "subgraph_range": subgraph_range,
                 "device": "auto",
+                "tolerance": tolerance,
                 "try_run": True,
             },
         },
@@ -486,6 +487,7 @@ def generate_unittest(decompose_config, pass_id, output_dir):
             model_name,
             rectified_model_path,
             subgraph_range,
+            decompose_config.tolerance[0],
             unittest_dir,
             log_path,
         )
@@ -770,9 +772,7 @@ def main(args):
 
     # --- Step 4: Analysis ---
     if task_controller.task_scheduler["post_analysis"]:
-        tolerance = (
-            args.tolerance[0] if isinstance(args.tolerance, list) else args.tolerance
-        )
+        tolerance = args.tolerance[0]
         print(f"\n--- Phase 3: Analysis (torlance={tolerance}) ---")
         next_pass_incorrect_models = sorted(get_incorrect_models(tolerance, log_path))
         decompose_config.update_running_state_with_incorrect_models(

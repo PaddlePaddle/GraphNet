@@ -135,13 +135,13 @@ def get_input_dict(device):
 
 def tolerance_generator(tolerance, dtype):
     if dtype == paddle.float16:
-        yield 10 ** (tolerance * 3 / 5), 10**tolerance
+        return 10 ** (tolerance * 3 / 5), 10**tolerance
     elif dtype == paddle.bfloat16:
-        yield 10 ** (tolerance * 1.796 / 5), 10**tolerance
+        return 10 ** (tolerance * 1.796 / 5), 10**tolerance
     elif dtype == paddle.float32:
-        yield 10 ** (tolerance * 5.886 / 5), 10**tolerance
+        return 10 ** (tolerance * 5.886 / 5), 10**tolerance
     elif dtype == paddle.float64:
-        yield 10 ** (tolerance * 7 / 5), 10 ** (tolerance * 7 / 5)
+        return 10 ** (tolerance * 7 / 5), 10 ** (tolerance * 7 / 5)
     else:
         assert False, f"Unsupported {dtype=}."
 
@@ -217,7 +217,7 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
         self.assertTrue(dtype_match, f"Data type of outputs are not matched ({reference_dtypes=} vs {target_dtypes}).")
 
     def check_shapes(self, reference_outputs, target_outputs):
-        def _get_output_shapes(self, outs):
+        def _get_output_shapes(outs):
             shapes = [
                 tensor.shape if isinstance(tensor, paddle.Tensor) else None
                 for i, tensor in enumerate(outs)
@@ -263,7 +263,7 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
             paddle.save(test_outputs, test_output_path)
         else:
             print(f"Load test output tensors on reference device from {test_output_path}.")
-            test_reference_outputs = paddle.load(test_reference_outputs)
+            test_reference_outputs = paddle.load(test_output_path)
             self.check_results(test_reference_outputs, test_outputs)
 
 

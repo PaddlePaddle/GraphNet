@@ -15,7 +15,7 @@ python3 -m graph_net.model_path_handler \
     "handler_path": "$GRAPH_NET_ROOT/constraint_util.py",
     "handler_class_name": "UpdateInputTensorConstraints",
     "handler_config": {
-        "resume": true,
+        "resume": false,
         "model_path_prefix": "$GRAPH_NET_ROOT/../",
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
         "data_input_predicator_class_name": "NaiveDataInputPredicator",
@@ -30,6 +30,7 @@ python3 -m graph_net.model_path_handler \
                 "naive_call_method_reshape_pass",
                 "naive_call_method_expand_pass",
                 "non_batch_call_method_expand_pass",
+                "non_batch_call_method_view_pass",
                 "non_batch_call_function_arange_pass",
                 "non_batch_call_function_getitem_slice_pass",
                 "non_batch_call_function_full_pass",

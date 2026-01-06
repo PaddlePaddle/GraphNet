@@ -26,7 +26,6 @@ python3 -m graph_net.model_path_handler \
         "dimension_generalizer_config": {
             "pass_names": [
                 "batch_call_method_view_pass",
-                "batch_call_method_zeros_pass",
                 "tuple_arg_call_method_view_pass",
                 "naive_call_method_reshape_pass",
                 "naive_call_method_expand_pass",

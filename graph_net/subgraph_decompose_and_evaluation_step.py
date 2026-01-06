@@ -625,7 +625,6 @@ def execute_decomposition_phase(decompose_config, pass_id, workspace):
 
 def print_incorrect_models(decompose_config, pass_id, log_prompt):
     incorrect_models = decompose_config.get_incorrect_models(pass_id)
-    print(f"{pass_id}: {len(incorrect_models)} models are incorrect.")
     if pass_id == -1:
         original_model_paths = set(incorrect_models)
     else:

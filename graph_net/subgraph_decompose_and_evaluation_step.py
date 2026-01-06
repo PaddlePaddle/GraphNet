@@ -53,8 +53,17 @@ def get_ranged_incorrect_models(tolerance_args: List[int], log_path: str) -> set
 def extract_model_name_and_subgraph_idx(subgraph_path):
     # Parse model name and subgraph index
     model_name_with_subgraph_idx = subgraph_path.rstrip("/").split(os.sep)[-1]
-    model_name = "_".join(model_name_with_subgraph_idx.split("_")[:-1])
-    subgraph_idx = int(model_name_with_subgraph_idx.split("_")[-1])
+    parts = model_name_with_subgraph_idx.split("_")
+
+    try:
+        # Try to parse the last part as subgraph index
+        subgraph_idx = int(parts[-1])
+        model_name = "_".join(parts[:-1])
+    except ValueError:
+        # If last part is not a number, treat as model name without subgraph index
+        model_name = model_name_with_subgraph_idx
+        subgraph_idx = 0
+
     return model_name, subgraph_idx
 
 

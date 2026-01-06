@@ -20,8 +20,8 @@ EOF
 )
 CONFIG_INIT=$(echo "$config_json_str_init" | base64 -w 0)
 
-python3 -m pdb -m graph_net.model_path_handler --model-path "timm/resnet18" --handler-config=$CONFIG_INIT
-# python3 -m graph_net.model_path_handler --model-path "timm/resnet18" --handler-config=$CONFIG_INIT
+# python3 -m pdb -m graph_net.model_path_handler --model-path "timm/resnet18" --handler-config=$CONFIG_INIT
+python3 -m graph_net.model_path_handler --model-path "timm/resnet18" --handler-config=$CONFIG_INIT
 # python3 -m graph_net.model_path_handler --model-path "transformers-auto-model/opus-mt-en-gmw" --handler-config=$CONFIG_INIT
 
 # # Step 2: Apply passes to generate samples

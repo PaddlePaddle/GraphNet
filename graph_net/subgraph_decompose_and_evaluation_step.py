@@ -53,17 +53,8 @@ def get_ranged_incorrect_models(tolerance_args: List[int], log_path: str) -> set
 def extract_model_name_and_subgraph_idx(subgraph_path):
     # Parse model name and subgraph index
     model_name_with_subgraph_idx = subgraph_path.rstrip("/").split(os.sep)[-1]
-    parts = model_name_with_subgraph_idx.split("_")
-
-    try:
-        # Try to parse the last part as subgraph index
-        subgraph_idx = int(parts[-1])
-        model_name = "_".join(parts[:-1])
-    except ValueError:
-        # If last part is not a number, treat as model name without subgraph index
-        model_name = model_name_with_subgraph_idx
-        subgraph_idx = 0
-
+    model_name = "_".join(model_name_with_subgraph_idx.split("_")[:-1])
+    subgraph_idx = int(model_name_with_subgraph_idx.split("_")[-1])
     return model_name, subgraph_idx
 
 
@@ -634,11 +625,15 @@ def execute_decomposition_phase(decompose_config, pass_id, workspace):
 
 def print_incorrect_models(decompose_config, pass_id, log_prompt):
     incorrect_models = decompose_config.get_incorrect_models(pass_id)
-    original_model_paths = set(
-        model_name
-        for subgraph_path in incorrect_models
-        for model_name, _ in [extract_model_name_and_subgraph_idx(subgraph_path)]
-    )
+    print(f"{pass_id}: {len(incorrect_models)} models are incorrect.")
+    if pass_id == -1:
+        original_model_paths = set(incorrect_models)
+    else:
+        original_model_paths = set(
+            model_name
+            for subgraph_path in incorrect_models
+            for model_name, _ in [extract_model_name_and_subgraph_idx(subgraph_path)]
+        )
 
     print(
         f"{log_prompt} number of incorrect subgraphs: {len(incorrect_models)}; number of incorrect original models: {len(original_model_paths)}",

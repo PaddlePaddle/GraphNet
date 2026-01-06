@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package sample_remote_executor;
+
+message CompressedData {
+    string filename = 1;
+    uint32 original_size = 2; // Helpful for allocating buffers during decompression
+    bytes payload = 3;        // This holds the actual zipped data
+    string compression_algo = 4; // e.g., "gzip", "zlib", "lz4"
+}
+
+message RpcData {
+    oneof rpc_data_type {
+        CompressedData compressed_data = 1;
+        string str_data = 2; 
+    }
+}
+
+message ExecutionRequest {
+    string rpc_cmd = 1;
+    RpcData rpc_input = 2;
+    optional string output_file_name = 3;
+}
+
+message ExecutionReply {
+    int64 ret_code = 1;
+    string stdout = 2;
+    string stderr = 3;
+    RpcData rpc_output = 4;
+}
+
+service SampleRemoteExecutor {
+  rpc Execute (ExecutionRequest) returns (ExecutionReply);
+}
+
+// python3 -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. message.proto

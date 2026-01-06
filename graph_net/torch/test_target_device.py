@@ -1,12 +1,6 @@
 import argparse
-import importlib.util
-import time
-import numpy as np
-import random
 import os
-from pathlib import Path
 import json
-import re
 import sys
 import traceback
 
@@ -70,6 +64,10 @@ def test_single_model(args):
     model = test_compiler.get_model(args)
     model.eval()
 
+    model_path = os.path.normpath(args.model_path)
+    test_compiler_util.print_with_log_prompt(
+        "[Processing]", model_path, args.log_prompt
+    )
     test_compiler_util.print_basic_config(
         args,
         test_compiler.get_hardward_name(args),
@@ -80,7 +78,10 @@ def test_single_model(args):
     time_stats = {}
     try:
         compiled_model = compiler(model)
-        model_call = lambda: compiled_model(**input_dict)
+
+        def model_call():
+            return compiled_model(**input_dict)
+
         outputs, time_stats = test_compiler.measure_performance(
             model_call, args, compiler
         )
@@ -227,6 +228,13 @@ if __name__ == "__main__":
         required=False,
         default=None,
         help="Path to samples list, each line contains a sample path",
+    )
+    parser.add_argument(
+        "--config",
+        type=str,
+        required=False,
+        default=None,
+        help="Path to compiler configuration file or a JSON string",
     )
     args = parser.parse_args()
     main(args=args)

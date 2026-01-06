@@ -1,14 +1,9 @@
 import argparse
-import importlib.util
 import torch
-import time
-import numpy as np
-import random
 import os
 from pathlib import Path
 from contextlib import redirect_stdout, redirect_stderr
 import json
-import re
 import sys
 import traceback
 
@@ -68,7 +63,10 @@ def test_single_model(args):
             time_stats = {}
             try:
                 compiled_model = compiler(model)
-                model_call = lambda: compiled_model(**input_dict)
+
+                def model_call():
+                    return compiled_model(**input_dict)
+
                 outputs, time_stats = test_compiler.measure_performance(
                     model_call, args, compiler
                 )
@@ -217,6 +215,13 @@ if __name__ == "__main__":
         type=str,
         required=True,
         help="Directory to save reference stats log and outputs",
+    )
+    parser.add_argument(
+        "--config",
+        type=str,
+        required=False,
+        default=None,
+        help="Path to compiler configuration file or a JSON string",
     )
     args = parser.parse_args()
     main(args=args)

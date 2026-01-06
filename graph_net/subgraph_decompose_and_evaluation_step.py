@@ -44,7 +44,8 @@ def get_ranged_incorrect_models(tolerance_args: List[int], log_path: str) -> set
     models_end = set(get_incorrect_models(t_end, log_path))
 
     print(
-        f"[Init] number of incorrect models: {len(models_start)} (tolerance={t_start}) - {len(models_end)} (tolerance={t_end})"
+        f"[Init] number of incorrect models: {len(models_start)} (tolerance={t_start}) - {len(models_end)} (tolerance={t_end})",
+        flush=True,
     )
     return models_start - models_end
 
@@ -126,7 +127,7 @@ class ModelRecord:
     original_path: str
     uniform_split_positions: List[int] = field(default_factory=list)
     subgraph_paths: List[str] = field(default_factory=list)
-    incorrect_subgraph_idxs: List[int] = field(default_factory=list)
+    incorrect_subgraph_idxs: List[int] = None
 
     def get_split_positions(self, decompose_method):
         if decompose_method == "fixed-start":
@@ -163,14 +164,15 @@ class RunningState:
 
         incorrect_models = []
         for model_name, model_record in self.model_name2record.items():
-            for subgraph_path in model_record.subgraph_paths:
-                (
-                    extracted_model_name,
-                    subgraph_idx,
-                ) = extract_model_name_and_subgraph_idx(subgraph_path)
-                assert extracted_model_name == model_name
-                if subgraph_idx in model_record.incorrect_subgraph_idxs:
-                    incorrect_models.append(subgraph_path)
+            assert model_record.subgraph_paths
+            model_path_prefix = os.path.dirname(model_record.subgraph_paths[0])
+            for subgraph_idx in model_record.incorrect_subgraph_idxs:
+                subgraph_path = os.path.join(
+                    model_path_prefix, f"{model_name}_{subgraph_idx}"
+                )
+                if subgraph_idx == 0:
+                    assert subgraph_path in model_record.subgraph_paths
+                incorrect_models.append(subgraph_path)
         return incorrect_models
 
     def collect_decomposed_subgraphs(self, decomposed_samples_dir):
@@ -232,7 +234,7 @@ class DecomposeConfig:
 
         with open(config_path, "w") as f:
             json.dump(asdict(self), f, indent=4)
-        print(f"\n[INFO] Save state to: {config_path}")
+        print(f"\n[INFO] Save state to: {config_path}", flush=True)
 
     @classmethod
     def load(cls, work_dir):
@@ -327,10 +329,23 @@ def run_decomposer_for_single_model(
             },
         },
     }
+    if framework == "paddle":
+        post_process_configs = {
+            "post_extract_process_path": f"{graphnet_root}/graph_net/{framework}/graph_meta_restorer.py",
+            "post_extract_process_class_name": "GraphMetaRestorer",
+            "post_extract_process_config": {
+                "update_inplace": True,
+                "input_meta_allow_partial_update": False,
+            },
+        }
+        for key, value in post_process_configs.items():
+            decorator_config["decorator_config"]["custom_extractor_config"][key] = value
+
     decorator_config_b64 = convert_json_to_b64_string(decorator_config)
 
     print(
-        f"[Decomposition] model_path: {model_path}, split_positions: {split_positions}"
+        f"[Decomposition] model_path: {model_path}, split_positions: {split_positions}",
+        flush=True,
     )
     cmd = [
         sys.executable,
@@ -373,17 +388,17 @@ def run_decomposer_for_multi_models(
 
 
 def run_evaluation(
-    framework: str, test_cmd_b64: str, samples_dir: str, log_path: str
+    framework: str, test_cmd_b64: str, work_dir: str, log_path: str
 ) -> int:
     """Executes the test command on the batch directory."""
 
     test_config = convert_b64_string_to_json(test_cmd_b64)
     test_module_name = test_config["test_module_name"]
     test_module_arguments = test_config[f"{test_module_name}_arguments"]
-    test_module_arguments["model-path"] = samples_dir
+    test_module_arguments["model-path"] = work_dir
     if test_module_name in ["test_reference_device", "test_target_device"]:
         test_module_arguments["reference-dir"] = os.path.join(
-            samples_dir, "reference_device_outputs"
+            work_dir, "reference_device_outputs"
         )
 
     cmd = [sys.executable, "-m", f"graph_net.{framework}.{test_module_name}"] + [
@@ -392,15 +407,90 @@ def run_evaluation(
         for item in (f"--{key}", str(value))
     ]
 
-    print(f"[Evaluation] Logging to: {log_path}")
-    print(f"[Evaluation] command: {' '.join(cmd)}")
+    print(f"[Evaluation] Logging to: {log_path}", flush=True)
+    print(f"[Evaluation] command: {' '.join(cmd)}", flush=True)
 
     os.makedirs(os.path.dirname(log_path), exist_ok=True)
     with open(log_path, "w") as f:
         result = subprocess.run(cmd, stdout=f, stderr=f, text=True)
     assert (
         result.returncode == 0
-    ), f"[ERROR] test failed for {samples_dir}, please check the log."
+    ), f"[ERROR] test failed for {work_dir}, please check the log."
+
+
+def generate_unittest_for_single_model(
+    framework, model_name, model_path, subgraph_range, tolerance, output_dir, log_path
+):
+    graphnet_root = path_utils.get_graphnet_root()
+    decorator_config = {
+        "decorator_path": f"{graphnet_root}/graph_net/paddle/extractor.py",
+        "decorator_config": {
+            "name": model_name,
+            "custom_extractor_path": f"{graphnet_root}/graph_net/paddle/prologue_subgraph_unittest_generator.py",
+            "custom_extractor_config": {
+                "output_dir": output_dir,
+                "subgraph_range": subgraph_range,
+                "device": "auto",
+                "tolerance": tolerance,
+                "try_run": True,
+            },
+        },
+    }
+
+    decorator_config_b64 = convert_json_to_b64_string(decorator_config)
+
+    print(
+        f"[Unittest] model_path: {model_path}, subgraph_range: {subgraph_range}",
+        flush=True,
+    )
+    cmd = [
+        sys.executable,
+        "-m",
+        f"graph_net.{framework}.run_model",
+        "--model-path",
+        model_path,
+        "--decorator-config",
+        decorator_config_b64,
+    ]
+    with open(log_path, "a") as f:
+        result = subprocess.run(cmd, stdout=f, stderr=f, text=True)
+    assert result.returncode == 0
+
+
+def generate_unittest(decompose_config, pass_id, output_dir):
+    running_state = decompose_config.get_running_state(pass_id)
+
+    unittest_dir = os.path.join(output_dir, "unittests")
+    log_path = os.path.join(output_dir, "log_unittest_generation.txt")
+    print(f"[Unittest] log_path: {log_path}", flush=True)
+    for model_name, model_record in running_state.model_name2record.items():
+        if not model_record.incorrect_subgraph_idxs:
+            continue
+
+        original_path = model_record.original_path
+        subgraph_idx = model_record.incorrect_subgraph_idxs[0]
+        if decompose_config.decompose_method == "fixed-start":
+            subgraph_range = [0, model_record.uniform_split_positions[subgraph_idx + 1]]
+        else:
+            subgraph_range = [
+                model_record.uniform_split_positions[subgraph_idx],
+                model_record.uniform_split_positions[subgraph_idx + 1],
+            ]
+
+        rectified_model_path = get_rectfied_model_path(original_path)
+        assert os.path.exists(
+            rectified_model_path
+        ), f"{rectified_model_path} does not exist."
+
+        generate_unittest_for_single_model(
+            decompose_config.framework,
+            model_name,
+            rectified_model_path,
+            subgraph_range,
+            decompose_config.tolerance[0],
+            unittest_dir,
+            log_path,
+        )
 
 
 def reconstruct_split_positions_for_subgraphs(
@@ -423,7 +513,7 @@ def reconstruct_split_positions_for_subgraphs(
 
 def generate_initial_tasks(args):
     """Generates tasks for Pass 0 based on the initial log file."""
-    print(f"[Init] Pass 0: Reading from log file: {args.log_file}")
+    print(f"[Init] Pass 0: Reading from log file: {args.log_file}", flush=True)
 
     if args.decompose_method == "fixed-start":
         max_subgraph_size = MAX_GRAPH_SIZE
@@ -453,7 +543,9 @@ def generate_initial_tasks(args):
     )
     decompose_config.update_running_state(
         pass_id=-1,
-        running_state=RunningState(incorrect_models_from_log=initial_incorrect_models),
+        running_state=RunningState(
+            incorrect_models_from_log=list(sorted(initial_incorrect_models))
+        ),
     )
     decompose_config.update_running_state(
         pass_id=0, running_state=RunningState(model_name2record=model_name2record)
@@ -465,7 +557,9 @@ def generate_successor_tasks(args, output_dir, pass_id):
     """Generates tasks for Pass > 0 based on previous pass results."""
 
     prev_pass_dir = get_decompose_workspace_path(output_dir, pass_id - 1)
-    print(f"[Init] Resuming from Pass_{pass_id - 1} (Dir: {prev_pass_dir})...")
+    print(
+        f"[Init] Resuming from Pass_{pass_id - 1} (Dir: {prev_pass_dir})...", flush=True
+    )
 
     prev_config = DecomposeConfig.load(prev_pass_dir)
     max_subgraph_size = prev_config.max_subgraph_size // 2
@@ -477,6 +571,8 @@ def generate_successor_tasks(args, output_dir, pass_id):
         max_subgraph_size=max_subgraph_size,
         running_states=prev_config.running_states,
     )
+    if max_subgraph_size <= 0:
+        return decompose_config
 
     prev_running_state = prev_config.get_running_state(pass_id - 1)
     assert prev_running_state is not None
@@ -512,17 +608,24 @@ def prepare_tasks_and_verify(args, pass_id, output_dir):
     else:
         decompose_config = generate_successor_tasks(args, output_dir, pass_id)
 
-    print(f"[Init] initial max_subgraph_size: {decompose_config.max_subgraph_size}")
+    print(
+        f"[Init] initial max_subgraph_size: {decompose_config.max_subgraph_size}",
+        flush=True,
+    )
     print_incorrect_models(decompose_config, pass_id - 1, log_prompt="[Init]")
 
     if not decompose_config.get_incorrect_models(pass_id - 1):
-        print("[FINISHED] No models need processing.")
+        print(
+            f"\n[Conclusion] No incorrect models after {pass_id - 1} steps.", flush=True
+        )
         sys.exit(0)
 
     if decompose_config.max_subgraph_size <= 0:
         print(
-            f"[FINISHED] Cannot decompose with max_subgraph_size {decompose_config.max_subgraph_size}."
+            f"\n[Conclusion] Decomposition has reached the minimal granularity (max_subgraph_size = 1) after {pass_id - 1} steps.",
+            flush=True,
         )
+        generate_unittest(decompose_config, pass_id - 1, output_dir)
         sys.exit(0)
 
     return decompose_config
@@ -544,13 +647,17 @@ def execute_decomposition_phase(decompose_config, pass_id, workspace):
     while need_decompose:
         if not os.path.exists(decomposed_samples_dir):
             os.makedirs(decomposed_samples_dir, exist_ok=True)
-            print(f"[Decomposition] decomposed_samples_dir: {decomposed_samples_dir}")
+            print(
+                f"[Decomposition] decomposed_samples_dir: {decomposed_samples_dir}",
+                flush=True,
+            )
 
         log_path = os.path.join(
             workspace, f"log_decompose-max_subgraph_size_{max_subgraph_size}.txt"
         )
         print(
-            f"[Decomposition] max_subgraph_size: {max_subgraph_size}, log_path: {log_path}"
+            f"[Decomposition] max_subgraph_size: {max_subgraph_size}, log_path: {log_path}",
+            flush=True,
         )
         failed_decomposition_models = run_decomposer_for_multi_models(
             decompose_config.framework,
@@ -586,7 +693,10 @@ def execute_decomposition_phase(decompose_config, pass_id, workspace):
         print()
 
     if failed_decomposition_models:
-        print(f"[WARN] {len(failed_decomposition_models)} models failed to decompose.")
+        print(
+            f"[WARN] {len(failed_decomposition_models)} models failed to decompose.",
+            flush=True,
+        )
 
     running_state.collect_decomposed_subgraphs(decomposed_samples_dir)
     decompose_config.max_subgraph_size = max_subgraph_size
@@ -602,23 +712,31 @@ def print_incorrect_models(decompose_config, pass_id, log_prompt):
     )
 
     print(
-        f"{log_prompt} number of incorrect subgraphs: {len(incorrect_models)}; number of incorrect original models: {len(original_model_paths)}"
+        f"{log_prompt} number of incorrect subgraphs: {len(incorrect_models)}; number of incorrect original models: {len(original_model_paths)}",
+        flush=True,
     )
     for idx, model_path in enumerate(incorrect_models):
-        print(f"- [{idx}] {model_path}")
+        print(f"- [{idx}] {model_path}", flush=True)
 
 
 def print_summary_and_suggestion(decompose_config, pass_id):
-    print("\n" + "=" * 80)
+    print("\n" + "=" * 80, flush=True)
     num_incorrect_models = len(decompose_config.get_incorrect_models(pass_id))
     if num_incorrect_models > 0 and decompose_config.max_subgraph_size > 1:
-        print(f">>> [SUGGESTION] Issues remain (Count: {num_incorrect_models}).")
-        print(">>> Please start next round decomposition test (Run this script again).")
-    elif num_incorrect_models > 0 and decompose_config.max_subgraph_size <= 1:
-        print(">>> [FAILURE] Minimal granularity reached, but errors persist.")
-    else:
-        print(">>> [SUCCESS] Debugging converged.")
-    print("=" * 80)
+        print(
+            f">>> [SUGGESTION] Issues remain (Count: {num_incorrect_models}).",
+            flush=True,
+        )
+        print(
+            ">>> Please start next decomposition step (Run this script again).",
+            flush=True,
+        )
+    elif decompose_config.max_subgraph_size <= 1:
+        print(
+            ">>> [Conclusion] Decomposition has reached the minimal granularity (max_subgraph_size = 1) after {pass_id - 1} steps.",
+            flush=True,
+        )
+    print("=" * 80, flush=True)
 
 
 def main(args):
@@ -632,7 +750,6 @@ def main(args):
 
     # --- Step 1: Prepare Tasks and Workspace ---
     decompose_config = prepare_tasks_and_verify(args, current_pass_id, base_output_dir)
-
     work_dir = get_decompose_workspace_path(base_output_dir, current_pass_id)
     if not os.path.exists(work_dir):
         os.makedirs(work_dir, exist_ok=True)
@@ -655,9 +772,7 @@ def main(args):
 
     # --- Step 4: Analysis ---
     if task_controller.task_scheduler["post_analysis"]:
-        tolerance = (
-            args.tolerance[0] if isinstance(args.tolerance, list) else args.tolerance
-        )
+        tolerance = args.tolerance[0]
         print(f"\n--- Phase 3: Analysis (torlance={tolerance}) ---")
         next_pass_incorrect_models = sorted(get_incorrect_models(tolerance, log_path))
         decompose_config.update_running_state_with_incorrect_models(

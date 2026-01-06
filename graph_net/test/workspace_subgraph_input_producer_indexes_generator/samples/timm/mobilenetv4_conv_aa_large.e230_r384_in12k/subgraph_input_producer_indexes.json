@@ -1,0 +1,56 @@
+{
+    "subgraph_input_producer_indexes": [
+        {
+            "range_start": 33,
+            "range_end": 38,
+            "input_producer_indexes": [
+                62,
+                63,
+                64,
+                65,
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                546
+            ]
+        },
+        {
+            "range_start": 55,
+            "range_end": 60,
+            "input_producer_indexes": [
+                102,
+                103,
+                104,
+                105,
+                106,
+                107,
+                108,
+                109,
+                110,
+                111,
+                568
+            ]
+        },
+        {
+            "range_start": 60,
+            "range_end": 64,
+            "input_producer_indexes": [
+                112,
+                113,
+                114,
+                115,
+                116,
+                566,
+                573
+            ]
+        }
+    ],
+    "subgraph_relative_model_paths": [
+        "samples/timm/mobilenetv4_conv_aa_large.e230_r384_in12k/_decomposed/mobilenetv4_conv_aa_large.e230_r384_in12k_start33_end38_6",
+        "samples/timm/mobilenetv4_conv_aa_large.e230_r384_in12k/_decomposed/mobilenetv4_conv_aa_large.e230_r384_in12k_start55_end60_10",
+        "samples/timm/mobilenetv4_conv_aa_large.e230_r384_in12k/_decomposed/mobilenetv4_conv_aa_large.e230_r384_in12k_start60_end64_11"
+    ]
+}

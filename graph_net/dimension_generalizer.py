@@ -26,13 +26,13 @@ class ApplyDimGenPasses:
     def _make_config(
         self,
         output_dir: str,
-        dimension_generalizer_filepath=None,
-        dimension_generalizer_class_name="StaticToDynamic",
-        dimension_generalizer_config=None,
-        model_path_prefix="",
-        resume=False,
-        last_model_log_file=None,
-        limits_handled_models=None,
+        dimension_generalizer_filepath: str = None,
+        dimension_generalizer_class_name: str = "StaticToDynamic",
+        dimension_generalizer_config: dict = None,
+        model_path_prefix: str = "",
+        resume: bool = False,
+        last_model_log_file: str = None,
+        limits_handled_models: int = None,
     ):
         if dimension_generalizer_config is None:
             dimension_generalizer_config = {}
@@ -118,7 +118,7 @@ class ApplyDimGenPasses:
 
         reifier_class = get_reifier(reifier_name)
         reifier_instance = reifier_class(str(from_model_path))
-        assert reifier_instance.match
+        assert reifier_instance.match()
         symbols2reified_dims = reifier_instance.reify()
         assert len(symbols2reified_dims) == 1
         symbols, reified_dims = next(iter(symbols2reified_dims.items()))
@@ -242,5 +242,7 @@ def update_tensor_metas_by_dyn_dim_cstr(
         if tensor_meta.data is not None:
             assert isinstance(tensor_meta.data, (list, tuple))
             size = functools.reduce(lambda a, b: a * b, tensor_meta.shape, 1)
-            doubled_data = [*tensor_meta.data, *tensor_meta.data]
-            tensor_meta.data = doubled_data[:size]
+            extended_tensor_data = list(tensor_meta.data)
+            while len(extended_tensor_data) < size:
+                extended_tensor_data.extend(extended_tensor_data)
+            tensor_meta.data = extended_tensor_data[:size]

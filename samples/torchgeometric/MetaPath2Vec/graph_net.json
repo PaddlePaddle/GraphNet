@@ -1,1 +1,10 @@
-{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "source": "torchgeometric", "heuristic_tag": "other", "dimension_generalization_passes": []}
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": false,
+    "source": "torchgeometric",
+    "heuristic_tag": "other",
+    "dimension_generalization_passes": [],
+    "symbolic_dimension_reifier": "naive_cv_sym_dim_reifier"
+}

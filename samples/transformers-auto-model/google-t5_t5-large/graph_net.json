@@ -47,5 +47,6 @@
         "non_batch_call_function_full_plus_one_pass",
         "non_batch_call_function_zeros_pass",
         "non_batch_call_function_arange_plus_one_pass"
-    ]
+    ],
+    "symbolic_dimension_reifier": "naive_cv_sym_dim_reifier"
 }

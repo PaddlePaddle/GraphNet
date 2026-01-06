@@ -69,10 +69,11 @@ echo "Init Size:   $INITIAL_MAX_SIZE"
 echo "--------------------------------------------------------"
 
 python3 -m graph_net.subgraph_decompose_and_evaluation_step \
-    --log-file="$LOG_FILE" \
-    --output-dir="$OUTPUT_DIR" \
-    --framework="${FRAMEWORK}" \
-    --test-config="$TEST_CONFIG_B64" \
+    --log-file "$LOG_FILE" \
+    --output-dir "$OUTPUT_DIR" \
+    --framework "${FRAMEWORK}" \
+    --test-config "$TEST_CONFIG_B64" \
+    --decompose-method "uniform" \
     --tolerance $TOLERANCE \
     --max-subgraph-size="$INITIAL_MAX_SIZE"
 

@@ -3,6 +3,11 @@ import re
 import sys
 from scipy.stats import gmean
 from graph_net.config.datatype_tolerance_config import get_precision
+from graph_net.positive_tolerance_interpretation import PositiveToleranceInterpretation
+from graph_net.verify_aggregated_params import determine_tolerances
+from graph_net.positive_tolerance_interpretation_manager import (
+    get_positive_tolerance_interpretation,
+)
 
 
 def detect_sample_status(log_text: str) -> str:
@@ -293,38 +298,24 @@ def get_correctness(dtype: str, t: int, correctness_data: dict, index: int) -> b
     return False
 
 
-def fake_perf_degrad(tolerance, error_code, type="default") -> str:
+def fake_perf_degrad(
+    tolerance,
+    error_code,
+    positive_tolerance_interpretation: PositiveToleranceInterpretation,
+) -> str:
     """
     Judge current correctness based on tolerance t and status.
+    Refactored to delegate logic to PositiveToleranceInterpretation classes.
     """
-    if type == "default":
-        if tolerance >= 3:
-            return "correct"
-        elif error_code == "accuracy" and tolerance >= 1:
-            return "correct"
-        else:
-            return error_code
-    elif type == "extended":
-        if (
-            error_code == "compile_fail" or error_code == "runtime_fail"
-        ) and tolerance >= 4:
-            return "correct"
-        elif error_code == "eager_fail" and tolerance >= 3:
-            return "correct"
-        elif (
-            error_code == "shape_mismatch" or error_code == "type_mismatch"
-        ) and tolerance >= 2:
-            return "correct"
-        elif error_code == "accuracy" and tolerance >= 1:
-            return "correct"
-        else:
-            return error_code
-    else:
-        raise NotImplementedError
+    if positive_tolerance_interpretation.is_error_tolerated(tolerance, error_code):
+        return "correct"
+
+    return error_code
 
 
 def calculate_scores(
     samples: list,
+    positive_tolerance_interpretation: PositiveToleranceInterpretation,
     p: float = 0,
     b: float = 0.1,
     type: str = "ESt",
@@ -339,7 +330,10 @@ def calculate_scores(
 
     scores = {}
 
-    for tolerance in range(-10, 5):
+    strategy = positive_tolerance_interpretation
+    tolerances = determine_tolerances(samples, positive_tolerance_interpretation)
+
+    for tolerance in tolerances:
         rectified_speedups = []
         rectified_speedups_fake_degrad = []
 
@@ -373,12 +367,10 @@ def calculate_scores(
                     )
             else:
                 if not is_correct_at_t1[idx]:
-                    current_correctness = fake_perf_degrad(
+                    is_tolerated = strategy.is_error_tolerated(
                         tolerance, fail_type_at_t1[idx]
                     )
-                    rec_speedup_fake_degrad = (
-                        1 if current_correctness == "correct" else b
-                    )
+                    rec_speedup_fake_degrad = 1 if is_tolerated else b
                 else:
                     rec_speedup_fake_degrad = (
                         speedup_at_t1[idx] ** (p + 1)
@@ -441,7 +433,10 @@ def check_sample_correctness(sample: dict, tolerance: int) -> tuple[bool, str]:
 
 
 def get_incorrect_models(
-    tolerance: int, log_file_path: str, type: str = "ESt"
+    tolerance: int,
+    log_file_path: str,
+    type: str = "ESt",
+    positive_tolerance_interpretation_type: str = "default",
 ) -> set[str]:
     """
     Filters and returns models with accuracy issues based on given tolerance threshold.
@@ -470,9 +465,15 @@ def get_incorrect_models(
             is_correct_at_t1[idx] = is_correct
             fail_type_at_t1[idx] = fail_type if fail_type is not None else "correct"
 
+        positive_tolerance_interpretation = get_positive_tolerance_interpretation(
+            positive_tolerance_interpretation_type
+        )
+
         for idx, sample in enumerate(samples):
             if not is_correct_at_t1[idx]:
-                current_correctness = fake_perf_degrad(tolerance, fail_type_at_t1[idx])
+                current_correctness = fake_perf_degrad(
+                    tolerance, fail_type_at_t1[idx], positive_tolerance_interpretation
+                )
                 failed_models.add(
                     sample.get("model_path")
                 ) if current_correctness != "correct" else None

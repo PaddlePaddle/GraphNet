@@ -255,35 +255,22 @@ python -m graph_net.config \
     --email "john@example.com"
 ```
 
-2. **Package the graph**
+2. **Commit the changes**
 
+Move the new sample to **samples** directory and commit.
 ```bash
-python -m graph_net.pack --output /path/to/output.zip --clear-after-pack True
-```
-
-This API:
-
-a. Packages all files under `$GRAPH_NET_EXTRACT_WORKSPACE` into `/path/to/output.zip` (You can set it to `GraphNet/samples`)
-
-b. Clears the workspace if `--clear-after-pack` is `True`
-
-Note: If third-party ops are used, contributors must include them manually in the package. As long as `validate` passes, no specific folder structure is required.
-
-3. **Commit the changes**
-
-Move the packaged computational graph in the previous step to **samples** directory and commit.
-```bash
-git add <the packaged computational graph>
+git add <the new sample>
 git commit -m "Description"
 ```
+Note: If third-party ops are used, contributors must include them manually in the package.
 
-4. **Push the branch to your fork**
+3. **Push the branch to your fork**
 
 ```bash
 git push origin feature/your-branch-name
 ```
 
-5. **Submit a Pull Request**
+4. **Submit a Pull Request**
 
 > **Note**: For clarity and maintainability, each PR should follow the Single Responsibility Principle (SRP). Submit only a single graph or a focused feature improvement per PR. For example, if you both update extraction logic and collect multiple models, each graph and each method update should be a separate PR.
 

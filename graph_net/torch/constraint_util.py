@@ -1,6 +1,9 @@
 import sys
 import os
 import graph_net
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class NaiveDataInputPredicator:
@@ -11,6 +14,14 @@ class NaiveDataInputPredicator:
         return not (
             "_self_" in input_var_name or "_instance_modules_" in input_var_name
         )
+
+
+class RenamedDataInputPredicator:
+    def __init__(self, config):
+        self.config = config
+
+    def __call__(self, model_path, input_var_name: str) -> bool:
+        return not input_var_name.startswith("w_")
 
 
 class ModelRunnablePredicator:

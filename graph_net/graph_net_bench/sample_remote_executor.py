@@ -9,7 +9,6 @@ import torch
 
 
 class SampleRemoteExecutor:
-    """远程模型执行器"""
     
     def __init__(self, machine: str, port: int):
         self.machine = machine
@@ -20,7 +19,12 @@ class SampleRemoteExecutor:
     def _get_stub(self):
         if self._stub is None:
             from .grpc import message_pb2, message_pb2_grpc
-            self._channel = grpc.insecure_channel(f"{self.machine}:{self.port}")
+            self._channel = grpc.insecure_channel(
+                f"{self.machine}:{self.port}",
+                options=[
+                    ("grpc.max_receive_message_length", 32 * 1024 * 1024),  # 32MB
+                    ("grpc.max_send_message_length", 32 * 1024 * 1024),
+                ],)
             self._stub = message_pb2_grpc.SampleRemoteExecutorStub(self._channel)
         return self._stub
     
@@ -30,7 +34,6 @@ class SampleRemoteExecutor:
         
         compressed_data = self._compress_model(model_path)
         
-        # 2. 构建请求
         stub = self._get_stub()
         request = message_pb2.ExecutionRequest(
             rpc_cmd="execute_model",
@@ -43,7 +46,11 @@ class SampleRemoteExecutor:
         if reply.ret_code != 0:
             raise RuntimeError(f"Remote execution failed: {reply.stderr}")
         
-        return self._deserialize_tensors(reply.stdout)
+        # 从 rpc_output.npz_data 读取 .npz 文件
+        if reply.rpc_output.HasField("npz_data"):
+            return self._load_npz_from_bytes(reply.rpc_output.npz_data)
+        else:
+            raise RuntimeError(f"Invalid reply: expected npz_data in rpc_output")
     
     def _compress_model(self, model_path: str):
         from .grpc import message_pb2
@@ -65,26 +72,22 @@ class SampleRemoteExecutor:
             compression_algo="gzip"
         )
     
-    def _deserialize_tensors(self, json_str: str) -> Tuple[torch.Tensor, ...]:
+    def _load_npz_from_bytes(self, npz_bytes: bytes) -> Tuple[torch.Tensor, ...]:
+        """从 bytes 加载 .npz 文件并转换为张量元组"""
         import numpy as np
+        from io import BytesIO
         
-        data = json.loads(json_str)
-        result = []
-        
-        for tensor_data in data:
-            dtype = getattr(torch, tensor_data["dtype"])
-            shape = tuple(tensor_data["shape"])
+        # 将 bytes 写入临时内存文件
+        with BytesIO(npz_bytes) as f:
+            npz = np.load(f, allow_pickle=True)
             
-            if tensor_data["data"] is None:
-                np_array = np.zeros(shape, dtype=dtype.__name__)
-            else:
-                np_array = np.frombuffer(
-                    tensor_data["data"].encode("latin1"),
-                    dtype=np.dtype(dtype.__name__.replace("torch.", ""))
-                )
-                np_array = np_array.reshape(shape)
+            result = []
+            # 按字母顺序读取所有数组（保持一致性）
+            for key in sorted(npz.files):
+                arr = npz[key]
+                result.append(torch.from_numpy(arr))
             
-            result.append(torch.from_numpy(np_array))
+            npz.close()
         
         return tuple(result)
     

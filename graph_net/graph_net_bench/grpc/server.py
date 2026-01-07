@@ -3,64 +3,75 @@ from concurrent import futures
 import tempfile
 import shutil
 import tarfile
-import json
-import torch
-import numpy as np
 from pathlib import Path
 from io import BytesIO
-
+import subprocess
+import os
 import message_pb2
 import message_pb2_grpc
 
 
 class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer):
-    """远程模型执行服务"""
 
     def Execute(self, request, context):
-        """执行模型推理"""
-        temp_dir = None
+        input_workspace = None
+        output_workspace = None
 
         try:
-            # 1. 验证命令
-            if request.rpc_cmd != "execute_model":
-                return message_pb2.ExecutionReply(
-                    ret_code=-1,
-                    stderr=f"Unknown rpc_cmd: {request.rpc_cmd}"
-                )
+            input_workspace = tempfile.mkdtemp(prefix="input_workspace_")
+            output_workspace = tempfile.mkdtemp(prefix="output_workspace_")
 
-            # 2. 获取 random_seed
-            random_seed = int(request.output_file_name)
+            self._decompress_model(request.rpc_input.compressed_data, input_workspace)
 
-            # 3. 解压模型
-            temp_dir = tempfile.mkdtemp(prefix="remote_model_")
-            model_path = self._decompress_model(
-                request.rpc_input.compressed_data,
-                temp_dir
+            # 3. 构建 rpc_cmd 脚本路径
+            rpc_cmd_path = os.path.join(input_workspace, request.rpc_cmd)
+
+            # 4. 设置环境变量并执行 rpc_cmd 脚本
+            env = os.environ.copy()
+            env["INPUT_WORKSPACE"] = input_workspace
+            env["OUTPUT_WORKSPACE"] = output_workspace
+            env["OUTPUT_FILE_NAME"] = request.output_file_name
+
+            result = subprocess.run(
+                ["python3", rpc_cmd_path],
+                capture_output=True,
+                text=True,
+                env=env,
+                timeout=300  # 5分钟超时
             )
 
-            # 4. 加载模型
-            model = self._load_model(model_path)
+            if result.returncode != 0:
+                return message_pb2.ExecutionReply(
+                    ret_code=-1,
+                    stderr=f"rpc_cmd 执行失败:\n{result.stderr}"
+                )
 
-            # 5. 设置随机种子
-            torch.manual_seed(random_seed)
-            if torch.cuda.is_available():
-                torch.cuda.manual_seed_all(random_seed)
+            # 5. 读取 output_workspace/{output_file_name} 到 reply.rpc_output
+            output_file_path = os.path.join(
+                output_workspace,
+                request.output_file_name
+            )
 
-            # 6. 执行推理
-            model.eval()
-            with torch.no_grad():
-                outputs = model()
+            if not os.path.exists(output_file_path):
+                return message_pb2.ExecutionReply(
+                    ret_code=-1,
+                    stderr=f"输出文件不存在: {output_file_path}"
+                )
 
-            # 7. 序列化输出
-            if not isinstance(outputs, tuple):
-                outputs = (outputs,)
-
-            json_output = self._serialize_tensors(outputs)
-
+            # 读取 .npz 文件并返回
             return message_pb2.ExecutionReply(
                 ret_code=0,
-                stdout=json_output,
-                stderr=""
+                stdout=result.stdout,
+                stderr=result.stderr,
+                rpc_output=message_pb2.RpcData(
+                    npz_data=Path(output_file_path).read_bytes()
+                )
+            )
+
+        except subprocess.TimeoutExpired:
+            return message_pb2.ExecutionReply(
+                ret_code=-1,
+                stderr="rpc_cmd 执行超时（5分钟）"
             )
 
         except Exception as e:
@@ -71,99 +82,28 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
             )
 
         finally:
-            if temp_dir:
-                shutil.rmtree(temp_dir, ignore_errors=True)
+            # 6. 清理临时目录
+            if input_workspace and os.path.exists(input_workspace):
+                shutil.rmtree(input_workspace, ignore_errors=True)
+            if output_workspace and os.path.exists(output_workspace):
+                shutil.rmtree(output_workspace, ignore_errors=True)
 
-    def _decompress_model(self, compressed_data, temp_dir):
-        """解压模型目录"""
+    def _decompress_model(self, compressed_data, target_dir):
         buffer = BytesIO(compressed_data.payload)
         with tarfile.open(fileobj=buffer, mode="r:gz") as tar:
-            tar.extractall(path=temp_dir)
-        return temp_dir
-
-    def _load_model(self, model_path):
-        """加载模型"""
-        import importlib.util
-
-        model_file = Path(model_path) / "model.py"
-        if not model_file.exists():
-            raise FileNotFoundError(f"model.py not found in {model_path}")
-
-        spec = importlib.util.spec_from_file_location(
-            "remote_model_module",
-            str(model_file)
-        )
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-
-        if not hasattr(module, 'GraphModule'):
-            raise ValueError("model.py must define 'GraphModule' class")
-
-        # 创建权重
-        weight_tensors = self._create_weight_tensors(model_path)
-        model = module.GraphModule()
-
-        # 加载权重
-        for name, tensor in weight_tensors.items():
-            param = getattr(model, name, None)
-            if param is not None and isinstance(param, torch.Tensor):
-                param.data.copy_(tensor)
-
-        return model
-
-    def _create_weight_tensors(self, model_path):
-        """根据 weight_meta.py 创建权重张量"""
-        import importlib.util
-
-        weight_meta_file = Path(model_path) / "weight_meta.py"
-        if not weight_meta_file.exists():
-            return {}
-
-        spec = importlib.util.spec_from_file_location(
-            "weight_meta_module",
-            str(weight_meta_file)
-        )
-        weight_meta_module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(weight_meta_module)
-
-        weight_tensors = {}
-        tensor_classes = [
-            getattr(weight_meta_module, name)
-            for name in dir(weight_meta_module)
-            if name.startswith("Program_weight_tensor_meta_")
-        ]
-
-        for tensor_cls in tensor_classes:
-            name = tensor_cls.name
-            shape = tensor_cls.shape
-            dtype = getattr(torch, tensor_cls.dtype)
-            device = getattr(tensor_cls, 'device', 'cpu')
-
-            if tensor_cls.data is not None:
-                np_array = np.array(tensor_cls.data, dtype=np.dtype(dtype.__name__))
-                np_array = np_array.reshape(shape)
-                weight_tensors[name] = torch.from_numpy(np_array).to(device)
-            else:
-                weight_tensors[name] = torch.randn(shape, dtype=dtype, device=device)
-
-        return weight_tensors
-
-    def _serialize_tensors(self, outputs):
-        """序列化张量为 JSON"""
-        tensor_list = []
-        for tensor in outputs:
-            tensor_data = {
-                "dtype": str(tensor.dtype),
-                "shape": list(tensor.shape),
-                "data": tensor.cpu().numpy().tobytes().decode("latin1")
-            }
-            tensor_list.append(tensor_data)
-        return json.dumps(tensor_list)
+            tar.extractall(path=target_dir)
 
 
 def serve(port=50052, max_workers=4):
     """启动 gRPC 服务器"""
-    server = grpc.server(futures.ThreadPoolExecutor(max_workers=max_workers))
+    # 增加消息大小限制（支持最多 100MB）
+    server = grpc.server(
+        futures.ThreadPoolExecutor(max_workers=max_workers),
+        options=[
+            ('grpc.max_send_message_length', 100 * 1024 * 1024),  # 100MB
+            ('grpc.max_receive_message_length', 100 * 1024 * 1024),  # 100MB
+        ]
+    )
     message_pb2_grpc.add_SampleRemoteExecutorServicer_to_server(
         RemoteModelExecutorServicer(), server
     )

@@ -1,10 +1,5 @@
 import os
-import sys
-import subprocess
 import shutil
-import traceback
-import time
-import glob
 import logging
 
 from graph_net.paddle.extractor import extract
@@ -274,13 +269,19 @@ def extract_skep_models(text_en, text_cn):
         process_model(model_name, nlp_model_getter.get_skep_model_and_inputs, text)
 
 
+def extract_fnet_models(text_en, text_cn):
+    # fnet-base models
+    model_name = "fnet-base"
+    process_model(model_name, nlp_model_getter.get_fnet_model_and_inputs, text_en)
+
+
 def main():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     dump_dir = os.path.join(current_dir, "dump")
     os.environ["GRAPH_NET_PIR_DUMP_WORKSPACE"] = dump_dir
 
     text_en = "Hello, my name is Bob. I am learning about large language models and their architectures. "
-    text_cn = "欢迎使用百度飞桨!"
+    text_cn = "欢迎使用百度飞桨!"  # noqa
 
     # auto models
     model_name = "facebook/llama-7b"

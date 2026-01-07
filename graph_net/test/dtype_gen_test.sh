@@ -20,13 +20,14 @@ EOF
 )
 CONFIG_INIT=$(echo "$config_json_str_init" | base64 -w 0)
 
-# python3 -m pdb -m graph_net.model_path_handler --model-path "timm/resnet18" --handler-config=$CONFIG_INIT
+torch_samples="graph_net/config/small100_torch_samples_list.txt"
 # python3 -m graph_net.model_path_handler --model-path "timm/resnet18" --handler-config=$CONFIG_INIT
 # python3 -m graph_net.model_path_handler --model-path "transformers-auto-model/opus-mt-en-gmw" --handler-config=$CONFIG_INIT
-TORCHVISION_ROOT="$SAMPLES_ROOT/torchvision"
 
-for sample in "$TORCHVISION_ROOT"/*; do
-    python3 -m graph_net.model_path_handler --model-path $sample --handler-config=$CONFIG_INIT
+tail -n +2 $torch_samples | while read line 
+do
+    sample_path="${line#samples/}"
+    python3 -m graph_net.model_path_handler --model-path $sample_path --handler-config=$CONFIG_INIT
 done
 
 # Step 2: Apply passes to generate samples
@@ -50,10 +51,12 @@ CONFIG_APPLY=$(echo "$config_json_str_apply" | base64 -w 0)
 
 # python3 -m graph_net.model_path_handler --model-path "timm/resnet18" --handler-config=$CONFIG_APPLY
 # python3 -m graph_net.model_path_handler --model-path "transformers-auto-model/opus-mt-en-gmw" --handler-config=$CONFIG_APPLY
-for sample in "$TORCHVISION_ROOT"/*; do
-    python3 -m graph_net.model_path_handler --model-path $sample --handler-config=$CONFIG_APPLY
-done
 
+tail -n +2 $torch_samples | while read line 
+do
+    sample_path="${line#samples/}"
+    python3 -m graph_net.model_path_handler --model-path $sample_path --handler-config=$CONFIG_APPLY
+done
 
 # validation
 for model_path in "$OUTPUT_DIR"/*; do
@@ -67,7 +70,7 @@ for model_path in "$OUTPUT_DIR"/*; do
     else
         echo "FAIL"
     fi
-done
+done | tee >(grep SUCCESS | wc -l | xargs -I{} echo SUCCESS {}) | tee >(grep FAIL | wc -l | xargs -I{} echo FAIL {}); wait
 
 
 

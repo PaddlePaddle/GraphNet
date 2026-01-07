@@ -90,7 +90,10 @@ class InitDataTypeGeneralizationPasses:
             model_path = str(Path(self.model_path_prefix) / model_path)
 
         # Parse the computation graph
-        traced_model = parse_immutable_model_path_into_sole_graph_module(model_path)
+        # traced_model = parse_immutable_model_path_into_sole_graph_module(model_path)
+        module, inputs = get_torch_module_and_inputs(model_path)
+        traced_model  = parse_sole_graph_module(module, inputs)
+        ShapeProp(traced_model).propagate(*inputs)
 
         # Test which dtype passes work
         dtype_pass_names = self._test_dtype_passes(model_path, traced_model)
@@ -116,11 +119,6 @@ class InitDataTypeGeneralizationPasses:
             List of pass names that work (pass file names without .py extension)
         """
         working_passes = []
-
-        module, inputs = get_torch_module_and_inputs(model_path)
-        traced_model  = parse_sole_graph_module(module, inputs)
-
-        ShapeProp(traced_model).propagate(*inputs)
 
         for dtype in self.dtype_list:
             # Pass name directly corresponds to file name (without .py)

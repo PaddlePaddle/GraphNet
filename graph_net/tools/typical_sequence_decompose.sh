@@ -10,7 +10,7 @@ model_list="$GRAPH_NET_ROOT/graph_net/config/small10_torch_samples_list.txt"
 
 python3 -m graph_net.apply_sample_pass \
     --model-path-list $model_list \
-    --sample-pass-file-path $GRAPH_NET_ROOT/graph_net/torch/typical_sequence_split_points.py \
+    --sample-pass-file-path $GRAPH_NET_ROOT/graph_net/torch/op_names_extractor.py \
     --sample-pass-class-name OpNamesExtractor \
     --sample-pass-config=$(base64 -w 0 <<EOF
 {
@@ -20,6 +20,12 @@ python3 -m graph_net.apply_sample_pass \
 }
 EOF
 )
+
+#测试用
+#echo early return
+#exit 0
+
+
 
 TYPICAL_SEQUENCE_RANGES_WORKSPACE=$DECOMPOSE_WORKSPACE/workspace_typical_sequence_ranges
 

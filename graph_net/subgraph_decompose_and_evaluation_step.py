@@ -325,6 +325,7 @@ def run_decomposer_for_single_model(
                 "output_dir": output_dir,
                 "split_positions": split_positions,
                 "group_head_and_tail": False,
+                "use_all_inputs": True,
                 "chain_style": False,
             },
         },
@@ -472,10 +473,10 @@ def generate_unittest(decompose_config, pass_id, output_dir):
         if decompose_config.decompose_method == "fixed-start":
             subgraph_range = [0, model_record.uniform_split_positions[subgraph_idx + 1]]
         else:
-            subgraph_range = [
-                model_record.uniform_split_positions[subgraph_idx],
-                model_record.uniform_split_positions[subgraph_idx + 1],
+            subgraph_range = model_record.uniform_split_positions[
+                subgraph_idx : subgraph_idx + 2
             ]
+            assert False, "Not supported!"
 
         rectified_model_path = get_rectfied_model_path(original_path)
         assert os.path.exists(

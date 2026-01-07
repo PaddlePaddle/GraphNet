@@ -402,8 +402,10 @@ class PrologueSubgraphUnittestGenerator:
             self.generate(subgraph_generator, tmp_dir)
         return static_model
 
-    def _save_and_get_graph_module(self, subgraph_generator, subgraph_range, tmp_dir):
-        results = subgraph_generator(subgraph_range, False)
+    def _save_and_get_graph_module(
+        self, subgraph_generator, subgraph_range, use_all_inputs, tmp_dir
+    ):
+        results = subgraph_generator(subgraph_range, False, use_all_inputs)
         assert len(results) == 1
         output_name = f"{subgraph_range[0]}_{subgraph_range[1]}"
         output_path = os.path.join(tmp_dir, f"{self.model_name}-{output_name}")
@@ -419,7 +421,7 @@ class PrologueSubgraphUnittestGenerator:
         )
 
         graph_module, output_path = self._save_and_get_graph_module(
-            subgraph_generator, self.subgraph_range, tmp_dir
+            subgraph_generator, self.subgraph_range, True, tmp_dir
         )
         arg_names = self._get_forward_arg_names(graph_module)
         self.graph_meta_restorer(output_path)
@@ -428,7 +430,7 @@ class PrologueSubgraphUnittestGenerator:
         # prologue model information
         prologue_subgraph_range = [self.subgraph_range[0], self.subgraph_range[1] - 1]
         prologue_graph_module, _ = self._save_and_get_graph_module(
-            subgraph_generator, prologue_subgraph_range, tmp_dir
+            subgraph_generator, prologue_subgraph_range, False, tmp_dir
         )
         prologue_forward_func, prologue_returns = self._get_forward_func_and_returns(
             prologue_graph_module
@@ -438,7 +440,7 @@ class PrologueSubgraphUnittestGenerator:
         # suspect model information
         suspect_subgraph_range = [self.subgraph_range[1] - 1, self.subgraph_range[1]]
         suspect_graph_module, _ = self._save_and_get_graph_module(
-            subgraph_generator, suspect_subgraph_range, tmp_dir
+            subgraph_generator, suspect_subgraph_range, False, tmp_dir
         )
         suspect_forward_func, suspect_returns = self._get_forward_func_and_returns(
             suspect_graph_module

@@ -24,6 +24,7 @@ class GraphExtractor:
         self,
         split_positions=None,
         group_head_and_tail=False,
+        use_all_inputs=False,
         chain_style=False,
         output_dir="./tmp/naive_decomposer_dir",
         post_extract_process_path=None,
@@ -42,6 +43,7 @@ class GraphExtractor:
         return {
             "split_positions": split_positions,
             "group_head_and_tail": group_head_and_tail,
+            "use_all_inputs": use_all_inputs,
             "chain_style": chain_style,
             "output_dir": output_dir,
             "post_extract_process_path": post_extract_process_path,
@@ -82,6 +84,7 @@ class NaiveDecomposerExtractor:
         )
         self.split_positions = self.config["split_positions"]
         self.group_head_and_tail = self.config["group_head_and_tail"]
+        self.use_all_inputs = self.config["use_all_inputs"]
         self.post_extract_process = self.make_post_extract_process(self.config)
 
     def do_extract(self, **input_dict):
@@ -98,6 +101,7 @@ class NaiveDecomposerExtractor:
             model_dump_path,
             split_positions=self.split_positions,
             group_head_and_tail=self.group_head_and_tail,
+            use_all_inputs=self.use_all_inputs,
         )
 
         # 3. Save to model_path

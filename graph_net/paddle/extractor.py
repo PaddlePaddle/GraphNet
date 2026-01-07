@@ -204,6 +204,7 @@ class GraphExtractor:
         model_dump_path,
         split_positions=None,
         group_head_and_tail=True,
+        use_all_inputs=False,
     ):
         ir_programs_path = self.get_ir_programs_path(model_dump_path)
         example_inputs_path = self.get_example_inputs_path(model_dump_path)
@@ -218,6 +219,7 @@ class GraphExtractor:
             op_example_inputs=op_example_inputs_path,
             split_positions=split_positions,
             group_head_and_tail=group_head_and_tail,
+            use_all_inputs=use_all_inputs,
             eval_mode=True,
             tmp_dir=model_dump_path,
         )

@@ -264,17 +264,19 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
             np.testing.assert_allclose(_convert_to_numpy(reference), _convert_to_numpy(target), atol, rtol)
 
     def test_separated(self):
-        prologue_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_separate_prologue.pdout")
+        prologue_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_prologue_reference.pdout")
+        prologue_outputs = self.run_prologue_layer()
         if self.is_reference:
-            prologue_outputs = self.run_prologue_layer()
             print(f"Save prologue output tensors to {prologue_output_path}.")
             paddle.save(prologue_outputs, prologue_output_path)
+            prologue_reference_outputs = prologue_outputs
         else:
             print(f"Load prologue output tensors from {prologue_output_path}")
-            prologue_outputs = paddle.load(prologue_output_path)
-        
+            prologue_reference_outputs = paddle.load(prologue_output_path)
+            self.check_results(prologue_reference_outputs, prologue_outputs)
+
         test_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_separate_reference.pdout")
-        test_outputs = self.run_suspect_layer(prologue_outputs)
+        test_outputs = self.run_suspect_layer(prologue_reference_outputs)
         if self.is_reference:
             print(f"Save test output tensors to {test_output_path}.")
             paddle.save(test_outputs, test_output_path)

@@ -92,7 +92,7 @@ class InitDataTypeGeneralizationPasses:
         # Parse the computation graph
         # traced_model = parse_immutable_model_path_into_sole_graph_module(model_path)
         module, inputs = get_torch_module_and_inputs(model_path)
-        traced_model  = parse_sole_graph_module(module, inputs)
+        traced_model = parse_sole_graph_module(module, inputs)
         ShapeProp(traced_model).propagate(*inputs)
 
         # Test which dtype passes work

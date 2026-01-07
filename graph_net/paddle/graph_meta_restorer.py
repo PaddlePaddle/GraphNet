@@ -75,18 +75,19 @@ class GraphMetaRestorer:
 
     def _update_tensor_meta(self, meta_class, parent_meta_class):
         if (
-            parent_meta_class
-            and meta_class.dtype == parent_meta_class.dtype
-            and meta_class.shape == parent_meta_class.shape
+            not parent_meta_class
+            or meta_class.dtype != parent_meta_class.dtype
+            or meta_class.shape != parent_meta_class.shape
         ):
-            for attr_name in ["max_val", "min_val", "mean", "std", "data"]:
-                if hasattr(meta_class, attr_name) or hasattr(
-                    parent_meta_class, attr_name
-                ):
-                    attr_value = getattr(parent_meta_class, attr_name, None)
-                    setattr(meta_class, attr_name, attr_value)
-            return True
-        return False
+            return False
+
+        for attr_name in ["max_val", "min_val", "mean", "std", "data"]:
+            if hasattr(parent_meta_class, attr_name):
+                attr_value = getattr(parent_meta_class, attr_name)
+                setattr(meta_class, attr_name, attr_value)
+            elif hasattr(meta_class, attr_name):
+                delattr(meta_class, attr_name)
+        return True
 
     def _update_by_original_name(self, meta_classes, original_name2parent_meta_class):
         updated_class_names = set()

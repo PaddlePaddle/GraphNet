@@ -698,6 +698,8 @@ def execute_decomposition_phase(decompose_config, pass_id, workspace):
             f"[WARN] {len(failed_decomposition_models)} models failed to decompose.",
             flush=True,
         )
+        for idx, model_path in enumerate(failed_decomposition_models):
+            print(f"- [{idx}] {model_path=}", flush=True)
 
     running_state.collect_decomposed_subgraphs(decomposed_samples_dir)
     decompose_config.max_subgraph_size = max_subgraph_size

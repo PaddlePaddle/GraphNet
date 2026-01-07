@@ -69,6 +69,16 @@ class GraphExtractor:
 
 
 PADDLE_UNITTEST_TEMPLATE = r"""
+# Usage:
+# 1. Run following command on reference hardware.
+#    python {{graph_module_desc.model_name}}_test.py --is-reference --device "cuda" --reference-dir "test_reference_outputs"
+#
+# 2. Copy all of the unittest and outputs of reference to target hardware.
+#
+# 3. Run following command on target hardware (xpu as example).
+#    python {{graph_module_desc.model_name}}_test.py --device "xpu" --reference-dir "test_reference_outputs"
+#
+
 import os
 import sys
 import argparse
@@ -157,7 +167,7 @@ def tolerance_generator(tolerance, dtype):
     elif dtype == paddle.float64:
         return 10 ** (tolerance * 7 / 5), 10 ** (tolerance * 7 / 5)
     else:
-        assert False, f"Unsupported {dtype=}."
+        return 0, 0
 
 
 class {{graph_module_desc.test_name}}Test(unittest.TestCase):
@@ -231,7 +241,7 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
         dtype_match = all(
             reference == target for reference, target in zip(reference_dtypes, target_dtypes)
         )
-        self.assertTrue(dtype_match, f"Data type of outputs are not matched ({reference_dtypes=} vs {target_dtypes}).")
+        self.assertTrue(dtype_match, f"Data type of outputs are not matched ({reference_dtypes=} vs {target_dtypes=}).")
 
     def check_shapes(self, reference_outputs, target_outputs):
         def _get_output_shapes(outs):
@@ -246,11 +256,11 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
         shape_match = all(
             reference == target for reference, target in zip(reference_shapes, target_shapes)
         )
-        self.assertTrue(shape_match, f"Shape of outputs are not matched ({reference_shapes=} vs {target_shapes}).")
+        self.assertTrue(shape_match, f"Shape of outputs are not matched ({reference_shapes=} vs {target_shapes=}).")
 
     def check_results(self, reference_outputs, target_outputs):
         def _convert_to_numpy(out):
-            if out.dtype in [paddle.float16, paddle.bfloat16]:
+            if out.dtype not in [paddle.float32, paddle.float64]:
                 return out.cast("float32").numpy()
             else:
                 return out.numpy()
@@ -521,6 +531,11 @@ class PrologueSubgraphUnittestGenerator:
                 Path(model_path) / "input_meta.py"
             )
         )
+        for meta in tensor_metas:
+            if meta.min_val is None:
+                meta.min_val = 0
+            if meta.max_val is None:
+                meta.max_val = 2
         return tensor_metas
 
     def _get_forward_arg_names(self, graph_module):

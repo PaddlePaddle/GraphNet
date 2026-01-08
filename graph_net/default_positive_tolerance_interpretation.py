@@ -11,7 +11,6 @@ class DefaultErrorEnum(IntEnum):
     kAccuracyViolation = 1  # Accuracy
     kRuntimeFailure = 2  # Includes Runtime, NaN, Inf, TypeMismatch, etc.
     kCompilationFailed = 3  # Compile Failure
-    kNeverTolerated = 4  # Never tolerated errors (eager_fail, reference_fail)
 
     @classmethod
     def get_error_enum(cls, base_error_type: str) -> "DefaultErrorEnum":
@@ -25,9 +24,6 @@ class DefaultErrorEnum(IntEnum):
 
         if "compile_fail" in etype:
             return cls.kCompilationFailed
-
-        if etype in ["eager_fail", "reference_fail"]:
-            return cls.kNeverTolerated
 
         return cls.kRuntimeFailure
 
@@ -49,12 +45,7 @@ class DefaultPositiveToleranceInterpretation(PositiveToleranceInterpretation):
         return DefaultErrorEnum.get_error_enum(error_type).value
 
     def get_error_type(self, errno: int) -> str:
-        mapping = {
-            1: "accuracy",
-            2: "runtime_fail",
-            3: "compile_fail",
-            4: "never_tolerated",
-        }
+        mapping = {1: "accuracy", 2: "runtime_fail", 3: "compile_fail"}
         return mapping.get(errno, "unknown_error")
 
     def get_tolerance_mapping(self) -> dict[int, int]:
@@ -62,12 +53,13 @@ class DefaultPositiveToleranceInterpretation(PositiveToleranceInterpretation):
             DefaultErrorEnum.kAccuracyViolation.value: 1,
             DefaultErrorEnum.kRuntimeFailure.value: 3,
             DefaultErrorEnum.kCompilationFailed.value: 3,
-            DefaultErrorEnum.kNeverTolerated.value: 999,  # Never tolerated
         }
 
     def is_error_tolerated(self, tolerance: int, base_error_code: str) -> bool:
         if base_error_code == "correct":
             return True
+        if base_error_code in ["eager_fail", "reference_fail"]:
+            return False
 
         error_enum = DefaultErrorEnum.get_error_enum(base_error_code)
         mapping = self.get_tolerance_mapping()
@@ -77,10 +69,9 @@ class DefaultPositiveToleranceInterpretation(PositiveToleranceInterpretation):
 
     def num_errno_enum_values(self) -> int:
         """
-        Default mode defines 4 levels of errors:
+        Default mode defines 3 levels of errors:
         1: Accuracy
         2: Runtime (Generic)
         3: Compilation
-        4: Never tolerated (eager_fail, reference_fail)
         """
         return len(DefaultErrorEnum)

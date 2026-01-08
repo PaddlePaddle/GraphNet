@@ -105,18 +105,18 @@ class NaiveDecomposerExtractor:
         )
 
         # 3. Save to model_path
-        self.subgraph_path_list = []
+        self.subgraph_path2subgraph_range = {}
         model_path = os.path.join(
             self.builtin_extractor.workspace_path, self.builtin_extractor.name
         )
         assert len(self.builtin_extractor.subgraph_idx2samples) == 1
 
         samples = self.builtin_extractor.subgraph_idx2samples[0]
-        for seq_idx in range(len(samples)):
+        for seq_idx, sample in enumerate(samples):
             subgraph_path = f"{model_path}_{seq_idx}"
-            self.subgraph_path_list.append(subgraph_path)
-            self.builtin_extractor.write_sample_to_file(subgraph_path, samples[seq_idx])
-            print(f"Save to {subgraph_path}")
+            self.subgraph_path2subgraph_range[subgraph_path] = sample.subgraph_range
+            self.builtin_extractor.write_sample_to_file(subgraph_path, sample)
+            print(f"[NaiveDecomposerExtractor] Save to {subgraph_path}")
         return static_model
 
     def __call__(self, **input_dict):
@@ -125,12 +125,11 @@ class NaiveDecomposerExtractor:
             extracted_model = self.do_extract(**input_dict)
             self.extracted = True
 
-        for subgraph_path in self.subgraph_path_list:
-            self._post_extract_process(subgraph_path)
+        for subgraph_path, subgraph_range in self.subgraph_path2subgraph_range.items():
+            return self.post_extract_process(
+                subgraph_path, subgraph_range, self.use_all_inputs
+            )
         return extracted_model
-
-    def _post_extract_process(self, subgraph_path):
-        return self.post_extract_process(subgraph_path)
 
     def make_post_extract_process(self, config):
         if config.get("post_extract_process_path") is None:

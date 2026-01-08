@@ -37,6 +37,7 @@ class GraphExtractor:
     def make_config(
         self,
         subgraph_range: list,
+        use_all_inputs: bool,
         device: Literal["auto", "cpu", "cuda", "xpu"] = "auto",
         tolerance: int = 0,
         try_run: bool = False,
@@ -49,6 +50,7 @@ class GraphExtractor:
             ), f"subgraph_range should be list of int, {subgraph_range=}"
         return {
             "subgraph_range": subgraph_range,
+            "use_all_inputs": use_all_inputs,
             "device": device,
             "tolerance": tolerance,
             "try_run": try_run,
@@ -366,6 +368,7 @@ class PrologueSubgraphUnittestGenerator:
             workspace_path=self.config["output_dir"],
         )
         self.subgraph_range = self.config["subgraph_range"]
+        self.use_all_inputs = self.config["use_all_inputs"]
         self.device = self._choose_device(self.config["device"])
         self.tolerance = self.config["tolerance"]
         self.try_run = self.config["try_run"]
@@ -433,10 +436,10 @@ class PrologueSubgraphUnittestGenerator:
         )
 
         graph_module, output_path = self._save_and_get_graph_module(
-            subgraph_generator, self.subgraph_range, True, tmp_dir
+            subgraph_generator, self.subgraph_range, self.use_all_inputs, tmp_dir
         )
         arg_names = self._get_forward_arg_names(graph_module)
-        self.graph_meta_restorer(output_path)
+        self.graph_meta_restorer(output_path, self.subgraph_range, self.use_all_inputs)
         tensor_metas = self._get_tensor_metas(output_path)
 
         # prologue model information

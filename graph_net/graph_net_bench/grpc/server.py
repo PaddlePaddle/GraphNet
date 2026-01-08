@@ -1,12 +1,15 @@
-import grpc
-from concurrent import futures
+import os
+import sys
+import subprocess
 import tempfile
 import shutil
 import tarfile
-from pathlib import Path
+from concurrent import futures
 from io import BytesIO
-import subprocess
-import os
+from pathlib import Path
+
+import grpc
+
 import message_pb2
 import message_pb2_grpc
 
@@ -14,98 +17,105 @@ import message_pb2_grpc
 class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer):
 
     def Execute(self, request, context):
-        input_workspace = None
-        output_workspace = None
+        input_workspace = tempfile.mkdtemp(prefix="remote_input_")
+        output_workspace = tempfile.mkdtemp(prefix="remote_output_")
 
         try:
-            input_workspace = tempfile.mkdtemp(prefix="input_workspace_")
-            output_workspace = tempfile.mkdtemp(prefix="output_workspace_")
+            # 0) 基本校验
+            if not request.rpc_cmd:
+                return message_pb2.ExecutionReply(ret_code=-1, stderr="rpc_cmd is empty")
 
-            self._decompress_model(request.rpc_input.compressed_data, input_workspace)
+            if not request.HasField("output_file_name") or not request.output_file_name:
+                return message_pb2.ExecutionReply(ret_code=-1, stderr="output_file_name is required")
 
-            # 3. 构建 rpc_cmd 脚本路径
-            rpc_cmd_path = os.path.join(input_workspace, request.rpc_cmd)
+            if request.rpc_input.WhichOneof("rpc_data_type") != "compressed_data":
+                return message_pb2.ExecutionReply(
+                    ret_code=-1,
+                    stderr="rpc_input must be RpcData.compressed_data (tar.gz bytes)",
+                )
 
-            # 4. 设置环境变量并执行 rpc_cmd 脚本
+            # 1) 解压输入到 input_workspace
+            self._decompress_to_dir(request.rpc_input.compressed_data, input_workspace)
+
+            # 2) 执行 rpc_cmd
+            out_path = Path(output_workspace) / request.output_file_name
+
             env = os.environ.copy()
             env["INPUT_WORKSPACE"] = input_workspace
             env["OUTPUT_WORKSPACE"] = output_workspace
             env["OUTPUT_FILE_NAME"] = request.output_file_name
+            env["OUTPUT_FILE_PATH"] = str(out_path)
+            env["RANDOM_SEED"] = str(request.random_seed)
+            # Add grpc directory to PYTHONPATH so message_pb2 can be imported
+            grpc_dir = Path(__file__).parent.resolve()
+            env["PYTHONPATH"] = f"{grpc_dir}:{env.get('PYTHONPATH', '')}"
 
-            result = subprocess.run(
-                ["python3", rpc_cmd_path],
+            print(f"Executing rpc_cmd: {request.rpc_cmd}", file=sys.stderr)
+            print(f"Working directory: {input_workspace}", file=sys.stderr)
+            proc = subprocess.run(
+                request.rpc_cmd,
+                shell=True,
+                cwd=input_workspace,
+                env=env,
                 capture_output=True,
                 text=True,
-                env=env,
-                timeout=300  # 5分钟超时
             )
 
-            if result.returncode != 0:
+            print(f"returncode: {proc.returncode}", file=sys.stderr)
+            print(f"stdout: {proc.stdout}", file=sys.stderr)
+            print(f"stderr: {proc.stderr}", file=sys.stderr)
+
+            if proc.returncode != 0:
                 return message_pb2.ExecutionReply(
-                    ret_code=-1,
-                    stderr=f"rpc_cmd 执行失败:\n{result.stderr}"
+                    ret_code=proc.returncode,
+                    stdout=proc.stdout or "",
+                    stderr=proc.stderr or f"rpc_cmd failed with returncode={proc.returncode}",
                 )
 
-            # 5. 读取 output_workspace/{output_file_name} 到 reply.rpc_output
-            output_file_path = os.path.join(
-                output_workspace,
-                request.output_file_name
-            )
-
-            if not os.path.exists(output_file_path):
+            # 3) 回读输出文件
+            if not out_path.exists():
+                print(f"Output file not found at {out_path}", file=sys.stderr)
+                print(f"Contents of output_workspace: {list(Path(output_workspace).rglob('*'))}", file=sys.stderr)
                 return message_pb2.ExecutionReply(
                     ret_code=-1,
-                    stderr=f"输出文件不存在: {output_file_path}"
+                    stdout=proc.stdout or "",
+                    stderr=(proc.stderr or "") + f"\nExpected output not found: {out_path}",
                 )
 
-            # 读取 .npz 文件并返回
+            payload = out_path.read_bytes()
+
             return message_pb2.ExecutionReply(
                 ret_code=0,
-                stdout=result.stdout,
-                stderr=result.stderr,
+                stdout=proc.stdout or "",
+                stderr=proc.stderr or "",
                 rpc_output=message_pb2.RpcData(
-                    npz_data=Path(output_file_path).read_bytes()
-                )
-            )
-
-        except subprocess.TimeoutExpired:
-            return message_pb2.ExecutionReply(
-                ret_code=-1,
-                stderr="rpc_cmd 执行超时（5分钟）"
+                    compressed_data=message_pb2.CompressedData(
+                        filename=request.output_file_name,
+                        original_size=len(payload),
+                        payload=payload,
+                        compression_algo="raw",
+                    )
+                ),
             )
 
         except Exception as e:
             import traceback
-            return message_pb2.ExecutionReply(
-                ret_code=-1,
-                stderr=f"{str(e)}\n{traceback.format_exc()}"
-            )
-
+            return message_pb2.ExecutionReply(ret_code=-1, stderr=f"{e}\n{traceback.format_exc()}")
         finally:
-            # 6. 清理临时目录
-            if input_workspace and os.path.exists(input_workspace):
-                shutil.rmtree(input_workspace, ignore_errors=True)
-            if output_workspace and os.path.exists(output_workspace):
-                shutil.rmtree(output_workspace, ignore_errors=True)
+            shutil.rmtree(input_workspace, ignore_errors=True)
+            shutil.rmtree(output_workspace, ignore_errors=True)
 
-    def _decompress_model(self, compressed_data, target_dir):
+    def _decompress_to_dir(self, compressed_data: message_pb2.CompressedData, dst_dir: str) -> None:
         buffer = BytesIO(compressed_data.payload)
         with tarfile.open(fileobj=buffer, mode="r:gz") as tar:
-            tar.extractall(path=target_dir)
+            tar.extractall(path=dst_dir)
 
 
 def serve(port=50052, max_workers=4):
-    """启动 gRPC 服务器"""
-    # 增加消息大小限制（支持最多 100MB）
-    server = grpc.server(
-        futures.ThreadPoolExecutor(max_workers=max_workers),
-        options=[
-            ('grpc.max_send_message_length', 100 * 1024 * 1024),  # 100MB
-            ('grpc.max_receive_message_length', 100 * 1024 * 1024),  # 100MB
-        ]
-    )
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=max_workers))
     message_pb2_grpc.add_SampleRemoteExecutorServicer_to_server(
-        RemoteModelExecutorServicer(), server
+        RemoteModelExecutorServicer(), 
+        server,
     )
     server.add_insecure_port(f"0.0.0.0:{port}")
     print(f"Server started on port {port}...")

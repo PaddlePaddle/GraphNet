@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rmessage.proto\x12\x16sample_remote_executor\"d\n\x0e\x43ompressedData\x12\x10\n\x08\x66ilename\x18\x01 \x01(\t\x12\x15\n\roriginal_size\x18\x02 \x01(\r\x12\x0f\n\x07payload\x18\x03 \x01(\x0c\x12\x18\n\x10\x63ompression_algo\x18\x04 \x01(\t\"\x85\x01\n\x07RpcData\x12\x41\n\x0f\x63ompressed_data\x18\x01 \x01(\x0b\x32&.sample_remote_executor.CompressedDataH\x00\x12\x12\n\x08str_data\x18\x02 \x01(\tH\x00\x12\x12\n\x08npz_data\x18\x03 \x01(\x0cH\x00\x42\x0f\n\rrpc_data_type\"\x8b\x01\n\x10\x45xecutionRequest\x12\x0f\n\x07rpc_cmd\x18\x01 \x01(\t\x12\x32\n\trpc_input\x18\x02 \x01(\x0b\x32\x1f.sample_remote_executor.RpcData\x12\x1d\n\x10output_file_name\x18\x03 \x01(\tH\x00\x88\x01\x01\x42\x13\n\x11_output_file_name\"w\n\x0e\x45xecutionReply\x12\x10\n\x08ret_code\x18\x01 \x01(\x03\x12\x0e\n\x06stdout\x18\x02 \x01(\t\x12\x0e\n\x06stderr\x18\x03 \x01(\t\x12\x33\n\nrpc_output\x18\x04 \x01(\x0b\x32\x1f.sample_remote_executor.RpcData2s\n\x14SampleRemoteExecutor\x12[\n\x07\x45xecute\x12(.sample_remote_executor.ExecutionRequest\x1a&.sample_remote_executor.ExecutionReplyb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rmessage.proto\x12\x16sample_remote_executor\"d\n\x0e\x43ompressedData\x12\x10\n\x08\x66ilename\x18\x01 \x01(\t\x12\x15\n\roriginal_size\x18\x02 \x01(\r\x12\x0f\n\x07payload\x18\x03 \x01(\x0c\x12\x18\n\x10\x63ompression_algo\x18\x04 \x01(\t\"\x85\x01\n\x07RpcData\x12\x41\n\x0f\x63ompressed_data\x18\x01 \x01(\x0b\x32&.sample_remote_executor.CompressedDataH\x00\x12\x12\n\x08str_data\x18\x02 \x01(\tH\x00\x12\x12\n\x08npz_data\x18\x03 \x01(\x0cH\x00\x42\x0f\n\rrpc_data_type\"\xa0\x01\n\x10\x45xecutionRequest\x12\x0f\n\x07rpc_cmd\x18\x01 \x01(\t\x12\x32\n\trpc_input\x18\x02 \x01(\x0b\x32\x1f.sample_remote_executor.RpcData\x12\x1d\n\x10output_file_name\x18\x03 \x01(\tH\x00\x88\x01\x01\x12\x13\n\x0brandom_seed\x18\x04 \x01(\x03\x42\x13\n\x11_output_file_name\"w\n\x0e\x45xecutionReply\x12\x10\n\x08ret_code\x18\x01 \x01(\x03\x12\x0e\n\x06stdout\x18\x02 \x01(\t\x12\x0e\n\x06stderr\x18\x03 \x01(\t\x12\x33\n\nrpc_output\x18\x04 \x01(\x0b\x32\x1f.sample_remote_executor.RpcData2s\n\x14SampleRemoteExecutor\x12[\n\x07\x45xecute\x12(.sample_remote_executor.ExecutionRequest\x1a&.sample_remote_executor.ExecutionReplyb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -36,9 +36,9 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_RPCDATA']._serialized_start=144
   _globals['_RPCDATA']._serialized_end=277
   _globals['_EXECUTIONREQUEST']._serialized_start=280
-  _globals['_EXECUTIONREQUEST']._serialized_end=419
-  _globals['_EXECUTIONREPLY']._serialized_start=421
-  _globals['_EXECUTIONREPLY']._serialized_end=540
-  _globals['_SAMPLEREMOTEEXECUTOR']._serialized_start=542
-  _globals['_SAMPLEREMOTEEXECUTOR']._serialized_end=657
+  _globals['_EXECUTIONREQUEST']._serialized_end=440
+  _globals['_EXECUTIONREPLY']._serialized_start=442
+  _globals['_EXECUTIONREPLY']._serialized_end=561
+  _globals['_SAMPLEREMOTEEXECUTOR']._serialized_start=563
+  _globals['_SAMPLEREMOTEEXECUTOR']._serialized_end=678
 # @@protoc_insertion_point(module_scope)

@@ -1,82 +1,103 @@
-import grpc
-import message_pb2
-import message_pb2_grpc
+#!/usr/bin/env python3
+"""gRPC Client CLI for SampleRemoteExecutor.
+
+Usage:
+    python -m graph_net.graph_net_bench.grpc.client --help
+"""
+
 import argparse
-import tarfile
-from pathlib import Path
-from io import BytesIO
+import sys
+
+try:
+    from ..sample_remote_executor import SampleRemoteExecutor
+except ImportError:
+    import sys
+    from pathlib import Path
+    # Add graph_net_bench directory to path for direct execution
+    sys.path.insert(0, str(Path(__file__).parent.parent))
+    from sample_remote_executor import SampleRemoteExecutor
 
 
-def _compress_model(model_path: str):
-    buffer = BytesIO()
-    with tarfile.open(fileobj=buffer, mode="w:gz") as tar:
-        model_dir = Path(model_path)
-        for item in model_dir.rglob("*"):
-            if item.is_file():
-                arcname = item.relative_to(model_dir)
-                tar.add(item, arcname=arcname)
-
-    compressed_bytes = buffer.getvalue()
-
-    return message_pb2.CompressedData(
-        filename=f"{Path(model_path).name}.tar.gz",
-        original_size=len(compressed_bytes),
-        payload=compressed_bytes,
-        compression_algo="gzip"
+def main():
+    parser = argparse.ArgumentParser(
+        description="gRPC Client for remote model execution",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
 
-
-def run(server_ip: str = "localhost", port: int = 50052, timeout: float = 10.0,
-        rpc_cmd: str = "execute_model", output_file_name: str = "42",
-        model_path: str = None):
-    channel = grpc.insecure_channel(
-        f"{server_ip}:{port}",
-        options=[
-            ('grpc.max_send_message_length', 100 * 1024 * 1024),  # 100MB
-            ('grpc.max_receive_message_length', 100 * 1024 * 1024),  # 100MB
-        ]
+    parser.add_argument(
+        "--machine",
+        type=str,
+        default="localhost",
+        help="Remote server address (default: localhost)",
     )
-    stub = message_pb2_grpc.SampleRemoteExecutorStub(channel)
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=50052,
+        help="gRPC server port (default: 50052)",
+    )
+    parser.add_argument(
+        "--model-path",
+        type=str,
+        required=True,
+        help="Path to model directory containing model.py and weight_meta.py",
+    )
+    parser.add_argument(
+        "--random-seed",
+        type=int,
+        default=42,
+        help="Random seed for reproducible inference (default: 42)",
+    )
+    parser.add_argument(
+        "--rpc-cmd",
+        type=str,
+        default="python3 /denghaodong/code/GraphNet/graph_net/graph_net_bench/sample_rpc_cmd.py",
+        help="Command to execute on remote server",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default=None,
+        help="Directory to save output tensors (default: current directory)",
+    )
 
-    if model_path:
-        # 发送压缩的模型数据
-        compressed_data = _compress_model(model_path)
-        request = message_pb2.ExecutionRequest(
-            rpc_cmd=rpc_cmd,
-            rpc_input=message_pb2.RpcData(compressed_data=compressed_data),
-            output_file_name=output_file_name
-        )
-    else:
-        # 发送简单的字符串数据（用于测试连通性）
-        request = message_pb2.ExecutionRequest(
-            rpc_cmd=rpc_cmd,
-            rpc_input=message_pb2.RpcData(str_data="test data"),
-            output_file_name=output_file_name
-        )
+    args = parser.parse_args()
+
+    executor = SampleRemoteExecutor(
+        machine=args.machine,
+        port=args.port,
+        rpc_cmd=args.rpc_cmd,
+    )
 
     try:
-        response = stub.Execute(request, timeout=timeout)
-        print(f"ret_code: {response.ret_code}")
-        # print(f"stdout: {response.stdout}")
-        print(f"stderr: {response.stderr}")
-        if response.stdout:
-            print(f"rpc_output: {response.rpc_output}")
-    except grpc.RpcError as e:
-        print(f"gRPC 调用失败: {e.code()}: {e.details()}")
-        raise
+        print(f"Sending request to {args.machine}:{args.port}...", file=sys.stderr)
+        tensors = executor(args.model_path, args.random_seed)
+
+        print(f"Received {len(tensors)} output tensors:", file=sys.stderr)
+        for i, tensor in enumerate(tensors):
+            print(f"  output_{i}: shape={tensor.shape}, dtype={tensor.dtype}", file=sys.stderr)
+
+        if args.output_dir:
+            import os
+            from pathlib import Path
+            import torch
+
+            output_path = Path(args.output_dir)
+            output_path.mkdir(parents=True, exist_ok=True)
+
+            for i, tensor in enumerate(tensors):
+                output_file = output_path / f"output_{i}.pt"
+                torch.save(tensor, output_file)
+                print(f"Saved output_{i} to {output_file}", file=sys.stderr)
+
+        print("Execution completed successfully!", file=sys.stderr)
+
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
+    finally:
+        executor.close()
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="gRPC Client")
-    parser.add_argument("--server-ip", type=str, default="localhost")
-    parser.add_argument("--port", type=int, default=50052)
-    parser.add_argument("--timeout", type=float, default=10.0)
-    parser.add_argument("--rpc-cmd", type=str, default="execute_model")
-    parser.add_argument("--output-file-name", type=str, default="42")
-    parser.add_argument("--model-path", type=str, default=None,
-                        help="Path to model directory (optional)")
-    args = parser.parse_args()
-
-    run(server_ip=args.server_ip, port=args.port, timeout=args.timeout,
-        rpc_cmd=args.rpc_cmd, output_file_name=args.output_file_name,
-        model_path=args.model_path)
+    main()

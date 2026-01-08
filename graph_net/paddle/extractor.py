@@ -174,29 +174,43 @@ class GraphExtractor:
         paddle.set_flags(old_flags)
         return static_model
 
-    def translate_pir_program_to_sample_codes(
-        self,
-        model_dump_path,
-        split_positions=None,
-        group_head_and_tail=True,
-    ):
+    def get_ir_programs_path(self, model_dump_path):
         ir_programs_path = os.path.join(model_dump_path, "exec_programs.py")
+        assert os.path.isfile(
+            ir_programs_path
+        ), f"{ir_programs_path} is not a regular file."
+        return ir_programs_path
+
+    def get_example_inputs_path(self, model_dump_path):
         example_inputs_path = os.path.join(
             model_dump_path, "programs_example_input_tensor_meta.py"
         )
         assert os.path.isfile(
-            ir_programs_path
-        ), f"{ir_programs_path} is not a regular file."
-        assert os.path.isfile(
             example_inputs_path
         ), f"{example_inputs_path} is not a regular file."
+        return example_inputs_path
 
+    def generate_op_example_inputs_path(self, model_dump_path, split_positions):
         # Arguments for graph decomposer
         op_example_inputs_path = (
             os.path.join(model_dump_path, "op_example_input_tensor_meta.py")
             if split_positions
             else None
         )
+        return op_example_inputs_path
+
+    def translate_pir_program_to_sample_codes(
+        self,
+        model_dump_path,
+        split_positions=None,
+        group_head_and_tail=True,
+    ):
+        ir_programs_path = self.get_ir_programs_path(model_dump_path)
+        example_inputs_path = self.get_example_inputs_path(model_dump_path)
+        op_example_inputs_path = self.generate_op_example_inputs_path(
+            model_dump_path, split_positions
+        )
+
         all_samples = RunGeneration(
             model_name=self.name,
             ir_programs=ir_programs_path,

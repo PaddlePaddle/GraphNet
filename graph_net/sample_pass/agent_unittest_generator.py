@@ -116,7 +116,7 @@ import paddle
 {%- set mean = tensor_meta.mean -%}
 {%- set std = tensor_meta.std -%}
 {%- if data is not none -%}
-    paddle.to_tensor({{data}}, dtype='{{dtype}}', shape={{shape}}).to(device='{{device}}')
+    paddle.reshape(paddle.to_tensor({{data}}, dtype='{{dtype}}'), shape={{shape}}).to(device='{{device}}')
 {%- elif dtype == "bool" -%}
     paddle.randint(low=0, high=2, shape={{shape}}, dtype='{{dtype}}').to(device='{{device}}')
 {%- elif dtype in ["int8", "int16", "int32", "int64"] -%}
@@ -204,8 +204,6 @@ def load_class_from_file(file_path: str, class_name: str):
 
 
 class AgentUnittestGenerator:
-    """Generate standalone unittest scripts for Torch samples."""
-
     def __init__(
         self,
         framework: str,
@@ -432,7 +430,7 @@ class AgentUnittestGenerator:
 
 
 class AgentUnittestGeneratorPass(SamplePass, ResumableSamplePassMixin):
-    """SamplePass wrapper to generate Torch unittests via model_path_handler."""
+    """SamplePass to generate unittests in KernelBench format."""
 
     def __init__(self, config=None):
         super().__init__(config)

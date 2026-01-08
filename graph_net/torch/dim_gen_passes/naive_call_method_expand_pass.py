@@ -21,7 +21,7 @@ class ConcretePass(DimensionGeneralizationPass):
     def _node_need_rewrite(self, node) -> bool:
         if not (node.op == "call_method"):
             return False
-        if not (node.op == "expand"):
+        if not (node.target == "expand"):
             return False
         input_tensor_node = node.args[0]
         input_meta = input_tensor_node.meta.get("tensor_meta")

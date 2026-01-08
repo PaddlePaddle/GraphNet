@@ -4,7 +4,11 @@ import sys
 from scipy.stats import gmean
 from graph_net.config.datatype_tolerance_config import get_precision
 from graph_net.positive_tolerance_interpretation import PositiveToleranceInterpretation
+
 from graph_net.samples_statistics import determine_tolerances
+from graph_net.positive_tolerance_interpretation_manager import (
+    get_positive_tolerance_interpretation,
+)
 
 
 def detect_sample_status(log_text: str) -> str:
@@ -430,7 +434,10 @@ def check_sample_correctness(sample: dict, tolerance: int) -> tuple[bool, str]:
 
 
 def get_incorrect_models(
-    tolerance: int, log_file_path: str, type: str = "ESt"
+    tolerance: int,
+    log_file_path: str,
+    type: str = "ESt",
+    positive_tolerance_interpretation_type: str = "default",
 ) -> set[str]:
     """
     Filters and returns models with accuracy issues based on given tolerance threshold.
@@ -459,9 +466,15 @@ def get_incorrect_models(
             is_correct_at_t1[idx] = is_correct
             fail_type_at_t1[idx] = fail_type if fail_type is not None else "correct"
 
+        positive_tolerance_interpretation = get_positive_tolerance_interpretation(
+            positive_tolerance_interpretation_type
+        )
+
         for idx, sample in enumerate(samples):
             if not is_correct_at_t1[idx]:
-                current_correctness = fake_perf_degrad(tolerance, fail_type_at_t1[idx])
+                current_correctness = fake_perf_degrad(
+                    tolerance, fail_type_at_t1[idx], positive_tolerance_interpretation
+                )
                 failed_models.add(
                     sample.get("model_path")
                 ) if current_correctness != "correct" else None

@@ -95,7 +95,7 @@ def load_class_from_file(
 
 
 def convert_to_dict(config_str):
-    if config_str is None:
+    if config_str is None or config_str == "None":
         return {}
     config_str = base64.b64decode(config_str).decode("utf-8")
     config = json.loads(config_str)

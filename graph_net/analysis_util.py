@@ -4,7 +4,7 @@ import sys
 from scipy.stats import gmean
 from graph_net.config.datatype_tolerance_config import get_precision
 from graph_net.positive_tolerance_interpretation import PositiveToleranceInterpretation
-from graph_net.verify_aggregated_params import determine_tolerances
+from graph_net.samples_statistics import determine_tolerances
 
 
 def detect_sample_status(log_text: str) -> str:

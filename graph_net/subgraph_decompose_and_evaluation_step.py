@@ -705,11 +705,14 @@ def execute_decomposition_phase(decompose_config, pass_id, workspace):
 
 def print_incorrect_models(decompose_config, pass_id, log_prompt):
     incorrect_models = decompose_config.get_incorrect_models(pass_id)
-    original_model_paths = set(
-        model_name
-        for subgraph_path in incorrect_models
-        for model_name, _ in [extract_model_name_and_subgraph_idx(subgraph_path)]
-    )
+    if pass_id == -1:
+        original_model_paths = set(incorrect_models)
+    else:
+        original_model_paths = set(
+            model_name
+            for subgraph_path in incorrect_models
+            for model_name, _ in [extract_model_name_and_subgraph_idx(subgraph_path)]
+        )
 
     print(
         f"{log_prompt} number of incorrect subgraphs: {len(incorrect_models)}; number of incorrect original models: {len(original_model_paths)}",

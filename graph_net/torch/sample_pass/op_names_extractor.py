@@ -4,12 +4,13 @@ from typing import Any, Dict, List
 import torch
 import torch.nn as nn
 
+from graph_net.sample_pass.resumable_sample_pass_mixin import ResumableSamplePassMixin
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module_without_varify
 from graph_net.sample_pass.sample_pass import SamplePass
 
 
-class OpNamesExtractor(SamplePass):
+class OpNamesExtractor(SamplePass, ResumableSamplePassMixin):
     def __init__(self, config=None):
         super().__init__(config)
         if config is None:
@@ -18,19 +19,29 @@ class OpNamesExtractor(SamplePass):
         self.config = self._make_config(**config)
 
     def declare_config(
-        self, model_path_prefix: str, output_dir: str, resume: bool = False
+        self,
+        model_path_prefix: str,
+        output_dir: str,
+        resume: bool = False,
+        limits_handled_models: int = None,
     ):
         pass
 
-    def __call__(self, rel_model_path: str):
+    def sample_handled(self, rel_model_path: str) -> bool:
+        return self.naive_sample_handled(
+            rel_model_path, search_file_name="op_names.txt"
+        )
+
+    def resume(self, rel_model_path: str):
         torch.cuda.empty_cache()
         model_path = os.path.join(self.config["model_path_prefix"], rel_model_path)
-        output_path = self._get_output_path(rel_model_path)
-        if self.config["resume"] and output_path.exists():
-            return
         op_names = self._extract_ops(model_path)
+        output_path = self._get_output_path(rel_model_path)
         output_path.write_text("\n".join(op_names))
         print(f"Save op-names to {str(output_path)}")
+
+    def __call__(self, rel_model_path: str):
+        self.resumable_handle_sample(rel_model_path)
 
     def _make_config(
         self, model_path_prefix: str, output_dir: str, resume: bool = False

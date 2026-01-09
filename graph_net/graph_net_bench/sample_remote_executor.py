@@ -6,12 +6,8 @@ from typing import Tuple, Optional
 
 import torch
 
-try:
-    from .grpc import message_pb2
-    from .grpc import message_pb2_grpc
-except ImportError:
-    import message_pb2
-    import message_pb2_grpc
+from graph_net.graph_net_bench.grpc import message_pb2
+from graph_net.graph_net_bench.grpc import message_pb2_grpc
 
 
 class SampleRemoteExecutor:

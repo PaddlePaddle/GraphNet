@@ -2,20 +2,13 @@
 """gRPC Client CLI for SampleRemoteExecutor.
 
 Usage:
-    python -m graph_net.graph_net_bench.grpc.client --help
+    python -m graph_net.graph_net_bench.client --help
 """
 
 import argparse
 import sys
 
-try:
-    from ..sample_remote_executor import SampleRemoteExecutor
-except ImportError:
-    import sys
-    from pathlib import Path
-    # Add graph_net_bench directory to path for direct execution
-    sys.path.insert(0, str(Path(__file__).parent.parent))
-    from sample_remote_executor import SampleRemoteExecutor
+from graph_net.graph_net_bench.sample_remote_executor import SampleRemoteExecutor
 
 
 def main():

@@ -10,8 +10,8 @@ from pathlib import Path
 
 import grpc
 
-import message_pb2
-import message_pb2_grpc
+from graph_net.graph_net_bench.grpc import message_pb2
+from graph_net.graph_net_bench.grpc import message_pb2_grpc
 
 
 class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer):
@@ -47,7 +47,7 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
             env["OUTPUT_FILE_PATH"] = str(out_path)
             env["RANDOM_SEED"] = str(request.random_seed)
             # Add grpc directory to PYTHONPATH so message_pb2 can be imported
-            grpc_dir = Path(__file__).parent.resolve()
+            grpc_dir = Path(__file__).parent / "grpc"
             env["PYTHONPATH"] = f"{grpc_dir}:{env.get('PYTHONPATH', '')}"
 
             print(f"Executing rpc_cmd: {request.rpc_cmd}", file=sys.stderr)

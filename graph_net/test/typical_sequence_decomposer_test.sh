@@ -14,7 +14,7 @@ python3 -m graph_net.model_path_handler \
     --model-path-list $model_list \
     --handler-config=$(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/op_names_extractor.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/op_names_extractor.py",
     "handler_class_name": "OpNamesExtractor",
     "handler_config": {
         "resume": true,

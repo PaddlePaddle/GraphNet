@@ -7,39 +7,37 @@ OUTPUT_DIR="/tmp/dtype_gen_samples"
 mkdir -p "$OUTPUT_DIR"
 
 # Step 1: Initialize dtype generalization passes (samples of torchvision)
-python3 -m graph_net.model_path_handler \
-    --model-path-list "graph_net/config/small100_torch_samples_list.txt" \
-    --handler-config $(base64 -w 0 <<EOF
+python3 -m graph_net.apply_sample_pass \
+    --model-path-list "graph_net/config/small10_torch_samples_list.txt" \
+    --sample-pass-file-path "$GRAPH_NET_ROOT/torch/dtype_generalizer.py" \
+    --sample-pass-class-name InitDataTypeGeneralizationPasses \
+    --sample-pass-config $(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/torch/dtype_generalizer.py",
-    "handler_class_name": "InitDataTypeGeneralizationPasses",
-    "handler_config": {
-        "dtype_list": ["float16", "bfloat16"],
-        "model_path_prefix": "$SAMPLES_ROOT"
-    }
+    "dtype_list": ["float16", "bfloat16"],
+    "model_path_prefix": "$SAMPLES_ROOT"
 }
 EOF
-) 
+)
 
 # Step 2: Apply passes to generate samples
-python3 -m graph_net.model_path_handler \
-    --model-path-list "graph_net/config/small100_torch_samples_list.txt" \
-    --handler-config $(base64 -w 0 <<EOF
+python3 -m graph_net.apply_sample_pass \
+    --model-path-list "graph_net/config/small10_torch_samples_list.txt" \
+    --sample-pass-file-path "$GRAPH_NET_ROOT/torch/dtype_generalizer.py" \
+    --sample-pass-class-name ApplyDataTypeGeneralizationPasses \
+    --sample-pass-config $(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/torch/dtype_generalizer.py",
-    "handler_class_name": "ApplyDataTypeGeneralizationPasses",
-    "handler_config": {
-        "output_dir": "$OUTPUT_DIR",
-        "model_path_prefix": "$SAMPLES_ROOT",
-        "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
-        "model_runnable_predicator_class_name": "RunModelPredicator",
-        "model_runnable_predicator_config": {
-            "use_dummy_inputs": true
-        }
+    "output_dir": "$OUTPUT_DIR",
+    "model_path_prefix": "$SAMPLES_ROOT",
+    "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
+    "model_runnable_predicator_class_name": "RunModelPredicator",
+    "model_runnable_predicator_config": {
+        "use_dummy_inputs": true
     }
 }
 EOF
-) 
+)
+
+
 # Step 3: Valiation
 SUCCESS_CNT=0
 FAIL_CNT=0

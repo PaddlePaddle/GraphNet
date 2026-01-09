@@ -71,6 +71,9 @@ class GraphExtractor:
 
 
 PADDLE_UNITTEST_TEMPLATE = r"""
+# This unittest is auto-generated from https://github.com/PaddlePaddle/GraphNet/tree/develop/{{graph_module_desc.rel_model_path_to_graphnet}}
+# with subgraph_range={{graph_module_desc.subgraph_range}}.
+#
 # Usage:
 # 1. Run following command on reference hardware.
 #    python {{graph_module_desc.model_name}}_test.py --is-reference --device "cuda" --reference-dir "test_reference_outputs"
@@ -173,18 +176,25 @@ def tolerance_generator(tolerance, dtype):
 
 
 class {{graph_module_desc.test_name}}Test(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         self.device = TEST_ARGS.device
         self.is_reference = TEST_ARGS.is_reference
         self.reference_dir = TEST_ARGS.reference_dir
-        self.tolerance = {{graph_module_desc.tolerance}}
+        self.tolerance = TEST_ARGS.tolerance
+        self.random_seed = TEST_ARGS.random_seed
+        self.runtime_seed = TEST_ARGS.runtime_seed
 
-        paddle.seed(123)
-        random.seed(123)
-        np.random.seed(123)
+        paddle.seed(self.random_seed)
+        random.seed(self.random_seed)
+        np.random.seed(self.random_seed)
 
         self.input_dict = get_input_dict(self.device)
         self.test_model = TestModel()
+        self.test_model.eval()
+
+        if any(k in self.device for k in ["cuda", "gpu"]):
+            paddle.set_flags({"FLAGS_cudnn_exhaustive_search": 1})
 
     def _flatten_outputs_to_list(self, outs):
         flattened_outs = outs
@@ -273,9 +283,15 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
 
         for reference, target in zip(reference_outputs, target_outputs):
             atol, rtol = tolerance_generator(self.tolerance, reference.dtype)
-            np.testing.assert_allclose(_convert_to_numpy(reference), _convert_to_numpy(target), atol, rtol)
+            np.testing.assert_allclose(
+                actual=_convert_to_numpy(target),
+                desired=_convert_to_numpy(reference),
+                atol=atol,
+                rtol=rtol,
+            )
 
     def test_separated(self):
+        paddle.seed(self.runtime_seed)
         prologue_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_prologue_reference.pdout")
         prologue_outputs = self.run_prologue_layer()
         if self.is_reference:
@@ -285,9 +301,10 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
         else:
             print(f"Load prologue output tensors from {prologue_output_path}")
             prologue_reference_outputs = paddle.load(prologue_output_path)
-            self.check_results(prologue_reference_outputs, prologue_outputs)
+            with self.subTest(name="check_prologue_outputs"):
+                self.check_results(prologue_reference_outputs, prologue_outputs)
 
-        test_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_separate_reference.pdout")
+        test_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_separated_reference.pdout")
         test_outputs = self.run_suspect_layer(prologue_reference_outputs)
         if self.is_reference:
             print(f"Save test output tensors to {test_output_path}.")
@@ -295,9 +312,11 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
         else:
             print(f"Load test output tensors on reference device from {test_output_path}.")
             test_reference_outputs = paddle.load(test_output_path)
-            self.check_results(test_reference_outputs, test_outputs)
+            with self.subTest(name="check_suspect_outputs"):
+                self.check_results(test_reference_outputs, test_outputs)
 
     def test_combined(self):
+        paddle.seed(self.runtime_seed)
         test_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_combined_reference.pdout")
         test_outputs = self.run_test_model()
         if self.is_reference:
@@ -306,19 +325,25 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
         else:
             print(f"Load test output tensors on reference device from {test_output_path}.")
             test_reference_outputs = paddle.load(test_output_path)
-            self.check_results(test_reference_outputs, test_outputs)
+            with self.subTest(name="check_combined_outputs"):
+                self.check_results(test_reference_outputs, test_outputs)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--is-reference", action="store_true", default=False)
-    parser.add_argument("--device", type=str, required=True)
-    parser.add_argument("--reference-dir", type=str, required=True)
+    parser.add_argument("--is-reference", action="store_true", default=False, help="Whether it runs on the reference hardware.")
+    parser.add_argument("--device", type=str, required=True, help="Device to run on.")
+    parser.add_argument("--reference-dir", type=str, required=True, help="Directory to save the results on reference hardware.")
+    parser.add_argument("--tolerance", type=int, default={{graph_module_desc.tolerance}}, help="Tolerance level used in allclose check.")
+    parser.add_argument("--random-seed", type=int, default=123, help="Random seed to initialize the input tensors.")
+    parser.add_argument("--runtime-seed", type=int, default=1024, help="Random seed for runtime.")
     args, remaining = parser.parse_known_args()
 
     global TEST_ARGS
     TEST_ARGS = args
 
+    print(f"PaddlePaddle version: {paddle.__version__}")
+    print(f"PaddlePaddle commit: {paddle.version.commit}")
     unittest.main(argv=[sys.argv[0]] + remaining)
 """
 
@@ -337,6 +362,8 @@ GraphModuleDescriptor = namedtuple(
         "suspect_arg_names",
         "suspect_returns",
         "suspect_forward_func",
+        "rel_model_path_to_graphnet",
+        "subgraph_range",
     ],
 )
 
@@ -475,6 +502,10 @@ class PrologueSubgraphUnittestGenerator:
                 suspect_arg_names=suspect_arg_names,
                 suspect_returns=suspect_returns,
                 suspect_forward_func=suspect_forward_func,
+                rel_model_path_to_graphnet=self.parent_model_path.split("GraphNet/")[
+                    -1
+                ],
+                subgraph_range=self.subgraph_range,
             )
             return self._render_template(graph_module_desc)
 

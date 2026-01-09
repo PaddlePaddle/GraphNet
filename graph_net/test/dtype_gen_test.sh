@@ -8,7 +8,7 @@ mkdir -p "$OUTPUT_DIR"
 
 # Step 1: Initialize dtype generalization passes (samples of torchvision)
 python3 -m graph_net.apply_sample_pass \
-    --model-path-list "graph_net/config/small10_torch_samples_list.txt" \
+    --model-path-list "graph_net/config/small100_torch_samples_list.txt" \
     --sample-pass-file-path "$GRAPH_NET_ROOT/torch/dtype_generalizer.py" \
     --sample-pass-class-name InitDataTypeGeneralizationPasses \
     --sample-pass-config $(base64 -w 0 <<EOF
@@ -21,7 +21,7 @@ EOF
 
 # Step 2: Apply passes to generate samples
 python3 -m graph_net.apply_sample_pass \
-    --model-path-list "graph_net/config/small10_torch_samples_list.txt" \
+    --model-path-list "graph_net/config/small100_torch_samples_list.txt" \
     --sample-pass-file-path "$GRAPH_NET_ROOT/torch/dtype_generalizer.py" \
     --sample-pass-class-name ApplyDataTypeGeneralizationPasses \
     --sample-pass-config $(base64 -w 0 <<EOF

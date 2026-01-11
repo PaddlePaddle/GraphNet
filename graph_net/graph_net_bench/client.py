@@ -44,7 +44,7 @@ def main():
     parser.add_argument(
         "--rpc-cmd",
         type=str,
-        default="python3 /denghaodong/code/GraphNet/graph_net/graph_net_bench/sample_rpc_cmd.py",
+        default="python3 -m graph_net.torch.test_reference_device",
         help="Command to execute on remote server",
     )
     parser.add_argument(

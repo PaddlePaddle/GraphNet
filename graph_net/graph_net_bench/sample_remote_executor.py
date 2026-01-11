@@ -12,7 +12,7 @@ from graph_net.graph_net_bench.grpc import message_pb2_grpc
 
 class SampleRemoteExecutor:
 
-    def __init__(self, machine: str, port: int, rpc_cmd: str = "python3 /denghaodong/code/GraphNet/graph_net/graph_net_bench/sample_rpc_cmd.py"):
+    def __init__(self, machine: str, port: int, rpc_cmd: str = "python3 -m graph_net.torch.test_reference_device"):
         self.machine = machine
         self.port = port
         self.rpc_cmd = rpc_cmd
@@ -29,7 +29,6 @@ class SampleRemoteExecutor:
 
         compressed_data = self._compress_dir(model_path)
 
-        # 输出文件名必须包含扩展名（mentor 约定）
         output_file_name = f"outputs_seed_{random_seed}.npz"
 
         request = message_pb2.ExecutionRequest(
@@ -79,11 +78,9 @@ class SampleRemoteExecutor:
         import numpy as np
 
         with np.load(BytesIO(npz_bytes), allow_pickle=False) as npz:
-            # 只接受 output_{i} 格式，按 i 排序，保证返回 tuple 稳定
             keys = [k for k in npz.files if k.startswith("output_")]
 
             def key_index(k: str) -> int:
-                # "output_0" -> 0
                 return int(k.split("_", 1)[1])
 
             keys.sort(key=key_index)

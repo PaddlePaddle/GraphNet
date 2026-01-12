@@ -92,6 +92,7 @@ class TaskController:
         assert test_module_name in [
             "test_compiler",
             "test_reference_device",
+            "test_remote_reference_device",
             "test_target_device",
         ]
         if test_module_name == "test_compiler":
@@ -103,6 +104,12 @@ class TaskController:
         elif test_module_name == "test_reference_device":
             self.task_scheduler = {
                 "run_decomposer": True,
+                "run_evaluation": True,
+                "post_analysis": False,
+            }
+        elif test_module_name == "test_remote_reference_device":
+            self.task_scheduler = {
+                "run_decomposer": False,
                 "run_evaluation": True,
                 "post_analysis": False,
             }

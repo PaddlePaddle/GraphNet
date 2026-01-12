@@ -39,6 +39,9 @@ from torch.fx.passes.shape_prop import ShapeProp
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
 
+from graph_net.sample_pass.sample_pass import SamplePass
+from graph_net.sample_pass.resumable_sample_pass_mixin import ResumableSamplePassMixin
+
 # Weights that must remain float32 for numerical stability
 FLOAT32_PRESERVED_WEIGHTS = {
     "running_mean",
@@ -51,7 +54,7 @@ FLOAT32_PRESERVED_WEIGHTS = {
 }
 
 
-class InitDataTypeGeneralizationPasses:
+class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
     """
     Step 1: Initialize data type generalization passes for a computation graph.
 
@@ -66,6 +69,8 @@ class InitDataTypeGeneralizationPasses:
     """
 
     def __init__(self, config: Dict[str, Any]):
+        super().__init__(config)
+
         self.config = config
         self.dtype_list = config.get("dtype_list", ["float16", "bfloat16"])
         self.model_path_prefix = config.get("model_path_prefix", "")
@@ -78,7 +83,25 @@ class InitDataTypeGeneralizationPasses:
                     f"Invalid dtype: {dtype}. Must be one of {valid_dtypes}"
                 )
 
+    def declare_config(
+        self,
+        dtype_list: str,
+        model_path_prefix: str,
+        output_dir: str,
+        resume: bool = False,
+        limits_handled_models: int = None,
+    ):
+        pass
+
+    def sample_handled(self, rel_model_path: str) -> bool:
+        return self.naive_sample_handled(
+            rel_model_path, search_file_name="op_names.txt"
+        )
+
     def __call__(self, model_path: str) -> None:
+        self.resumable_handle_sample(model_path)
+
+    def resume(self, model_path: str) -> None:
         """
         Initialize dtype passes for the given model.
 
@@ -195,7 +218,7 @@ class InitDataTypeGeneralizationPasses:
         update_json(model_path, kDataTypeGeneralizationPasses, dtype_pass_names)
 
 
-class ApplyDataTypeGeneralizationPasses:
+class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
     """
     Step 2: Apply data type generalization passes to generate new samples.
 
@@ -213,6 +236,8 @@ class ApplyDataTypeGeneralizationPasses:
     """
 
     def __init__(self, config: Dict[str, Any]):
+        super().__init__(config)
+
         self.config = config
         self.output_dir = config.get("output_dir")
         if not self.output_dir:
@@ -228,6 +253,18 @@ class ApplyDataTypeGeneralizationPasses:
             )
         self.model_runnable_predicator = self._make_model_runnable_predicator(config)
 
+    def declare_config(
+        self,
+        output_dir: str,
+        model_path_prefix: str,
+        model_runnable_predicator_filepath: str,
+        model_runnable_predicator_class_name: str,
+        model_runnable_predicator_config: dict,
+        resume: bool = False,
+        limits_handled_models: int = None,
+    ):
+        pass
+
     def _make_model_runnable_predicator(self, config: Dict[str, Any]):
         """Create model runnable predicator from config."""
         module = load_module(config["model_runnable_predicator_filepath"])
@@ -238,7 +275,15 @@ class ApplyDataTypeGeneralizationPasses:
         predicator_config = config.get("model_runnable_predicator_config", {})
         return cls(predicator_config)
 
-    def __call__(self, model_path: str) -> List[str]:
+    def sample_handled(self, rel_model_path: str) -> bool:
+        return self.naive_sample_handled(
+            rel_model_path, search_file_name="op_names.txt"
+        )
+
+    def __call__(self, rel_model_path: str):
+        self.resumable_handle_sample(rel_model_path)
+
+    def resume(self, model_path: str) -> List[str]:
         """
         Apply dtype passes to generate new samples.
 

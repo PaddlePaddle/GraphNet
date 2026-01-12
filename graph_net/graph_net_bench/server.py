@@ -21,18 +21,12 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
         output_workspace = tempfile.mkdtemp(prefix="remote_output_")
 
         try:
-            # 0) 基本校验
+          # 0) 基本校验
             if not request.rpc_cmd:
                 return message_pb2.ExecutionReply(ret_code=-1, stderr="rpc_cmd is empty")
 
             if not request.HasField("output_file_name") or not request.output_file_name:
                 return message_pb2.ExecutionReply(ret_code=-1, stderr="output_file_name is required")
-
-            if request.rpc_input.WhichOneof("rpc_data_type") != "compressed_data":
-                return message_pb2.ExecutionReply(
-                    ret_code=-1,
-                    stderr="rpc_input must be RpcData.compressed_data (tar.gz bytes)",
-                )
 
             # 1) 解压输入到 input_workspace
             self._decompress_to_dir(request.rpc_input.compressed_data, input_workspace)
@@ -72,17 +66,23 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
                     stderr=proc.stderr or f"rpc_cmd failed with returncode={proc.returncode}",
                 )
 
-            # 3) 回读输出文件
-            if not out_path.exists():
-                print(f"Output file not found at {out_path}", file=sys.stderr)
-                print(f"Contents of output_workspace: {list(Path(output_workspace).rglob('*'))}", file=sys.stderr)
+          # 3) 将所有文件打包成 tar.gz
+            output_tar_path = Path(output_workspace) / "output.tar.gz"
+            with tarfile.open(output_tar_path, "w:gz") as tar:
+                for file_path in Path(output_workspace).rglob("*"):
+                    if file_path.is_file() and file_path != output_tar_path:
+                        arcname = file_path.relative_to(output_workspace)
+                        tar.add(file_path, arcname=arcname)
+
+            if not output_tar_path.exists():
+                print(f"No output files found in {output_workspace}", file=sys.stderr)
                 return message_pb2.ExecutionReply(
                     ret_code=-1,
                     stdout=proc.stdout or "",
-                    stderr=(proc.stderr or "") + f"\nExpected output not found: {out_path}",
+                    stderr=(proc.stderr or "") + f"\nNo output files found in {output_workspace}",
                 )
 
-            payload = out_path.read_bytes()
+            payload = output_tar_path.read_bytes()
 
             return message_pb2.ExecutionReply(
                 ret_code=0,
@@ -90,10 +90,10 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
                 stderr=proc.stderr or "",
                 rpc_output=message_pb2.RpcData(
                     compressed_data=message_pb2.CompressedData(
-                        filename=request.output_file_name,
+                        filename=output_tar_path.name,
                         original_size=len(payload),
                         payload=payload,
-                        compression_algo="raw",
+                        compression_algo="gzip",
                     )
                 ),
             )

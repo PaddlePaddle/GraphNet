@@ -168,7 +168,7 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
             self.extracted = True
         return self.submodule(*args)
 
-    def _save_subgraph_sources(self):
+    def _subgra_subgraph_sources(self):
         sources_json_obj = self._get_sources_json_obj()
         model_path = self._get_model_path()
         model_path.mkdir(parents=True, exist_ok=True)

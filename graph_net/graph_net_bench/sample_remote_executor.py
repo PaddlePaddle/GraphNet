@@ -12,7 +12,7 @@ from graph_net.graph_net_bench.grpc import message_pb2_grpc
 
 class SampleRemoteExecutor:
 
-    def __init__(self, machine: str, port: int, rpc_cmd: str = "python3 /denghaodong/code/GraphNet/graph_net/graph_net_bench/sample_rpc_cmd.py"):
+    def __init__(self, machine: str, port: int, rpc_cmd: str = "python3 -m graph_net.torch.test_reference_device"):
         self.machine = machine
         self.port = port
         self.rpc_cmd = rpc_cmd
@@ -25,11 +25,10 @@ class SampleRemoteExecutor:
             self._stub = message_pb2_grpc.SampleRemoteExecutorStub(self._channel)
         return self._stub
 
-    def __call__(self, model_path: str, random_seed: int) -> Tuple[torch.Tensor, ...]:
+    def __call__(self, model_path: str, random_seed: int) -> dict:
 
         compressed_data = self._compress_dir(model_path)
 
-        # 输出文件名必须包含扩展名（mentor 约定）
         output_file_name = f"outputs_seed_{random_seed}.npz"
 
         request = message_pb2.ExecutionRequest(
@@ -53,8 +52,8 @@ class SampleRemoteExecutor:
         if reply.rpc_output.WhichOneof("rpc_data_type") != "compressed_data":
             raise RuntimeError("Remote execution succeeded but rpc_output is not compressed_data")
 
-        npz_bytes = reply.rpc_output.compressed_data.payload
-        return self._npz_bytes_to_tensors(npz_bytes)
+        # 解压返回的 tar.gz 文件
+        return self._extract_tar_to_dict(reply.rpc_output.compressed_data)
 
     def _compress_dir(self, model_path: str):
         buffer = BytesIO()
@@ -75,24 +74,16 @@ class SampleRemoteExecutor:
             compression_algo="gzip",
         )
 
-    def _npz_bytes_to_tensors(self, npz_bytes: bytes) -> Tuple[torch.Tensor, ...]:
-        import numpy as np
-
-        with np.load(BytesIO(npz_bytes), allow_pickle=False) as npz:
-            # 只接受 output_{i} 格式，按 i 排序，保证返回 tuple 稳定
-            keys = [k for k in npz.files if k.startswith("output_")]
-
-            def key_index(k: str) -> int:
-                # "output_0" -> 0
-                return int(k.split("_", 1)[1])
-
-            keys.sort(key=key_index)
-
-            tensors = []
-            for k in keys:
-                arr = npz[k]
-                tensors.append(torch.from_numpy(arr))  # 默认 CPU
-            return tuple(tensors)
+    def _extract_tar_to_dict(self, compressed_data: message_pb2.CompressedData) -> dict:
+        """Extract tar.gz to {filename: bytes} dict."""
+        buffer = BytesIO(compressed_data.payload)
+        files_dict = {}
+        with tarfile.open(fileobj=buffer, mode="r:gz") as tar:
+            for member in tar.getmembers():
+                if member.isfile():
+                    file_content = tar.extractfile(member).read()
+                    files_dict[member.name] = file_content
+        return files_dict
 
     def close(self):
         if self._channel is not None:

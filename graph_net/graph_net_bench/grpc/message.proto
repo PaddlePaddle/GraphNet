@@ -11,9 +11,8 @@ message CompressedData {
 
 message RpcData {
     oneof rpc_data_type {
-        CompressedData compressed_data = 1;
+        CompressedData compressed_data = 1;  // For input (single tar.gz)
         string str_data = 2;
-        bytes npz_data = 3;
     }
 }
 

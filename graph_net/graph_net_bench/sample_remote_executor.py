@@ -29,7 +29,7 @@ class SampleRemoteExecutor:
 
         compressed_data = self._compress_dir(model_path)
 
-        output_file_name = f"outputs_seed_{random_seed}.npz"
+        output_file_name = f"outputs_seed_{random_seed}"
 
         request = message_pb2.ExecutionRequest(
             rpc_cmd=self.rpc_cmd,

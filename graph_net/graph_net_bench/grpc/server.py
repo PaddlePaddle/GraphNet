@@ -40,14 +40,29 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
             env["OUTPUT_FILE_NAME"] = request.output_file_name
             env["OUTPUT_FILE_PATH"] = str(out_path)
             env["RANDOM_SEED"] = str(request.random_seed)
-            # Add grpc directory to PYTHONPATH so message_pb2 can be imported
-            grpc_dir = Path(__file__).parent / "grpc"
-            env["PYTHONPATH"] = f"{grpc_dir}:{env.get('PYTHONPATH', '')}"
+            # Ensure GraphNet repo root is on PYTHONPATH for the subprocess.
+            # server.py path: <repo_root>/graph_net/graph_net_bench/grpc/server.py
+            repo_root = Path(__file__).resolve().parents[3]
+            env["PYTHONPATH"] = f"{repo_root}:{env.get('PYTHONPATH', '')}"
+            rpc_cmd = request.rpc_cmd.strip()
+            rpc_cmd = f"{sys.executable} -m " + rpc_cmd[len("python3 -m "):]
 
-            print(f"Executing rpc_cmd: {request.rpc_cmd}", file=sys.stderr)
+            # Auto-append required args for known entrypoints
+            # test_reference_device requires --model-path and --reference-dir
+            if "graph_net.torch.test_reference_device" in rpc_cmd:
+                # Use env vars so server controls actual paths
+                rpc_cmd += ' --model-path "$INPUT_WORKSPACE"'
+                rpc_cmd += ' --reference-dir "$OUTPUT_WORKSPACE"'
+                rpc_cmd += ' --seed "$RANDOM_SEED"'
+                # Keep default behavior consistent with test_reference_device constraints
+                # (it asserts device == cuda)
+                if " --device " not in rpc_cmd:
+                    rpc_cmd += " --device cuda"
+            print("rpc_cmd",rpc_cmd)
+            print(f"Executing rpc_cmd: {rpc_cmd}", file=sys.stderr)
             print(f"Working directory: {input_workspace}", file=sys.stderr)
             proc = subprocess.run(
-                request.rpc_cmd,
+                rpc_cmd,
                 shell=True,
                 cwd=input_workspace,
                 env=env,

@@ -42,11 +42,21 @@ def test_single_model_remote(args):
     try:
         # 2. 调用远程执行
         print(f"Sending request to {args.machine}:{args.port}...", file=sys.stderr)
-        files_dict = executor(args.model_path, args.random_seed)
+        files_dict = executor(args.model_path, args.seed)
         
         # 3. 处理返回的文件
         log_filename = Path(ref_log).name
         pth_filename = Path(ref_dump).name
+
+        # Fallback: remote filenames may differ because remote --model-path differs.
+        # Try to locate *.log / *.pth in returned files.
+        available_logs = sorted([k for k in files_dict.keys() if k.endswith(".log")])
+        available_pths = sorted([k for k in files_dict.keys() if k.endswith(".pth")])
+
+        if log_filename not in files_dict and len(available_logs) == 1:
+            log_filename = available_logs[0]
+        if pth_filename not in files_dict and len(available_pths) == 1:
+            pth_filename = available_pths[0]
         
         if log_filename in files_dict:
             log_content = files_dict[log_filename]
@@ -54,7 +64,11 @@ def test_single_model_remote(args):
                 f.write(log_content)
             print(f"Saved log to {ref_log}", file=sys.stderr)
         else:
-            print(f"Warning: log file {log_filename} not found in remote output", file=sys.stderr)
+            print(
+                f"Warning: log file not found in remote output. "
+                f"expected={Path(ref_log).name}, available_logs={available_logs}",
+                file=sys.stderr,
+            )
         
         if pth_filename in files_dict:
             pth_content = files_dict[pth_filename]
@@ -62,14 +76,17 @@ def test_single_model_remote(args):
                 f.write(pth_content)
             print(f"Saved outputs to {ref_dump}", file=sys.stderr)
             
-            # 验证加载
             try:
                 outputs = torch.load(ref_dump)
                 print(f"Loaded {len(outputs) if isinstance(outputs, tuple) else 1} output tensor(s)", file=sys.stderr)
             except Exception as e:
                 print(f"Warning: Failed to load outputs: {e}", file=sys.stderr)
         else:
-            print(f"Warning: output file {pth_filename} not found in remote output", file=sys.stderr)
+            print(
+                f"Warning: output file not found in remote output. "
+                f"expected={Path(ref_dump).name}, available_pths={available_pths}",
+                file=sys.stderr,
+            )
         
         # 4. 将日志内容打印到 stderr（与 test_reference_device.py 一致）
         if log_filename in files_dict:

@@ -104,7 +104,7 @@ class TaskController:
         elif test_module_name == "test_reference_device":
             self.task_scheduler = {
                 "run_decomposer": True,
-                "run_evaluation": True,
+                "run_evaluation": False,
                 "post_analysis": False,
             }
         elif test_module_name == "test_remote_reference_device":

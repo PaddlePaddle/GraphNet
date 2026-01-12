@@ -10,8 +10,7 @@ import sys
 
 from graph_net.graph_net_bench.sample_remote_executor import SampleRemoteExecutor
 
-
-def main():
+def main(args):
     parser = argparse.ArgumentParser(
         description="gRPC Client for remote model execution",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -54,7 +53,6 @@ def main():
         help="Directory to save output tensors (default: current directory)",
     )
 
-    args = parser.parse_args()
 
     executor = SampleRemoteExecutor(
         machine=args.machine,

@@ -1,3 +1,4 @@
 pre-commit
 astor
-git+https://github.com/PaddlePaddle/Athena.git@9199100d24705dbdbb3566359498c1b0c8f0a87b
+scipy
+git+https://github.com/PaddlePaddle/Athena.git@d7a73024a262cda44e372f2bf6ead19787b112af

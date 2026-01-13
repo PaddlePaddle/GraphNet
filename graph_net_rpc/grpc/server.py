@@ -15,7 +15,6 @@ from graph_net_rpc.grpc import message_pb2_grpc
 
 
 class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer):
-
     def Execute(self, request, context):
         input_workspace = tempfile.mkdtemp(prefix="remote_input_")
         output_workspace = tempfile.mkdtemp(prefix="remote_output_")
@@ -24,46 +23,39 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
             return self._execute_core(request, input_workspace, output_workspace)
         except Exception as e:
             import traceback
-            return message_pb2.ExecutionReply(ret_code=-1, stderr=f"{e}\n{traceback.format_exc()}")
+
+            return message_pb2.ExecutionReply(
+                ret_code=-1, stderr=f"{e}\n{traceback.format_exc()}"
+            )
         finally:
             shutil.rmtree(input_workspace, ignore_errors=True)
             shutil.rmtree(output_workspace, ignore_errors=True)
 
-    def _execute_core(self, request, input_workspace, output_workspace):
+    def _execute_core(self, request, input_workspace: str, output_workspace: str):
         """Execute the RPC command core logic."""
-        if not request.rpc_cmd:
+        # Basic validation
+        rpc_cmd = (request.rpc_cmd or "").strip()
+        if not rpc_cmd:
             return message_pb2.ExecutionReply(ret_code=-1, stderr="rpc_cmd is empty")
 
-        if not request.HasField("output_file_name") or not request.output_file_name:
-            return message_pb2.ExecutionReply(ret_code=-1, stderr="output_file_name is required")
+        # Expect compressed input
+        if request.rpc_input.WhichOneof("rpc_data_type") != "compressed_data":
+            return message_pb2.ExecutionReply(
+                ret_code=-1,
+                stderr="rpc_input must be RpcData.compressed_data (tar.gz payload)",
+            )
 
         # 1) decompress to input_workspace
         self._decompress_to_dir(request.rpc_input.compressed_data, input_workspace)
 
-        # 2) execute rpc_cmd
-        out_path = Path(output_workspace) / request.output_file_name
-
         env = os.environ.copy()
         env["INPUT_WORKSPACE"] = input_workspace
         env["OUTPUT_WORKSPACE"] = output_workspace
-        env["OUTPUT_FILE_NAME"] = request.output_file_name
-        env["OUTPUT_FILE_PATH"] = str(out_path)
-
         # Ensure GraphNet repo root is on PYTHONPATH for the subprocess.
-        repo_root = Path(__file__).resolve().parents[3]
+        repo_root = Path(__file__).resolve().parents[2]
         env["PYTHONPATH"] = f"{repo_root}:{env.get('PYTHONPATH', '')}"
-        rpc_cmd = request.rpc_cmd.strip()
-        rpc_cmd = f"{sys.executable} -m " + rpc_cmd[len("python3 -m "):]
+        print(f"repo_root: {repo_root}")
 
-        # Auto-append required args for known entrypoints
-        if "graph_net.torch.test_reference_device" in rpc_cmd:
-            # Use env vars so server controls actual paths
-            rpc_cmd += ' --model-path "$INPUT_WORKSPACE"'
-            rpc_cmd += ' --reference-dir "$OUTPUT_WORKSPACE"'
-            # Keep default behavior consistent with test_reference_device constraints
-            if " --device " not in rpc_cmd:
-                rpc_cmd += " --device cuda"
-        print("rpc_cmd",rpc_cmd)
         print(f"Executing rpc_cmd: {rpc_cmd}", file=sys.stderr)
         print(f"Working directory: {input_workspace}", file=sys.stderr)
         proc = subprocess.run(
@@ -83,10 +75,11 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
             return message_pb2.ExecutionReply(
                 ret_code=proc.returncode,
                 stdout=proc.stdout or "",
-                stderr=proc.stderr or f"rpc_cmd failed with returncode={proc.returncode}",
+                stderr=proc.stderr
+                or f"rpc_cmd failed with returncode={proc.returncode}",
             )
 
-        # 3) tar.gz
+        # 3) Pack OUTPUT_WORKSPACE to output.tar.gz
         output_tar_path = Path(output_workspace) / "output.tar.gz"
         with tarfile.open(output_tar_path, "w:gz") as tar:
             for file_path in Path(output_workspace).rglob("*"):
@@ -95,11 +88,11 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
                     tar.add(file_path, arcname=arcname)
 
         if not output_tar_path.exists():
-            print(f"No output files found in {output_workspace}", file=sys.stderr)
             return message_pb2.ExecutionReply(
                 ret_code=-1,
                 stdout=proc.stdout or "",
-                stderr=(proc.stderr or "") + f"\nNo output files found in {output_workspace}",
+                stderr=(proc.stderr or "")
+                + f"\nNo output.tar.gz generated in {output_workspace}",
             )
 
         payload = output_tar_path.read_bytes()
@@ -118,7 +111,9 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
             ),
         )
 
-    def _decompress_to_dir(self, compressed_data: message_pb2.CompressedData, dst_dir: str) -> None:
+    def _decompress_to_dir(
+        self, compressed_data: message_pb2.CompressedData, dst_dir: str
+    ) -> None:
         buffer = BytesIO(compressed_data.payload)
         with tarfile.open(fileobj=buffer, mode="r:gz") as tar:
             tar.extractall(path=dst_dir)
@@ -127,7 +122,7 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
 def serve(port=50052, max_workers=4):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=max_workers))
     message_pb2_grpc.add_SampleRemoteExecutorServicer_to_server(
-        RemoteModelExecutorServicer(), 
+        RemoteModelExecutorServicer(),
         server,
     )
     server.add_insecure_port(f"0.0.0.0:{port}")
@@ -138,6 +133,7 @@ def serve(port=50052, max_workers=4):
 
 if __name__ == "__main__":
     import argparse
+
     parser = argparse.ArgumentParser(description="Remote Model Server")
     parser.add_argument("--port", type=int, default=50052)
     parser.add_argument("--max-workers", type=int, default=4)

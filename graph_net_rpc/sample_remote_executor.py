@@ -2,20 +2,22 @@ import grpc
 import tarfile
 from pathlib import Path
 from io import BytesIO
-from typing import Tuple, Optional
-
-import torch
+from typing import Optional, Dict
 
 from graph_net_rpc.grpc import message_pb2
 from graph_net_rpc.grpc import message_pb2_grpc
 
 
 class SampleRemoteExecutor:
+    """
+    - compresses a local directory (model_path) into tar.gz payload
+    - sends rpc_cmd and rpc_input (model_path) to the server
+    - returns a dict of {relative_path_in_tar: bytes} extracted from the server's output tar.gz
+    """
 
-    def __init__(self, machine: str, port: int, rpc_cmd: str = "python3 -m graph_net.torch.test_reference_device"):
+    def __init__(self, machine: str, port: int):
         self.machine = machine
         self.port = port
-        self.rpc_cmd = rpc_cmd
         self._channel: Optional[grpc.Channel] = None
         self._stub = None
 
@@ -25,16 +27,12 @@ class SampleRemoteExecutor:
             self._stub = message_pb2_grpc.SampleRemoteExecutorStub(self._channel)
         return self._stub
 
-    def __call__(self, model_path: str, random_seed: int) -> dict:
-
+    def execute(self, model_path: str, rpc_cmd: str) -> Dict[str, bytes]:
         compressed_data = self._compress_dir(model_path)
 
-        output_file_name = f"outputs_seed_{random_seed}"
-        rpc_cmd = f"{self.rpc_cmd} --seed {int(random_seed)}"
         request = message_pb2.ExecutionRequest(
             rpc_cmd=rpc_cmd,
             rpc_input=message_pb2.RpcData(compressed_data=compressed_data),
-            output_file_name=output_file_name,
         )
 
         stub = self._get_stub()
@@ -49,12 +47,13 @@ class SampleRemoteExecutor:
             )
 
         if reply.rpc_output.WhichOneof("rpc_data_type") != "compressed_data":
-            raise RuntimeError("Remote execution succeeded but rpc_output is not compressed_data")
+            raise RuntimeError(
+                "Remote execution succeeded but rpc_output is not compressed_data"
+            )
 
-        # decompress returned tar.gz file
         return self._extract_tar_to_dict(reply.rpc_output.compressed_data)
 
-    def _compress_dir(self, model_path: str):
+    def _compress_dir(self, model_path: str) -> message_pb2.CompressedData:
         buffer = BytesIO()
         model_dir = Path(model_path)
 
@@ -73,15 +72,18 @@ class SampleRemoteExecutor:
             compression_algo="gzip",
         )
 
-    def _extract_tar_to_dict(self, compressed_data: message_pb2.CompressedData) -> dict:
-        """Extract tar.gz to {filename: bytes} dict."""
+    def _extract_tar_to_dict(
+        self, compressed_data: message_pb2.CompressedData
+    ) -> Dict[str, bytes]:
         buffer = BytesIO(compressed_data.payload)
-        files_dict = {}
+        files_dict: Dict[str, bytes] = {}
         with tarfile.open(fileobj=buffer, mode="r:gz") as tar:
             for member in tar.getmembers():
                 if member.isfile():
-                    file_content = tar.extractfile(member).read()
-                    files_dict[member.name] = file_content
+                    f = tar.extractfile(member)
+                    if f is None:
+                        continue
+                    files_dict[member.name] = f.read()
         return files_dict
 
     def close(self):

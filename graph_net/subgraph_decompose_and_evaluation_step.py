@@ -751,7 +751,7 @@ def print_summary_and_suggestion(decompose_config, pass_id):
         )
     elif decompose_config.max_subgraph_size <= 1:
         print(
-            f">>> [Conclusion] Decomposition has reached the minimal granularity (max_subgraph_size = 1) after {pass_id} steps.",
+            f">>> [Conclusion] Decomposition has reached the minimal granularity (max_subgraph_size = 1) after {pass_id + 1} steps.",
             flush=True,
         )
     print("=" * 80, flush=True)

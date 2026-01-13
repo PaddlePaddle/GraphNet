@@ -17,6 +17,8 @@ class AutoFaultLocator:
         self.decompose_method = args.decompose_method
         self.max_subgraph_size = str(args.max_subgraph_size)
         self.tolerance = [str(t) for t in args.tolerance]
+        self.reference_device = args.reference_device
+        self.target_device = args.target_device
         os.makedirs(self.output_dir, exist_ok=True)
 
     def _get_latest_pass_dir(self):
@@ -35,7 +37,7 @@ class AutoFaultLocator:
         _, latest_path = max(valid_passes)
         return latest_path
 
-    def _run_sungraph_decomposed_and_evaluation_step_cmd(self, config_str):
+    def get_one_step_cmd(self, config_str):
         config_b64 = convert_json_to_b64_string(config_str)
         return [
             sys.executable,
@@ -68,27 +70,18 @@ class AutoFaultLocator:
                 "model-path": None,
                 "reference-dir": None,
                 "compiler": "nope",
-                "device": "cuda",
+                "device": self.reference_device,
                 "warmup": 5,
                 "trials": 20,
             },
         }
 
-        cmd = self._run_sungraph_decomposed_and_evaluation_step_cmd(
-            test_reference_device_config_str
-        )
-        try:
-            print(f"Executing: {' '.join(cmd)}")
-            subprocess.run(cmd, check=True, text=True)
-            print(
-                "[AutoFaultLocator] Run Remote Reference Device Finished Successfully."
-            )
-            return True
-        except subprocess.CalledProcessError as e:
-            print(
-                f"[AutoFaultLocator] Error: Run Remote Reference Device failed with return code {e.returncode}"
-            )
-            return False
+        cmd = self.get_one_step_cmd(test_reference_device_config_str)
+        print(f"Executing: {' '.join(cmd)}")
+        result = subprocess.run(cmd, check=True, text=True)
+        assert (
+            result.returncode == 0
+        ), f"Run Remote Reference Device failed with return code {result.returncode}"
 
     def run_local_test_target(self):
         print("\n>>> [Step 2] Run Local Target Device (Evaluation And Analysis)\n")
@@ -98,22 +91,16 @@ class AutoFaultLocator:
             "test_target_device_arguments": {
                 "model-path": None,
                 "reference-dir": None,
-                "device": "cuda",
+                "device": self.target_device,
             },
         }
 
-        cmd = self._run_sungraph_decomposed_and_evaluation_step_cmd(
-            test_target_device_config_str
-        )
-        try:
-            subprocess.run(cmd, check=True, text=True)
-            print("[AutoFaultLocator] Run Local Target Device Finished.")
-            return True
-        except subprocess.CalledProcessError as e:
-            print(
-                f"[AutoFaultLocator] Error: Run Local Target Device Failed with return code {e.returncode}"
-            )
-            return False
+        cmd = self.get_one_step_cmd(test_target_device_config_str)
+        print(f"Executing: {' '.join(cmd)}")
+        result = subprocess.run(cmd, check=True, text=True)
+        assert (
+            result.returncode == 0
+        ), f"Run Local Target Device failed with return code {result.returncode}"
 
     def analyze_and_decide_next(self):
         current_pass_dir = self._get_latest_pass_dir()
@@ -122,7 +109,7 @@ class AutoFaultLocator:
         try:
             decompose_config = DecomposeConfig.load(current_pass_dir)
         except Exception as e:
-            print(f"[Auto] Error loading config: {e}")
+            print(f"[AutoFaultLocator] Error loading config: {e}")
             return False
 
         if not decompose_config.get_incorrect_models(current_pass_id):
@@ -163,6 +150,18 @@ if __name__ == "__main__":
         help="Tolerance level range [-10, 5)",
     )
     parser.add_argument("--max-subgraph-size", type=int, default=4096)
+    parser.add_argument(
+        "--reference-device",
+        type=str,
+        default="cuda",
+        required=True,
+    )
+    parser.add_argument(
+        "--target-device",
+        type=str,
+        default="xpu",
+        required=True,
+    )
 
     # remote machine and port
     # parser.add_argument("--machine", type=str, default="localhost")

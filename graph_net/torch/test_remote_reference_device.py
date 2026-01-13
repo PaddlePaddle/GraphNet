@@ -10,7 +10,7 @@ import os
 import sys
 from pathlib import Path
 
-from graph_net.graph_net_bench.sample_remote_executor import SampleRemoteExecutor
+from graph_net_rpc.sample_remote_executor import SampleRemoteExecutor
 from graph_net import path_utils
 from graph_net import test_compiler_util
 
@@ -32,7 +32,6 @@ def test_single_model_remote(args):
     print(f"Reference log path: {ref_log}", file=sys.stderr, flush=True)
     print(f"Reference outputs path: {ref_dump}", file=sys.stderr, flush=True)
     
-    # 1. 初始化远程执行器
     executor = SampleRemoteExecutor(
         machine=args.machine,
         port=args.port,
@@ -40,11 +39,10 @@ def test_single_model_remote(args):
     )
     
     try:
-        # 2. 调用远程执行
         print(f"Sending request to {args.machine}:{args.port}...", file=sys.stderr)
         files_dict = executor(args.model_path, args.seed)
         
-        # 3. 处理返回的文件
+        # 3. returned files contain the log and output tensors
         log_filename = Path(ref_log).name
         pth_filename = Path(ref_dump).name
 
@@ -88,7 +86,7 @@ def test_single_model_remote(args):
                 file=sys.stderr,
             )
         
-        # 4. 将日志内容打印到 stderr（与 test_reference_device.py 一致）
+        # 4. print log to stderr
         if log_filename in files_dict:
             print(files_dict[log_filename].decode('utf-8'), file=sys.stderr, flush=True)
         

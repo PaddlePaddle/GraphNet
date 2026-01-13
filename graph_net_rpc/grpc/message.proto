@@ -20,7 +20,6 @@ message ExecutionRequest {
     string rpc_cmd = 1;
     RpcData rpc_input = 2;
     optional string output_file_name = 3;
-    int64 random_seed = 4;
 }
 
 message ExecutionReply {
@@ -33,7 +32,3 @@ message ExecutionReply {
 service SampleRemoteExecutor {
   rpc Execute (ExecutionRequest) returns (ExecutionReply);
 }
-
-// python3 -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. message.proto
-
-

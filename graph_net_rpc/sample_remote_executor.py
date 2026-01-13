@@ -6,8 +6,8 @@ from typing import Tuple, Optional
 
 import torch
 
-from graph_net.graph_net_bench.grpc import message_pb2
-from graph_net.graph_net_bench.grpc import message_pb2_grpc
+from graph_net_rpc.grpc import message_pb2
+from graph_net_rpc.grpc import message_pb2_grpc
 
 
 class SampleRemoteExecutor:
@@ -30,12 +30,11 @@ class SampleRemoteExecutor:
         compressed_data = self._compress_dir(model_path)
 
         output_file_name = f"outputs_seed_{random_seed}"
-
+        rpc_cmd = f"{self.rpc_cmd} --seed {int(random_seed)}"
         request = message_pb2.ExecutionRequest(
-            rpc_cmd=self.rpc_cmd,
+            rpc_cmd=rpc_cmd,
             rpc_input=message_pb2.RpcData(compressed_data=compressed_data),
             output_file_name=output_file_name,
-            random_seed=int(random_seed),
         )
 
         stub = self._get_stub()
@@ -52,7 +51,7 @@ class SampleRemoteExecutor:
         if reply.rpc_output.WhichOneof("rpc_data_type") != "compressed_data":
             raise RuntimeError("Remote execution succeeded but rpc_output is not compressed_data")
 
-        # 解压返回的 tar.gz 文件
+        # decompress returned tar.gz file
         return self._extract_tar_to_dict(reply.rpc_output.compressed_data)
 
     def _compress_dir(self, model_path: str):

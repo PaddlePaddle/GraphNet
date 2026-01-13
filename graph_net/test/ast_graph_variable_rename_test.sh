@@ -4,7 +4,7 @@ GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(
 RENAMED_PATH=/tmp/ast_graph_variable_rename_workspace
 
 mkdir -p "$RENAMED_PATH"
-model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt"
+model_list="$GRAPH_NET_ROOT/graph_net/config/small10_torch_samples_list.txt"
 
 python3 -m graph_net.model_path_handler \
     --model-path-list $model_list \

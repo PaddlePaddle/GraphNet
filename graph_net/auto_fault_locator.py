@@ -20,6 +20,8 @@ class AutoFaultLocator:
         self.tolerance = [str(t) for t in args.tolerance]
         self.reference_device = args.reference_device
         self.target_device = args.target_device
+        self.machine = args.machine
+        self.port = args.port
         os.makedirs(self.output_dir, exist_ok=True)
 
     def get_one_step_cmd(self, config_str):

@@ -22,12 +22,20 @@ def main(args):
     )
 
     try:
-        print(f"Sending request to {args.machine}:{args.port}...", file=sys.stderr, flush=True)
+        print(
+            f"Sending request to {args.machine}:{args.port}...",
+            file=sys.stderr,
+            flush=True,
+        )
         tensors = executor(args.model_path, args.random_seed)
 
         print(f"Received {len(tensors)} output tensors:", file=sys.stderr, flush=True)
         for i, tensor in enumerate(tensors):
-            print(f"  output_{i}: shape={tensor.shape}, dtype={tensor.dtype}", file=sys.stderr, flush=True)
+            print(
+                f"  output_{i}: shape={tensor.shape}, dtype={tensor.dtype}",
+                file=sys.stderr,
+                flush=True,
+            )
 
         if args.output_dir:
             output_path = Path(args.output_dir)

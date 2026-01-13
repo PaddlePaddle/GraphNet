@@ -403,7 +403,11 @@ def run_evaluation(
     test_module_name = test_config["test_module_name"]
     test_module_arguments = test_config[f"{test_module_name}_arguments"]
     test_module_arguments["model-path"] = work_dir
-    if test_module_name in ["test_reference_device", "test_remote_reference_device", "test_target_device"]:
+    if test_module_name in [
+        "test_reference_device",
+        "test_remote_reference_device",
+        "test_target_device",
+    ]:
         test_module_arguments["reference-dir"] = os.path.join(
             work_dir, "reference_device_outputs"
         )

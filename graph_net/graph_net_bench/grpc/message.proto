@@ -11,8 +11,8 @@ message CompressedData {
 
 message RpcData {
     oneof rpc_data_type {
-        CompressedData compressed_data = 1;
-        string str_data = 2; 
+        CompressedData compressed_data = 1;  // For input (single tar.gz)
+        string str_data = 2;
     }
 }
 
@@ -20,6 +20,7 @@ message ExecutionRequest {
     string rpc_cmd = 1;
     RpcData rpc_input = 2;
     optional string output_file_name = 3;
+    int64 random_seed = 4;
 }
 
 message ExecutionReply {
@@ -34,3 +35,5 @@ service SampleRemoteExecutor {
 }
 
 // python3 -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. message.proto
+
+

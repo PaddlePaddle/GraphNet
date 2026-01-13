@@ -2,8 +2,8 @@
 
 set -e
 
-MODEL_PATH="${MODEL_PATH:-/denghaodong/code/GraphNet/demo_model}"
-OUTPUT_DIR="${OUTPUT_DIR:-/denghaodong/code/GraphNet/remote_output}"
+MODEL_PATH="${MODEL_PATH:-/tmp/demo_model}"
+OUTPUT_DIR="${OUTPUT_DIR:-/tmp/remote_output}"
 MACHINE="${MACHINE:-localhost}"
 PORT="${PORT:-50052}"
 RPC_CMD="${RPC_CMD:-python3 -m graph_net.torch.test_reference_device}"

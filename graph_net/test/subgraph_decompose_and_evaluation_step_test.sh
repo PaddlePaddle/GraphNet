@@ -4,7 +4,7 @@ GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(
 
 FRAMEWORK="torch"
 LOG_FILE="$GRAPH_NET_ROOT/test/log_file_for_subgraph_decompose_and_evaluation_step.log"
-OUTPUT_DIR="/denghaodong/code/GraphNet/remote_output"
+OUTPUT_DIR="/tmp/decompose_and_evaluation_workspace"
 TOLERANCE="0 2"
 INITIAL_MAX_SIZE=2048
 

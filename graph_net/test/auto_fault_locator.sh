@@ -1,0 +1,17 @@
+#!/bin/bash
+
+GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(graph_net.__file__))")
+
+FRAMEWORK="torch"
+LOG_FILE="$GRAPH_NET_ROOT/test/log_file_for_subgraph_decompose_and_evaluation_step.log"
+OUTPUT_DIR="/tmp/decompose_and_evaluation_workspace"
+TOLERANCE="0 2"
+INITIAL_MAX_SIZE=2048
+
+python3 -m graph_net.auto_fault_locator \
+    --log-file "$LOG_FILE" \
+    --output-dir "$OUTPUT_DIR" \
+    --framework "${FRAMEWORK}" \
+    --decompose-method "uniform" \
+    --tolerance $TOLERANCE \
+    --max-subgraph-size="$INITIAL_MAX_SIZE"

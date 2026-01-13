@@ -2,6 +2,7 @@ import importlib
 import ast
 import math
 import numpy as np
+from scipy.stats import truncnorm
 import paddle
 
 kLiteralTensorSize = 64
@@ -197,17 +198,21 @@ def init_integer_tensor(dtype, shape, min_val, max_val, use_numpy):
 def init_float_tensor(shape, mean, std, min_val, max_val, use_numpy):
     tensor = None
     if use_numpy:
-        if mean is not None and std is not None:
+        if mean is not None and std is not None and std != 0.0:
             # NumPy does not support truncated normal, we simulate it here.
-            array = np.random.normal(0, 1, shape) * std * 0.2 + mean
-            array = np.clip(array, min_val, max_val)
+            a = (min_val - mean) / std
+            b = (max_val - mean) / std
+            array = truncnorm.rvs(a, b, loc=mean, scale=std, size=shape)
         else:
             array = np.random.uniform(low=min_val, high=max_val, size=shape)
         tensor = paddle.to_tensor(array)
     else:
         if mean is not None and std is not None:
-            tensor = paddle.randn(shape, dtype="float32") * std * 0.2 + mean
-            tensor = paddle.clip(tensor, min=min_val, max=max_val)
+            tensor = paddle.empty(shape=shape, dtype="float32")
+            initializer = paddle.nn.initializer.TruncatedNormal(
+                mean=mean, std=std, a=min_val, b=max_val
+            )
+            initializer(tensor)
         else:
             tensor = paddle.uniform(
                 shape=shape, dtype="float32", min=min_val, max=max_val

@@ -401,6 +401,7 @@ def run_evaluation(
         test_module_arguments["reference-dir"] = os.path.join(
             work_dir, "reference_device_outputs"
         )
+        test_module_arguments["random-states-path"] = work_dir
 
     cmd = [sys.executable, "-m", f"graph_net.{framework}.{test_module_name}"] + [
         item

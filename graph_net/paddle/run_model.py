@@ -3,19 +3,12 @@ import json
 import base64
 import argparse
 import numpy as np
-import random
 
 os.environ["FLAGS_logging_pir_py_code_dir"] = "/tmp/dump"
 
 import paddle
 from graph_net import imp_util
-from graph_net.paddle import utils
-
-
-def set_seed(random_seed):
-    paddle.seed(random_seed)
-    random.seed(random_seed)
-    np.random.seed(random_seed)
+from graph_net.paddle import utils, random_util
 
 
 def load_class_from_file(file_path: str, class_name: str):
@@ -31,17 +24,20 @@ def get_input_dict(model_path):
     params = inputs_params["weight_info"]
     inputs = inputs_params["input_info"]
 
+    random_state_dict = {}
     input_dict = {}
     for name, meta in params.items():
         original_name = (
             meta["original_name"] if meta.get("original_name", None) else name
         )
+        random_state_dict[name] = np.random.get_state()
         input_dict[name] = paddle.nn.parameter.Parameter(
             utils.replay_tensor(meta), name=original_name
         )
     for name, meta in inputs.items():
+        random_state_dict[name] = np.random.get_state()
         input_dict[name] = utils.replay_tensor(meta)
-    return input_dict
+    return input_dict, random_state_dict
 
 
 def _convert_to_dict(config_str):
@@ -66,9 +62,6 @@ def _get_decorator(args):
 
 
 def main(args):
-    initalize_seed = 123
-    set_seed(random_seed=initalize_seed)
-
     model_path = args.model_path
     model_class = load_class_from_file(
         f"{model_path}/model.py", class_name="GraphModule"
@@ -77,7 +70,12 @@ def main(args):
     model = model_class()
     print(f"{model_path=}")
 
-    input_dict = get_input_dict(args.model_path)
+    initalize_seed = 123
+    random_util.set_seed(random_seed=initalize_seed)
+
+    input_dict, random_state_dict = get_input_dict(args.model_path)
+    output_dir = "/work/GraphNet/graph_net/test/outputs/pass_0"
+    random_util.save_random_states(model_path, output_dir, random_state_dict)
     model = _get_decorator(args)(model)
     model(**input_dict)
 
@@ -98,4 +96,5 @@ if __name__ == "__main__":
         help="decorator configuration string",
     )
     args = parser.parse_args()
+    print(args)
     main(args=args)

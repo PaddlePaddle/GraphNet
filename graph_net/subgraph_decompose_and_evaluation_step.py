@@ -397,7 +397,11 @@ def run_decomposer_for_multi_models(
 
 
 def run_evaluation(
-    framework: str, test_cmd_b64: str, work_dir: str, log_path: str
+    framework: str,
+    test_cmd_b64: str,
+    work_dir: str,
+    random_states_dir: str,
+    log_path: str,
 ) -> int:
     """Executes the test command on the batch directory."""
 
@@ -413,6 +417,7 @@ def run_evaluation(
         test_module_arguments["reference-dir"] = os.path.join(
             work_dir, "reference_device_outputs"
         )
+        test_module_arguments["random-states-path"] = random_states_dir
 
     cmd = [sys.executable, "-m", f"graph_net.{framework}.{test_module_name}"] + [
         item
@@ -770,6 +775,7 @@ def main(args):
     # --- Step 1: Prepare Tasks and Workspace ---
     decompose_config = prepare_tasks_and_verify(args, current_pass_id, base_output_dir)
     work_dir = get_decompose_workspace_path(base_output_dir, current_pass_id)
+    random_states_dir = os.path.join(base_output_dir, "random_states")
     if not os.path.exists(work_dir):
         os.makedirs(work_dir, exist_ok=True)
 
@@ -787,7 +793,9 @@ def main(args):
     log_path = os.path.join(work_dir, f"log_{task_controller.test_module_name}.txt")
     if task_controller.task_scheduler["run_evaluation"]:
         print(f"\n--- Phase 2: Evaluation ({task_controller.test_module_name}) ---")
-        run_evaluation(args.framework, args.test_config, work_dir, log_path)
+        run_evaluation(
+            args.framework, args.test_config, work_dir, random_states_dir, log_path
+        )
 
     # --- Step 4: Analysis ---
     if task_controller.task_scheduler["post_analysis"]:

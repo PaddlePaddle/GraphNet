@@ -49,19 +49,24 @@ class AutoFaultLocator:
             "\n>>> [Step 1] Run Remote Reference Device (Decomposition And Evaluation)\n"
         )
 
-        test_reference_device_config_str = {
-            "test_module_name": "test_reference_device",
-            "test_reference_device_arguments": {
+        test_remote_reference_device_config_str = {
+            "test_module_name": "test_remote_reference_device",
+            "test_remote_reference_device_arguments": {
                 "model-path": None,
                 "reference-dir": None,
                 "compiler": "nope",
                 "device": self.reference_device,
+                "op-lib": "default",
                 "warmup": 5,
                 "trials": 20,
+                "seed": 123,
+                "machine": self.machine,
+                "port": self.port,
+                "rpc-cmd": "python3 -m graph_net.torch.test_reference_device",
             },
         }
 
-        cmd = self.get_one_step_cmd(test_reference_device_config_str)
+        cmd = self.get_one_step_cmd(test_remote_reference_device_config_str)
         print(f"Executing: {' '.join(cmd)}")
         result = subprocess.run(cmd, check=True, text=True)
         assert (
@@ -149,10 +154,8 @@ if __name__ == "__main__":
         default="xpu",
         required=True,
     )
-
-    # remote machine and port
-    # parser.add_argument("--machine", type=str, default="localhost")
-    # parser.add_argument("--port", type=int, default=50052)
+    parser.add_argument("--machine", type=str, default="localhost")
+    parser.add_argument("--port", type=int, default=50052)
 
     args = parser.parse_args()
     main(args)

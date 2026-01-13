@@ -10,6 +10,8 @@ INITIAL_MAX_SIZE=2048
 DECOMPOSE_METHOD="uniform"
 REFERENCE_DEVICE="cuda"
 TARGET_DEVICE="xpu"
+MACHINE="${MACHINE:-localhost}"
+PORT="${PORT:-50052}"
 
 python3 -m graph_net.auto_fault_locator \
     --log-file "$LOG_FILE" \
@@ -19,4 +21,6 @@ python3 -m graph_net.auto_fault_locator \
     --tolerance $TOLERANCE \
     --max-subgraph-size="$INITIAL_MAX_SIZE" \
     --reference-device "${REFERENCE_DEVICE}" \
-    --target-device "${TARGET_DEVICE}"
+    --target-device "${TARGET_DEVICE}" \
+    --machine "${MACHINE}" \
+    --port "${PORT}"

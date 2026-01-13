@@ -1,11 +1,12 @@
 import os
 import sys
 import subprocess
-import glob
 import argparse
 from graph_net.subgraph_decompose_and_evaluation_step import (
     DecomposeConfig,
     convert_json_to_b64_string,
+    determine_max_pass_id,
+    get_decompose_workspace_path,
 )
 
 
@@ -20,22 +21,6 @@ class AutoFaultLocator:
         self.reference_device = args.reference_device
         self.target_device = args.target_device
         os.makedirs(self.output_dir, exist_ok=True)
-
-    def _get_latest_pass_dir(self):
-        if not os.path.exists(self.output_dir):
-            return None
-        passes = glob.glob(os.path.join(self.output_dir, "pass_*"))
-        valid_passes = []
-        for p in passes:
-            basename = os.path.basename(p)
-            parts = basename.split("_")
-            if len(parts) == 2 and parts[1].isdigit():
-                valid_passes.append((int(parts[1]), p))
-        if not valid_passes:
-            return None
-
-        _, latest_path = max(valid_passes)
-        return latest_path
 
     def get_one_step_cmd(self, config_str):
         config_b64 = convert_json_to_b64_string(config_str)
@@ -103,8 +88,10 @@ class AutoFaultLocator:
         ), f"Run Local Target Device failed with return code {result.returncode}"
 
     def analyze_and_decide_next(self):
-        current_pass_dir = self._get_latest_pass_dir()
-        current_pass_id = int(os.path.basename(current_pass_dir).split("_")[1])
+        current_pass_id = determine_max_pass_id(self.output_dir)
+        current_pass_dir = get_decompose_workspace_path(
+            self.output_dir, current_pass_id
+        )
 
         try:
             decompose_config = DecomposeConfig.load(current_pass_dir)

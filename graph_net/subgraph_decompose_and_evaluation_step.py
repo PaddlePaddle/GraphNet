@@ -58,6 +58,20 @@ def extract_model_name_and_subgraph_idx(subgraph_path):
     return model_name, subgraph_idx
 
 
+def determine_max_pass_id(output_dir: str) -> int:
+    """Scans the output directory to determine the next pass ID."""
+    if not os.path.exists(output_dir):
+        return -1
+    existing_passes = glob.glob(os.path.join(output_dir, "pass_*"))
+    valid_ids = []
+    for p in existing_passes:
+        basename = os.path.basename(p)
+        parts = basename.split("_")
+        if len(parts) == 2 and parts[1].isdigit():
+            valid_ids.append(int(parts[1]))
+    return max(valid_ids) if valid_ids else -1
+
+
 class TaskController:
     def __init__(self, args):
         self.root_output_dir = os.path.abspath(args.output_dir)
@@ -65,7 +79,7 @@ class TaskController:
         assert "test_module_name" in self.test_config
 
         self.test_module_name = self.test_config["test_module_name"]
-        max_pass_id = self._determine_max_pass_id(self.root_output_dir)
+        max_pass_id = determine_max_pass_id(self.root_output_dir)
         self.current_pass_id = (
             max_pass_id
             if self.test_module_name == "test_target_device"
@@ -74,19 +88,6 @@ class TaskController:
 
         self._init_task_scheduler(self.test_module_name)
         self._print()
-
-    def _determine_max_pass_id(self, output_dir: str) -> int:
-        """Scans the output directory to determine the next pass ID."""
-        if not os.path.exists(output_dir):
-            return -1
-        existing_passes = glob.glob(os.path.join(output_dir, "pass_*"))
-        valid_ids = []
-        for p in existing_passes:
-            basename = os.path.basename(p)
-            parts = basename.split("_")
-            if len(parts) == 2 and parts[1].isdigit():
-                valid_ids.append(int(parts[1]))
-        return max(valid_ids) if valid_ids else -1
 
     def _init_task_scheduler(self, test_module_name):
         assert test_module_name in [

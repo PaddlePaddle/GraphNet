@@ -13,7 +13,8 @@ import re
 
 from graph_net.paddle import utils
 from graph_net_bench import path_utils
-from graph_net import test_compiler_util
+from graph_net_bench import test_compiler_util
+from graph_net import model_path_util
 
 from graph_net.paddle.backend.graph_compiler_backend import GraphCompilerBackend
 from graph_net.paddle.backend.cinn_backend import CinnBackend
@@ -441,7 +442,7 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 
 def test_multi_models(args):
-    test_samples = test_compiler_util.get_allow_samples(args.allow_list)
+    test_samples = model_path_util.get_allow_samples(args.allow_list)
 
     sample_idx = 0
     failed_samples = []

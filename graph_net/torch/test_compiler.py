@@ -28,7 +28,8 @@ from graph_net.torch.backend.range_decomposer_validator_backend import (
 from graph_net.torch.backend.graph_variable_renamer_validator_backend import (
     GraphVariableRenamerValidatorBackend,
 )
-from graph_net import test_compiler_util
+from graph_net_bench import test_compiler_util
+from graph_net import model_path_util
 from graph_net_bench import path_utils
 
 
@@ -383,7 +384,7 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
 
 
 def test_multi_models(args):
-    test_samples = test_compiler_util.get_allow_samples(args.allow_list)
+    test_samples = model_path_util.get_allow_samples(args.allow_list)
 
     sample_idx = 0
     failed_samples = []
@@ -433,7 +434,7 @@ def test_multi_models(args):
 def test_multi_models_with_prefix(args):
     assert os.path.isdir(args.model_path_prefix)
     assert os.path.isfile(args.allow_list)
-    test_samples = test_compiler_util.get_allow_samples(args.allow_list)
+    test_samples = model_path_util.get_allow_samples(args.allow_list)
     py_module_name = os.path.splitext(os.path.basename(__file__))[0]
     for rel_model_path in test_samples:
         model_path = os.path.join(args.model_path_prefix, rel_model_path)

@@ -54,7 +54,7 @@ function generate_op_names() {
         --model-path-list $model_list \
         --handler-config=$(base64 -w 0 <<EOF
 {
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/typical_sequence_split_points.py",
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/op_names_extractor.py",
     "handler_class_name": "OpNamesExtractor",
     "handler_config": {
         "resume": ${RESUME},
@@ -70,19 +70,27 @@ function generate_split_point() {
     echo ">>> [2] Generate split points for samples in ${model_list}."
     echo ">>>   MIN_SEQ_OPS: ${MIN_SEQ_OPS}, MAX_SEQ_OPS: ${MAX_SEQ_OPS}"
     echo ">>>"
-    python3 -m graph_net.torch.typical_sequence_split_points \
-        --model-list "$model_list" \
-        --op-names-path-prefix "${OP_NAMES_OUTPUT_DIR}" \
-        --device "cuda" \
-        --window-size 64 \
-        --fold-policy default \
-        --fold-times 16 \
-        --min-seq-ops ${MIN_SEQ_OPS} \
-        --max-seq-ops ${MAX_SEQ_OPS} \
-        --output-dir "$DECOMPOSE_WORKSPACE" \
-        --subgraph-ranges-file-name "typical_subgraph_ranges.json" \
-        --subgraph-ranges-json "$DECOMPOSE_WORKSPACE/subgraph_ranges_${OP_RANGE}ops.json" \
-        --output-json "$DECOMPOSE_WORKSPACE/split_results_${OP_RANGE}ops.json"
+    python3 -m graph_net.apply_sample_pass \
+        --model-path-list $model_list \
+        --sample-pass-file-path $GRAPH_NET_ROOT/graph_net/torch/sample_pass/typical_sequence_split_points.py \
+        --sample-pass-class-name TypicalSequenceSplitPointsGenerator \
+        --sample-pass-config=$(base64 -w 0 <<EOF
+{
+        "model_path_prefix": "$GRAPH_NET_ROOT",
+        "output_dir": "$DECOMPOSE_WORKSPACE", 
+        "op_names_path_prefix": "${OP_NAMES_OUTPUT_DIR}",
+        "device": "cuda",
+        "window_size": 64,
+        "fold_policy": "default",
+        "fold_times": 16,
+        "min_seq_ops": ${MIN_SEQ_OPS},
+        "max_seq_ops": ${MAX_SEQ_OPS},
+        "subgraph_ranges_file_name": "typical_subgraph_ranges.json",
+        "subgraph_ranges_json": "$DECOMPOSE_WORKSPACE/subgraph_ranges_${OP_RANGE}ops.json",
+        "output_json": "$DECOMPOSE_WORKSPACE/split_results_${OP_RANGE}ops.json"
+}
+EOF
+)
 }
 
 function range_decompose() {

@@ -1,5 +1,6 @@
 import os
 import inspect
+from graph_net.torch.utils import get_named_tensors
 from graph_net.tensor_meta import TensorMeta
 from graph_net.imp_util import load_module
 from dataclasses import asdict
@@ -38,8 +39,6 @@ def _get_tensor_metas(model_path):
 
 def _create_inputs_by_metas(module, tensor_metas, use_dummy_inputs):
     tensor_meta_attrs_list = [asdict(tensor_meta) for tensor_meta in tensor_metas]
-    from graph_net.torch.utils import get_named_tensors
-
     named_tensors = get_named_tensors(tensor_meta_attrs_list, use_dummy_inputs)
     name2tensor = {k: v for k, v in named_tensors}
     return tuple(

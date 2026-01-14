@@ -7,17 +7,6 @@ import importlib
 kLiteralTensorSize = 64
 
 
-def apply_templates(forward_code: str) -> str:
-    tab = "    "
-    forward_code = f"\n{tab}".join(forward_code.split("\n"))
-    imports = "import torch"
-    if "device" in forward_code:
-        imports += "\n\nfrom torch import device"
-    if "inf" in forward_code:
-        imports += "\n\nfrom torch import inf"
-    return f"{imports}\n\nclass GraphModule(torch.nn.Module):\n{tab}{forward_code}"
-
-
 def get_limited_precision_float_str(value):
     if not isinstance(value, float):
         return value
@@ -26,230 +15,6 @@ def get_limited_precision_float_str(value):
     if math.isinf(value):
         return "float('inf')" if value > 0 else "float('-inf')"
     return f"{value:.3f}"
-
-
-def convert_state_and_inputs_impl(state_dict, example_inputs):
-    def tensor_info(tensor):
-        is_float = tensor.dtype.is_floating_point
-        mean = float(tensor.mean().item()) if is_float else None
-        std = None
-        if is_float:
-            if tensor.numel() <= 1:
-                std = 0.0
-            else:
-                std = float(tensor.std().item())
-        return {
-            "shape": list(tensor.shape),
-            "dtype": str(tensor.dtype),
-            "device": str(tensor.device),
-            "mean": get_limited_precision_float_str(mean),
-            "std": get_limited_precision_float_str(std),
-        }
-
-    def process_tensor(tensor):
-        if not isinstance(tensor, torch.Tensor):
-            return {"type": "unknown", "value": tensor}
-
-        info = tensor_info(tensor)
-        if tensor.dtype in [torch.int8, torch.int16, torch.int32, torch.int64]:
-            if tensor.numel() < kLiteralTensorSize:
-                return {
-                    "type": "small_int_tensor",
-                    "data": tensor.clone(),
-                    "info": info,
-                }
-            else:
-                return {
-                    "type": "big_int_tensor_by_range",
-                    "min_val": tensor.min().item(),
-                    "max_val": tensor.max().item(),
-                    "info": info,
-                }
-        elif tensor.numel() < kLiteralTensorSize:
-            return {"type": "small_tensor", "data": tensor.clone(), "info": info}
-        else:
-            return {"type": "random_tensor", "info": info}
-
-    if isinstance(example_inputs, torch.Tensor):
-        processed_inputs = process_tensor(example_inputs)
-    elif isinstance(example_inputs, (list, tuple)):
-        processed_inputs = [process_tensor(t) for t in example_inputs]
-    else:
-        processed_inputs = {"type": "unknown", "value": example_inputs}
-
-    def handle_named_tensors(tensor):
-        if not isinstance(tensor, torch.Tensor):
-            return {"type": "unknown", "value": tensor}
-        info = tensor_info(tensor)
-        if tensor.dtype in [torch.int8, torch.int16, torch.int32, torch.int64]:
-            if tensor.numel() < kLiteralTensorSize:
-                return {
-                    "info": info,
-                    "data": tensor.clone(),
-                    "type": "small_int_tensor",
-                }
-            else:
-                return {
-                    "info": info,
-                    "min_val": tensor.min().item(),
-                    "max_val": tensor.max().item(),
-                    "type": "big_int_tensor_by_range",
-                }
-        if tensor.numel() < kLiteralTensorSize:
-            return {"info": info, "data": tensor.clone(), "type": "small_tensor"}
-        else:
-            return {"info": info, "data": None, "type": "random_tensor"}
-
-    processed_weights = {
-        key: handle_named_tensors(tensor) for key, tensor in state_dict.items()
-    }
-
-    # dynamic_shapes = extract_dynamic_shapes(example_inputs)
-    return {
-        "input_info": processed_inputs,
-        "weight_info": processed_weights,
-        "dynamic_shapes": None,
-    }
-
-
-def convert_state_and_inputs(state_dict, example_inputs):
-    return convert_state_and_inputs_impl(state_dict, example_inputs)
-
-
-def save_constraints_text(converted, file_path):
-    lines = []
-    if converted["dynamic_shapes"] is not None:
-        raise NotImplementedError("Handling constraints is not implemented yet.")
-    with open(file_path, "w") as f:
-        f.write("\n".join(lines))
-
-
-def save_converted_to_text(converted, file_path):
-    def format_data(data):
-        if data is None:
-            return "None"
-        elif isinstance(data, torch.Tensor):
-            if data.dtype.is_floating_point:
-
-                def float_to_str(x):
-                    if math.isinf(x):
-                        return "float('inf')" if x > 0 else "float('-inf')"
-                    if math.isnan(x):
-                        return "float('nan')"
-                    return f"{x:.6f}"
-
-                return "[{}]".format(
-                    ", ".join(float_to_str(x) for x in data.flatten().tolist())
-                )
-            else:
-                return "[{}]".format(", ".join(f"{x}" for x in data.flatten().tolist()))
-        else:
-            return repr(data)
-
-    def process_tensor_info(tensor_info, name_prefix="example_input"):
-        tensor_type = tensor_info.get("type")
-        info = tensor_info.get("info", {})
-        dtype = info.get("dtype", "torch.float")
-        shape = info.get("shape", [])
-        device = info.get("device", "cpu")
-        mean = info.get("mean", 0.0)
-        std = info.get("std", 1.0)
-        uid = f"{name_prefix}_tensor_meta_{tensor_info.get('name', '')}"
-
-        lines = [
-            (f"class {uid}:"),
-            (f"\tname = \"{tensor_info.get('name', '')}\""),
-            (f"\tshape = {shape}"),
-            (f'\tdtype = "{dtype}"'),
-            (f'\tdevice = "{device}"'),
-            (f"\tmean = {get_limited_precision_float_str(mean)}"),
-            (f"\tstd = {get_limited_precision_float_str(std)}"),
-        ]
-        if tensor_type == "big_int_tensor_by_range":
-            lines.append(f"\tmin_val = {tensor_info['min_val']}")
-            lines.append(f"\tmax_val = {tensor_info['max_val']}")
-        elif "data" in tensor_info:
-            data_list = (
-                tensor_info["data"].flatten()
-                if isinstance(tensor_info["data"], torch.Tensor)
-                else tensor_info["data"]
-            )
-            lines.append(f"\tdata = {format_data(data_list)}")
-
-        lines.append("")
-        return lines
-
-    input_infos = converted["input_info"]
-    if isinstance(input_infos, dict):
-        input_infos = [input_infos]
-
-    input_lines = []
-    for idx, input_info in enumerate(input_infos):
-        input_info["name"] = f"input_{idx}"
-        input_lines.extend(process_tensor_info(input_info, name_prefix="Program_input"))
-
-    with open(f"{file_path}/input_meta.py", "w") as f:
-        f.write("\n".join(input_lines))
-
-    weight_lines = []
-    for name, weight_info in converted["weight_info"].items():
-        weight_info["name"] = name
-        weight_lines.extend(
-            process_tensor_info(weight_info, name_prefix="Program_weight")
-        )
-
-    with open(f"{file_path}/weight_meta.py", "w") as f:
-        f.write("\n".join(weight_lines))
-
-
-def load_model_inputs_converted_from_text(file_path):
-    return load_converted_from_text(file_path)
-
-
-def load_converted_from_text(file_path):
-    input_info = list(convert_meta_classes_to_tensors(f"{file_path}/input_meta.py"))
-
-    weight_info = {
-        data["name"]: data
-        for data in convert_meta_classes_to_tensors(f"{file_path}/weight_meta.py")
-    }
-
-    return {
-        "input_info": input_info,
-        "weight_info": weight_info,
-        "dynamic_shapes": None,
-    }
-
-
-def convert_tensor_meta_attrs_list_to_named_tensors(tensor_meta_attrs_list):
-    tensors_wrappers = convert_tensor_meta_attrs_list_to_tensors_wrappers(
-        tensor_meta_attrs_list
-    )
-    ret = []
-    for i, tensors_wrapper in enumerate(tensors_wrappers):
-        name = tensors_wrapper["name"]
-        # shape = tensors_wrapper["info"]['shape']
-        # logging.warning(f"before replay_tensor {i=} {shape=}")
-        tensor = replay_tensor(tensors_wrapper)
-        # logging.warning(f"after replay_tensor {i=} {shape=}")
-        ret.append((name, tensor))
-    return ret
-
-
-def get_named_tensors(tensor_meta_attrs_list, use_dummy_inputs):
-    tensors_wrappers = convert_tensor_meta_attrs_list_to_tensors_wrappers(
-        tensor_meta_attrs_list
-    )
-    ret = []
-    for i, tensors_wrapper in enumerate(tensors_wrappers):
-        name = tensors_wrapper["name"]
-        # shape = tensors_wrapper["info"]['shape']
-        if use_dummy_inputs:
-            tensor = get_dummy_tensor(tensors_wrapper)
-        else:
-            tensor = replay_tensor(tensors_wrapper)
-        ret.append((name, tensor))
-    return ret
 
 
 def convert_meta_classes_to_tensors(file_path):
@@ -324,8 +89,19 @@ def _get_classes(file_path):
     yield from inspect.getmembers(unnamed, inspect.isclass)
 
 
-def extract_dynamic_shapes(example_inputs):
-    pass
+def load_converted_from_text(file_path):
+    input_info = list(convert_meta_classes_to_tensors(f"{file_path}/input_meta.py"))
+
+    weight_info = {
+        data["name"]: data
+        for data in convert_meta_classes_to_tensors(f"{file_path}/weight_meta.py")
+    }
+
+    return {
+        "input_info": input_info,
+        "weight_info": weight_info,
+        "dynamic_shapes": None,
+    }
 
 
 def replay_tensor(info):

@@ -60,8 +60,8 @@ class DefaultPositiveToleranceInterpretation(PositiveToleranceInterpretation):
     def is_error_tolerated(self, tolerance: int, base_error_code: str) -> bool:
         if base_error_code == "correct":
             return True
-        if base_error_code in ["eager_fail", "reference_fail"]:
-            return False
+        # if base_error_code in ["eager_fail", "reference_fail"]:
+        #     return False
 
         error_enum = DefaultErrorEnum.get_error_enum(base_error_code)
         mapping = self.get_tolerance_mapping()

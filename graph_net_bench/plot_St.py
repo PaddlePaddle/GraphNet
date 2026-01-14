@@ -104,7 +104,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="analysis_results",
+        default="/tmp/graph_net_bench_results",
         help="Output directory for saving the plot. Default: analysis_results",
     )
     parser.add_argument(

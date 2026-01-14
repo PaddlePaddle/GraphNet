@@ -61,16 +61,16 @@ python -m graph_net.torch.test_compiler \
 
 **步骤 2：分析**
 
-使用 `graph_net_bench.plot_St`、`graph_net_bench.plot_ESt` 和 `graph_net_bench.plot_violin` 这三个脚本，根据基准测试日志中的加速比、正确性和运行时信息，生成 St 图、ESt 图和 [小提琴图](https://en.m.wikipedia.org/wiki/Violin_plot)。
+使用 `graph_net_visual.plot_St`、`graph_net_visual.plot_ESt` 和 `graph_net_visual.plot_violin` 这三个脚本，根据基准测试日志中的加速比、正确性和运行时信息，生成 St 图、ESt 图和 [小提琴图](https://en.m.wikipedia.org/wiki/Violin_plot)。
 
 ```bash
-python -m graph_net_bench.plot_St \
+python -m graph_net_visual.plot_St \
   --benchmark-path $GRAPH_NET_BENCH_PATH/log.log \
   --output-dir $GRAPH_NET_BENCH_PATH \
   --negative-speedup-penalty penalty/power/for/negative/speedup \
   --fpdb base/penalty/for/severe/errors
 
-python -m graph_net_bench.plot_ESt \
+python -m graph_net_visual.plot_ESt \
   --benchmark-path $GRAPH_NET_BENCH_PATH/log.log \
   --output-dir $GRAPH_NET_BENCH_PATH \
   --negative-speedup-penalty penalty/power/for/negative/speedup \
@@ -79,7 +79,7 @@ python -m graph_net_bench.plot_ESt \
 # 注意：如果省略 --negative-speedup-penalty 参数，默认使用 p=0。
 # 如果省略 --fpdb 参数，默认使用 b=0.1。
 
-python -m graph_net_bench.plot_violin \
+python -m graph_net_visual.plot_violin \
   --benchmark-path $GRAPH_NET_BENCH_PATH/JSON_results/ \
   --output-dir $GRAPH_NET_BENCH_PATH
 ```

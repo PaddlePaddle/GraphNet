@@ -62,16 +62,16 @@ After executing, `graph_net.torch.test_compiler` will:
 
 **Step 2: Analysis**
 
-Use the three scripts `graph_net_bench.plot_St`, `graph_net_bench.plot_ESt` and `graph_net_bench.plot_violin` to generate St plot, ESt plot, and [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on speedup, correctness and runtime information from benchmark logs.
+Use the three scripts `graph_net_visual.plot_St`, `graph_net_visual.plot_ESt` and `graph_net_visual.plot_violin` to generate St plot, ESt plot, and [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on speedup, correctness and runtime information from benchmark logs.
 
 ```bash
-python -m graph_net_bench.plot_St \
+python -m graph_net_visual.plot_St \
   --benchmark-path $GRAPH_NET_BENCH_PATH/log.log \
   --output-dir $GRAPH_NET_BENCH_PATH \
   --negative-speedup-penalty penalty/power/for/negative/speedup \
   --fpdb base/penalty/for/severe/errors
 
-python -m graph_net_bench.plot_ESt \
+python -m graph_net_visual.plot_ESt \
   --benchmark-path $GRAPH_NET_BENCH_PATH/log.log \
   --output-dir $GRAPH_NET_BENCH_PATH \
   --negative-speedup-penalty penalty/power/for/negative/speedup \
@@ -80,7 +80,7 @@ python -m graph_net_bench.plot_ESt \
 # Note: If --negative-speedup-penalty is omitted, p=0 is used by default.
 # If --fpdb, b=0.1 is used by default.
 
-python -m graph_net_bench.plot_violin \
+python -m graph_net_visual.plot_violin \
   --benchmark-path $GRAPH_NET_BENCH_PATH/JSON_results/ \
   --output-dir $GRAPH_NET_BENCH_PATH
 ```

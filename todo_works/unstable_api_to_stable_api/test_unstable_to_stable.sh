@@ -14,7 +14,7 @@ log_file="${root_dir}/log.log"
 json_output_dir="${root_dir}/JSON_results"
 
 # 设置环境变量（benchmark 路径）
-export GRAPH_NET_BENCHMARK_PATH="$root_dir"
+export GRAPH_NET_BENCH_PATH="$root_dir"
 
 # === 检查输入文件 ===
 if [ ! -f "$file_list" ]; then
@@ -68,12 +68,12 @@ else
 fi
 
 echo "📦 正在将JSON转换为结果图"
-python -m graph_net_bench.plot_ESt \
-  --benchmark-path $GRAPH_NET_BENCHMARK_PATH/JSON_results/ \
-  --output-dir $GRAPH_NET_BENCHMARK_PATH \
+python -m graph_net_visual.plot_ESt \
+  --benchmark-path $GRAPH_NET_BENCH_PATH/JSON_results/ \
+  --output-dir $GRAPH_NET_BENCH_PATH \
 
 if [ $? -eq 0 ]; then
-  echo "✅ 结果图 文件已生成: $GRAPH_NET_BENCHMARK_PATH"
+  echo "✅ 结果图 文件已生成: $GRAPH_NET_BENCH_PATH"
 else
   echo "❌结果图生成失败"
 fi

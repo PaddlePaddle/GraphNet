@@ -23,19 +23,28 @@ EOF
 
 TYPICAL_SEQUENCE_RANGES_WORKSPACE=$DECOMPOSE_WORKSPACE/workspace_typical_sequence_ranges
 
-python3 -m graph_net.torch.typical_sequence_split_points \
-    --model-list "$model_list" \
-    --op-names-path-prefix "$DECOMPOSE_WORKSPACE" \
-    --device "cuda" \
-    --window-size 10 \
-    --fold-policy default \
-    --fold-times 10 \
-    --min-seq-ops 4 \
-    --max-seq-ops 16 \
-    --output-dir "$TYPICAL_SEQUENCE_RANGES_WORKSPACE" \
-    --subgraph-ranges-file-name "subgraph_ranges.json" \
-    --subgraph-ranges-json "$DECOMPOSE_WORKSPACE/subgraph_ranges.json" \
-    --output-json "$DECOMPOSE_WORKSPACE/split_results.json"
+python3 -m graph_net.apply_sample_pass \
+    --model-path-list $model_list \
+    --sample-pass-file-path $GRAPH_NET_ROOT/graph_net/torch/sample_pass/typical_sequence_split_points.py \
+    --sample-pass-class-name TypicalSequenceSplitPointsGenerator \
+    --sample-pass-config=$(base64 -w 0 <<EOF
+{
+    "resume": false,
+    "model_path_prefix": "$GRAPH_NET_ROOT",
+    "output_dir": "$TYPICAL_SEQUENCE_RANGES_WORKSPACE",
+    "op_names_path_prefix": "$DECOMPOSE_WORKSPACE",
+    "device": "cuda",
+    "window_size": 10,
+    "fold_policy": "default",
+    "fold_times": 10,
+    "min_seq_ops": 4,
+    "max_seq_ops": 16,
+    "subgraph_ranges_file_name": "subgraph_ranges.json",
+    "subgraph_ranges_json": "$DECOMPOSE_WORKSPACE/subgraph_ranges.json",
+    "output_json": "$DECOMPOSE_WORKSPACE/split_results.json"
+}
+EOF
+)
 
 python3 -m graph_net.apply_sample_pass \
     --model-path-list $model_list \

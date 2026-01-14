@@ -25,17 +25,27 @@ python3 -m graph_net.model_path_handler \
 EOF
 )
 
-python3 -m graph_net.torch.typical_sequence_split_points \
-    --enable-resume \
-    --model-list "$model_list" \
-    --op-names-path-prefix "$DECOMPOSE_PATH" \
-    --device "cuda" \
-    --window-size 10 \
-    --fold-policy default \
-    --fold-times 10 \
-    --min-seq-ops 4 \
-    --max-seq-ops 16 \
-    --output-json "$DECOMPOSE_PATH/split_results.json"
+python3 -m graph_net.apply_sample_pass \
+    --model-path-list $model_list \
+    --sample-pass-file-path $GRAPH_NET_ROOT/graph_net/torch/sample_pass/typical_sequence_split_points.py \
+    --sample-pass-class-name TypicalSequenceSplitPointsGenerator \
+    --sample-pass-config=$(base64 -w 0 <<EOF
+{
+    "resume": false,
+    "model_path_prefix": "$GRAPH_NET_ROOT",
+    "output_dir": "$DECOMPOSE_PATH/workspace_typical_sequence_ranges",
+    "op_names_path_prefix": "$DECOMPOSE_PATH",
+    "device": "cuda",
+    "window_size": 10,
+    "fold_policy": "default",
+    "fold_times": 10,
+    "min_seq_ops": 4,
+    "max_seq_ops": 16,
+    "output_json": "$DECOMPOSE_PATH/split_results.json",
+    "subgraph_ranges_json": "$DECOMPOSE_PATH/subgraph_ranges.json"
+}
+EOF
+)
 
 python3 -m graph_net.model_path_handler \
     --model-path-list $model_list \

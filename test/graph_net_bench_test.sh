@@ -7,7 +7,7 @@ mkdir -p "$OUTPUT_PATH"
 model_list="$AI4C_ROOT/test/workspace_graph_net_bench_test/small10_torch_samples_list.txt"
 
 python3 -m graph_net_bench.torch.test_compiler \
-    --model-path-prefix $AI4C_ROOT/test/workspace_graph_net_bench_test \
+    --model-path-prefix $AI4C_ROOT/ \
     --allow-list $model_list \
     --compiler pass_mgr \
     --device cuda \

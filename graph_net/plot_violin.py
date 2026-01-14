@@ -5,7 +5,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
-from graph_net import analysis_util
+from graph_net_bench import analysis_util
 
 
 def plot_violin(df: pd.DataFrame, output_dir: str):

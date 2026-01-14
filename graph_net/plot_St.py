@@ -2,7 +2,7 @@ import os
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
-from graph_net import analysis_util
+from graph_net_bench import analysis_util
 
 
 def plot_St(s_scores: dict, cli_args: argparse.Namespace):

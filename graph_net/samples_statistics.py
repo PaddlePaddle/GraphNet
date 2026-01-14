@@ -297,6 +297,15 @@ def calculate_es_t_from_aggregated(
     )
 
 
+def determine_tolerances(
+    samples: list,
+    positive_tolerance_interpretation: PositiveToleranceInterpretation,
+) -> range:
+    """Determine tolerance range based on observed errno categories."""
+    max_errno = positive_tolerance_interpretation.num_errno_enum_values()
+    return range(-10, max_errno + 2)
+
+
 def calculate_es_components_values(
     total_samples: int,
     correct_speedups: list[float],

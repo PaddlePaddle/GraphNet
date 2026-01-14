@@ -58,6 +58,20 @@ def extract_model_name_and_subgraph_idx(subgraph_path):
     return model_name, subgraph_idx
 
 
+def determine_max_pass_id(output_dir: str) -> int:
+    """Scans the output directory to determine the next pass ID."""
+    if not os.path.exists(output_dir):
+        return -1
+    existing_passes = glob.glob(os.path.join(output_dir, "pass_*"))
+    valid_ids = []
+    for p in existing_passes:
+        basename = os.path.basename(p)
+        parts = basename.split("_")
+        if len(parts) == 2 and parts[1].isdigit():
+            valid_ids.append(int(parts[1]))
+    return max(valid_ids) if valid_ids else -1
+
+
 class TaskController:
     def __init__(self, args):
         self.root_output_dir = os.path.abspath(args.output_dir)
@@ -65,7 +79,7 @@ class TaskController:
         assert "test_module_name" in self.test_config
 
         self.test_module_name = self.test_config["test_module_name"]
-        max_pass_id = self._determine_max_pass_id(self.root_output_dir)
+        max_pass_id = determine_max_pass_id(self.root_output_dir)
         self.current_pass_id = (
             max_pass_id
             if self.test_module_name == "test_target_device"
@@ -75,23 +89,11 @@ class TaskController:
         self._init_task_scheduler(self.test_module_name)
         self._print()
 
-    def _determine_max_pass_id(self, output_dir: str) -> int:
-        """Scans the output directory to determine the next pass ID."""
-        if not os.path.exists(output_dir):
-            return -1
-        existing_passes = glob.glob(os.path.join(output_dir, "pass_*"))
-        valid_ids = []
-        for p in existing_passes:
-            basename = os.path.basename(p)
-            parts = basename.split("_")
-            if len(parts) == 2 and parts[1].isdigit():
-                valid_ids.append(int(parts[1]))
-        return max(valid_ids) if valid_ids else -1
-
     def _init_task_scheduler(self, test_module_name):
         assert test_module_name in [
             "test_compiler",
             "test_reference_device",
+            "test_remote_reference_device",
             "test_target_device",
         ]
         if test_module_name == "test_compiler":
@@ -101,6 +103,12 @@ class TaskController:
                 "post_analysis": True,
             }
         elif test_module_name == "test_reference_device":
+            self.task_scheduler = {
+                "run_decomposer": True,
+                "run_evaluation": True,
+                "post_analysis": False,
+            }
+        elif test_module_name == "test_remote_reference_device":
             self.task_scheduler = {
                 "run_decomposer": True,
                 "run_evaluation": True,
@@ -325,6 +333,7 @@ def run_decomposer_for_single_model(
                 "output_dir": output_dir,
                 "split_positions": split_positions,
                 "group_head_and_tail": False,
+                "use_all_inputs": True,
                 "chain_style": False,
             },
         },
@@ -396,7 +405,11 @@ def run_evaluation(
     test_module_name = test_config["test_module_name"]
     test_module_arguments = test_config[f"{test_module_name}_arguments"]
     test_module_arguments["model-path"] = work_dir
-    if test_module_name in ["test_reference_device", "test_target_device"]:
+    if test_module_name in [
+        "test_reference_device",
+        "test_remote_reference_device",
+        "test_target_device",
+    ]:
         test_module_arguments["reference-dir"] = os.path.join(
             work_dir, "reference_device_outputs"
         )
@@ -430,6 +443,7 @@ def generate_unittest_for_single_model(
             "custom_extractor_config": {
                 "output_dir": output_dir,
                 "subgraph_range": subgraph_range,
+                "use_all_inputs": True,
                 "device": "auto",
                 "tolerance": tolerance,
                 "try_run": True,
@@ -472,10 +486,10 @@ def generate_unittest(decompose_config, pass_id, output_dir):
         if decompose_config.decompose_method == "fixed-start":
             subgraph_range = [0, model_record.uniform_split_positions[subgraph_idx + 1]]
         else:
-            subgraph_range = [
-                model_record.uniform_split_positions[subgraph_idx],
-                model_record.uniform_split_positions[subgraph_idx + 1],
+            subgraph_range = model_record.uniform_split_positions[
+                subgraph_idx : subgraph_idx + 2
             ]
+            assert False, "Not supported!"
 
         rectified_model_path = get_rectfied_model_path(original_path)
         assert os.path.exists(
@@ -528,7 +542,7 @@ def generate_initial_tasks(args):
     initial_incorrect_models = get_ranged_incorrect_models(
         args.tolerance, args.log_file
     )
-    for model_path in initial_incorrect_models:
+    for model_path in sorted(initial_incorrect_models):
         model_name = get_model_name_with_subgraph_tag(model_path)
         model_name2record[model_name] = ModelRecord(
             original_path=model_path,
@@ -697,6 +711,8 @@ def execute_decomposition_phase(decompose_config, pass_id, workspace):
             f"[WARN] {len(failed_decomposition_models)} models failed to decompose.",
             flush=True,
         )
+        for idx, model_path in enumerate(failed_decomposition_models):
+            print(f"- [{idx}] {model_path=}", flush=True)
 
     running_state.collect_decomposed_subgraphs(decomposed_samples_dir)
     decompose_config.max_subgraph_size = max_subgraph_size
@@ -718,7 +734,7 @@ def print_incorrect_models(decompose_config, pass_id, log_prompt):
         f"{log_prompt} number of incorrect subgraphs: {len(incorrect_models)}; number of incorrect original models: {len(original_model_paths)}",
         flush=True,
     )
-    for idx, model_path in enumerate(incorrect_models):
+    for idx, model_path in enumerate(sorted(incorrect_models)):
         print(f"- [{idx}] {model_path}", flush=True)
 
 
@@ -736,7 +752,7 @@ def print_summary_and_suggestion(decompose_config, pass_id):
         )
     elif decompose_config.max_subgraph_size <= 1:
         print(
-            ">>> [Conclusion] Decomposition has reached the minimal granularity (max_subgraph_size = 1) after {pass_id - 1} steps.",
+            f">>> [Conclusion] Decomposition has reached the minimal granularity (max_subgraph_size = 1) after {pass_id + 1} steps.",
             flush=True,
         )
     print("=" * 80, flush=True)

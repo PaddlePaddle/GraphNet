@@ -23,16 +23,23 @@ class GraphMetaRestorer:
             parent_input_meta_classes
         )
 
-    def __call__(self, model_path):
+    def __call__(self, model_path, subgraph_range=None, use_all_inputs=False):
         assert path_utils.is_single_model_dir(
             model_path
         ), f"{model_path=} is not a graphnet sample."
+        if isinstance(subgraph_range, (tuple, list)) and len(subgraph_range) == 2:
+            use_all_inputs = subgraph_range[0] == 0 and use_all_inputs
+        else:
+            use_all_inputs = False
+
         (
             weight_meta_classes,
             input_meta_classes,
         ) = self._load_weight_and_input_meta_classes(model_path)
 
         assert self.config["update_inplace"]
+
+        # Restore weight_meta according to original_name.
         (
             is_weight_meta_fully_updated,
             weight_meta_classes,
@@ -42,11 +49,19 @@ class GraphMetaRestorer:
         assert is_weight_meta_fully_updated
         self._rewrite_meta_codes(model_path, weight_meta_classes, "weight_meta.py")
 
-        is_input_meta_fully_updated = self._update_by_tensor_spec(
-            input_meta_classes, self.original_name2parent_input_meta_class
-        )
+        # Restore input_meta according to name order or tensor spec (dtype and shape),
+        # because ordinary paddle.Tensor does not support user-defined names.
+        is_input_meta_fully_updated = False
+        if use_all_inputs:
+            is_input_meta_fully_updated = self._update_by_name_order(
+                input_meta_classes, self.original_name2parent_input_meta_class
+            )
+        if not is_input_meta_fully_updated:
+            is_input_meta_fully_updated = self._update_by_tensor_spec(
+                input_meta_classes, self.original_name2parent_input_meta_class
+            )
         if (
-            not self.config["input_meta_allow_partial_update"]
+            self.config["input_meta_allow_partial_update"]
             or is_input_meta_fully_updated
         ):
             self._rewrite_meta_codes(model_path, input_meta_classes, "input_meta.py")
@@ -73,20 +88,25 @@ class GraphMetaRestorer:
             original_name2meta_class[meta_class.original_name] = meta_class
         return original_name2meta_class
 
-    def _update_tensor_meta(self, meta_class, parent_meta_class):
-        if (
-            parent_meta_class
-            and meta_class.dtype == parent_meta_class.dtype
+    def _has_same_tensor_spec(self, meta_class, parent_meta_class):
+        if meta_class is None or parent_meta_class is None:
+            return False
+        return (
+            meta_class.dtype == parent_meta_class.dtype
             and meta_class.shape == parent_meta_class.shape
-        ):
-            for attr_name in ["max_val", "min_val", "mean", "std", "data"]:
-                if hasattr(meta_class, attr_name) or hasattr(
-                    parent_meta_class, attr_name
-                ):
-                    attr_value = getattr(parent_meta_class, attr_name, None)
-                    setattr(meta_class, attr_name, attr_value)
-            return True
-        return False
+        )
+
+    def _update_tensor_meta(self, meta_class, parent_meta_class):
+        if not self._has_same_tensor_spec(meta_class, parent_meta_class):
+            return False
+
+        for attr_name in ["max_val", "min_val", "mean", "std", "data"]:
+            if hasattr(parent_meta_class, attr_name):
+                attr_value = getattr(parent_meta_class, attr_name)
+                setattr(meta_class, attr_name, attr_value)
+            elif hasattr(meta_class, attr_name):
+                delattr(meta_class, attr_name)
+        return True
 
     def _update_by_original_name(self, meta_classes, original_name2parent_meta_class):
         updated_class_names = set()
@@ -116,14 +136,38 @@ class GraphMetaRestorer:
         )
         return sorted_meta_classess
 
+    def _update_by_name_order(self, meta_classes, original_name2parent_meta_class):
+        parent_meta_classes = list(original_name2parent_meta_class.values())
+        if len(meta_classes) != len(parent_meta_classes):
+            return False
+
+        updated_meta_classes = []
+        name2meta_class = {meta_class.name: meta_class for meta_class in meta_classes}
+        same_in_order = all(
+            self._has_same_tensor_spec(
+                name2meta_class.get(parent_meta_class.name, None), parent_meta_class
+            )
+            for parent_meta_class in parent_meta_classes
+        )
+        if same_in_order:
+            for parent_meta_class in parent_meta_classes:
+                meta_class = name2meta_class[parent_meta_class.name]
+                if self._update_tensor_meta(meta_class, parent_meta_class):
+                    updated_meta_classes.append(meta_class)
+            meta_classes[:] = updated_meta_classes
+
+        print(
+            f"[GraphMetaRestorer] {len(updated_meta_classes)}/{len(meta_classes)} classes can be restored."
+        )
+        return len(meta_classes) == len(updated_meta_classes)
+
     def _update_by_tensor_spec(self, meta_classes, original_name2parent_meta_class):
         updated_class_names = set()
         for meta_class in meta_classes:
             matched_parent_meta_class = [
                 parent_meta_class
                 for parent_meta_class in original_name2parent_meta_class.values()
-                if meta_class.dtype == parent_meta_class.dtype
-                and meta_class.shape == parent_meta_class.shape
+                if self._has_same_tensor_spec(meta_class, parent_meta_class)
             ]
             if len(matched_parent_meta_class) == 1:
                 self._update_tensor_meta(meta_class, matched_parent_meta_class[0])

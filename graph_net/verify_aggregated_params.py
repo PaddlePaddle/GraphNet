@@ -5,16 +5,9 @@ from graph_net import samples_statistics
 from graph_net.positive_tolerance_interpretation import PositiveToleranceInterpretation
 from graph_net.samples_statistics import (
     get_errno_from_error_type,
+    determine_tolerances,
+    resolve_errno_tolerance,
 )
-
-
-def determine_tolerances(
-    samples: list,
-    positive_tolerance_interpretation: PositiveToleranceInterpretation,
-) -> range:
-    """Determine tolerance range based on observed errno categories."""
-    max_errno = positive_tolerance_interpretation.num_errno_enum_values()
-    return range(-10, max_errno + 2)
 
 
 def extract_statistics_at_tolerance(
@@ -154,6 +147,7 @@ def print_tolerance_details(
     es_constructor_params: dict,
     pi: dict,
     fpdb: float,
+    positive_tolerance_interpretation: PositiveToleranceInterpretation = None,
 ):
     """Print detailed information for a tolerance level."""
     print(f"\nTolerance t = {tolerance}:")
@@ -180,19 +174,29 @@ def print_tolerance_details(
             f"    - Slowdown speedups: {stats['slowdown_speedups'][:10]}{'...' if len(stats['slowdown_speedups']) > 10 else ''}"
         )
     print(f"  gamma (average error penalty): {es_constructor_params['gamma']:.6f}")
-    if tolerance >= 1:
+    if tolerance >= 1 and positive_tolerance_interpretation:
+        # Calculate correct gamma debugging info using actual errno2tolerance mapping
         errnos = sorted(pi.keys())
         pi_list = [pi[errno] for errno in errnos]
-        indicator = [1 if tolerance < 1 else 0, 1 if tolerance < 3 else 0]
-        pi_indicator_sum = sum(
-            pi.get(errno, 0.0) * indicator[min(i, len(indicator) - 1)]
-            for i, errno in enumerate(errnos)
+
+        errno2tolerance = resolve_errno_tolerance(
+            stats["errno2count"], positive_tolerance_interpretation
         )
+        # Calculate actual indicator values for each errno
+        indicators = [
+            1 if tolerance < errno2tolerance.get(errno, 999) else 0 for errno in errnos
+        ]
+        pi_indicator_sum = sum(
+            pi.get(errno, 0.0) * indicator
+            for errno, indicator in zip(errnos, indicators)
+        )
+
         print(f"    - pi (errno -> proportion): {dict(sorted(pi.items()))}")
         print(f"    - pi (as list): {pi_list}")
-        print(f"    - indicator: {indicator}")
+        print(f"    - errno tolerance thresholds: {errno2tolerance}")
+        print(f"    - indicators (tolerance < threshold): {indicators}")
         print(
-            f"    - gamma = fpdb^(sum(pi[i] * indicator[i])) = {fpdb}^{pi_indicator_sum:.6f} = {es_constructor_params['gamma']:.6f}"
+            f"    - gamma = fpdb^(sum(pi[errno] * indicator(errno))) = {fpdb}^{pi_indicator_sum:.6f} = {es_constructor_params['gamma']:.6f}"
         )
     print(f"  Expected S(t) from aggregated: {es_constructor_params['expected_s']:.6f}")
     print(
@@ -264,6 +268,7 @@ class ToleranceReportBuilder:
             es_constructor_params,
             calculated_pi,
             self.fpdb,
+            self.positive_tolerance_interpretation,
         )
         return {
             **es_constructor_params,

@@ -116,7 +116,6 @@ def get_bart_model_and_inputs(model_name, text, dtype):
     model.eval()
 
     tokenizer = BartTokenizer.from_pretrained(model_name)
-
     inputs = tokenizer(
         text,
         return_tensors="pd",
@@ -125,7 +124,6 @@ def get_bart_model_and_inputs(model_name, text, dtype):
         max_length=512,
     )
     inputs.pop("token_type_ids", None)
-
     return model, inputs
 
 
@@ -152,5 +150,16 @@ def get_xlnet_model_and_inputs(model_name, text, dtype):
         input_ids = enc["input_ids"]
         pad_id = tokenizer.pad_token_id
         enc["attention_mask"] = (input_ids != pad_id).astype("int64")
-
     return model, enc
+
+
+def get_fnet_model_and_inputs(model_name, text, dtype):
+    from paddlenlp.transformers.fnet.modeling import FNetModel, FNetConfig
+    from paddlenlp.transformers.fnet.tokenizer import FNetTokenizer
+
+    config = FNetConfig.from_pretrained(model_name)
+    model = FNetModel(config)
+
+    tokenizer = FNetTokenizer.from_pretrained(model_name)
+    inputs = tokenizer(text, return_tensors="pd")
+    return model, inputs

@@ -37,6 +37,7 @@ class GraphExtractor:
     def make_config(
         self,
         subgraph_range: list,
+        use_all_inputs: bool,
         device: Literal["auto", "cpu", "cuda", "xpu"] = "auto",
         tolerance: int = 0,
         try_run: bool = False,
@@ -49,6 +50,7 @@ class GraphExtractor:
             ), f"subgraph_range should be list of int, {subgraph_range=}"
         return {
             "subgraph_range": subgraph_range,
+            "use_all_inputs": use_all_inputs,
             "device": device,
             "tolerance": tolerance,
             "try_run": try_run,
@@ -69,6 +71,19 @@ class GraphExtractor:
 
 
 PADDLE_UNITTEST_TEMPLATE = r"""
+# This unittest is auto-generated from https://github.com/PaddlePaddle/GraphNet/tree/develop/{{graph_module_desc.rel_model_path_to_graphnet}}
+# with subgraph_range={{graph_module_desc.subgraph_range}}.
+#
+# Usage:
+# 1. Run following command on reference hardware.
+#    python {{graph_module_desc.model_name}}_test.py --is-reference --device "cuda" --reference-dir "test_reference_outputs"
+#
+# 2. Copy all of the unittest and outputs of reference to target hardware.
+#
+# 3. Run following command on target hardware (xpu as example).
+#    python {{graph_module_desc.model_name}}_test.py --device "xpu" --reference-dir "test_reference_outputs"
+#
+
 import os
 import sys
 import argparse
@@ -157,22 +172,29 @@ def tolerance_generator(tolerance, dtype):
     elif dtype == paddle.float64:
         return 10 ** (tolerance * 7 / 5), 10 ** (tolerance * 7 / 5)
     else:
-        assert False, f"Unsupported {dtype=}."
+        return 0, 0
 
 
 class {{graph_module_desc.test_name}}Test(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(self):
         self.device = TEST_ARGS.device
         self.is_reference = TEST_ARGS.is_reference
         self.reference_dir = TEST_ARGS.reference_dir
-        self.tolerance = {{graph_module_desc.tolerance}}
+        self.tolerance = TEST_ARGS.tolerance
+        self.random_seed = TEST_ARGS.random_seed
+        self.runtime_seed = TEST_ARGS.runtime_seed
 
-        paddle.seed(123)
-        random.seed(123)
-        np.random.seed(123)
+        paddle.seed(self.random_seed)
+        random.seed(self.random_seed)
+        np.random.seed(self.random_seed)
 
         self.input_dict = get_input_dict(self.device)
         self.test_model = TestModel()
+        self.test_model.eval()
+
+        if any(k in self.device for k in ["cuda", "gpu"]):
+            paddle.set_flags({"FLAGS_cudnn_exhaustive_search": 1})
 
     def _flatten_outputs_to_list(self, outs):
         flattened_outs = outs
@@ -231,7 +253,7 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
         dtype_match = all(
             reference == target for reference, target in zip(reference_dtypes, target_dtypes)
         )
-        self.assertTrue(dtype_match, f"Data type of outputs are not matched ({reference_dtypes=} vs {target_dtypes}).")
+        self.assertTrue(dtype_match, f"Data type of outputs are not matched ({reference_dtypes=} vs {target_dtypes=}).")
 
     def check_shapes(self, reference_outputs, target_outputs):
         def _get_output_shapes(outs):
@@ -246,11 +268,11 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
         shape_match = all(
             reference == target for reference, target in zip(reference_shapes, target_shapes)
         )
-        self.assertTrue(shape_match, f"Shape of outputs are not matched ({reference_shapes=} vs {target_shapes}).")
+        self.assertTrue(shape_match, f"Shape of outputs are not matched ({reference_shapes=} vs {target_shapes=}).")
 
     def check_results(self, reference_outputs, target_outputs):
         def _convert_to_numpy(out):
-            if out.dtype in [paddle.float16, paddle.bfloat16]:
+            if out.dtype not in [paddle.float32, paddle.float64]:
                 return out.cast("float32").numpy()
             else:
                 return out.numpy()
@@ -261,29 +283,40 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
 
         for reference, target in zip(reference_outputs, target_outputs):
             atol, rtol = tolerance_generator(self.tolerance, reference.dtype)
-            np.testing.assert_allclose(_convert_to_numpy(reference), _convert_to_numpy(target), atol, rtol)
+            np.testing.assert_allclose(
+                actual=_convert_to_numpy(target),
+                desired=_convert_to_numpy(reference),
+                atol=atol,
+                rtol=rtol,
+            )
 
     def test_separated(self):
-        prologue_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_separate_prologue.pdout")
+        paddle.seed(self.runtime_seed)
+        prologue_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_prologue_reference.pdout")
+        prologue_outputs = self.run_prologue_layer()
         if self.is_reference:
-            prologue_outputs = self.run_prologue_layer()
             print(f"Save prologue output tensors to {prologue_output_path}.")
             paddle.save(prologue_outputs, prologue_output_path)
+            prologue_reference_outputs = prologue_outputs
         else:
             print(f"Load prologue output tensors from {prologue_output_path}")
-            prologue_outputs = paddle.load(prologue_output_path)
-        
-        test_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_separate_reference.pdout")
-        test_outputs = self.run_suspect_layer(prologue_outputs)
+            prologue_reference_outputs = paddle.load(prologue_output_path)
+            with self.subTest(name="check_prologue_outputs"):
+                self.check_results(prologue_reference_outputs, prologue_outputs)
+
+        test_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_separated_reference.pdout")
+        test_outputs = self.run_suspect_layer(prologue_reference_outputs)
         if self.is_reference:
             print(f"Save test output tensors to {test_output_path}.")
             paddle.save(test_outputs, test_output_path)
         else:
             print(f"Load test output tensors on reference device from {test_output_path}.")
             test_reference_outputs = paddle.load(test_output_path)
-            self.check_results(test_reference_outputs, test_outputs)
+            with self.subTest(name="check_suspect_outputs"):
+                self.check_results(test_reference_outputs, test_outputs)
 
     def test_combined(self):
+        paddle.seed(self.runtime_seed)
         test_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_combined_reference.pdout")
         test_outputs = self.run_test_model()
         if self.is_reference:
@@ -292,19 +325,25 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
         else:
             print(f"Load test output tensors on reference device from {test_output_path}.")
             test_reference_outputs = paddle.load(test_output_path)
-            self.check_results(test_reference_outputs, test_outputs)
+            with self.subTest(name="check_combined_outputs"):
+                self.check_results(test_reference_outputs, test_outputs)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--is-reference", action="store_true", default=False)
-    parser.add_argument("--device", type=str, required=True)
-    parser.add_argument("--reference-dir", type=str, required=True)
+    parser.add_argument("--is-reference", action="store_true", default=False, help="Whether it runs on the reference hardware.")
+    parser.add_argument("--device", type=str, required=True, help="Device to run on.")
+    parser.add_argument("--reference-dir", type=str, required=True, help="Directory to save the results on reference hardware.")
+    parser.add_argument("--tolerance", type=int, default={{graph_module_desc.tolerance}}, help="Tolerance level used in allclose check.")
+    parser.add_argument("--random-seed", type=int, default=123, help="Random seed to initialize the input tensors.")
+    parser.add_argument("--runtime-seed", type=int, default=1024, help="Random seed for runtime.")
     args, remaining = parser.parse_known_args()
 
     global TEST_ARGS
     TEST_ARGS = args
 
+    print(f"PaddlePaddle version: {paddle.__version__}")
+    print(f"PaddlePaddle commit: {paddle.version.commit}")
     unittest.main(argv=[sys.argv[0]] + remaining)
 """
 
@@ -323,6 +362,8 @@ GraphModuleDescriptor = namedtuple(
         "suspect_arg_names",
         "suspect_returns",
         "suspect_forward_func",
+        "rel_model_path_to_graphnet",
+        "subgraph_range",
     ],
 )
 
@@ -354,6 +395,7 @@ class PrologueSubgraphUnittestGenerator:
             workspace_path=self.config["output_dir"],
         )
         self.subgraph_range = self.config["subgraph_range"]
+        self.use_all_inputs = self.config["use_all_inputs"]
         self.device = self._choose_device(self.config["device"])
         self.tolerance = self.config["tolerance"]
         self.try_run = self.config["try_run"]
@@ -402,8 +444,10 @@ class PrologueSubgraphUnittestGenerator:
             self.generate(subgraph_generator, tmp_dir)
         return static_model
 
-    def _save_and_get_graph_module(self, subgraph_generator, subgraph_range, tmp_dir):
-        results = subgraph_generator(subgraph_range, False)
+    def _save_and_get_graph_module(
+        self, subgraph_generator, subgraph_range, use_all_inputs, tmp_dir
+    ):
+        results = subgraph_generator(subgraph_range, False, use_all_inputs)
         assert len(results) == 1
         output_name = f"{subgraph_range[0]}_{subgraph_range[1]}"
         output_path = os.path.join(tmp_dir, f"{self.model_name}-{output_name}")
@@ -419,16 +463,16 @@ class PrologueSubgraphUnittestGenerator:
         )
 
         graph_module, output_path = self._save_and_get_graph_module(
-            subgraph_generator, self.subgraph_range, tmp_dir
+            subgraph_generator, self.subgraph_range, self.use_all_inputs, tmp_dir
         )
         arg_names = self._get_forward_arg_names(graph_module)
-        self.graph_meta_restorer(output_path)
+        self.graph_meta_restorer(output_path, self.subgraph_range, self.use_all_inputs)
         tensor_metas = self._get_tensor_metas(output_path)
 
         # prologue model information
         prologue_subgraph_range = [self.subgraph_range[0], self.subgraph_range[1] - 1]
         prologue_graph_module, _ = self._save_and_get_graph_module(
-            subgraph_generator, prologue_subgraph_range, tmp_dir
+            subgraph_generator, prologue_subgraph_range, False, tmp_dir
         )
         prologue_forward_func, prologue_returns = self._get_forward_func_and_returns(
             prologue_graph_module
@@ -438,7 +482,7 @@ class PrologueSubgraphUnittestGenerator:
         # suspect model information
         suspect_subgraph_range = [self.subgraph_range[1] - 1, self.subgraph_range[1]]
         suspect_graph_module, _ = self._save_and_get_graph_module(
-            subgraph_generator, suspect_subgraph_range, tmp_dir
+            subgraph_generator, suspect_subgraph_range, False, tmp_dir
         )
         suspect_forward_func, suspect_returns = self._get_forward_func_and_returns(
             suspect_graph_module
@@ -458,6 +502,10 @@ class PrologueSubgraphUnittestGenerator:
                 suspect_arg_names=suspect_arg_names,
                 suspect_returns=suspect_returns,
                 suspect_forward_func=suspect_forward_func,
+                rel_model_path_to_graphnet=self.parent_model_path.split("GraphNet/")[
+                    -1
+                ],
+                subgraph_range=self.subgraph_range,
             )
             return self._render_template(graph_module_desc)
 
@@ -517,6 +565,11 @@ class PrologueSubgraphUnittestGenerator:
                 Path(model_path) / "input_meta.py"
             )
         )
+        for meta in tensor_metas:
+            if meta.min_val is None:
+                meta.min_val = 0
+            if meta.max_val is None:
+                meta.max_val = 2
         return tensor_metas
 
     def _get_forward_arg_names(self, graph_module):

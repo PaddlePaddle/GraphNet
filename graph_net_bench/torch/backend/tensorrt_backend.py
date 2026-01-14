@@ -8,6 +8,9 @@ except ImportError:
 
 
 class TensorRTBackend(GraphCompilerBackend):
+    def __init__(self, config):
+        super().__init__(config)
+
     def __call__(self, model):
         if torch_tensorrt is None:
             raise ImportError("torch_tensorrt not installed")

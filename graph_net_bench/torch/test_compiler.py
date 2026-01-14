@@ -15,15 +15,37 @@ import numpy as np
 import platform
 import base64
 from graph_net_bench.torch.backend.graph_compiler_backend import GraphCompilerBackend
+from graph_net_bench.torch.backend.tvm_backend import TvmBackend
+from graph_net_bench.torch.backend.xla_backend import XlaBackend
+from graph_net_bench.torch.backend.inductor_backend import InductorBackend
+from graph_net_bench.torch.backend.tensorrt_backend import TensorRTBackend
+from graph_net_bench.torch.backend.blade_disc_backend import BladeDISCBackend
 from graph_net_bench.torch.backend.nope_backend import NopeBackend
 from graph_net_bench.torch.backend.pass_mgr_backend import PassMgrBackend
+from graph_net_bench.torch.backend.unstable_to_stable_backend import (
+    UnstableToStableBackend,
+)
+from graph_net_bench.torch.backend.range_decomposer_validator_backend import (
+    RangeDecomposerValidatorBackend,
+)
+from graph_net_bench.torch.backend.graph_variable_renamer_validator_backend import (
+    GraphVariableRenamerValidatorBackend,
+)
 from graph_net_bench import test_compiler_util
 from graph_net_bench import path_utils
 
 
 compiler_backend_name2class = {
+    "tvm": TvmBackend,
+    "xla": XlaBackend,
+    "inductor": InductorBackend,
+    "tensorrt": TensorRTBackend,
+    "bladedisc": BladeDISCBackend,
     "nope": NopeBackend,
     "pass_mgr": PassMgrBackend,
+    "unstable_to_stable": UnstableToStableBackend,
+    "range_decomposer_validator": RangeDecomposerValidatorBackend,
+    "graph_variable_renamer_validator": GraphVariableRenamerValidatorBackend,
 }
 
 

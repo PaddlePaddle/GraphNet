@@ -2,10 +2,13 @@ import os
 import torch
 import sys
 from .graph_compiler_backend import GraphCompilerBackend
-from ..fx_graph_serialize_util import serialize_graph_module_to_str
+from graph_net.torch.fx_graph_serialize_util import serialize_graph_module_to_str
 
 
 class UnstableToStableBackend(GraphCompilerBackend):
+    def __init__(self, config):
+        super().__init__(config)
+
     def __call__(self, model):
         # Perform unstable API check before running the model
         unstable_api = os.getenv("DISALLOWED_UNSTABLE_API", "").strip()

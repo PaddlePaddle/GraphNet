@@ -28,6 +28,9 @@ class BladeDISCCompiledModule(torch.nn.Module):
 
 
 class BladeDISCBackend(GraphCompilerBackend):
+    def __init__(self, config):
+        super().__init__(config)
+
     def __call__(self, model):
         return BladeDISCCompiledModule(model)
 

@@ -94,9 +94,7 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         pass
 
     def sample_handled(self, rel_model_path: str) -> bool:
-        return self.naive_sample_handled(
-            rel_model_path, search_file_name="model.py"
-        )
+        return self.naive_sample_handled(rel_model_path, search_file_name="model.py")
 
     def __call__(self, model_path: str) -> None:
         self.resumable_handle_sample(model_path)
@@ -276,9 +274,7 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         return cls(predicator_config)
 
     def sample_handled(self, rel_model_path: str) -> bool:
-        return self.naive_sample_handled(
-            rel_model_path, search_file_name="model.py"
-        )
+        return self.naive_sample_handled(rel_model_path, search_file_name="model.py")
 
     def __call__(self, rel_model_path: str):
         self.resumable_handle_sample(rel_model_path)

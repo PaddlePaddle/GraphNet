@@ -42,6 +42,6 @@ EOF
 ) \
     2>&1 | tee "$RENAMED_PATH/validation.log"
 
-python3 -m graph_net.plot_ESt \
+python3 -m graph_net_visual.plot_ESt \
     --benchmark-path "$RENAMED_PATH/validation.log" \
     --output-dir "$RENAMED_PATH"

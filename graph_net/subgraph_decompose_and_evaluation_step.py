@@ -9,7 +9,7 @@ import subprocess
 import glob
 from dataclasses import dataclass, field, asdict
 from typing import List, Dict
-from graph_net.analysis_util import get_incorrect_models
+from graph_net_bench.analysis_util import get_incorrect_models
 from graph_net.graph_net_root import get_graphnet_root
 from graph_net_bench import path_utils
 

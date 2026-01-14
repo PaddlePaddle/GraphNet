@@ -39,7 +39,7 @@
 
 ```bash
 # 设置你的基准测试目录
-export GRAPH_NET_BENCHMARK_PATH=/home/yourname/graphnet_benchmark/
+export GRAPH_NET_BENCH_PATH=/home/yourname/graphnet_benchmark/
 
 # 运行基准测试
 python -m graph_net.torch.test_compiler \
@@ -48,7 +48,7 @@ python -m graph_net.torch.test_compiler \
   --device /device/to/execute/ \
   --warmup /times/to/warmup/ \
   --trials /times/to/test/ \
-  > $GRAPH_NET_BENCHMARK_PATH/log.log 2>&1
+  > $GRAPH_NET_BENCH_PATH/log.log 2>&1
 
 # 注意：如果省略 --compiler 参数，默认使用 PyTorch 的内置编译器。
 ```
@@ -61,30 +61,30 @@ python -m graph_net.torch.test_compiler \
 
 **步骤 2：分析**
 
-使用 `graph_net.plot_St`、`graph_net.plot_ESt` 和 `graph_net.plot_violin` 这三个脚本，根据基准测试日志中的加速比、正确性和运行时信息，生成 St 图、ESt 图和 [小提琴图](https://en.m.wikipedia.org/wiki/Violin_plot)。
+使用 `graph_net_visual.plot_St`、`graph_net_visual.plot_ESt` 和 `graph_net_visual.plot_violin` 这三个脚本，根据基准测试日志中的加速比、正确性和运行时信息，生成 St 图、ESt 图和 [小提琴图](https://en.m.wikipedia.org/wiki/Violin_plot)。
 
 ```bash
-python -m graph_net.plot_St \
-  --benchmark-path $GRAPH_NET_BENCHMARK_PATH/log.log \
-  --output-dir $GRAPH_NET_BENCHMARK_PATH \
+python -m graph_net_visual.plot_St \
+  --benchmark-path $GRAPH_NET_BENCH_PATH/log.log \
+  --output-dir $GRAPH_NET_BENCH_PATH \
   --negative-speedup-penalty penalty/power/for/negative/speedup \
   --fpdb base/penalty/for/severe/errors
 
-python -m graph_net.plot_ESt \
-  --benchmark-path $GRAPH_NET_BENCHMARK_PATH/log.log \
-  --output-dir $GRAPH_NET_BENCHMARK_PATH \
+python -m graph_net_visual.plot_ESt \
+  --benchmark-path $GRAPH_NET_BENCH_PATH/log.log \
+  --output-dir $GRAPH_NET_BENCH_PATH \
   --negative-speedup-penalty penalty/power/for/negative/speedup \
   --fpdb base/penalty/for/severe/errors
 
 # 注意：如果省略 --negative-speedup-penalty 参数，默认使用 p=0。
 # 如果省略 --fpdb 参数，默认使用 b=0.1。
 
-python -m graph_net.plot_violin \
-  --benchmark-path $GRAPH_NET_BENCHMARK_PATH/JSON_results/ \
-  --output-dir $GRAPH_NET_BENCHMARK_PATH
+python -m graph_net_visual.plot_violin \
+  --benchmark-path $GRAPH_NET_BENCH_PATH/JSON_results/ \
+  --output-dir $GRAPH_NET_BENCH_PATH
 ```
 
-这些脚本设计用于处理 `/benchmark_path/category_name/` 这样的文件结构，x 轴上的项目由子目录名称标识。执行后，按类别（模型任务、库等）划分的结果汇总图表将被导出到 `$GRAPH_NET_BENCHMARK_PATH`。
+这些脚本设计用于处理 `/benchmark_path/category_name/` 这样的文件结构，x 轴上的项目由子目录名称标识。执行后，按类别（模型任务、库等）划分的结果汇总图表将被导出到 `$GRAPH_NET_BENCH_PATH`。
 
 ### 硬件回归测试
 我们还提供了一个两步工作流，用于根据“黄金标准”参考验证编译器的正确性和性能，这对于硬件专用测试和回归跟踪至关重要。详情可参阅 [指南](./docs/hardware_test_cn.md)。

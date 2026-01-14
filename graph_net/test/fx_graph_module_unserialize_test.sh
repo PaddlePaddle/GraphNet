@@ -69,6 +69,6 @@ EOF
 ) \
     2>&1 | tee "$DECOMPOSE_PATH/validation.log"
 
-python3 -m graph_net.plot_ESt \
+python3 -m graph_net_visual.plot_ESt \
     --benchmark-path "$DECOMPOSE_PATH/validation.log" \
     --output-dir "$DECOMPOSE_PATH"

@@ -2,7 +2,7 @@ import os
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
-from graph_net import analysis_util
+from graph_net_bench import analysis_util
 
 
 def plot_St(s_scores: dict, cli_args: argparse.Namespace):
@@ -104,7 +104,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="analysis_results",
+        default="/tmp/graph_net_bench_results",
         help="Output directory for saving the plot. Default: analysis_results",
     )
     parser.add_argument(

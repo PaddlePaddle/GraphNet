@@ -2,8 +2,8 @@ import os
 import argparse
 import numpy as np
 import matplotlib.pyplot as plt
-from graph_net import analysis_util
-from graph_net import verify_aggregated_params
+from graph_net_bench import analysis_util
+from graph_net_bench import verify_aggregated_params
 from graph_net_bench.positive_tolerance_interpretation_manager import (
     get_supported_positive_tolerance_interpretation_types,
     get_positive_tolerance_interpretation,
@@ -412,7 +412,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--output-dir",
         type=str,
-        default="analysis_results",
+        default="/tmp/graph_net_bench_results",
         help="Output directory for saving the plot. Default: analysis_results",
     )
     parser.add_argument(

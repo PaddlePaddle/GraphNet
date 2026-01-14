@@ -5,7 +5,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
-from graph_net import analysis_util
+from graph_net_bench import analysis_util
 
 
 def plot_violin(df: pd.DataFrame, output_dir: str):
@@ -66,27 +66,10 @@ def plot_violin(df: pd.DataFrame, output_dir: str):
     plt.close()
 
 
-def main():
+def main(args):
     """
     Main analysis function to read data, aggregate it, and generate a single combined plot.
     """
-    parser = argparse.ArgumentParser(
-        description="Analyze benchmark speedups and generate a combined violin plot."
-    )
-    parser.add_argument(
-        "--benchmark-path",
-        type=str,
-        required=True,
-        help="Path to a log file (.log or .txt) or a directory containing log files.",
-    )
-    parser.add_argument(
-        "--output-dir",
-        type=str,
-        default="analysis_results",
-        help="Output directory path for saving plots. Default: analysis_results",
-    )
-    args = parser.parse_args()
-
     # 1. Parse log files and extract speedup data
     # Use scan_all_folders to handle both single log file and directory with log files
     all_samples_by_curve = analysis_util.scan_all_folders(args.benchmark_path)
@@ -133,4 +116,21 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(
+        description="Analyze benchmark speedups and generate a combined violin plot.",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
+    parser.add_argument(
+        "--benchmark-path",
+        type=str,
+        required=True,
+        help="Path to a log file (.log or .txt) or a directory containing log files.",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default="/tmp/graph_net_bench_results",
+        help="Output directory path for saving plots. Default: analysis_results",
+    )
+    args = parser.parse_args()
+    main(args)

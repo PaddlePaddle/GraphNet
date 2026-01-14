@@ -12,7 +12,7 @@ TOLERANCE_LIST=(-2 -1 0 1 2)
 LOG_FILE_PATH="log_file_for_test.txt"
 
 python3 - <<END
-from graph_net import analysis_util
+from graph_net_bench import analysis_util
 
 result = analysis_util.get_incorrect_models($TOLERANCE_LIST, '$LOG_FILE_PATH')
 

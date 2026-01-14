@@ -2,7 +2,7 @@
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(
 os.path.dirname(graph_net.__file__))")
-SAMPLES_ROOT="$GRAPH_NET_ROOT/../"
+GRAPHNET_ROOT="$GRAPH_NET_ROOT/../"
 OUTPUT_DIR="/tmp/dtype_gen_samples"
 mkdir -p "$OUTPUT_DIR"
 
@@ -14,7 +14,7 @@ python3 -m graph_net.apply_sample_pass \
     --sample-pass-config $(base64 -w 0 <<EOF
 {
     "dtype_list": ["float16", "bfloat16"],
-    "model_path_prefix": "$SAMPLES_ROOT",
+    "model_path_prefix": "$GRAPHNET_ROOT",
     "output_dir": "$OUTPUT_DIR",
     "resume": true,
     "limits_handled_models": null
@@ -30,7 +30,7 @@ python3 -m graph_net.apply_sample_pass \
     --sample-pass-config $(base64 -w 0 <<EOF
 {
     "output_dir": "$OUTPUT_DIR",
-    "model_path_prefix": "$SAMPLES_ROOT",
+    "model_path_prefix": "$GRAPHNET_ROOT",
     "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
     "model_runnable_predicator_class_name": "RunModelPredicator",
     "model_runnable_predicator_config": {

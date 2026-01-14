@@ -94,7 +94,13 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         pass
 
     def sample_handled(self, rel_model_path: str) -> bool:
-        return self.naive_sample_handled(rel_model_path, search_file_name="model.py")
+        dst_model_path = Path(self.config["model_path_prefix"]) / rel_model_path
+        graph_net_json_path = dst_model_path / "graph_net.json"
+        with open(graph_net_json_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if data.get("data_type_generalization_passes"):
+            return True
+        return False
 
     def __call__(self, model_path: str) -> None:
         self.resumable_handle_sample(model_path)
@@ -111,9 +117,9 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             model_path = str(Path(self.model_path_prefix) / model_path)
 
         # Parse the computation graph
-        # traced_model = parse_immutable_model_path_into_sole_graph_module(model_path)
         module, inputs = get_torch_module_and_inputs(model_path)
         traced_model = parse_sole_graph_module(module, inputs)
+
         ShapeProp(traced_model).propagate(*inputs)
 
         # Test which dtype passes work
@@ -274,7 +280,18 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         return cls(predicator_config)
 
     def sample_handled(self, rel_model_path: str) -> bool:
-        return self.naive_sample_handled(rel_model_path, search_file_name="model.py")
+        model_path = Path(self.config["model_path_prefix"]) / rel_model_path
+        dtype_pass_names = self._read_dtype_pass_names(model_path)
+        num_generated = 0
+        for pass_name in dtype_pass_names:
+            dtype = pass_name.replace("dtype_generalization_pass_", "")
+            rel_model_path = rel_model_path + "_" + dtype
+            rel_generated_model_path = Path(*Path(rel_model_path).parts[1:])
+            generated_model_path = (
+                Path(self.config["output_dir"]) / rel_generated_model_path
+            )
+            num_generated += len(list(generated_model_path.rglob("model.py")))
+        return num_generated == len(dtype_pass_names)
 
     def __call__(self, rel_model_path: str):
         self.resumable_handle_sample(rel_model_path)

@@ -22,6 +22,11 @@ function prepare_torch_env() {
     else
         LOG "[INFO] Torch environment is already ready."
     fi
+
+    LOG "[INFO] Installing grpcio and protobuf..."
+    python3.10 -m pip install -U grpcio "protobuf>=5.26.1" > /dev/null
+    [ $? -ne 0 ] && LOG "[FATAL] Install grpcio or protobuf failed!" && exit -1
+    LOG "[INFO] grpcio and protobuf installed successfully."
 }
 function run_unit_test() {
     UNITTEST_PATH="$GRAPH_NET_ROOT/graph_net/torch/unittest"
@@ -39,9 +44,40 @@ function run_unit_test() {
     return $RET
 }
 
+function run_shell_tests() {
+    TEST_DIR="$GRAPH_NET_ROOT/graph_net/test"
+    LOG "[INFO] Looking for shell scripts in: $TEST_DIR"
+
+    mkdir -p .tmp_bin
+    PY310_PATH=$(which python3.10)
+    ln -sf "$PY310_PATH" .tmp_bin/python
+    ln -sf "$PY310_PATH" .tmp_bin/python3
+    export PATH="$(pwd)/.tmp_bin:$PATH"
+
+    SCRIPTS=("$TEST_DIR"/*.sh)
+    for script in "${SCRIPTS[@]}"; do
+        script_name=$(basename "$script")
+        LOG "[INFO] Running script: $script_name"        
+        chmod +x "$script"
+
+        "$script" || {
+            EXIT_CODE=$?
+            LOG "[ERROR] $script_name failed with exit code $EXIT_CODE"
+            return $EXIT_CODE
+        }
+        
+        LOG "[SUCCESS] $script_name finished successfully."
+    done
+
+    rm -rf .tmp_bin
+    LOG "[INFO] All shell scripts passed successfully!"
+    return 0
+}
+
 function main() {
     prepare_torch_env
     run_unit_test
+    run_shell_tests
 }
 
 main

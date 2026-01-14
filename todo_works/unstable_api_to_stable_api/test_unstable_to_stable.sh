@@ -68,7 +68,7 @@ else
 fi
 
 echo "📦 正在将JSON转换为结果图"
-python -m graph_net.plot_ESt \
+python -m graph_net_bench.plot_ESt \
   --benchmark-path $GRAPH_NET_BENCHMARK_PATH/JSON_results/ \
   --output-dir $GRAPH_NET_BENCHMARK_PATH \
 

@@ -62,7 +62,7 @@ After executing, `graph_net.torch.test_compiler` will:
 
 **Step 2: Analysis**
 
-Use the three scripts `graph_net.plot_St`, `graph_net.plot_ESt` and `graph_net.plot_violin` to generate St plot, ESt plot, and [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on speedup, correctness and runtime information from benchmark logs.
+Use the three scripts `graph_net_bench.plot_St`, `graph_net_bench.plot_ESt` and `graph_net_bench.plot_violin` to generate St plot, ESt plot, and [violin plot](https://en.m.wikipedia.org/wiki/Violin_plot) based on speedup, correctness and runtime information from benchmark logs.
 
 ```bash
 python -m graph_net_bench.plot_St \

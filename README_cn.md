@@ -61,7 +61,7 @@ python -m graph_net.torch.test_compiler \
 
 **步骤 2：分析**
 
-使用 `graph_net.plot_St`、`graph_net.plot_ESt` 和 `graph_net.plot_violin` 这三个脚本，根据基准测试日志中的加速比、正确性和运行时信息，生成 St 图、ESt 图和 [小提琴图](https://en.m.wikipedia.org/wiki/Violin_plot)。
+使用 `graph_net_bench.plot_St`、`graph_net_bench.plot_ESt` 和 `graph_net_bench.plot_violin` 这三个脚本，根据基准测试日志中的加速比、正确性和运行时信息，生成 St 图、ESt 图和 [小提琴图](https://en.m.wikipedia.org/wiki/Violin_plot)。
 
 ```bash
 python -m graph_net_bench.plot_St \

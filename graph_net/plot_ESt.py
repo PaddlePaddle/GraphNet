@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from graph_net import analysis_util
 from graph_net import verify_aggregated_params
-from graph_net.positive_tolerance_interpretation_manager import (
+from graph_net_bench.positive_tolerance_interpretation_manager import (
     get_supported_positive_tolerance_interpretation_types,
     get_positive_tolerance_interpretation,
 )

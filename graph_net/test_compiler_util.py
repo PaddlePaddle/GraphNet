@@ -9,7 +9,7 @@ import numpy as np
 from dataclasses import dataclass
 from contextlib import contextmanager
 
-from graph_net import path_utils
+from graph_net.graph_net_root import get_graphnet_root
 
 
 @dataclass
@@ -348,7 +348,7 @@ def get_allow_samples(allow_list):
         return None
 
     assert os.path.isfile(allow_list), f"{allow_list} is not a regular file."
-    graphnet_root = path_utils.get_graphnet_root()
+    graphnet_root = get_graphnet_root()
     print(f"graphnet_root: {graphnet_root}", file=sys.stderr, flush=True)
     test_samples = []
     with open(allow_list, "r") as f:

@@ -10,6 +10,7 @@ import glob
 from dataclasses import dataclass, field, asdict
 from typing import List, Dict
 from graph_net.analysis_util import get_incorrect_models
+from graph_net.graph_net_root import get_graphnet_root
 from graph_net import path_utils
 
 MAX_GRAPH_SIZE = 4096
@@ -295,7 +296,7 @@ class DecomposeConfig:
 
 
 def get_rectfied_model_path(model_path):
-    graphnet_root = path_utils.get_graphnet_root()
+    graphnet_root = get_graphnet_root()
     return os.path.join(graphnet_root, model_path.split("GraphNet/")[-1])
 
 
@@ -323,7 +324,7 @@ def run_decomposer_for_single_model(
 ) -> bool:
     """Decomposes a single model."""
 
-    graphnet_root = path_utils.get_graphnet_root()
+    graphnet_root = get_graphnet_root()
     decorator_config = {
         "decorator_path": f"{graphnet_root}/graph_net/{framework}/extractor.py",
         "decorator_config": {
@@ -434,7 +435,7 @@ def run_evaluation(
 def generate_unittest_for_single_model(
     framework, model_name, model_path, subgraph_range, tolerance, output_dir, log_path
 ):
-    graphnet_root = path_utils.get_graphnet_root()
+    graphnet_root = get_graphnet_root()
     decorator_config = {
         "decorator_path": f"{graphnet_root}/graph_net/paddle/extractor.py",
         "decorator_config": {

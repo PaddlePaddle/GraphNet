@@ -29,7 +29,7 @@ from graph_net.torch.backend.graph_variable_renamer_validator_backend import (
     GraphVariableRenamerValidatorBackend,
 )
 from graph_net import test_compiler_util
-from graph_net import path_utils
+from graph_net_bench import path_utils
 
 
 registry_backend = {

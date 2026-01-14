@@ -12,7 +12,7 @@ import subprocess
 import re
 
 from graph_net.paddle import utils
-from graph_net import path_utils
+from graph_net_bench import path_utils
 from graph_net import test_compiler_util
 
 from graph_net.paddle.backend.graph_compiler_backend import GraphCompilerBackend

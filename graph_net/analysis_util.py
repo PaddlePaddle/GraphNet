@@ -3,10 +3,12 @@ import re
 import sys
 from scipy.stats import gmean
 from graph_net.config.datatype_tolerance_config import get_precision
-from graph_net.positive_tolerance_interpretation import PositiveToleranceInterpretation
+from graph_net_bench.positive_tolerance_interpretation import (
+    PositiveToleranceInterpretation,
+)
 
-from graph_net.samples_statistics import determine_tolerances
-from graph_net.positive_tolerance_interpretation_manager import (
+from graph_net_bench.samples_statistics import determine_tolerances
+from graph_net_bench.positive_tolerance_interpretation_manager import (
     get_positive_tolerance_interpretation,
 )
 

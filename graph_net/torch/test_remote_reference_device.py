@@ -11,7 +11,7 @@ import sys
 from pathlib import Path
 
 from graph_net_rpc.sample_remote_executor import SampleRemoteExecutor
-from graph_net import path_utils
+from graph_net_bench import path_utils
 from graph_net import test_compiler_util
 
 

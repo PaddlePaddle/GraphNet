@@ -5,7 +5,7 @@ import sys
 import traceback
 
 import paddle
-from graph_net import path_utils
+from graph_net_bench import path_utils
 from graph_net import test_compiler_util
 from graph_net.paddle import test_compiler, test_reference_device
 

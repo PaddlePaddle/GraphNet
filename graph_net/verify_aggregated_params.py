@@ -2,8 +2,10 @@ import argparse
 from collections import OrderedDict, Counter
 from graph_net import analysis_util
 from graph_net import samples_statistics
-from graph_net.positive_tolerance_interpretation import PositiveToleranceInterpretation
-from graph_net.samples_statistics import (
+from graph_net_bench.positive_tolerance_interpretation import (
+    PositiveToleranceInterpretation,
+)
+from graph_net_bench.samples_statistics import (
     get_errno_from_error_type,
     determine_tolerances,
     resolve_errno_tolerance,

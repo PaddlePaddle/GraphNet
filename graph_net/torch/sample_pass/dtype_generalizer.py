@@ -85,7 +85,7 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
 
     def declare_config(
         self,
-        dtype_list: str,
+        dtype_list: list,
         model_path_prefix: str,
         output_dir: str,
         resume: bool = False,
@@ -95,7 +95,7 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
 
     def sample_handled(self, rel_model_path: str) -> bool:
         return self.naive_sample_handled(
-            rel_model_path, search_file_name="op_names.txt"
+            rel_model_path, search_file_name="model.py"
         )
 
     def __call__(self, model_path: str) -> None:
@@ -277,7 +277,7 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
 
     def sample_handled(self, rel_model_path: str) -> bool:
         return self.naive_sample_handled(
-            rel_model_path, search_file_name="op_names.txt"
+            rel_model_path, search_file_name="model.py"
         )
 
     def __call__(self, rel_model_path: str):

@@ -49,6 +49,7 @@ class GraphExtractor:
         split_positions=(),
         group_head_and_tail=False,
         chain_style=False,
+        use_all_inputs=False,
         output_dir="./tmp/naive_decomposer_dir",
         filter_path=None,
         filter_config=None,
@@ -62,6 +63,7 @@ class GraphExtractor:
             "split_positions": split_positions,
             "group_head_and_tail": group_head_and_tail,
             "chain_style": chain_style,
+            "use_all_inputs": use_all_inputs,
             "output_dir": output_dir,
             "filter_path": filter_path,
             "filter_config": filter_config if filter_config is not None else {},
@@ -71,7 +73,13 @@ class GraphExtractor:
         config = {
             k: v
             for k, v in self.config.items()
-            if k in {"split_positions", "group_head_and_tail", "chain_style"}
+            if k
+            in {
+                "split_positions",
+                "group_head_and_tail",
+                "chain_style",
+                "use_all_inputs",
+            }
         }
         rewrited_gm = convert_to_submodules_graph(
             gm,
@@ -105,6 +113,7 @@ class NaiveDecomposerExtractor:
         split_positions=(),
         group_head_and_tail=False,
         chain_style=False,
+        use_all_inputs=False,
         filter_path=None,
         filter_config=None,
         model_path_prefix="",
@@ -118,6 +127,7 @@ class NaiveDecomposerExtractor:
             "split_positions": split_positions,
             "group_head_and_tail": group_head_and_tail,
             "chain_style": chain_style,
+            "use_all_inputs": use_all_inputs,
             "output_dir": output_dir,
             "filter_path": filter_path,
             "filter_config": filter_config if filter_config is not None else {},
@@ -130,7 +140,13 @@ class NaiveDecomposerExtractor:
         config = {
             k: v
             for k, v in self.config.items()
-            if k in {"split_positions", "group_head_and_tail", "chain_style"}
+            if k
+            in {
+                "split_positions",
+                "group_head_and_tail",
+                "chain_style",
+                "use_all_inputs",
+            }
         }
         module, inputs = get_torch_module_and_inputs(model_path, use_dummy_inputs=False)
         gm = parse_immutable_model_path_into_sole_graph_module(model_path)
@@ -175,6 +191,7 @@ class RangeDecomposerExtractor:
         subgraph_ranges_path=None,
         group_head_and_tail=False,
         chain_style=False,
+        use_all_inputs=False,
         output_dir="./tmp/naive_decomposer_dir",
         filter_path=None,
         filter_config=None,
@@ -197,6 +214,7 @@ class RangeDecomposerExtractor:
             "subgraph_ranges_path": subgraph_ranges_path,
             "group_head_and_tail": group_head_and_tail,
             "chain_style": chain_style,
+            "use_all_inputs": use_all_inputs,
             "output_dir": output_dir,
             "filter_path": filter_path,
             "filter_config": filter_config if filter_config is not None else {},
@@ -257,6 +275,7 @@ class RangeDecomposerExtractor:
             subgraph_ranges=subgraph_ranges,
             group_head_and_tail=self.config.get("group_head_and_tail", False),
             chain_style=self.config.get("chain_style", False),
+            use_all_inputs=self.config.get("use_all_inputs", False),
         )
         rewrited_gm(*inputs)
 

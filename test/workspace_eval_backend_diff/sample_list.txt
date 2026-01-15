@@ -1,0 +1,3 @@
+# shuf -n 100 torch_samples_list.txt > small_torch_samples_list.txt
+samples/ultralytics/yolov3-tinyu
+samples/transformers-auto-model/hf-tiny-model-private_tiny-random-Swinv2ForImageClassification

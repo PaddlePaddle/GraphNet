@@ -55,7 +55,7 @@ EOF
 )
 
 
-python3 -m graph_net.torch.test_compiler \
+python3 -m graph_net_bench.torch.test_compiler \
     --model-path-prefix $GRAPH_NET_ROOT \
     --allow-list $model_list \
     --compiler range_decomposer_validator \

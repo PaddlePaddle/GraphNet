@@ -4,6 +4,7 @@ from typing import Dict
 from graph_net.tensor_meta import TensorMeta
 import os
 import importlib.util
+from .graph_compiler_backend import GraphCompilerBackend
 
 
 class RenamedModelAdapter(torch.nn.Module):
@@ -27,7 +28,10 @@ class RenamedModelAdapter(torch.nn.Module):
         return new_kwargs
 
 
-class GraphVariableRenamerValidatorBackend:
+class GraphVariableRenamerValidatorBackend(GraphCompilerBackend):
+    def __init__(self, config):
+        super().__init__(config)
+
     def _get_rename_mapping(self, model_dir: Path):
         mapping = {}
         for meta_file in ["input_meta.py", "weight_meta.py"]:

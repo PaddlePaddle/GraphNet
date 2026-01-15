@@ -55,11 +55,11 @@ test_remote_reference_device_config_str=$(cat <<EOF
     "test_remote_reference_device_arguments": {
         "model-path": null,
         "reference-dir": null,
-        "compiler": "inductor",
+        "compiler": "nope",
         "device": "cuda",
         "op-lib": "default",
         "warmup": 5,
-        "trials": 10,
+        "trials": 20,
         "seed": 123,
         "machine": "localhost",
         "port": 50052,
@@ -69,9 +69,7 @@ test_remote_reference_device_config_str=$(cat <<EOF
 EOF
 )
 
-# test_module_name="test_remote_reference_device"
-# test_module_name="test_compiler"
-test_module_name="test_reference_device"
+test_module_name="test_compiler"
 if [ "${test_module_name}" = "test_compiler" ]; then
     TEST_CONFIG_B64=$(echo "$test_compiler_config_str" | base64 -w 0)
 elif [ "${test_module_name}" = "test_reference_device" ]; then
@@ -97,9 +95,9 @@ python3 -m graph_net.subgraph_decompose_and_evaluation_step \
     --output-dir "$OUTPUT_DIR" \
     --framework "${FRAMEWORK}" \
     --test-config "$TEST_CONFIG_B64" \
-    --decompose-method "uniform" \
+    --decompose-method "fixed-start" \
     --tolerance $TOLERANCE \
-    --max-subgraph-size="$INITIAL_MAX_SIZE"
+    --max-subgraph-size "$INITIAL_MAX_SIZE"
 
 if [ $? -ne 0 ]; then
     echo ""

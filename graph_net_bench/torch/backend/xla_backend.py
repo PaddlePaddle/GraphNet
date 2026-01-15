@@ -25,6 +25,9 @@ class XlaCompiledModule(torch.nn.Module):
 
 
 class XlaBackend(GraphCompilerBackend):
+    def __init__(self, config):
+        super().__init__(config)
+
     def __call__(self, model):
         if torch_xla is None:
             raise ImportError("torch_xla not installed")

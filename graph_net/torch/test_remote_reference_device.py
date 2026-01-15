@@ -12,7 +12,7 @@ from pathlib import Path
 
 from graph_net_rpc.sample_remote_executor import SampleRemoteExecutor
 from graph_net_bench import path_utils
-from graph_net import test_compiler_util
+from graph_net import model_path_util
 
 
 def get_reference_log_path(reference_dir, model_path):
@@ -134,7 +134,7 @@ def test_single_model_remote(args):
 
 
 def test_multi_models_remote(args):
-    test_samples = test_compiler_util.get_allow_samples(args.allow_list)
+    test_samples = model_path_util.get_allow_samples(args.allow_list)
 
     sample_idx = 0
     failed_samples = []

@@ -1,6 +1,5 @@
 import torch
 import inspect
-import numpy as np
 from .graph_compiler_backend import GraphCompilerBackend
 
 try:
@@ -59,6 +58,9 @@ class TvmCompiledModule(torch.nn.Module):
 
 
 class TvmBackend(GraphCompilerBackend):
+    def __init__(self, config):
+        super().__init__(config)
+
     def __call__(self, model, **kwargs):
         if torch.cuda.is_available():
             device = "cuda"
@@ -75,5 +77,5 @@ class TvmBackend(GraphCompilerBackend):
             from importlib.metadata import version
 
             return version("tvm")
-        except:
+        except ImportError:
             return "unknown"

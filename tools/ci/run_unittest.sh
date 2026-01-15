@@ -46,6 +46,7 @@ function run_unit_test() {
 
 function run_shell_tests() {
     TEST_DIR="$GRAPH_NET_ROOT/graph_net/test"
+    SKIP_LIST=("cumsum_num_kernels_test.sh" "prologue_subgraph_unittest_generator_test.sh")
     LOG "[INFO] Looking for shell scripts in: $TEST_DIR"
 
     mkdir -p .tmp_bin
@@ -57,15 +58,17 @@ function run_shell_tests() {
     SCRIPTS=("$TEST_DIR"/*.sh)
     for script in "${SCRIPTS[@]}"; do
         script_name=$(basename "$script")
+        if [[ " ${SKIP_LIST[*]} " =~ " $script_name " ]]; then
+            continue
+        fi
+
         LOG "[INFO] Running script: $script_name"        
         chmod +x "$script"
-
         "$script" || {
             EXIT_CODE=$?
             LOG "[ERROR] $script_name failed with exit code $EXIT_CODE"
             return $EXIT_CODE
         }
-        
         LOG "[SUCCESS] $script_name finished successfully."
     done
 

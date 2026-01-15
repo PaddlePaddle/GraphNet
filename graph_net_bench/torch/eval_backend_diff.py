@@ -99,7 +99,7 @@ def load_class_from_file(
 
 
 def convert_to_dict(config_str):
-    if config_str is None or config_str == "None":
+    if config_str in {None, "", "null", "None"}:
         return {}
     config_str = base64.b64decode(config_str).decode("utf-8")
     config = json.loads(config_str)
@@ -112,8 +112,7 @@ def get_compiler_backend(args) -> GraphCompilerBackend:
         args.compiler in compiler_backend_name2class
     ), f"Unknown compiler: {args.compiler}"
     backend_class = compiler_backend_name2class[args.compiler]
-    config = convert_to_dict(args.config) if args.config is not None else {}
-    return backend_class(config)
+    return backend_class(args.backend_config)
 
 
 def get_model(args):
@@ -393,7 +392,7 @@ def get_sample_root(args):
 
 def test_multi_models(args):
     test_samples = test_compiler_util.get_allow_samples(
-        args.allow_list, get_sample_root(args)
+        args.model_path_list, get_sample_root(args)
     )
 
     sample_idx = 0
@@ -411,11 +410,6 @@ def test_multi_models(args):
                     sys.executable,
                     f"-m graph_net_bench.torch.{module_name}",
                     f"--model-path {model_path}",
-                    f"--compiler {args.compiler}",
-                    f"--device {args.device}",
-                    f"--warmup {args.warmup}",
-                    f"--trials {args.trials}",
-                    f"--log-prompt {args.log_prompt}",
                     f"--config {args.config}",
                 ]
             )
@@ -443,9 +437,9 @@ def test_multi_models(args):
 
 def test_multi_models_with_prefix(args):
     assert os.path.isdir(args.model_path_prefix)
-    assert os.path.isfile(args.allow_list)
+    assert os.path.isfile(args.model_path_list)
     test_samples = test_compiler_util.get_allow_samples(
-        args.allow_list, get_sample_root(args)
+        args.model_path_list, get_sample_root(args)
     )
     py_module_name = os.path.splitext(os.path.basename(__file__))[0]
     for rel_model_path in test_samples:
@@ -459,11 +453,6 @@ def test_multi_models_with_prefix(args):
                 sys.executable,
                 f"-m graph_net_bench.torch.{py_module_name}",
                 f"--model-path {model_path}",
-                f"--compiler {args.compiler}",
-                f"--device {args.device}",
-                f"--warmup {args.warmup}",
-                f"--trials {args.trials}",
-                f"--log-prompt {args.log_prompt}",
                 f"--config {args.config}",
             ]
         )
@@ -479,7 +468,7 @@ def test_multi_models_with_prefix(args):
 
 
 def main(args):
-    if args.model_path_prefix is not None:
+    if args.model_path_list is not None and args.model_path_prefix is not None:
         test_multi_models_with_prefix(args)
         return
     assert os.path.isdir(args.model_path)
@@ -493,6 +482,26 @@ def main(args):
         test_multi_models(args)
 
 
+def complete_default_args(
+    mut_args,
+    compiler: str = "inductor",  # Compiler name
+    device: str = "cuda",  # Device for testing the compiler (e.g., 'cpu' or 'cuda')
+    warmup: int = 3,  # Number of warmup steps
+    trials: int = 5,  # Number of timing trials
+    log_prompt: str = "graph-net-test-compiler-log",  # Log prompt for performance log filtering
+    model_path_prefix: str = None,  # Prefix path to model path in --model-path-list
+    backend_config: dict = None,  # backend configuration json
+):
+    backend_config = backend_config if backend_config is not None else {}
+    mut_args.compiler = compiler
+    mut_args.device = device
+    mut_args.warmup = warmup
+    mut_args.trials = trials
+    mut_args.log_prompt = log_prompt
+    mut_args.model_path_prefix = model_path_prefix
+    mut_args.backend_config = backend_config
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Test compiler performance.")
     parser.add_argument(
@@ -503,45 +512,11 @@ if __name__ == "__main__":
         help="Path to model file(s), each subdirectory containing graph_net.json will be regarded as a model",
     )
     parser.add_argument(
-        "--compiler",
-        type=str,
-        required=False,
-        default="inductor",
-        help="Path to customized compiler python file",
-    )
-    parser.add_argument(
-        "--device",
-        type=str,
-        required=False,
-        default="cuda",
-        help="Device for testing the compiler (e.g., 'cpu' or 'cuda')",
-    )
-    parser.add_argument(
-        "--warmup", type=int, required=False, default=3, help="Number of warmup steps"
-    )
-    parser.add_argument(
-        "--trials", type=int, required=False, default=5, help="Number of timing trials"
-    )
-    parser.add_argument(
-        "--log-prompt",
-        type=str,
-        required=False,
-        default="graph-net-test-compiler-log",
-        help="Log prompt for performance log filtering.",
-    )
-    parser.add_argument(
-        "--allow-list",
+        "--model-path-list",
         type=str,
         required=False,
         default=None,
         help="Path to samples list, each line contains a sample path",
-    )
-    parser.add_argument(
-        "--model-path-prefix",
-        type=str,
-        required=False,
-        default=None,
-        help="Prefix path to model path list",
     )
     parser.add_argument(
         "--config",
@@ -551,4 +526,5 @@ if __name__ == "__main__":
         help="base64 encode configuration json.",
     )
     args = parser.parse_args()
+    complete_default_args(args, **convert_to_dict(args.config))
     main(args=args)

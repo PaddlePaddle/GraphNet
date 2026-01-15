@@ -322,52 +322,33 @@ def run_decomposer_for_single_model(
     output_dir: str,
     log_path: str,
 ) -> bool:
-    """Decomposes a single model."""
-
-    graphnet_root = get_graphnet_root()
-    decorator_config = {
-        "decorator_path": f"{graphnet_root}/graph_net/{framework}/extractor.py",
-        "decorator_config": {
-            "name": model_name,
-            "custom_extractor_path": f"{graphnet_root}/graph_net/{framework}/graph_decomposer.py",
-            "custom_extractor_config": {
-                "output_dir": output_dir,
-                "split_positions": split_positions,
-                "group_head_and_tail": False,
-                "use_all_inputs": True,
-                "chain_style": False,
-            },
-        },
-    }
-    if framework == "paddle":
-        post_process_configs = {
-            "post_extract_process_path": f"{graphnet_root}/graph_net/{framework}/graph_meta_restorer.py",
-            "post_extract_process_class_name": "GraphMetaRestorer",
-            "post_extract_process_config": {
-                "update_inplace": True,
-                "input_meta_allow_partial_update": False,
-            },
-        }
-        for key, value in post_process_configs.items():
-            decorator_config["decorator_config"]["custom_extractor_config"][key] = value
-
-    decorator_config_b64 = convert_json_to_b64_string(decorator_config)
-
     print(
         f"[Decomposition] model_path: {model_path}, split_positions: {split_positions}",
         flush=True,
     )
+
+    split_positions_json = json.dumps(split_positions)
+
     cmd = [
         sys.executable,
         "-m",
-        f"graph_net.{framework}.run_model",
+        "graph_net.local_graph_decomposer_wrapper",
+        "--framework",
+        framework,
+        "--model-name",
+        model_name,
         "--model-path",
         model_path,
-        "--decorator-config",
-        decorator_config_b64,
+        "--output-dir",
+        output_dir,
+        "--split-positions-json",
+        split_positions_json,
     ]
+
+    os.makedirs(os.path.dirname(log_path), exist_ok=True)
     with open(log_path, "a") as f:
         result = subprocess.run(cmd, stdout=f, stderr=f, text=True)
+
     return result.returncode == 0
 
 

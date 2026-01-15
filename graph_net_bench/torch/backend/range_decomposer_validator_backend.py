@@ -4,6 +4,7 @@ import torch.nn as nn
 import os
 import importlib.util
 from typing import List
+from .graph_compiler_backend import GraphCompilerBackend
 
 
 class ComposedModel(nn.Module):
@@ -37,7 +38,10 @@ class ComposedModel(nn.Module):
         }
 
 
-class RangeDecomposerValidatorBackend:
+class RangeDecomposerValidatorBackend(GraphCompilerBackend):
+    def __init__(self, config):
+        super().__init__(config)
+
     def _load_model_instance(self, path: str, device: str) -> torch.nn.Module:
         class_name = "GraphModule"
         model_file = os.path.join(path, "model.py")

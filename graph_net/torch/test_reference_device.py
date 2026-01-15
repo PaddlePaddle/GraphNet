@@ -8,8 +8,9 @@ import sys
 import traceback
 
 from graph_net_bench import path_utils
-from graph_net import test_compiler_util
-from graph_net.torch import test_compiler
+from graph_net_bench import test_compiler_util
+from graph_net import model_path_util
+from graph_net_bench.torch import test_compiler
 
 
 def get_reference_log_path(reference_dir, model_path):
@@ -91,7 +92,7 @@ def test_single_model(args):
 
 
 def test_multi_models(args):
-    test_samples = test_compiler_util.get_allow_samples(args.allow_list)
+    test_samples = model_path_util.get_allow_samples(args.allow_list)
 
     sample_idx = 0
     failed_samples = []

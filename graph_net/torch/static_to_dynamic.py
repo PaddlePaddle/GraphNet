@@ -1,9 +1,11 @@
 import traceback
 import logging
 import torch
-from graph_net.torch.utils import get_named_tensors
+from graph_net.torch.utils import (
+    get_named_tensors,
+    apply_templates,
+)
 from torch.fx.passes.shape_prop import ShapeProp
-from graph_net.torch.utils import apply_templates
 from pathlib import Path
 import inspect
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module

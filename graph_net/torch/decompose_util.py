@@ -10,6 +10,7 @@ def gen_submodule_input_nodes(
     subgraph_ranges: list[(int, int)],
     chain_style=False,
     group_head_and_tail=True,
+    use_all_inputs=True,
 ):
     """
     chain_style=True: decompose gm into g0 * g1 * g2 * g3
@@ -84,6 +85,7 @@ def gen_submodule_input_nodes(
 
     num_subgraphs = len(range_idx2submodule_body_nodes)
     for range_idx in range(num_subgraphs):
+        use_all_inputs = use_all_inputs and range_idx == 0
         start, end = range_idx2range[range_idx]
         (
             submodule_input_nodes,
@@ -94,6 +96,7 @@ def gen_submodule_input_nodes(
             start_node_idx=get_start_node_idx(range_idx),
             end_node_idx=get_end_node_idx(range_idx),
             chain_style=chain_style,
+            use_all_inputs=use_all_inputs,
         )
         yield start, end, submodule_input_nodes
 
@@ -106,6 +109,7 @@ def convert_to_submodules_graph(
     submodule_name_prefix="extracted_submodule",
     chain_style=False,
     group_head_and_tail=True,
+    use_all_inputs=True,
 ):
     """
     chain_style=True: decompose gm into g0 * g1 * g2 * g3
@@ -202,6 +206,7 @@ def convert_to_submodules_graph(
 
     num_subgraphs = len(range_idx2submodule_body_nodes)
     for range_idx in range(num_subgraphs):
+        use_all_inputs = use_all_inputs and range_idx == 0
         (
             submodule_input_nodes,
             submodule_output_nodes,
@@ -211,6 +216,7 @@ def convert_to_submodules_graph(
             start_node_idx=get_start_node_idx(range_idx),
             end_node_idx=get_end_node_idx(range_idx),
             chain_style=chain_style,
+            use_all_inputs=use_all_inputs,
         )
         identity_node_set = set(identity_nodes)
 
@@ -321,6 +327,7 @@ def _get_submodule_inputs_and_outputs(
     start_node_idx: int,
     end_node_idx: int,
     chain_style=False,
+    use_all_inputs=False,
 ):
     if not chain_style:
         (
@@ -329,7 +336,14 @@ def _get_submodule_inputs_and_outputs(
         ) = _get_minimal_submodule_inputs_and_outputs(
             gm=gm, start_node_idx=start_node_idx, end_node_idx=end_node_idx
         )
-        return minimal_input_nodes, minimal_output_nodes, []
+        if use_all_inputs:
+            node_list = list(gm.graph.nodes)
+            input_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
+                gm=gm, start_node_idx=start_node_idx, end_node_idx=len(node_list)
+            )
+        else:
+            input_nodes = minimal_input_nodes
+        return input_nodes, minimal_output_nodes, []
     else:
         node_list = list(gm.graph.nodes)
         if _is_node_idx_out_of_range(gm, start_node_idx):

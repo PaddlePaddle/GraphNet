@@ -28,7 +28,7 @@ EOF
 ) \
     2>&1 | tee "$RENAMED_PATH/graph_rename.log"
 
-python3 -m graph_net.torch.test_compiler \
+python3 -m graph_net_bench.torch.test_compiler \
     --model-path-prefix $GRAPH_NET_ROOT \
     --allow-list $model_list \
     --compiler graph_variable_renamer_validator \

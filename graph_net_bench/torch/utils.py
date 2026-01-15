@@ -1,10 +1,21 @@
 import torch
+import os
 import ast
 import math
 import inspect
 import importlib
 
 kLiteralTensorSize = 64
+
+
+def get_log_path(log_dir, model_path):
+    model_name = model_path.split("torch_samples/")[-1].replace(os.sep, "_")
+    return os.path.join(log_dir, f"{model_name}.log")
+
+
+def get_output_path(output_dir, model_path):
+    model_name = model_path.split("torch_samples/")[-1].replace(os.sep, "_")
+    return os.path.join(output_dir, f"{model_name}.pth")
 
 
 def get_limited_precision_float_str(value):

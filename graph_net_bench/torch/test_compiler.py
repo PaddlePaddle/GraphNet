@@ -355,7 +355,7 @@ def get_cmp_equal(expected_out, compiled_out):
 def get_cmp_all_close(expected_out, compiled_out, atol, rtol):
     return " ".join(
         str(int(torch.allclose(a, b, atol=atol, rtol=rtol)))
-        for a, b in zip(expected_out, compiled_out)
+        for a, b in zip(compiled_out, expected_out)
     )
 
 

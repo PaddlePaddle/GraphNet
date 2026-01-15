@@ -834,5 +834,4 @@ if __name__ == "__main__":
     )
     parser.add_argument("--max-subgraph-size", type=int, default=4096)
     args = parser.parse_args()
-    print(args)
     main(args)

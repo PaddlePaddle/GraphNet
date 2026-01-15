@@ -22,6 +22,22 @@ class TensorMeta:
     min_val: int | None
 
     @classmethod
+    def reset_tensor_metas_by_original_name(cls, mut_file_path, const_file_path):
+        mut_tensor_metas = cls.unserialize_from_py_file(mut_file_path)
+        const_tensor_metas = cls.unserialize_from_py_file(const_file_path)
+        name2const_tensor_meta = {tensor.name: tensor for tensor in const_tensor_metas}
+
+        def get_name(tensor_meta):
+            old_name = getattr(tensor_meta, "original_name", None)
+            return old_name if old_name is not None else tensor_meta.name
+
+        new_tensor_metas = [
+            name2const_tensor_meta.get(get_name(mut_tensor_meta), mut_tensor_meta)
+            for mut_tensor_meta in mut_tensor_metas
+        ]
+        cls.save_tensor_metas(mut_file_path, new_tensor_metas)
+
+    @classmethod
     def unserialize_from_py_file(cls, file_path: str) -> list["TensorMeta"]:
         return [
             TensorMeta(
@@ -104,7 +120,7 @@ class TensorMeta:
         self.data = extended_tensor_data[:size]
 
     @classmethod
-    def save_tensor_metas(cls, file_path: str, tensor_metas: list):
+    def save_tensor_metas(cls, file_path: str | Path, tensor_metas: list):
         py_code = "\n\n".join(
             tensor_meta.serialize_to_py_str() for tensor_meta in tensor_metas
         )

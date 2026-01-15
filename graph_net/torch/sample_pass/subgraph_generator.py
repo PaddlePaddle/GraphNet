@@ -1,5 +1,6 @@
 from graph_net.sample_pass.sample_pass import SamplePass
 from graph_net.sample_pass.resumable_sample_pass_mixin import ResumableSamplePassMixin
+from graph_net.tensor_meta import TensorMeta
 import graph_net.subgraph_range_util as range_util
 import os
 import shutil
@@ -145,30 +146,40 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         else:
             submodule_name = f"{parent_graph_model_name}_start{subgraph_start}_end{subgraph_end}_{self.seq_no}"
             self.model_name = submodule_name
+        self.workspace_path = os.path.join(
+            self.config["output_dir"], parent_graph_rel_model_path, "_decomposed"
+        )
         self.builtin_extractor = BuiltinGraphExtractor(
             name=submodule_name,
             dynamic=False,
             mut_graph_codes=[],
             placeholder_auto_rename=False,
-            workspace_path=os.path.join(
-                self.config["output_dir"], parent_graph_rel_model_path, "_decomposed"
-            ),
+            workspace_path=self.workspace_path,
         )
         self._save_subgraph_sources()
 
     def _get_model_path(self) -> Path:
-        return (
-            Path(self.config["output_dir"])
-            / self.parent_graph_rel_model_path
-            / "_decomposed"
-            / self.model_name
-        )
+        return Path(self.workspace_path) / self.model_name
 
     def forward(self, *args):
         if not self.extracted:
             self.builtin_extractor(self.submodule, args)
+            self._reset_tensor_metas_by_parent()
             self.extracted = True
         return self.submodule(*args)
+
+    def _reset_tensor_metas_by_parent(self):
+        parent_model_path = (
+            Path(self.parent_graph_model_path_root) / self.parent_graph_rel_model_path
+        )
+        TensorMeta.reset_tensor_metas_by_original_name(
+            mut_file_path=self._get_model_path() / "input_meta.py",
+            const_file_path=parent_model_path / "input_meta.py",
+        )
+        TensorMeta.reset_tensor_metas_by_original_name(
+            mut_file_path=self._get_model_path() / "weight_meta.py",
+            const_file_path=parent_model_path / "weight_meta.py",
+        )
 
     def _save_subgraph_sources(self):
         sources_json_obj = self._get_sources_json_obj()

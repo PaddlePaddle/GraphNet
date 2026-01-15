@@ -92,7 +92,13 @@ class TensorMeta:
         spec = imp.spec_from_file_location(name, file_path)
         unnamed = imp.module_from_spec(spec)
         spec.loader.exec_module(unnamed)
-        yield from inspect.getmembers(unnamed, inspect.isclass)
+        classes = inspect.getmembers(unnamed, inspect.isclass)
+        file_content = Path(file_path).read_text()
+        class2pos = {
+            cls_pair: file_content.find(cls_pair[1].__name__) for cls_pair in classes
+        }
+        classes.sort(key=lambda x: class2pos[x])
+        return classes
 
     @classmethod
     def _get_classes_order_preserved(cls, file_path, name="unnamed"):

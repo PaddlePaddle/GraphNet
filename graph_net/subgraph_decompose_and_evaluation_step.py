@@ -415,7 +415,13 @@ def run_evaluation(
             work_dir, "reference_device_outputs"
         )
 
-    cmd = [sys.executable, "-m", f"graph_net.{framework}.{test_module_name}"] + [
+    test_module_path = (
+        f"graph_net_bench.{framework}.{test_module_name}"
+        if test_module_name == "test_compiler"
+        else f"graph_net.{framework}.{test_module_name}"
+    )
+
+    cmd = [sys.executable, "-m", test_module_path] + [
         item
         for key, value in test_module_arguments.items()
         for item in (f"--{key}", str(value))

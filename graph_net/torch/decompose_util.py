@@ -85,6 +85,7 @@ def gen_submodule_input_nodes(
 
     num_subgraphs = len(range_idx2submodule_body_nodes)
     for range_idx in range(num_subgraphs):
+        use_all_inputs = use_all_inputs and range_idx == 0
         start, end = range_idx2range[range_idx]
         (
             submodule_input_nodes,
@@ -205,6 +206,7 @@ def convert_to_submodules_graph(
 
     num_subgraphs = len(range_idx2submodule_body_nodes)
     for range_idx in range(num_subgraphs):
+        use_all_inputs = use_all_inputs and range_idx == 0
         (
             submodule_input_nodes,
             submodule_output_nodes,

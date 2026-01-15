@@ -83,6 +83,13 @@ def gen_submodule_input_nodes(
                 return i + 1
         raise NotImplementedError("Dead code.")
 
+    new_node2original_node = {}
+    for node in gm.graph.nodes:
+        new_node2original_node[node] = node
+
+    def sort_key(node):
+        return new_node2original_node[node].name
+
     num_subgraphs = len(range_idx2submodule_body_nodes)
     for range_idx in range(num_subgraphs):
         use_all_inputs = use_all_inputs and range_idx == 0
@@ -98,7 +105,13 @@ def gen_submodule_input_nodes(
             chain_style=chain_style,
             use_all_inputs=use_all_inputs,
         )
-        yield start, end, submodule_input_nodes
+
+        def get_input_nodes(range_idx):
+            if use_all_inputs:
+                return submodule_input_nodes
+            return sorted(submodule_input_nodes, key=sort_key)
+
+        yield start, end, get_input_nodes(range_idx)
 
 
 def convert_to_submodules_graph(
@@ -221,6 +234,8 @@ def convert_to_submodules_graph(
         identity_node_set = set(identity_nodes)
 
         def get_input_nodes(range_idx):
+            if use_all_inputs:
+                return submodule_input_nodes
             return sorted(submodule_input_nodes, key=sort_key)
 
         def get_output_nodes(range_idx):
@@ -338,9 +353,7 @@ def _get_submodule_inputs_and_outputs(
         )
         if use_all_inputs:
             node_list = list(gm.graph.nodes)
-            input_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
-                gm=gm, start_node_idx=start_node_idx, end_node_idx=len(node_list)
-            )
+            input_nodes = [node for node in node_list if node.op == "placeholder"]
         else:
             input_nodes = minimal_input_nodes
         return input_nodes, minimal_output_nodes, []

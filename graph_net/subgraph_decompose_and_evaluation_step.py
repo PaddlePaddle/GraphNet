@@ -9,8 +9,9 @@ import subprocess
 import glob
 from dataclasses import dataclass, field, asdict
 from typing import List, Dict
-from graph_net.analysis_util import get_incorrect_models
-from graph_net import path_utils
+from graph_net_bench.analysis_util import get_incorrect_models
+from graph_net.graph_net_root import get_graphnet_root
+from graph_net_bench import path_utils
 
 MAX_GRAPH_SIZE = 4096
 
@@ -58,6 +59,20 @@ def extract_model_name_and_subgraph_idx(subgraph_path):
     return model_name, subgraph_idx
 
 
+def determine_max_pass_id(output_dir: str) -> int:
+    """Scans the output directory to determine the next pass ID."""
+    if not os.path.exists(output_dir):
+        return -1
+    existing_passes = glob.glob(os.path.join(output_dir, "pass_*"))
+    valid_ids = []
+    for p in existing_passes:
+        basename = os.path.basename(p)
+        parts = basename.split("_")
+        if len(parts) == 2 and parts[1].isdigit():
+            valid_ids.append(int(parts[1]))
+    return max(valid_ids) if valid_ids else -1
+
+
 class TaskController:
     def __init__(self, args):
         self.root_output_dir = os.path.abspath(args.output_dir)
@@ -65,7 +80,7 @@ class TaskController:
         assert "test_module_name" in self.test_config
 
         self.test_module_name = self.test_config["test_module_name"]
-        max_pass_id = self._determine_max_pass_id(self.root_output_dir)
+        max_pass_id = determine_max_pass_id(self.root_output_dir)
         self.current_pass_id = (
             max_pass_id
             if self.test_module_name == "test_target_device"
@@ -75,23 +90,11 @@ class TaskController:
         self._init_task_scheduler(self.test_module_name)
         self._print()
 
-    def _determine_max_pass_id(self, output_dir: str) -> int:
-        """Scans the output directory to determine the next pass ID."""
-        if not os.path.exists(output_dir):
-            return -1
-        existing_passes = glob.glob(os.path.join(output_dir, "pass_*"))
-        valid_ids = []
-        for p in existing_passes:
-            basename = os.path.basename(p)
-            parts = basename.split("_")
-            if len(parts) == 2 and parts[1].isdigit():
-                valid_ids.append(int(parts[1]))
-        return max(valid_ids) if valid_ids else -1
-
     def _init_task_scheduler(self, test_module_name):
         assert test_module_name in [
             "test_compiler",
             "test_reference_device",
+            "test_remote_reference_device",
             "test_target_device",
         ]
         if test_module_name == "test_compiler":
@@ -101,6 +104,12 @@ class TaskController:
                 "post_analysis": True,
             }
         elif test_module_name == "test_reference_device":
+            self.task_scheduler = {
+                "run_decomposer": True,
+                "run_evaluation": True,
+                "post_analysis": False,
+            }
+        elif test_module_name == "test_remote_reference_device":
             self.task_scheduler = {
                 "run_decomposer": True,
                 "run_evaluation": True,
@@ -287,7 +296,7 @@ class DecomposeConfig:
 
 
 def get_rectfied_model_path(model_path):
-    graphnet_root = path_utils.get_graphnet_root()
+    graphnet_root = get_graphnet_root()
     return os.path.join(graphnet_root, model_path.split("GraphNet/")[-1])
 
 
@@ -315,7 +324,7 @@ def run_decomposer_for_single_model(
 ) -> bool:
     """Decomposes a single model."""
 
-    graphnet_root = path_utils.get_graphnet_root()
+    graphnet_root = get_graphnet_root()
     decorator_config = {
         "decorator_path": f"{graphnet_root}/graph_net/{framework}/extractor.py",
         "decorator_config": {
@@ -397,7 +406,11 @@ def run_evaluation(
     test_module_name = test_config["test_module_name"]
     test_module_arguments = test_config[f"{test_module_name}_arguments"]
     test_module_arguments["model-path"] = work_dir
-    if test_module_name in ["test_reference_device", "test_target_device"]:
+    if test_module_name in [
+        "test_reference_device",
+        "test_remote_reference_device",
+        "test_target_device",
+    ]:
         test_module_arguments["reference-dir"] = os.path.join(
             work_dir, "reference_device_outputs"
         )
@@ -422,7 +435,7 @@ def run_evaluation(
 def generate_unittest_for_single_model(
     framework, model_name, model_path, subgraph_range, tolerance, output_dir, log_path
 ):
-    graphnet_root = path_utils.get_graphnet_root()
+    graphnet_root = get_graphnet_root()
     decorator_config = {
         "decorator_path": f"{graphnet_root}/graph_net/paddle/extractor.py",
         "decorator_config": {
@@ -740,7 +753,7 @@ def print_summary_and_suggestion(decompose_config, pass_id):
         )
     elif decompose_config.max_subgraph_size <= 1:
         print(
-            f">>> [Conclusion] Decomposition has reached the minimal granularity (max_subgraph_size = 1) after {pass_id} steps.",
+            f">>> [Conclusion] Decomposition has reached the minimal granularity (max_subgraph_size = 1) after {pass_id + 1} steps.",
             flush=True,
         )
     print("=" * 80, flush=True)

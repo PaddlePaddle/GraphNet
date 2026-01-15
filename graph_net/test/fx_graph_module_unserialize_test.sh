@@ -55,7 +55,7 @@ EOF
 )
 
 
-python3 -m graph_net.torch.test_compiler \
+python3 -m graph_net_bench.torch.test_compiler \
     --model-path-prefix $GRAPH_NET_ROOT \
     --allow-list $model_list \
     --compiler range_decomposer_validator \
@@ -69,6 +69,6 @@ EOF
 ) \
     2>&1 | tee "$DECOMPOSE_PATH/validation.log"
 
-python3 -m graph_net.plot_ESt \
+python3 -m graph_net_visual.plot_ESt \
     --benchmark-path "$DECOMPOSE_PATH/validation.log" \
     --output-dir "$DECOMPOSE_PATH"

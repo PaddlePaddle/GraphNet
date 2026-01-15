@@ -31,6 +31,7 @@ class SubgraphGenerator(SamplePass, ResumableSamplePassMixin):
         subgraph_ranges_json_key: str = "subgraph_ranges",
         group_head_and_tail: bool = False,
         chain_style: bool = False,
+        use_all_inputs: bool = False,
         device: str = "auto",
         resume: bool = False,
         limits_handled_models: int = None,
@@ -82,6 +83,7 @@ class SubgraphGenerator(SamplePass, ResumableSamplePassMixin):
             subgraph_ranges=subgraph_ranges,
             group_head_and_tail=self.config.get("group_head_and_tail", False),
             chain_style=self.config.get("chain_style", False),
+            use_all_inputs=self.config.get("use_all_inputs", False),
         )
         rewrited_gm(*inputs)
 

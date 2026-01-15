@@ -49,13 +49,37 @@ test_target_device_config_str=$(cat <<EOF
 EOF
 )
 
-test_module_name="test_compiler"
+test_remote_reference_device_config_str=$(cat <<EOF
+{
+    "test_module_name": "test_remote_reference_device",
+    "test_remote_reference_device_arguments": {
+        "model-path": null,
+        "reference-dir": null,
+        "compiler": "inductor",
+        "device": "cuda",
+        "op-lib": "default",
+        "warmup": 5,
+        "trials": 10,
+        "seed": 123,
+        "machine": "localhost",
+        "port": 50052,
+        "rpc-cmd": "python3 -m graph_net.torch.test_reference_device"
+    }
+}
+EOF
+)
+
+# test_module_name="test_remote_reference_device"
+# test_module_name="test_compiler"
+test_module_name="test_reference_device"
 if [ "${test_module_name}" = "test_compiler" ]; then
     TEST_CONFIG_B64=$(echo "$test_compiler_config_str" | base64 -w 0)
 elif [ "${test_module_name}" = "test_reference_device" ]; then
     TEST_CONFIG_B64=$(echo "$test_reference_device_config_str" | base64 -w 0)
 elif [ "${test_module_name}" = "test_target_device" ]; then
     TEST_CONFIG_B64=$(echo "$test_target_device_config_str" | base64 -w 0)
+elif [ "${test_module_name}" = "test_remote_reference_device" ]; then
+    TEST_CONFIG_B64=$(echo "$test_remote_reference_device_config_str" | base64 -w 0)
 else
     echo "test_module_name (${test_module_name}) is unsupported!"
     exit

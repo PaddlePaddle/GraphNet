@@ -4,7 +4,7 @@ GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(
 RENAMED_PATH=/tmp/ast_graph_variable_rename_workspace
 
 mkdir -p "$RENAMED_PATH"
-model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt"
+model_list="$GRAPH_NET_ROOT/graph_net/config/small10_torch_samples_list.txt"
 
 python3 -m graph_net.model_path_handler \
     --model-path-list $model_list \
@@ -28,7 +28,7 @@ EOF
 ) \
     2>&1 | tee "$RENAMED_PATH/graph_rename.log"
 
-python3 -m graph_net.torch.test_compiler \
+python3 -m graph_net_bench.torch.test_compiler \
     --model-path-prefix $GRAPH_NET_ROOT \
     --allow-list $model_list \
     --compiler graph_variable_renamer_validator \
@@ -42,6 +42,6 @@ EOF
 ) \
     2>&1 | tee "$RENAMED_PATH/validation.log"
 
-python3 -m graph_net.plot_ESt \
+python3 -m graph_net_visual.plot_ESt \
     --benchmark-path "$RENAMED_PATH/validation.log" \
     --output-dir "$RENAMED_PATH"

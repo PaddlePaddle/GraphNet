@@ -1,5 +1,5 @@
 import os
-from graph_net import path_utils
+from graph_net_bench import path_utils
 from graph_net.paddle import utils
 
 

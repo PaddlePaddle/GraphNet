@@ -1,0 +1,11 @@
+# shuf -n 100 torch_samples_list.txt > small_torch_samples_list.txt
+samples/ultralytics/yolov3-tinyu
+samples/transformers-auto-model/hf-tiny-model-private_tiny-random-Swinv2ForImageClassification
+samples/torchgeometric/RECT_L
+samples/transformers-auto-model/opus-mt-en-gv
+samples/transformers-auto-model/Visual-Attention-Network_van-tiny
+samples/timm/convnextv2_base.fcmae_ft_in1k
+samples/torchvision/vgg16_bn
+samples/timm/regnety_080_tv.tv2_in1k
+samples/transformers-auto-model/internetoftim_dinov2-base
+samples/timm/mobilenetv4_conv_aa_large.e230_r384_in12k

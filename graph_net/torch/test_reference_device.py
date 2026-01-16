@@ -137,7 +137,7 @@ def test_multi_models(args):
 def main(args):
     assert os.path.isdir(args.model_path)
     # Support all torch compilers
-    valid_compilers = list(test_compiler.registry_backend.keys())
+    valid_compilers = list(test_compiler.compiler_backend_name2class.keys())
     assert (
         args.compiler in valid_compilers
     ), f"Compiler must be one of {valid_compilers}"

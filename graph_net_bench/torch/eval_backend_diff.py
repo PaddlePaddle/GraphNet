@@ -109,72 +109,74 @@ def parse_time_stats_from_reference_log(log_path):
     return time_stats
 
 
-def eval_multi_models(args, model_path_prefix=None, use_model_list=False):
-    sample_idx = 0
-    failed_samples = []
-    module_name = os.path.splitext(os.path.basename(__file__))[0]
-
+def _get_model_paths(args, model_path_prefix, use_model_list):
     if use_model_list:
-        assert os.path.isdir(model_path_prefix)
-        assert os.path.isfile(args.model_path_list)
+        assert os.path.isdir(model_path_prefix) and os.path.isfile(args.model_path_list)
+
         test_samples = test_compiler_util.get_allow_samples(
             args.model_path_list, model_path_prefix
         )
-        model_paths = []
-        for rel_model_path in test_samples:
-            model_path = os.path.join(model_path_prefix, rel_model_path)
-            if os.path.exists(model_path) and os.path.exists(
-                os.path.join(model_path, "model.py")
-            ):
-                model_paths.append(model_path)
+        model_paths = [
+            os.path.join(model_path_prefix, rel_model_path)
+            for rel_model_path in test_samples
+            if os.path.exists(
+                os.path.join(model_path_prefix, rel_model_path, "model.py")
+            )
+        ]
     else:
         assert os.path.isdir(args.model_path)
+
         test_samples = test_compiler_util.get_allow_samples(
             args.model_path_list, model_path_prefix
         )
-        model_paths = []
-        for model_path in path_utils.get_recursively_model_path(args.model_path):
-            if test_samples is None or os.path.abspath(model_path) in test_samples:
-                model_paths.append(model_path)
+        model_paths = [
+            model_path
+            for model_path in path_utils.get_recursively_model_path(args.model_path)
+            if test_samples is None or os.path.abspath(model_path) in test_samples
+        ]
 
-    for model_path in model_paths:
+    return model_paths
+
+
+def _create_model_args(model_path, config):
+    args = argparse.Namespace()
+    args.model_path = model_path
+    args.model_path_list = None
+    args.config = config
+    return args
+
+
+def eval_multi_models(args, model_path_prefix=None, use_model_list=False):
+    module_name = os.path.splitext(os.path.basename(__file__))[0]
+
+    model_paths = _get_model_paths(args, model_path_prefix, use_model_list)
+    failed_samples = []
+    for sample_idx, model_path in enumerate(model_paths):
         print(
             f"[{sample_idx}] {module_name}, model_path: {model_path}",
             file=sys.stderr,
             flush=True,
         )
-
         try:
-            single_model_args = argparse.Namespace()
-            single_model_args.model_path = model_path
-            single_model_args.model_path_list = None
-            single_model_args.config = args.config
-
             if path_utils.is_single_model_dir(model_path):
-                eval_single_model(single_model_args)
+                eval_single_model(_create_model_args(model_path, args.config))
             else:
-                submodel_paths = path_utils.get_recursively_model_path(model_path)
-                for submodel_path in submodel_paths:
-                    sub_args = argparse.Namespace()
-                    sub_args.model_path = submodel_path
-                    sub_args.model_path_list = None
-                    sub_args.config = args.config
-                    eval_single_model(sub_args)
-            cmd_ret = 0
+                for submodel_path in path_utils.get_recursively_model_path(model_path):
+                    eval_single_model(_create_model_args(submodel_path, args.config))
+            success = True
         except KeyboardInterrupt:
             print("KeyboardInterrupt")
             sys.exit(1)
         except Exception:
             print("\n--- Full Traceback ---")
             traceback.print_exc()
-            cmd_ret = 1
+            success = False
 
-        if cmd_ret != 0:
+        if not success:
             failed_samples.append(model_path)
-        sample_idx += 1
 
     print(
-        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples.",
+        f"Totally {len(model_paths)} verified samples, failed {len(failed_samples)} samples.",
         file=sys.stderr,
         flush=True,
     )

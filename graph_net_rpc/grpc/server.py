@@ -68,6 +68,9 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
                 text=True,
                 timeout=300,
             )
+        except KeyboardInterrupt:
+            print("KeyboardInterrupt")
+            exit(-1)
         except subprocess.TimeoutExpired as e:
             return message_pb2.ExecutionReply(
                 ret_code=-1,

@@ -212,6 +212,8 @@ def measure_performance(model_call, args, compiler):
 
 
 def eval_single_model_with_single_backend(args):
+    set_seed(args.seed)
+    os.makedirs(args.output_path, exist_ok=True)
     log_path = utils.get_log_path(args.output_path, args.model_path)
     output_dump_path = utils.get_output_path(args.output_path, args.model_path)
     print(f"Log path: {log_path}", file=sys.stderr, flush=True)
@@ -266,12 +268,6 @@ def eval_single_model_with_single_backend(args):
     with open(log_path, "r", encoding="utf-8") as f:
         content = f.read()
         print(content, file=sys.stderr, flush=True)
-
-
-def main(args):
-    set_seed(args.seed)
-    os.makedirs(args.output_path, exist_ok=True)
-    eval_single_model_with_single_backend(args)
 
 
 if __name__ == "__main__":
@@ -336,4 +332,4 @@ if __name__ == "__main__":
         help="base64 encode configuration json.",
     )
     args = parser.parse_args()
-    main(args=args)
+    eval_single_model_with_single_backend(args=args)

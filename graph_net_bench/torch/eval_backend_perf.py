@@ -66,28 +66,28 @@ def set_seed(random_seed):
         torch.cuda.manual_seed_all(random_seed)
 
 
-def get_hardward_name(args):
+def get_hardward_name(device):
     hardware_name = "unknown"
-    if "cuda" in args.device:
-        hardware_name = torch.cuda.get_device_name(args.device)
+    if "cuda" in device:
+        hardware_name = torch.cuda.get_device_name(device)
     elif args.device == "cpu":
         hardware_name = platform.processor()
     return hardware_name
 
 
-def get_compile_framework_version(args):
-    if args.compiler in ["inductor", "nope", "unstable_to_stable"]:
+def get_compiler_version(compiler):
+    if compiler in ["inductor", "nope", "unstable_to_stable"]:
         return torch.__version__
-    elif args.compiler in ["tvm", "xla", "tensorrt", "bladedisc"]:
+    elif compiler in ["tvm", "xla", "tensorrt", "bladedisc"]:
         # Assuming compiler object has a version attribute
-        return f"{args.compiler.capitalize()} {args.compiler.version}"
+        return f"{compiler.capitalize()} {compiler.version}"
     return "unknown"
 
 
 def load_class_from_file(
-    args: argparse.Namespace, class_name: str, device: str
+    model_path: str, class_name: str, device: str
 ) -> Type[torch.nn.Module]:
-    file_path = f"{args.model_path}/model.py"
+    file_path = f"{model_path}/model.py"
     file = Path(file_path).resolve()
     module_name = file.stem
 
@@ -128,7 +128,9 @@ def get_model(args):
     device = "xla" if args.compiler == "xla" else args.device
 
     # device: Torch device object specifying the target device for model loading (e.g., 'cuda', 'cpu', 'xla')
-    model_class = load_class_from_file(args, class_name="GraphModule", device=device)
+    model_class = load_class_from_file(
+        args.model_path, class_name="GraphModule", device=device
+    )
     model = model_class().to(torch.device(args.device))
     return model
 
@@ -154,7 +156,7 @@ def measure_performance(model_call, args, compiler):
         model_call()
     compiler.synchronize()
 
-    hardware_name = get_hardward_name(args)
+    hardware_name = get_hardward_name(args.device)
     print(
         f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}",
         file=sys.stderr,
@@ -229,8 +231,8 @@ def eval_single_model(args):
 
             test_compiler_util.print_basic_config(
                 args,
-                get_hardward_name(args),
-                get_compile_framework_version(args),
+                get_hardward_name(args.device),
+                get_compiler_version(args.compiler),
             )
 
             test_compiler_util.print_with_log_prompt(

@@ -10,14 +10,18 @@ python3 -m graph_net_bench.torch.eval_backend_diff \
     --model-path-list $model_list \
     --config $(base64 -w 0 <<EOF
 {
-    "ref_env":  {
+    "reference_config":  {
         "compiler": "nope",
         "device": "cuda",
+        "warmup": 1,
+        "trials": 1,
         "model_path_prefix": "$AI4C_ROOT"
     },
-    "target_env": {
+    "target_config": {
         "compiler": "nope",
         "device": "cuda",
+        "warmup": 1,
+        "trials": 1,
         "model_path_prefix": "$AI4C_ROOT"
     }
 }

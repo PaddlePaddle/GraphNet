@@ -219,12 +219,16 @@ def eval_single_model(args):
     target_dir = "/tmp/eval_perf_diff/B"
 
     EvalCfg = types.SimpleNamespace(
-        ref_env=types.SimpleNamespace(**convert_to_dict(args.config)["ref_env"]),
-        target_env=types.SimpleNamespace(**convert_to_dict(args.config)["target_env"]),
+        reference_config=types.SimpleNamespace(
+            **convert_to_dict(args.config)["reference_config"]
+        ),
+        target_config=types.SimpleNamespace(
+            **convert_to_dict(args.config)["target_config"]
+        ),
     )
 
-    ref_args = build_sub_args(EvalCfg.ref_env, args.model_path, ref_dir)
-    target_args = build_sub_args(EvalCfg.target_env, args.model_path, target_dir)
+    ref_args = build_sub_args(EvalCfg.reference_config, args.model_path, ref_dir)
+    target_args = build_sub_args(EvalCfg.target_config, args.model_path, target_dir)
 
     eval_single_model_with_single_backend(ref_args)
     eval_single_model_with_single_backend(target_args)
@@ -245,13 +249,13 @@ def build_sub_args(
     sub.trials = getattr(env_ns, "trials", 5)
     sub.log_prompt = getattr(env_ns, "log_prompt", "graph-net-bench-log")
     sub.model_path_prefix = getattr(env_ns, "model_path_prefix", None)
-    sub.config = getattr(env_ns, "backend_config", None)
+    sub.backend_config = getattr(env_ns, "backend_config", None)
     return sub
 
 
 def main(args):
     config_dict = convert_to_dict(args.config)
-    model_path_prefix = config_dict.get("ref_env", {}).get("model_path_prefix")
+    model_path_prefix = config_dict.get("reference_config", {}).get("model_path_prefix")
 
     if args.model_path_list and model_path_prefix:
         eval_multi_models(args, model_path_prefix, use_model_list=True)

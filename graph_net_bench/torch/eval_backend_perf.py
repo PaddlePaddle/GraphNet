@@ -120,8 +120,10 @@ def get_compiler_backend(args) -> GraphCompilerBackend:
         args.compiler in compiler_backend_name2class
     ), f"Unknown compiler: {args.compiler}"
     backend_class = compiler_backend_name2class[args.compiler]
-    config = convert_to_dict(args.config) if args.config is not None else {}
-    return backend_class(config)
+    backend_config = (
+        convert_to_dict(args.backend_config) if args.backend_config is not None else {}
+    )
+    return backend_class(backend_config)
 
 
 def get_model(args):
@@ -325,7 +327,7 @@ if __name__ == "__main__":
         help="Prefix path to model path list",
     )
     parser.add_argument(
-        "--config",
+        "--backend-config",
         type=str,
         required=False,
         default=None,

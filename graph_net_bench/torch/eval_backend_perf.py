@@ -13,39 +13,8 @@ import numpy as np
 import platform
 import base64
 from contextlib import redirect_stdout, redirect_stderr
-
 from graph_net_bench.torch.backend.graph_compiler_backend import GraphCompilerBackend
-from graph_net_bench.torch.backend.tvm_backend import TvmBackend
-from graph_net_bench.torch.backend.xla_backend import XlaBackend
-from graph_net_bench.torch.backend.inductor_backend import InductorBackend
-from graph_net_bench.torch.backend.tensorrt_backend import TensorRTBackend
-from graph_net_bench.torch.backend.blade_disc_backend import BladeDISCBackend
-from graph_net_bench.torch.backend.nope_backend import NopeBackend
-from graph_net_bench.torch.backend.pass_mgr_backend import PassMgrBackend
-from graph_net_bench.torch.backend.unstable_to_stable_backend import (
-    UnstableToStableBackend,
-)
-from graph_net_bench.torch.backend.range_decomposer_validator_backend import (
-    RangeDecomposerValidatorBackend,
-)
-from graph_net_bench.torch.backend.graph_variable_renamer_validator_backend import (
-    GraphVariableRenamerValidatorBackend,
-)
 from graph_net_bench import test_compiler_util
-
-
-compiler_backend_name2class = {
-    "tvm": TvmBackend,
-    "xla": XlaBackend,
-    "inductor": InductorBackend,
-    "tensorrt": TensorRTBackend,
-    "bladedisc": BladeDISCBackend,
-    "nope": NopeBackend,
-    "pass_mgr": PassMgrBackend,
-    "unstable_to_stable": UnstableToStableBackend,
-    "range_decomposer_validator": RangeDecomposerValidatorBackend,
-    "graph_variable_renamer_validator": GraphVariableRenamerValidatorBackend,
-}
 
 
 def register_op_lib(op_lib):
@@ -70,7 +39,7 @@ def get_hardward_name(device):
     hardware_name = "unknown"
     if "cuda" in device:
         hardware_name = torch.cuda.get_device_name(device)
-    elif args.device == "cpu":
+    elif device == "cpu":
         hardware_name = platform.processor()
     return hardware_name
 
@@ -116,10 +85,28 @@ def convert_to_dict(config_str):
 
 
 def get_compiler_backend(args) -> GraphCompilerBackend:
-    assert (
-        args.compiler in compiler_backend_name2class
-    ), f"Unknown compiler: {args.compiler}"
-    backend_class = compiler_backend_name2class[args.compiler]
+    """
+    Dynamically load backend class based on args.compiler
+    """
+    compiler_name = args.compiler.lower()
+    module_name = f"graph_net_bench.torch.backend.{compiler_name}_backend"
+
+    try:
+        module = __import__(module_name, fromlist=[f"{compiler_name.title()}Backend"])
+
+        class_name = (
+            f"{''.join(part.title() for part in compiler_name.split('_'))}Backend"
+        )
+
+        backend_class = None
+        if hasattr(module, class_name):
+            backend_class = getattr(module, class_name)
+        else:
+            raise ImportError(f"No valid backend class found in {module_name}")
+
+    except ImportError as e:
+        raise ImportError(f"Failed to import backend module for '{compiler_name}': {e}")
+
     backend_config = (
         convert_to_dict(args.backend_config) if args.backend_config is not None else {}
     )
@@ -327,7 +314,7 @@ if __name__ == "__main__":
         help="Prefix path to model path list",
     )
     parser.add_argument(
-        "--backend-config",
+        "--config",
         type=str,
         required=False,
         default=None,

@@ -274,7 +274,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="GraphNet Backend Performance Evaluation"
+        description="Single Backend Performance Evaluation"
     )
     parser.add_argument(
         "--model-path",
@@ -316,7 +316,7 @@ if __name__ == "__main__":
         "--log-prompt",
         type=str,
         required=False,
-        default="graph-net-test-compiler-log",
+        default="graph-net-bench-log",
         help="Log prompt for performance log filtering.",
     )
     parser.add_argument(

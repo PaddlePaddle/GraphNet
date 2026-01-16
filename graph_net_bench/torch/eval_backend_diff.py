@@ -252,7 +252,7 @@ def build_sub_args(env_ns: types.SimpleNamespace) -> argparse.Namespace:
     sub.op_lib = getattr(env_ns, "op_lib", None)
     sub.warmup = getattr(env_ns, "warmup", 3)
     sub.trials = getattr(env_ns, "trials", 5)
-    sub.log_prompt = getattr(env_ns, "log_prompt", None)
+    sub.log_prompt = getattr(env_ns, "log_prompt", "graph-net-bench-log")
     sub.model_path_prefix = getattr(env_ns, "model_path_prefix", None)
     sub.backend_config = getattr(env_ns, "backend_config", None)
     return sub
@@ -275,7 +275,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Evaluate backend performance difference."
+        description="Evaluate Backend Performance Difference."
     )
     parser.add_argument(
         "--model-path",

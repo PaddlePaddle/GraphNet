@@ -327,7 +327,7 @@ def run_decomposer_for_single_model(
         flush=True,
     )
 
-    split_positions_json = json.dumps(split_positions)
+    split_positions_b64 = convert_json_to_b64_string(split_positions)
 
     cmd = [
         sys.executable,
@@ -342,7 +342,7 @@ def run_decomposer_for_single_model(
         "--output-dir",
         output_dir,
         "--split-positions-json",
-        split_positions_json,
+        split_positions_b64,
     ]
 
     os.makedirs(os.path.dirname(log_path), exist_ok=True)

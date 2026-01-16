@@ -8,6 +8,10 @@ from typing import List
 from graph_net.graph_net_root import get_graphnet_root
 
 
+def convert_b64_string_to_json(b64str):
+    return json.loads(base64.b64decode(b64str).decode("utf-8"))
+
+
 def convert_json_to_b64_string(config) -> str:
     return base64.b64encode(json.dumps(config).encode()).decode()
 
@@ -51,7 +55,7 @@ def build_decorator_config(
 
 
 def main():
-    split_positions = json.loads(args.split_positions_json)
+    split_positions = convert_b64_string_to_json(args.split_positions_json)
     if not isinstance(split_positions, list) or not all(
         isinstance(x, int) for x in split_positions
     ):

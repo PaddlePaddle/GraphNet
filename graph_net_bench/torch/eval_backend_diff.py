@@ -119,81 +119,69 @@ def parse_time_stats_from_reference_log(log_path):
     return time_stats
 
 
-def eval_multi_models(args, model_path_prefix):
-    test_samples = test_compiler_util.get_allow_samples(
-        args.model_path_list, model_path_prefix
-    )
-
+def eval_multi_models(args, model_path_prefix=None, use_model_list=False):
     sample_idx = 0
     failed_samples = []
     module_name = os.path.splitext(os.path.basename(__file__))[0]
-    for model_path in path_utils.get_recursively_model_path(args.model_path):
-        if test_samples is None or os.path.abspath(model_path) in test_samples:
-            print(
-                f"[{sample_idx}] {module_name}, model_path: {model_path}",
-                file=sys.stderr,
-                flush=True,
-            )
-            cmd = " ".join(
-                [
-                    sys.executable,
-                    f"-m graph_net_bench.torch.{module_name}",
-                    f"--model-path {model_path}",
-                    f"--config {args.config}",
-                ]
-            )
-            try:
-                process = subprocess.Popen(cmd, shell=True)
-                cmd_ret = process.wait()
-            except KeyboardInterrupt:
-                print("KeyboardInterrupt")
-                sys.exit(1)
-            except Exception:
-                print("\n--- Full Traceback ---")
-                traceback.print_exc()
-            if cmd_ret != 0:
-                failed_samples.append(model_path)
-            sample_idx += 1
 
-    print(
-        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples.",
-        file=sys.stderr,
-        flush=True,
-    )
-    for model_path in failed_samples:
-        print(f"- {model_path}", file=sys.stderr, flush=True)
+    if use_model_list:
+        assert os.path.isdir(model_path_prefix)
+        assert os.path.isfile(args.model_path_list)
+        test_samples = test_compiler_util.get_allow_samples(
+            args.model_path_list, model_path_prefix
+        )
+        model_paths = []
+        for rel_model_path in test_samples:
+            model_path = os.path.join(model_path_prefix, rel_model_path)
+            if os.path.exists(model_path) and os.path.exists(
+                os.path.join(model_path, "model.py")
+            ):
+                model_paths.append(model_path)
+    else:
+        assert os.path.isdir(args.model_path)
+        test_samples = test_compiler_util.get_allow_samples(
+            args.model_path_list, model_path_prefix
+        )
+        model_paths = []
+        for model_path in path_utils.get_recursively_model_path(args.model_path):
+            if test_samples is None or os.path.abspath(model_path) in test_samples:
+                model_paths.append(model_path)
 
-
-def eval_multi_models_with_prefix(args, model_path_prefix):
-    assert os.path.isdir(model_path_prefix)
-    assert os.path.isfile(args.model_path_list)
-    test_samples = test_compiler_util.get_allow_samples(
-        args.model_path_list, model_path_prefix
-    )
-    py_module_name = os.path.splitext(os.path.basename(__file__))[0]
-    for rel_model_path in test_samples:
-        model_path = os.path.join(model_path_prefix, rel_model_path)
-        if not os.path.exists(model_path):
-            continue
-        if not os.path.exists(os.path.join(model_path, "model.py")):
-            continue
+    for model_path in model_paths:
+        print(
+            f"[{sample_idx}] {module_name}, model_path: {model_path}",
+            file=sys.stderr,
+            flush=True,
+        )
         cmd = " ".join(
             [
                 sys.executable,
-                f"-m graph_net_bench.torch.{py_module_name}",
+                f"-m graph_net_bench.torch.{module_name}",
                 f"--model-path {model_path}",
                 f"--config {args.config}",
             ]
         )
         try:
             process = subprocess.Popen(cmd, shell=True)
-            process.wait()
+            cmd_ret = process.wait()
         except KeyboardInterrupt:
             print("KeyboardInterrupt")
             sys.exit(1)
         except Exception:
             print("\n--- Full Traceback ---")
             traceback.print_exc()
+        if cmd_ret != 0:
+            failed_samples.append(model_path)
+        sample_idx += 1
+
+    print(
+        f"Totally {sample_idx} verified samples, failed {len(failed_samples)} samples.",
+        file=sys.stderr,
+        flush=True,
+    )
+    if failed_samples:
+        for model_path in failed_samples:
+            print(f"- {model_path}", file=sys.stderr, flush=True)
 
 
 def compare_perf_diff(args, model_path, ref_dir, target_dir):
@@ -272,20 +260,23 @@ def build_sub_args(env_ns: types.SimpleNamespace) -> argparse.Namespace:
 
 def main(args):
     config_dict = convert_to_dict(args.config)
-    model_path_prefix = config_dict["ref_env"]["model_path_prefix"]
-    if args.model_path_list is not None and model_path_prefix is not None:
-        eval_multi_models_with_prefix(args, model_path_prefix)
-        return
-    assert os.path.isdir(args.model_path)
+    model_path_prefix = config_dict.get("ref_env", {}).get("model_path_prefix")
 
-    if path_utils.is_single_model_dir(args.model_path):
-        eval_single_model(args)
+    if args.model_path_list and model_path_prefix:
+        eval_multi_models(args, model_path_prefix, use_model_list=True)
+    elif os.path.isdir(args.model_path):
+        if path_utils.is_single_model_dir(args.model_path):
+            eval_single_model(args)
+        else:
+            eval_multi_models(args, model_path_prefix, use_model_list=False)
     else:
-        eval_multi_models(args, model_path_prefix)
+        raise ValueError(f"Invalid model path: {args.model_path}")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Test compiler performance.")
+    parser = argparse.ArgumentParser(
+        description="Evaluate backend performance difference."
+    )
     parser.add_argument(
         "--model-path",
         type=str,

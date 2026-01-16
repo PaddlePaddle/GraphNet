@@ -1,5 +1,4 @@
 from . import utils
-import subprocess
 import argparse
 import torch
 import sys
@@ -11,6 +10,7 @@ import base64
 import types
 from graph_net_bench import test_compiler_util
 from graph_net_bench import path_utils
+from .eval_backend_perf import eval_single_model_with_single_backend
 
 
 def convert_to_dict(config_str):
@@ -153,23 +153,33 @@ def eval_multi_models(args, model_path_prefix=None, use_model_list=False):
             file=sys.stderr,
             flush=True,
         )
-        cmd = " ".join(
-            [
-                sys.executable,
-                f"-m graph_net_bench.torch.{module_name}",
-                f"--model-path {model_path}",
-                f"--config {args.config}",
-            ]
-        )
+
         try:
-            process = subprocess.Popen(cmd, shell=True)
-            cmd_ret = process.wait()
+            single_model_args = argparse.Namespace()
+
+            single_model_args.model_path = model_path
+            single_model_args.config = args.config
+            single_model_args.model_path_list = None
+
+            if path_utils.is_single_model_dir(model_path):
+                eval_single_model(single_model_args)
+            else:
+                submodel_paths = path_utils.get_recursively_model_path(model_path)
+                for submodel_path in submodel_paths:
+                    sub_args = argparse.Namespace()
+                    sub_args.model_path = submodel_path
+                    sub_args.config = args.config
+                    sub_args.model_path_list = None
+                    eval_single_model(sub_args)
+            cmd_ret = 0
         except KeyboardInterrupt:
             print("KeyboardInterrupt")
             sys.exit(1)
         except Exception:
             print("\n--- Full Traceback ---")
             traceback.print_exc()
+            cmd_ret = 1
+
         if cmd_ret != 0:
             failed_samples.append(model_path)
         sample_idx += 1
@@ -213,48 +223,29 @@ def eval_single_model(args):
         target_env=types.SimpleNamespace(**convert_to_dict(args.config)["target_env"]),
     )
 
-    ref_args = build_sub_args(EvalCfg.ref_env)
-    target_args = build_sub_args(EvalCfg.target_env)
+    ref_args = build_sub_args(EvalCfg.ref_env, args.model_path, ref_dir)
+    target_args = build_sub_args(EvalCfg.target_env, args.model_path, target_dir)
 
-    run_sub_process(ref_args, args.model_path, ref_dir)
-    run_sub_process(target_args, args.model_path, target_dir)
+    eval_single_model_with_single_backend(ref_args)
+    eval_single_model_with_single_backend(target_args)
     compare_perf_diff(ref_args, args.model_path, ref_dir, target_dir)
 
 
-def run_sub_process(env_args, model_path, output_path):
-    cmd = [sys.executable, "-m", "graph_net_bench.torch.eval_backend_perf"]
-    args_pairs = [
-        ("--model-path", model_path),
-        ("--output-path", output_path),
-        ("--seed", str(env_args.seed)),
-        ("--compiler", env_args.compiler),
-        ("--device", env_args.device),
-        ("--op-lib", env_args.op_lib),
-        ("--warmup", str(env_args.warmup)),
-        ("--trials", str(env_args.trials)),
-        ("--log-prompt", env_args.log_prompt),
-        ("--model-path-prefix", env_args.model_path_prefix),
-        ("--config", env_args.backend_config),
-    ]
-
-    for arg_name, arg_value in args_pairs:
-        if arg_value is not None:
-            cmd.extend([arg_name, arg_value])
-
-    subprocess.run(cmd, check=True)
-
-
-def build_sub_args(env_ns: types.SimpleNamespace) -> argparse.Namespace:
+def build_sub_args(
+    env_ns: types.SimpleNamespace, model_path: str, output_path: str
+) -> argparse.Namespace:
     sub = argparse.Namespace()
+    sub.model_path = model_path
+    sub.output_path = output_path
     sub.seed = getattr(env_ns, "seed", 123)
-    sub.compiler = getattr(env_ns, "compiler", None)
-    sub.device = getattr(env_ns, "device", None)
+    sub.compiler = getattr(env_ns, "compiler", "inductor")
+    sub.device = getattr(env_ns, "device", "cuda")
     sub.op_lib = getattr(env_ns, "op_lib", None)
     sub.warmup = getattr(env_ns, "warmup", 3)
     sub.trials = getattr(env_ns, "trials", 5)
     sub.log_prompt = getattr(env_ns, "log_prompt", "graph-net-bench-log")
     sub.model_path_prefix = getattr(env_ns, "model_path_prefix", None)
-    sub.backend_config = getattr(env_ns, "backend_config", None)
+    sub.config = getattr(env_ns, "backend_config", None)
     return sub
 
 

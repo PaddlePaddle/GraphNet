@@ -8,7 +8,8 @@ import torch
 from graph_net_bench import path_utils
 from graph_net_bench import test_compiler_util
 from graph_net import model_path_util
-from graph_net_bench.torch import test_compiler, test_reference_device
+from graph_net_bench.torch import test_compiler
+from graph_net.torch import test_reference_device
 
 
 def parse_config_from_reference_log(log_path):

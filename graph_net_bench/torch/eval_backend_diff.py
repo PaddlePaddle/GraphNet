@@ -146,10 +146,9 @@ def eval_multi_models(args, model_path_prefix=None, use_model_list=False):
 
         try:
             single_model_args = argparse.Namespace()
-
             single_model_args.model_path = model_path
-            single_model_args.config = args.config
             single_model_args.model_path_list = None
+            single_model_args.config = args.config
 
             if path_utils.is_single_model_dir(model_path):
                 eval_single_model(single_model_args)
@@ -158,8 +157,8 @@ def eval_multi_models(args, model_path_prefix=None, use_model_list=False):
                 for submodel_path in submodel_paths:
                     sub_args = argparse.Namespace()
                     sub_args.model_path = submodel_path
-                    sub_args.config = args.config
                     sub_args.model_path_list = None
+                    sub_args.config = args.config
                     eval_single_model(sub_args)
             cmd_ret = 0
         except KeyboardInterrupt:
@@ -184,59 +183,43 @@ def eval_multi_models(args, model_path_prefix=None, use_model_list=False):
             print(f"- {model_path}", file=sys.stderr, flush=True)
 
 
-def compare_perf_diff(args, model_path, ref_dir, target_dir):
-    # A
-    ref_dump_path = utils.get_output_path(ref_dir, model_path)
-    ref_out = torch.load(str(ref_dump_path))
-
-    ref_log_path = utils.get_log_path(ref_dir, model_path)
-    ref_time_stats = parse_time_stats_from_reference_log(ref_log_path)
-
-    # B
-    target_dump_path = utils.get_output_path(target_dir, model_path)
-    target_out = torch.load(str(target_dump_path))
-
-    target_log_path = utils.get_log_path(target_dir, model_path)
-    target_time_stats = parse_time_stats_from_reference_log(target_log_path)
-
-    compare_correctness(ref_out, target_out, args)
-
-    test_compiler_util.print_times_and_speedup(args, ref_time_stats, target_time_stats)
-
-
 def eval_single_model(args):
     ref_dir = "/tmp/eval_perf_diff/A"
     target_dir = "/tmp/eval_perf_diff/B"
 
-    EvalCfg = types.SimpleNamespace(
-        reference_config=types.SimpleNamespace(
-            **test_compiler_util.convert_to_dict(args.config)["reference_config"]
-        ),
-        target_config=types.SimpleNamespace(
-            **test_compiler_util.convert_to_dict(args.config)["target_config"]
-        ),
+    ref_args = types.SimpleNamespace(
+        model_path=args.model_path,
+        output_path=ref_dir,
+        **test_compiler_util.convert_to_dict(args.config)["reference_config"],
+    )
+    target_args = types.SimpleNamespace(
+        model_path=args.model_path,
+        output_path=target_dir,
+        **test_compiler_util.convert_to_dict(args.config)["target_config"],
     )
 
-    reference_config = build_sub_config(EvalCfg.reference_config)
-    target_config = build_sub_config(EvalCfg.target_config)
+    eval_single_model_with_single_backend(ref_args)
+    eval_single_model_with_single_backend(target_args)
 
-    eval_single_model_with_single_backend(args.model_path, ref_dir, reference_config)
-    eval_single_model_with_single_backend(args.model_path, target_dir, target_config)
-    compare_perf_diff(reference_config, args.model_path, ref_dir, target_dir)
+    # compare_perf_diff
+    # A
+    ref_dump_path = utils.get_output_path(ref_dir, args.model_path)
+    ref_out = torch.load(str(ref_dump_path))
 
+    ref_log_path = utils.get_log_path(ref_dir, args.model_path)
+    ref_time_stats = parse_time_stats_from_reference_log(ref_log_path)
 
-def build_sub_config(config):
-    sub = argparse.Namespace()
-    sub.seed = getattr(config, "seed", 123)
-    sub.compiler = getattr(config, "compiler", "inductor")
-    sub.device = getattr(config, "device", "cuda")
-    sub.op_lib = getattr(config, "op_lib", None)
-    sub.warmup = getattr(config, "warmup", 3)
-    sub.trials = getattr(config, "trials", 5)
-    sub.log_prompt = getattr(config, "log_prompt", "graph-net-bench-log")
-    sub.model_path_prefix = getattr(config, "model_path_prefix", None)
-    sub.backend_config = getattr(config, "backend_config", None)
-    return sub
+    # B
+    target_dump_path = utils.get_output_path(target_dir, args.model_path)
+    target_out = torch.load(str(target_dump_path))
+
+    target_log_path = utils.get_log_path(target_dir, args.model_path)
+    target_time_stats = parse_time_stats_from_reference_log(target_log_path)
+
+    compare_correctness(ref_out, target_out, ref_args)
+    test_compiler_util.print_times_and_speedup(
+        ref_args, ref_time_stats, target_time_stats
+    )
 
 
 def main(args):

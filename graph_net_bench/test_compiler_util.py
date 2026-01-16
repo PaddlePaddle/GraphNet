@@ -157,21 +157,21 @@ def print_basic_config(args, hardware_name, compile_framework_version):
     )
 
 
-def print_config(model_path, config, hardware_name, compiler_version):
-    model_path = os.path.normpath(model_path)
+def print_config(args, hardware_name, compiler_version):
+    model_path = os.path.normpath(args.model_path)
     model_name = get_model_name(model_path)
-    print_with_log_prompt("[Config] model:", model_name, config.log_prompt)
-    print_with_log_prompt("[Config] seed:", config.seed, config.log_prompt)
-    print_with_log_prompt("[Config] device:", config.device, config.log_prompt)
-    print_with_log_prompt("[Config] hardware:", hardware_name, config.log_prompt)
-    print_with_log_prompt("[Config] op_lib:", config.op_lib, config.log_prompt)
-    print_with_log_prompt("[Config] compiler:", config.compiler, config.log_prompt)
-    print_with_log_prompt("[Config] warmup:", config.warmup, config.log_prompt)
-    print_with_log_prompt("[Config] trials:", config.trials, config.log_prompt)
+    print_with_log_prompt("[Config] model:", model_name, args.log_prompt)
+    print_with_log_prompt("[Config] seed:", args.seed, args.log_prompt)
+    print_with_log_prompt("[Config] device:", args.device, args.log_prompt)
+    print_with_log_prompt("[Config] hardware:", hardware_name, args.log_prompt)
+    print_with_log_prompt("[Config] op_lib:", args.op_lib, args.log_prompt)
+    print_with_log_prompt("[Config] compiler:", args.compiler, args.log_prompt)
+    print_with_log_prompt("[Config] warmup:", args.warmup, args.log_prompt)
+    print_with_log_prompt("[Config] trials:", args.trials, args.log_prompt)
     print_with_log_prompt(
         "[Config] compile_framework_version:",
         compiler_version,
-        config.log_prompt,
+        args.log_prompt,
     )
 
 

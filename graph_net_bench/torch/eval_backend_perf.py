@@ -11,6 +11,7 @@ import json
 import random
 import numpy as np
 import platform
+import types
 from contextlib import redirect_stdout, redirect_stderr
 from graph_net_bench.torch.backend.graph_compiler_backend import GraphCompilerBackend
 from graph_net_bench import test_compiler_util
@@ -74,11 +75,11 @@ def load_class_from_file(
     return model_class
 
 
-def get_compiler_backend(config) -> GraphCompilerBackend:
+def get_compiler_backend(args) -> GraphCompilerBackend:
     """
-    Dynamically load backend class based on config.compiler
+    Dynamically load backend class based on args.compiler
     """
-    compiler_name = config.compiler.lower()
+    compiler_name = args.compiler.lower()
     module_name = f"graph_net_bench.torch.backend.{compiler_name}_backend"
 
     try:
@@ -98,58 +99,57 @@ def get_compiler_backend(config) -> GraphCompilerBackend:
         raise ImportError(f"Failed to import backend module for '{compiler_name}': {e}")
 
     backend_config = (
-        test_compiler_util.convert_to_dict(config.backend_config)
-        if config.backend_config is not None
+        test_compiler_util.convert_to_dict(args.backend_config)
+        if args.backend_config is not None
         else {}
     )
     return backend_class(backend_config)
 
 
-def get_model(model_path, config):
-    device = "xla" if config.compiler == "xla" else config.device
+def get_model(args):
+    device = "xla" if args.compiler == "xla" else args.device
 
     # device: Torch device object specifying the target device for model loading (e.g., 'cuda', 'cpu', 'xla')
     model_class = load_class_from_file(
-        model_path, class_name="GraphModule", device=device
+        args.model_path, class_name="GraphModule", device=device
     )
-    model = model_class().to(torch.device(config.device))
+    model = model_class().to(torch.device(args.device))
     return model
 
 
-def get_input_dict(model_path, config):
-    inputs_params = utils.load_converted_from_text(f"{model_path}")
+def get_input_dict(args):
+    inputs_params = utils.load_converted_from_text(f"{args.model_path}")
     params = inputs_params["weight_info"]
     for tensor_meta in params.values():
         if "device" in tensor_meta["info"]:
-            tensor_meta["info"]["device"] = config.device
+            tensor_meta["info"]["device"] = args.device
     return {
-        k: utils.replay_tensor(v).to(torch.device(config.device))
+        k: utils.replay_tensor(v).to(torch.device(args.device))
         for k, v in params.items()
     }
 
 
-def measure_performance(model_call, config, compiler):
+def measure_performance(model_call, args, compiler):
     stats = {}
     outs = model_call()
 
     # Warmup runs
-    for _ in range(config.warmup):
+    for _ in range(args.warmup):
         model_call()
     compiler.synchronize()
 
-    hardware_name = get_hardward_name(config.device)
     print(
-        f"[Profiling] Using device: {config.device} {hardware_name}, warm up {config.warmup}, trials {config.trials}",
+        f"[Profiling] Warm up {args.warmup}, Trials {args.trials}",
         file=sys.stderr,
         flush=True,
     )
 
-    if "cuda" in config.device:
+    if "cuda" in args.device:
         torch.cuda.empty_cache()
         e2e_times = []
         gpu_times = []
 
-        for i in range(config.trials):
+        for i in range(args.trials):
             # End-to-end timing (naive_timer)
             duration_box = test_compiler_util.DurationBox(-1)
             with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
@@ -177,7 +177,7 @@ def measure_performance(model_call, config, compiler):
 
     else:  # CPU or other devices
         e2e_times = []
-        for i in range(config.trials):
+        for i in range(args.trials):
             duration_box = test_compiler_util.DurationBox(-1)
             with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
                 model_call()
@@ -192,27 +192,27 @@ def measure_performance(model_call, config, compiler):
     return outs, stats
 
 
-def eval_single_model_with_single_backend(model_path, output_path, config):
-    set_seed(config.seed)
-    os.makedirs(output_path, exist_ok=True)
-    log_path = utils.get_log_path(output_path, model_path)
-    output_dump_path = utils.get_output_path(output_path, model_path)
+def eval_single_model_with_single_backend(args):
+    check_and_complete_args(args)
+    set_seed(args.seed)
+    os.makedirs(args.output_path, exist_ok=True)
+    log_path = utils.get_log_path(args.output_path, args.model_path)
+    output_dump_path = utils.get_output_path(args.output_path, args.model_path)
     print(f"Log path: {log_path}", file=sys.stderr, flush=True)
     print(f"Outputs path: {output_dump_path}", file=sys.stderr, flush=True)
 
     with open(log_path, "w", encoding="utf-8") as log_f:
         with redirect_stdout(log_f), redirect_stderr(log_f):
-            compiler = get_compiler_backend(config)
+            compiler = get_compiler_backend(args)
 
-            input_dict = get_input_dict(model_path, config)
-            model = get_model(model_path, config)
+            input_dict = get_input_dict(args)
+            model = get_model(args)
             model.eval()
 
             test_compiler_util.print_config(
-                model_path,
-                config,
-                get_hardward_name(config.device),
-                get_compiler_version(config.compiler),
+                args,
+                get_hardward_name(args.device),
+                get_compiler_version(args.compiler),
             )
 
             success = False
@@ -223,7 +223,7 @@ def eval_single_model_with_single_backend(model_path, output_path, config):
                 def model_call():
                     return compiled_model(**input_dict)
 
-                outputs, time_stats = measure_performance(model_call, config, compiler)
+                outputs, time_stats = measure_performance(model_call, args, compiler)
                 success = True
             except Exception as e:
                 print(
@@ -232,16 +232,39 @@ def eval_single_model_with_single_backend(model_path, output_path, config):
                     flush=True,
                 )
 
-            test_compiler_util.print_running_status(config, success)
+            test_compiler_util.print_running_status(args, success)
             if success:
                 torch.save(outputs, str(output_dump_path))
             test_compiler_util.print_with_log_prompt(
-                "[Performance][eager]:", json.dumps(time_stats), config.log_prompt
+                "[Performance][eager]:", json.dumps(time_stats), args.log_prompt
             )
 
     with open(log_path, "r", encoding="utf-8") as f:
         content = f.read()
         print(content, file=sys.stderr, flush=True)
+
+
+def check_and_complete_args(args):
+    """
+    Ensure all required arguments are present with default values if missing
+    """
+    defaults = {
+        "model_path": None,  # Model path
+        "output_path": None,  # Log and output directory
+        "seed": 123,  # Random seed
+        "compiler": "inductor",  # Compiler name
+        "device": "cuda",  # Device for testing the compiler (e.g., 'cpu' or 'cuda')
+        "op_lib": None,  # Operator library
+        "warmup": 3,  # Number of warmup steps
+        "trials": 5,  # Number of timing trials
+        "log_prompt": "graph-net-bench-log",  # Log prompt for performance log filtering
+        "model_path_prefix": None,  # Prefix path to model path in args.model-path
+        "backend_config": None,  # backend configuration json
+    }
+
+    for key, default in defaults.items():
+        if not hasattr(args, key):
+            setattr(args, key, default)
 
 
 if __name__ == "__main__":
@@ -270,8 +293,9 @@ if __name__ == "__main__":
         help="base64 encode configuration json.",
     )
     args = parser.parse_args()
-    eval_single_model_with_single_backend(
-        args.model_path,
-        args.output_path,
+    mut_args = types.SimpleNamespace(
+        model_path=args.model_path,
+        output_path=args.output_path,
         **test_compiler_util.convert_to_dict(args.config),
     )
+    eval_single_model_with_single_backend(mut_args)

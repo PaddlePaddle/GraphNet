@@ -14,12 +14,12 @@ from graph_net_bench.torch import test_compiler
 
 
 def get_reference_log_path(reference_dir, model_path):
-    model_name = model_path.split("torch_samples/")[-1].replace(os.sep, "_")
+    model_name = model_path.split("samples/")[-1].replace(os.sep, "_")
     return os.path.join(reference_dir, f"{model_name}.log")
 
 
 def get_reference_output_path(reference_dir, model_path):
-    model_name = model_path.split("torch_samples/")[-1].replace(os.sep, "_")
+    model_name = model_path.split("samples/")[-1].replace(os.sep, "_")
     return os.path.join(reference_dir, f"{model_name}.pth")
 
 
@@ -137,7 +137,7 @@ def test_multi_models(args):
 def main(args):
     assert os.path.isdir(args.model_path)
     # Support all torch compilers
-    valid_compilers = list(test_compiler.registry_backend.keys())
+    valid_compilers = list(test_compiler.compiler_backend_name2class.keys())
     assert (
         args.compiler in valid_compilers
     ), f"Compiler must be one of {valid_compilers}"

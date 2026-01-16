@@ -23,7 +23,14 @@ class SampleRemoteExecutor:
 
     def _get_stub(self):
         if self._stub is None:
-            self._channel = grpc.insecure_channel(f"{self.machine}:{self.port}")
+            # Default is 4MB (4194304), increase it to 32MB
+            options = [
+                ("grpc.max_send_message_length", 32 * 1024 * 1024),
+                ("grpc.max_receive_message_length", 32 * 1024 * 1024),
+            ]
+            self._channel = grpc.insecure_channel(
+                f"{self.machine}:{self.port}", options=options
+            )
             self._stub = message_pb2_grpc.SampleRemoteExecutorStub(self._channel)
         return self._stub
 

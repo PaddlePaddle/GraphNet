@@ -5,6 +5,7 @@ import json
 import time
 import subprocess
 import shutil
+import base64
 import numpy as np
 from dataclasses import dataclass
 from contextlib import contextmanager
@@ -153,6 +154,24 @@ def print_basic_config(args, hardware_name, compile_framework_version):
         "[Config] compile_framework_version:",
         compile_framework_version,
         args.log_prompt,
+    )
+
+
+def print_config(model_path, config, hardware_name, compiler_version):
+    model_path = os.path.normpath(model_path)
+    model_name = get_model_name(model_path)
+    print_with_log_prompt("[Config] model:", model_name, config.log_prompt)
+    print_with_log_prompt("[Config] seed:", config.seed, config.log_prompt)
+    print_with_log_prompt("[Config] device:", config.device, config.log_prompt)
+    print_with_log_prompt("[Config] hardware:", hardware_name, config.log_prompt)
+    print_with_log_prompt("[Config] op_lib:", config.op_lib, config.log_prompt)
+    print_with_log_prompt("[Config] compiler:", config.compiler, config.log_prompt)
+    print_with_log_prompt("[Config] warmup:", config.warmup, config.log_prompt)
+    print_with_log_prompt("[Config] trials:", config.trials, config.log_prompt)
+    print_with_log_prompt(
+        "[Config] compile_framework_version:",
+        compiler_version,
+        config.log_prompt,
     )
 
 
@@ -353,3 +372,12 @@ def get_allow_samples(allow_list, model_path_prefix):
             test_samples.append(os.path.join(model_path_prefix, line.strip()))
 
     return test_samples
+
+
+def convert_to_dict(config_str):
+    if config_str in {None, "", "null", "None"}:
+        return {}
+    config_str = base64.b64decode(config_str).decode("utf-8")
+    config = json.loads(config_str)
+    assert isinstance(config, dict), f"config should be a dict. {config_str=}"
+    return config

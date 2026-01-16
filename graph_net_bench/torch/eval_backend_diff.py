@@ -6,20 +6,10 @@ import os
 import os.path
 import traceback
 import json
-import base64
 import types
 from graph_net_bench import test_compiler_util
 from graph_net_bench import path_utils
 from .eval_backend_perf import eval_single_model_with_single_backend
-
-
-def convert_to_dict(config_str):
-    if config_str in {None, "", "null", "None"}:
-        return {}
-    config_str = base64.b64decode(config_str).decode("utf-8")
-    config = json.loads(config_str)
-    assert isinstance(config, dict), f"config should be a dict. {config_str=}"
-    return config
 
 
 def compare_correctness(expected_out, compiled_out, args):
@@ -220,41 +210,37 @@ def eval_single_model(args):
 
     EvalCfg = types.SimpleNamespace(
         reference_config=types.SimpleNamespace(
-            **convert_to_dict(args.config)["reference_config"]
+            **test_compiler_util.convert_to_dict(args.config)["reference_config"]
         ),
         target_config=types.SimpleNamespace(
-            **convert_to_dict(args.config)["target_config"]
+            **test_compiler_util.convert_to_dict(args.config)["target_config"]
         ),
     )
 
-    ref_args = build_sub_args(EvalCfg.reference_config, args.model_path, ref_dir)
-    target_args = build_sub_args(EvalCfg.target_config, args.model_path, target_dir)
+    reference_config = build_sub_config(EvalCfg.reference_config)
+    target_config = build_sub_config(EvalCfg.target_config)
 
-    eval_single_model_with_single_backend(ref_args)
-    eval_single_model_with_single_backend(target_args)
-    compare_perf_diff(ref_args, args.model_path, ref_dir, target_dir)
+    eval_single_model_with_single_backend(args.model_path, ref_dir, reference_config)
+    eval_single_model_with_single_backend(args.model_path, target_dir, target_config)
+    compare_perf_diff(reference_config, args.model_path, ref_dir, target_dir)
 
 
-def build_sub_args(
-    env_ns: types.SimpleNamespace, model_path: str, output_path: str
-) -> argparse.Namespace:
+def build_sub_config(config):
     sub = argparse.Namespace()
-    sub.model_path = model_path
-    sub.output_path = output_path
-    sub.seed = getattr(env_ns, "seed", 123)
-    sub.compiler = getattr(env_ns, "compiler", "inductor")
-    sub.device = getattr(env_ns, "device", "cuda")
-    sub.op_lib = getattr(env_ns, "op_lib", None)
-    sub.warmup = getattr(env_ns, "warmup", 3)
-    sub.trials = getattr(env_ns, "trials", 5)
-    sub.log_prompt = getattr(env_ns, "log_prompt", "graph-net-bench-log")
-    sub.model_path_prefix = getattr(env_ns, "model_path_prefix", None)
-    sub.backend_config = getattr(env_ns, "backend_config", None)
+    sub.seed = getattr(config, "seed", 123)
+    sub.compiler = getattr(config, "compiler", "inductor")
+    sub.device = getattr(config, "device", "cuda")
+    sub.op_lib = getattr(config, "op_lib", None)
+    sub.warmup = getattr(config, "warmup", 3)
+    sub.trials = getattr(config, "trials", 5)
+    sub.log_prompt = getattr(config, "log_prompt", "graph-net-bench-log")
+    sub.model_path_prefix = getattr(config, "model_path_prefix", None)
+    sub.backend_config = getattr(config, "backend_config", None)
     return sub
 
 
 def main(args):
-    config_dict = convert_to_dict(args.config)
+    config_dict = test_compiler_util.convert_to_dict(args.config)
     model_path_prefix = config_dict.get("reference_config", {}).get("model_path_prefix")
 
     if args.model_path_list and model_path_prefix:

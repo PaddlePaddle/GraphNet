@@ -11,7 +11,6 @@ import json
 import random
 import numpy as np
 import platform
-import base64
 from contextlib import redirect_stdout, redirect_stderr
 from graph_net_bench.torch.backend.graph_compiler_backend import GraphCompilerBackend
 from graph_net_bench import test_compiler_util
@@ -75,20 +74,11 @@ def load_class_from_file(
     return model_class
 
 
-def convert_to_dict(config_str):
-    if config_str is None or config_str == "None":
-        return {}
-    config_str = base64.b64decode(config_str).decode("utf-8")
-    config = json.loads(config_str)
-    assert isinstance(config, dict), f"config should be a dict. {config_str=}"
-    return config
-
-
-def get_compiler_backend(args) -> GraphCompilerBackend:
+def get_compiler_backend(config) -> GraphCompilerBackend:
     """
-    Dynamically load backend class based on args.compiler
+    Dynamically load backend class based on config.compiler
     """
-    compiler_name = args.compiler.lower()
+    compiler_name = config.compiler.lower()
     module_name = f"graph_net_bench.torch.backend.{compiler_name}_backend"
 
     try:
@@ -108,56 +98,58 @@ def get_compiler_backend(args) -> GraphCompilerBackend:
         raise ImportError(f"Failed to import backend module for '{compiler_name}': {e}")
 
     backend_config = (
-        convert_to_dict(args.backend_config) if args.backend_config is not None else {}
+        test_compiler_util.convert_to_dict(config.backend_config)
+        if config.backend_config is not None
+        else {}
     )
     return backend_class(backend_config)
 
 
-def get_model(args):
-    device = "xla" if args.compiler == "xla" else args.device
+def get_model(model_path, config):
+    device = "xla" if config.compiler == "xla" else config.device
 
     # device: Torch device object specifying the target device for model loading (e.g., 'cuda', 'cpu', 'xla')
     model_class = load_class_from_file(
-        args.model_path, class_name="GraphModule", device=device
+        model_path, class_name="GraphModule", device=device
     )
-    model = model_class().to(torch.device(args.device))
+    model = model_class().to(torch.device(config.device))
     return model
 
 
-def get_input_dict(args):
-    inputs_params = utils.load_converted_from_text(f"{args.model_path}")
+def get_input_dict(model_path, config):
+    inputs_params = utils.load_converted_from_text(f"{model_path}")
     params = inputs_params["weight_info"]
     for tensor_meta in params.values():
         if "device" in tensor_meta["info"]:
-            tensor_meta["info"]["device"] = args.device
+            tensor_meta["info"]["device"] = config.device
     return {
-        k: utils.replay_tensor(v).to(torch.device(args.device))
+        k: utils.replay_tensor(v).to(torch.device(config.device))
         for k, v in params.items()
     }
 
 
-def measure_performance(model_call, args, compiler):
+def measure_performance(model_call, config, compiler):
     stats = {}
     outs = model_call()
 
     # Warmup runs
-    for _ in range(args.warmup):
+    for _ in range(config.warmup):
         model_call()
     compiler.synchronize()
 
-    hardware_name = get_hardward_name(args.device)
+    hardware_name = get_hardward_name(config.device)
     print(
-        f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}",
+        f"[Profiling] Using device: {config.device} {hardware_name}, warm up {config.warmup}, trials {config.trials}",
         file=sys.stderr,
         flush=True,
     )
 
-    if "cuda" in args.device:
+    if "cuda" in config.device:
         torch.cuda.empty_cache()
         e2e_times = []
         gpu_times = []
 
-        for i in range(args.trials):
+        for i in range(config.trials):
             # End-to-end timing (naive_timer)
             duration_box = test_compiler_util.DurationBox(-1)
             with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
@@ -185,7 +177,7 @@ def measure_performance(model_call, args, compiler):
 
     else:  # CPU or other devices
         e2e_times = []
-        for i in range(args.trials):
+        for i in range(config.trials):
             duration_box = test_compiler_util.DurationBox(-1)
             with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
                 model_call()
@@ -200,34 +192,27 @@ def measure_performance(model_call, args, compiler):
     return outs, stats
 
 
-def eval_single_model_with_single_backend(args):
-    set_seed(args.seed)
-    os.makedirs(args.output_path, exist_ok=True)
-    log_path = utils.get_log_path(args.output_path, args.model_path)
-    output_dump_path = utils.get_output_path(args.output_path, args.model_path)
+def eval_single_model_with_single_backend(model_path, output_path, config):
+    set_seed(config.seed)
+    os.makedirs(output_path, exist_ok=True)
+    log_path = utils.get_log_path(output_path, model_path)
+    output_dump_path = utils.get_output_path(output_path, model_path)
     print(f"Log path: {log_path}", file=sys.stderr, flush=True)
     print(f"Outputs path: {output_dump_path}", file=sys.stderr, flush=True)
 
     with open(log_path, "w", encoding="utf-8") as log_f:
         with redirect_stdout(log_f), redirect_stderr(log_f):
-            compiler = get_compiler_backend(args)
+            compiler = get_compiler_backend(config)
 
-            input_dict = get_input_dict(args)
-            model = get_model(args)
+            input_dict = get_input_dict(model_path, config)
+            model = get_model(model_path, config)
             model.eval()
 
-            test_compiler_util.print_with_log_prompt(
-                "[Config] seed:", args.seed, args.log_prompt
-            )
-
-            test_compiler_util.print_basic_config(
-                args,
-                get_hardward_name(args.device),
-                get_compiler_version(args.compiler),
-            )
-
-            test_compiler_util.print_with_log_prompt(
-                "[Config] op_lib:", args.op_lib, args.log_prompt
+            test_compiler_util.print_config(
+                model_path,
+                config,
+                get_hardward_name(config.device),
+                get_compiler_version(config.compiler),
             )
 
             success = False
@@ -238,7 +223,7 @@ def eval_single_model_with_single_backend(args):
                 def model_call():
                     return compiled_model(**input_dict)
 
-                outputs, time_stats = measure_performance(model_call, args, compiler)
+                outputs, time_stats = measure_performance(model_call, config, compiler)
                 success = True
             except Exception as e:
                 print(
@@ -247,11 +232,11 @@ def eval_single_model_with_single_backend(args):
                     flush=True,
                 )
 
-            test_compiler_util.print_running_status(args, success)
+            test_compiler_util.print_running_status(config, success)
             if success:
                 torch.save(outputs, str(output_dump_path))
             test_compiler_util.print_with_log_prompt(
-                "[Performance][eager]:", json.dumps(time_stats), args.log_prompt
+                "[Performance][eager]:", json.dumps(time_stats), config.log_prompt
             )
 
     with open(log_path, "r", encoding="utf-8") as f:
@@ -277,42 +262,6 @@ if __name__ == "__main__":
         default="/tmp/test_save",
         help="Path to save outputs",
     )
-    parser.add_argument("--seed", type=int, required=False, default=123)
-    parser.add_argument(
-        "--compiler",
-        type=str,
-        required=False,
-        default="inductor",
-        help="Path to customized compiler python file",
-    )
-    parser.add_argument(
-        "--device",
-        type=str,
-        required=False,
-        default="cuda",
-        help="Device for testing the compiler (e.g., 'cpu' or 'cuda')",
-    )
-    parser.add_argument("--op-lib", type=str, required=False, default=None)
-    parser.add_argument(
-        "--warmup", type=int, required=False, default=3, help="Number of warmup steps"
-    )
-    parser.add_argument(
-        "--trials", type=int, required=False, default=5, help="Number of timing trials"
-    )
-    parser.add_argument(
-        "--log-prompt",
-        type=str,
-        required=False,
-        default="graph-net-bench-log",
-        help="Log prompt for performance log filtering.",
-    )
-    parser.add_argument(
-        "--model-path-prefix",
-        type=str,
-        required=False,
-        default=None,
-        help="Prefix path to model path list",
-    )
     parser.add_argument(
         "--config",
         type=str,
@@ -321,4 +270,8 @@ if __name__ == "__main__":
         help="base64 encode configuration json.",
     )
     args = parser.parse_args()
-    eval_single_model_with_single_backend(args=args)
+    eval_single_model_with_single_backend(
+        args.model_path,
+        args.output_path,
+        **test_compiler_util.convert_to_dict(args.config),
+    )

@@ -58,14 +58,29 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
 
         print(f"Executing rpc_cmd: {rpc_cmd}", file=sys.stderr)
         print(f"Working directory: {input_workspace}", file=sys.stderr)
-        proc = subprocess.run(
-            rpc_cmd,
-            shell=True,
-            cwd=input_workspace,
-            env=env,
-            capture_output=True,
-            text=True,
-        )
+        try:
+            proc = subprocess.run(
+                rpc_cmd,
+                shell=True,
+                cwd=input_workspace,
+                env=env,
+                capture_output=True,
+                text=True,
+                timeout=300,
+            )
+        except KeyboardInterrupt:
+            print("KeyboardInterrupt")
+            exit(-1)
+        except subprocess.TimeoutExpired as e:
+            return message_pb2.ExecutionReply(
+                ret_code=-1,
+                stderr=f"Subprocess timed out after 300 seconds: {e}",
+            )
+        except Exception as e:
+            return message_pb2.ExecutionReply(
+                ret_code=-5,
+                stderr=f"[Subprocess error] {e}",
+            )
 
         print(f"returncode: {proc.returncode}", file=sys.stderr)
         print(f"stdout: {proc.stdout}", file=sys.stderr)

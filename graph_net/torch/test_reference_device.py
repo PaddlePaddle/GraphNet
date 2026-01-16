@@ -14,12 +14,12 @@ from graph_net_bench.torch import test_compiler
 
 
 def get_reference_log_path(reference_dir, model_path):
-    model_name = model_path.split("torch_samples/")[-1].replace(os.sep, "_")
+    model_name = model_path.split("samples/")[-1].replace(os.sep, "_")
     return os.path.join(reference_dir, f"{model_name}.log")
 
 
 def get_reference_output_path(reference_dir, model_path):
-    model_name = model_path.split("torch_samples/")[-1].replace(os.sep, "_")
+    model_name = model_path.split("samples/")[-1].replace(os.sep, "_")
     return os.path.join(reference_dir, f"{model_name}.pth")
 
 

@@ -1,39 +1,16 @@
 import sys
 import subprocess
-from contextlib import contextmanager
 import json
 import os
-import tempfile
+from graph_net.fault_locator.utils import get_tmp_file_path
 
 
 def calculate_es_scores(log_file_path: str) -> dict[int, float]:
-    with _get_tmp_file_path() as output_file_path:
+    with get_tmp_file_path() as output_file_path:
         _calculate_es_scores(log_file_path, output_file_path)
         with open(output_file_path) as f:
             es_scores = json.load(f)
     return {int(k): float(v) for k, v in es_scores.items()}
-
-
-@contextmanager
-def _get_tmp_file_path():
-    """
-    Context manager that yields a temporary file path and
-    ensures the file is deleted after the context exits.
-    """
-    # Create a named temporary file.
-    # delete=False is used because some OS/File-systems might lock
-    # the file if we try to open it by path while it's still open here.
-    tmp = tempfile.NamedTemporaryFile(delete=False)
-    tmp_path = tmp.name
-
-    try:
-        # Close the file handle so other processes/functions can open it by path
-        tmp.close()
-        yield tmp_path
-    finally:
-        # Cleanup: Ensure the file is removed from the disk
-        if os.path.exists(tmp_path):
-            os.remove(tmp_path)
 
 
 def _calculate_es_scores(log_file_path: str, output_file_path: str) -> dict[int, float]:

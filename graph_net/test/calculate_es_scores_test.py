@@ -12,7 +12,7 @@ class TestCalculateESScores(unittest.TestCase):
             dirname(graph_net.__file__),
             "test",
             "data_calculate_es_scores",
-            "validation.log",
+            "evaluation.log",
         )
 
     def test_calculate_es_scores_monotonicity(self):

@@ -223,8 +223,9 @@ def main(args):
             )
             all_es_scores[folder_name] = verified_es_values
 
+    assert len(all_es_scores) == 1
     with open(args.output_json_file_path, "w") as f:
-        json.dump(all_es_scores["validation"], f, indent=4)
+        json.dump(next(iter(all_es_scores.items()))[1], f, indent=4)
 
 
 if __name__ == "__main__":

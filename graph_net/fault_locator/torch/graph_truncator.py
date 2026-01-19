@@ -8,6 +8,9 @@ import subprocess
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from graph_net.declare_config_mixin import DeclareConfigMixin
+from graph_net.torch.fx_graph_cache_util import (
+    parse_immutable_model_path_into_sole_graph_module,
+)
 
 
 class GraphTruncator(DeclareConfigMixin):
@@ -33,8 +36,10 @@ class GraphTruncator(DeclareConfigMixin):
         """
         pass
 
-    def get_total_steps(self, relative_model_path) -> int:
-        return 2048
+    def get_total_steps(self, relative_model_path: str) -> int:
+        model_path = str(Path(self.config["model_path_prefix"]) / relative_model_path)
+        gm = parse_immutable_model_path_into_sole_graph_module(model_path)
+        return len(gm.graph.nodes)
 
     def __call__(self, relative_model_path: str, truncate_size: int) -> tuple[str, str]:
         """

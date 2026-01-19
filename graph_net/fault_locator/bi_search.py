@@ -36,34 +36,36 @@ def bi_search(
     else:
         high = getattr(truncator, "total_steps", 1024)
 
+    truncate_pos = high
+
     while True:
-        # 1. Determine current split point
-        mid = (low + high) // 2
+        # Extract subgraph: generates relative_model_path for prefix [0:truncate_pos]
+        sub_model_path = truncator(relative_model_path, truncate_pos)
 
-        # 2. Extract subgraph: generates relative_model_path for prefix [0:mid]
-        sub_model_path = truncator(relative_model_path, mid)
-
-        # 3. Evaluation: runs the sub-graph to get Error Score (ES)
+        # Evaluation: runs the sub-graph to get Error Score (ES)
         es_scores = es_scores_calculator(evaluator(sub_model_path))
 
-        # 4. Predication: checks if current ES is within acceptable tolerance
+        # Predication: checks if current ES is within acceptable tolerance
         is_fault = predicator(es_scores, tolerance)
 
-        # 5. Log results
-        current_step = (mid, is_fault)
+        # Log results
+        current_step = (truncate_pos, is_fault)
         search_history.append(current_step)
 
-        # 6. Termination check
-        if stoper(search_history):
+        # Termination check
+        if stoper(search_history, high=high):
             break
 
-        # 7. Interval update
+        # Determine current split point
+        truncate_pos = (low + high) // 2
+
+        # Interval update
         if is_fault:
             # Fault detected in current prefix; search earlier for the root cause
-            high = mid
+            high = truncate_pos
         else:
             # Current prefix is healthy; the first fault must be in the suffix
-            low = mid + 1
+            low = truncate_pos + 1
 
         # Safety break for boundary convergence
         if low >= high:

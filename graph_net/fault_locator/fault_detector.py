@@ -33,4 +33,4 @@ def has_fault_at(es_scores: ES, tolerance: int) -> bool:
 
     # If the score at current tolerance-1 is less than the worst-case score,
     # it implies a sensitivity shift interpreted as a fault.
-    return es_scores[tolerance - 1] < es_scores[max_tolerance_key]
+    return bool(es_scores[tolerance - 1] < es_scores[max_tolerance_key])

@@ -2,7 +2,7 @@ import unittest
 import os
 import shutil
 import graph_net
-from graph_net.fault_locator.graph_truncator import GraphTruncator
+from graph_net.fault_locator.torch.graph_truncator import GraphTruncator
 
 
 class TestGraphTruncator(unittest.TestCase):

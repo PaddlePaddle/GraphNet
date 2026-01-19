@@ -42,7 +42,7 @@ class AutoFaultBisearcher(SamplePass):
         es_scores_calculator_class_name: str = "ESScoresCalculator",
         es_scores_calculator_config: dict = None,
         # Configs for dynamic loading of Truncator
-        truncator_file_path: str = f"{GN_PATH}/fault_locator/graph_truncator.py",
+        truncator_file_path: str = f"{GN_PATH}/fault_locator/torch/graph_truncator.py",
         truncator_class_name: str = "GraphTruncator",
         truncator_config: dict = None,
         # Configs for dynamic loading of Predicator

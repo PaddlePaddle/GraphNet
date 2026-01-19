@@ -185,7 +185,6 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         sources_json_obj = self._get_sources_json_obj()
         model_path = self._get_model_path()
         model_path.mkdir(parents=True, exist_ok=True)
-        print(f"{str(model_path)=}")
         with open(model_path / self._get_subgraph_range_json_file_name(), "w") as f:
             json.dump(sources_json_obj, f, indent=4)
 

@@ -33,12 +33,17 @@ class GraphTruncator(DeclareConfigMixin):
         """
         pass
 
+    def get_total_steps(self, relative_model_path) -> int:
+        return 2048
+
     def __call__(self, relative_model_path: str, truncate_size: int) -> tuple[str, str]:
         """
         Orchestrates the truncation process.
         Returns: (ret_model_path_prefix, relative_model_path)
         """
+        print(f"{truncate_size=} {relative_model_path=}")
         output_prefix = str(Path(self.config["output_dir"]) / str(truncate_size))
+        print(f"{relative_model_path=}")
 
         with TemporaryDirectory() as temp_root:
             # 1. Setup subgraph ranges and sample list inside the temp_root
@@ -53,8 +58,7 @@ class GraphTruncator(DeclareConfigMixin):
 
             # Post-processing: Move data from _decomposed/... to the target directory
             self._restructure_output(output_prefix, relative_model_path)
-
-        return output_prefix, relative_model_path
+        return str(Path(str(truncate_size)) / relative_model_path)
 
     def _restructure_output(self, output_prefix: str, rel_path: str):
         """
@@ -121,7 +125,7 @@ class GraphTruncator(DeclareConfigMixin):
                 "subgraph_ranges_json_file_name": "subgraph_ranges.json",
                 "subgraph_ranges_json_key": "subgraph_ranges",
                 # Enforced internal defaults
-                "resume": False,
+                "resume": True,
                 "limits_handled_models": None,
                 "group_head_and_tail": False,
             }

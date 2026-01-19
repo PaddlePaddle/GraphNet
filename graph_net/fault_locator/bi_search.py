@@ -1,11 +1,12 @@
 def bi_search(
-    model_path,
-    truncator,  # Signature: (model_path, split_point) -> model_path
-    evaluator,  # Signature: (model_path) -> ES
+    relative_model_path,
+    truncator,  # Signature: (relative_model_path, split_point) -> relative_model_path
+    evaluator,  # Signature: (relative_model_path) -> log_content
+    es_scores_calculator,  # Signature: (log_content) -> ES
     predicator,  # Signature: (ES, tolerance) -> bool
     stoper,  # Signature: (history_list) -> bool
     tolerance=0,
-):
+) -> list[(int, bool)]:
     """
     Binary Search Algorithm for Automatic Fault Location.
 
@@ -14,9 +15,10 @@ def bi_search(
     backend execution comparison.
 
     Args:
-        model_path (str): Path to the original computational graph.
+        relative_model_path (str): Path to the original computational graph.
         truncator (callable): Logic to slice the model at a specific split point.
-        evaluator (callable): Logic to calculate Error Score (ES) for a given model.
+        evaluator (callable): Logic to Evaluate a given model.
+        es_scores_calculator (callable): Logic to calculate Error Score (ES) for a given log file.
         predicator (callable): Logic to determine fault status from ES and tolerance.
         stoper (callable): Logic to evaluate termination based on search history.
         tolerance (int): Numerical threshold for fault detection.
@@ -29,17 +31,20 @@ def bi_search(
     # Initialize boundaries.
     # 'high' usually represents the total number of operators in the graph.
     low = 0
-    high = getattr(truncator, "total_steps", 1024)
+    if hasattr(truncator, "get_total_steps"):
+        high = truncator.get_total_steps(relative_model_path)
+    else:
+        high = getattr(truncator, "total_steps", 1024)
 
     while True:
         # 1. Determine current split point
         mid = (low + high) // 2
 
-        # 2. Extract subgraph: generates model_path for prefix [0:mid]
-        sub_model_path = truncator(model_path, mid)
+        # 2. Extract subgraph: generates relative_model_path for prefix [0:mid]
+        sub_model_path = truncator(relative_model_path, mid)
 
         # 3. Evaluation: runs the sub-graph to get Error Score (ES)
-        es_scores = evaluator(sub_model_path)
+        es_scores = es_scores_calculator(evaluator(sub_model_path))
 
         # 4. Predication: checks if current ES is within acceptable tolerance
         is_fault = predicator(es_scores, tolerance)
@@ -64,7 +69,8 @@ def bi_search(
         if low >= high:
             # Ensure the final point is captured if the loop terminates via boundary
             if not any(h[0] == low for h in search_history):
-                final_es = evaluator(truncator(model_path, low))
+                truncated_model_path = truncator(relative_model_path, low)
+                final_es = es_scores_calculator(evaluator(truncated_model_path))
                 search_history.append((low, predicator(final_es, tolerance)))
             break
 

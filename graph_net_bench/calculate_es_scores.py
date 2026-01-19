@@ -1,6 +1,10 @@
 import json
+import itertools
+from typing import Callable
 import argparse
+from pathlib import Path
 import numpy as np
+from tempfile import TemporaryDirectory
 from graph_net_bench import analysis_util
 from graph_net_bench import verify_aggregated_params
 from graph_net_bench.positive_tolerance_interpretation_manager import (
@@ -165,18 +169,120 @@ def get_verified_aggregated_es_values(es_scores: dict, folder_name: str) -> dict
     return verified_es_values
 
 
-def main(args):
+def calculate_es_scores_for_each_model_path(
+    log_content: str,
+    get_model_path_for_each_log_line: Callable[[str], str | None],
+    interpretation_type: str = "default",
+    negative_speedup_penalty: float = 0.0,
+    fpdb: float = 0.1,
+    enable_aggregation_mode: bool = True,
+) -> dict[str, dict[int, float]]:
+    """
+    Groups log content by model path using accumulate and groupby,
+    then calculates ES scores for each group.
+    """
+    lines = log_content.splitlines()
+
+    # 1. Get f(line) = 1 if get_model_path_for_each_log_line(line) is not None else 0
+    line_indicators = [
+        1 if get_model_path_for_each_log_line(line) is not None else 0 for line in lines
+    ]
+
+    # 2. Use itertools.accumulate to get the cumulative sum (cumsum) of indicators
+    cum_sums = list(itertools.accumulate(line_indicators))
+
+    # 3. Use itertools.groupby to group lines based on the cumsum
+    # 4. Adjust results to get log_contents grouped by model_path
+    model_paths = []
+    log_contents_list = []
+
+    for _, group in itertools.groupby(zip(cum_sums, lines), key=lambda x: x[0]):
+        group_lines = [item[1] for item in group]
+        if not group_lines:
+            continue
+
+        # Extract the model_path from the first line of the group
+        path = get_model_path_for_each_log_line(group_lines[0])
+        if path is not None:
+            model_paths.append(path)
+            # Combine the lines belonging to this model path back into a single string
+            log_contents_list.append("\n".join(group_lines))
+
+    assert len(model_paths) == len(log_contents_list)
+
+    # 5. Call the lower-level function calculate_es_scores_for_log_contents
+    # Note: This function returns list[dict[int, float]] based on your instruction
+    es_scores_list = calculate_es_scores_for_log_contents(
+        log_contents=log_contents_list,
+        interpretation_type=interpretation_type,
+        negative_speedup_penalty=negative_speedup_penalty,
+        fpdb=fpdb,
+        enable_aggregation_mode=enable_aggregation_mode,
+    )
+
+    # 6. Organize return results with model_path as key
+    # Returns dict[str, dict[int, float]]
+    return {model_paths[i]: es_scores_list[i] for i in range(len(model_paths))}
+
+
+def calculate_es_scores_for_log_contents(
+    log_contents: list[str],
+    interpretation_type: str = "default",
+    negative_speedup_penalty: float = 0.0,
+    fpdb: float = 0.1,
+    enable_aggregation_mode: bool = True,
+) -> list[dict[int, float]]:
+    """
+    Wraps raw log contents into temporary files to compute Error Sign (ES) scores.
+    """
+
+    def _write_logs_to_dir(target_dir: str):
+        """Write each log content into tmp_dir/{i}.log."""
+        for i, content in enumerate(log_contents):
+            (Path(target_dir) / f"{i}.log").write_text(content, encoding="utf-8")
+
+    with TemporaryDirectory() as tmp_dir:
+        # Step 1: Create a temporary directory and write logs
+        _write_logs_to_dir(tmp_dir)
+
+        # Step 2: Get index_str2es_scores from the file-based utility
+        index_str2es_scores = calculate_es_scores_for_log_file_or_dir(
+            benchmark_path=tmp_dir,
+            interpretation_type=interpretation_type,
+            negative_speedup_penalty=negative_speedup_penalty,
+            fpdb=fpdb,
+            enable_aggregation_mode=enable_aggregation_mode,
+        )
+
+        # Step 3: Convert keys of index_str2es_scores to int to get index2es_scores
+        index2es_scores = {int(k): v for k, v in index_str2es_scores.items()}
+
+        # Step 4: Convert index2es_scores to list to get es_scores_list
+        # Ensuring the order matches the original log_contents indices
+        es_scores_list = [index2es_scores[i] for i in range(len(log_contents))]
+
+        # Step 5: Return es_scores_list
+        return es_scores_list
+
+
+def calculate_es_scores_for_log_file_or_dir(
+    benchmark_path: str,
+    interpretation_type: str = "default",
+    negative_speedup_penalty: float = 0.0,
+    fpdb: float = 0.1,
+    enable_aggregation_mode: bool = True,
+):
     # 1. Scan folders to get data
-    all_results = analysis_util.scan_all_folders(args.benchmark_path)
+    all_results = analysis_util.scan_all_folders(benchmark_path)
     if not all_results:
         print("No valid data found. Exiting.")
-        return
+        return {}
 
     # 2. Calculate scores for each curve and verify aggregated/microscopic consistency
     all_es_scores = {}
     all_aggregated_results = {}
     positive_tolerance_interpretation = get_positive_tolerance_interpretation(
-        args.interpretation_type
+        interpretation_type
     )
 
     for folder_name, samples in all_results.items():
@@ -185,8 +291,8 @@ def main(args):
 
         es_scores = analysis_util.calculate_scores(
             samples,
-            p=args.negative_speedup_penalty,
-            b=args.fpdb,
+            p=negative_speedup_penalty,
+            b=fpdb,
             type="ESt",
             positive_tolerance_interpretation=positive_tolerance_interpretation,
         )
@@ -195,14 +301,14 @@ def main(args):
         all_es_scores[folder_name] = es_scores
 
         # Verify aggregated/microscopic consistency if aggregation mode is enabled
-        if args.enable_aggregation_mode:
+        if enable_aggregation_mode:
             # Calculate aggregated results and attach to es_scores
             aggregated_results = (
                 verify_aggregated_params.verify_es_constructor_params_across_tolerances(
                     samples,
                     folder_name,
-                    negative_speedup_penalty=args.negative_speedup_penalty,
-                    fpdb=args.fpdb,
+                    negative_speedup_penalty=negative_speedup_penalty,
+                    fpdb=fpdb,
                     positive_tolerance_interpretation=positive_tolerance_interpretation,
                 )
             )
@@ -222,7 +328,17 @@ def main(args):
                 es_scores_wrapper, folder_name
             )
             all_es_scores[folder_name] = verified_es_values
+    return all_es_scores
 
+
+def main(args):
+    all_es_scores = calculate_es_scores_for_log_file_or_dir(
+        benchmark_path=args.benchmark_path,
+        interpretation_type=args.interpretation_type,
+        negative_speedup_penalty=args.negative_speedup_penalty,
+        fpdb=args.fpdb,
+        enable_aggregation_mode=args.enable_aggregation_mode,
+    )
     assert len(all_es_scores) == 1
     with open(args.output_json_file_path, "w") as f:
         json.dump(next(iter(all_es_scores.items()))[1], f, indent=4)

@@ -1,6 +1,7 @@
 from graph_net.sample_pass.sample_pass import SamplePass
 from pathlib import Path
 import json
+import re
 
 
 class GroupRangesFromSubgraphSources(SamplePass):
@@ -10,6 +11,7 @@ class GroupRangesFromSubgraphSources(SamplePass):
         self.original_graph_rel_model_path2subgraph_rel_model_paths: dict[
             str, list[str]
         ] = {}
+        self.original_graph_path_order = {}
 
     def declare_config(
         self,
@@ -30,13 +32,29 @@ class GroupRangesFromSubgraphSources(SamplePass):
         )
         subgraph_sources = json.load(open(model_path))
         for original_graph_rel_model_path, subgraph_ranges in subgraph_sources.items():
-            self._collect_original_graph_rel_model_path2ranges(
-                original_graph_rel_model_path, subgraph_ranges
-            )
-            self._collect_original_graph_rel_model_path2subgraph_rel_model_path(
-                original_graph_rel_model_path,
-                [subgraph_rel_model_path] * len(subgraph_ranges),
-            )
+            path_range = self._extract_range_from_path(subgraph_rel_model_path)
+            if path_range:
+                self._collect_original_graph_rel_model_path2ranges(
+                    original_graph_rel_model_path, path_range
+                )
+                self._collect_original_graph_rel_model_path2subgraph_rel_model_path(
+                    original_graph_rel_model_path, [subgraph_rel_model_path]
+                )
+                if original_graph_rel_model_path not in self.original_graph_path_order:
+                    self.original_graph_path_order[original_graph_rel_model_path] = []
+                if (
+                    path_range
+                    not in self.original_graph_path_order[original_graph_rel_model_path]
+                ):
+                    self.original_graph_path_order[
+                        original_graph_rel_model_path
+                    ].append(path_range)
+
+    def _extract_range_from_path(self, path: str) -> list[int]:
+        match = re.search(r"start(\d+)_end(\d+)", path)
+        if match:
+            return [int(match.group(1)), int(match.group(2))]
+        return None
 
     def _collect_original_graph_rel_model_path2subgraph_rel_model_path(
         self,
@@ -46,37 +64,44 @@ class GroupRangesFromSubgraphSources(SamplePass):
         old = self.original_graph_rel_model_path2subgraph_rel_model_paths.get(
             original_graph_rel_model_path, []
         )
+        combined = old + [p for p in subgraph_rel_model_paths if p not in old]
         self.original_graph_rel_model_path2subgraph_rel_model_paths[
             original_graph_rel_model_path
-        ] = [
-            *old,
-            *subgraph_rel_model_paths,
-        ]
+        ] = combined
 
     def _collect_original_graph_rel_model_path2ranges(
-        self, original_graph_rel_model_path, subgraph_ranges
+        self, original_graph_path: str, path_range: list[int]
     ):
         old_ranges = self.original_graph_rel_model_path2ranges.get(
-            original_graph_rel_model_path, []
+            original_graph_path, []
         )
-        self.original_graph_rel_model_path2ranges[original_graph_rel_model_path] = [
-            *old_ranges,
-            *subgraph_ranges,
-        ]
+        if path_range not in old_ranges:
+            old_ranges.append(path_range)
+        self.original_graph_rel_model_path2ranges[original_graph_path] = old_ranges
 
     def END(self, rel_model_paths: list[str]):
-        for (
-            original_graph_rel_model_path,
-            subgraph_ranges,
-        ) in self.original_graph_rel_model_path2ranges.items():
+        for original_graph_rel_model_path in self.original_graph_path_order.keys():
+            actual_ranges = self.original_graph_rel_model_path2ranges.get(
+                original_graph_rel_model_path, []
+            )
             subgraph_rel_model_paths = (
-                self.original_graph_rel_model_path2subgraph_rel_model_paths[
-                    original_graph_rel_model_path
-                ]
+                self.original_graph_rel_model_path2subgraph_rel_model_paths.get(
+                    original_graph_rel_model_path, []
+                )
             )
-            self._save_json(
-                original_graph_rel_model_path, subgraph_ranges, subgraph_rel_model_paths
-            )
+            range_to_path = {}
+            for path in subgraph_rel_model_paths:
+                path_range = self._extract_range_from_path(path)
+                if path_range:
+                    range_to_path[tuple(path_range)] = path
+
+            sorted_ranges = sorted(actual_ranges, key=lambda x: x[0])
+            sorted_paths = [
+                range_to_path[tuple(r)]
+                for r in sorted_ranges
+                if tuple(r) in range_to_path
+            ]
+            self._save_json(original_graph_rel_model_path, sorted_ranges, sorted_paths)
 
     def _save_json(
         self, original_graph_rel_model_path, subgraph_ranges, subgraph_rel_model_paths

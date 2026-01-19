@@ -56,9 +56,6 @@ def bi_search(
         if stoper(search_history, high=high):
             break
 
-        # Determine current split point
-        truncate_pos = (low + high) // 2
-
         # Interval update
         if is_fault:
             # Fault detected in current prefix; search earlier for the root cause
@@ -66,6 +63,9 @@ def bi_search(
         else:
             # Current prefix is healthy; the first fault must be in the suffix
             low = truncate_pos + 1
+
+        # Determine current split point
+        truncate_pos = (low + high) // 2
 
         # Safety break for boundary convergence
         if low >= high:

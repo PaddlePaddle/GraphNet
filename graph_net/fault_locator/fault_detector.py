@@ -5,6 +5,14 @@ from typing import Dict
 ES = Dict[int, float]
 
 
+class FaultDetector:
+    def __init__(self, config):
+        pass
+
+    def __call__(self, es_scores: ES, tolerance: int) -> bool:
+        return has_fault_at(es_scores, tolerance)
+
+
 def has_fault_at(es_scores: ES, tolerance: int) -> bool:
     """
     Determines if a fault exists at a specific tolerance level.
@@ -16,7 +24,9 @@ def has_fault_at(es_scores: ES, tolerance: int) -> bool:
     3. Returns True if the specific score is strictly less than the maximum score.
     """
     # Requirement 3: Ensure tolerance-1 is a valid key
-    assert tolerance - 1 in es_scores, f"Tolerance index {tolerance-1} missing from ES"
+    assert (
+        tolerance - 1 in es_scores
+    ), f"Tolerance index {tolerance-1} missing from ES. {es_scores=}"
 
     # Requirement 2: Compare ES[tolerance-1] with ES[max_tolerance]
     max_tolerance_key = max(es_scores.keys())

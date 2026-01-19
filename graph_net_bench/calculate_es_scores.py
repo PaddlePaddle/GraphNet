@@ -339,7 +339,13 @@ def main(args):
         fpdb=args.fpdb,
         enable_aggregation_mode=args.enable_aggregation_mode,
     )
-    assert len(all_es_scores) == 1
+
+    def get_benchmark_log():
+        return Path(args.benchmark_path).read_text()
+
+    assert (
+        len(all_es_scores) == 1
+    ), f"{list(all_es_scores.keys())=} {args.benchmark_path=} {get_benchmark_log()=}"
     with open(args.output_json_file_path, "w") as f:
         json.dump(next(iter(all_es_scores.items()))[1], f, indent=4)
 

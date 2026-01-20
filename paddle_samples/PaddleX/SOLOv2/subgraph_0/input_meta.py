@@ -1,5 +1,6 @@
 class Program_weight_tensor_data_0:
     name = "data_0"
+    original_name = "var_10"
     shape = [1, 3, 800, 928]
     dtype = "float32"
     min_val = float("-2.1179")

@@ -42,7 +42,13 @@ class GroupRangesFromSubgraphSources(SamplePass):
                 )
 
     def _extract_range_from_path(self, path: str) -> list[int]:
-        """Extract start and end range from path, e.g., vgg16_bn_start0_end3_0 → [0,3]"""
+        """
+        Parses subgraph path names to extract the node range information.
+        This establishes the precise correspondence between
+        subgraph locations and their operational scope within the original graph.
+
+        For example: model_startX_endY_Z -> [X, Y]
+        """
         match = re.search(r"start(\d+)_end(\d+)", path)
         if match:
             return [int(match.group(1)), int(match.group(2))]
@@ -102,7 +108,6 @@ class GroupRangesFromSubgraphSources(SamplePass):
                 for r in sorted_ranges
                 if tuple(r) in range_to_path
             ]
-
             self._save_json(original_graph_rel_model_path, sorted_ranges, sorted_paths)
 
     def _save_json(

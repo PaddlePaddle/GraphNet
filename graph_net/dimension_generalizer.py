@@ -138,29 +138,17 @@ class ApplyDimGenPasses:
 
     def _get_to_model_path(self, rel_model_path, symbol2example_value):
         """
-        Key modification 1: Use indices instead of symbol strings
-        Key modification 2: Find corresponding index through dimension value matching
-        Key modification 3: Path structure changed from model/name to index/model
+        Generates output paths organized by dimension configuration indices rather than
+        symbolic dimension strings.
 
-        Before modification:
-            output_dir/
-                ├── model1__symA_8_symB_16/
-                ├── model1__symA_32_symB_64/
-                └── model2__symA_8_symB_16/
+        Path structure transformation:
+        Before: model_name__symbolic_dims (e.g., 'model1__symA_8_symB_16')
+        After: index/model_name (e.g., '0/model1', '1/model1')
 
-        After modification:
-            output_dir/
-                ├── 0/
-                │   ├── model1/
-                │   └── model2/
-                ├── 1/
-                │   ├── model1/
-                │   └── model2/
-                └── 2/
-                    ├── model1/
-                    └── model2/
+        The index represents a specific dimension configuration from the reification set,
+        enabling systematic management of dimension variations.
         """
-        # Key modification 1: Use indices instead of symbol strings
+        # Use indices instead of symbol strings
         symbols, reified_dims = self._get_symbols_and_reified_dims(
             Path(self.config["model_path_prefix"]) / rel_model_path,
             DynamicDimConstraints.unserialize_from_py_file(
@@ -173,14 +161,14 @@ class ApplyDimGenPasses:
         )
         current_dims = tuple(symbol2example_value[symbol] for symbol in symbols)
 
-        # Key modification 2: Find corresponding index through dimension value matching
+        # Find corresponding index through dimension value matching
         dim_index = 0
         for i, dims in enumerate(reified_dims):
             if tuple(dims) == current_dims:
                 dim_index = i
                 break
 
-        # Key modification 3: Path structure changed from model/name to index/model
+        # Path structure changed from model/name to index/model
         sub_module_name = f"{dim_index}"
         to_model_path = (
             Path(self.config["output_dir"]) / sub_module_name / rel_model_path
@@ -281,8 +269,6 @@ def update_tensor_metas_by_dyn_dim_cstr(
         if tensor_meta.data is not None:
             assert isinstance(tensor_meta.data, (list, tuple))
             size = functools.reduce(lambda a, b: a * b, tensor_meta.shape, 1)
-
-            # Key improvement: Dynamic extension to handle any size requirement
             extended_tensor_data = list(tensor_meta.data)
             while len(extended_tensor_data) < size:
                 extended_tensor_data.extend(extended_tensor_data)

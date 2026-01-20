@@ -448,9 +448,10 @@ def test_multi_models_with_prefix(args):
         args.allow_list, get_sample_root(args)
     )
     py_module_name = os.path.splitext(os.path.basename(__file__))[0]
-    for rel_model_path in test_samples:
-        model_path = os.path.join(args.model_path_prefix, rel_model_path)
+    for model_path in test_samples:
         if not os.path.exists(model_path):
+            print(f"{os.path.exists(model_path)=}")
+            print(f"{args.model_path_prefix=}")
             continue
         if not os.path.exists(os.path.join(model_path, "model.py")):
             continue

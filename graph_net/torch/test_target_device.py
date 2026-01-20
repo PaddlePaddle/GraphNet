@@ -8,7 +8,7 @@ import torch
 from graph_net_bench import path_utils
 from graph_net_bench import test_compiler_util
 from graph_net import model_path_util
-from graph_net_bench.torch import test_compiler, test_reference_device
+from graph_net_bench.torch import test_compiler, utils, eval_backend_perf
 
 
 def parse_config_from_reference_log(log_path):
@@ -46,9 +46,7 @@ def parse_time_stats_from_reference_log(log_path):
 
 
 def update_args_and_set_seed(args, model_path):
-    ref_log = test_reference_device.get_reference_log_path(
-        args.reference_dir, model_path
-    )
+    ref_log = utils.get_log_path(args.reference_dir, model_path)
     config = parse_config_from_reference_log(ref_log)
     vars(args)["model_path"] = model_path
     vars(args)["compiler"] = config.get("compiler")
@@ -100,14 +98,10 @@ def test_single_model(args):
     if test_compiler_util.get_subgraph_tag(args.model_path):
         model_name += "_" + test_compiler_util.get_subgraph_tag(args.model_path)
 
-    ref_dump = test_reference_device.get_reference_output_path(
-        args.reference_dir, args.model_path
-    )
+    ref_dump = utils.get_output_path(args.reference_dir, args.model_path)
     ref_out = torch.load(str(ref_dump))
 
-    ref_log = test_reference_device.get_reference_log_path(
-        args.reference_dir, args.model_path
-    )
+    ref_log = utils.get_log_path(args.reference_dir, args.model_path)
     ref_time_stats = parse_time_stats_from_reference_log(ref_log)
 
     if success:
@@ -117,7 +111,7 @@ def test_single_model(args):
 
 
 def is_reference_log_exist(reference_dir, model_path):
-    log_path = test_reference_device.get_reference_log_path(reference_dir, model_path)
+    log_path = utils.get_log_path(reference_dir, model_path)
     return os.path.isfile(log_path)
 
 
@@ -171,16 +165,14 @@ def main(args):
 
     if path_utils.is_single_model_dir(args.model_path):
         if args.op_lib == "origin":
-            ref_log = test_reference_device.get_reference_log_path(
-                args.reference_dir, args.model_path
-            )
+            ref_log = utils.get_log_path(args.reference_dir, args.model_path)
             config = parse_config_from_reference_log(ref_log)
             vars(args)["op_lib"] = config.get("op_lib")
             test_compiler_util.print_with_log_prompt(
                 "[Config] op_lib:", args.op_lib, args.log_prompt
             )
         else:
-            test_reference_device.register_op_lib(args.op_lib)
+            eval_backend_perf.register_op_lib(args.op_lib)
 
         args = update_args_and_set_seed(args, args.model_path)
         test_single_model(args)

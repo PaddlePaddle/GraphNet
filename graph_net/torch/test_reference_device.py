@@ -11,30 +11,12 @@ from graph_net_bench import path_utils
 from graph_net_bench import test_compiler_util
 from graph_net import model_path_util
 from graph_net_bench.torch import test_compiler
-
-
-def get_reference_log_path(reference_dir, model_path):
-    model_name = model_path.split("torch_samples/")[-1].replace(os.sep, "_")
-    return os.path.join(reference_dir, f"{model_name}.log")
-
-
-def get_reference_output_path(reference_dir, model_path):
-    model_name = model_path.split("torch_samples/")[-1].replace(os.sep, "_")
-    return os.path.join(reference_dir, f"{model_name}.pth")
-
-
-def register_op_lib(op_lib):
-    if op_lib == "flaggems":
-        import flag_gems
-
-        flag_gems.enable()
-    else:
-        pass
+from graph_net_bench.torch import utils, eval_backend_perf
 
 
 def test_single_model(args):
-    ref_log = get_reference_log_path(args.reference_dir, args.model_path)
-    ref_dump = get_reference_output_path(args.reference_dir, args.model_path)
+    ref_log = utils.get_log_path(args.reference_dir, args.model_path)
+    ref_dump = utils.get_output_path(args.reference_dir, args.model_path)
     print(f"Reference log path: {ref_log}", file=sys.stderr, flush=True)
     print(f"Reference outputs path: {ref_dump}", file=sys.stderr, flush=True)
 
@@ -149,7 +131,7 @@ def main(args):
     ref_dump_dir.mkdir(parents=True, exist_ok=True)
 
     if path_utils.is_single_model_dir(args.model_path):
-        register_op_lib(args.op_lib)
+        eval_backend_perf.register_op_lib(args.op_lib)
         test_single_model(args)
     else:
         test_multi_models(args)

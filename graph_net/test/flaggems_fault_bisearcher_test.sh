@@ -4,7 +4,7 @@
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 
 # Test Environment Setup
-MODEL_LIST="$GRAPH_NET_ROOT/graph_net/test/small10_torch_samples_list.txt"
+MODEL_LIST="$GRAPH_NET_ROOT/graph_net/test/flaggems_faulty_models.txt"
 MODEL_PREFIX="$GRAPH_NET_ROOT"
 OUTPUT_DIR="/tmp/workspace_auto_fault_bisearcher"
 

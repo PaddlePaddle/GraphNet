@@ -190,8 +190,8 @@ def eval_multi_models(args, model_path_prefix=None, use_model_list=False):
 
 
 def eval_single_model(args):
-    ref_dir = "/tmp/eval_perf_diff/A"
-    target_dir = "/tmp/eval_perf_diff/B"
+    ref_dir = "/tmp/eval_perf_diff/reference"
+    target_dir = "/tmp/eval_perf_diff/target"
 
     ref_args = types.SimpleNamespace(
         model_path=args.model_path,

@@ -138,11 +138,12 @@ def _get_model_paths(args, model_path_prefix, use_model_list):
     return model_paths
 
 
-def _create_model_args(model_path, config):
+def _create_model_args(model_path, reference_config, target_config):
     args = argparse.Namespace()
     args.model_path = model_path
     args.model_path_list = None
-    args.config = config
+    args.reference_config = reference_config
+    args.target_config = target_config
     return args
 
 
@@ -157,12 +158,15 @@ def eval_multi_models(args, model_path_prefix=None, use_model_list=False):
             file=sys.stderr,
             flush=True,
         )
+
+        model_args = argparse.Namespace()
+        model_args.model_path = model_path
+        model_args.model_path_list = None
+        model_args.reference_config = args.reference_config
+        model_args.target_config = args.target_config
+
         try:
-            if path_utils.is_single_model_dir(model_path):
-                eval_single_model(_create_model_args(model_path, args.config))
-            else:
-                for submodel_path in path_utils.get_recursively_model_path(model_path):
-                    eval_single_model(_create_model_args(submodel_path, args.config))
+            eval_single_model(model_args)
             success = True
         except KeyboardInterrupt:
             print("KeyboardInterrupt")
@@ -192,12 +196,12 @@ def eval_single_model(args):
     ref_args = types.SimpleNamespace(
         model_path=args.model_path,
         output_path=ref_dir,
-        **test_compiler_util.convert_to_dict(args.config)["reference_config"],
+        **test_compiler_util.convert_to_dict(args.reference_config),
     )
     target_args = types.SimpleNamespace(
         model_path=args.model_path,
         output_path=target_dir,
-        **test_compiler_util.convert_to_dict(args.config)["target_config"],
+        **test_compiler_util.convert_to_dict(args.target_config),
     )
 
     eval_single_model_with_single_backend(ref_args)
@@ -225,8 +229,8 @@ def eval_single_model(args):
 
 
 def main(args):
-    config_dict = test_compiler_util.convert_to_dict(args.config)
-    model_path_prefix = config_dict.get("reference_config", {}).get("model_path_prefix")
+    ref_config = test_compiler_util.convert_to_dict(args.reference_config)
+    model_path_prefix = ref_config.get("model_path_prefix")
 
     if args.model_path_list and model_path_prefix:
         eval_multi_models(args, model_path_prefix, use_model_list=True)
@@ -258,11 +262,16 @@ if __name__ == "__main__":
         help="Path to samples list, each line contains a sample path",
     )
     parser.add_argument(
-        "--config",
+        "--reference-config",
         type=str,
-        required=False,
-        default=None,
-        help="base64 encode configuration json.",
+        required=True,
+        help="base64 encode reference config json.",
+    )
+    parser.add_argument(
+        "--target-config",
+        type=str,
+        required=True,
+        help="base64 encode target config json.",
     )
     args = parser.parse_args()
     main(args=args)

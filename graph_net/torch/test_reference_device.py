@@ -1,76 +1,33 @@
 import argparse
-import torch
 import os
-from pathlib import Path
-from contextlib import redirect_stdout, redirect_stderr
-import json
 import sys
-import traceback
+import types
+from pathlib import Path
 
 from graph_net_bench import path_utils
-from graph_net_bench import test_compiler_util
 from graph_net import model_path_util
-from graph_net_bench.torch import test_compiler
-from graph_net_bench.torch import utils, eval_backend_perf
+from graph_net_bench.torch import eval_backend_perf
+
+
+def convert_args_for_eval_backend(args):
+    """Convert test_reference_device args to eval_backend_perf args format."""
+    return types.SimpleNamespace(
+        model_path=args.model_path,
+        output_path=args.reference_dir,
+        seed=args.seed,
+        compiler=args.compiler,
+        device=args.device,
+        op_lib=args.op_lib,
+        warmup=args.warmup,
+        trials=args.trials,
+        log_prompt=args.log_prompt,
+        backend_config=getattr(args, "config", None),
+    )
 
 
 def test_single_model(args):
-    ref_log = utils.get_log_path(args.reference_dir, args.model_path)
-    ref_dump = utils.get_output_path(args.reference_dir, args.model_path)
-    print(f"Reference log path: {ref_log}", file=sys.stderr, flush=True)
-    print(f"Reference outputs path: {ref_dump}", file=sys.stderr, flush=True)
-
-    with open(ref_log, "w", encoding="utf-8") as log_f:
-        with redirect_stdout(log_f), redirect_stderr(log_f):
-            compiler = test_compiler.get_compiler_backend(args)
-
-            input_dict = test_compiler.get_input_dict(args)
-            model = test_compiler.get_model(args)
-            model.eval()
-
-            test_compiler_util.print_with_log_prompt(
-                "[Config] seed:", args.seed, args.log_prompt
-            )
-
-            test_compiler_util.print_basic_config(
-                args,
-                test_compiler.get_hardward_name(args),
-                test_compiler.get_compile_framework_version(args),
-            )
-
-            test_compiler_util.print_with_log_prompt(
-                "[Config] op_lib:", args.op_lib, args.log_prompt
-            )
-
-            success = False
-            time_stats = {}
-            try:
-                compiled_model = compiler(model)
-
-                def model_call():
-                    return compiled_model(**input_dict)
-
-                outputs, time_stats = test_compiler.measure_performance(
-                    model_call, args, compiler
-                )
-                success = True
-            except Exception as e:
-                print(
-                    f"Run model failed: {str(e)}\n{traceback.format_exc()}",
-                    file=sys.stderr,
-                    flush=True,
-                )
-
-            test_compiler_util.print_running_status(args, success)
-            if success:
-                torch.save(outputs, str(ref_dump))
-            test_compiler_util.print_with_log_prompt(
-                "[Performance][eager]:", json.dumps(time_stats), args.log_prompt
-            )
-
-    with open(ref_log, "r", encoding="utf-8") as f:
-        content = f.read()
-        print(content, file=sys.stderr, flush=True)
+    eval_args = convert_args_for_eval_backend(args)
+    eval_backend_perf.eval_single_model_with_single_backend(eval_args)
 
 
 def test_multi_models(args):
@@ -118,14 +75,9 @@ def test_multi_models(args):
 
 def main(args):
     assert os.path.isdir(args.model_path)
-    # Support all torch compilers
-    valid_compilers = list(test_compiler.compiler_backend_name2class.keys())
-    assert (
-        args.compiler in valid_compilers
-    ), f"Compiler must be one of {valid_compilers}"
-    assert args.device in ["cuda"]
+    assert args.device in ["cuda", "cpu"]
 
-    test_compiler.set_seed(random_seed=args.seed)
+    eval_backend_perf.set_seed(args.seed)
 
     ref_dump_dir = Path(args.reference_dir)
     ref_dump_dir.mkdir(parents=True, exist_ok=True)

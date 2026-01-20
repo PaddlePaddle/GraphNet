@@ -85,10 +85,10 @@ class ConcretePass(DtypeGeneralizationPass):
             ):
                 return new_graph.call_method("to", args=(new_node, self.torch_dtype))
             return new_node
-        
+
         def create_call_function(node: fx.Node) -> fx.Node:
-            """Create a call_function node with dtype conversion if needed."""    
-            if node.target in (        
+            """Create a call_function node with dtype conversion if needed."""
+            if node.target in (
                 torch.matmul,
                 torch.nn.functional.linear,
                 torch.nn.functional.conv2d,
@@ -101,7 +101,9 @@ class ConcretePass(DtypeGeneralizationPass):
                     if isinstance(arg, fx.Node):
                         mapped = val_map[arg]
                         if self._is_float32_tensor(arg):
-                            mapped = new_graph.call_method("to", (mapped, self.torch_dtype))
+                            mapped = new_graph.call_method(
+                                "to", (mapped, self.torch_dtype)
+                            )
                         new_args.append(mapped)
                     else:
                         new_args.append(arg)
@@ -120,7 +122,7 @@ class ConcretePass(DtypeGeneralizationPass):
                 return new_node
             else:
                 return new_graph.node_copy(node, lambda x: val_map[x])
-            
+
         for node in gm.graph.nodes:
             if node.op == "placeholder":
                 val_map[node] = create_placeholder(node)

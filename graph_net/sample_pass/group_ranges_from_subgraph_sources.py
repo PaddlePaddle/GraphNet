@@ -31,7 +31,7 @@ class GroupRangesFromSubgraphSources(SamplePass):
         )
         subgraph_sources = json.load(open(model_path))
         for original_graph_rel_model_path, subgraph_ranges in subgraph_sources.items():
-            # 从路径提取真实的start-end范围，建立精确的一对一映射
+            # Extract actual start-end range from path, establish precise one-to-one mapping
             path_range = self._extract_range_from_path(subgraph_rel_model_path)
             if path_range:
                 self._collect_original_graph_rel_model_path2ranges(
@@ -42,7 +42,7 @@ class GroupRangesFromSubgraphSources(SamplePass):
                 )
 
     def _extract_range_from_path(self, path: str) -> list[int]:
-        """从路径中提取start和end范围，例如：vgg16_bn_start0_end3_0 → [0,3]"""
+        """Extract start and end range from path, e.g., vgg16_bn_start0_end3_0 → [0,3]"""
         match = re.search(r"start(\d+)_end(\d+)", path)
         if match:
             return [int(match.group(1)), int(match.group(2))]
@@ -53,11 +53,11 @@ class GroupRangesFromSubgraphSources(SamplePass):
         original_graph_rel_model_path: str,
         subgraph_rel_model_paths: list[str],
     ):
-        """收集子图路径，自动去重"""
+        """Collect subgraph paths with automatic deduplication"""
         old = self.original_graph_rel_model_path2subgraph_rel_model_paths.get(
             original_graph_rel_model_path, []
         )
-        # 去重合并，保持路径唯一性
+        # Deduplicate and merge, maintaining path uniqueness
         combined = old + [p for p in subgraph_rel_model_paths if p not in old]
         self.original_graph_rel_model_path2subgraph_rel_model_paths[
             original_graph_rel_model_path
@@ -66,7 +66,7 @@ class GroupRangesFromSubgraphSources(SamplePass):
     def _collect_original_graph_rel_model_path2ranges(
         self, original_graph_path: str, path_range: list[int]
     ):
-        """收集子图范围，自动去重"""
+        """Collect subgraph ranges with automatic deduplication"""
         old_ranges = self.original_graph_rel_model_path2ranges.get(
             original_graph_path, []
         )
@@ -75,7 +75,7 @@ class GroupRangesFromSubgraphSources(SamplePass):
         self.original_graph_rel_model_path2ranges[original_graph_path] = old_ranges
 
     def END(self, rel_model_paths: list[str]):
-        """最终处理：按范围排序并保存结果"""
+        """Final processing: sort by range and save results"""
         for (
             original_graph_rel_model_path
         ) in self.original_graph_rel_model_path2ranges.keys():
@@ -88,14 +88,14 @@ class GroupRangesFromSubgraphSources(SamplePass):
                 )
             )
 
-            # 建立范围和路径的映射关系
+            # Establish mapping relationship between ranges and paths
             range_to_path = {}
             for path in subgraph_rel_model_paths:
                 path_range = self._extract_range_from_path(path)
                 if path_range:
                     range_to_path[tuple(path_range)] = path
 
-            # 按范围的起始位置排序，确保输出的结构化
+            # Sort by start position of ranges to ensure structured output
             sorted_ranges = sorted(actual_ranges, key=lambda x: x[0])
             sorted_paths = [
                 range_to_path[tuple(r)]
@@ -108,7 +108,7 @@ class GroupRangesFromSubgraphSources(SamplePass):
     def _save_json(
         self, original_graph_rel_model_path, subgraph_ranges, subgraph_rel_model_paths
     ):
-        """保存最终的聚合结果到JSON文件"""
+        """Save final aggregated results to JSON files"""
         model_dir = Path(self.config["output_dir"]) / original_graph_rel_model_path
         model_dir.mkdir(parents=True, exist_ok=True)
         ranges_json = self._get_ranges_json(subgraph_ranges)
@@ -118,7 +118,7 @@ class GroupRangesFromSubgraphSources(SamplePass):
         (model_dir / self.config["output_json_file_name"]).write_text(json_str)
 
     def _get_paths_json(self, subgraph_rel_model_paths: list[str]):
-        """生成路径部分的JSON对象"""
+        """Generate JSON object for paths section"""
         json_obj = {
             self.config[
                 "output_json_subgraph_rel_model_path_key"
@@ -127,6 +127,6 @@ class GroupRangesFromSubgraphSources(SamplePass):
         return json_obj
 
     def _get_ranges_json(self, subgraph_ranges: list[(int, int)]):
-        """生成范围部分的JSON对象"""
+        """Generate JSON object for ranges section"""
         json_obj = {self.config["output_json_key"]: subgraph_ranges}
         return json_obj

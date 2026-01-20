@@ -138,14 +138,17 @@ class ApplyDimGenPasses:
 
     def _get_to_model_path(self, rel_model_path, symbol2example_value):
         """
-        📍 关键修改1：使用索引而非符号字符串
-        📍 关键修改2：通过维值匹配找到对应索引
-        📍 关键修改3：路径结构从 model/name 变为 index/model
+        Key modification 1: Use indices instead of symbol strings
+        Key modification 2: Find corresponding index through dimension value matching
+        Key modification 3: Path structure changed from model/name to index/model
+
+        Before modification:
             output_dir/
                 ├── model1__symA_8_symB_16/
                 ├── model1__symA_32_symB_64/
                 └── model2__symA_8_symB_16/
-            修改前
+
+        After modification:
             output_dir/
                 ├── 0/
                 │   ├── model1/
@@ -156,9 +159,8 @@ class ApplyDimGenPasses:
                 └── 2/
                     ├── model1/
                     └── model2/
-            修改后
         """
-        ## 关键修改1：使用索引而非符号字符串
+        # Key modification 1: Use indices instead of symbol strings
         symbols, reified_dims = self._get_symbols_and_reified_dims(
             Path(self.config["model_path_prefix"]) / rel_model_path,
             DynamicDimConstraints.unserialize_from_py_file(
@@ -170,14 +172,15 @@ class ApplyDimGenPasses:
             ),
         )
         current_dims = tuple(symbol2example_value[symbol] for symbol in symbols)
-        # 📍 关键修改2：通过维值匹配找到对应索引
+
+        # Key modification 2: Find corresponding index through dimension value matching
         dim_index = 0
         for i, dims in enumerate(reified_dims):
             if tuple(dims) == current_dims:
                 dim_index = i
                 break
 
-        # 📍 关键修改3：路径结构从 model/name 变为 index/model
+        # Key modification 3: Path structure changed from model/name to index/model
         sub_module_name = f"{dim_index}"
         to_model_path = (
             Path(self.config["output_dir"]) / sub_module_name / rel_model_path
@@ -278,6 +281,8 @@ def update_tensor_metas_by_dyn_dim_cstr(
         if tensor_meta.data is not None:
             assert isinstance(tensor_meta.data, (list, tuple))
             size = functools.reduce(lambda a, b: a * b, tensor_meta.shape, 1)
+
+            # Key improvement: Dynamic extension to handle any size requirement
             extended_tensor_data = list(tensor_meta.data)
             while len(extended_tensor_data) < size:
                 extended_tensor_data.extend(extended_tensor_data)

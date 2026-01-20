@@ -143,7 +143,6 @@ def test_multi_models_remote(args):
                     f"--reference-dir {args.reference_dir}",
                     f"--machine {args.machine}",
                     f"--port {args.port}",
-                    f'--rpc-cmd "{args.rpc_cmd}"' if args.rpc_cmd else "",
                 ]
             ).strip()
 
@@ -232,13 +231,6 @@ if __name__ == "__main__":
 
     parser.add_argument("--machine", type=str, default="localhost")
     parser.add_argument("--port", type=int, default=50052)
-
-    # rpc-cmd now should be an "entrypoint" command; we will append required args client-side.
-    parser.add_argument(
-        "--rpc-cmd",
-        type=str,
-        default="python -m graph_net.paddle.test_reference_device",
-    )
 
     args = parser.parse_args()
     main(args=args)

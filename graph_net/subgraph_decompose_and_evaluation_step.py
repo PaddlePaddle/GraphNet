@@ -83,7 +83,8 @@ class TaskController:
         max_pass_id = determine_max_pass_id(self.root_output_dir)
         self.current_pass_id = (
             max_pass_id
-            if self.test_module_name == "test_target_device"
+            if self.test_module_name
+            in ["test_target_device", "test_remote_target_device"]
             else max_pass_id + 1
         )
 
@@ -96,6 +97,7 @@ class TaskController:
             "test_reference_device",
             "test_remote_reference_device",
             "test_target_device",
+            "test_remote_target_device",
         ]
         if test_module_name == "test_compiler":
             self.task_scheduler = {
@@ -103,19 +105,16 @@ class TaskController:
                 "run_evaluation": True,
                 "post_analysis": True,
             }
-        elif test_module_name == "test_reference_device":
+        elif test_module_name in [
+            "test_reference_device",
+            "test_remote_reference_device",
+        ]:
             self.task_scheduler = {
                 "run_decomposer": True,
                 "run_evaluation": True,
                 "post_analysis": False,
             }
-        elif test_module_name == "test_remote_reference_device":
-            self.task_scheduler = {
-                "run_decomposer": True,
-                "run_evaluation": True,
-                "post_analysis": False,
-            }
-        elif test_module_name == "test_target_device":
+        elif test_module_name in ["test_target_device", "test_remote_target_device"]:
             self.task_scheduler = {
                 "run_decomposer": False,
                 "run_evaluation": True,
@@ -173,7 +172,10 @@ class RunningState:
 
         incorrect_models = []
         for model_name, model_record in self.model_name2record.items():
-            assert model_record.subgraph_paths
+            if not model_record.subgraph_paths:
+                print(f"Skip {model_name=}, {model_record.original_path=}", flush=True)
+                continue
+
             model_path_prefix = os.path.dirname(model_record.subgraph_paths[0])
             for subgraph_idx in model_record.incorrect_subgraph_idxs:
                 subgraph_path = os.path.join(
@@ -391,6 +393,7 @@ def run_evaluation(
         "test_reference_device",
         "test_remote_reference_device",
         "test_target_device",
+        "test_remote_target_device",
     ]:
         test_module_arguments["reference-dir"] = os.path.join(
             work_dir, "reference_device_outputs"

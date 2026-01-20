@@ -11,19 +11,19 @@ from graph_net.paddle import test_reference_device
 
 
 def build_remote_rpc_cmd(args) -> str:
-    cmd = args.rpc_cmd.strip()
-    # Append required args for graph_net.paddle.test_reference_device style entrypoint.
-    if "graph_net.paddle.test_reference_device" in cmd:
-        cmd += ' --model-path "$INPUT_WORKSPACE"'
-        cmd += ' --reference-dir "$OUTPUT_WORKSPACE"'
+    cmd = "python -m graph_net.paddle.test_reference_device"
 
-        # Keep CLI consistent with local runner.
-        cmd += f" --compiler {args.compiler}"
-        cmd += f" --device {args.device}"
-        cmd += f" --warmup {args.warmup}"
-        cmd += f" --trials {args.trials}"
-        cmd += f" --seed {args.seed}"
-        cmd += f" --log-prompt {args.log_prompt}"
+    # Append required args for graph_net.paddle.test_reference_device style entrypoint.
+    cmd += ' --model-path "$INPUT_WORKSPACE"'
+    cmd += ' --reference-dir "$OUTPUT_WORKSPACE"'
+
+    # Keep CLI consistent with local runner.
+    cmd += f" --compiler {args.compiler}"
+    cmd += f" --device {args.device}"
+    cmd += f" --warmup {args.warmup}"
+    cmd += f" --trials {args.trials}"
+    cmd += f" --seed {args.seed}"
+    cmd += f" --log-prompt {args.log_prompt}"
     return cmd
 
 
@@ -162,7 +162,6 @@ def test_multi_models_remote(args):
                     f"--reference-dir {args.reference_dir}",
                     f"--machine {args.machine}",
                     f"--port {args.port}",
-                    f'--rpc-cmd "{args.rpc_cmd}"' if args.rpc_cmd else "",
                 ]
             ).strip()
 
@@ -254,13 +253,5 @@ if __name__ == "__main__":
 
     parser.add_argument("--machine", type=str, default="localhost")
     parser.add_argument("--port", type=int, default=50052)
-
-    # rpc-cmd now should be an "entrypoint" command; we will append required args client-side.
-    parser.add_argument(
-        "--rpc-cmd",
-        type=str,
-        default="python -m graph_net.paddle.test_reference_device",
-    )
-
     args = parser.parse_args()
     main(args=args)

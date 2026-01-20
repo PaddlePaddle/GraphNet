@@ -12,46 +12,41 @@ from pathlib import Path
 
 from graph_net_rpc.sample_remote_executor import SampleRemoteExecutor
 from graph_net_bench import path_utils
+from graph_net.torch import test_reference_device
 from graph_net import model_path_util
 
 
-def get_reference_log_path(reference_dir, model_path):
-    model_name = model_path.split("samples/")[-1].replace(os.sep, "_")
-    return os.path.join(reference_dir, f"{model_name}.log")
-
-
-def get_reference_output_path(reference_dir, model_path):
-    model_name = model_path.split("samples/")[-1].replace(os.sep, "_")
-    return os.path.join(reference_dir, f"{model_name}.pth")
-
-
 def _build_remote_rpc_cmd(args) -> str:
-    cmd = args.rpc_cmd.strip()
+    cmd = "python3 -m graph_net.torch.test_reference_device"
+
     # Append required args for graph_net.torch.test_reference_device style entrypoint.
-    if "graph_net.torch.test_reference_device" in cmd:
-        cmd += ' --model-path "$INPUT_WORKSPACE"'
-        cmd += ' --reference-dir "$OUTPUT_WORKSPACE"'
+    cmd += ' --model-path "$INPUT_WORKSPACE"'
+    cmd += ' --reference-dir "$OUTPUT_WORKSPACE"'
 
-        # Keep CLI consistent with local runner.
-        cmd += f" --compiler {args.compiler}"
-        cmd += f" --device {args.device}"
-        cmd += f" --op-lib {args.op_lib}"
-        cmd += f" --warmup {args.warmup}"
-        cmd += f" --trials {args.trials}"
-        cmd += f" --seed {args.seed}"
+    # Keep CLI consistent with local runner.
+    cmd += f" --compiler {args.compiler}"
+    cmd += f" --device {args.device}"
+    cmd += f" --op-lib {args.op_lib}"
+    cmd += f" --warmup {args.warmup}"
+    cmd += f" --trials {args.trials}"
+    cmd += f" --seed {args.seed}"
 
-        if args.allow_list is not None:
-            cmd += f" --allow-list {args.allow_list}"
-        if args.config is not None:
-            cmd += f" --config {args.config}"
-        if getattr(args, "log_prompt", None):
-            cmd += f" --log-prompt {args.log_prompt}"
+    if args.allow_list is not None:
+        cmd += f" --allow-list {args.allow_list}"
+    if args.config is not None:
+        cmd += f" --config {args.config}"
+    if getattr(args, "log_prompt", None):
+        cmd += f" --log-prompt {args.log_prompt}"
     return cmd
 
 
 def test_single_model_remote(args):
-    ref_log = get_reference_log_path(args.reference_dir, args.model_path)
-    ref_dump = get_reference_output_path(args.reference_dir, args.model_path)
+    ref_log = test_reference_device.get_reference_log_path(
+        args.reference_dir, args.model_path
+    )
+    ref_dump = test_reference_device.get_reference_output_path(
+        args.reference_dir, args.model_path
+    )
 
     print(f"Reference log path: {ref_log}", file=sys.stderr, flush=True)
     print(f"Reference outputs path: {ref_dump}", file=sys.stderr, flush=True)
@@ -204,18 +199,11 @@ if __name__ == "__main__":
     parser.add_argument("--seed", type=int, default=123)
     parser.add_argument("--reference-dir", type=str, required=True)
     parser.add_argument("--allow-list", type=str, default=None)
-
     parser.add_argument("--log-prompt", type=str, default=None)
     parser.add_argument("--config", type=str, default=None)
+
     parser.add_argument("--machine", type=str, default="localhost")
     parser.add_argument("--port", type=int, default=50052)
-
-    # rpc-cmd now should be an "entrypoint" command; we will append required args client-side.
-    parser.add_argument(
-        "--rpc-cmd",
-        type=str,
-        default="python3 -m graph_net.torch.test_reference_device",
-    )
 
     args = parser.parse_args()
     main(args=args)

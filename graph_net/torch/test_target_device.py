@@ -67,14 +67,12 @@ def test_single_model(args):
     ref_dump = utils.get_output_path(args.reference_dir, args.model_path)
     ref_out = torch.load(str(ref_dump))
     ref_log = utils.get_log_path(args.reference_dir, args.model_path)
-    ref_time_stats = eval_backend_diff.parse_time_stats_from_reference_log(ref_log)
+    ref_time_stats = test_compiler_util.parse_performance_stats(str(ref_log))
 
     target_dump = utils.get_output_path(target_dir, args.model_path)
     target_out = torch.load(str(target_dump))
     target_log = utils.get_log_path(target_dir, args.model_path)
-    target_time_stats = eval_backend_diff.parse_time_stats_from_reference_log(
-        target_log
-    )
+    target_time_stats = test_compiler_util.parse_performance_stats(str(target_log))
 
     eval_backend_diff.compare_correctness(ref_out, target_out, eval_args)
     test_compiler_util.print_times_and_speedup(args, ref_time_stats, target_time_stats)

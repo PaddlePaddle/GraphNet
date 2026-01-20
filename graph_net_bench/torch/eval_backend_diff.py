@@ -1,15 +1,13 @@
-from . import utils
 import argparse
 import torch
 import sys
 import os
 import os.path
 import traceback
-import json
 import types
 from graph_net_bench import test_compiler_util
 from graph_net_bench import path_utils
-from .eval_backend_perf import eval_single_model_with_single_backend
+from .runner import RunnerConfig, RunResult, create_runner
 
 
 def compare_correctness(expected_out, compiled_out, args):
@@ -94,21 +92,6 @@ def get_cmp_diff_count(expected_out, compiled_out, atol, rtol):
     return " ".join(results)
 
 
-def parse_time_stats_from_reference_log(log_path):
-    assert os.path.isfile(
-        log_path
-    ), f"{log_path} does not exist or is not a regular file."
-
-    with open(log_path, "r", encoding="utf-8") as f:
-        lines = f.readlines()
-        for line in reversed(lines):
-            if "[Performance][eager]" in line:
-                start = line.find("{")
-                end = line.rfind("}")
-                time_stats = json.loads(line[start : end + 1])
-    return time_stats
-
-
 def _get_model_paths(args, model_path_prefix, use_model_list):
     if use_model_list:
         assert os.path.isdir(model_path_prefix) and os.path.isfile(args.model_path_list)
@@ -190,41 +173,61 @@ def eval_multi_models(args, model_path_prefix=None, use_model_list=False):
 
 
 def eval_single_model(args):
+    """
+    Unified evaluation using Runner abstraction.
+    Supports local, process, and remote execution via runner_type in config.
+    """
     ref_dir = "/tmp/eval_perf_diff/reference"
     target_dir = "/tmp/eval_perf_diff/target"
 
-    ref_args = types.SimpleNamespace(
-        model_path=args.model_path,
-        output_path=ref_dir,
-        **test_compiler_util.convert_to_dict(args.reference_config),
+    ref_config_dict = test_compiler_util.convert_to_dict(args.reference_config)
+    target_config_dict = test_compiler_util.convert_to_dict(args.target_config)
+
+    ref_runner_config = RunnerConfig.from_dict(ref_config_dict)
+    target_runner_config = RunnerConfig.from_dict(target_config_dict)
+
+    ref_runner = create_runner(ref_runner_config)
+    target_runner = create_runner(target_runner_config)
+
+    print(
+        f"[eval_backend_diff] Reference runner: {ref_runner_config.strategy.runner_type.value}",
+        file=sys.stderr,
+        flush=True,
     )
-    target_args = types.SimpleNamespace(
-        model_path=args.model_path,
-        output_path=target_dir,
-        **test_compiler_util.convert_to_dict(args.target_config),
+    print(
+        f"[eval_backend_diff] Target runner: {target_runner_config.strategy.runner_type.value}",
+        file=sys.stderr,
+        flush=True,
     )
 
-    eval_single_model_with_single_backend(ref_args)
-    eval_single_model_with_single_backend(target_args)
+    ref_result = ref_runner.run(args.model_path, ref_dir)
+    if not ref_result.success:
+        raise RuntimeError(f"Reference run failed: {ref_result.error_message}")
 
-    # compare_perf_diff
-    # A
-    ref_dump_path = utils.get_output_path(ref_dir, args.model_path)
-    ref_out = torch.load(str(ref_dump_path))
+    target_result = target_runner.run(args.model_path, target_dir)
+    if not target_result.success:
+        raise RuntimeError(f"Target run failed: {target_result.error_message}")
 
-    ref_log_path = utils.get_log_path(ref_dir, args.model_path)
-    ref_time_stats = parse_time_stats_from_reference_log(ref_log_path)
+    compare_results(ref_result, target_result, ref_runner_config)
 
-    # B
-    target_dump_path = utils.get_output_path(target_dir, args.model_path)
-    target_out = torch.load(str(target_dump_path))
 
-    target_log_path = utils.get_log_path(target_dir, args.model_path)
-    target_time_stats = parse_time_stats_from_reference_log(target_log_path)
+def compare_results(
+    ref_result: RunResult, target_result: RunResult, config: RunnerConfig
+):
+    """Compare outputs and performance between reference and target results."""
+    if ref_result.outputs is None or target_result.outputs is None:
+        print("[Warning] Cannot compare: missing outputs", file=sys.stderr)
+        return
 
-    compare_correctness(ref_out, target_out, ref_args)
+    dummy_args = types.SimpleNamespace(
+        log_prompt=config.execution.log_prompt,
+        compiler=config.execution.compiler,
+        device=config.execution.device,
+    )
+
+    compare_correctness(ref_result.outputs, target_result.outputs, dummy_args)
     test_compiler_util.print_times_and_speedup(
-        ref_args, ref_time_stats, target_time_stats
+        dummy_args, ref_result.time_stats, target_result.time_stats
     )
 
 

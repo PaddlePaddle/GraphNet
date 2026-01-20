@@ -7,8 +7,9 @@ OUTPUT_DIR="/tmp/dtype_gen_samples"
 mkdir -p "$OUTPUT_DIR"
 
 # Step 1: Initialize dtype generalization passes (samples of torchvision)
-python3 -m graph_net.apply_sample_pass \
-    --model-path-list "graph_net/config/small100_torch_samples_list.txt" \
+# python3 -m graph_net.apply_sample_pass \
+python3 -m pdb -m graph_net.apply_sample_pass \
+    --model-path-list "graph_net/config/f16_error_samples.txt" \
     --sample-pass-file-path "$GRAPH_NET_ROOT/torch/sample_pass/dtype_generalizer.py" \
     --sample-pass-class-name InitDataTypeGeneralizationPasses \
     --sample-pass-config $(base64 -w 0 <<EOF
@@ -20,48 +21,48 @@ python3 -m graph_net.apply_sample_pass \
     "limits_handled_models": null
 }
 EOF
-)
+) 
 
 # Step 2: Apply passes to generate samples
-python3 -m graph_net.apply_sample_pass \
-    --model-path-list "graph_net/config/small100_torch_samples_list.txt" \
-    --sample-pass-file-path "$GRAPH_NET_ROOT/torch/sample_pass/dtype_generalizer.py" \
-    --sample-pass-class-name ApplyDataTypeGeneralizationPasses \
-    --sample-pass-config $(base64 -w 0 <<EOF
-{
-    "output_dir": "$OUTPUT_DIR",
-    "model_path_prefix": "$GRAPHNET_ROOT",
-    "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
-    "model_runnable_predicator_class_name": "RunModelPredicator",
-    "model_runnable_predicator_config": {
-        "use_dummy_inputs": true
-    },
-    "resume": true,
-    "limits_handled_models": null
-}
-EOF
-)
+# python3 -m graph_net.apply_sample_pass \
+#     --model-path-list "graph_net/config/small100_torch_samples_list.txt" \
+#     --sample-pass-file-path "$GRAPH_NET_ROOT/torch/sample_pass/dtype_generalizer.py" \
+#     --sample-pass-class-name ApplyDataTypeGeneralizationPasses \
+#     --sample-pass-config $(base64 -w 0 <<EOF
+# {
+#     "output_dir": "$OUTPUT_DIR",
+#     "model_path_prefix": "$GRAPHNET_ROOT",
+#     "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
+#     "model_runnable_predicator_class_name": "RunModelPredicator",
+#     "model_runnable_predicator_config": {
+#         "use_dummy_inputs": true
+#     },
+#     "resume": true,
+#     "limits_handled_models": null
+# }
+# EOF
+# )
 
 
 # Step 3: Valiation
-SUCCESS_CNT=0
-FAIL_CNT=0
+# SUCCESS_CNT=0
+# FAIL_CNT=0
 
-for model_path in "$OUTPUT_DIR"/*; do
-    echo "[VALIDATE] $model_path"
+# for model_path in "$OUTPUT_DIR"/*; do
+#     echo "[VALIDATE] $model_path"
 
-    output=$(python -m graph_net.torch.validate \
-        --model-path "$model_path" 2>&1)
+#     output=$(python -m graph_net.torch.validate \
+#         --model-path "$model_path" 2>&1)
 
-    if echo "$output" | grep -q "Validation success, model_path="; then
-        echo "SUCCESS"
-        ((SUCCESS_CNT++))
-    else
-        echo "FAIL"
-        ((FAIL_CNT++))
-    fi
-done
+#     if echo "$output" | grep -q "Validation success, model_path="; then
+#         echo "SUCCESS"
+#         ((SUCCESS_CNT++))
+#     else
+#         echo "FAIL"
+#         ((FAIL_CNT++))
+#     fi
+# done
 
-echo "===================="
-echo "SUCCESS $SUCCESS_CNT"
-echo "FAIL    $FAIL_CNT"
+# echo "===================="
+# echo "SUCCESS $SUCCESS_CNT"
+# echo "FAIL    $FAIL_CNT"

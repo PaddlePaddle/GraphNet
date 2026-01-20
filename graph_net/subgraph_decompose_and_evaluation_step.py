@@ -83,7 +83,8 @@ class TaskController:
         max_pass_id = determine_max_pass_id(self.root_output_dir)
         self.current_pass_id = (
             max_pass_id
-            if self.test_module_name == "test_target_device"
+            if self.test_module_name
+            in ["test_target_device", "test_remote_target_device"]
             else max_pass_id + 1
         )
 
@@ -96,6 +97,7 @@ class TaskController:
             "test_reference_device",
             "test_remote_reference_device",
             "test_target_device",
+            "test_remote_target_device",
         ]
         if test_module_name == "test_compiler":
             self.task_scheduler = {
@@ -103,19 +105,16 @@ class TaskController:
                 "run_evaluation": True,
                 "post_analysis": True,
             }
-        elif test_module_name == "test_reference_device":
+        elif test_module_name in [
+            "test_reference_device",
+            "test_remote_reference_device",
+        ]:
             self.task_scheduler = {
                 "run_decomposer": True,
                 "run_evaluation": True,
                 "post_analysis": False,
             }
-        elif test_module_name == "test_remote_reference_device":
-            self.task_scheduler = {
-                "run_decomposer": True,
-                "run_evaluation": True,
-                "post_analysis": False,
-            }
-        elif test_module_name == "test_target_device":
+        elif test_module_name in ["test_target_device", "test_remote_target_device"]:
             self.task_scheduler = {
                 "run_decomposer": False,
                 "run_evaluation": True,
@@ -173,7 +172,10 @@ class RunningState:
 
         incorrect_models = []
         for model_name, model_record in self.model_name2record.items():
-            assert model_record.subgraph_paths
+            if not model_record.subgraph_paths:
+                print(f"Skip {model_name=}, {model_record.original_path=}", flush=True)
+                continue
+
             model_path_prefix = os.path.dirname(model_record.subgraph_paths[0])
             for subgraph_idx in model_record.incorrect_subgraph_idxs:
                 subgraph_path = os.path.join(
@@ -322,52 +324,33 @@ def run_decomposer_for_single_model(
     output_dir: str,
     log_path: str,
 ) -> bool:
-    """Decomposes a single model."""
-
-    graphnet_root = get_graphnet_root()
-    decorator_config = {
-        "decorator_path": f"{graphnet_root}/graph_net/{framework}/extractor.py",
-        "decorator_config": {
-            "name": model_name,
-            "custom_extractor_path": f"{graphnet_root}/graph_net/{framework}/graph_decomposer.py",
-            "custom_extractor_config": {
-                "output_dir": output_dir,
-                "split_positions": split_positions,
-                "group_head_and_tail": False,
-                "use_all_inputs": True,
-                "chain_style": False,
-            },
-        },
-    }
-    if framework == "paddle":
-        post_process_configs = {
-            "post_extract_process_path": f"{graphnet_root}/graph_net/{framework}/graph_meta_restorer.py",
-            "post_extract_process_class_name": "GraphMetaRestorer",
-            "post_extract_process_config": {
-                "update_inplace": True,
-                "input_meta_allow_partial_update": False,
-            },
-        }
-        for key, value in post_process_configs.items():
-            decorator_config["decorator_config"]["custom_extractor_config"][key] = value
-
-    decorator_config_b64 = convert_json_to_b64_string(decorator_config)
-
     print(
         f"[Decomposition] model_path: {model_path}, split_positions: {split_positions}",
         flush=True,
     )
+
+    split_positions_b64 = convert_json_to_b64_string(split_positions)
+
     cmd = [
         sys.executable,
         "-m",
-        f"graph_net.{framework}.run_model",
+        "graph_net.local_graph_decomposer_wrapper",
+        "--framework",
+        framework,
+        "--model-name",
+        model_name,
         "--model-path",
         model_path,
-        "--decorator-config",
-        decorator_config_b64,
+        "--output-dir",
+        output_dir,
+        "--split-positions-json",
+        split_positions_b64,
     ]
+
+    os.makedirs(os.path.dirname(log_path), exist_ok=True)
     with open(log_path, "a") as f:
         result = subprocess.run(cmd, stdout=f, stderr=f, text=True)
+
     return result.returncode == 0
 
 
@@ -410,12 +393,19 @@ def run_evaluation(
         "test_reference_device",
         "test_remote_reference_device",
         "test_target_device",
+        "test_remote_target_device",
     ]:
         test_module_arguments["reference-dir"] = os.path.join(
             work_dir, "reference_device_outputs"
         )
 
-    cmd = [sys.executable, "-m", f"graph_net.{framework}.{test_module_name}"] + [
+    test_module_path = (
+        f"graph_net_bench.{framework}.{test_module_name}"
+        if test_module_name == "test_compiler"
+        else f"graph_net.{framework}.{test_module_name}"
+    )
+
+    cmd = [sys.executable, "-m", test_module_path] + [
         item
         for key, value in test_module_arguments.items()
         for item in (f"--{key}", str(value))

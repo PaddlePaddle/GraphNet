@@ -63,7 +63,6 @@ class AutoFaultLocator:
                 "seed": 123,
                 "machine": self.machine,
                 "port": self.port,
-                "rpc-cmd": "python3 -m graph_net.torch.test_reference_device",
             },
         }
 

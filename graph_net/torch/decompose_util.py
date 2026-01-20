@@ -46,7 +46,20 @@ def gen_submodule_input_nodes(
         ]
 
     def get_range_idx2range_by_subgraph_ranges():
+        nonlocal subgraph_ranges
         assert subgraph_ranges is not None
+        num_nodes = len(submodules_body_nodes)
+
+        def try_shift(old_end):
+            return old_end if old_end >= 0 else (old_end + num_nodes)
+
+        subgraph_ranges = [
+            (start, end)
+            for old_start, old_end in subgraph_ranges
+            for start in [max(0, min(old_start, num_nodes))]
+            for end in [max(0, min(try_shift(old_end), num_nodes))]
+            if start < end
+        ]
         num_nodes = len(submodules_body_nodes)
         for i in range(len(subgraph_ranges)):
             start, end = subgraph_ranges[i]
@@ -157,8 +170,20 @@ def convert_to_submodules_graph(
         ]
 
     def get_range_idx2range_by_subgraph_ranges():
+        nonlocal subgraph_ranges
         assert subgraph_ranges is not None
         num_nodes = len(submodules_body_nodes)
+
+        def try_shift(old_end):
+            return old_end if old_end >= 0 else (old_end + num_nodes)
+
+        subgraph_ranges = [
+            (start, end)
+            for old_start, old_end in subgraph_ranges
+            for start in [max(0, min(old_start, num_nodes))]
+            for end in [max(0, min(try_shift(old_end), num_nodes))]
+            if start < end
+        ]
         for i in range(len(subgraph_ranges)):
             start, end = subgraph_ranges[i]
             assert start >= 0

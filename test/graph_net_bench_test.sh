@@ -21,7 +21,11 @@ python3 -m graph_net_bench.torch.test_compiler \
 EOF
 ) 2>&1 | tee "$OUTPUT_PATH/validation.log"
 
-python3 -m graph_net_bench.aggregate_es_scores \
+python3 -m graph_net_bench.calculate_es_scores \
     --benchmark-path "$OUTPUT_PATH/validation.log" \
+    --output-json-file-path "$OUTPUT_PATH/es_scores.json"
+
+python3 -m graph_net_bench.aggregate_es_scores \
+    --es-scores-json-file-path "$OUTPUT_PATH/es_scores.json" \
     --sample-id 1 \
     --output-json-file-path "$OUTPUT_PATH/aggregated_score.json"

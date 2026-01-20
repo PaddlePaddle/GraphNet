@@ -1,8 +1,10 @@
+import sys
 import grpc
 import tarfile
 from pathlib import Path
 from io import BytesIO
 from typing import Optional, Dict
+from datetime import datetime
 
 from graph_net_rpc.grpc import message_pb2
 from graph_net_rpc.grpc import message_pb2_grpc
@@ -23,10 +25,10 @@ class SampleRemoteExecutor:
 
     def _get_stub(self):
         if self._stub is None:
-            # Default is 4MB (4194304), increase it to 32MB
+            # Default is 4MB (4194304), increase it to 320MB
             options = [
-                ("grpc.max_send_message_length", 32 * 1024 * 1024),
-                ("grpc.max_receive_message_length", 32 * 1024 * 1024),
+                ("grpc.max_send_message_length", 320 * 1024 * 1024),
+                ("grpc.max_receive_message_length", 320 * 1024 * 1024),
             ]
             self._channel = grpc.insecure_channel(
                 f"{self.machine}:{self.port}", options=options
@@ -35,6 +37,12 @@ class SampleRemoteExecutor:
         return self._stub
 
     def execute(self, model_path: str, rpc_cmd: str) -> Dict[str, bytes]:
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(
+            f"[SampleRemoteExecutor][{timestamp}] Execute {model_path=}",
+            flush=True,
+            file=sys.stderr,
+        )
         compressed_data = self._compress_dir(model_path)
 
         request = message_pb2.ExecutionRequest(
@@ -43,7 +51,7 @@ class SampleRemoteExecutor:
         )
 
         stub = self._get_stub()
-        reply = stub.Execute(request)
+        reply = stub.Execute(request, timeout=600)
 
         if reply.ret_code != 0:
             raise RuntimeError(

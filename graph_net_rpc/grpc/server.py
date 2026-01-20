@@ -7,7 +7,7 @@ import tarfile
 from concurrent import futures
 from io import BytesIO
 from pathlib import Path
-
+from datetime import datetime
 import grpc
 
 from graph_net_rpc.grpc import message_pb2
@@ -33,6 +33,12 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
 
     def _execute_core(self, request, input_workspace: str, output_workspace: str):
         """Execute the RPC command core logic."""
+        print(
+            f"[RemoteModelExecutorServicer] {input_workspace=}, {output_workspace=}",
+            flush=True,
+            file=sys.stderr,
+        )
+
         # Basic validation
         rpc_cmd = (request.rpc_cmd or "").strip()
         if not rpc_cmd:
@@ -54,10 +60,13 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
         # Ensure GraphNet repo root is on PYTHONPATH for the subprocess.
         repo_root = Path(__file__).resolve().parents[2]
         env["PYTHONPATH"] = f"{repo_root}:{env.get('PYTHONPATH', '')}"
-        print(f"repo_root: {repo_root}")
 
-        print(f"Executing rpc_cmd: {rpc_cmd}", file=sys.stderr)
-        print(f"Working directory: {input_workspace}", file=sys.stderr)
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(
+            f"[RemoteModelExecutorServicer][{timestamp}] Executing rpc_cmd: {rpc_cmd}",
+            flush=True,
+            file=sys.stderr,
+        )
         try:
             proc = subprocess.run(
                 rpc_cmd,
@@ -66,25 +75,27 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
                 env=env,
                 capture_output=True,
                 text=True,
-                timeout=300,
+                timeout=600,
             )
         except KeyboardInterrupt:
-            print("KeyboardInterrupt")
+            print("KeyboardInterrupt", flush=True, file=sys.stderr)
             exit(-1)
         except subprocess.TimeoutExpired as e:
+            print(f"subprocess.TimeoutExpired: {e}", flush=True, file=sys.stderr)
             return message_pb2.ExecutionReply(
                 ret_code=-1,
                 stderr=f"Subprocess timed out after 300 seconds: {e}",
             )
         except Exception as e:
+            print(f"Except: {e}", flush=True, file=sys.stderr)
             return message_pb2.ExecutionReply(
                 ret_code=-5,
                 stderr=f"[Subprocess error] {e}",
             )
 
-        print(f"returncode: {proc.returncode}", file=sys.stderr)
-        print(f"stdout: {proc.stdout}", file=sys.stderr)
-        print(f"stderr: {proc.stderr}", file=sys.stderr)
+        print(f"returncode: {proc.returncode}", flush=True, file=sys.stderr)
+        print(f"stdout: {proc.stdout}", flush=True, file=sys.stderr)
+        print(f"stderr: {proc.stderr}", flush=True, file=sys.stderr)
 
         if proc.returncode != 0:
             return message_pb2.ExecutionReply(
@@ -96,13 +107,20 @@ class RemoteModelExecutorServicer(message_pb2_grpc.SampleRemoteExecutorServicer)
 
         # 3) Pack OUTPUT_WORKSPACE to output.tar.gz
         output_tar_path = Path(output_workspace) / "output.tar.gz"
+        print(f"Compressing {output_tar_path=}", flush=True, file=sys.stderr)
         with tarfile.open(output_tar_path, "w:gz") as tar:
             for file_path in Path(output_workspace).rglob("*"):
                 if file_path.is_file() and file_path != output_tar_path:
                     arcname = file_path.relative_to(output_workspace)
+                    print(
+                        f"Add {file_path} to {output_tar_path}.",
+                        flush=True,
+                        file=sys.stderr,
+                    )
                     tar.add(file_path, arcname=arcname)
 
         if not output_tar_path.exists():
+            print(f"{output_tar_path=} no exists!", flush=True, file=sys.stderr)
             return message_pb2.ExecutionReply(
                 ret_code=-1,
                 stdout=proc.stdout or "",
@@ -141,7 +159,7 @@ def serve(port=50052, max_workers=4):
         server,
     )
     server.add_insecure_port(f"0.0.0.0:{port}")
-    print(f"Server started on port {port}...")
+    print(f"Server started on port {port}...", flush=True, file=sys.stderr)
     server.start()
     server.wait_for_termination()
 

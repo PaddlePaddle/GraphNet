@@ -69,6 +69,25 @@ test_remote_reference_device_config_str=$(cat <<EOF
 EOF
 )
 
+test_remote_target_device_config_str=$(cat <<EOF
+{
+    "test_module_name": "test_remote_target_device",
+    "test_remote_reference_device_arguments": {
+        "model-path": null,
+        "reference-dir": null,
+        "compiler": "nope",
+        "device": "cuda",
+        "warmup": 5,
+        "trials": 20,
+        "seed": 123,
+        "machine": "localhost",
+        "port": 50052,
+        "rpc-cmd": "python -m graph_net.torch.test_reference_device"
+    }
+}
+EOF
+)
+
 test_module_name="test_compiler"
 if [ "${test_module_name}" = "test_compiler" ]; then
     TEST_CONFIG_B64=$(echo "$test_compiler_config_str" | base64 -w 0)
@@ -78,6 +97,8 @@ elif [ "${test_module_name}" = "test_target_device" ]; then
     TEST_CONFIG_B64=$(echo "$test_target_device_config_str" | base64 -w 0)
 elif [ "${test_module_name}" = "test_remote_reference_device" ]; then
     TEST_CONFIG_B64=$(echo "$test_remote_reference_device_config_str" | base64 -w 0)
+elif [ "${test_module_name}" = "test_remote_target_device" ]; then
+    TEST_CONFIG_B64=$(echo "$test_remote_target_device_config_str" | base64 -w 0)
 else
     echo "test_module_name (${test_module_name}) is unsupported!"
     exit

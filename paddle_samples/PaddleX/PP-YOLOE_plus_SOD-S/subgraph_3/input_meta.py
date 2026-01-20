@@ -147,7 +147,6 @@ class Program_weight_tensor_data_14:
     original_name = "var_1336"
     shape = [2, 3, 672, 672]
     dtype = "float32"
-    min_val = float("0.0")
     max_val = float("0.995113")
     mean = float("0.375674")
     std = float("0.170865")

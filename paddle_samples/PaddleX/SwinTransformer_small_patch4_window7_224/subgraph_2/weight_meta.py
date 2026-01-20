@@ -1,5 +1,6 @@
 class Program_weight_tensor_parameter_0:
     name = "parameter_0"
+    original_name = "linear_99.b_0"
     shape = [102]
     dtype = "float32"
     min_val = float("-0.00275691")
@@ -11,6 +12,7 @@ class Program_weight_tensor_parameter_0:
 
 class Program_weight_tensor_parameter_1:
     name = "parameter_1"
+    original_name = "linear_99.w_0"
     shape = [768, 102]
     dtype = "float32"
     min_val = float("-0.0907997")
@@ -22,6 +24,7 @@ class Program_weight_tensor_parameter_1:
 
 class Program_weight_tensor_parameter_2:
     name = "parameter_2"
+    original_name = "layer_norm_52.b_0"
     shape = [768]
     dtype = "float32"
     min_val = float("-0.58873")
@@ -33,6 +36,7 @@ class Program_weight_tensor_parameter_2:
 
 class Program_weight_tensor_parameter_3:
     name = "parameter_3"
+    original_name = "layer_norm_52.w_0"
     shape = [768]
     dtype = "float32"
     min_val = float("0.000842425")
@@ -44,6 +48,7 @@ class Program_weight_tensor_parameter_3:
 
 class Program_weight_tensor_parameter_4:
     name = "parameter_4"
+    original_name = "linear_98.b_0"
     shape = [768]
     dtype = "float32"
     min_val = float("-10.7096")
@@ -55,6 +60,7 @@ class Program_weight_tensor_parameter_4:
 
 class Program_weight_tensor_parameter_5:
     name = "parameter_5"
+    original_name = "linear_98.w_0"
     shape = [3072, 768]
     dtype = "float32"
     min_val = float("-1.75495")
@@ -66,6 +72,7 @@ class Program_weight_tensor_parameter_5:
 
 class Program_weight_tensor_parameter_6:
     name = "parameter_6"
+    original_name = "linear_97.b_0"
     shape = [3072]
     dtype = "float32"
     min_val = float("-2.04607")
@@ -77,6 +84,7 @@ class Program_weight_tensor_parameter_6:
 
 class Program_weight_tensor_parameter_7:
     name = "parameter_7"
+    original_name = "linear_97.w_0"
     shape = [768, 3072]
     dtype = "float32"
     min_val = float("-0.714835")
@@ -88,6 +96,7 @@ class Program_weight_tensor_parameter_7:
 
 class Program_weight_tensor_parameter_8:
     name = "parameter_8"
+    original_name = "layer_norm_51.b_0"
     shape = [768]
     dtype = "float32"
     min_val = float("-1.48995")
@@ -99,6 +108,7 @@ class Program_weight_tensor_parameter_8:
 
 class Program_weight_tensor_parameter_9:
     name = "parameter_9"
+    original_name = "layer_norm_51.w_0"
     shape = [768]
     dtype = "float32"
     min_val = float("-0.00512947")
@@ -110,6 +120,7 @@ class Program_weight_tensor_parameter_9:
 
 class Program_weight_tensor_parameter_10:
     name = "parameter_10"
+    original_name = "linear_96.b_0"
     shape = [768]
     dtype = "float32"
     min_val = float("-10.5675")
@@ -121,6 +132,7 @@ class Program_weight_tensor_parameter_10:
 
 class Program_weight_tensor_parameter_11:
     name = "parameter_11"
+    original_name = "linear_96.w_0"
     shape = [768, 768]
     dtype = "float32"
     min_val = float("-1.16212")
@@ -132,6 +144,7 @@ class Program_weight_tensor_parameter_11:
 
 class Program_weight_tensor_parameter_12:
     name = "parameter_12"
+    original_name = "linear_95.b_0"
     shape = [2304]
     dtype = "float32"
     min_val = float("-3.09462")
@@ -143,6 +156,7 @@ class Program_weight_tensor_parameter_12:
 
 class Program_weight_tensor_parameter_13:
     name = "parameter_13"
+    original_name = "linear_95.w_0"
     shape = [768, 2304]
     dtype = "float32"
     min_val = float("-0.49224")
@@ -154,6 +168,7 @@ class Program_weight_tensor_parameter_13:
 
 class Program_weight_tensor_parameter_14:
     name = "parameter_14"
+    original_name = "layer_norm_50.b_0"
     shape = [768]
     dtype = "float32"
     min_val = float("-0.619258")
@@ -165,6 +180,7 @@ class Program_weight_tensor_parameter_14:
 
 class Program_weight_tensor_parameter_15:
     name = "parameter_15"
+    original_name = "layer_norm_50.w_0"
     shape = [768]
     dtype = "float32"
     min_val = float("0.119699")
@@ -176,6 +192,7 @@ class Program_weight_tensor_parameter_15:
 
 class Program_weight_tensor_parameter_16:
     name = "parameter_16"
+    original_name = "linear_94.b_0"
     shape = [768]
     dtype = "float32"
     min_val = float("-8.90211")
@@ -187,6 +204,7 @@ class Program_weight_tensor_parameter_16:
 
 class Program_weight_tensor_parameter_17:
     name = "parameter_17"
+    original_name = "linear_94.w_0"
     shape = [3072, 768]
     dtype = "float32"
     min_val = float("-1.61759")
@@ -198,6 +216,7 @@ class Program_weight_tensor_parameter_17:
 
 class Program_weight_tensor_parameter_18:
     name = "parameter_18"
+    original_name = "linear_93.b_0"
     shape = [3072]
     dtype = "float32"
     min_val = float("-1.22323")
@@ -209,6 +228,7 @@ class Program_weight_tensor_parameter_18:
 
 class Program_weight_tensor_parameter_19:
     name = "parameter_19"
+    original_name = "linear_93.w_0"
     shape = [768, 3072]
     dtype = "float32"
     min_val = float("-0.428492")
@@ -220,6 +240,7 @@ class Program_weight_tensor_parameter_19:
 
 class Program_weight_tensor_parameter_20:
     name = "parameter_20"
+    original_name = "layer_norm_49.b_0"
     shape = [768]
     dtype = "float32"
     min_val = float("-1.90147")
@@ -231,6 +252,7 @@ class Program_weight_tensor_parameter_20:
 
 class Program_weight_tensor_parameter_21:
     name = "parameter_21"
+    original_name = "layer_norm_49.w_0"
     shape = [768]
     dtype = "float32"
     min_val = float("0.157915")
@@ -242,6 +264,7 @@ class Program_weight_tensor_parameter_21:
 
 class Program_weight_tensor_parameter_22:
     name = "parameter_22"
+    original_name = "linear_92.b_0"
     shape = [768]
     dtype = "float32"
     min_val = float("-11.9685")
@@ -253,6 +276,7 @@ class Program_weight_tensor_parameter_22:
 
 class Program_weight_tensor_parameter_23:
     name = "parameter_23"
+    original_name = "linear_92.w_0"
     shape = [768, 768]
     dtype = "float32"
     min_val = float("-1.0039")
@@ -264,6 +288,7 @@ class Program_weight_tensor_parameter_23:
 
 class Program_weight_tensor_parameter_24:
     name = "parameter_24"
+    original_name = "linear_91.b_0"
     shape = [2304]
     dtype = "float32"
     min_val = float("-2.55998")
@@ -275,6 +300,7 @@ class Program_weight_tensor_parameter_24:
 
 class Program_weight_tensor_parameter_25:
     name = "parameter_25"
+    original_name = "linear_91.w_0"
     shape = [768, 2304]
     dtype = "float32"
     min_val = float("-0.373395")
@@ -286,6 +312,7 @@ class Program_weight_tensor_parameter_25:
 
 class Program_weight_tensor_parameter_26:
     name = "parameter_26"
+    original_name = "layer_norm_48.b_0"
     shape = [768]
     dtype = "float32"
     min_val = float("-0.478576")
@@ -297,6 +324,7 @@ class Program_weight_tensor_parameter_26:
 
 class Program_weight_tensor_parameter_27:
     name = "parameter_27"
+    original_name = "layer_norm_48.w_0"
     shape = [768]
     dtype = "float32"
     min_val = float("0.000916656")
@@ -308,6 +336,7 @@ class Program_weight_tensor_parameter_27:
 
 class Program_weight_tensor_parameter_28:
     name = "parameter_28"
+    original_name = "linear_90.w_0"
     shape = [1536, 768]
     dtype = "float32"
     min_val = float("-0.810195")
@@ -319,6 +348,7 @@ class Program_weight_tensor_parameter_28:
 
 class Program_weight_tensor_parameter_29:
     name = "parameter_29"
+    original_name = "layer_norm_47.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-0.858392")
@@ -330,6 +360,7 @@ class Program_weight_tensor_parameter_29:
 
 class Program_weight_tensor_parameter_30:
     name = "parameter_30"
+    original_name = "layer_norm_47.w_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("0.109746")
@@ -341,6 +372,7 @@ class Program_weight_tensor_parameter_30:
 
 class Program_weight_tensor_parameter_31:
     name = "parameter_31"
+    original_name = "linear_89.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.56942")
@@ -352,6 +384,7 @@ class Program_weight_tensor_parameter_31:
 
 class Program_weight_tensor_parameter_32:
     name = "parameter_32"
+    original_name = "linear_89.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-2.019")
@@ -363,6 +396,7 @@ class Program_weight_tensor_parameter_32:
 
 class Program_weight_tensor_parameter_33:
     name = "parameter_33"
+    original_name = "linear_88.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.12146")
@@ -374,6 +408,7 @@ class Program_weight_tensor_parameter_33:
 
 class Program_weight_tensor_parameter_34:
     name = "parameter_34"
+    original_name = "linear_88.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.585791")
@@ -385,6 +420,7 @@ class Program_weight_tensor_parameter_34:
 
 class Program_weight_tensor_parameter_35:
     name = "parameter_35"
+    original_name = "layer_norm_46.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.53089")
@@ -396,6 +432,7 @@ class Program_weight_tensor_parameter_35:
 
 class Program_weight_tensor_parameter_36:
     name = "parameter_36"
+    original_name = "layer_norm_46.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.674541")
@@ -407,6 +444,7 @@ class Program_weight_tensor_parameter_36:
 
 class Program_weight_tensor_parameter_37:
     name = "parameter_37"
+    original_name = "linear_87.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.38952")
@@ -418,6 +456,7 @@ class Program_weight_tensor_parameter_37:
 
 class Program_weight_tensor_parameter_38:
     name = "parameter_38"
+    original_name = "linear_87.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-1.18469")
@@ -429,6 +468,7 @@ class Program_weight_tensor_parameter_38:
 
 class Program_weight_tensor_parameter_39:
     name = "parameter_39"
+    original_name = "linear_86.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.74369")
@@ -440,6 +480,7 @@ class Program_weight_tensor_parameter_39:
 
 class Program_weight_tensor_parameter_40:
     name = "parameter_40"
+    original_name = "linear_86.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.274347")
@@ -451,6 +492,7 @@ class Program_weight_tensor_parameter_40:
 
 class Program_weight_tensor_parameter_41:
     name = "parameter_41"
+    original_name = "layer_norm_45.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.11057")
@@ -462,6 +504,7 @@ class Program_weight_tensor_parameter_41:
 
 class Program_weight_tensor_parameter_42:
     name = "parameter_42"
+    original_name = "layer_norm_45.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.0948987")
@@ -473,6 +516,7 @@ class Program_weight_tensor_parameter_42:
 
 class Program_weight_tensor_parameter_43:
     name = "parameter_43"
+    original_name = "linear_85.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.80932")
@@ -484,6 +528,7 @@ class Program_weight_tensor_parameter_43:
 
 class Program_weight_tensor_parameter_44:
     name = "parameter_44"
+    original_name = "linear_85.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-1.22833")
@@ -495,6 +540,7 @@ class Program_weight_tensor_parameter_44:
 
 class Program_weight_tensor_parameter_45:
     name = "parameter_45"
+    original_name = "linear_84.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.1406")
@@ -506,6 +552,7 @@ class Program_weight_tensor_parameter_45:
 
 class Program_weight_tensor_parameter_46:
     name = "parameter_46"
+    original_name = "linear_84.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.733011")
@@ -517,6 +564,7 @@ class Program_weight_tensor_parameter_46:
 
 class Program_weight_tensor_parameter_47:
     name = "parameter_47"
+    original_name = "layer_norm_44.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.68204")
@@ -528,6 +576,7 @@ class Program_weight_tensor_parameter_47:
 
 class Program_weight_tensor_parameter_48:
     name = "parameter_48"
+    original_name = "layer_norm_44.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.503251")
@@ -539,6 +588,7 @@ class Program_weight_tensor_parameter_48:
 
 class Program_weight_tensor_parameter_49:
     name = "parameter_49"
+    original_name = "linear_83.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.46483")
@@ -550,6 +600,7 @@ class Program_weight_tensor_parameter_49:
 
 class Program_weight_tensor_parameter_50:
     name = "parameter_50"
+    original_name = "linear_83.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.53044")
@@ -561,6 +612,7 @@ class Program_weight_tensor_parameter_50:
 
 class Program_weight_tensor_parameter_51:
     name = "parameter_51"
+    original_name = "linear_82.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-3.09941")
@@ -572,6 +624,7 @@ class Program_weight_tensor_parameter_51:
 
 class Program_weight_tensor_parameter_52:
     name = "parameter_52"
+    original_name = "linear_82.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.391412")
@@ -583,6 +636,7 @@ class Program_weight_tensor_parameter_52:
 
 class Program_weight_tensor_parameter_53:
     name = "parameter_53"
+    original_name = "layer_norm_43.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.19468")
@@ -594,6 +648,7 @@ class Program_weight_tensor_parameter_53:
 
 class Program_weight_tensor_parameter_54:
     name = "parameter_54"
+    original_name = "layer_norm_43.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.130782")
@@ -605,6 +660,7 @@ class Program_weight_tensor_parameter_54:
 
 class Program_weight_tensor_parameter_55:
     name = "parameter_55"
+    original_name = "linear_81.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.32465")
@@ -616,6 +672,7 @@ class Program_weight_tensor_parameter_55:
 
 class Program_weight_tensor_parameter_56:
     name = "parameter_56"
+    original_name = "linear_81.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-1.1547")
@@ -627,6 +684,7 @@ class Program_weight_tensor_parameter_56:
 
 class Program_weight_tensor_parameter_57:
     name = "parameter_57"
+    original_name = "linear_80.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.14948")
@@ -638,6 +696,7 @@ class Program_weight_tensor_parameter_57:
 
 class Program_weight_tensor_parameter_58:
     name = "parameter_58"
+    original_name = "linear_80.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.351994")
@@ -649,6 +708,7 @@ class Program_weight_tensor_parameter_58:
 
 class Program_weight_tensor_parameter_59:
     name = "parameter_59"
+    original_name = "layer_norm_42.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.70646")
@@ -660,6 +720,7 @@ class Program_weight_tensor_parameter_59:
 
 class Program_weight_tensor_parameter_60:
     name = "parameter_60"
+    original_name = "layer_norm_42.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.332374")
@@ -671,6 +732,7 @@ class Program_weight_tensor_parameter_60:
 
 class Program_weight_tensor_parameter_61:
     name = "parameter_61"
+    original_name = "linear_79.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.58876")
@@ -682,6 +744,7 @@ class Program_weight_tensor_parameter_61:
 
 class Program_weight_tensor_parameter_62:
     name = "parameter_62"
+    original_name = "linear_79.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.356805")
@@ -693,6 +756,7 @@ class Program_weight_tensor_parameter_62:
 
 class Program_weight_tensor_parameter_63:
     name = "parameter_63"
+    original_name = "linear_78.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.80721")
@@ -704,6 +768,7 @@ class Program_weight_tensor_parameter_63:
 
 class Program_weight_tensor_parameter_64:
     name = "parameter_64"
+    original_name = "linear_78.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.26204")
@@ -715,6 +780,7 @@ class Program_weight_tensor_parameter_64:
 
 class Program_weight_tensor_parameter_65:
     name = "parameter_65"
+    original_name = "layer_norm_41.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.17464")
@@ -726,6 +792,7 @@ class Program_weight_tensor_parameter_65:
 
 class Program_weight_tensor_parameter_66:
     name = "parameter_66"
+    original_name = "layer_norm_41.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.0800777")
@@ -737,6 +804,7 @@ class Program_weight_tensor_parameter_66:
 
 class Program_weight_tensor_parameter_67:
     name = "parameter_67"
+    original_name = "linear_77.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.34456")
@@ -748,6 +816,7 @@ class Program_weight_tensor_parameter_67:
 
 class Program_weight_tensor_parameter_68:
     name = "parameter_68"
+    original_name = "linear_77.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-1.01622")
@@ -759,6 +828,7 @@ class Program_weight_tensor_parameter_68:
 
 class Program_weight_tensor_parameter_69:
     name = "parameter_69"
+    original_name = "linear_76.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.25084")
@@ -770,6 +840,7 @@ class Program_weight_tensor_parameter_69:
 
 class Program_weight_tensor_parameter_70:
     name = "parameter_70"
+    original_name = "linear_76.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.247665")
@@ -781,6 +852,7 @@ class Program_weight_tensor_parameter_70:
 
 class Program_weight_tensor_parameter_71:
     name = "parameter_71"
+    original_name = "layer_norm_40.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.42262")
@@ -792,6 +864,7 @@ class Program_weight_tensor_parameter_71:
 
 class Program_weight_tensor_parameter_72:
     name = "parameter_72"
+    original_name = "layer_norm_40.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.362027")
@@ -803,6 +876,7 @@ class Program_weight_tensor_parameter_72:
 
 class Program_weight_tensor_parameter_73:
     name = "parameter_73"
+    original_name = "linear_75.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-2.20534")
@@ -814,6 +888,7 @@ class Program_weight_tensor_parameter_73:
 
 class Program_weight_tensor_parameter_74:
     name = "parameter_74"
+    original_name = "linear_75.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.365255")
@@ -825,6 +900,7 @@ class Program_weight_tensor_parameter_74:
 
 class Program_weight_tensor_parameter_75:
     name = "parameter_75"
+    original_name = "linear_74.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.82746")
@@ -836,6 +912,7 @@ class Program_weight_tensor_parameter_75:
 
 class Program_weight_tensor_parameter_76:
     name = "parameter_76"
+    original_name = "linear_74.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.260112")
@@ -847,6 +924,7 @@ class Program_weight_tensor_parameter_76:
 
 class Program_weight_tensor_parameter_77:
     name = "parameter_77"
+    original_name = "layer_norm_39.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.42799")
@@ -858,6 +936,7 @@ class Program_weight_tensor_parameter_77:
 
 class Program_weight_tensor_parameter_78:
     name = "parameter_78"
+    original_name = "layer_norm_39.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.150719")
@@ -869,6 +948,7 @@ class Program_weight_tensor_parameter_78:
 
 class Program_weight_tensor_parameter_79:
     name = "parameter_79"
+    original_name = "linear_73.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.78658")
@@ -880,6 +960,7 @@ class Program_weight_tensor_parameter_79:
 
 class Program_weight_tensor_parameter_80:
     name = "parameter_80"
+    original_name = "linear_73.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-1.60364")
@@ -891,6 +972,7 @@ class Program_weight_tensor_parameter_80:
 
 class Program_weight_tensor_parameter_81:
     name = "parameter_81"
+    original_name = "linear_72.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.26863")
@@ -902,6 +984,7 @@ class Program_weight_tensor_parameter_81:
 
 class Program_weight_tensor_parameter_82:
     name = "parameter_82"
+    original_name = "linear_72.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.307197")
@@ -913,6 +996,7 @@ class Program_weight_tensor_parameter_82:
 
 class Program_weight_tensor_parameter_83:
     name = "parameter_83"
+    original_name = "layer_norm_38.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.0534")
@@ -924,6 +1008,7 @@ class Program_weight_tensor_parameter_83:
 
 class Program_weight_tensor_parameter_84:
     name = "parameter_84"
+    original_name = "layer_norm_38.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.457603")
@@ -935,6 +1020,7 @@ class Program_weight_tensor_parameter_84:
 
 class Program_weight_tensor_parameter_85:
     name = "parameter_85"
+    original_name = "linear_71.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-2.20153")
@@ -946,6 +1032,7 @@ class Program_weight_tensor_parameter_85:
 
 class Program_weight_tensor_parameter_86:
     name = "parameter_86"
+    original_name = "linear_71.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.248154")
@@ -957,6 +1044,7 @@ class Program_weight_tensor_parameter_86:
 
 class Program_weight_tensor_parameter_87:
     name = "parameter_87"
+    original_name = "linear_70.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.46186")
@@ -968,6 +1056,7 @@ class Program_weight_tensor_parameter_87:
 
 class Program_weight_tensor_parameter_88:
     name = "parameter_88"
+    original_name = "linear_70.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.267893")
@@ -979,6 +1068,7 @@ class Program_weight_tensor_parameter_88:
 
 class Program_weight_tensor_parameter_89:
     name = "parameter_89"
+    original_name = "layer_norm_37.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.19284")
@@ -990,6 +1080,7 @@ class Program_weight_tensor_parameter_89:
 
 class Program_weight_tensor_parameter_90:
     name = "parameter_90"
+    original_name = "layer_norm_37.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.170703")
@@ -1001,6 +1092,7 @@ class Program_weight_tensor_parameter_90:
 
 class Program_weight_tensor_parameter_91:
     name = "parameter_91"
+    original_name = "linear_69.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.974824")
@@ -1012,6 +1104,7 @@ class Program_weight_tensor_parameter_91:
 
 class Program_weight_tensor_parameter_92:
     name = "parameter_92"
+    original_name = "linear_69.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-2.68387")
@@ -1023,6 +1116,7 @@ class Program_weight_tensor_parameter_92:
 
 class Program_weight_tensor_parameter_93:
     name = "parameter_93"
+    original_name = "linear_68.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.18748")
@@ -1034,6 +1128,7 @@ class Program_weight_tensor_parameter_93:
 
 class Program_weight_tensor_parameter_94:
     name = "parameter_94"
+    original_name = "linear_68.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.518484")
@@ -1045,6 +1140,7 @@ class Program_weight_tensor_parameter_94:
 
 class Program_weight_tensor_parameter_95:
     name = "parameter_95"
+    original_name = "layer_norm_36.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.16081")
@@ -1056,6 +1152,7 @@ class Program_weight_tensor_parameter_95:
 
 class Program_weight_tensor_parameter_96:
     name = "parameter_96"
+    original_name = "layer_norm_36.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.494575")
@@ -1067,6 +1164,7 @@ class Program_weight_tensor_parameter_96:
 
 class Program_weight_tensor_parameter_97:
     name = "parameter_97"
+    original_name = "linear_67.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-3.34295")
@@ -1078,6 +1176,7 @@ class Program_weight_tensor_parameter_97:
 
 class Program_weight_tensor_parameter_98:
     name = "parameter_98"
+    original_name = "linear_67.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.308424")
@@ -1089,6 +1188,7 @@ class Program_weight_tensor_parameter_98:
 
 class Program_weight_tensor_parameter_99:
     name = "parameter_99"
+    original_name = "linear_66.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.8504")
@@ -1100,6 +1200,7 @@ class Program_weight_tensor_parameter_99:
 
 class Program_weight_tensor_parameter_100:
     name = "parameter_100"
+    original_name = "linear_66.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.364949")
@@ -1111,6 +1212,7 @@ class Program_weight_tensor_parameter_100:
 
 class Program_weight_tensor_parameter_101:
     name = "parameter_101"
+    original_name = "layer_norm_35.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.573")
@@ -1122,6 +1224,7 @@ class Program_weight_tensor_parameter_101:
 
 class Program_weight_tensor_parameter_102:
     name = "parameter_102"
+    original_name = "layer_norm_35.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.264343")
@@ -1133,6 +1236,7 @@ class Program_weight_tensor_parameter_102:
 
 class Program_weight_tensor_parameter_103:
     name = "parameter_103"
+    original_name = "linear_65.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.862299")
@@ -1144,6 +1248,7 @@ class Program_weight_tensor_parameter_103:
 
 class Program_weight_tensor_parameter_104:
     name = "parameter_104"
+    original_name = "linear_65.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-2.37274")
@@ -1155,6 +1260,7 @@ class Program_weight_tensor_parameter_104:
 
 class Program_weight_tensor_parameter_105:
     name = "parameter_105"
+    original_name = "linear_64.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.25132")
@@ -1166,6 +1272,7 @@ class Program_weight_tensor_parameter_105:
 
 class Program_weight_tensor_parameter_106:
     name = "parameter_106"
+    original_name = "linear_64.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.45676")
@@ -1177,6 +1284,7 @@ class Program_weight_tensor_parameter_106:
 
 class Program_weight_tensor_parameter_107:
     name = "parameter_107"
+    original_name = "layer_norm_34.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.24593")
@@ -1188,6 +1296,7 @@ class Program_weight_tensor_parameter_107:
 
 class Program_weight_tensor_parameter_108:
     name = "parameter_108"
+    original_name = "layer_norm_34.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.522802")
@@ -1199,6 +1308,7 @@ class Program_weight_tensor_parameter_108:
 
 class Program_weight_tensor_parameter_109:
     name = "parameter_109"
+    original_name = "linear_63.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-2.26855")
@@ -1210,6 +1320,7 @@ class Program_weight_tensor_parameter_109:
 
 class Program_weight_tensor_parameter_110:
     name = "parameter_110"
+    original_name = "linear_63.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.238243")
@@ -1221,6 +1332,7 @@ class Program_weight_tensor_parameter_110:
 
 class Program_weight_tensor_parameter_111:
     name = "parameter_111"
+    original_name = "linear_62.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.12382")
@@ -1232,6 +1344,7 @@ class Program_weight_tensor_parameter_111:
 
 class Program_weight_tensor_parameter_112:
     name = "parameter_112"
+    original_name = "linear_62.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.308471")
@@ -1243,6 +1356,7 @@ class Program_weight_tensor_parameter_112:
 
 class Program_weight_tensor_parameter_113:
     name = "parameter_113"
+    original_name = "layer_norm_33.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.2656")
@@ -1254,6 +1368,7 @@ class Program_weight_tensor_parameter_113:
 
 class Program_weight_tensor_parameter_114:
     name = "parameter_114"
+    original_name = "layer_norm_33.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.262784")
@@ -1265,6 +1380,7 @@ class Program_weight_tensor_parameter_114:
 
 class Program_weight_tensor_parameter_115:
     name = "parameter_115"
+    original_name = "linear_61.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.726691")
@@ -1276,6 +1392,7 @@ class Program_weight_tensor_parameter_115:
 
 class Program_weight_tensor_parameter_116:
     name = "parameter_116"
+    original_name = "linear_61.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-2.15743")
@@ -1287,6 +1404,7 @@ class Program_weight_tensor_parameter_116:
 
 class Program_weight_tensor_parameter_117:
     name = "parameter_117"
+    original_name = "linear_60.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.28725")
@@ -1298,6 +1416,7 @@ class Program_weight_tensor_parameter_117:
 
 class Program_weight_tensor_parameter_118:
     name = "parameter_118"
+    original_name = "linear_60.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.440707")
@@ -1309,6 +1428,7 @@ class Program_weight_tensor_parameter_118:
 
 class Program_weight_tensor_parameter_119:
     name = "parameter_119"
+    original_name = "layer_norm_32.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.15318")
@@ -1320,6 +1440,7 @@ class Program_weight_tensor_parameter_119:
 
 class Program_weight_tensor_parameter_120:
     name = "parameter_120"
+    original_name = "layer_norm_32.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.533149")
@@ -1331,6 +1452,7 @@ class Program_weight_tensor_parameter_120:
 
 class Program_weight_tensor_parameter_121:
     name = "parameter_121"
+    original_name = "linear_59.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-3.36633")
@@ -1342,6 +1464,7 @@ class Program_weight_tensor_parameter_121:
 
 class Program_weight_tensor_parameter_122:
     name = "parameter_122"
+    original_name = "linear_59.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.340351")
@@ -1353,6 +1476,7 @@ class Program_weight_tensor_parameter_122:
 
 class Program_weight_tensor_parameter_123:
     name = "parameter_123"
+    original_name = "linear_58.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.35512")
@@ -1364,6 +1488,7 @@ class Program_weight_tensor_parameter_123:
 
 class Program_weight_tensor_parameter_124:
     name = "parameter_124"
+    original_name = "linear_58.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.323251")
@@ -1375,6 +1500,7 @@ class Program_weight_tensor_parameter_124:
 
 class Program_weight_tensor_parameter_125:
     name = "parameter_125"
+    original_name = "layer_norm_31.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.52138")
@@ -1386,6 +1512,7 @@ class Program_weight_tensor_parameter_125:
 
 class Program_weight_tensor_parameter_126:
     name = "parameter_126"
+    original_name = "layer_norm_31.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.34705")
@@ -1397,6 +1524,7 @@ class Program_weight_tensor_parameter_126:
 
 class Program_weight_tensor_parameter_127:
     name = "parameter_127"
+    original_name = "linear_57.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.416331")
@@ -1408,6 +1536,7 @@ class Program_weight_tensor_parameter_127:
 
 class Program_weight_tensor_parameter_128:
     name = "parameter_128"
+    original_name = "linear_57.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-1.86256")
@@ -1419,6 +1548,7 @@ class Program_weight_tensor_parameter_128:
 
 class Program_weight_tensor_parameter_129:
     name = "parameter_129"
+    original_name = "linear_56.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.29568")
@@ -1430,6 +1560,7 @@ class Program_weight_tensor_parameter_129:
 
 class Program_weight_tensor_parameter_130:
     name = "parameter_130"
+    original_name = "linear_56.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.293086")
@@ -1441,6 +1572,7 @@ class Program_weight_tensor_parameter_130:
 
 class Program_weight_tensor_parameter_131:
     name = "parameter_131"
+    original_name = "layer_norm_30.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.12291")
@@ -1452,6 +1584,7 @@ class Program_weight_tensor_parameter_131:
 
 class Program_weight_tensor_parameter_132:
     name = "parameter_132"
+    original_name = "layer_norm_30.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.505238")
@@ -1463,6 +1596,7 @@ class Program_weight_tensor_parameter_132:
 
 class Program_weight_tensor_parameter_133:
     name = "parameter_133"
+    original_name = "linear_55.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.99331")
@@ -1474,6 +1608,7 @@ class Program_weight_tensor_parameter_133:
 
 class Program_weight_tensor_parameter_134:
     name = "parameter_134"
+    original_name = "linear_55.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.286958")
@@ -1485,6 +1620,7 @@ class Program_weight_tensor_parameter_134:
 
 class Program_weight_tensor_parameter_135:
     name = "parameter_135"
+    original_name = "linear_54.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.07719")
@@ -1496,6 +1632,7 @@ class Program_weight_tensor_parameter_135:
 
 class Program_weight_tensor_parameter_136:
     name = "parameter_136"
+    original_name = "linear_54.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.357524")
@@ -1507,6 +1644,7 @@ class Program_weight_tensor_parameter_136:
 
 class Program_weight_tensor_parameter_137:
     name = "parameter_137"
+    original_name = "layer_norm_29.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.17257")
@@ -1518,6 +1656,7 @@ class Program_weight_tensor_parameter_137:
 
 class Program_weight_tensor_parameter_138:
     name = "parameter_138"
+    original_name = "layer_norm_29.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.299071")
@@ -1529,6 +1668,7 @@ class Program_weight_tensor_parameter_138:
 
 class Program_weight_tensor_parameter_139:
     name = "parameter_139"
+    original_name = "linear_53.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.519723")
@@ -1540,6 +1680,7 @@ class Program_weight_tensor_parameter_139:
 
 class Program_weight_tensor_parameter_140:
     name = "parameter_140"
+    original_name = "linear_53.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-1.75449")
@@ -1551,6 +1692,7 @@ class Program_weight_tensor_parameter_140:
 
 class Program_weight_tensor_parameter_141:
     name = "parameter_141"
+    original_name = "linear_52.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.25938")
@@ -1562,6 +1704,7 @@ class Program_weight_tensor_parameter_141:
 
 class Program_weight_tensor_parameter_142:
     name = "parameter_142"
+    original_name = "linear_52.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.311043")
@@ -1573,6 +1716,7 @@ class Program_weight_tensor_parameter_142:
 
 class Program_weight_tensor_parameter_143:
     name = "parameter_143"
+    original_name = "layer_norm_28.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.967654")
@@ -1584,6 +1728,7 @@ class Program_weight_tensor_parameter_143:
 
 class Program_weight_tensor_parameter_144:
     name = "parameter_144"
+    original_name = "layer_norm_28.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.449948")
@@ -1595,6 +1740,7 @@ class Program_weight_tensor_parameter_144:
 
 class Program_weight_tensor_parameter_145:
     name = "parameter_145"
+    original_name = "linear_51.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-2.87205")
@@ -1606,6 +1752,7 @@ class Program_weight_tensor_parameter_145:
 
 class Program_weight_tensor_parameter_146:
     name = "parameter_146"
+    original_name = "linear_51.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.267408")
@@ -1617,6 +1764,7 @@ class Program_weight_tensor_parameter_146:
 
 class Program_weight_tensor_parameter_147:
     name = "parameter_147"
+    original_name = "linear_50.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.61079")
@@ -1628,6 +1776,7 @@ class Program_weight_tensor_parameter_147:
 
 class Program_weight_tensor_parameter_148:
     name = "parameter_148"
+    original_name = "linear_50.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.40697")
@@ -1639,6 +1788,7 @@ class Program_weight_tensor_parameter_148:
 
 class Program_weight_tensor_parameter_149:
     name = "parameter_149"
+    original_name = "layer_norm_27.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.42047")
@@ -1650,6 +1800,7 @@ class Program_weight_tensor_parameter_149:
 
 class Program_weight_tensor_parameter_150:
     name = "parameter_150"
+    original_name = "layer_norm_27.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.317132")
@@ -1661,6 +1812,7 @@ class Program_weight_tensor_parameter_150:
 
 class Program_weight_tensor_parameter_151:
     name = "parameter_151"
+    original_name = "linear_49.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.494448")
@@ -1672,6 +1824,7 @@ class Program_weight_tensor_parameter_151:
 
 class Program_weight_tensor_parameter_152:
     name = "parameter_152"
+    original_name = "linear_49.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-1.28837")
@@ -1683,6 +1836,7 @@ class Program_weight_tensor_parameter_152:
 
 class Program_weight_tensor_parameter_153:
     name = "parameter_153"
+    original_name = "linear_48.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.38971")
@@ -1694,6 +1848,7 @@ class Program_weight_tensor_parameter_153:
 
 class Program_weight_tensor_parameter_154:
     name = "parameter_154"
+    original_name = "linear_48.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.304324")
@@ -1705,6 +1860,7 @@ class Program_weight_tensor_parameter_154:
 
 class Program_weight_tensor_parameter_155:
     name = "parameter_155"
+    original_name = "layer_norm_26.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.856574")
@@ -1716,6 +1872,7 @@ class Program_weight_tensor_parameter_155:
 
 class Program_weight_tensor_parameter_156:
     name = "parameter_156"
+    original_name = "layer_norm_26.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.396521")
@@ -1727,6 +1884,7 @@ class Program_weight_tensor_parameter_156:
 
 class Program_weight_tensor_parameter_157:
     name = "parameter_157"
+    original_name = "linear_47.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-2.20311")
@@ -1738,6 +1896,7 @@ class Program_weight_tensor_parameter_157:
 
 class Program_weight_tensor_parameter_158:
     name = "parameter_158"
+    original_name = "linear_47.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.208128")
@@ -1749,6 +1908,7 @@ class Program_weight_tensor_parameter_158:
 
 class Program_weight_tensor_parameter_159:
     name = "parameter_159"
+    original_name = "linear_46.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.07782")
@@ -1760,6 +1920,7 @@ class Program_weight_tensor_parameter_159:
 
 class Program_weight_tensor_parameter_160:
     name = "parameter_160"
+    original_name = "linear_46.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.363361")
@@ -1771,6 +1932,7 @@ class Program_weight_tensor_parameter_160:
 
 class Program_weight_tensor_parameter_161:
     name = "parameter_161"
+    original_name = "layer_norm_25.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.06754")
@@ -1782,6 +1944,7 @@ class Program_weight_tensor_parameter_161:
 
 class Program_weight_tensor_parameter_162:
     name = "parameter_162"
+    original_name = "layer_norm_25.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.246312")
@@ -1793,6 +1956,7 @@ class Program_weight_tensor_parameter_162:
 
 class Program_weight_tensor_parameter_163:
     name = "parameter_163"
+    original_name = "linear_45.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.533334")
@@ -1804,6 +1968,7 @@ class Program_weight_tensor_parameter_163:
 
 class Program_weight_tensor_parameter_164:
     name = "parameter_164"
+    original_name = "linear_45.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-0.940089")
@@ -1815,6 +1980,7 @@ class Program_weight_tensor_parameter_164:
 
 class Program_weight_tensor_parameter_165:
     name = "parameter_165"
+    original_name = "linear_44.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.49855")
@@ -1826,6 +1992,7 @@ class Program_weight_tensor_parameter_165:
 
 class Program_weight_tensor_parameter_166:
     name = "parameter_166"
+    original_name = "linear_44.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.319334")
@@ -1837,6 +2004,7 @@ class Program_weight_tensor_parameter_166:
 
 class Program_weight_tensor_parameter_167:
     name = "parameter_167"
+    original_name = "layer_norm_24.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.66243")
@@ -1848,6 +2016,7 @@ class Program_weight_tensor_parameter_167:
 
 class Program_weight_tensor_parameter_168:
     name = "parameter_168"
+    original_name = "layer_norm_24.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.355244")
@@ -1859,6 +2028,7 @@ class Program_weight_tensor_parameter_168:
 
 class Program_weight_tensor_parameter_169:
     name = "parameter_169"
+    original_name = "linear_43.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-2.90232")
@@ -1870,6 +2040,7 @@ class Program_weight_tensor_parameter_169:
 
 class Program_weight_tensor_parameter_170:
     name = "parameter_170"
+    original_name = "linear_43.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.214937")
@@ -1881,6 +2052,7 @@ class Program_weight_tensor_parameter_170:
 
 class Program_weight_tensor_parameter_171:
     name = "parameter_171"
+    original_name = "linear_42.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.72652")
@@ -1892,6 +2064,7 @@ class Program_weight_tensor_parameter_171:
 
 class Program_weight_tensor_parameter_172:
     name = "parameter_172"
+    original_name = "linear_42.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.36774")
@@ -1903,6 +2076,7 @@ class Program_weight_tensor_parameter_172:
 
 class Program_weight_tensor_parameter_173:
     name = "parameter_173"
+    original_name = "layer_norm_23.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.975482")
@@ -1914,6 +2088,7 @@ class Program_weight_tensor_parameter_173:
 
 class Program_weight_tensor_parameter_174:
     name = "parameter_174"
+    original_name = "layer_norm_23.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.23081")
@@ -1925,6 +2100,7 @@ class Program_weight_tensor_parameter_174:
 
 class Program_weight_tensor_parameter_175:
     name = "parameter_175"
+    original_name = "linear_41.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.51648")
@@ -1936,6 +2112,7 @@ class Program_weight_tensor_parameter_175:
 
 class Program_weight_tensor_parameter_176:
     name = "parameter_176"
+    original_name = "linear_41.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-0.622994")
@@ -1947,6 +2124,7 @@ class Program_weight_tensor_parameter_176:
 
 class Program_weight_tensor_parameter_177:
     name = "parameter_177"
+    original_name = "linear_40.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.26961")
@@ -1958,6 +2136,7 @@ class Program_weight_tensor_parameter_177:
 
 class Program_weight_tensor_parameter_178:
     name = "parameter_178"
+    original_name = "linear_40.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.330742")
@@ -1969,6 +2148,7 @@ class Program_weight_tensor_parameter_178:
 
 class Program_weight_tensor_parameter_179:
     name = "parameter_179"
+    original_name = "layer_norm_22.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.758784")
@@ -1980,6 +2160,7 @@ class Program_weight_tensor_parameter_179:
 
 class Program_weight_tensor_parameter_180:
     name = "parameter_180"
+    original_name = "layer_norm_22.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.364318")
@@ -1991,6 +2172,7 @@ class Program_weight_tensor_parameter_180:
 
 class Program_weight_tensor_parameter_181:
     name = "parameter_181"
+    original_name = "linear_39.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-2.20638")
@@ -2002,6 +2184,7 @@ class Program_weight_tensor_parameter_181:
 
 class Program_weight_tensor_parameter_182:
     name = "parameter_182"
+    original_name = "linear_39.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.185258")
@@ -2013,6 +2196,7 @@ class Program_weight_tensor_parameter_182:
 
 class Program_weight_tensor_parameter_183:
     name = "parameter_183"
+    original_name = "linear_38.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.16134")
@@ -2024,6 +2208,7 @@ class Program_weight_tensor_parameter_183:
 
 class Program_weight_tensor_parameter_184:
     name = "parameter_184"
+    original_name = "linear_38.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.520512")
@@ -2035,6 +2220,7 @@ class Program_weight_tensor_parameter_184:
 
 class Program_weight_tensor_parameter_185:
     name = "parameter_185"
+    original_name = "layer_norm_21.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.83032")
@@ -2046,6 +2232,7 @@ class Program_weight_tensor_parameter_185:
 
 class Program_weight_tensor_parameter_186:
     name = "parameter_186"
+    original_name = "layer_norm_21.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.219294")
@@ -2057,6 +2244,7 @@ class Program_weight_tensor_parameter_186:
 
 class Program_weight_tensor_parameter_187:
     name = "parameter_187"
+    original_name = "linear_37.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.577857")
@@ -2068,6 +2256,7 @@ class Program_weight_tensor_parameter_187:
 
 class Program_weight_tensor_parameter_188:
     name = "parameter_188"
+    original_name = "linear_37.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-0.466754")
@@ -2079,6 +2268,7 @@ class Program_weight_tensor_parameter_188:
 
 class Program_weight_tensor_parameter_189:
     name = "parameter_189"
+    original_name = "linear_36.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.19879")
@@ -2090,6 +2280,7 @@ class Program_weight_tensor_parameter_189:
 
 class Program_weight_tensor_parameter_190:
     name = "parameter_190"
+    original_name = "linear_36.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.370268")
@@ -2101,6 +2292,7 @@ class Program_weight_tensor_parameter_190:
 
 class Program_weight_tensor_parameter_191:
     name = "parameter_191"
+    original_name = "layer_norm_20.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.793246")
@@ -2112,6 +2304,7 @@ class Program_weight_tensor_parameter_191:
 
 class Program_weight_tensor_parameter_192:
     name = "parameter_192"
+    original_name = "layer_norm_20.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.339409")
@@ -2123,6 +2316,7 @@ class Program_weight_tensor_parameter_192:
 
 class Program_weight_tensor_parameter_193:
     name = "parameter_193"
+    original_name = "linear_35.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-2.63428")
@@ -2134,6 +2328,7 @@ class Program_weight_tensor_parameter_193:
 
 class Program_weight_tensor_parameter_194:
     name = "parameter_194"
+    original_name = "linear_35.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.199169")
@@ -2145,6 +2340,7 @@ class Program_weight_tensor_parameter_194:
 
 class Program_weight_tensor_parameter_195:
     name = "parameter_195"
+    original_name = "linear_34.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-1.9523")
@@ -2156,6 +2352,7 @@ class Program_weight_tensor_parameter_195:
 
 class Program_weight_tensor_parameter_196:
     name = "parameter_196"
+    original_name = "linear_34.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.358211")
@@ -2167,6 +2364,7 @@ class Program_weight_tensor_parameter_196:
 
 class Program_weight_tensor_parameter_197:
     name = "parameter_197"
+    original_name = "layer_norm_19.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.904172")
@@ -2178,6 +2376,7 @@ class Program_weight_tensor_parameter_197:
 
 class Program_weight_tensor_parameter_198:
     name = "parameter_198"
+    original_name = "layer_norm_19.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.126169")
@@ -2189,6 +2388,7 @@ class Program_weight_tensor_parameter_198:
 
 class Program_weight_tensor_parameter_199:
     name = "parameter_199"
+    original_name = "linear_33.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.08311")
@@ -2200,6 +2400,7 @@ class Program_weight_tensor_parameter_199:
 
 class Program_weight_tensor_parameter_200:
     name = "parameter_200"
+    original_name = "linear_33.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-0.322753")
@@ -2211,6 +2412,7 @@ class Program_weight_tensor_parameter_200:
 
 class Program_weight_tensor_parameter_201:
     name = "parameter_201"
+    original_name = "linear_32.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.38701")
@@ -2222,6 +2424,7 @@ class Program_weight_tensor_parameter_201:
 
 class Program_weight_tensor_parameter_202:
     name = "parameter_202"
+    original_name = "linear_32.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.309614")
@@ -2233,6 +2436,7 @@ class Program_weight_tensor_parameter_202:
 
 class Program_weight_tensor_parameter_203:
     name = "parameter_203"
+    original_name = "layer_norm_18.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.818967")
@@ -2244,6 +2448,7 @@ class Program_weight_tensor_parameter_203:
 
 class Program_weight_tensor_parameter_204:
     name = "parameter_204"
+    original_name = "layer_norm_18.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.37349")
@@ -2255,6 +2460,7 @@ class Program_weight_tensor_parameter_204:
 
 class Program_weight_tensor_parameter_205:
     name = "parameter_205"
+    original_name = "linear_31.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.84358")
@@ -2266,6 +2472,7 @@ class Program_weight_tensor_parameter_205:
 
 class Program_weight_tensor_parameter_206:
     name = "parameter_206"
+    original_name = "linear_31.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.20102")
@@ -2277,6 +2484,7 @@ class Program_weight_tensor_parameter_206:
 
 class Program_weight_tensor_parameter_207:
     name = "parameter_207"
+    original_name = "linear_30.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.64589")
@@ -2288,6 +2496,7 @@ class Program_weight_tensor_parameter_207:
 
 class Program_weight_tensor_parameter_208:
     name = "parameter_208"
+    original_name = "linear_30.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.370053")
@@ -2299,6 +2508,7 @@ class Program_weight_tensor_parameter_208:
 
 class Program_weight_tensor_parameter_209:
     name = "parameter_209"
+    original_name = "layer_norm_17.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.813461")
@@ -2310,6 +2520,7 @@ class Program_weight_tensor_parameter_209:
 
 class Program_weight_tensor_parameter_210:
     name = "parameter_210"
+    original_name = "layer_norm_17.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.00376829")
@@ -2321,6 +2532,7 @@ class Program_weight_tensor_parameter_210:
 
 class Program_weight_tensor_parameter_211:
     name = "parameter_211"
+    original_name = "linear_29.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.37918")
@@ -2332,6 +2544,7 @@ class Program_weight_tensor_parameter_211:
 
 class Program_weight_tensor_parameter_212:
     name = "parameter_212"
+    original_name = "linear_29.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-0.277969")
@@ -2343,6 +2556,7 @@ class Program_weight_tensor_parameter_212:
 
 class Program_weight_tensor_parameter_213:
     name = "parameter_213"
+    original_name = "linear_28.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.48976")
@@ -2354,6 +2568,7 @@ class Program_weight_tensor_parameter_213:
 
 class Program_weight_tensor_parameter_214:
     name = "parameter_214"
+    original_name = "linear_28.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.357655")
@@ -2365,6 +2580,7 @@ class Program_weight_tensor_parameter_214:
 
 class Program_weight_tensor_parameter_215:
     name = "parameter_215"
+    original_name = "layer_norm_16.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.638835")
@@ -2376,6 +2592,7 @@ class Program_weight_tensor_parameter_215:
 
 class Program_weight_tensor_parameter_216:
     name = "parameter_216"
+    original_name = "layer_norm_16.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.276511")
@@ -2387,6 +2604,7 @@ class Program_weight_tensor_parameter_216:
 
 class Program_weight_tensor_parameter_217:
     name = "parameter_217"
+    original_name = "linear_27.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-2.01559")
@@ -2398,6 +2616,7 @@ class Program_weight_tensor_parameter_217:
 
 class Program_weight_tensor_parameter_218:
     name = "parameter_218"
+    original_name = "linear_27.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.20403")
@@ -2409,6 +2628,7 @@ class Program_weight_tensor_parameter_218:
 
 class Program_weight_tensor_parameter_219:
     name = "parameter_219"
+    original_name = "linear_26.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-1.92642")
@@ -2420,6 +2640,7 @@ class Program_weight_tensor_parameter_219:
 
 class Program_weight_tensor_parameter_220:
     name = "parameter_220"
+    original_name = "linear_26.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.370651")
@@ -2431,6 +2652,7 @@ class Program_weight_tensor_parameter_220:
 
 class Program_weight_tensor_parameter_221:
     name = "parameter_221"
+    original_name = "layer_norm_15.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.736367")
@@ -2442,6 +2664,7 @@ class Program_weight_tensor_parameter_221:
 
 class Program_weight_tensor_parameter_222:
     name = "parameter_222"
+    original_name = "layer_norm_15.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.00224043")
@@ -2453,6 +2676,7 @@ class Program_weight_tensor_parameter_222:
 
 class Program_weight_tensor_parameter_223:
     name = "parameter_223"
+    original_name = "linear_25.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.69229")
@@ -2464,6 +2688,7 @@ class Program_weight_tensor_parameter_223:
 
 class Program_weight_tensor_parameter_224:
     name = "parameter_224"
+    original_name = "linear_25.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-0.414156")
@@ -2475,6 +2700,7 @@ class Program_weight_tensor_parameter_224:
 
 class Program_weight_tensor_parameter_225:
     name = "parameter_225"
+    original_name = "linear_24.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.74456")
@@ -2486,6 +2712,7 @@ class Program_weight_tensor_parameter_225:
 
 class Program_weight_tensor_parameter_226:
     name = "parameter_226"
+    original_name = "linear_24.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.428931")
@@ -2497,6 +2724,7 @@ class Program_weight_tensor_parameter_226:
 
 class Program_weight_tensor_parameter_227:
     name = "parameter_227"
+    original_name = "layer_norm_14.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.583404")
@@ -2508,6 +2736,7 @@ class Program_weight_tensor_parameter_227:
 
 class Program_weight_tensor_parameter_228:
     name = "parameter_228"
+    original_name = "layer_norm_14.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.00464864")
@@ -2519,6 +2748,7 @@ class Program_weight_tensor_parameter_228:
 
 class Program_weight_tensor_parameter_229:
     name = "parameter_229"
+    original_name = "linear_23.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.78814")
@@ -2530,6 +2760,7 @@ class Program_weight_tensor_parameter_229:
 
 class Program_weight_tensor_parameter_230:
     name = "parameter_230"
+    original_name = "linear_23.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.226848")
@@ -2541,6 +2772,7 @@ class Program_weight_tensor_parameter_230:
 
 class Program_weight_tensor_parameter_231:
     name = "parameter_231"
+    original_name = "linear_22.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-1.71662")
@@ -2552,6 +2784,7 @@ class Program_weight_tensor_parameter_231:
 
 class Program_weight_tensor_parameter_232:
     name = "parameter_232"
+    original_name = "linear_22.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.411785")
@@ -2563,6 +2796,7 @@ class Program_weight_tensor_parameter_232:
 
 class Program_weight_tensor_parameter_233:
     name = "parameter_233"
+    original_name = "layer_norm_13.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.51403")
@@ -2574,6 +2808,7 @@ class Program_weight_tensor_parameter_233:
 
 class Program_weight_tensor_parameter_234:
     name = "parameter_234"
+    original_name = "layer_norm_13.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.00327181")
@@ -2585,6 +2820,7 @@ class Program_weight_tensor_parameter_234:
 
 class Program_weight_tensor_parameter_235:
     name = "parameter_235"
+    original_name = "linear_21.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-2.10407")
@@ -2596,6 +2832,7 @@ class Program_weight_tensor_parameter_235:
 
 class Program_weight_tensor_parameter_236:
     name = "parameter_236"
+    original_name = "linear_21.w_0"
     shape = [1536, 384]
     dtype = "float32"
     min_val = float("-0.340821")
@@ -2607,6 +2844,7 @@ class Program_weight_tensor_parameter_236:
 
 class Program_weight_tensor_parameter_237:
     name = "parameter_237"
+    original_name = "linear_20.b_0"
     shape = [1536]
     dtype = "float32"
     min_val = float("-1.73513")
@@ -2618,6 +2856,7 @@ class Program_weight_tensor_parameter_237:
 
 class Program_weight_tensor_parameter_238:
     name = "parameter_238"
+    original_name = "linear_20.w_0"
     shape = [384, 1536]
     dtype = "float32"
     min_val = float("-0.341437")
@@ -2629,6 +2868,7 @@ class Program_weight_tensor_parameter_238:
 
 class Program_weight_tensor_parameter_239:
     name = "parameter_239"
+    original_name = "layer_norm_12.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.26775")
@@ -2640,6 +2880,7 @@ class Program_weight_tensor_parameter_239:
 
 class Program_weight_tensor_parameter_240:
     name = "parameter_240"
+    original_name = "layer_norm_12.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.00322608")
@@ -2651,6 +2892,7 @@ class Program_weight_tensor_parameter_240:
 
 class Program_weight_tensor_parameter_241:
     name = "parameter_241"
+    original_name = "linear_19.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-2.76799")
@@ -2662,6 +2904,7 @@ class Program_weight_tensor_parameter_241:
 
 class Program_weight_tensor_parameter_242:
     name = "parameter_242"
+    original_name = "linear_19.w_0"
     shape = [384, 384]
     dtype = "float32"
     min_val = float("-0.261978")
@@ -2673,6 +2916,7 @@ class Program_weight_tensor_parameter_242:
 
 class Program_weight_tensor_parameter_243:
     name = "parameter_243"
+    original_name = "linear_18.b_0"
     shape = [1152]
     dtype = "float32"
     min_val = float("-2.4435")
@@ -2684,6 +2928,7 @@ class Program_weight_tensor_parameter_243:
 
 class Program_weight_tensor_parameter_244:
     name = "parameter_244"
+    original_name = "linear_18.w_0"
     shape = [384, 1152]
     dtype = "float32"
     min_val = float("-0.386209")
@@ -2695,6 +2940,7 @@ class Program_weight_tensor_parameter_244:
 
 class Program_weight_tensor_parameter_245:
     name = "parameter_245"
+    original_name = "layer_norm_11.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.613914")
@@ -2706,6 +2952,7 @@ class Program_weight_tensor_parameter_245:
 
 class Program_weight_tensor_parameter_246:
     name = "parameter_246"
+    original_name = "layer_norm_11.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-0.00361083")
@@ -2717,6 +2964,7 @@ class Program_weight_tensor_parameter_246:
 
 class Program_weight_tensor_parameter_247:
     name = "parameter_247"
+    original_name = "linear_17.w_0"
     shape = [768, 384]
     dtype = "float32"
     min_val = float("-0.215659")
@@ -2728,6 +2976,7 @@ class Program_weight_tensor_parameter_247:
 
 class Program_weight_tensor_parameter_248:
     name = "parameter_248"
+    original_name = "layer_norm_10.b_0"
     shape = [768]
     dtype = "float32"
     min_val = float("-1.00034")
@@ -2739,6 +2988,7 @@ class Program_weight_tensor_parameter_248:
 
 class Program_weight_tensor_parameter_249:
     name = "parameter_249"
+    original_name = "layer_norm_10.w_0"
     shape = [768]
     dtype = "float32"
     min_val = float("0.259619")
@@ -2750,6 +3000,7 @@ class Program_weight_tensor_parameter_249:
 
 class Program_weight_tensor_parameter_250:
     name = "parameter_250"
+    original_name = "linear_16.b_0"
     shape = [192]
     dtype = "float32"
     min_val = float("-2.58342")
@@ -2761,6 +3012,7 @@ class Program_weight_tensor_parameter_250:
 
 class Program_weight_tensor_parameter_251:
     name = "parameter_251"
+    original_name = "linear_16.w_0"
     shape = [768, 192]
     dtype = "float32"
     min_val = float("-0.581234")
@@ -2772,6 +3024,7 @@ class Program_weight_tensor_parameter_251:
 
 class Program_weight_tensor_parameter_252:
     name = "parameter_252"
+    original_name = "linear_15.b_0"
     shape = [768]
     dtype = "float32"
     min_val = float("-1.67623")
@@ -2783,6 +3036,7 @@ class Program_weight_tensor_parameter_252:
 
 class Program_weight_tensor_parameter_253:
     name = "parameter_253"
+    original_name = "linear_15.w_0"
     shape = [192, 768]
     dtype = "float32"
     min_val = float("-0.426344")
@@ -2794,6 +3048,7 @@ class Program_weight_tensor_parameter_253:
 
 class Program_weight_tensor_parameter_254:
     name = "parameter_254"
+    original_name = "layer_norm_9.b_0"
     shape = [192]
     dtype = "float32"
     min_val = float("-0.853561")
@@ -2805,6 +3060,7 @@ class Program_weight_tensor_parameter_254:
 
 class Program_weight_tensor_parameter_255:
     name = "parameter_255"
+    original_name = "layer_norm_9.w_0"
     shape = [192]
     dtype = "float32"
     min_val = float("0.283782")
@@ -2816,6 +3072,7 @@ class Program_weight_tensor_parameter_255:
 
 class Program_weight_tensor_parameter_256:
     name = "parameter_256"
+    original_name = "linear_14.b_0"
     shape = [192]
     dtype = "float32"
     min_val = float("-1.57542")
@@ -2827,6 +3084,7 @@ class Program_weight_tensor_parameter_256:
 
 class Program_weight_tensor_parameter_257:
     name = "parameter_257"
+    original_name = "linear_14.w_0"
     shape = [192, 192]
     dtype = "float32"
     min_val = float("-0.216351")
@@ -2838,6 +3096,7 @@ class Program_weight_tensor_parameter_257:
 
 class Program_weight_tensor_parameter_258:
     name = "parameter_258"
+    original_name = "linear_13.b_0"
     shape = [576]
     dtype = "float32"
     min_val = float("-1.66682")
@@ -2849,6 +3108,7 @@ class Program_weight_tensor_parameter_258:
 
 class Program_weight_tensor_parameter_259:
     name = "parameter_259"
+    original_name = "linear_13.w_0"
     shape = [192, 576]
     dtype = "float32"
     min_val = float("-0.610695")
@@ -2860,6 +3120,7 @@ class Program_weight_tensor_parameter_259:
 
 class Program_weight_tensor_parameter_260:
     name = "parameter_260"
+    original_name = "layer_norm_8.b_0"
     shape = [192]
     dtype = "float32"
     min_val = float("-0.9126")
@@ -2871,6 +3132,7 @@ class Program_weight_tensor_parameter_260:
 
 class Program_weight_tensor_parameter_261:
     name = "parameter_261"
+    original_name = "layer_norm_8.w_0"
     shape = [192]
     dtype = "float32"
     min_val = float("0.450615")
@@ -2882,6 +3144,7 @@ class Program_weight_tensor_parameter_261:
 
 class Program_weight_tensor_parameter_262:
     name = "parameter_262"
+    original_name = "linear_12.b_0"
     shape = [192]
     dtype = "float32"
     min_val = float("-1.83702")
@@ -2893,6 +3156,7 @@ class Program_weight_tensor_parameter_262:
 
 class Program_weight_tensor_parameter_263:
     name = "parameter_263"
+    original_name = "linear_12.w_0"
     shape = [768, 192]
     dtype = "float32"
     min_val = float("-0.272332")
@@ -2904,6 +3168,7 @@ class Program_weight_tensor_parameter_263:
 
 class Program_weight_tensor_parameter_264:
     name = "parameter_264"
+    original_name = "linear_11.b_0"
     shape = [768]
     dtype = "float32"
     min_val = float("-1.66589")
@@ -2915,6 +3180,7 @@ class Program_weight_tensor_parameter_264:
 
 class Program_weight_tensor_parameter_265:
     name = "parameter_265"
+    original_name = "linear_11.w_0"
     shape = [192, 768]
     dtype = "float32"
     min_val = float("-0.463241")
@@ -2926,6 +3192,7 @@ class Program_weight_tensor_parameter_265:
 
 class Program_weight_tensor_parameter_266:
     name = "parameter_266"
+    original_name = "layer_norm_7.b_0"
     shape = [192]
     dtype = "float32"
     min_val = float("-0.375106")
@@ -2937,6 +3204,7 @@ class Program_weight_tensor_parameter_266:
 
 class Program_weight_tensor_parameter_267:
     name = "parameter_267"
+    original_name = "layer_norm_7.w_0"
     shape = [192]
     dtype = "float32"
     min_val = float("0.00794437")
@@ -2948,6 +3216,7 @@ class Program_weight_tensor_parameter_267:
 
 class Program_weight_tensor_parameter_268:
     name = "parameter_268"
+    original_name = "linear_10.b_0"
     shape = [192]
     dtype = "float32"
     min_val = float("-1.55291")
@@ -2959,6 +3228,7 @@ class Program_weight_tensor_parameter_268:
 
 class Program_weight_tensor_parameter_269:
     name = "parameter_269"
+    original_name = "linear_10.w_0"
     shape = [192, 192]
     dtype = "float32"
     min_val = float("-0.203105")
@@ -2970,6 +3240,7 @@ class Program_weight_tensor_parameter_269:
 
 class Program_weight_tensor_parameter_270:
     name = "parameter_270"
+    original_name = "linear_9.b_0"
     shape = [576]
     dtype = "float32"
     min_val = float("-1.68921")
@@ -2981,6 +3252,7 @@ class Program_weight_tensor_parameter_270:
 
 class Program_weight_tensor_parameter_271:
     name = "parameter_271"
+    original_name = "linear_9.w_0"
     shape = [192, 576]
     dtype = "float32"
     min_val = float("-0.406492")
@@ -2992,6 +3264,7 @@ class Program_weight_tensor_parameter_271:
 
 class Program_weight_tensor_parameter_272:
     name = "parameter_272"
+    original_name = "layer_norm_6.b_0"
     shape = [192]
     dtype = "float32"
     min_val = float("-0.36987")
@@ -3003,6 +3276,7 @@ class Program_weight_tensor_parameter_272:
 
 class Program_weight_tensor_parameter_273:
     name = "parameter_273"
+    original_name = "layer_norm_6.w_0"
     shape = [192]
     dtype = "float32"
     min_val = float("0.270099")
@@ -3014,6 +3288,7 @@ class Program_weight_tensor_parameter_273:
 
 class Program_weight_tensor_parameter_274:
     name = "parameter_274"
+    original_name = "linear_8.w_0"
     shape = [384, 192]
     dtype = "float32"
     min_val = float("-0.223585")
@@ -3025,6 +3300,7 @@ class Program_weight_tensor_parameter_274:
 
 class Program_weight_tensor_parameter_275:
     name = "parameter_275"
+    original_name = "layer_norm_5.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.56708")
@@ -3036,6 +3312,7 @@ class Program_weight_tensor_parameter_275:
 
 class Program_weight_tensor_parameter_276:
     name = "parameter_276"
+    original_name = "layer_norm_5.w_0"
     shape = [384]
     dtype = "float32"
     min_val = float("0.313979")
@@ -3047,6 +3324,7 @@ class Program_weight_tensor_parameter_276:
 
 class Program_weight_tensor_parameter_277:
     name = "parameter_277"
+    original_name = "linear_7.b_0"
     shape = [96]
     dtype = "float32"
     min_val = float("-1.06347")
@@ -3058,6 +3336,7 @@ class Program_weight_tensor_parameter_277:
 
 class Program_weight_tensor_parameter_278:
     name = "parameter_278"
+    original_name = "linear_7.w_0"
     shape = [384, 96]
     dtype = "float32"
     min_val = float("-0.377621")
@@ -3069,6 +3348,7 @@ class Program_weight_tensor_parameter_278:
 
 class Program_weight_tensor_parameter_279:
     name = "parameter_279"
+    original_name = "linear_6.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.52681")
@@ -3080,6 +3360,7 @@ class Program_weight_tensor_parameter_279:
 
 class Program_weight_tensor_parameter_280:
     name = "parameter_280"
+    original_name = "linear_6.w_0"
     shape = [96, 384]
     dtype = "float32"
     min_val = float("-0.402032")
@@ -3091,6 +3372,7 @@ class Program_weight_tensor_parameter_280:
 
 class Program_weight_tensor_parameter_281:
     name = "parameter_281"
+    original_name = "layer_norm_4.b_0"
     shape = [96]
     dtype = "float32"
     min_val = float("-0.614218")
@@ -3102,6 +3384,7 @@ class Program_weight_tensor_parameter_281:
 
 class Program_weight_tensor_parameter_282:
     name = "parameter_282"
+    original_name = "layer_norm_4.w_0"
     shape = [96]
     dtype = "float32"
     min_val = float("0.355034")
@@ -3113,6 +3396,7 @@ class Program_weight_tensor_parameter_282:
 
 class Program_weight_tensor_parameter_283:
     name = "parameter_283"
+    original_name = "linear_5.b_0"
     shape = [96]
     dtype = "float32"
     min_val = float("-0.435478")
@@ -3124,6 +3408,7 @@ class Program_weight_tensor_parameter_283:
 
 class Program_weight_tensor_parameter_284:
     name = "parameter_284"
+    original_name = "linear_5.w_0"
     shape = [96, 96]
     dtype = "float32"
     min_val = float("-0.225737")
@@ -3135,6 +3420,7 @@ class Program_weight_tensor_parameter_284:
 
 class Program_weight_tensor_parameter_285:
     name = "parameter_285"
+    original_name = "linear_4.b_0"
     shape = [288]
     dtype = "float32"
     min_val = float("-1.52394")
@@ -3146,6 +3432,7 @@ class Program_weight_tensor_parameter_285:
 
 class Program_weight_tensor_parameter_286:
     name = "parameter_286"
+    original_name = "linear_4.w_0"
     shape = [96, 288]
     dtype = "float32"
     min_val = float("-0.398989")
@@ -3157,6 +3444,7 @@ class Program_weight_tensor_parameter_286:
 
 class Program_weight_tensor_parameter_287:
     name = "parameter_287"
+    original_name = "layer_norm_3.b_0"
     shape = [96]
     dtype = "float32"
     min_val = float("-1.33408")
@@ -3168,6 +3456,7 @@ class Program_weight_tensor_parameter_287:
 
 class Program_weight_tensor_parameter_288:
     name = "parameter_288"
+    original_name = "layer_norm_3.w_0"
     shape = [96]
     dtype = "float32"
     min_val = float("0.252539")
@@ -3179,6 +3468,7 @@ class Program_weight_tensor_parameter_288:
 
 class Program_weight_tensor_parameter_289:
     name = "parameter_289"
+    original_name = "linear_3.b_0"
     shape = [96]
     dtype = "float32"
     min_val = float("-1.45123")
@@ -3190,6 +3480,7 @@ class Program_weight_tensor_parameter_289:
 
 class Program_weight_tensor_parameter_290:
     name = "parameter_290"
+    original_name = "linear_3.w_0"
     shape = [384, 96]
     dtype = "float32"
     min_val = float("-0.336166")
@@ -3201,6 +3492,7 @@ class Program_weight_tensor_parameter_290:
 
 class Program_weight_tensor_parameter_291:
     name = "parameter_291"
+    original_name = "linear_2.b_0"
     shape = [384]
     dtype = "float32"
     min_val = float("-1.62895")
@@ -3212,6 +3504,7 @@ class Program_weight_tensor_parameter_291:
 
 class Program_weight_tensor_parameter_292:
     name = "parameter_292"
+    original_name = "linear_2.w_0"
     shape = [96, 384]
     dtype = "float32"
     min_val = float("-0.532516")
@@ -3223,6 +3516,7 @@ class Program_weight_tensor_parameter_292:
 
 class Program_weight_tensor_parameter_293:
     name = "parameter_293"
+    original_name = "layer_norm_2.b_0"
     shape = [96]
     dtype = "float32"
     min_val = float("-1.0797")
@@ -3234,6 +3528,7 @@ class Program_weight_tensor_parameter_293:
 
 class Program_weight_tensor_parameter_294:
     name = "parameter_294"
+    original_name = "layer_norm_2.w_0"
     shape = [96]
     dtype = "float32"
     min_val = float("0.670134")
@@ -3245,6 +3540,7 @@ class Program_weight_tensor_parameter_294:
 
 class Program_weight_tensor_parameter_295:
     name = "parameter_295"
+    original_name = "linear_1.b_0"
     shape = [96]
     dtype = "float32"
     min_val = float("-0.792595")
@@ -3256,6 +3552,7 @@ class Program_weight_tensor_parameter_295:
 
 class Program_weight_tensor_parameter_296:
     name = "parameter_296"
+    original_name = "linear_1.w_0"
     shape = [96, 96]
     dtype = "float32"
     min_val = float("-0.241791")
@@ -3267,6 +3564,7 @@ class Program_weight_tensor_parameter_296:
 
 class Program_weight_tensor_parameter_297:
     name = "parameter_297"
+    original_name = "linear_0.b_0"
     shape = [288]
     dtype = "float32"
     min_val = float("-1.56109")
@@ -3278,6 +3576,7 @@ class Program_weight_tensor_parameter_297:
 
 class Program_weight_tensor_parameter_298:
     name = "parameter_298"
+    original_name = "linear_0.w_0"
     shape = [96, 288]
     dtype = "float32"
     min_val = float("-0.759299")
@@ -3289,6 +3588,7 @@ class Program_weight_tensor_parameter_298:
 
 class Program_weight_tensor_parameter_299:
     name = "parameter_299"
+    original_name = "layer_norm_1.b_0"
     shape = [96]
     dtype = "float32"
     min_val = float("-0.811588")
@@ -3300,6 +3600,7 @@ class Program_weight_tensor_parameter_299:
 
 class Program_weight_tensor_parameter_300:
     name = "parameter_300"
+    original_name = "layer_norm_1.w_0"
     shape = [96]
     dtype = "float32"
     min_val = float("-0.0061428")
@@ -3311,6 +3612,7 @@ class Program_weight_tensor_parameter_300:
 
 class Program_weight_tensor_parameter_301:
     name = "parameter_301"
+    original_name = "layer_norm_0.b_0"
     shape = [96]
     dtype = "float32"
     min_val = float("-1.47602")
@@ -3322,6 +3624,7 @@ class Program_weight_tensor_parameter_301:
 
 class Program_weight_tensor_parameter_302:
     name = "parameter_302"
+    original_name = "layer_norm_0.w_0"
     shape = [96]
     dtype = "float32"
     min_val = float("-0.00987474")
@@ -3333,6 +3636,7 @@ class Program_weight_tensor_parameter_302:
 
 class Program_weight_tensor_parameter_303:
     name = "parameter_303"
+    original_name = "conv2d_0.b_0"
     shape = [96]
     dtype = "float32"
     min_val = float("-1.35514")
@@ -3344,6 +3648,7 @@ class Program_weight_tensor_parameter_303:
 
 class Program_weight_tensor_parameter_304:
     name = "parameter_304"
+    original_name = "conv2d_0.w_0"
     shape = [96, 3, 4, 4]
     dtype = "float32"
     min_val = float("-0.294284")

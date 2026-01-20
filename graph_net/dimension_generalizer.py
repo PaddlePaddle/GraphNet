@@ -137,6 +137,28 @@ class ApplyDimGenPasses:
         (to_model_path / "weight_meta.py").write_text(weight_meta_code)
 
     def _get_to_model_path(self, rel_model_path, symbol2example_value):
+        """
+        📍 关键修改1：使用索引而非符号字符串
+        📍 关键修改2：通过维值匹配找到对应索引
+        📍 关键修改3：路径结构从 model/name 变为 index/model
+            output_dir/
+                ├── model1__symA_8_symB_16/
+                ├── model1__symA_32_symB_64/
+                └── model2__symA_8_symB_16/
+            修改前
+            output_dir/
+                ├── 0/
+                │   ├── model1/
+                │   └── model2/
+                ├── 1/
+                │   ├── model1/
+                │   └── model2/
+                └── 2/
+                    ├── model1/
+                    └── model2/
+            修改后
+        """
+        ## 关键修改1：使用索引而非符号字符串
         symbols, reified_dims = self._get_symbols_and_reified_dims(
             Path(self.config["model_path_prefix"]) / rel_model_path,
             DynamicDimConstraints.unserialize_from_py_file(
@@ -148,11 +170,14 @@ class ApplyDimGenPasses:
             ),
         )
         current_dims = tuple(symbol2example_value[symbol] for symbol in symbols)
+        # 📍 关键修改2：通过维值匹配找到对应索引
         dim_index = 0
         for i, dims in enumerate(reified_dims):
             if tuple(dims) == current_dims:
                 dim_index = i
                 break
+
+        # 📍 关键修改3：路径结构从 model/name 变为 index/model
         sub_module_name = f"{dim_index}"
         to_model_path = (
             Path(self.config["output_dir"]) / sub_module_name / rel_model_path

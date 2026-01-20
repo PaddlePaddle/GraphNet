@@ -129,7 +129,7 @@ def test_multi_models(args):
 def main(args):
     assert os.path.isdir(args.model_path)
     assert args.compiler in {"cinn", "nope"}
-    assert args.device in ["cuda"]
+    assert args.device in ["cuda", "dcu", "xpu", "cpu"]
 
     test_compiler.set_seed(random_seed=args.seed)
     test_compiler.init_env(args)
@@ -144,7 +144,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Test compiler performance.")
+    parser = argparse.ArgumentParser(description="Test reference device performance.")
     parser.add_argument(
         "--model-path",
         type=str,
@@ -155,7 +155,7 @@ if __name__ == "__main__":
         "--compiler",
         type=str,
         required=False,
-        default="cinn",
+        default="nope",
         help="Path to customized compiler python file",
     )
     parser.add_argument(

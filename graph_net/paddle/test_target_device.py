@@ -11,7 +11,7 @@ from graph_net import model_path_util
 from graph_net.paddle import test_compiler, test_reference_device
 
 
-def parse_config_from_reference_log(log_path):
+def parse_config_from_log_file(log_path):
     assert os.path.isfile(
         log_path
     ), f"{log_path} does not exist or is not a regular file."
@@ -30,7 +30,7 @@ def parse_config_from_reference_log(log_path):
     return config
 
 
-def parse_time_stats_from_reference_log(log_path):
+def parse_time_stats_from_log_file(log_path):
     assert os.path.isfile(
         log_path
     ), f"{log_path} does not exist or is not a regular file."
@@ -49,13 +49,28 @@ def update_args_and_set_seed(args, model_path):
     ref_log = test_reference_device.get_reference_log_path(
         args.reference_dir, model_path
     )
-    config = parse_config_from_reference_log(ref_log)
+    config = parse_config_from_log_file(ref_log)
     vars(args)["model_path"] = model_path
     vars(args)["compiler"] = config.get("compiler")
     vars(args)["trials"] = int(config.get("trials"))
     vars(args)["warmup"] = int(config.get("warmup"))
     test_compiler.set_seed(random_seed=int(config.get("seed")))
     return args
+
+
+def get_reference_output_and_time_stats(model_path, reference_dir):
+    model_name = test_compiler_util.get_model_name(model_path)
+    if test_compiler_util.get_subgraph_tag(model_path):
+        model_name += "_" + test_compiler_util.get_subgraph_tag(model_path)
+
+    ref_dump = test_reference_device.get_reference_output_path(
+        reference_dir, model_path
+    )
+    ref_out = paddle.load(str(ref_dump))
+
+    ref_log = test_reference_device.get_reference_log_path(reference_dir, model_path)
+    ref_time_stats = parse_time_stats_from_log_file(ref_log)
+    return ref_out, ref_time_stats
 
 
 def test_single_model(args):
@@ -95,21 +110,9 @@ def test_single_model(args):
         )
 
     test_compiler_util.print_running_status(args, success)
-
-    model_name = test_compiler_util.get_model_name(model_path)
-    if test_compiler_util.get_subgraph_tag(model_path):
-        model_name += "_" + test_compiler_util.get_subgraph_tag(model_path)
-
-    ref_dump = test_reference_device.get_reference_output_path(
-        args.reference_dir, model_path
+    ref_out, ref_time_stats = get_reference_output_and_time_stats(
+        model_path, args.reference_dir
     )
-    ref_out = paddle.load(str(ref_dump))
-
-    ref_log = test_reference_device.get_reference_log_path(
-        args.reference_dir, model_path
-    )
-    ref_time_stats = parse_time_stats_from_reference_log(ref_log)
-
     if success:
         test_compiler.check_outputs(args, ref_out, outputs)
 
@@ -177,7 +180,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Test compiler performance.")
+    parser = argparse.ArgumentParser(description="Test target device performance.")
     parser.add_argument(
         "--model-path",
         type=str,

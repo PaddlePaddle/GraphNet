@@ -22,7 +22,7 @@ python3 -m graph_net.apply_sample_pass \
 EOF
 ) 
 
-Step 2: Apply passes to generate samples
+# Step 2: Apply passes to generate samples
 python3 -m graph_net.apply_sample_pass \
     --model-path-list "graph_net/config/small100_torch_samples_list.txt" \
     --sample-pass-file-path "$GRAPH_NET_ROOT/torch/sample_pass/dtype_generalizer.py" \
@@ -43,7 +43,7 @@ EOF
 )
 
 
-Step 3: Valiation
+# Step 3: Valiation
 SUCCESS_CNT=0
 FAIL_CNT=0
 

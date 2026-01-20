@@ -9,7 +9,7 @@ import subprocess
 import glob
 from dataclasses import dataclass, field, asdict
 from typing import List, Dict
-from graph_net_bench.analysis_util import get_incorrect_models
+from graph_net_bench.analysis_util import get_incorrect_models, get_min_passed_tolerance
 from graph_net.graph_net_root import get_graphnet_root
 from graph_net_bench import path_utils
 
@@ -295,6 +295,64 @@ class DecomposeConfig:
         self.running_states[pass_key].collect_incorrect_subgraph_idxs(
             self.decompose_method, incorrect_models_from_log
         )
+
+
+class ToleranceRecord:
+    model_name2subgraph_tolerance_record = {}
+    filename = "tolerance_record.json"
+
+    @classmethod
+    def load(cls, pass_id, output_dir):
+        if pass_id >= 0:
+            work_dir = get_decompose_workspace_path(output_dir, pass_id)
+            filepath = os.path.join(work_dir, cls.filename)
+            with open(filepath, "r") as f:
+                data = json.load(f)
+                cls.model_name2subgraph_tolerance_record = data
+
+    @classmethod
+    def save(cls, pass_id, output_dir):
+        work_dir = get_decompose_workspace_path(output_dir, pass_id)
+        filepath = os.path.join(work_dir, cls.filename)
+        print(f"Save tolerance record to: {filepath}.")
+        with open(filepath, "w") as f:
+            json.dump(cls.model_name2subgraph_tolerance_record, f, indent=4)
+
+    @classmethod
+    def update(cls, pass_id, output_dir, decompose_config, log_path):
+        cls.load(pass_id - 1, output_dir)
+
+        subgraph_path2tolerance = get_min_passed_tolerance(log_path)
+        running_state = decompose_config.get_running_state(pass_id)
+        for subgraph_path, tolerance in subgraph_path2tolerance.items():
+            model_name, subgraph_idx = extract_model_name_and_subgraph_idx(
+                subgraph_path
+            )
+            if model_name not in running_state.model_name2record:
+                continue
+
+            split_positions = running_state.model_name2record[
+                model_name
+            ].get_split_positions(decompose_config.decompose_method)
+            assert len(split_positions) >= 2
+            subgraph_split_point = int(split_positions[1])
+            if model_name not in cls.model_name2subgraph_tolerance_record:
+                cls.model_name2subgraph_tolerance_record[model_name] = {}
+            cls.model_name2subgraph_tolerance_record[model_name][
+                subgraph_split_point
+            ] = tolerance
+
+        cls.model_name2subgraph_tolerance_record = dict(
+            sorted(cls.model_name2subgraph_tolerance_record.items())
+        )
+        for (
+            model_name,
+            subgraph_tolerance_record,
+        ) in cls.model_name2subgraph_tolerance_record.items():
+            cls.model_name2subgraph_tolerance_record[model_name] = dict(
+                sorted(subgraph_tolerance_record.items(), key=lambda x: int(x[0]))
+            )
+        cls.save(pass_id, output_dir)
 
 
 def get_rectfied_model_path(model_path):
@@ -791,6 +849,10 @@ def main(args):
         )
         print_incorrect_models(
             decompose_config, current_pass_id, log_prompt="[Analysis]"
+        )
+
+        ToleranceRecord.update(
+            current_pass_id, base_output_dir, decompose_config, log_path
         )
         print_summary_and_suggestion(decompose_config, current_pass_id)
 

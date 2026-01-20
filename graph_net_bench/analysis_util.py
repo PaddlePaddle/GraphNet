@@ -488,3 +488,27 @@ def get_incorrect_models(
             failed_models.add(sample.get("model_path")) if not is_correct else None
 
     return failed_models
+
+
+def get_min_passed_tolerance(log_file_path: str, type: str = "ESt") -> int:
+    model_path2tolerance = {}
+    samples = parse_logs_to_data(log_file_path)
+
+    for sample in samples:
+        model_path = sample.get("model_path")
+        for tolerance in range(-10, 5, 1):
+            is_correct, fail_type = check_sample_correctness(sample, tolerance)
+            if is_correct:
+                model_path2tolerance[model_path] = tolerance
+                break
+
+    if type == "ESt":
+        for sample in samples:
+            model_path = sample.get("model_path")
+            if (
+                model_path not in model_path2tolerance
+                or model_path2tolerance[model_path] > 1
+            ):
+                model_path2tolerance[model_path] = 1
+
+    return model_path2tolerance

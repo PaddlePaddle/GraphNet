@@ -3453,10 +3453,8 @@ class Program_weight_tensor_parameter_300:
     original_name = "batch_norm2d_36.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("5133710000.0")
-    max_val = float("6.86238e+20")
-    mean = float("1.13767e+19")
-    std = float("inf")
+    min_val = float("51.3371")
+    max_val = float("6862.38")
     data = None
 
 

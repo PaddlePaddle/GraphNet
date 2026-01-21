@@ -8,14 +8,15 @@ PROJECT_ROOT=$(dirname "$GRAPH_NET_DIR")
 # 将项目根目录加入Python路径
 export PYTHONPATH="$PROJECT_ROOT:$PYTHONPATH"
 
-TOLERANCE_LIST=(-2 -1 0 1 2)
+TOLERANCE_LIST=(-5 -4 -3 -2 -1 0 1)
 LOG_FILE_PATH="log_file_for_test.txt"
 
 python3 - <<END
 from graph_net_bench import analysis_util
 
-result = analysis_util.get_incorrect_models($TOLERANCE_LIST, '$LOG_FILE_PATH')
+tolerance_list = [$(IFS=,; echo "${TOLERANCE_LIST[*]}")]
+for tolerance in tolerance_list:
+    incorrect_models = analysis_util.get_incorrect_models(tolerance, '$LOG_FILE_PATH')
+    print(f"- {tolerance=}, number of incorrect_models={len(incorrect_models)}")
 
-for item in result:
-    print(item)
 END

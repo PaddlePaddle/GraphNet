@@ -28,6 +28,7 @@ AMP_CALL_METHOD = {
     "bmm",
 }
 
+
 class ConcretePass(DtypeGeneralizationPass):
     """
     FX Graph pass that converts dtypes of tensors.
@@ -102,9 +103,8 @@ class ConcretePass(DtypeGeneralizationPass):
                 return new_graph.call_method("to", args=(new_node, self.torch_dtype))
             return new_node
 
-
         def create_call_function(node: fx.Node) -> fx.Node:
-            """Create a call_function node with dtype conversion if needed."""    
+            """Create a call_function node with dtype conversion if needed."""
             if node.target not in AMP_CALL_FUNCTION:
                 return new_graph.node_copy(node, lambda x: val_map[x])
 
@@ -139,9 +139,7 @@ class ConcretePass(DtypeGeneralizationPass):
                 if isinstance(arg, fx.Node):
                     mapped = val_map[arg]
                     if self._is_float32_tensor(arg):
-                        mapped = new_graph.call_method(
-                            "to", (mapped, self.torch_dtype)
-                        )
+                        mapped = new_graph.call_method("to", (mapped, self.torch_dtype))
                     new_args.append(mapped)
                 else:
                     new_args.append(arg)
@@ -156,7 +154,6 @@ class ConcretePass(DtypeGeneralizationPass):
                 tuple(new_args),
                 new_kwargs,
             )
-
 
         for node in gm.graph.nodes:
             if node.op == "placeholder":
@@ -175,7 +172,6 @@ class ConcretePass(DtypeGeneralizationPass):
         gm.recompile()
 
         return gm
-
 
     def _is_float32_tensor(self, node: fx.Node) -> bool:
         """

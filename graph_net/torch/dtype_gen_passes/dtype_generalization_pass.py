@@ -10,16 +10,20 @@ This pass converts tensor dtypes in FX Graph by:
 import torch
 import torch.fx as fx
 from graph_net.torch.dtype_gen_passes.pass_base import DtypeGeneralizationPass
+import operator
 
 AMP_CALL_FUNCTION = {
     torch.matmul,
     torch.mm,
     torch.bmm,
+    operator.matmul,
     torch.nn.functional.linear,
     torch.nn.functional.conv1d,
     torch.nn.functional.conv2d,
     torch.nn.functional.conv3d,
     torch.nn.functional.scaled_dot_product_attention,
+    torch.addmm,
+    torch.einsum,
 }
 
 AMP_CALL_METHOD = {

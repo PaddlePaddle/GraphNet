@@ -20,7 +20,7 @@ python3 -m graph_net.apply_sample_pass \
     "limits_handled_models": null
 }
 EOF
-)
+) 
 
 # Step 2: Apply passes to generate samples
 python3 -m graph_net.apply_sample_pass \

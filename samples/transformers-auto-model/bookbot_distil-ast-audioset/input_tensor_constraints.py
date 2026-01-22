@@ -1,23 +1,24 @@
-from sympy import Symbol
+from sympy import Symbol, Expr, Rel, Eq
 
 S0 = Symbol("S0")
 S1 = Symbol("S1")
+S2 = Symbol("S2")
 
-dynamic_dim_constraint_symbols = [S0, S1]
+dynamic_dim_constraint_symbols = [S0, S1, S2]
 
-dynamic_dim_constraint_symbol2example_value = {S0: 1024, S1: 128}
+dynamic_dim_constraint_symbol2example_value = {S0: 1, S1: 1024, S2: 128}
 
 dynamic_dim_constraint_relations = []
 
 dynamic_dim_constraint_input_shapes = [
-    ([1, S0, S1], "L_input_values_"),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_",
-    ),
+    ([S0, S1, S2], "L_input_values_"),
     (
         [768, 1, 16, 16],
         "L_self_modules_audio_spectrogram_transformer_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_embeddings_modules_patch_embeddings_modules_projection_parameters_bias_",
     ),
     (
         [1, 1, 768],
@@ -33,7 +34,11 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_key_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_bias_",
     ),
     (
         [768, 768],
@@ -41,15 +46,7 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_query_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_query_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_value_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_key_parameters_bias_",
     ),
     (
         [768, 768],
@@ -57,23 +54,23 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_value_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_query_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_attention_modules_attention_modules_query_parameters_bias_",
     ),
     (
         [768, 768],
         "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_weight_",
     ),
     (
-        [3072],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_bias_",
-    ),
-    (
-        [3072, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_weight_",
-    ),
-    (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_attention_modules_output_modules_dense_parameters_bias_",
     ),
     (
         [768],
@@ -81,15 +78,15 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_layernorm_after_parameters_bias_",
     ),
     (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_layernorm_before_parameters_weight_",
+        [3072, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_weight_",
     ),
     (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_bias_",
+        [3072],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_intermediate_modules_dense_parameters_bias_",
     ),
     (
         [768, 3072],
@@ -97,55 +94,7 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_key_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_key_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_query_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_query_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_value_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_value_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_",
-    ),
-    (
-        [3072],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_bias_",
-    ),
-    (
-        [3072, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_bias_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_0_modules_output_modules_dense_parameters_bias_",
     ),
     (
         [768],
@@ -153,7 +102,55 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_layernorm_before_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_key_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_key_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_value_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_value_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_query_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_attention_modules_query_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_attention_modules_output_modules_dense_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_layernorm_after_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_intermediate_modules_dense_parameters_bias_",
     ),
     (
         [768, 3072],
@@ -161,55 +158,7 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_key_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_key_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_query_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_query_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_value_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_value_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_",
-    ),
-    (
-        [3072],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_bias_",
-    ),
-    (
-        [3072, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_bias_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_1_modules_output_modules_dense_parameters_bias_",
     ),
     (
         [768],
@@ -217,7 +166,55 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_layernorm_before_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_key_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_key_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_value_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_value_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_query_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_attention_modules_query_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_attention_modules_output_modules_dense_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_layernorm_after_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_intermediate_modules_dense_parameters_bias_",
     ),
     (
         [768, 3072],
@@ -225,55 +222,7 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_key_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_key_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_query_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_query_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_value_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_value_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_",
-    ),
-    (
-        [3072],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_bias_",
-    ),
-    (
-        [3072, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_bias_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_2_modules_output_modules_dense_parameters_bias_",
     ),
     (
         [768],
@@ -281,7 +230,55 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_layernorm_before_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_key_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_key_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_value_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_value_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_query_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_attention_modules_query_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_attention_modules_output_modules_dense_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_layernorm_after_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_intermediate_modules_dense_parameters_bias_",
     ),
     (
         [768, 3072],
@@ -289,55 +286,7 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_key_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_key_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_query_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_query_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_value_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_value_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_",
-    ),
-    (
-        [3072],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_bias_",
-    ),
-    (
-        [3072, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_bias_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_3_modules_output_modules_dense_parameters_bias_",
     ),
     (
         [768],
@@ -345,7 +294,55 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_layernorm_before_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_key_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_key_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_value_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_value_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_query_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_attention_modules_query_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_attention_modules_output_modules_dense_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_layernorm_after_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_intermediate_modules_dense_parameters_bias_",
     ),
     (
         [768, 3072],
@@ -353,55 +350,7 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_key_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_key_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_query_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_query_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_value_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_value_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_",
-    ),
-    (
-        [768, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_",
-    ),
-    (
-        [3072],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_bias_",
-    ),
-    (
-        [3072, 768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_bias_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_weight_",
-    ),
-    (
-        [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_4_modules_output_modules_dense_parameters_bias_",
     ),
     (
         [768],
@@ -409,7 +358,55 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_layernorm_before_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_key_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_key_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_value_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_value_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_query_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_attention_modules_query_parameters_bias_",
+    ),
+    (
+        [768, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_attention_modules_output_modules_dense_parameters_bias_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_weight_",
+    ),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_layernorm_after_parameters_bias_",
+    ),
+    (
+        [3072, 768],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_weight_",
+    ),
+    (
+        [3072],
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_intermediate_modules_dense_parameters_bias_",
     ),
     (
         [768, 3072],
@@ -417,14 +414,18 @@ dynamic_dim_constraint_input_shapes = [
     ),
     (
         [768],
-        "L_self_modules_audio_spectrogram_transformer_modules_layernorm_parameters_bias_",
+        "L_self_modules_audio_spectrogram_transformer_modules_encoder_modules_layer_modules_5_modules_output_modules_dense_parameters_bias_",
     ),
     (
         [768],
         "L_self_modules_audio_spectrogram_transformer_modules_layernorm_parameters_weight_",
     ),
-    ([527], "L_self_modules_classifier_modules_dense_parameters_bias_"),
-    ([527, 768], "L_self_modules_classifier_modules_dense_parameters_weight_"),
-    ([768], "L_self_modules_classifier_modules_layernorm_parameters_bias_"),
+    (
+        [768],
+        "L_self_modules_audio_spectrogram_transformer_modules_layernorm_parameters_bias_",
+    ),
     ([768], "L_self_modules_classifier_modules_layernorm_parameters_weight_"),
+    ([768], "L_self_modules_classifier_modules_layernorm_parameters_bias_"),
+    ([527, 768], "L_self_modules_classifier_modules_dense_parameters_weight_"),
+    ([527], "L_self_modules_classifier_modules_dense_parameters_bias_"),
 ]

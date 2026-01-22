@@ -107,11 +107,8 @@ class ConcretePass(DtypeGeneralizationPass):
                 return new_graph.call_method("to", args=(new_node, self.torch_dtype))
             return new_node
 
-        def create_call_function(node: fx.Node) -> fx.Node:
-            """Create a call_function node with dtype conversion if needed."""
-            if node.target not in AMP_CALL_FUNCTION:
-                return new_graph.node_copy(node, lambda x: val_map[x])
-
+        def create_new_args(node: fx.Node) -> list:
+            """new_args of node with dtype conversion if needed."""
             new_args = []
 
             for arg in node.args:
@@ -122,6 +119,14 @@ class ConcretePass(DtypeGeneralizationPass):
                     new_args.append(mapped)
                 else:
                     new_args.append(arg)
+            return new_args
+
+        def create_call_function(node: fx.Node) -> fx.Node:
+            """Create a call_function node with dtype conversion if needed."""
+            if node.target not in AMP_CALL_FUNCTION:
+                return new_graph.node_copy(node, lambda x: val_map[x])
+
+            new_args = create_new_args(node)
 
             new_kwargs = {
                 k: val_map[v] if isinstance(v, fx.Node) else v
@@ -138,15 +143,7 @@ class ConcretePass(DtypeGeneralizationPass):
             if node.target not in AMP_CALL_METHOD:
                 return new_graph.node_copy(node, lambda x: val_map[x])
 
-            new_args = []
-            for arg in node.args:
-                if isinstance(arg, fx.Node):
-                    mapped = val_map[arg]
-                    if self._is_float32_tensor(arg):
-                        mapped = new_graph.call_method("to", (mapped, self.torch_dtype))
-                    new_args.append(mapped)
-                else:
-                    new_args.append(arg)
+            new_args = create_new_args(node)
 
             new_kwargs = {
                 k: (val_map[v] if isinstance(v, fx.Node) else v)

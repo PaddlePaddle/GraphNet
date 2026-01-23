@@ -29,7 +29,7 @@ DIMENSION_GENERALIZER_OUTPUT_DIR=/tmp/dimension_generalized_samples
 
 mkdir -p "$DECOMPOSE_WORKSPACE"
 
-model_list="$GRAPH_NET_ROOT/graph_net/config/small10_torch_samples_list.txt" #改成10测试
+model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt" 
 range_decomposed_subgraph_list=${DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_sample_list.txt
 deduplicated_subgraph_list=${DECOMPOSE_WORKSPACE}/deduplicated_subgraph_sample_list.txt
 device_rewrited_subgraph_list=${DECOMPOSE_WORKSPACE}/device_rewrited_subgraph_sample_list.txt

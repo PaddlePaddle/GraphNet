@@ -4,6 +4,7 @@ set -x
 MIN_SEQ_OPS=${1:-16}
 MAX_SEQ_OPS=${2:-64}
 GPU_ID=${3:-0}
+LIMITS_HANDLED_MODELS=${4:-40}
 
 OP_RANGE=$MIN_SEQ_OPS-$MAX_SEQ_OPS
 
@@ -24,15 +25,38 @@ FUSIBLE_SUBGRAPH_SAMPLES_DIR=$DECOMPOSE_WORKSPACE/fusible_subgraph_samples
 RENAMED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/renamed_fusible_subgraphs
 DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/deduplicated_fusible_subgraphs
 UNITTESTS_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/unittests
+DIMENSION_GENERALIZER_OUTPUT_DIR=/tmp/dimension_generalized_samples
 
 mkdir -p "$DECOMPOSE_WORKSPACE"
 
-model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt"
+model_list="$GRAPH_NET_ROOT/graph_net/config/small10_torch_samples_list.txt" #改成10测试
 range_decomposed_subgraph_list=${DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_sample_list.txt
 deduplicated_subgraph_list=${DECOMPOSE_WORKSPACE}/deduplicated_subgraph_sample_list.txt
 device_rewrited_subgraph_list=${DECOMPOSE_WORKSPACE}/device_rewrited_subgraph_sample_list.txt
 fusible_subgraph_list=${DECOMPOSE_WORKSPACE}/fusible_subgraph_sample_list.txt
 deduplicated_fusible_subgraphs_list=${DECOMPOSE_WORKSPACE}/deduplicated_fusible_subgraph_sample_list.txt
+dimension_generalizer_samples_list=dimension_generalizer_sample_list.txt
+model_runnable_predicator=ModelRunnablePredicator
+
+
+function generate_subgraph_list_by_index() {
+    local target_dir="$1"
+    local sample_list_name="$2"  
+    local max_index="$3" 
+    echo ">>> Generate subgraph_sample_list for samples under ${target_dir} with index 0-${max_index}."
+    echo ">>>"
+    for index in $(seq 0 $max_index); do
+        local sample_list="${target_dir}/${index}/${sample_list_name}"
+        echo ">>> Generating list for index ${index}"
+        
+        find ${target_dir}/${index} -name "model.py" \
+            | xargs dirname \
+            | xargs realpath --relative-to=${target_dir}/${index} \
+            | tee $sample_list
+            
+        echo "Generated: $sample_list"
+    done
+}
 
 function generate_subgraph_list() {
     local target_dir="$1"
@@ -47,9 +71,107 @@ function generate_subgraph_list() {
         | tee $sample_list
 }
 
+function dimension_generalizer(){
+    echo ">>> dimension_generalizer"
+    echo ">>>"
+    python3 -m graph_net.model_path_handler \
+        --use-subprocess                    \
+        --model-path-list $model_list \
+        --handler-config=$(base64 -w 0 <<EOF
+{
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/constraint_util.py",
+    "handler_class_name": "UpdateInputTensorConstraints",
+    "handler_config": {
+        "resume": ${RESUME},
+        "model_path_prefix": "$GRAPH_NET_ROOT",
+        "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
+        "data_input_predicator_class_name": "NaiveDataInputPredicator",
+        "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
+        "model_runnable_predicator_class_name": "$model_runnable_predicator",
+        "dimension_generalizer_filepath": "$GRAPH_NET_ROOT/graph_net/torch/static_to_dynamic.py",
+        "dimension_generalizer_class_name": "StaticToDynamic",
+        "dimension_generalizer_config": {
+            "pass_names": [
+                "batch_call_method_view_pass",
+                "tuple_arg_call_method_view_pass",
+                "naive_call_method_reshape_pass",
+                "naive_call_method_expand_pass",
+                "non_batch_call_method_expand_pass",
+                "non_batch_call_function_arange_pass",
+                "non_batch_call_function_getitem_slice_pass",
+                "non_batch_call_function_full_pass",
+                "non_batch_call_function_full_plus_one_pass",
+                "non_batch_call_function_zeros_pass",
+                "non_batch_call_function_arange_plus_one_pass"
+            ]
+        },
+        "limits_handled_models": ${LIMITS_HANDLED_MODELS},
+        "last_model_log_file": "/tmp/a.py"
+    }
+}
+EOF
+)
+
+    python3 -m graph_net.model_path_handler \
+        --model-path-list $model_list \
+        --handler-config=$(base64 -w 0 <<EOF
+{
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/tools/_get_in_tensor_symbolic_shapes.py",
+    "handler_class_name": "GetInTensorSymbolicShapes",
+    "handler_config": {
+        "ignore_reified": true,
+        "model_path_prefix": "$GRAPH_NET_ROOT"
+    }
+}
+EOF
+)
+
+    python3 -m graph_net.apply_sample_pass \
+        --model-path-list $model_list \
+        --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/dimension_generalizer.py" \
+        --sample-pass-class-name "ApplyDimGenPasses" \
+        --sample-pass-config $(base64 -w 0 <<EOF
+{
+    "output_dir": "${DIMENSION_GENERALIZER_OUTPUT_DIR}",
+    "model_path_prefix": "$GRAPH_NET_ROOT",
+    "dimension_generalizer_filepath": "$GRAPH_NET_ROOT/graph_net/torch/static_to_dynamic.py",
+    "dimension_generalizer_class_name": "StaticToDynamic",
+    "limits_handled_models": ${LIMITS_HANDLED_MODELS},
+    "last_model_log_file": "/tmp/a.py"
+}
+EOF
+)
+}
+
+function propagate_shapes_for_all_variants() {
+    echo ">>> Propagate shapes for all dimension variants (0-8)"
+    echo ">>>" 
+    for index in {0..8}; do
+        echo ">>> Processing dimension variant ${index}"
+        local variant_output_dir="${DIMENSION_GENERALIZER_OUTPUT_DIR}/${index}"
+        local variant_sample_list="${DIMENSION_GENERALIZER_OUTPUT_DIR}/${index}/${dimension_generalizer_samples_list}"
+        if [ ! -f "$variant_sample_list" ] || [ ! -s "$variant_sample_list" ]; then
+            echo ">>> Skip variant ${index}: sample list not found or empty"
+            continue
+        fi
+        
+        python3 -m graph_net.apply_sample_pass \
+            --model-path-list "$variant_sample_list" \
+            --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/shape_propagator.py" \
+            --sample-pass-class-name ShapePropagator \
+            --sample-pass-config $(base64 -w 0 <<EOF
+{
+    "model_path_prefix": "$variant_output_dir",
+    "output_dir": "/tmp/workspace_shape_propagator/${index}"
+}
+EOF
+) 
+    done
+}
+
 function generate_op_names() {
     echo ">>> [1] Generate op_names.txt for samples in ${model_list}."
-    echo ">>>"
+    echo ">>>"    
     python3 -m graph_net.model_path_handler \
         --model-path-list $model_list \
         --handler-config=$(base64 -w 0 <<EOF
@@ -170,18 +292,18 @@ EOF
 }
 
 function gen_fusible_subgraphs() {
-    echo ">>> [7] Generate fusible subgraphs for subgraph samples under ${DEVICE_REWRITED_OUTPUT_DIR}."
+    echo ">>> [7] Generate fusible subgraphs for subgraph samples under ${GRAPH_NET_ROOT}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
         --use-subprocess    \
-        --model-path-list "$device_rewrited_subgraph_list" \
+        --model-path-list "$model_list" \
         --handler-config $(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/cumsum_num_kernels_generator.py",
     "handler_class_name": "CumSumNumKernelsGenerator",
     "handler_config": {
         "output_json_file_name": "cumsum_num_kernels.json",
-        "model_path_prefix": "${DEVICE_REWRITED_OUTPUT_DIR}",
+        "model_path_prefix": "${GRAPH_NET_ROOT}",
         "output_dir": "$CUMSUM_NUM_KERNELS_DIR",
         "device": "cuda",
         "resume": ${RESUME}
@@ -191,7 +313,7 @@ EOF
 )
 
     python3 -m graph_net.model_path_handler \
-        --model-path-list "$device_rewrited_subgraph_list" \
+        --model-path-list "$model_list" \
         --handler-config $(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/sample_pass/fusible_subgraph_ranges_generator.py",
@@ -208,13 +330,13 @@ EOF
 )
 
     python3 -m graph_net.model_path_handler \
-        --model-path-list "$device_rewrited_subgraph_list" \
+        --model-path-list "$model_list" \
         --handler-config $(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_generator.py",
     "handler_class_name": "SubgraphGenerator",
     "handler_config": {
-        "model_path_prefix": "${DEVICE_REWRITED_OUTPUT_DIR}",
+        "model_path_prefix": "${GRAPH_NET_ROOT}",
         "output_dir": "$FUSIBLE_SUBGRAPH_SAMPLES_DIR",
         "subgraph_ranges_json_root": "$FUSIBLE_SUBGRAPH_RANGES_DIR",
         "subgraph_ranges_json_file_name": "fusible_subgraph_ranges.json",
@@ -259,6 +381,61 @@ function remove_duplicate_fusible_graphs() {
         --target-dir ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}
 }
 
+function group_subgraph_sources() {
+    echo ">>> [6] Group ranges from subgraph sources."
+    python3 -m graph_net.apply_sample_pass \
+    --model-path-list ${deduplicated_fusible_subgraphs_list} \
+    --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/sample_pass/group_ranges_from_subgraph_sources.py" \
+    --sample-pass-class-name GroupRangesFromSubgraphSources \
+    --sample-pass-config $(base64 -w 0 <<EOF
+{
+    "subgraph_model_path_prefix": "${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}",
+    "output_dir": "/tmp/workspace_group_ranges_from_subgraph_sources"
+}
+EOF
+)
+}
+
+function analyze_subgraph_dependences(){
+    python3 -m graph_net.apply_sample_pass \
+    --model-path-list $model_list \
+    --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_input_producer_indexes_generator.py" \
+    --sample-pass-class-name SubgraphInputProducerIndexesGenerator \
+    --sample-pass-config $(base64 -w 0 <<EOF
+{
+    "model_path_prefix": "$GRAPH_NET_ROOT",
+    "subgraph_ranges_json_root": "/tmp/workspace_group_ranges_from_subgraph_sources",
+    "subgraph_ranges_json_file_name": "grouped_ranges_from_subgraph_sources.json",
+    "subgraph_ranges_json_key": "grouped_ranges_from_subgraph_sources",
+    "output_dir": "/tmp/workspace_subgraph_input_producer_indexes_generator"
+}
+EOF
+)
+}
+
+function rewrite_subgraph_shapes_per_index() {
+    echo ">>> [8.5] Rewrite subgraph input shapes for each dimension variant (0-8)"
+    echo ">>>"
+    
+    for index in {0..8}; do
+        echo ">>> Processing dimension variant index: ${index}"
+        python3 -m graph_net.apply_sample_pass \
+            --model-path-list ${deduplicated_fusible_subgraphs_list} \
+            --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/sample_pass/subgraph_input_shapes_naive_rewriter.py" \
+            --sample-pass-class-name SubgraphInputShapesNaiveRewriter \
+            --sample-pass-config $(base64 -w 0 <<EOF
+{
+    "model_path_prefix": "${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}",
+    "subgraph_sources_json_root": "${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}",
+    "shape_propagate_json_root": "/tmp/workspace_shape_propagator/${index}",
+    "subgraph_input_producer_indexes_json_root": "/tmp/workspace_subgraph_input_producer_indexes_generator",
+    "output_dir": "/tmp/workspace_subgraph_input_shapes_naive_rewriter/${index}"
+}
+EOF
+)
+    done
+}
+
 function generate_unittests() {
     echo ">>> [10] Generate unittests for subgraph samples under ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}."
     echo ">>>"
@@ -287,7 +464,11 @@ EOF
 main() {
     timestamp=`date +%Y%m%d_%H%M`
     suffix="${OP_RANGE}ops_${timestamp}"
-    
+
+    dimension_generalizer 2>&1 | tee ${DIMENSION_GENERALIZER_OUTPUT_DIR}/log_dimension_generalizer_${suffix}.txt
+    generate_subgraph_list_by_index ${DIMENSION_GENERALIZER_OUTPUT_DIR} ${dimension_generalizer_samples_list} 8
+    propagate_shapes_for_all_variants 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_propagate_shapes_${suffix}.txt
+
     generate_op_names 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_op_names_${suffix}.txt
     generate_split_point 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_split_point_${suffix}.txt
     range_decompose 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_range_decompose_${suffix}.txt
@@ -298,15 +479,19 @@ main() {
 
     generate_subgraph_list ${DEDUPLICATED_OUTPUT_DIR} ${deduplicated_subgraph_list}
     rewrite_device 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rewrite_device_${suffix}.txt
-
     generate_subgraph_list ${DEVICE_REWRITED_OUTPUT_DIR} ${device_rewrited_subgraph_list}
-    gen_fusible_subgraphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_fusible_subgraphs_${suffix}.txt
 
+    gen_fusible_subgraphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_fusible_subgraphs_${suffix}.txt
     generate_subgraph_list ${FUSIBLE_SUBGRAPH_SAMPLES_DIR} ${fusible_subgraph_list}
+    
     rename_fusible_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_fusible_subgraph_${suffix}.txt
     remove_duplicate_fusible_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_fusible_graphs_${suffix}.txt
-
     generate_subgraph_list ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR} ${deduplicated_fusible_subgraphs_list}
+
+    group_subgraph_sources 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_group_subgraph_sources_${suffix}.txt
+    analyze_subgraph_dependences 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_subgraph_dependencies_${suffix}.txt
+    rewrite_subgraph_shapes_per_index 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rewrite_subgraph_shapes_${suffix}.txt
+
     generate_unittests 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_${suffix}.txt
 }
 

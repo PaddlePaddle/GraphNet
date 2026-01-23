@@ -72,7 +72,7 @@ function generate_subgraph_list() {
 }
 
 function dimension_generalizer(){
-    echo ">>> dimension_generalizer"
+    echo ">>> [1] dimension generalize for samoles under ${model_list}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
         --use-subprocess                    \
@@ -144,7 +144,7 @@ EOF
 }
 
 function propagate_shapes_for_all_variants() {
-    echo ">>> Propagate shapes for all dimension variants (0-8)"
+    echo ">>> [2] Propagate shapes for all dimension variants (0-8)"
     echo ">>>" 
     for index in {0..8}; do
         echo ">>> Processing dimension variant ${index}"
@@ -170,7 +170,7 @@ EOF
 }
 
 function generate_op_names() {
-    echo ">>> [1] Generate op_names.txt for samples in ${model_list}."
+    echo ">>> [3] Generate op_names.txt for samples in ${model_list}."
     echo ">>>"    
     python3 -m graph_net.model_path_handler \
         --model-path-list $model_list \
@@ -189,7 +189,7 @@ EOF
 }
 
 function generate_split_point() {
-    echo ">>> [2] Generate split points for samples in ${model_list}."
+    echo ">>> [4] Generate split points for samples in ${model_list}."
     echo ">>>   MIN_SEQ_OPS: ${MIN_SEQ_OPS}, MAX_SEQ_OPS: ${MAX_SEQ_OPS}"
     echo ">>>"
     python3 -m graph_net.apply_sample_pass \
@@ -216,7 +216,7 @@ EOF
 }
 
 function range_decompose() {
-    echo ">>> [3] Decompose according to split_results.json for samples in ${model_list}."
+    echo ">>> [5] Decompose according to split_results.json for samples in ${model_list}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
         --model-path-list "$model_list" \
@@ -239,7 +239,7 @@ EOF
 }
 
 function rename_decomposed_subgraph() {
-    echo ">>> [4] Rename subgraph samples under ${RANGE_DECOMPOSE_OUTPUT_DIR}."
+    echo ">>> [6] Rename subgraph samples under ${RANGE_DECOMPOSE_OUTPUT_DIR}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
         --model-path-list ${range_decomposed_subgraph_list} \
@@ -264,7 +264,7 @@ EOF
 }
 
 function remove_duplicate_renamed_graphs() {
-    echo ">>> [5] Remove duplicated subgraph samples under ${GRAPH_VAR_RENAME_OUTPUT_DIR}."
+    echo ">>> [7] Remove duplicated subgraph samples under ${GRAPH_VAR_RENAME_OUTPUT_DIR}."
     echo ">>>"
     python3 -m graph_net.tools.deduplicated \
         --samples-dir ${GRAPH_VAR_RENAME_OUTPUT_DIR} \
@@ -272,7 +272,7 @@ function remove_duplicate_renamed_graphs() {
 }
 
 function rewrite_device() {
-    echo ">>> [6] Rewrite devices for subgraph samples under ${DEDUPLICATED_OUTPUT_DIR}."
+    echo ">>> [8] Rewrite devices for subgraph samples under ${DEDUPLICATED_OUTPUT_DIR}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
         --model-path-list ${deduplicated_subgraph_list} \
@@ -292,7 +292,7 @@ EOF
 }
 
 function gen_fusible_subgraphs() {
-    echo ">>> [7] Generate fusible subgraphs for subgraph samples under ${GRAPH_NET_ROOT}."
+    echo ">>> [9] Generate fusible subgraphs for subgraph samples under ${GRAPH_NET_ROOT}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
         --use-subprocess    \
@@ -349,7 +349,7 @@ EOF
 }
 
 function rename_fusible_subgraph() {
-    echo ">>> [8] Rename subgraph samples under ${FUSIBLE_SUBGRAPH_SAMPLES_DIR}."
+    echo ">>> [10] Rename subgraph samples under ${FUSIBLE_SUBGRAPH_SAMPLES_DIR}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
         --model-path-list ${fusible_subgraph_list} \
@@ -374,7 +374,7 @@ EOF
 }
 
 function remove_duplicate_fusible_graphs() {
-    echo ">>> [9] Remove duplicated subgraph samples under ${RENAMED_FUSIBLE_SUBGRAPH_DIR}."
+    echo ">>> [11] Remove duplicated subgraph samples under ${RENAMED_FUSIBLE_SUBGRAPH_DIR}."
     echo ">>>"
     python3 -m graph_net.tools.deduplicated \
         --samples-dir ${RENAMED_FUSIBLE_SUBGRAPH_DIR} \
@@ -382,7 +382,8 @@ function remove_duplicate_fusible_graphs() {
 }
 
 function group_subgraph_sources() {
-    echo ">>> [6] Group ranges from subgraph sources."
+    echo ">>> [12] Group ranges from subgraph sources under ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}."
+    echo ">>>"
     python3 -m graph_net.apply_sample_pass \
     --model-path-list ${deduplicated_fusible_subgraphs_list} \
     --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/sample_pass/group_ranges_from_subgraph_sources.py" \
@@ -397,6 +398,7 @@ EOF
 }
 
 function analyze_subgraph_dependences(){
+    echo ">>> [13] Analyze subgraph dependences for samples under ${model_list}."
     python3 -m graph_net.apply_sample_pass \
     --model-path-list $model_list \
     --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_input_producer_indexes_generator.py" \
@@ -414,7 +416,7 @@ EOF
 }
 
 function rewrite_subgraph_shapes_per_index() {
-    echo ">>> [8.5] Rewrite subgraph input shapes for each dimension variant (0-8)"
+    echo ">>> [14] Rewrite subgraph input shapes for each dimension variant (0-8)"
     echo ">>>"
     
     for index in {0..8}; do
@@ -437,7 +439,7 @@ EOF
 }
 
 function generate_unittests() {
-    echo ">>> [10] Generate unittests for subgraph samples under ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}."
+    echo ">>> [15] Generate unittests for subgraph samples under ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
         --model-path-list ${deduplicated_fusible_subgraphs_list} \

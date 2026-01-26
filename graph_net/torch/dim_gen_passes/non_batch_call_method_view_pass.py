@@ -19,12 +19,20 @@ class ConcretePass(DimensionGeneralizationPass):
         return any(self._node_need_rewrite(node) for node in traced_module.graph.nodes)
 
     def _node_need_rewrite(self, node) -> bool:
-        return (
-            node.op == "call_method"
-            and node.target == "view"
-            and len(node.args) >= 2
-            and any(arg == self.dim for arg in node.args[1:])
-        )
+        if not (node.op == "call_method"):
+            return False
+        if not (node.target == "view"):
+            return False
+        if not (len(node.args) >= 2):
+            return False
+        view_args = node.args[1:]
+        if not any(arg == self.dim for arg in view_args):
+            return False
+        if -1 in view_args:
+            if len(view_args) == 2:
+                return True
+            return False
+        return True
 
     def rewrite(self, traced_module: fx.GraphModule) -> fx.GraphModule:
         """

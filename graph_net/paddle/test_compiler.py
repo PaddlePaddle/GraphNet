@@ -43,7 +43,7 @@ def init_env(args):
         paddle.set_flags({"FLAGS_cudnn_exhaustive_search": 1})
 
 
-def get_hardward_name(args):
+def get_hardware_name(args):
     hardware = "unknown"
     if test_compiler_util.is_gpu_device(args.device):
         hardware = paddle.device.cuda.get_device_name(0)
@@ -149,7 +149,7 @@ def measure_performance(model_call, args, compiler, profile=False):
     min_trials = int(100 / np.mean(warmup_e2e_times[1:]))
     trials = max(args.trials, min_trials)
 
-    hardware_name = get_hardward_name(args)
+    hardware_name = get_hardware_name(args)
     print(
         f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {trials}",
         file=sys.stderr,
@@ -327,7 +327,7 @@ def test_single_model(args):
     model.eval()
 
     test_compiler_util.print_basic_config(
-        args, get_hardward_name(args), get_compile_framework_version(args)
+        args, get_hardware_name(args), get_compile_framework_version(args)
     )
 
     # Run on eager mode

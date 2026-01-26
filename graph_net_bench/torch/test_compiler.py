@@ -58,7 +58,7 @@ def set_seed(random_seed):
         torch.cuda.manual_seed_all(random_seed)
 
 
-def get_hardward_name(args):
+def get_hardware_name(args):
     hardware_name = "unknown"
     if "cuda" in args.device:
         hardware_name = torch.cuda.get_device_name(args.device)
@@ -146,7 +146,7 @@ def measure_performance(model_call, args, compiler):
         model_call()
     compiler.synchronize()
 
-    hardware_name = get_hardward_name(args)
+    hardware_name = get_hardware_name(args)
     print(
         f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}",
         file=sys.stderr,
@@ -214,7 +214,7 @@ def test_single_model(args):
         "[Processing]", model_path, args.log_prompt
     )
     test_compiler_util.print_basic_config(
-        args, get_hardward_name(args), get_compile_framework_version(args)
+        args, get_hardware_name(args), get_compile_framework_version(args)
     )
 
     runtime_seed = 1024

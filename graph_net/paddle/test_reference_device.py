@@ -49,7 +49,7 @@ def test_single_model(args):
 
             test_compiler_util.print_basic_config(
                 args,
-                test_compiler.get_hardward_name(args),
+                test_compiler.get_hardware_name(args),
                 test_compiler.get_compile_framework_version(args),
             )
 

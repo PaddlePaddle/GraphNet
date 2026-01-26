@@ -129,21 +129,24 @@ class BaseRunner(ABC):
         return Path(utils.get_log_path(output_dir, model_path))
 
 
-def create_runner(config: RunnerConfig) -> BaseRunner:
-    """Factory function to create appropriate runner based on config."""
-    runner_type = config.strategy.runner_type
-
+def _get_runner_class(runner_type: RunnerType) -> type:
+    """Get runner class by type with lazy imports."""
     if runner_type == RunnerType.LOCAL:
         from .local_runner import LocalRunner
 
-        return LocalRunner(config)
-    elif runner_type == RunnerType.PROCESS:
+        return LocalRunner
+    if runner_type == RunnerType.PROCESS:
         from .process_runner import ProcessRunner
 
-        return ProcessRunner(config)
-    elif runner_type == RunnerType.REMOTE:
+        return ProcessRunner
+    if runner_type == RunnerType.REMOTE:
         from .remote_runner import RemoteRunner
 
-        return RemoteRunner(config)
-    else:
-        raise ValueError(f"Unknown runner_type: {runner_type}")
+        return RemoteRunner
+    raise ValueError(f"Unknown runner_type: {runner_type}")
+
+
+def create_runner(config: RunnerConfig) -> BaseRunner:
+    """Factory function to create appropriate runner based on config."""
+    runner_class = _get_runner_class(config.strategy.runner_type)
+    return runner_class(config)

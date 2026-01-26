@@ -31,7 +31,7 @@ class RemoteRunner(BaseRunner):
 
         try:
             print(
-                f"[RemoteRunner] Sending to {self.config.machine}:{self.config.port}",
+                f"[RemoteRunner] Sending to {self.config.strategy.remote_machine}:{self.config.strategy.remote_port}",
                 file=sys.stderr,
                 flush=True,
             )

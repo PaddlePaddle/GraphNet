@@ -275,6 +275,12 @@ def extract_fnet_models(text_en, text_cn):
     process_model(model_name, nlp_model_getter.get_fnet_model_and_inputs, text_en)
 
 
+def extract_prophetnet_models(text_en, text_cn):
+    # prophetnet-large-uncased models
+    model_name = "prophetnet-large-uncased"
+    process_model(model_name, nlp_model_getter.get_prophetnet_model_and_inputs, text_en)
+
+
 def main():
     current_dir = os.path.dirname(os.path.abspath(__file__))
     dump_dir = os.path.join(current_dir, "dump")

@@ -137,14 +137,41 @@ class ApplyDimGenPasses:
         (to_model_path / "weight_meta.py").write_text(weight_meta_code)
 
     def _get_to_model_path(self, rel_model_path, symbol2example_value):
-        sym_dim_str = "_".join(
-            f"{sym_name}_{dim}"
-            for symbol, dim in symbol2example_value.items()
-            for sym_name in [symbol.name]
+        """
+        Generates output paths organized by dimension configuration indices rather than
+        symbolic dimension strings.
+
+        Path structure transformation:
+        Before: model_name__symbolic_dims (e.g., 'model1__symA_8_symB_16')
+        After: index/model_name (e.g., '0/model1', '1/model1')
+
+        The index represents a specific dimension configuration from the reification set,
+        enabling systematic management of dimension variations.
+        """
+        # Use indices instead of symbol strings
+        symbols, reified_dims = self._get_symbols_and_reified_dims(
+            Path(self.config["model_path_prefix"]) / rel_model_path,
+            DynamicDimConstraints.unserialize_from_py_file(
+                os.path.join(
+                    self.config["model_path_prefix"],
+                    rel_model_path,
+                    "input_tensor_constraints.py",
+                )
+            ),
         )
-        sub_module_name = f"{os.path.basename(rel_model_path)}__{sym_dim_str}"
+        current_dims = tuple(symbol2example_value[symbol] for symbol in symbols)
+
+        # Find corresponding index through dimension value matching
+        dim_index = 0
+        for i, dims in enumerate(reified_dims):
+            if tuple(dims) == current_dims:
+                dim_index = i
+                break
+
+        # Path structure changed from model/name to index/model
+        sub_module_name = f"{dim_index}"
         to_model_path = (
-            Path(self.config["output_dir"]) / rel_model_path / sub_module_name
+            Path(self.config["output_dir"]) / sub_module_name / rel_model_path
         )
         return to_model_path
 

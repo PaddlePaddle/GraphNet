@@ -1,5 +1,6 @@
 class Program_weight_tensor_data_0:
     name = "data_0"
+    original_name = "param_62"
     shape = [169, 6]
     dtype = "float32"
     min_val = float("-6.72354")
@@ -11,6 +12,7 @@ class Program_weight_tensor_data_0:
 
 class Program_weight_tensor_data_1:
     name = "data_1"
+    original_name = "args_1"
     shape = []
     dtype = "int64"
     data = [3]
@@ -18,6 +20,7 @@ class Program_weight_tensor_data_1:
 
 class Program_weight_tensor_data_2:
     name = "data_2"
+    original_name = "var_7690"
     shape = [2, 7680, 192]
     dtype = "float32"
     min_val = float("-3.05039")
@@ -29,6 +32,7 @@ class Program_weight_tensor_data_2:
 
 class Program_weight_tensor_data_3:
     name = "data_3"
+    original_name = "var_7691"
     shape = [168, 49, 49]
     dtype = "float32"
     min_val = float("-100.0")
@@ -39,6 +43,7 @@ class Program_weight_tensor_data_3:
 
 class Program_weight_tensor_data_4:
     name = "data_4"
+    original_name = "var_7709"
     shape = [49, 49]
     dtype = "int64"
     min_val = 0

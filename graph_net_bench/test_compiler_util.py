@@ -7,6 +7,7 @@ import subprocess
 import shutil
 import base64
 import numpy as np
+from typing import Dict, Any
 from dataclasses import dataclass
 from contextlib import contextmanager
 
@@ -381,3 +382,64 @@ def convert_to_dict(config_str):
     config = json.loads(config_str)
     assert isinstance(config, dict), f"config should be a dict. {config_str=}"
     return config
+
+
+def convert_to_base64(config_dict):
+    """Convert a dict to base64 encoded JSON string."""
+    if config_dict is None:
+        return ""
+    config_str = json.dumps(config_dict)
+    return base64.b64encode(config_str.encode("utf-8")).decode("utf-8")
+
+
+def parse_performance_stats(log_path: str) -> Dict[str, Any]:
+    """Parse performance statistics from log file.
+
+    Args:
+        log_path: Path to the log file
+
+    Returns:
+        Dictionary containing time statistics
+
+    Raises:
+        FileNotFoundError: If log_path does not exist
+        ValueError: If performance data cannot be parsed
+    """
+    if not os.path.isfile(log_path):
+        raise FileNotFoundError(f"Log file not found: {log_path}")
+
+    with open(log_path, "r", encoding="utf-8") as f:
+        lines = f.readlines()
+
+    # Search backwards for performance data
+    for line in reversed(lines):
+        if "[Performance][eager]" in line:
+            start = line.find("{")
+            end = line.rfind("}")
+            if start != -1 and end != -1:
+                try:
+                    time_stats = json.loads(line[start : end + 1])
+                    return time_stats
+                except json.JSONDecodeError as e:
+                    raise ValueError(f"Failed to parse performance stats: {e}")
+
+    raise ValueError("No performance statistics found in log file")
+
+
+def extract_log_content(log_path: str) -> str:
+    """Extract and return the entire content of a log file.
+
+    Args:
+        log_path: Path to the log file
+
+    Returns:
+        String containing the log content
+
+    Raises:
+        FileNotFoundError: If log_path does not exist
+    """
+    if not os.path.isfile(log_path):
+        raise FileNotFoundError(f"Log file not found: {log_path}")
+
+    with open(log_path, "r", encoding="utf-8") as f:
+        return f.read()

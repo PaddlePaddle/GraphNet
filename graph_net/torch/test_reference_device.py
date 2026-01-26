@@ -2,6 +2,7 @@ import argparse
 import os
 import sys
 import types
+import torch
 from pathlib import Path
 
 from graph_net_bench import path_utils
@@ -78,6 +79,7 @@ def main(args):
     assert args.device in ["cuda", "cpu"]
 
     eval_backend_perf.set_seed(args.seed)
+    torch.set_default_device(args.device)
 
     ref_dump_dir = Path(args.reference_dir)
     ref_dump_dir.mkdir(parents=True, exist_ok=True)

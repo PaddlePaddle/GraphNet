@@ -195,6 +195,7 @@ def measure_performance(model_call, args, compiler):
 def eval_single_model_with_single_backend(args):
     check_and_complete_args(args)
     set_seed(args.seed)
+    torch.set_default_device(args.device)
     os.makedirs(args.output_path, exist_ok=True)
     log_path = utils.get_log_path(args.output_path, args.model_path)
     output_dump_path = utils.get_output_path(args.output_path, args.model_path)

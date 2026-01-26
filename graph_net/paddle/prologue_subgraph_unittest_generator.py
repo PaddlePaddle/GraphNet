@@ -270,22 +270,42 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
         )
         self.assertTrue(shape_match, f"Shape of outputs are not matched ({reference_shapes=} vs {target_shapes=}).")
 
-    def check_results(self, reference_outputs, target_outputs):
-        def _convert_to_numpy(out):
-            if out.dtype not in [paddle.float32, paddle.float64]:
-                return out.cast("float32").numpy()
-            else:
-                return out.numpy()
+    def convert_to_numpy(self, out):
+        if out.dtype not in [paddle.float32, paddle.float64]:
+            return out.cast("float32").numpy()
+        else:
+            return out.numpy()
 
+    def get_all_cmp_results(self, reference_outputs, target_outputs, name):
+        def _get_cmp_allclose(cmp_arrays, tolerance):
+            return [
+                int(np.allclose(actual, desired, atol=atol, rtol=rtol))
+                for dtype, actual, desired in cmp_arrays
+                for (atol, rtol) in [tolerance_generator(tolerance, dtype)]
+            ]
+
+        cmp_arrays = [
+            (reference.dtype, self.convert_to_numpy(reference), self.convert_to_numpy(target)) 
+            for reference, target in zip(reference_outputs, target_outputs)]
+        for tolerance in range(-10, 2):
+            cmp_results = _get_cmp_allclose(cmp_arrays, tolerance)
+            is_correct = all(x == 1 for x in cmp_results)
+            cmp_results_str = " ".join(str(v) for v in cmp_results)
+            print(f"{name}, tolerance: {tolerance:3d}, allclose: {is_correct}, cmp_result: {cmp_results_str}")
+        print()
+
+    def check_results(self, reference_outputs, target_outputs, name):
         assert len(reference_outputs) == len(target_outputs), f"The number of outputs is not equal ({len(reference_outputs)=} vs {len(target_outputs)})."
         self.check_dtypes(reference_outputs, target_outputs)
         self.check_shapes(reference_outputs, target_outputs)
 
+        self.get_all_cmp_results(reference_outputs, target_outputs, name)
+
         for reference, target in zip(reference_outputs, target_outputs):
             atol, rtol = tolerance_generator(self.tolerance, reference.dtype)
             np.testing.assert_allclose(
-                actual=_convert_to_numpy(target),
-                desired=_convert_to_numpy(reference),
+                actual=self.convert_to_numpy(target),
+                desired=self.convert_to_numpy(reference),
                 atol=atol,
                 rtol=rtol,
             )
@@ -302,7 +322,7 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
             print(f"Load prologue output tensors from {prologue_output_path}")
             prologue_reference_outputs = paddle.load(prologue_output_path)
             with self.subTest(name="check_prologue_outputs"):
-                self.check_results(prologue_reference_outputs, prologue_outputs)
+                self.check_results(prologue_reference_outputs, prologue_outputs, name="check_prologue_outputs")
 
         test_output_path = os.path.join(self.reference_dir, "{{graph_module_desc.model_name}}_separated_reference.pdout")
         test_outputs = self.run_suspect_layer(prologue_reference_outputs)
@@ -313,7 +333,7 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
             print(f"Load test output tensors on reference device from {test_output_path}.")
             test_reference_outputs = paddle.load(test_output_path)
             with self.subTest(name="check_suspect_outputs"):
-                self.check_results(test_reference_outputs, test_outputs)
+                self.check_results(test_reference_outputs, test_outputs, name="check_suspect_outputs")
 
     def test_combined(self):
         paddle.seed(self.runtime_seed)
@@ -326,7 +346,7 @@ class {{graph_module_desc.test_name}}Test(unittest.TestCase):
             print(f"Load test output tensors on reference device from {test_output_path}.")
             test_reference_outputs = paddle.load(test_output_path)
             with self.subTest(name="check_combined_outputs"):
-                self.check_results(test_reference_outputs, test_outputs)
+                self.check_results(test_reference_outputs, test_outputs, name="check_combined_outputs")
 
 
 if __name__ == "__main__":

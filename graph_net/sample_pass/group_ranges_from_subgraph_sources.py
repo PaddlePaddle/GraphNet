@@ -83,8 +83,15 @@ class GroupRangesFromSubgraphSources(SamplePass):
     ):
         model_dir = Path(self.config["output_dir"]) / original_graph_rel_model_path
         model_dir.mkdir(parents=True, exist_ok=True)
-        ranges_json = self._get_ranges_json(subgraph_ranges)
-        paths_json = self._get_paths_json(subgraph_rel_model_paths)
+
+        # Sort ranges by start index, and sort paths accordingly
+        sorted_data = sorted(
+            zip(subgraph_ranges, subgraph_rel_model_paths), key=lambda x: x[0][0]
+        )
+        sorted_ranges, sorted_paths = zip(*sorted_data) if sorted_data else ([], [])
+
+        ranges_json = self._get_ranges_json(list(sorted_ranges))
+        paths_json = self._get_paths_json(list(sorted_paths))
         json_obj = {**ranges_json, **paths_json}
         json_str = json.dumps(json_obj, indent=4)
         (model_dir / self.config["output_json_file_name"]).write_text(json_str)

@@ -16,13 +16,16 @@ def get_hardward_name(device):
 def get_compiler_version(compiler):
     if compiler in ["inductor", "nope", "unstable_to_stable"]:
         return torch.__version__
-    # 兼容处理具有 version 属性的对象或字符串
-    return getattr(compiler, "version", "unknown")
+    elif compiler in ["tvm", "xla", "tensorrt", "bladedisc"]:
+        # Assuming compiler object has a version attribute
+        return f"{compiler.capitalize()} {compiler.version}"
+    return "unknown"
 
 
 def measure_performance(model_call, args, compiler):
     stats = {}
-    # 预热
+    outs = model_call()
+    # Warmup runs
     for _ in range(args.warmup):
         model_call()
     compiler.synchronize()
@@ -71,4 +74,4 @@ def measure_performance(model_call, args, compiler):
             )
         stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
 
-    return stats
+    return outs, stats

@@ -141,9 +141,7 @@ def eval_single_model_with_single_backend(args):
                 def model_call():
                     return compiled_model(**input_dict)
 
-                # 运行并测量
-                outputs = model_call()
-                time_stats = measure_performance(model_call, args, compiler)
+                outputs, time_stats = measure_performance(model_call, args, compiler)
                 success = True
             except Exception as e:
                 print(
@@ -161,7 +159,8 @@ def eval_single_model_with_single_backend(args):
             )
 
     with open(log_path, "r", encoding="utf-8") as f:
-        print(f.read(), file=sys.stderr, flush=True)
+        content = f.read()
+        print(content, file=sys.stderr, flush=True)
 
 
 def check_and_complete_args(args):

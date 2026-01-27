@@ -1,15 +1,13 @@
 import argparse
 import os
-import json
 import sys
-import traceback
+import types
 
 import torch
 from graph_net_bench import path_utils
 from graph_net_bench import test_compiler_util
 from graph_net import model_path_util
-from graph_net_bench.torch import test_compiler
-from graph_net.torch import test_reference_device
+from graph_net_bench.torch import utils, eval_backend_perf, eval_backend_diff
 
 
 def parse_config_from_reference_log(log_path):
@@ -31,94 +29,59 @@ def parse_config_from_reference_log(log_path):
     return config
 
 
-def parse_time_stats_from_reference_log(log_path):
-    assert os.path.isfile(
-        log_path
-    ), f"{log_path} does not exist or is not a regular file."
-
-    with open(log_path, "r", encoding="utf-8") as f:
-        lines = f.readlines()
-        for line in reversed(lines):
-            if "[Performance][eager]" in line:
-                start = line.find("{")
-                end = line.rfind("}")
-                time_stats = json.loads(line[start : end + 1])
-    return time_stats
-
-
-def update_args_and_set_seed(args, model_path):
-    ref_log = test_reference_device.get_reference_log_path(
-        args.reference_dir, model_path
-    )
+def get_ref_config_from_log(args, model_path):
+    """Extract config from reference log file."""
+    ref_log = utils.get_log_path(args.reference_dir, model_path)
     config = parse_config_from_reference_log(ref_log)
-    vars(args)["model_path"] = model_path
-    vars(args)["compiler"] = config.get("compiler")
-    vars(args)["trials"] = int(config.get("trials"))
-    vars(args)["warmup"] = int(config.get("warmup"))
-    test_compiler.set_seed(random_seed=int(config.get("seed")))
-    return args
+    return config
+
+
+def convert_args_for_eval_backend(args, output_path):
+    """Convert test_target_device args to eval_backend_perf args format."""
+    return types.SimpleNamespace(
+        model_path=args.model_path,
+        output_path=output_path,
+        seed=args.seed,
+        compiler=args.compiler,
+        device=args.device,
+        op_lib=args.op_lib,
+        warmup=args.warmup,
+        trials=args.trials,
+        log_prompt=args.log_prompt,
+        backend_config=getattr(args, "config", None),
+    )
 
 
 def test_single_model(args):
-    compiler = test_compiler.get_compiler_backend(args)
+    target_dir = "/tmp/eval_device_diff/target"
 
-    input_dict = test_compiler.get_input_dict(args)
-    model = test_compiler.get_model(args)
-    model.eval()
+    ref_config = get_ref_config_from_log(args, args.model_path)
+    vars(args)["compiler"] = ref_config.get("compiler")
+    vars(args)["trials"] = int(ref_config.get("trials"))
+    vars(args)["warmup"] = int(ref_config.get("warmup"))
+    vars(args)["seed"] = int(ref_config.get("seed"))
 
-    model_path = os.path.normpath(args.model_path)
-    test_compiler_util.print_with_log_prompt(
-        "[Processing]", model_path, args.log_prompt
-    )
-    test_compiler_util.print_basic_config(
-        args,
-        test_compiler.get_hardward_name(args),
-        test_compiler.get_compile_framework_version(args),
-    )
+    eval_args = convert_args_for_eval_backend(args, target_dir)
+    eval_backend_perf.eval_single_model_with_single_backend(eval_args)
 
-    success = False
-    time_stats = {}
-    try:
-        compiled_model = compiler(model)
-
-        def model_call():
-            return compiled_model(**input_dict)
-
-        outputs, time_stats = test_compiler.measure_performance(
-            model_call, args, compiler
-        )
-        success = True
-    except Exception as e:
-        print(
-            f"Run model failed: {str(e)}\n{traceback.format_exc()}",
-            file=sys.stderr,
-            flush=True,
-        )
-
-    test_compiler_util.print_running_status(args, success)
-
-    model_name = test_compiler_util.get_model_name(args.model_path)
-    if test_compiler_util.get_subgraph_tag(args.model_path):
-        model_name += "_" + test_compiler_util.get_subgraph_tag(args.model_path)
-
-    ref_dump = test_reference_device.get_reference_output_path(
-        args.reference_dir, args.model_path
-    )
+    ref_dump = utils.get_output_path(args.reference_dir, args.model_path)
     ref_out = torch.load(str(ref_dump))
+    ref_log = utils.get_log_path(args.reference_dir, args.model_path)
+    ref_time_stats = eval_backend_diff.parse_time_stats_from_reference_log(ref_log)
 
-    ref_log = test_reference_device.get_reference_log_path(
-        args.reference_dir, args.model_path
+    target_dump = utils.get_output_path(target_dir, args.model_path)
+    target_out = torch.load(str(target_dump))
+    target_log = utils.get_log_path(target_dir, args.model_path)
+    target_time_stats = eval_backend_diff.parse_time_stats_from_reference_log(
+        target_log
     )
-    ref_time_stats = parse_time_stats_from_reference_log(ref_log)
 
-    if success:
-        test_compiler.compare_correctness(ref_out, outputs, args)
-
-    test_compiler_util.print_times_and_speedup(args, ref_time_stats, time_stats)
+    eval_backend_diff.compare_correctness(ref_out, target_out, eval_args)
+    test_compiler_util.print_times_and_speedup(args, ref_time_stats, target_time_stats)
 
 
 def is_reference_log_exist(reference_dir, model_path):
-    log_path = test_reference_device.get_reference_log_path(reference_dir, model_path)
+    log_path = utils.get_log_path(reference_dir, model_path)
     return os.path.isfile(log_path)
 
 
@@ -172,18 +135,16 @@ def main(args):
 
     if path_utils.is_single_model_dir(args.model_path):
         if args.op_lib == "origin":
-            ref_log = test_reference_device.get_reference_log_path(
-                args.reference_dir, args.model_path
-            )
-            config = parse_config_from_reference_log(ref_log)
-            vars(args)["op_lib"] = config.get("op_lib")
-            test_compiler_util.print_with_log_prompt(
-                "[Config] op_lib:", args.op_lib, args.log_prompt
+            ref_config = get_ref_config_from_log(args, args.model_path)
+            vars(args)["op_lib"] = ref_config.get("op_lib")
+            print(
+                f"{args.log_prompt} [Config] op_lib: {args.op_lib}",
+                file=sys.stderr,
+                flush=True,
             )
         else:
-            test_reference_device.register_op_lib(args.op_lib)
+            eval_backend_perf.register_op_lib(args.op_lib)
 
-        args = update_args_and_set_seed(args, args.model_path)
         test_single_model(args)
     else:
         test_multi_models(args)

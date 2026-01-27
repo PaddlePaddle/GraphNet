@@ -231,8 +231,9 @@ def update_tensor_metas_by_dyn_dim_cstr(
     tensor_metas: list[TensorMeta], dyn_dim_cstr: DynamicDimConstraints
 ):
     input_shapes = dyn_dim_cstr.get_reified_input_shapes()
-    assert len(tensor_metas) == len(input_shapes)
-    for i, tensor_meta in enumerate(tensor_metas):
+    # Only update input tensors (first len(input_shapes) tensors), skip weight tensors
+    for i in range(min(len(input_shapes), len(tensor_metas))):
+        tensor_meta = tensor_metas[i]
         tensor_meta.shape = input_shapes[i]
         if tensor_meta.data is not None:
             assert isinstance(tensor_meta.data, (list, tuple))

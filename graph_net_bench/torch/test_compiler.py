@@ -487,6 +487,7 @@ def main(args):
 
     initalize_seed = 123
     set_seed(random_seed=initalize_seed)
+    torch.set_default_device(args.device)
 
     if path_utils.is_single_model_dir(args.model_path):
         test_single_model(args)

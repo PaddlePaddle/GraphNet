@@ -19,51 +19,72 @@ def measure_performance(model_call, args, compiler):
 
     if "cuda" in args.device:
         torch.cuda.empty_cache()
-        e2e_times, gpu_times = run_cuda_benchmark_timer(
-            model_call, args.trials, compiler
-        )
-        stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
-        stats["gpu"] = test_compiler_util.get_timing_stats(gpu_times)
+        executor = CUDATrialExecutor(model_call, compiler)
     else:
-        e2e_times = run_non_cuda_benchmark_timer(model_call, args.trials, compiler)
-        stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
+        executor = NoneCUDATrialExecutor(model_call, compiler)
+
+    timings = run_benchmark(args.trials, executor)
+
+    stats = {
+        name: test_compiler_util.get_timing_stats(values)
+        for name, values in timings.items()
+    }
 
     return outs, stats
 
 
-def run_cuda_benchmark_timer(model_call, trials, compiler):
-    e2e_times, gpu_times = [], []
+def run_benchmark(trials, executor):
+    results = {}
+
     for i in range(trials):
+        timings = executor.run_one_trial()
+
+        for k, v in timings.items():
+            results.setdefault(k, []).append(v)
+
+        log_trial(i + 1, timings)
+
+    return results
+
+
+def log_trial(idx, timings):
+    msg = ", ".join(f"{k}={v:.5f} ms" for k, v in timings.items())
+    print(f"Trial {idx}: {msg}", file=sys.stderr, flush=True)
+
+
+class BaseTrialExecutor:
+    def __init__(self, model_call, compiler):
+        self.model_call = model_call
+        self.compiler = compiler
+
+    def run_one_trial(self):
+        raise NotImplementedError
+
+
+class NoneCUDATrialExecutor(BaseTrialExecutor):
+    def run_one_trial(self):
         duration_box = test_compiler_util.DurationBox(-1)
-        with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
-            start_event = torch.cuda.Event(enable_timing=True)
-            end_event = torch.cuda.Event(enable_timing=True)
+        with test_compiler_util.naive_timer(duration_box, self.compiler.synchronize):
+            self.model_call()
+        return {"e2e": duration_box.value}
+
+
+class CUDATrialExecutor(BaseTrialExecutor):
+    def run_one_trial(self):
+        duration_box = test_compiler_util.DurationBox(-1)
+
+        start_event = torch.cuda.Event(enable_timing=True)
+        end_event = torch.cuda.Event(enable_timing=True)
+
+        with test_compiler_util.naive_timer(duration_box, self.compiler.synchronize):
             start_event.record()
-            model_call()
+            self.model_call()
             end_event.record()
-            compiler.synchronize()
+            self.compiler.synchronize()
 
-        gpu_time_ms = start_event.elapsed_time(end_event)
-        e2e_times.append(duration_box.value)
-        gpu_times.append(gpu_time_ms)
-        print(
-            f"Trial {i + 1}: e2e={duration_box.value:.5f} ms, gpu={gpu_time_ms:.5f} ms",
-            file=sys.stderr,
-            flush=True,
-        )
-    return e2e_times, gpu_times
+        gpu_time = start_event.elapsed_time(end_event)
 
-
-def run_non_cuda_benchmark_timer(model_call, trials, compiler):
-    e2e_times = []
-    for i in range(trials):
-        duration_box = test_compiler_util.DurationBox(-1)
-        with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
-            model_call()
-        e2e_times.append(duration_box.value)
-        print(
-            f"Trial {i + 1}: e2e={duration_box.value:.5f} ms",
-            file=sys.stderr,
-            flush=True,
-        )
-    return e2e_times
+        return {
+            "e2e": duration_box.value,
+            "gpu": gpu_time,
+        }

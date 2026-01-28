@@ -10,11 +10,12 @@ import traceback
 import json
 import random
 import numpy as np
+import platform
 import types
 from contextlib import redirect_stdout, redirect_stderr
 from graph_net_bench.torch.backend.graph_compiler_backend import GraphCompilerBackend
 from graph_net_bench import test_compiler_util
-from .timing import get_hardward_name, get_compiler_version, measure_performance
+from .timing import measure_performance
 
 
 def register_op_lib(op_lib):
@@ -33,6 +34,24 @@ def set_seed(random_seed):
     if torch.cuda.is_available():
         torch.cuda.manual_seed(random_seed)
         torch.cuda.manual_seed_all(random_seed)
+
+
+def get_hardward_name(device):
+    hardware_name = "unknown"
+    if "cuda" in device:
+        hardware_name = torch.cuda.get_device_name(device)
+    elif device == "cpu":
+        hardware_name = platform.processor()
+    return hardware_name
+
+
+def get_compiler_version(compiler):
+    if compiler in ["inductor", "nope", "unstable_to_stable"]:
+        return torch.__version__
+    elif compiler in ["tvm", "xla", "tensorrt", "bladedisc"]:
+        # Assuming compiler object has a version attribute
+        return f"{compiler.capitalize()} {compiler.version}"
+    return "unknown"
 
 
 def load_class_from_file(

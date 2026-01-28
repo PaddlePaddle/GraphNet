@@ -1,25 +1,6 @@
 import torch
-import platform
 import sys
 from graph_net_bench import test_compiler_util
-
-
-def get_hardward_name(device):
-    hardware_name = "unknown"
-    if "cuda" in device:
-        hardware_name = torch.cuda.get_device_name(device)
-    elif device == "cpu":
-        hardware_name = platform.processor()
-    return hardware_name
-
-
-def get_compiler_version(compiler):
-    if compiler in ["inductor", "nope", "unstable_to_stable"]:
-        return torch.__version__
-    elif compiler in ["tvm", "xla", "tensorrt", "bladedisc"]:
-        # Assuming compiler object has a version attribute
-        return f"{compiler.capitalize()} {compiler.version}"
-    return "unknown"
 
 
 def measure_performance(model_call, args, compiler):

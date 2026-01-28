@@ -9,7 +9,7 @@ import json
 import types
 from graph_net_bench import test_compiler_util
 from graph_net_bench import path_utils
-from .util.comparison import eval_single_model_with_single_backend
+from .util.eval_backend_perf import eval_single_model_with_single_backend
 
 
 def compare_correctness(expected_out, compiled_out, args):

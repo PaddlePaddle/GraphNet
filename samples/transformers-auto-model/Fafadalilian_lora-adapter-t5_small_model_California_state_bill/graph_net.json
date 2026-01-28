@@ -15,5 +15,8 @@
         "region:us"
     ],
     "heuristic_tag": "nlp",
-    "dimension_generalization_passes": []
+    "dimension_generalization_passes": [],
+    "data_type_generalization_passes": [
+        "dtype_generalization_pass_bfloat16"
+    ]
 }

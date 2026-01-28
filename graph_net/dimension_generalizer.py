@@ -262,10 +262,15 @@ class ApplyDimGenPasses:
 def update_tensor_metas_by_dyn_dim_cstr(
     tensor_metas: list[TensorMeta], dyn_dim_cstr: DynamicDimConstraints
 ):
-    input_shapes = dyn_dim_cstr.get_reified_input_shapes()
-    assert len(tensor_metas) == len(input_shapes)
-    for i, tensor_meta in enumerate(tensor_metas):
-        tensor_meta.shape = input_shapes[i]
+    input_shapes_with_names = dyn_dim_cstr.input_shapes
+    name2shape = {
+        name: [dyn_dim_cstr._try_reify(dim) for dim in shape]
+        for shape, name in input_shapes_with_names
+    }
+    for tensor_meta in tensor_metas:
+        if tensor_meta.name not in name2shape:
+            continue
+        tensor_meta.shape = name2shape[tensor_meta.name]
         if tensor_meta.data is not None:
             assert isinstance(tensor_meta.data, (list, tuple))
             size = functools.reduce(lambda a, b: a * b, tensor_meta.shape, 1)

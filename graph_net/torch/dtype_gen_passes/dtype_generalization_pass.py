@@ -32,19 +32,6 @@ AMP_CALL_METHOD = {
     "bmm",
 }
 
-FP32_ONLY_FUNCS = {
-    torch.nn.functional.softmax,
-    torch.nn.functional.layer_norm,
-    torch.nn.functional.group_norm,
-    torch.nn.functional.batch_norm,
-    torch.nn.functional.embedding,
-    torch.exp,
-    torch.log,
-    torch.pow,
-    torch.sigmoid,
-    torch.tanh,
-    torch.conv_transpose2d,
-}
 
 class ConcretePass(DtypeGeneralizationPass):
     """
@@ -107,6 +94,10 @@ class ConcretePass(DtypeGeneralizationPass):
             """Create a placeholder node with dtype conversion if needed."""
             new_node = new_graph.node_copy(node, lambda x: val_map.get(x, x))
             if self._is_float32_tensor(node):
+                attr_name = str(node.target)
+                if self.should_preserve_weight(attr_name):
+                    return new_node
+
                 return new_graph.call_method("to", args=(new_node, self.torch_dtype))
             return new_node
 
@@ -120,7 +111,7 @@ class ConcretePass(DtypeGeneralizationPass):
                 return new_graph.call_method("to", args=(new_node, self.torch_dtype))
             return new_node
 
-        def create_new_args(node: fx.Node, target_dtype: torch.dtype) -> list:
+        def create_new_args(node: fx.Node) -> list:
             """new_args of node with dtype conversion if needed."""
             new_args = []
 
@@ -128,29 +119,35 @@ class ConcretePass(DtypeGeneralizationPass):
                 if isinstance(arg, fx.Node):
                     mapped = val_map[arg]
                     if self._is_float32_tensor(arg):
-                        if target_dtype == torch.float32:
-                            mapped = new_graph.call_method("to", (mapped, torch.float32))
-                        elif target_dtype == self.torch_dtype:
-                            mapped = new_graph.call_method("to", (mapped, self.torch_dtype))
+                        mapped = new_graph.call_method("to", (mapped, self.torch_dtype))
                     new_args.append(mapped)
                 else:
                     new_args.append(arg)
             return new_args
 
+        def create_new_kwargs(node: fx.Node) -> dict:
+            """new_kwargs of node with dtype conversion if needed."""
+            new_kwargs = {}
+
+            for k, v in node.kwargs.items():
+                if isinstance(v, fx.Node):
+                    mapped = val_map[v]
+                    if self._is_float32_tensor(v):
+                        mapped = new_graph.call_method("to", (mapped, self.torch_dtype))
+                    else:
+                        new_kwargs[k] = mapped
+                else:
+                    new_kwargs[k] = v
+            return new_kwargs
+
         def create_call_function(node: fx.Node) -> fx.Node:
             """Create a call_function node with dtype conversion if needed."""
-            require_fp32 = is_fp32_node(node)
-            target_dtype = torch.float32 if require_fp32 else self.torch_dtype
+            if node.target not in AMP_CALL_FUNCTION:
+                return new_graph.node_copy(node, lambda x: val_map[x])
 
-            if node.target not in AMP_CALL_FUNCTION and not require_fp32:
-                 return new_graph.node_copy(node, lambda x: val_map[x])
+            new_args = create_new_args(node)
 
-            new_args = create_new_args(node, target_dtype)
-
-            new_kwargs = {
-                k: val_map[v] if isinstance(v, fx.Node) else v
-                for k, v in node.kwargs.items()
-            }
+            new_kwargs = create_new_kwargs(node)
 
             return new_graph.call_function(
                 node.target,
@@ -160,32 +157,18 @@ class ConcretePass(DtypeGeneralizationPass):
 
         def create_call_method(node: fx.Node) -> fx.Node:
             """Create a call_method node with dtype conversion if needed."""
-            require_fp32 = is_fp32_node(node)
-            target_dtype = torch.float32 if require_fp32 else self.torch_dtype
-
-            if node.target not in AMP_CALL_METHOD and not require_fp32:
+            if node.target not in AMP_CALL_METHOD:
                 return new_graph.node_copy(node, lambda x: val_map[x])
 
-            new_args = create_new_args(node, target_dtype)
+            new_args = create_new_args(node)
 
-            new_kwargs = {
-                k: (val_map[v] if isinstance(v, fx.Node) else v)
-                for k, v in node.kwargs.items()
-            }
+            new_kwargs = create_new_kwargs(node)
 
             return new_graph.call_method(
                 node.target,
                 tuple(new_args),
                 new_kwargs,
             )
-
-        def is_fp32_node(node: fx.Node) -> bool:
-            """Check if a node of float32 only op."""
-            if node.op == 'call_function':
-                return node.target in FP32_ONLY_FUNCS
-            elif node.op == 'call_method':
-                return node.target in AMP_CALL_METHOD
-            return False
 
         for node in gm.graph.nodes:
             if node.op == "placeholder":

@@ -7,6 +7,7 @@ import shutil
 import argparse
 import subprocess
 import glob
+from pathlib import Path
 from dataclasses import dataclass, field, asdict
 from typing import List, Dict
 from graph_net_bench.analysis_util import get_incorrect_models, get_min_passed_tolerance
@@ -576,7 +577,10 @@ def reconstruct_split_positions_for_subgraphs(
 
 def generate_initial_tasks(args):
     """Generates tasks for Pass 0 based on the initial log file."""
-    print(f"[Init] Pass 0: Reading from log file: {args.log_file}", flush=True)
+    print(
+        f"[Init] Pass 0: Reading from model-path-list file: {args.model_path_list}",
+        flush=True,
+    )
 
     if args.decompose_method == "fixed-start":
         max_subgraph_size = MAX_GRAPH_SIZE
@@ -588,9 +592,10 @@ def generate_initial_tasks(args):
     )
 
     model_name2record = {}
-    initial_incorrect_models = get_ranged_incorrect_models(
-        args.tolerance, args.log_file
-    )
+    model_path_list = Path(args.model_path_list).read_text()
+    initial_incorrect_models = [
+        line.strip() for line in model_path_list.splitlines() if line.strip()
+    ]
     for model_path in sorted(initial_incorrect_models):
         model_name = get_model_name_with_subgraph_tag(model_path)
         model_name2record[model_name] = ModelRecord(
@@ -862,7 +867,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--log-file", type=str, required=True)
+    parser.add_argument("--model-path-list", type=str, required=True)
     parser.add_argument("--output-dir", type=str, required=True)
     parser.add_argument(
         "--framework", type=str, choices=["paddle", "torch"], required=True

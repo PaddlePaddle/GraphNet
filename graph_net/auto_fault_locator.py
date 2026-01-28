@@ -12,7 +12,7 @@ from graph_net.subgraph_decompose_and_evaluation_step import (
 
 class AutoFaultLocator:
     def __init__(self, args):
-        self.log_file = os.path.abspath(args.log_file)
+        self.model_path_list = os.path.abspath(args.model_path_list)
         self.output_dir = os.path.abspath(args.output_dir)
         self.framework = args.framework
         self.decompose_method = args.decompose_method
@@ -29,8 +29,8 @@ class AutoFaultLocator:
             sys.executable,
             "-m",
             "graph_net.subgraph_decompose_and_evaluation_step",
-            "--log-file",
-            self.log_file,
+            "--model-path-list",
+            self.model_path_list,
             "--output-dir",
             self.output_dir,
             "--framework",
@@ -152,7 +152,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--log-file", type=str, required=True)
+    parser.add_argument("--model-path-list", type=str, required=True)
     parser.add_argument("--output-dir", type=str, required=True)
     parser.add_argument(
         "--framework", type=str, choices=["paddle", "torch"], required=True

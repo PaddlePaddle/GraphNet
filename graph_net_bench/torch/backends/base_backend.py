@@ -22,9 +22,19 @@ class BaseBackend(ABC):
         """Execute a single inference.
 
         Returns:
-            ExecuteResult containing outputs and metrics
+            ExecuteResult containing outputs and metrics.
+            Timing in metrics must include device synchronization.
         """
         pass
+
+    def warmup(self, num_warmup: int) -> None:
+        """Warmup runs before benchmark.
+
+        Default implementation executes num_warmup times.
+        Override for custom warmup logic.
+        """
+        for _ in range(num_warmup):
+            self.execute()
 
     def cleanup(self) -> None:
         """Release resources. Override if needed."""

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
-from ..backends.protocol import BaseBackend
+from ..backends.base_backend import BaseBackend
 
 
 class BenchmarkResult:

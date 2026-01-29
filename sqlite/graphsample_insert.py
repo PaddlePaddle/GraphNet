@@ -1,0 +1,350 @@
+import sqlite3
+import json
+import argparse
+from pathlib import Path
+from datetime import datetime
+import uuid as uuid_lib
+import re
+
+
+def get_graph_sample_data(
+    model_path_prefix: str,
+    relative_model_path: str,
+    repo_uid: str,
+    sample_type: str,
+    order_value: int,
+) -> dict:
+    model_path = Path(model_path_prefix) / relative_model_path
+
+    data = {
+        "uuid": _get_uuid(),
+        "repo_uid": repo_uid,
+        "relative_model_path": relative_model_path,
+        "sample_type": sample_type,
+        "is_subgraph": _is_subgraph(sample_type),
+        "num_ops": _get_num_ops(model_path, sample_type),
+        "graph_hash": _get_graph_hash(model_path),
+        "order_value": order_value,
+        "create_at": _get_create_at(),
+        "deleted": False,
+        "delete_at": None,
+    }
+    return data
+
+
+def insert_graph_sample(db_path: str, data: dict, model_path_prefix: str):
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    sql = """
+    INSERT INTO GraphSample (
+        uuid, repo_uid, relative_model_path, sample_type,
+        is_subgraph, num_ops, graph_hash, order_value,
+        create_at, deleted, delete_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """
+
+    cursor.execute(
+        sql,
+        (
+            data["uuid"],
+            data["repo_uid"],
+            data["relative_model_path"],
+            data["sample_type"],
+            data["is_subgraph"],
+            data["num_ops"],
+            data["graph_hash"],
+            data["order_value"],
+            data["create_at"],
+            data["deleted"],
+            data["delete_at"],
+        ),
+    )
+    conn.commit()
+    conn.close()
+
+
+# subgraph source insert func
+def insert_subgraph_source(
+    subgraph_uuid: str, model_path_prefix: str, relative_model_path: str, db_path: str
+):
+    parent_relative_path = get_parent_relative_path(relative_model_path)
+    full_graph_uuid = _query_full_graph_uuid(db_path, parent_relative_path)
+    range_info = _get_range_info(model_path_prefix, relative_model_path)
+    data = {
+        "subgraph_uuid": subgraph_uuid,
+        "full_graph_uuid": full_graph_uuid,
+        "range_start": range_info["start"],
+        "range_end": range_info["end"],
+        "create_at": _get_create_at(),
+        "deleted": False,
+        "delete_at": None,
+    }
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    sql = """
+    INSERT INTO SubgraphSource (
+        subgraph_uuid, full_graph_uuid, range_start, range_end,
+        create_at, deleted, delete_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+    """
+
+    cursor.execute(
+        sql,
+        (
+            data["subgraph_uuid"],
+            data["full_graph_uuid"],
+            data["range_start"],
+            data["range_end"],
+            data["create_at"],
+            data["deleted"],
+            data["delete_at"],
+        ),
+    )
+    conn.commit()
+    conn.close()
+    return data
+
+
+def _get_range_info(model_path_prefix: str, relative_model_path: str):
+    model_path = Path(model_path_prefix) / relative_model_path
+    subgraph_sources_file = model_path / "subgraph_sources.json"
+    if not subgraph_sources_file.exists():
+        return {"start": -1, "end": -1}
+
+    try:
+        with open(subgraph_sources_file) as f:
+            data = json.load(f)
+        for key, ranges in data.items():
+            if isinstance(ranges, list):
+                r = ranges[0]
+                if isinstance(r, list) and len(r) == 2:
+                    return {"start": r[0], "end": r[1]}
+        return {"start": -1, "end": -1}
+    except (json.JSONDecodeError, KeyError, TypeError, IndexError) as e:
+        print(f"Warning: Failed to parse {subgraph_sources_file}: {e}")
+        return {"start": -1, "end": -1}
+
+
+def _query_full_graph_uuid(db_path: str, parent_relative_path: str):
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    sql = """
+    SELECT uuid FROM GraphSample 
+    WHERE relative_model_path = ? AND sample_type = 'full_graph'
+    LIMIT 1
+    """
+    cursor.execute(sql, (parent_relative_path,))
+    result = cursor.fetchone()
+    conn.close()
+    if result:
+        return result[0]
+    return None
+
+
+def get_parent_relative_path(relative_path: str) -> str:
+    if "_decomposed" not in relative_path:
+        return None
+
+    parts = relative_path.split("/")
+    if len(parts) < 2:
+        return None
+
+    parent_parts = []
+    for part in parts:
+        if part == "_decomposed":
+            break
+        parent_parts.append(part)
+
+    return "/".join(parent_parts)
+
+
+# full_graph insert func
+def _get_uuid() -> str:
+    return uuid_lib.uuid4().hex
+
+
+def _is_subgraph(sample_type: str) -> bool:
+    return sample_type not in ("full_graph")
+
+
+def _get_num_ops(model_path: Path, sample_type: str):
+    if sample_type == "full_graph":
+        return -1
+    subgraph_sources_file = model_path / "subgraph_sources.json"
+    if not subgraph_sources_file.exists():
+        return -1
+
+    try:
+        with open(subgraph_sources_file) as f:
+            data = json.load(f)
+        for key, ranges in data.items():
+            if isinstance(ranges, list):
+                r = ranges[0]
+                if isinstance(r, list) and len(r) == 2:
+                    return r[1] - r[0]
+
+        return -1
+    except (json.JSONDecodeError, KeyError, TypeError, IndexError) as e:
+        print(f"Warning: Failed to parse {subgraph_sources_file}: {e}")
+        return -1
+
+
+def _get_graph_hash(model_path: Path) -> str:
+    hash_file = model_path / "graph_hash.txt"
+    if hash_file.exists():
+        return hash_file.read_text().strip()
+    return ""
+
+
+def _get_create_at() -> datetime:
+    return datetime.now()
+
+
+# DimensionGeneralizationSource insert func
+def insert_DimensionGeneralizationSource(
+    generalized_graph_uuid: str,
+    original_graph_uuid: str,
+    model_path_prefix: str,
+    relative_model_path: str,
+    db_path: str,
+):
+    data = {
+        "generalized_graph_uuid": generalized_graph_uuid,
+        "original_graph_uuid": original_graph_uuid,
+        "total_element_size": _get_total_element_size(
+            model_path_prefix, relative_model_path
+        ),
+        "create_at": _get_create_at(),
+        "deleted": False,
+        "delete_at": None,
+    }
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+    sql = """
+    INSERT INTO DimensionGeneralizationSource (
+        generalized_graph_uuid, original_graph_uuid, total_element_size,
+        create_at, deleted, delete_at
+    ) VALUES (?, ?, ?, ?, ?, ?)
+    """
+
+    cursor.execute(
+        sql,
+        (
+            data["generalized_graph_uuid"],
+            data["original_graph_uuid"],
+            data["total_element_size"],
+            data["create_at"],
+            data["deleted"],
+            data["delete_at"],
+        ),
+    )
+    conn.commit()
+    conn.close()
+
+
+def _get_total_element_size(model_path_prefix: str, relative_model_path: str):
+    model_path = Path(model_path_prefix) / relative_model_path
+    weight_meta_file = model_path / "weight_meta.py"
+    try:
+        with open(weight_meta_file) as f:
+            content = f.read()
+
+        shape_matches = re.findall(
+            r"shape\s*=\s*\[([0-9,\s\.]+(?:\d+)?[^\]]+)\s*\]", content
+        )
+        total_element_size = 0
+        for match in shape_matches:
+            shape_str = match.strip()
+            shape_element_size = 1
+            numbers = re.findall(r"[0-9]+(?:\.[0-9]+)?", shape_str)
+            for num_str in numbers:
+                num = float(num_str) if "." in num_str else int(num_str)
+                shape_element_size *= num
+
+            total_element_size += shape_element_size
+
+        return total_element_size
+    except Exception as e:
+        print(f"Warning: Failed to parse {weight_meta_file}: {e}")
+        return -1
+
+
+# main func
+def main(args):
+    data = get_graph_sample_data(
+        model_path_prefix=args.model_path_prefix,
+        relative_model_path=args.relative_model_path,
+        repo_uid=args.repo_uid,
+        sample_type=args.sample_type,
+        order_value=args.order_value,
+    )
+    print(f"\ninsert into database: {args.db_path}")
+    try:
+        insert_graph_sample(args.db_path, data, args.model_path_prefix)
+        if data["is_subgraph"]:
+            subgraph_source_data = insert_subgraph_source(
+                data["uuid"],
+                args.model_path_prefix,
+                data["relative_model_path"],
+                args.db_path,
+            )
+            if args.sample_type in ["fusible_graph"]:
+                insert_DimensionGeneralizationSource(
+                    subgraph_source_data["subgraph_uuid"],
+                    subgraph_source_data["full_graph_uuid"],
+                    args.model_path_prefix,
+                    args.relative_model_path,
+                    args.db_path,
+                )
+        print(f"success insert: {data['relative_model_path']}")
+    except sqlite3.IntegrityError as e:
+        print("insert failed: integrity error (possible duplicate uuid or graph_hash)")
+        print(f"error info: {e}")
+    except Exception as e:
+        print(f"insert failed: {e}")
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="insert graph sample to database")
+    parser.add_argument(
+        "--model_path_prefix",
+        type=str,
+        required=True,
+        default="GraphNet",
+        help="Prefix of model path root'",
+    )
+    parser.add_argument(
+        "--relative_model_path",
+        type=str,
+        required=True,
+        help="Path to model folder e.g '../../samples/torch/resnet18'",
+    )
+    parser.add_argument(
+        "--repo_uid",
+        type=str,
+        required=True,
+        help="Repository uid e.g 'github torch samples', 'github_paddle_samples'",
+    )
+    parser.add_argument(
+        "--sample_type",
+        type=str,
+        required=True,
+        default="full_graph",
+        help="Sample type e.g 'full_graph', 'fusible_graph'",
+    )
+    parser.add_argument(
+        "--order_value",
+        type=int,
+        required=True,
+        help="Order value e.g '1'",
+    )
+    parser.add_argument(
+        "--db_path",
+        type=str,
+        required=False,
+        default="graphnet.db",
+        help="Database file path e.g 'graphnet.db'",
+    )
+    args = parser.parse_args()
+    main(args)

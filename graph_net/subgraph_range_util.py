@@ -14,7 +14,7 @@ def compose_subgraph_ranges(
             return
         for parent_rel_model_path, parent_ranges in parent_subgraph_ranges[
             rel_model_path
-        ]:
+        ].items():
             yield parent_rel_model_path, flatmap_subgraph_ranges(ranges, parent_ranges)
 
     ret_rel_model_path_and_ranges = [

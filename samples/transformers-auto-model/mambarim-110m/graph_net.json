@@ -1,1 +1,30 @@
-{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "model_name": "dominguesm/mambarim-110m", "source": "huggingface_hub", "original_tag": ["transformers", "safetensors", "mamba", "text-generation", "pytorch", "LLM", "Portuguese", "pt", "dataset:nicholasKluge/Pt-Corpus-Instruct-tokenized-large", "license:cc-by-4.0", "autotrain_compatible", "text-generation-inference", "endpoints_compatible", "region:us"], "heuristic_tag": "nlp", "dimension_generalization_passes": []}
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": false,
+    "model_name": "dominguesm/mambarim-110m",
+    "source": "huggingface_hub",
+    "original_tag": [
+        "transformers",
+        "safetensors",
+        "mamba",
+        "text-generation",
+        "pytorch",
+        "LLM",
+        "Portuguese",
+        "pt",
+        "dataset:nicholasKluge/Pt-Corpus-Instruct-tokenized-large",
+        "license:cc-by-4.0",
+        "autotrain_compatible",
+        "text-generation-inference",
+        "endpoints_compatible",
+        "region:us"
+    ],
+    "heuristic_tag": "nlp",
+    "dimension_generalization_passes": [],
+    "data_type_generalization_passes": [
+        "dtype_generalization_pass_float16",
+        "dtype_generalization_pass_bfloat16"
+    ]
+}

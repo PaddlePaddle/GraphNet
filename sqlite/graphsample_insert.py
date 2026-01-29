@@ -15,7 +15,6 @@ def get_graph_sample_data(
     order_value: int,
 ) -> dict:
     model_path = Path(model_path_prefix) / relative_model_path
-
     data = {
         "uuid": _get_uuid(),
         "repo_uid": repo_uid,
@@ -43,7 +42,6 @@ def insert_graph_sample(db_path: str, data: dict, model_path_prefix: str):
         create_at, deleted, delete_at
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     """
-
     cursor.execute(
         sql,
         (
@@ -88,7 +86,6 @@ def insert_subgraph_source(
         create_at, deleted, delete_at
     ) VALUES (?, ?, ?, ?, ?, ?, ?)
     """
-
     cursor.execute(
         sql,
         (
@@ -227,7 +224,6 @@ def insert_DimensionGeneralizationSource(
         create_at, deleted, delete_at
     ) VALUES (?, ?, ?, ?, ?, ?)
     """
-
     cursor.execute(
         sql,
         (

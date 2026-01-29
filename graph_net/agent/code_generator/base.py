@@ -8,7 +8,7 @@ from graph_net.agent.metadata_analyzer.model_metadata import ModelMetadata
 
 class BaseCodeGenerator(ABC):
     """Base class for code generators"""
-    
+
     @abstractmethod
     def generate(
         self,
@@ -18,15 +18,15 @@ class BaseCodeGenerator(ABC):
     ) -> Path:
         """
         Generate run_model.py extraction script
-        
+
         Args:
             model_dir: Path to model directory
             model_metadata: Model metadata extracted from configuration
             output_dir: Output directory for generated script
-            
+
         Returns:
             Path to generated script file
-            
+
         Raises:
             CodeGenError: If code generation fails
         """

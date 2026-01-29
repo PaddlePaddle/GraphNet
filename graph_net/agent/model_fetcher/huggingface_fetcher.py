@@ -1,6 +1,5 @@
 """HuggingFace model fetcher implementation"""
 
-import os
 from pathlib import Path
 from typing import Optional
 
@@ -15,7 +14,7 @@ from graph_net.agent.utils.exceptions import ModelFetchError
 
 class HFFetcher(BaseModelFetcher):
     """HuggingFace model fetcher using huggingface_hub"""
-    
+
     def __init__(self, cache_dir: Optional[str] = None, token: Optional[str] = None):
         """
         Args:
@@ -24,17 +23,17 @@ class HFFetcher(BaseModelFetcher):
         """
         self.cache_dir = Path(cache_dir) if cache_dir else None
         self.token = token
-    
+
     def download(self, model_id: str) -> Path:
         """
         Download model from HuggingFace Hub
-        
+
         Args:
             model_id: HuggingFace model ID (e.g., "bert-base-uncased")
-            
+
         Returns:
             Path to local model directory
-            
+
         Raises:
             ModelFetchError: If download fails
         """
@@ -43,7 +42,7 @@ class HFFetcher(BaseModelFetcher):
                 "huggingface_hub is not installed. "
                 "Please install it with: pip install huggingface_hub"
             )
-        
+
         try:
             # Use snapshot_download to get all model files
             local_dir = snapshot_download(

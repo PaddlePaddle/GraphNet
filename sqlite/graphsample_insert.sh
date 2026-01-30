@@ -10,6 +10,7 @@ FUSIBLE_GRAPH_SAMPLES_LIST="tututu/fusible_subgraph_sample_list.txt"
 SOLE_OP_GRAPH_SAMPLES_LIST="sole_graph/single_operator_sample_list.txt"
 ORDER_VALUE=0
 
+
 if [ ! -f "$DB_PATH" ]; then
     echo "Fail ! No Database ! : $DB_PATH"
     exit 1

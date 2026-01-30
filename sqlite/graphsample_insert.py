@@ -5,8 +5,17 @@ from pathlib import Path
 from datetime import datetime
 import uuid as uuid_lib
 import re
+from orm_models import (
+    get_session,
+    GraphSample,
+    SubgraphSource,
+    DimensionGeneralizationSource,
+    DataTypeGeneralizationSource,
+)
+from sqlalchemy.exc import IntegrityError
 
 
+# graph_sample insert func
 def get_graph_sample_data(
     model_path_prefix: str,
     relative_model_path: str,
@@ -32,75 +41,63 @@ def get_graph_sample_data(
 
 
 def insert_graph_sample(db_path: str, data: dict, model_path_prefix: str):
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-
-    sql = """
-    INSERT INTO GraphSample (
-        uuid, repo_uid, relative_model_path, sample_type,
-        is_subgraph, num_ops, graph_hash, order_value,
-        create_at, deleted, delete_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    """
-    cursor.execute(
-        sql,
-        (
-            data["uuid"],
-            data["repo_uid"],
-            data["relative_model_path"],
-            data["sample_type"],
-            data["is_subgraph"],
-            data["num_ops"],
-            data["graph_hash"],
-            data["order_value"],
-            data["create_at"],
-            data["deleted"],
-            data["delete_at"],
-        ),
-    )
-    conn.commit()
-    conn.close()
+    session = get_session(db_path)
+    try:
+        graph_sample = GraphSample(**data)
+        session.add(graph_sample)
+        session.commit()
+        return graph_sample
+    except IntegrityError as e:
+        session.rollback()
+        raise e
+    finally:
+        session.close()
 
 
 # subgraph source insert func
 def insert_subgraph_source(
     subgraph_uuid: str, model_path_prefix: str, relative_model_path: str, db_path: str
 ):
-    parent_relative_path = get_parent_relative_path(relative_model_path)
-    full_graph_uuid = _query_full_graph_uuid(db_path, parent_relative_path)
-    range_info = _get_range_info(model_path_prefix, relative_model_path)
-    data = {
-        "subgraph_uuid": subgraph_uuid,
-        "full_graph_uuid": full_graph_uuid,
-        "range_start": range_info["start"],
-        "range_end": range_info["end"],
-        "create_at": _get_create_at(),
-        "deleted": False,
-        "delete_at": None,
-    }
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-    sql = """
-    INSERT INTO SubgraphSource (
-        subgraph_uuid, full_graph_uuid, range_start, range_end,
-        create_at, deleted, delete_at
-    ) VALUES (?, ?, ?, ?, ?, ?, ?)
-    """
-    cursor.execute(
-        sql,
-        (
-            data["subgraph_uuid"],
-            data["full_graph_uuid"],
-            data["range_start"],
-            data["range_end"],
-            data["create_at"],
-            data["deleted"],
-            data["delete_at"],
-        ),
-    )
-    conn.commit()
-    conn.close()
-    return data
+    session = get_session(db_path)
+    try:
+        parent_relative_path = get_parent_relative_path(relative_model_path)
+        full_graph = (
+            session.query(GraphSample)
+            .filter(
+                GraphSample.relative_model_path == parent_relative_path,
+                GraphSample.sample_type == "full_graph",
+            )
+            .first()
+        )
+
+        if not full_graph:
+            raise ValueError(f"Full graph not found for path: {parent_relative_path}")
+
+        range_info = _get_range_info(model_path_prefix, relative_model_path)
+
+        subgraph_source = SubgraphSource(
+            subgraph_uuid=subgraph_uuid,
+            full_graph_uuid=full_graph.uuid,
+            range_start=range_info["start"],
+            range_end=range_info["end"],
+            create_at=datetime.now(),
+            deleted=False,
+            delete_at=None,
+        )
+        session.add(subgraph_source)
+        session.commit()
+
+        return {
+            "subgraph_uuid": subgraph_source.subgraph_uuid,
+            "full_graph_uuid": subgraph_source.full_graph_uuid,
+            "range_start": subgraph_source.range_start,
+            "range_end": subgraph_source.range_end,
+        }
+    except IntegrityError as e:
+        session.rollback()
+        raise e
+    finally:
+        session.close()
 
 
 def _get_range_info(model_path_prefix: str, relative_model_path: str):
@@ -121,22 +118,6 @@ def _get_range_info(model_path_prefix: str, relative_model_path: str):
     except (json.JSONDecodeError, KeyError, TypeError, IndexError) as e:
         print(f"Warning: Failed to parse {subgraph_sources_file}: {e}")
         return {"start": -1, "end": -1}
-
-
-def _query_full_graph_uuid(db_path: str, parent_relative_path: str):
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-    sql = """
-    SELECT uuid FROM GraphSample 
-    WHERE relative_model_path = ? AND sample_type = 'full_graph'
-    LIMIT 1
-    """
-    cursor.execute(sql, (parent_relative_path,))
-    result = cursor.fetchone()
-    conn.close()
-    if result:
-        return result[0]
-    return None
 
 
 def get_parent_relative_path(relative_path: str) -> str:
@@ -206,37 +187,25 @@ def insert_DimensionGeneralizationSource(
     relative_model_path: str,
     db_path: str,
 ):
-    data = {
-        "generalized_graph_uuid": generalized_graph_uuid,
-        "original_graph_uuid": original_graph_uuid,
-        "total_element_size": _get_total_element_size(
-            model_path_prefix, relative_model_path
-        ),
-        "create_at": _get_create_at(),
-        "deleted": False,
-        "delete_at": None,
-    }
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-    sql = """
-    INSERT INTO DimensionGeneralizationSource (
-        generalized_graph_uuid, original_graph_uuid, total_element_size,
-        create_at, deleted, delete_at
-    ) VALUES (?, ?, ?, ?, ?, ?)
-    """
-    cursor.execute(
-        sql,
-        (
-            data["generalized_graph_uuid"],
-            data["original_graph_uuid"],
-            data["total_element_size"],
-            data["create_at"],
-            data["deleted"],
-            data["delete_at"],
-        ),
-    )
-    conn.commit()
-    conn.close()
+    session = get_session(db_path)
+    try:
+        dimension_source = DimensionGeneralizationSource(
+            generalized_graph_uuid=generalized_graph_uuid,
+            original_graph_uuid=original_graph_uuid,
+            total_element_size=_get_total_element_size(
+                model_path_prefix, relative_model_path
+            ),
+            create_at=datetime.now(),
+            deleted=False,
+            delete_at=None,
+        )
+        session.add(dimension_source)
+        session.commit()
+    except IntegrityError as e:
+        session.rollback()
+        raise e
+    finally:
+        session.close()
 
 
 def _get_total_element_size(model_path_prefix: str, relative_model_path: str):
@@ -266,6 +235,37 @@ def _get_total_element_size(model_path_prefix: str, relative_model_path: str):
         return -1
 
 
+# DataTypeGeneralizationSource insert func
+def insert_DataTypeGeneralizationSource(
+    generalized_graph_uuid: str,
+    original_graph_uuid: str,
+    model_path_prefix: str,
+    relative_model_path: str,
+    db_path: str,
+):
+    session = get_session(db_path)
+    try:
+        data_type_source = DataTypeGeneralizationSource(
+            generalized_graph_uuid=generalized_graph_uuid,
+            original_graph_uuid=original_graph_uuid,
+            data_type=_get_data_type(model_path_prefix, relative_model_path),
+            create_at=datetime.now(),
+            deleted=False,
+            delete_at=None,
+        )
+        session.add(data_type_source)
+        session.commit()
+    except IntegrityError as e:
+        session.rollback()
+        raise e
+    finally:
+        session.close()
+
+
+def _get_data_type(model_path_prefix: str, relative_model_path: str):
+    return "todo"
+
+
 # main func
 def main(args):
     data = get_graph_sample_data(
@@ -287,6 +287,13 @@ def main(args):
             )
             if args.sample_type in ["fusible_graph"]:
                 insert_DimensionGeneralizationSource(
+                    subgraph_source_data["subgraph_uuid"],
+                    subgraph_source_data["full_graph_uuid"],
+                    args.model_path_prefix,
+                    args.relative_model_path,
+                    args.db_path,
+                )
+                insert_DataTypeGeneralizationSource(
                     subgraph_source_data["subgraph_uuid"],
                     subgraph_source_data["full_graph_uuid"],
                     args.model_path_prefix,

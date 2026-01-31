@@ -74,7 +74,6 @@ def insert_subgraph_source(
             raise ValueError(f"Full graph not found for path: {parent_relative_path}")
 
         range_info = _get_range_info(model_path_prefix, relative_model_path)
-
         subgraph_source = SubgraphSource(
             subgraph_uuid=subgraph_uuid,
             full_graph_uuid=full_graph.uuid,
@@ -180,7 +179,7 @@ def _get_create_at() -> datetime:
 
 
 # DimensionGeneralizationSource insert func
-def insert_DimensionGeneralizationSource(
+def insert_dimension_generalization_source(
     generalized_graph_uuid: str,
     original_graph_uuid: str,
     model_path_prefix: str,
@@ -236,7 +235,7 @@ def _get_total_element_size(model_path_prefix: str, relative_model_path: str):
 
 
 # DataTypeGeneralizationSource insert func
-def insert_DataTypeGeneralizationSource(
+def insert_datatype_generalization_source(
     generalized_graph_uuid: str,
     original_graph_uuid: str,
     model_path_prefix: str,
@@ -286,14 +285,14 @@ def main(args):
                 args.db_path,
             )
             if args.sample_type in ["fusible_graph"]:
-                insert_DimensionGeneralizationSource(
+                insert_dimension_generalization_source(
                     subgraph_source_data["subgraph_uuid"],
                     subgraph_source_data["full_graph_uuid"],
                     args.model_path_prefix,
                     args.relative_model_path,
                     args.db_path,
                 )
-                insert_DataTypeGeneralizationSource(
+                insert_datatype_generalization_source(
                     subgraph_source_data["subgraph_uuid"],
                     subgraph_source_data["full_graph_uuid"],
                     args.model_path_prefix,

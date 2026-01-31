@@ -19,7 +19,7 @@ Base = declarative_base()
 
 
 class Repo(Base):
-    __tablename__ = "Repo"
+    __tablename__ = "repo"
 
     repo_uid = Column(String(255), primary_key=True)
     repo_type = Column(String(50), nullable=False)
@@ -29,10 +29,10 @@ class Repo(Base):
 
 
 class GraphSample(Base):
-    __tablename__ = "GraphSample"
+    __tablename__ = "graph_sample"
 
     uuid = Column(String(255), primary_key=True)
-    repo_uid = Column(String(255), ForeignKey("Repo.repo_uid"), nullable=False)
+    repo_uid = Column(String(255), ForeignKey("repo.repo_uid"), nullable=False)
     relative_model_path = Column(String, nullable=False)
     sample_type = Column(String(50), nullable=False)
     is_subgraph = Column(Boolean, default=False)
@@ -101,13 +101,13 @@ class GraphSample(Base):
 
 
 class SubgraphSource(Base):
-    __tablename__ = "SubgraphSource"
+    __tablename__ = "subgraph_source"
 
     subgraph_uuid = Column(
-        String(255), ForeignKey("GraphSample.uuid"), nullable=False, primary_key=True
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
     )
     full_graph_uuid = Column(
-        String(255), ForeignKey("GraphSample.uuid"), nullable=False
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False
     )
     range_start = Column(Integer, nullable=False)
     range_end = Column(Integer, nullable=False)
@@ -131,13 +131,13 @@ class SubgraphSource(Base):
 
 
 class DimensionGeneralizationSource(Base):
-    __tablename__ = "DimensionGeneralizationSource"
+    __tablename__ = "dimension_generalization_source"
 
     generalized_graph_uuid = Column(
-        String(255), ForeignKey("GraphSample.uuid"), nullable=False, primary_key=True
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
     )
     original_graph_uuid = Column(
-        String(255), ForeignKey("GraphSample.uuid"), nullable=False
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False
     )
     total_element_size = Column(Integer, nullable=False)
     create_at = Column(DateTime, default=datetime.now)
@@ -163,13 +163,13 @@ class DimensionGeneralizationSource(Base):
 
 
 class DataTypeGeneralizationSource(Base):
-    __tablename__ = "DataTypeGeneralizationSource"
+    __tablename__ = "datatype_generalization_source"
 
     generalized_graph_uuid = Column(
-        String(255), ForeignKey("GraphSample.uuid"), nullable=False, primary_key=True
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
     )
     original_graph_uuid = Column(
-        String(255), ForeignKey("GraphSample.uuid"), nullable=False
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False
     )
     data_type = Column(String(50), nullable=False)
     create_at = Column(DateTime, default=datetime.now)
@@ -194,16 +194,16 @@ class DataTypeGeneralizationSource(Base):
 
 
 class BackwardGraphSource(Base):
-    __tablename__ = "BackwardGraphSource"
+    __tablename__ = "backward_graph_source"
 
     forward_graph_uuid = Column(
-        String(255), ForeignKey("GraphSample.uuid"), nullable=False, primary_key=True
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
     )
     backward_graph_uuid = Column(
-        String(255), ForeignKey("GraphSample.uuid"), nullable=False
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False
     )
     original_graph_uuid = Column(
-        String(255), ForeignKey("GraphSample.uuid"), nullable=False
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False
     )
     create_at = Column(DateTime, default=datetime.now)
     deleted = Column(Boolean, default=False)
@@ -251,12 +251,12 @@ def drop_all_tables(db_path: str):
         conn.execute(text("PRAGMA foreign_keys = OFF;"))
 
         drop_order = [
-            "SubgraphSource",
-            "DimensionGeneralizationSource",
-            "DataTypeGeneralizationSource",
-            "BackwardGraphSource",
-            "GraphSample",
-            "Repo",
+            "subgraph_source",
+            "dimension_generalization_source",
+            "datatype_generalization_source",
+            "backward_graph_source",
+            "graph_sample",
+            "repo",
         ]
 
         for table in drop_order:

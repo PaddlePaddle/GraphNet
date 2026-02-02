@@ -115,6 +115,8 @@ class SubgraphGenerator(SamplePass, ResumableSamplePassMixin):
         return fn
 
     def _choose_device(self, device) -> str:
+        if device is None:
+            return None
         if device in ["cpu", "cuda"]:
             return device
         return "cuda" if torch.cuda.is_available() else "cpu"
@@ -165,6 +167,7 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
         if not self.extracted:
             self.builtin_extractor(self.submodule, args)
             self._reset_tensor_metas_by_parent()
+            self._copy_graph_net_json_from_parent()
             self.extracted = True
         return self.submodule(*args)
 
@@ -180,6 +183,14 @@ class NaiveDecomposerExtractorModule(torch.nn.Module):
             mut_file_path=self._get_model_path() / "weight_meta.py",
             const_file_path=parent_model_path / "weight_meta.py",
         )
+
+    def _copy_graph_net_json_from_parent(self):
+        parent_model_path = (
+            Path(self.parent_graph_model_path_root) / self.parent_graph_rel_model_path
+        )
+        src_path = parent_model_path / "graph_net.json"
+        dst_path = self._get_model_path() / "graph_net.json"
+        shutil.copyfile(src_path, dst_path)
 
     def _save_subgraph_sources(self):
         sources_json_obj = self._get_sources_json_obj()

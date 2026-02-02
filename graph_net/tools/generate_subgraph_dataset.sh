@@ -39,25 +39,17 @@ deduplicated_subgraph_list=${DECOMPOSE_WORKSPACE}/deduplicated_subgraph_sample_l
 fusible_subgraph_list=${DECOMPOSE_WORKSPACE}/fusible_subgraph_sample_list.txt
 deduplicated_fusible_subgraphs_list=${DECOMPOSE_WORKSPACE}/deduplicated_fusible_subgraph_sample_list.txt
 group_subgraph_sources_list=${DECOMPOSE_WORKSPACE}/group_subgraph_sources_sample_list.txt
-dimension_generalizer_samples_list=dimension_generalizer_sample_list.txt
+dimension_generalized_subgraph_list=${DECOMPOSE_WORKSPACE}/dimension_generalized_subgraph_sample_list.txt
 
-function generate_subgraph_list_by_index() {
+function generate_subgraph_list_common() {
     local target_dir="$1"
-    local sample_list_name="$2"  
-    local max_index="$3" 
-    echo ">>> Generate subgraph_sample_list for samples under ${target_dir} with index 0-${max_index}."
+    local sample_list="$2"  
+    echo ">>> Generate subgraph_sample_list for samples under ${target_dir}."
     echo ">>>"
-    for index in $(seq 0 $max_index); do
-        local sample_list="${target_dir}/${index}/${sample_list_name}"
-        echo ">>> Generating list for index ${index}"
-        
-        find ${target_dir}/${index} -name "model.py" \
-            | xargs dirname \
-            | xargs realpath --relative-to=${target_dir}/${index} \
-            | tee $sample_list
-            
-        echo "Generated: $sample_list"
-    done
+    find ${target_dir} -name "model.py" \
+        | xargs dirname \
+        | xargs realpath --relative-to=${target_dir} \
+        | tee $sample_list
 }
 
 function generate_subgraph_list() {
@@ -102,7 +94,7 @@ function dimension_generalizer(){
         --sample-pass-class-name "ApplyDimGenPasses" \
         --sample-pass-config $(base64 -w 0 <<EOF
 {
-    "output_dir": "${DIMENSION_GENERALIZER_OUTPUT_DIR}",
+    "output_dir": "${DIMENSION_GENERALIZED_OUTPUT_DIR}",
     "model_path_prefix": "$DEVICE_REWRITED_OUTPUT_DIR",
     "dimension_generalizer_filepath": "$GRAPH_NET_ROOT/graph_net/torch/static_to_dynamic.py",
     "dimension_generalizer_class_name": "StaticToDynamic",
@@ -114,17 +106,17 @@ EOF
 }
 
 function generate_op_names() {
-    echo ">>> [3] Generate op_names.txt for samples in ${device_rewrited_sample_list}."
+    echo ">>> [3] Generate op_names.txt for samples in ${model_list}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
-        --model-path-list $device_rewrited_sample_list \
+        --model-path-list $model_list \
         --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/op_names_extractor.py",
     "handler_class_name": "OpNamesExtractor",
     "handler_config": {
         "resume": ${RESUME},
-        "model_path_prefix": "$DEVICE_REWRITED_OUTPUT_DIR",
+        "model_path_prefix": "$GRAPH_NET_ROOT",
         "output_dir": "${OP_NAMES_OUTPUT_DIR}"
     }
 }
@@ -133,16 +125,16 @@ EOF
 }
 
 function generate_split_point() {
-    echo ">>> [4] Generate split points for samples in ${device_rewrited_sample_list}."
+    echo ">>> [4] Generate subgraph_ranges.json for samples in ${model_list}."
     echo ">>>   MIN_SEQ_OPS: ${MIN_SEQ_OPS}, MAX_SEQ_OPS: ${MAX_SEQ_OPS}"
     echo ">>>"
     python3 -m graph_net.apply_sample_pass \
-        --model-path-list $device_rewrited_sample_list \
+        --model-path-list $model_list \
         --sample-pass-file-path $GRAPH_NET_ROOT/graph_net/torch/sample_pass/typical_sequence_split_points.py \
         --sample-pass-class-name TypicalSequenceSplitPointsGenerator \
         --sample-pass-config=$(base64 -w 0 <<EOF
 {
-        "model_path_prefix": "$DEVICE_REWRITED_OUTPUT_DIR",
+        "model_path_prefix": "$GRAPH_NET_ROOT",
         "output_dir": "$SUBGRAPH_RANGES_JSON_ROOT", 
         "op_names_path_prefix": "${OP_NAMES_OUTPUT_DIR}",
         "device": "cuda",
@@ -175,7 +167,8 @@ function range_decompose() {
         "subgraph_ranges_json_root": "${SUBGRAPH_RANGES_JSON_ROOT}",
         "subgraph_ranges_json_file_name": "typical_subgraph_ranges.json",
         "group_head_and_tail": false,
-        "chain_style": false
+        "chain_style": false,
+        "device": "cuda"
     }
 }
 EOF
@@ -216,7 +209,7 @@ function remove_duplicate_renamed_graphs() {
 }
 
 function gen_fusible_subgraphs() {
-    echo ">>> [8] Generate fusible subgraphs for subgraph samples under ${DEVICE_REWRITED_OUTPUT_DIR}."
+    echo ">>> [8] Generate fusible subgraphs for subgraph samples under ${DEDUPLICATED_OUTPUT_DIR}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
         --use-subprocess    \
@@ -321,18 +314,20 @@ function remove_duplicate_fusible_graphs() {
 }
 
 function subgraph_dimension_generalizer(){
-    echo ">>> [11] Generating dimension_subgraph samples under ${DIMENSION_GENERALIZER_OUTPUT_DIR}."
+    echo ">>> [11] Generate dimension generalized subgraph samples under ${DIMENSION_GENERALIZED_OUTPUT_DIR}."
     for index in {0..8}; do
-        echo ">>> Generating dimension_subgraph variant index: ${index}"
+        echo ">>> Generating dimension generalized subgraph variant index: ${index}"
+        dimension_generalized_sample_list="${DIMENSION_GENERALIZED_OUTPUT_DIR}/${index}/dimension_generalized_sample_list.txt"
+        generate_subgraph_list ${DIMENSION_GENERALIZED_OUTPUT_DIR}/${index} ${dimension_generalized_samples_list}
         python3 -m graph_net.model_path_handler \
-        --model-path-list "${DIMENSION_GENERALIZER_OUTPUT_DIR}/${index}/${dimension_generalizer_samples_list}" \
-        --handler-config $(base64 -w 0 <<EOF
+            --model-path-list "${dimension_generalized_sample_list}" \
+            --handler-config $(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_generator.py",
     "handler_class_name": "SubgraphGenerator",
     "handler_config": {
-        "model_path_prefix": "${DIMENSION_GENERALIZER_OUTPUT_DIR}/${index}",
-        "output_dir": "${DIMENSION_SUBGRAPH_SAMPLES_OUTPUT_DIR}/${index}",
+        "model_path_prefix": "${DIMENSION_GENERALIZED_OUTPUT_DIR}/${index}",
+        "output_dir": "${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR}/${index}",
         "subgraph_ranges_json_root": "$GROUPED_FUSIBLE_SUBGRAPH_RANGES_DIR",
         "subgraph_ranges_json_file_name": "grouped_fusible_subgraph_ranges.json",
         "device": "cuda",
@@ -360,28 +355,25 @@ function dtype_generalizer() {
     "model_runnable_predicator_config": {
         "use_dummy_inputs": true
     },
-    "resume": ${RESUME},
-    "limits_handled_models": null
+    "resume": ${RESUME}
 }
 EOF
 )
 }
 
 function generate_unittests() {
-    echo ">>> [13] Generate unittests for subgraph samples under ${DIMENSION_SUBGRAPH_SAMPLES_OUTPUT_DIR}. "
+    echo ">>> [13] Generate unittests for subgraph samples under ${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR}. "
     echo ">>>"
-    for index in {0..8}; do
-        echo ">>> Generating unittests variant index: ${index}"
-        python3 -m graph_net.model_path_handler \
-            --model-path-list "${DIMENSION_SUBGRAPH_SAMPLES_OUTPUT_DIR}/${index}/dimension_subgraph_list.txt" \
-            --handler-config=$(base64 -w 0 <<EOF
+    python3 -m graph_net.model_path_handler \
+        --model-path-list ${dimension_generalized_subgraph_list} \
+        --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "${GRAPH_NET_ROOT}/graph_net/sample_pass/agent_unittest_generator.py",
     "handler_class_name": "AgentUnittestGeneratorPass",
     "handler_config": {
         "framework": "torch",
-        "model_path_prefix": "${DIMENSION_SUBGRAPH_SAMPLES_OUTPUT_DIR}/${index}",
-        "output_dir": "${UNITTESTS_OUTPUT_DIR}/${index}",
+        "model_path_prefix": "${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR}",
+        "output_dir": "${UNITTESTS_OUTPUT_DIR}",
         "device": "cuda",
         "generate_main": false,
         "try_run": true,
@@ -392,37 +384,35 @@ function generate_unittests() {
 }
 EOF
 )
-    done
 }
 
 main() {
     timestamp=`date +%Y%m%d_%H%M`
     suffix="${OP_RANGE}ops_${timestamp}"
 
-    rewrite_device 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rewrite_device_${suffix}.txt
-    generate_subgraph_list ${DEVICE_REWRITED_OUTPUT_DIR} ${device_rewrited_subgraph_list}
-    
-    dimension_generalizer 2>&1 | tee ${DIMENSION_GENERALIZER_OUTPUT_DIR}/log_dimension_generalizer_${suffix}.txt
-    generate_subgraph_list_by_index ${DIMENSION_GENERALIZER_OUTPUT_DIR} ${dimension_generalizer_samples_list} 8
+    #rewrite_device 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rewrite_device_${suffix}.txt
+    #generate_subgraph_list ${DEVICE_REWRITED_OUTPUT_DIR} ${device_rewrited_sample_list}
 
-    generate_op_names 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_op_names_${suffix}.txt
-    generate_split_point 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_split_point_${suffix}.txt
-    range_decompose 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_range_decompose_${suffix}.txt
-    generate_subgraph_list ${RANGE_DECOMPOSE_OUTPUT_DIR} ${range_decomposed_subgraph_list}
+    #dimension_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_dimension_generalizer_${suffix}.txt
 
-    rename_decomposed_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_decomposed_subgraph_${suffix}.txt
-    remove_duplicate_renamed_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_renamed_graphs_${suffix}.txt
-    generate_subgraph_list ${DEDUPLICATED_OUTPUT_DIR} ${deduplicated_subgraph_list}
+    #generate_op_names 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_op_names_${suffix}.txt
+    #generate_split_point 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_split_point_${suffix}.txt
+    #range_decompose 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_range_decompose_${suffix}.txt
+    #generate_subgraph_list ${RANGE_DECOMPOSE_OUTPUT_DIR} ${range_decomposed_subgraph_list}
 
-    gen_fusible_subgraphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_fusible_subgraphs_${suffix}.txt
-    generate_subgraph_list ${FUSIBLE_SUBGRAPH_SAMPLES_DIR} ${fusible_subgraph_list}
-    
-    rename_fusible_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_fusible_subgraph_${suffix}.txt
-    remove_duplicate_fusible_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_fusible_graphs_${suffix}.txt
-    generate_subgraph_list ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR} ${deduplicated_fusible_subgraphs_list}
+    #rename_decomposed_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_decomposed_subgraph_${suffix}.txt
+    #remove_duplicate_renamed_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_renamed_graphs_${suffix}.txt
+    #generate_subgraph_list ${DEDUPLICATED_OUTPUT_DIR} ${deduplicated_subgraph_list}
 
-    get_dimension_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_get_dimension_subgraph_${suffix}.txt
-    generate_subgraph_list_by_index ${DIMENSION_SUBGRAPH_SAMPLES_OUTPUT_DIR} dimension_subgraph_list.txt 8
+    #gen_fusible_subgraphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_fusible_subgraphs_${suffix}.txt
+    #generate_subgraph_list ${FUSIBLE_SUBGRAPH_SAMPLES_DIR} ${fusible_subgraph_list}
+
+    #rename_fusible_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_fusible_subgraph_${suffix}.txt
+    #remove_duplicate_fusible_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_fusible_graphs_${suffix}.txt
+    #generate_subgraph_list ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR} ${deduplicated_fusible_subgraphs_list}
+
+    #subgraph_dimension_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_subgraph_dimension_generalizer_${suffix}.txt
+    #generate_subgraph_list_common ${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR} ${dimension_generalized_subgraph_list}
 
     #dtype_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_dtype_generalizer_${suffix}.txt
 

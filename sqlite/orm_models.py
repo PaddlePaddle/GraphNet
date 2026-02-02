@@ -1,5 +1,4 @@
-from sqlalchemy.orm import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from datetime import datetime
 from sqlalchemy import (
     create_engine,
@@ -11,9 +10,7 @@ from sqlalchemy import (
     ForeignKey,
     Index,
     UniqueConstraint,
-    text,
 )
-import argparse
 
 Base = declarative_base()
 
@@ -236,86 +233,3 @@ def get_session(db_path: str, echo: bool = False):
     engine = create_engine(f"sqlite:///{db_path}", echo=echo)
     Session = sessionmaker(bind=engine)
     return Session()
-
-
-def init_db(db_path: str):
-    engine = create_engine(f"sqlite:///{db_path}")
-    Base.metadata.create_all(engine)
-    _insert_initial_data(db_path, engine)
-
-
-def drop_all_tables(db_path: str):
-    engine = create_engine(f"sqlite:///{db_path}")
-
-    with engine.connect() as conn:
-        conn.execute(text("PRAGMA foreign_keys = OFF;"))
-
-        drop_order = [
-            "subgraph_source",
-            "dimension_generalization_source",
-            "datatype_generalization_source",
-            "backward_graph_source",
-            "graph_sample",
-            "repo",
-        ]
-
-        for table in drop_order:
-            conn.execute(text(f"DROP TABLE IF EXISTS {table};"))
-
-    print(f"Dropped all tables: {db_path}")
-
-
-def _insert_initial_data(db_path: str, engine=None):
-    if engine is None:
-        engine = create_engine(f"sqlite:///{db_path}")
-    Session = sessionmaker(bind=engine)
-    session = Session()
-    try:
-        repos = [
-            Repo(
-                repo_uid="github_torch_samples",
-                repo_type="github",
-                repo_name="GraphNet",
-                repo_url="https://github.com/PaddlePaddle/GraphNet",
-            ),
-            Repo(
-                repo_uid="github_paddle_samples",
-                repo_type="github",
-                repo_name="GraphNet",
-                repo_url="https://github.com/PaddlePaddle/GraphNet",
-            ),
-        ]
-        for repo in repos:
-            existing = session.query(Repo).filter_by(repo_uid=repo.repo_uid).first()
-            if not existing:
-                session.add(repo)
-        session.commit()
-    except Exception:
-        session.rollback()
-        raise
-    finally:
-        session.close()
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="GraphNet database management tool")
-    parser.add_argument(
-        "--db_path", type=str, default="sqlite/GraphNet.db", help="database path"
-    )
-    subparsers = parser.add_subparsers(dest="command", help="available commands")
-
-    init_parser = subparsers.add_parser("init", help="initialize database")
-    subparsers.add_parser("drop", help="drop all tables")
-
-    args = parser.parse_args()
-
-    if args.command == "init":
-        print(f"Initializing database: {args.db_path}")
-        init_db(args.db_path)
-        print("Database initialized successfully.")
-    elif args.command == "drop":
-        print(f"Dropping all tables: {args.db_path}")
-        drop_all_tables(args.db_path)
-        print("Tables dropped successfully.")
-    else:
-        parser.print_help()

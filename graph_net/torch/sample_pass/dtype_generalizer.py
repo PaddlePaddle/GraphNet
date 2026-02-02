@@ -401,7 +401,13 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             f.write(write_code)
 
         # Copy metadata files
-        for fname in ["graph_net.json", "weight_meta.py", "input_meta.py", "input_tensor_constraints.py", "graph_hash.txt"]:
+        for fname in [
+            "graph_net.json",
+            "weight_meta.py",
+            "input_meta.py",
+            "input_tensor_constraints.py",
+            "graph_hash.txt",
+        ]:
             src = Path(model_path) / fname
             if src.exists():
                 shutil.copy(src, output_sample_dir / fname)
@@ -439,15 +445,22 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             model_path: Original model path
         """
         # Generate output directory
-        output_sample_dir = Path(self.output_dir) / f"float32" / model_path
+        output_sample_dir = Path(self.output_dir) / "float32" / model_path
         output_sample_dir.mkdir(parents=True, exist_ok=True)
 
         # Copy all files
-        for fname in ["graph_net.json", "weight_meta.py", "input_meta.py", "model.py",
-            "input_tensor_constraints.py", "graph_hash.txt"]:
+        for fname in [
+            "graph_net.json",
+            "weight_meta.py",
+            "input_meta.py",
+            "model.py",
+            "input_tensor_constraints.py",
+            "graph_hash.txt",
+        ]:
             src = Path(model_path) / fname
             if src.exists():
                 shutil.copy(src, output_sample_dir / fname)
+
 
 class MultiDtypeFilter:
     """

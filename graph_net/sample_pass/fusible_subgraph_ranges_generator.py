@@ -189,11 +189,12 @@ class FusibleSubgraphRangesAnalyzer:
             if is_a_range(num_ops_list)
             if valid_fused_ops(num_ops_list)
         ]
+        offset = self.start_offset_in_original_graph
         fusible_subgraph_ranges = [
             (start, end)
             for num_ops_list in num_ops_lists
-            for start in [num_ops_list[0] - 1]
-            for end in [num_ops_list[-1]]
+            for start in [num_ops_list[0] - 1 + offset]
+            for end in [num_ops_list[-1] + offset]
         ]
 
         # sorted by `start`

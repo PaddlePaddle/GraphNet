@@ -4,6 +4,7 @@
 <div align="center">
 
 ![](https://img.shields.io/github/issues/PaddlePaddle/GraphNet?label=open%20issues)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/PaddlePaddle/GraphNet)
 [![arXiv](https://img.shields.io/badge/arXiv-2510.24035-b31b1b.svg)](https://arxiv.org/abs/2510.24035)
 <a href="https://github.com/user-attachments/assets/125e3494-25c9-4494-9acd-8ad65ca85d03"><img src="https://img.shields.io/badge/微信-green?logo=wechat&amp"></a>
 </div>

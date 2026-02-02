@@ -17,6 +17,7 @@ DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
 DEVICE_REWRITED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/device_rewrited
 DIMENSION_GENERALIZER_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/dimension_generalized_samples
 OP_NAMES_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/sample_op_names
+SPLIT_POINTS_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/split_points
 RANGE_DECOMPOSE_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/range_decompose
 GRAPH_VAR_RENAME_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/graph_var_renamed
 DEDUPLICATED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/deduplicated
@@ -172,7 +173,7 @@ function range_decompose() {
         "resume": ${RESUME},
         "model_path_prefix": "$DEVICE_REWRITED_OUTPUT_DIR",
         "output_dir": "${RANGE_DECOMPOSE_OUTPUT_DIR}",
-        "subgraph_ranges_json_root": "$DECOMPOSE_WORKSPACE",
+        "subgraph_ranges_json_root": "$SPLIT_POINTS_OUTPUT_DIR",
         "subgraph_ranges_json_file_name": "typical_subgraph_ranges.json",
         "group_head_and_tail": false,
         "chain_style": false
@@ -269,13 +270,13 @@ EOF
 )
 
     python3 -m graph_net.model_path_handler \
-        --model-path-list "$device_rewrited_subgraph_list" \
+        --model-path-list "$model_list" \
         --handler-config $(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_generator.py",
     "handler_class_name": "SubgraphGenerator",
     "handler_config": {
-        "model_path_prefix": "${DEVICE_REWRITED_OUTPUT_DIR}",
+        "model_path_prefix": "$GRAPH_NET_ROOT",
         "output_dir": "$FUSIBLE_SUBGRAPH_SAMPLES_DIR",
         "subgraph_ranges_json_root": "$GROUPED_FUSIBLE_SUBGRAPH_RANGES_DIR",
         "subgraph_ranges_json_file_name": "grouped_fusible_subgraph_ranges.json",
@@ -286,6 +287,7 @@ EOF
 EOF
 )
 }
+
 
 function rename_fusible_subgraph() {
     echo ">>> [9] Rename subgraph samples under ${FUSIBLE_SUBGRAPH_SAMPLES_DIR}."

@@ -1,29 +1,32 @@
 #!/bin/bash
 set -x
 
-MIN_SEQ_OPS=${1:-16}
+MIN_SEQ_OPS=${1:-4}
 MAX_SEQ_OPS=${2:-64}
-GPU_ID=${3:-0}
+GPU_ID=${3:-5}
 
 OP_RANGE=$MIN_SEQ_OPS-$MAX_SEQ_OPS
 
 export CUDA_VISIBLE_DEVICES="${GPU_ID}"
+export PYTHONPATH=/work/GraphNet:/work/abstract_pass/Athena:$PYTHONPATH
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 RESUME="true"
 
-DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
-OP_NAMES_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/sample_op_names
-RANGE_DECOMPOSE_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/range_decompose
-GRAPH_VAR_RENAME_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/graph_var_renamed
-DEDUPLICATED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/deduplicated
-DEVICE_REWRITED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/device_rewrited
-CUMSUM_NUM_KERNELS_DIR=$DECOMPOSE_WORKSPACE/cumsum_num_kernels
-FUSIBLE_SUBGRAPH_RANGES_DIR=$DECOMPOSE_WORKSPACE/fusible_subgraph_ranges
-FUSIBLE_SUBGRAPH_SAMPLES_DIR=$DECOMPOSE_WORKSPACE/fusible_subgraph_samples
-RENAMED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/renamed_fusible_subgraphs
-DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/deduplicated_fusible_subgraphs
-UNITTESTS_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/unittests
+DECOMPOSE_WORKSPACE=/work/graphnet_test_workspace/subgraph_dataset_20260202
+OP_NAMES_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/01_sample_op_names
+SUBGRAPH_RANGES_JSON_ROOT=$DECOMPOSE_WORKSPACE/02_subgraph_ranges
+RANGE_DECOMPOSE_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/03_range_decompose_subgraphs
+GRAPH_VAR_RENAME_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/04_renamed_subgraphs
+DEDUPLICATED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/05_deduplicated_subgraphs
+DEVICE_REWRITED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/06_device_rewrited_subgraphs
+CUMSUM_NUM_KERNELS_DIR=$DECOMPOSE_WORKSPACE/07_cumsum_num_kernels
+FUSIBLE_SUBGRAPH_RANGES_DIR=$DECOMPOSE_WORKSPACE/08_fusible_subgraph_ranges
+FUSIBLE_SUBGRAPH_SAMPLES_DIR=$DECOMPOSE_WORKSPACE/09_fusible_subgraph_samples
+RENAMED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/10_renamed_fusible_subgraphs
+DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/11_deduplicated_fusible_subgraphs
+DTYPE_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/12_dtype_generalized_fusible_subgraphs
+UNITTESTS_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/13_kernelbench_unittests
 
 mkdir -p "$DECOMPOSE_WORKSPACE"
 
@@ -77,7 +80,7 @@ function generate_split_point() {
         --sample-pass-config=$(base64 -w 0 <<EOF
 {
         "model_path_prefix": "$GRAPH_NET_ROOT",
-        "output_dir": "$DECOMPOSE_WORKSPACE", 
+        "output_dir": "$SUBGRAPH_RANGES_JSON_ROOT", 
         "op_names_path_prefix": "${OP_NAMES_OUTPUT_DIR}",
         "device": "cuda",
         "window_size": 64,
@@ -106,7 +109,7 @@ function range_decompose() {
         "resume": ${RESUME},
         "model_path_prefix": "$GRAPH_NET_ROOT",
         "output_dir": "${RANGE_DECOMPOSE_OUTPUT_DIR}",
-        "subgraph_ranges_json_root": "$DECOMPOSE_WORKSPACE",
+        "subgraph_ranges_json_root": "$SUBGRAPH_RANGES_JSON_ROOT",
         "subgraph_ranges_json_file_name": "typical_subgraph_ranges.json",
         "group_head_and_tail": false,
         "chain_style": false
@@ -259,8 +262,31 @@ function remove_duplicate_fusible_graphs() {
         --target-dir ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}
 }
 
+function dtype_generalizer() {
+    echo ">>> [10] Dimension generalizer for samples under ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}."
+    echo ">>>"
+    python3 -m graph_net.apply_sample_pass \
+        --model-path-list $deduplicated_fusible_subgraphs_list \
+        --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/dtype_generalizer.py" \
+        --sample-pass-class-name ApplyDataTypeGeneralizationPasses \
+        --sample-pass-config $(base64 -w 0 <<EOF
+{
+    "output_dir": "$DTYPE_GENERALIZED_OUTPUT_DIR",
+    "model_path_prefix": "$DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR",
+    "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
+    "model_runnable_predicator_class_name": "RunModelPredicator",
+    "model_runnable_predicator_config": {
+        "use_dummy_inputs": true
+    },
+    "resume": ${RESUME},
+    "limits_handled_models": null
+}
+EOF
+)
+}
+
 function generate_unittests() {
-    echo ">>> [10] Generate unittests for subgraph samples under ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}."
+    echo ">>> [11] Generate unittests for subgraph samples under ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
         --model-path-list ${deduplicated_fusible_subgraphs_list} \
@@ -307,6 +333,9 @@ main() {
     remove_duplicate_fusible_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_fusible_graphs_${suffix}.txt
 
     generate_subgraph_list ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR} ${deduplicated_fusible_subgraphs_list}
+    dtype_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_dtype_generalizer_${suffix}.txt
+    exit
+
     generate_unittests 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_${suffix}.txt
 }
 

@@ -1,5 +1,6 @@
 import sqlite3
 import re
+import argparse
 from pathlib import Path
 
 
@@ -53,4 +54,12 @@ def migrate(db_path: str = "sqlite/GraphNet.db", migrates_dir: str = "sqlite/mig
 
 
 if __name__ == "__main__":
-    migrate()
+    parser = argparse.ArgumentParser(description="GraphNet database migration tool")
+    parser.add_argument(
+        "--db_path",
+        type=str,
+        default="sqlite/GraphNet.db",
+        help="Database file path (default: sqlite/GraphNet.db)",
+    )
+    args = parser.parse_args()
+    migrate(args.db_path)

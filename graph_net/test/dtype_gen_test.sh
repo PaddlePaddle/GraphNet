@@ -32,12 +32,9 @@ python3 -m graph_net.apply_sample_pass \
     "output_dir": "$OUTPUT_DIR",
     "model_path_prefix": "$GRAPHNET_ROOT",
     "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
-    "model_runnable_predicator_class_name": "RunModelPredicator",
-    "model_runnable_predicator_config": {
-        "use_dummy_inputs": true
-    },
     "resume": true,
-    "limits_handled_models": null
+    "limits_handled_models": null,
+    "try_run": true
 }
 EOF
 )

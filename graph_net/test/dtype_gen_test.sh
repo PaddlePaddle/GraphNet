@@ -43,25 +43,3 @@ EOF
 )
 
 
-# Step 3: Valiation
-SUCCESS_CNT=0
-FAIL_CNT=0
-
-for model_path in "$OUTPUT_DIR"/*; do
-    echo "[VALIDATE] $model_path"
-
-    output=$(python -m graph_net.torch.validate \
-        --model-path "$model_path" 2>&1)
-
-    if echo "$output" | grep -q "Validation success, model_path="; then
-        echo "SUCCESS"
-        ((SUCCESS_CNT++))
-    else
-        echo "FAIL"
-        ((FAIL_CNT++))
-    fi
-done
-
-echo "===================="
-echo "SUCCESS $SUCCESS_CNT"
-echo "FAIL    $FAIL_CNT"

@@ -308,17 +308,20 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         """
         # Apply model_path_prefix if provided
         if self.model_path_prefix:
-            model_path = str(Path(self.model_path_prefix) / model_path)
+            model_path_abs = str(Path(self.model_path_prefix) / model_path)
 
         # Read pass names from graph_net.json
-        dtype_pass_names = self._read_dtype_pass_names(model_path)
+        dtype_pass_names = self._read_dtype_pass_names(model_path_abs)
 
         if not dtype_pass_names:
-            logging.warning(f"No dtype passes found in {model_path}/graph_net.json")
+            logging.warning(f"No dtype passes found in {model_path_abs}/graph_net.json")
             return []
 
         # Parse the computation graph
-        traced_model = parse_immutable_model_path_into_sole_graph_module(model_path)
+        traced_model = parse_immutable_model_path_into_sole_graph_module(model_path_abs)
+
+        # Copy the originl sample
+        self._copy_sample(model_path)
 
         # Generate samples for each pass
         generated_samples = []
@@ -388,8 +391,7 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         gm_modified = dtype_pass.rewrite(gm_copy)
 
         # Generate output directory
-        model_name = Path(model_path).name
-        output_sample_dir = Path(self.output_dir) / f"{model_name}_{dtype}"
+        output_sample_dir = Path(self.output_dir) / dtype / model_path
         output_sample_dir.mkdir(parents=True, exist_ok=True)
 
         # Write modified model.py
@@ -399,7 +401,7 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             f.write(write_code)
 
         # Copy metadata files
-        for fname in ["graph_net.json", "weight_meta.py", "input_meta.py"]:
+        for fname in ["graph_net.json", "weight_meta.py", "input_meta.py", "input_tensor_constraints.py", "graph_hash.txt"]:
             src = Path(model_path) / fname
             if src.exists():
                 shutil.copy(src, output_sample_dir / fname)
@@ -429,6 +431,23 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         update_json(graph_net_json_path, kDtypeGeneralizationPrecision, dtype)
         update_json(graph_net_json_path, kDtypeGeneralizationGenerated, True)
 
+    def _copy_sample(self, model_path: str) -> None:
+        """
+        Copy a sample.
+
+        Args:
+            model_path: Original model path
+        """
+        # Generate output directory
+        output_sample_dir = Path(self.output_dir) / f"float32" / model_path
+        output_sample_dir.mkdir(parents=True, exist_ok=True)
+
+        # Copy all files
+        for fname in ["graph_net.json", "weight_meta.py", "input_meta.py", "model.py",
+            "input_tensor_constraints.py", "graph_hash.txt"]:
+            src = Path(model_path) / fname
+            if src.exists():
+                shutil.copy(src, output_sample_dir / fname)
 
 class MultiDtypeFilter:
     """

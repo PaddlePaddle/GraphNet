@@ -13,6 +13,7 @@ export PYTHONPATH=/work/GraphNet:/work/abstract_pass/Athena:$PYTHONPATH
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 RESUME="true"
 
+#DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
 DECOMPOSE_WORKSPACE=/work/graphnet_test_workspace/subgraph_dataset_20260202
 DEVICE_REWRITED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/01_device_rewrited_samples
 DIMENSION_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/02_dimension_generalized_samples
@@ -24,11 +25,10 @@ DEDUPLICATED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/07_deduplicated_subgraphs
 CUMSUM_NUM_KERNELS_DIR=$DECOMPOSE_WORKSPACE/08_cumsum_num_kernels
 FUSIBLE_SUBGRAPH_RANGES_DIR=$DECOMPOSE_WORKSPACE/09_fusible_subgraph_ranges
 GROUPED_FUSIBLE_SUBGRAPH_RANGES_DIR=$DECOMPOSE_WORKSPACE/10_grouped_fusible_subgraph_ranges
-#FUSIBLE_SUBGRAPH_SAMPLES_DIR=$DECOMPOSE_WORKSPACE/10_fusible_subgraph_samples
 SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/11_dimension_generalized_fusible_subgraphs
 RENAMED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/12_renamed_dimension_generalized_fusible_subgraphs
 DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/13_deduplicated_dimension_generalized_fusible_subgraphs
-#DTYPE_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/12_dtype_generalized_fusible_subgraphs
+#DTYPE_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/14_dtype_generalized_fusible_subgraphs
 UNITTESTS_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/14_kernelbench_unittests
 
 mkdir -p "$DECOMPOSE_WORKSPACE"
@@ -207,7 +207,7 @@ function remove_duplicate_renamed_graphs() {
         --target-dir ${DEDUPLICATED_OUTPUT_DIR}
 }
 
-function gen_fusible_subgraphs() {
+function gen_fusible_subgraph_ranges() {
     echo ">>> [8] Generate fusible subgraphs for subgraph samples under ${DEDUPLICATED_OUTPUT_DIR}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
@@ -373,29 +373,31 @@ main() {
     timestamp=`date +%Y%m%d_%H%M`
     suffix="${OP_RANGE}ops_${timestamp}"
 
-    #rewrite_device 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rewrite_device_${suffix}.txt
-    #generate_subgraph_list ${DEVICE_REWRITED_OUTPUT_DIR} ${device_rewrited_sample_list}
+    # rewrite the device in model to cuda
+    rewrite_device 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rewrite_device_${suffix}.txt
+    generate_subgraph_list ${DEVICE_REWRITED_OUTPUT_DIR} ${device_rewrited_sample_list}
 
-    #dimension_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_dimension_generalizer_${suffix}.txt
+    # whole-graph dimension generalization
+    dimension_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_dimension_generalizer_${suffix}.txt
 
-    #generate_op_names 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_op_names_${suffix}.txt
-    #generate_split_point 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_split_point_${suffix}.txt
-    #range_decompose 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_range_decompose_${suffix}.txt
-    #generate_subgraph_list ${RANGE_DECOMPOSE_OUTPUT_DIR} ${range_decomposed_subgraph_list}
+    # typical subgraph decomposition
+    generate_op_names 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_op_names_${suffix}.txt
+    generate_split_point 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_split_point_${suffix}.txt
+    range_decompose 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_range_decompose_${suffix}.txt
+    generate_subgraph_list ${RANGE_DECOMPOSE_OUTPUT_DIR} ${range_decomposed_subgraph_list}
 
-    #rename_decomposed_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_decomposed_subgraph_${suffix}.txt
-    #remove_duplicate_renamed_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_renamed_graphs_${suffix}.txt
-    #generate_subgraph_list ${DEDUPLICATED_OUTPUT_DIR} ${deduplicated_subgraph_list}
+    # generate fusible subgraph ranges
+    gen_fusible_subgraph_ranges 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_fusible_subgraphs_${suffix}.txt
 
-    #gen_fusible_subgraphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_fusible_subgraphs_${suffix}.txt
+    # subgraph dimension generalization
+    subgraph_dimension_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_subgraph_dimension_generalizer_${suffix}.txt
+    generate_generalized_subgraph_list ${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR} ${dimension_generalized_subgraph_list}
 
-    #subgraph_dimension_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_subgraph_dimension_generalizer_${suffix}.txt
-    #generate_generalized_subgraph_list ${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR} ${dimension_generalized_subgraph_list}
+    rename_dimension_generalized_fusible_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_dimension_generalized_subgraph_${suffix}.txt
+    remove_duplicate_dimension_generalized_fusible_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_dimension_generalized_subgraphs_${suffix}.txt
+    generate_generalized_subgraph_list ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} ${deduplicated_fusible_subgraphs_list}
 
-    #rename_dimension_generalized_fusible_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_dimension_generalized_subgraph_${suffix}.txt
-    #remove_duplicate_dimension_generalized_fusible_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_dimension_generalized_subgraphs_${suffix}.txt
-    #generate_generalized_subgraph_list ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} ${deduplicated_fusible_subgraphs_list}
-
+    # generate kernelbench format unittest
     generate_unittests 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_${suffix}.txt
 }
 

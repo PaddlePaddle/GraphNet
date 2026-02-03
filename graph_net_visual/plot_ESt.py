@@ -348,38 +348,16 @@ def main(args):
                         np.where(agg_x_vals == 0)[0][0] if 0 in agg_x_vals else None
                     )
 
-                    if agg_zero_index is not None:
-                        ax.plot(
-                            agg_x_vals[: agg_zero_index + 1],
-                            agg_y_vals[: agg_zero_index + 1],
-                            "s--",
-                            color=color,
-                            label=f"{folder_name} (aggregated)",
-                            linewidth=2,
-                            markersize=6,
-                            alpha=0.7,
-                        )
-                        ax.plot(
-                            agg_x_vals[agg_zero_index:],
-                            agg_y_vals[agg_zero_index:],
-                            "s--",
-                            color=color,
-                            linewidth=2,
-                            markersize=6,
-                            drawstyle="steps-post",
-                            alpha=0.7,
-                        )
-                    else:
-                        ax.plot(
-                            agg_x_vals,
-                            agg_y_vals,
-                            "s--",
-                            color=color,
-                            label=f"{folder_name} (aggregated)",
-                            linewidth=2,
-                            markersize=6,
-                            alpha=0.7,
-                        )
+                    ax.plot(
+                        agg_x_vals[agg_zero_index:],
+                        agg_y_vals[agg_zero_index:],
+                        "s--",
+                        color=color,
+                        linewidth=2,
+                        markersize=6,
+                        drawstyle="steps-post",
+                        alpha=0.7,
+                    )
 
             # Update x-axis range if needed
             if all_x_coords:

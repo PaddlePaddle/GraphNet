@@ -253,6 +253,8 @@ def plot_ES_results(s_scores: dict, args: argparse.Namespace):
     ax.xaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
     ax.yaxis.grid(True, which="major", lw=0.7, ls=":", color="grey", alpha=0.5)
 
+    ax.set_ylim(bottom=0)
+
     return fig, ax, all_x_coords
 
 

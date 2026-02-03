@@ -56,6 +56,8 @@ def plot_St(s_scores: dict, cli_args: argparse.Namespace):
     ax.xaxis.grid(True, which="major", lw=0.8, ls=":", color="grey", alpha=0.5)
     ax.yaxis.grid(True, which="major", lw=0.8, ls=":", color="grey", alpha=0.5)
 
+    ax.set_ylim(bottom=0)
+
     ax.legend(fontsize=16, loc="best")
     output_file = os.path.join(cli_args.output_dir, "St_result.png")
     plt.savefig(output_file, dpi=300, bbox_inches="tight")

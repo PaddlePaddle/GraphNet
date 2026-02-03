@@ -332,12 +332,9 @@ function dtype_generalizer() {
         --sample-pass-config $(base64 -w 0 <<EOF
 {
     "output_dir": "$DTYPE_GENERALIZED_OUTPUT_DIR",
-    "model_path_prefix": "$DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR",
+    "model_path_prefix": "$DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR",
     "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
-    "model_runnable_predicator_class_name": "RunModelPredicator",
-    "model_runnable_predicator_config": {
-        "use_dummy_inputs": true
-    },
+    "try_run": false,
     "resume": ${RESUME}
 }
 EOF

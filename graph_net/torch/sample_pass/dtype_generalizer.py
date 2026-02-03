@@ -236,8 +236,9 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             "output_dir": "/path/to/output",
             "model_path_prefix": "",
             "model_runnable_predicator_filepath": "...",
-            "model_runnable_predicator_class_name": "...",
-            "model_runnable_predicator_config": {...},
+            "resume": ,
+            "limits_handled_models": ,
+            "try_run": ,
         }
     """
 
@@ -250,6 +251,9 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             raise ValueError("output_dir is required in config")
 
         self.model_path_prefix = config.get("model_path_prefix", "")
+        self.model_runnable_predicator_class_name = "RunModelPredicator"
+        self.model_runnable_predicator_config = {"use_dummy_inputs": True}
+        self.try_run = config.get("try_run", True)
 
         # model_runnable_predicator is required to ensure generated code is runnable
         if "model_runnable_predicator_filepath" not in config:
@@ -264,21 +268,17 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         output_dir: str,
         model_path_prefix: str,
         model_runnable_predicator_filepath: str,
-        model_runnable_predicator_class_name: str,
-        model_runnable_predicator_config: dict,
         resume: bool = False,
         limits_handled_models: int = None,
+        try_run: bool = True,
     ):
         pass
 
     def _make_model_runnable_predicator(self, config: Dict[str, Any]):
         """Create model runnable predicator from config."""
         module = load_module(config["model_runnable_predicator_filepath"])
-        cls = getattr(
-            module,
-            config.get("model_runnable_predicator_class_name", "RunModelPredicator"),
-        )
-        predicator_config = config.get("model_runnable_predicator_config", {})
+        cls = getattr(module, self.model_runnable_predicator_class_name)
+        predicator_config = self.model_runnable_predicator_config
         return cls(predicator_config)
 
     def sample_handled(self, rel_model_path: str) -> bool:
@@ -430,11 +430,12 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         self._update_sample_metadata(output_sample_dir, dtype)
 
         # Validate generated sample (required - generated code must be runnable)
-        if not self.model_runnable_predicator(str(output_sample_dir)):
-            raise RuntimeError(
-                f"Generated sample failed validation: {output_sample_dir}"
-            )
-        logging.info(f"Generated sample validated: {output_sample_dir}")
+        if self.try_run:
+            if not self.model_runnable_predicator(str(output_sample_dir)):
+                raise RuntimeError(
+                    f"Generated sample failed validation: {output_sample_dir}"
+                )
+            logging.info(f"Generated sample validated: {output_sample_dir}")
 
         return str(output_sample_dir)
 

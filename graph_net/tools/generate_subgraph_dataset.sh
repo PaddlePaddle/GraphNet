@@ -14,7 +14,7 @@ GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(
 RESUME="true"
 
 #DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
-DECOMPOSE_WORKSPACE=/work/graphnet_test_workspace/subgraph_dataset_20260202
+DECOMPOSE_WORKSPACE=/work/graphnet_test_workspace/subgraph_dataset_20260203
 DEVICE_REWRITED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/01_device_rewrited_samples
 DIMENSION_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/02_dimension_generalized_samples
 OP_NAMES_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/03_sample_op_names
@@ -33,7 +33,7 @@ UNITTESTS_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/14_kernelbench_unittests
 
 mkdir -p "$DECOMPOSE_WORKSPACE"
 
-model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt" 
+model_list="$GRAPH_NET_ROOT/graph_net/config/torch_samples_list.txt"
 device_rewrited_sample_list=${DECOMPOSE_WORKSPACE}/device_rewrited_sample_list.txt
 range_decomposed_subgraph_list=${DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_sample_list.txt
 deduplicated_subgraph_list=${DECOMPOSE_WORKSPACE}/deduplicated_subgraph_sample_list.txt
@@ -266,7 +266,7 @@ function subgraph_dimension_generalizer(){
     for index in {0..8}; do
         echo ">>> Generating dimension generalized subgraph variant index: ${index}"
         dimension_generalized_sample_list="${DIMENSION_GENERALIZED_OUTPUT_DIR}/${index}/dimension_generalized_sample_list.txt"
-        generate_subgraph_list ${DIMENSION_GENERALIZED_OUTPUT_DIR}/${index} ${dimension_generalized_samples_list}
+        generate_subgraph_list ${DIMENSION_GENERALIZED_OUTPUT_DIR}/${index} ${dimension_generalized_sample_list}
         python3 -m graph_net.model_path_handler \
             --model-path-list "${dimension_generalized_sample_list}" \
             --handler-config $(base64 -w 0 <<EOF
@@ -386,6 +386,10 @@ main() {
     range_decompose 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_range_decompose_${suffix}.txt
     generate_subgraph_list ${RANGE_DECOMPOSE_OUTPUT_DIR} ${range_decomposed_subgraph_list}
 
+    rename_decomposed_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_decomposed_subgraph_${suffix}.txt
+    remove_duplicate_renamed_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_renamed_graphs_${suffix}.txt
+    generate_subgraph_list ${DEDUPLICATED_OUTPUT_DIR} ${deduplicated_subgraph_list}
+
     # generate fusible subgraph ranges
     gen_fusible_subgraph_ranges 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_fusible_subgraphs_${suffix}.txt
 
@@ -401,4 +405,85 @@ main() {
     generate_unittests 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_${suffix}.txt
 }
 
+summary() {
+    num_original_samples=`cat $model_list | grep "^samples/" | wc -l`
+    echo "Number of original graphnet samples: $num_original_samples"
+
+    num_device_rewrited_samples=`find ${DEVICE_REWRITED_OUTPUT_DIR} -name "model.py" | wc -l`
+    device_rewrited_successed_precent=$(( num_device_rewrited_samples * 100 / num_original_samples ))
+    echo "- [Step  1] device rewrite: successed=${num_device_rewrited_samples}, percent=$device_rewrited_successed_precent%"
+
+    num_successed_dimension_generalized_samples=`find ${DIMENSION_GENERALIZED_OUTPUT_DIR} -name "model.py" | wc -l`
+    dimension_generalized_samples_successed_percent=$((num_successed_dimension_generalized_samples * 100 / (num_original_samples * 9)))
+    echo "- [Step  2] dimension generalization: successed=${num_successed_dimension_generalized_samples}, percent=${dimension_generalized_samples_successed_percent}%"
+    for index in {0..8}; do
+        num_successed_dimension_generalized_samples=`find ${DIMENSION_GENERALIZED_OUTPUT_DIR}/${index} -name "model.py" | wc -l`
+        dimension_generalized_samples_successed_percent=$(( num_successed_dimension_generalized_samples * 100 / num_original_samples ))
+        echo "    ${index}, successed=${num_successed_dimension_generalized_samples}, percent=${dimension_generalized_samples_successed_percent}%"
+    done
+    echo ""
+
+    num_successed_op_names=`find ${OP_NAMES_OUTPUT_DIR} -name op_names.txt | wc -l`
+    op_names_successed_percent=$(( num_successed_op_names * 100 / num_original_samples ))
+    echo "- [Step  3] generate op names: successed=${num_successed_op_names}, percent=${op_names_successed_percent}%"
+
+    num_typical_subgraph_ranges=`find ${SUBGRAPH_RANGES_JSON_ROOT} -name typical_subgraph_ranges.json | wc -l`
+    typical_subgraph_ranges_successed_percent=$(( num_typical_subgraph_ranges * 100 / num_original_samples ))
+    echo "- [Step  4] generate typical subgraph ranges: successed=${num_typical_subgraph_ranges}, percent=${typical_subgraph_ranges_successed_percent}%"
+
+    num_successed_range_decomposed_subgraphs=`find ${RANGE_DECOMPOSE_OUTPUT_DIR} -name "model.py" | wc -l`
+    echo "- [Step  5] range decompose: successed=${num_successed_range_decomposed_subgraphs}"
+    
+    num_renamed_subgraphs=`find ${GRAPH_VAR_RENAME_OUTPUT_DIR} -name "model.py" | wc -l`
+    echo "- [Step  6] rename: successed=${num_renamed_subgraphs}"
+    
+    num_deduplicated_subgraphs=`find ${DEDUPLICATED_OUTPUT_DIR} -name "model.py" | wc -l`
+    echo "- [Step  7] remove duplicated: successed=${num_deduplicated_subgraphs}"
+
+    num_successed_cumsum_kernels_subgraphs=`find ${CUMSUM_NUM_KERNELS_DIR} -name "cumsum_num_kernels.json" | wc -l`
+    cumsum_kernels_successed_percent=$((num_successed_cumsum_kernels_subgraphs * 100 / num_deduplicated_subgraphs))
+    echo "- [Step  8] cumsum kernels: successed=${num_successed_cumsum_kernels_subgraphs}, percent=${cumsum_kernels_successed_percent}%"
+
+    num_fusible_subgraph_ranges=`find ${FUSIBLE_SUBGRAPH_RANGES_DIR} -name "fusible_subgraph_ranges.json" | wc -l`
+    num_grouped_fusible_subgraph_ranges=`find ${GROUPED_FUSIBLE_SUBGRAPH_RANGES_DIR} -name "grouped_fusible_subgraph_ranges.json" | wc -l`
+    echo "    fusible subgraph ranges: successed=${num_fusible_subgraph_ranges}"
+    echo "    grouped fusible subgraph ranges: successed=${num_grouped_fusible_subgraph_ranges}"
+    echo ""
+
+    num_successed_dimension_generalized_subgraphs=`find ${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR} -name "model.py" | wc -l`
+    echo "- [Step  9] subgraph dimension generalization: successed=${num_successed_dimension_generalized_subgraphs}"
+    for index in {0..8}; do
+        num_successed_dimension_generalized_subgraphs=`find ${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR}/${index} -name "model.py" | wc -l`
+        echo "    ${index}, successed=${num_successed_dimension_generalized_subgraphs}"
+    done
+    echo ""
+
+    num_renamed_fusible_subgraphs=`find ${RENAMED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} -name "model.py" | wc -l`
+    echo "- [Step 10] rename: successed=${num_renamed_fusible_subgraphs}"
+    for index in {0..8}; do
+        num_renamed_fusible_subgraphs_index=`find ${RENAMED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}/${index} -name "model.py" | wc -l`
+        echo "    ${index}, successed=${num_renamed_fusible_subgraphs_index}"
+    done
+    echo ""
+
+    num_deduplicated_fusible_subgraphs=`find ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} -name "model.py" | wc -l`
+    echo "- [Step 11] remove duplicated: successed=${num_deduplicated_fusible_subgraphs}"
+    for index in {0..8}; do
+        num_deduplicated_fusible_subgraphs_index=`find ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}/${index} -name "model.py" | wc -l`
+        echo "    ${index}, successed=${num_deduplicated_fusible_subgraphs_index}"
+    done
+    echo ""
+
+    num_successed_unittests=`find ${UNITTESTS_OUTPUT_DIR} -name "*_test.py" | wc -l`
+    unittest_successed_percent=$((num_successed_unittests * 100 / num_deduplicated_fusible_subgraphs))
+    echo "- [Step 12] generate unittest: successed=${num_successed_unittests}, percent=${unittest_successed_percent}%"
+    for index in {0..8}; do
+        num_successed_unittests=`find ${UNITTESTS_OUTPUT_DIR}/${index} -name "*_test.py" | wc -l`
+        echo "    ${index}, successed=${num_successed_unittests}"
+    done
+}
+
 main
+
+set +x
+summary 2>&1 | tee ${DECOMPOSE_WORKSPACE}/summary.txt

@@ -23,10 +23,11 @@ GRAPH_VAR_RENAME_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/06_renamed_subgraphs
 DEDUPLICATED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/07_deduplicated_subgraphs
 CUMSUM_NUM_KERNELS_DIR=$DECOMPOSE_WORKSPACE/08_cumsum_num_kernels
 FUSIBLE_SUBGRAPH_RANGES_DIR=$DECOMPOSE_WORKSPACE/09_fusible_subgraph_ranges
-FUSIBLE_SUBGRAPH_SAMPLES_DIR=$DECOMPOSE_WORKSPACE/10_fusible_subgraph_samples
-RENAMED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/11_renamed_fusible_subgraphs
-DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/12_deduplicated_fusible_subgraphs
-SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/13_dimension_generalized_subgraphs
+GROUPED_FUSIBLE_SUBGRAPH_RANGES_DIR=$DECOMPOSE_WORKSPACE/10_grouped_fusible_subgraph_ranges
+#FUSIBLE_SUBGRAPH_SAMPLES_DIR=$DECOMPOSE_WORKSPACE/10_fusible_subgraph_samples
+SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/11_dimension_generalized_fusible_subgraphs
+RENAMED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/12_renamed_dimension_generalized_fusible_subgraphs
+DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/13_deduplicated_dimension_generalized_fusible_subgraphs
 #DTYPE_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/12_dtype_generalized_fusible_subgraphs
 UNITTESTS_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/14_kernelbench_unittests
 
@@ -36,14 +37,12 @@ model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt"
 device_rewrited_sample_list=${DECOMPOSE_WORKSPACE}/device_rewrited_sample_list.txt
 range_decomposed_subgraph_list=${DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_sample_list.txt
 deduplicated_subgraph_list=${DECOMPOSE_WORKSPACE}/deduplicated_subgraph_sample_list.txt
-fusible_subgraph_list=${DECOMPOSE_WORKSPACE}/fusible_subgraph_sample_list.txt
-deduplicated_fusible_subgraphs_list=${DECOMPOSE_WORKSPACE}/deduplicated_fusible_subgraph_sample_list.txt
-group_subgraph_sources_list=${DECOMPOSE_WORKSPACE}/group_subgraph_sources_sample_list.txt
 dimension_generalized_subgraph_list=${DECOMPOSE_WORKSPACE}/dimension_generalized_subgraph_sample_list.txt
+deduplicated_fusible_subgraphs_list=${DECOMPOSE_WORKSPACE}/deduplicated_dimension_generalized_subgraph_sample_list.txt
 
-function generate_subgraph_list_common() {
+function generate_generalized_subgraph_list() {
     local target_dir="$1"
-    local sample_list="$2"  
+    local sample_list="$2"
     echo ">>> Generate subgraph_sample_list for samples under ${target_dir}."
     echo ">>>"
     find ${target_dir} -name "model.py" \
@@ -260,61 +259,10 @@ EOF
 }
 EOF
 )
-
-    python3 -m graph_net.model_path_handler \
-        --model-path-list "$model_list" \
-        --handler-config $(base64 -w 0 <<EOF
-{
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_generator.py",
-    "handler_class_name": "SubgraphGenerator",
-    "handler_config": {
-        "model_path_prefix": "$DEVICE_REWRITED_OUTPUT_DIR",
-        "output_dir": "$FUSIBLE_SUBGRAPH_SAMPLES_DIR",
-        "subgraph_ranges_json_root": "$GROUPED_FUSIBLE_SUBGRAPH_RANGES_DIR",
-        "subgraph_ranges_json_file_name": "grouped_fusible_subgraph_ranges.json",
-        "device": "cuda",
-        "resume": ${RESUME}
-    }
-}
-EOF
-)
-}
-
-function rename_fusible_subgraph() {
-    echo ">>> [9] Rename subgraph samples under ${FUSIBLE_SUBGRAPH_SAMPLES_DIR}."
-    echo ">>>"
-    python3 -m graph_net.model_path_handler \
-        --model-path-list ${fusible_subgraph_list} \
-        --handler-config=$(base64 -w 0 <<EOF
-{
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/sample_pass/ast_graph_variable_renamer.py",
-    "handler_class_name": "AstGraphVariableRenamer",
-    "handler_config": {
-        "device": "cuda",
-        "try_run": false,
-        "resume": ${RESUME},
-        "model_path_prefix": "${FUSIBLE_SUBGRAPH_SAMPLES_DIR}",
-        "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
-        "data_input_predicator_class_name": "RenamedDataInputPredicator",
-        "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
-        "model_runnable_predicator_class_name": "ModelRunnablePredicator",
-        "output_dir": "$RENAMED_FUSIBLE_SUBGRAPH_DIR"
-    }
-}
-EOF
-)
-}
-
-function remove_duplicate_fusible_graphs() {
-    echo ">>> [10] Remove duplicated subgraph samples under ${RENAMED_FUSIBLE_SUBGRAPH_DIR}."
-    echo ">>>"
-    python3 -m graph_net.tools.deduplicated \
-        --samples-dir ${RENAMED_FUSIBLE_SUBGRAPH_DIR} \
-        --target-dir ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}
 }
 
 function subgraph_dimension_generalizer(){
-    echo ">>> [11] Generate dimension generalized subgraph samples under ${DIMENSION_GENERALIZED_OUTPUT_DIR}."
+    echo ">>> [9] Generate dimension generalized subgraph samples under ${DIMENSION_GENERALIZED_OUTPUT_DIR}."
     for index in {0..8}; do
         echo ">>> Generating dimension generalized subgraph variant index: ${index}"
         dimension_generalized_sample_list="${DIMENSION_GENERALIZED_OUTPUT_DIR}/${index}/dimension_generalized_sample_list.txt"
@@ -336,6 +284,41 @@ function subgraph_dimension_generalizer(){
 }
 EOF
 )
+    done
+}
+
+function rename_dimension_generalized_fusible_subgraph() {
+    echo ">>> [10] Rename subgraph samples under ${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR}."
+    echo ">>>"
+    python3 -m graph_net.model_path_handler \
+        --model-path-list ${dimension_generalized_subgraph_list} \
+        --handler-config=$(base64 -w 0 <<EOF
+{
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/sample_pass/ast_graph_variable_renamer.py",
+    "handler_class_name": "AstGraphVariableRenamer",
+    "handler_config": {
+        "device": "cuda",
+        "try_run": false,
+        "resume": ${RESUME},
+        "model_path_prefix": "${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR}",
+        "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
+        "data_input_predicator_class_name": "RenamedDataInputPredicator",
+        "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
+        "model_runnable_predicator_class_name": "ModelRunnablePredicator",
+        "output_dir": "${RENAMED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}"
+    }
+}
+EOF
+)
+}
+
+function remove_duplicate_dimension_generalized_fusible_graphs() {
+    echo ">>> [11] Remove duplicated subgraph samples under ${RENAMED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}."
+    echo ">>>"
+    for index in {0..8}; do
+        python3 -m graph_net.tools.deduplicated \
+            --samples-dir ${RENAMED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}/${index} \
+            --target-dir ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}/${index}
     done
 }
 
@@ -362,17 +345,17 @@ EOF
 }
 
 function generate_unittests() {
-    echo ">>> [13] Generate unittests for subgraph samples under ${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR}. "
+    echo ">>> [12] Generate unittests for subgraph samples under ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}. "
     echo ">>>"
     python3 -m graph_net.model_path_handler \
-        --model-path-list ${dimension_generalized_subgraph_list} \
+        --model-path-list ${deduplicated_fusible_subgraphs_list} \
         --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "${GRAPH_NET_ROOT}/graph_net/sample_pass/agent_unittest_generator.py",
     "handler_class_name": "AgentUnittestGeneratorPass",
     "handler_config": {
         "framework": "torch",
-        "model_path_prefix": "${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR}",
+        "model_path_prefix": "${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}",
         "output_dir": "${UNITTESTS_OUTPUT_DIR}",
         "device": "cuda",
         "generate_main": false,
@@ -405,16 +388,13 @@ main() {
     #generate_subgraph_list ${DEDUPLICATED_OUTPUT_DIR} ${deduplicated_subgraph_list}
 
     #gen_fusible_subgraphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_fusible_subgraphs_${suffix}.txt
-    #generate_subgraph_list ${FUSIBLE_SUBGRAPH_SAMPLES_DIR} ${fusible_subgraph_list}
-
-    #rename_fusible_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_fusible_subgraph_${suffix}.txt
-    #remove_duplicate_fusible_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_fusible_graphs_${suffix}.txt
-    #generate_subgraph_list ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR} ${deduplicated_fusible_subgraphs_list}
 
     #subgraph_dimension_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_subgraph_dimension_generalizer_${suffix}.txt
-    #generate_subgraph_list_common ${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR} ${dimension_generalized_subgraph_list}
+    #generate_generalized_subgraph_list ${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR} ${dimension_generalized_subgraph_list}
 
-    #dtype_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_dtype_generalizer_${suffix}.txt
+    #rename_dimension_generalized_fusible_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_dimension_generalized_subgraph_${suffix}.txt
+    #remove_duplicate_dimension_generalized_fusible_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_dimension_generalized_subgraphs_${suffix}.txt
+    #generate_generalized_subgraph_list ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} ${deduplicated_fusible_subgraphs_list}
 
     generate_unittests 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_${suffix}.txt
 }

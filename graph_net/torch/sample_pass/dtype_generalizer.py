@@ -253,7 +253,7 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         self.model_path_prefix = config.get("model_path_prefix", "")
         self.model_runnable_predicator_class_name = "RunModelPredicator"
         self.model_runnable_predicator_config = {"use_dummy_inputs": True}
-        self.try_run = config.get("try_run", "")
+        self.try_run = config.get("try_run", "true")
 
         # model_runnable_predicator is required to ensure generated code is runnable
         if "model_runnable_predicator_filepath" not in config:

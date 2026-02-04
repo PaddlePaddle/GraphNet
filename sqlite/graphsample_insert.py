@@ -56,11 +56,20 @@ def insert_graph_sample(db_path: str, data: dict, model_path_prefix: str):
 
 # subgraph source insert func
 def insert_subgraph_source(
-    subgraph_uuid: str, model_path_prefix: str, relative_model_path: str, db_path: str
+    subgraph_uuid: str,
+    model_path_prefix: str,
+    sample_type: str,
+    relative_model_path: str,
+    db_path: str,
 ):
     session = get_session(db_path)
     try:
         parent_relative_path = get_parent_relative_path(relative_model_path)
+        if sample_type == "fusible_graph":
+            parent_parts = parent_relative_path.split("/")
+            parent_parts = parent_parts[1:]
+            parent_relative_path = "/".join(parent_parts)
+
         full_graph = (
             session.query(GraphSample)
             .filter(
@@ -279,10 +288,11 @@ def main(args):
         insert_graph_sample(args.db_path, data, args.model_path_prefix)
         if data["is_subgraph"]:
             subgraph_source_data = insert_subgraph_source(
-                data["uuid"],
-                args.model_path_prefix,
-                data["relative_model_path"],
-                args.db_path,
+                subgraph_uuid=data["uuid"],
+                model_path_prefix=args.model_path_prefix,
+                sample_type=args.sample_type,
+                relative_model_path=args.relative_model_path,
+                db_path=args.db_path,
             )
             if args.sample_type in ["fusible_graph"]:
                 insert_dimension_generalization_source(

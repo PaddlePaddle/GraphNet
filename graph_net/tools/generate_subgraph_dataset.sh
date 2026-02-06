@@ -12,7 +12,7 @@ export CUDA_VISIBLE_DEVICES="${GPU_ID}"
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 RESUME="true"
 
-DECOMPOSE_WORKSPACE=/work/clone/GraphNet/subgraph_dataset_workspace_small10_torch_samples
+DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
 DEVICE_REWRITED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/01_device_rewrited_samples
 DIMENSION_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/02_dimension_generalized_samples
 OP_NAMES_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/03_sample_op_names
@@ -32,7 +32,7 @@ DB_PATH=$DECOMPOSE_WORKSPACE/small10_torch_samples.db
 
 mkdir -p "$DECOMPOSE_WORKSPACE"
 
-model_list="$GRAPH_NET_ROOT/graph_net/config/small10_torch_samples_list.txt" 
+model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt" 
 device_rewrited_sample_list=${DECOMPOSE_WORKSPACE}/device_rewrited_sample_list.txt
 range_decomposed_subgraph_list=${DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_sample_list.txt
 deduplicated_subgraph_list=${DECOMPOSE_WORKSPACE}/deduplicated_subgraph_sample_list.txt

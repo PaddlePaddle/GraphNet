@@ -2,6 +2,7 @@ import torch
 import os
 import ast
 import math
+import numpy as np
 import inspect
 import importlib
 
@@ -62,10 +63,9 @@ def convert_tensor_meta_attrs_list_to_tensors_wrappers(tensor_meta_attrs_list):
         ):
             min_val = attrs["min_val"]
             max_val = attrs["max_val"]
-            # torch.randint's upper bound is exclusive, so add 1
-            data_value = torch.randint(
-                min_val, max_val + 1, size=shape, dtype=data_type
-            )
+            # randint's upper bound is exclusive, so add 1
+            np_data = np.random.randint(min_val, max_val + 1, size=shape)
+            data_value = torch.from_numpy(np_data).to(data_type)
         elif attrs.get("data") is not None:
             if isinstance(attrs.get("data"), str):
                 raise ValueError("Unimplemented")
@@ -125,17 +125,18 @@ def replay_tensor(info):
     if "data" in info and info["data"] is not None:
         return info["data"].to(device)
     if dtype is torch.bool:
-        return (torch.randn(size=shape) > 0.5).to(dtype).to(device)
+        np_bool = np.random.rand(*shape) > 0.5
+        return torch.from_numpy(np_bool).to(device)
     if std is None:
         std = 0.1
     if mean is None:
         mean = 0
     # Handle std = 0 case to avoid generating identical values
     if std == 0:
-        tensor = torch.full(size=shape, fill_value=mean, dtype=dtype, device=device)
+        np_data = np.full(shape, mean)
     else:
-        tensor = torch.randn(size=shape).to(dtype).to(device) * std * 0.2 + mean
-
+        np_data = np.random.randn(*shape) * std * 0.2 + mean
+    tensor = torch.from_numpy(np_data).to(dtype).to(device)
     # Apply lower/upper bound constraints if present
     if "min_val" in info["info"]:
         min_val = info["info"]["min_val"]

@@ -136,6 +136,8 @@ def replay_tensor(info):
         np_data = np.full(shape, mean)
     else:
         np_data = np.random.randn(*shape) * std * 0.2 + mean
+    if not isinstance(np_data, np.ndarray):
+        np_data = np.array(np_data)
     tensor = torch.from_numpy(np_data).to(dtype).to(device)
     # Apply lower/upper bound constraints if present
     if "min_val" in info["info"]:

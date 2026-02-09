@@ -154,7 +154,7 @@ def eval_multi_models(args, model_path_prefix=None, use_model_list=False):
     failed_samples = []
     for sample_idx, model_path in enumerate(model_paths):
         print(
-            f"[{sample_idx}] {module_name}, model_path: {model_path}",
+            f"[{sample_idx}][Processing] {module_name}, model_path: {model_path}",
             file=sys.stderr,
             flush=True,
         )

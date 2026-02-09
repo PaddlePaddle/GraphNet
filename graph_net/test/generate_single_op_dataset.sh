@@ -48,12 +48,10 @@ if [ ! -f "$MODEL_LIST" ]; then
     exit 1
 fi
 
-grep -v "^#" "${MODEL_LIST}" | grep -v "^$" > "${WORKSPACE}/clean_list.txt"
-
 # 2. Stage 1: Op Names
 echo ">>> Running Stage 1: Op Names..."
 python3 -m graph_net.model_path_handler \
-    --model-path-list "${WORKSPACE}/clean_list.txt" \
+    --model-path-list "${MODEL_LIST}" \
     --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/op_names_extractor.py",
@@ -66,7 +64,7 @@ EOF
 # 3. Stage 2: Ranges
 echo ">>> Running Stage 2: Ranges..."
 python3 -m graph_net.apply_sample_pass \
-    --model-path-list "${WORKSPACE}/clean_list.txt" \
+    --model-path-list "${MODEL_LIST}" \
     --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/sample_pass/op_extract_points_generator.py" \
     --sample-pass-class-name "OpExtractPointsGenerator" \
     --sample-pass-config=$(base64 -w 0 <<EOF
@@ -80,7 +78,7 @@ EOF
 # 4. Stage 3: Decompose
 echo ">>> Running Stage 3: Decompose..."
 python3 -m graph_net.model_path_handler \
-    --model-path-list "${WORKSPACE}/clean_list.txt" \
+    --model-path-list "${MODEL_LIST}" \
     --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_generator.py",
@@ -94,17 +92,17 @@ python3 -m graph_net.model_path_handler \
 EOF
 )
 
-# 5. Generate raw_list.txt
-echo ">>> Generating raw_list.txt..."
+# 5. Generate generated_subgraphs_list.txt
+echo ">>> Generating generated_subgraphs_list.txt..."
 find ${RAW_SUBGRAPH_DIR} -name "model.py" \
     | xargs dirname \
     | xargs realpath --relative-to=${RAW_SUBGRAPH_DIR} \
-    > "${WORKSPACE}/raw_list.txt"
+    > "${WORKSPACE}/generated_subgraphs_list.txt"
 
 # 6. Post-processing: Rename
 echo ">>> Running Post-processing: Rename..."
 python3 -m graph_net.model_path_handler \
-    --model-path-list "${WORKSPACE}/raw_list.txt" \
+    --model-path-list "${WORKSPACE}/generated_subgraphs_list.txt" \
     --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/sample_pass/ast_graph_variable_renamer.py",
@@ -130,8 +128,8 @@ python3 -m graph_net.tools.deduplicated \
     --samples-dir ${RENAMED_DIR} \
     --target-dir ${DEDUPLICATED_DIR}
 
-# Copy raw_list.txt to final output
-cp "${WORKSPACE}/raw_list.txt" "${DEDUPLICATED_DIR}/"
+# Copy generated_subgraphs_list.txt to final output
+cp "${WORKSPACE}/generated_subgraphs_list.txt" "${DEDUPLICATED_DIR}/"
 
 echo ">>> ALL DONE. Final dataset located at: ${DEDUPLICATED_DIR}"
-echo ">>> raw_list.txt also saved to: ${DEDUPLICATED_DIR}/raw_list.txt"
+echo ">>> generated_subgraphs_list.txt also saved to: ${DEDUPLICATED_DIR}/generated_subgraphs_list.txt"

@@ -94,13 +94,15 @@ python3 -m graph_net.model_path_handler \
 EOF
 )
 
-# 5. Post-processing: Rename
-echo ">>> Running Post-processing: Rename..."
+# 5. Generate raw_list.txt
+echo ">>> Generating raw_list.txt..."
 find ${RAW_SUBGRAPH_DIR} -name "model.py" \
     | xargs dirname \
     | xargs realpath --relative-to=${RAW_SUBGRAPH_DIR} \
     > "${WORKSPACE}/raw_list.txt"
 
+# 6. Post-processing: Rename
+echo ">>> Running Post-processing: Rename..."
 python3 -m graph_net.model_path_handler \
     --model-path-list "${WORKSPACE}/raw_list.txt" \
     --handler-config=$(base64 -w 0 <<EOF
@@ -120,7 +122,7 @@ python3 -m graph_net.model_path_handler \
 EOF
 )
 
-# 6. Post-processing: Deduplicate
+# 7. Post-processing: Deduplicate
 echo ">>> Running Post-processing: Deduplicate..."
 if [ -d "${DEDUPLICATED_DIR}" ]; then rm -rf "${DEDUPLICATED_DIR}"; fi
 
@@ -128,4 +130,8 @@ python3 -m graph_net.tools.deduplicated \
     --samples-dir ${RENAMED_DIR} \
     --target-dir ${DEDUPLICATED_DIR}
 
+# Copy raw_list.txt to final output
+cp "${WORKSPACE}/raw_list.txt" "${DEDUPLICATED_DIR}/"
+
 echo ">>> ALL DONE. Final dataset located at: ${DEDUPLICATED_DIR}"
+echo ">>> raw_list.txt also saved to: ${DEDUPLICATED_DIR}/raw_list.txt"

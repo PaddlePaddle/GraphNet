@@ -17,6 +17,7 @@ import tempfile
 from pathlib import Path
 from typing import Any, Dict, List
 
+import torch
 import torch.fx as fx
 
 from graph_net.graph_net_json_file_util import (
@@ -236,9 +237,9 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             "output_dir": "/path/to/output",
             "model_path_prefix": "",
             "model_runnable_predicator_filepath": "...",
-            "resume": ,
-            "limits_handled_models": ,
-            "try_run": ,
+            "resume": true,
+            "limits_handled_models": null,
+            "try_run": true,
         }
     """
 
@@ -268,6 +269,7 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         output_dir: str,
         model_path_prefix: str,
         model_runnable_predicator_filepath: str,
+        device: str = "auto",
         resume: bool = False,
         limits_handled_models: int = None,
         try_run: bool = True,
@@ -280,6 +282,13 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         cls = getattr(module, self.model_runnable_predicator_class_name)
         predicator_config = self.model_runnable_predicator_config
         return cls(predicator_config)
+
+    def _choose_device(self, device) -> str:
+        if device is None:
+            return None
+        if device in ["cpu", "cuda"]:
+            return device
+        return "cuda" if torch.cuda.is_available() else "cpu"
 
     def sample_handled(self, rel_model_path: str) -> bool:
         model_path = Path(self.config["model_path_prefix"]) / rel_model_path
@@ -320,7 +329,9 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             return []
 
         # Parse the computation graph
-        traced_model = parse_immutable_model_path_into_sole_graph_module(abs_model_path)
+        traced_model = parse_immutable_model_path_into_sole_graph_module(
+            abs_model_path, device=self._choose_device(self.config["device"])
+        )
 
         # Copy the originl sample
         files_copied = [

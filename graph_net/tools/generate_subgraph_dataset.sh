@@ -28,8 +28,8 @@ GROUPED_FUSIBLE_SUBGRAPH_RANGES_DIR=$DECOMPOSE_WORKSPACE/10_grouped_fusible_subg
 SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/11_dimension_generalized_fusible_subgraphs
 RENAMED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/12_renamed_dimension_generalized_fusible_subgraphs
 DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/13_deduplicated_dimension_generalized_fusible_subgraphs
-#DTYPE_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/14_dtype_generalized_fusible_subgraphs
-UNITTESTS_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/14_kernelbench_unittests
+DTYPE_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/14_dtype_generalized_fusible_subgraphs
+UNITTESTS_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/15_kernelbench_unittests
 
 mkdir -p "$DECOMPOSE_WORKSPACE"
 
@@ -39,6 +39,13 @@ range_decomposed_subgraph_list=${DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_
 deduplicated_subgraph_list=${DECOMPOSE_WORKSPACE}/deduplicated_subgraph_sample_list.txt
 dimension_generalized_subgraph_list=${DECOMPOSE_WORKSPACE}/dimension_generalized_subgraph_sample_list.txt
 deduplicated_fusible_subgraphs_list=${DECOMPOSE_WORKSPACE}/deduplicated_dimension_generalized_subgraph_sample_list.txt
+dtype_generalized_subgraphs_list=${DECOMPOSE_WORKSPACE}/dtype_generalized_subgraphs_sample_list.txt
+
+if [[ "$model_list" == *"torch_samples_list.txt" ]]; then
+    USE_SUBPROCESS_ARGS="--use-subprocess"
+else
+    USE_SUBPROCESS_ARGS=""
+fi
 
 function generate_generalized_subgraph_list() {
     local target_dir="$1"
@@ -87,7 +94,7 @@ EOF
 function dimension_generalizer(){
     echo ">>> [2] Apply dimension generalization for samples under ${device_rewrited_sample_list}."
     echo ">>>"
-    python3 -m graph_net.apply_sample_pass \
+    python3 -m graph_net.apply_sample_pass ${USE_SUBPROCESS_ARGS} \
         --model-path-list $device_rewrited_sample_list \
         --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/dimension_generalizer.py" \
         --sample-pass-class-name "ApplyDimGenPasses" \
@@ -107,7 +114,7 @@ EOF
 function generate_op_names() {
     echo ">>> [3] Generate op_names.txt for samples in ${model_list}."
     echo ">>>"
-    python3 -m graph_net.model_path_handler \
+    python3 -m graph_net.model_path_handler ${USE_SUBPROCESS_ARGS} \
         --model-path-list $model_list \
         --handler-config=$(base64 -w 0 <<EOF
 {
@@ -153,7 +160,7 @@ EOF
 function range_decompose() {
     echo ">>> [5] Decompose according to subgraph_ranges.json for samples in ${device_rewrited_sample_list}."
     echo ">>>"
-    python3 -m graph_net.model_path_handler \
+    python3 -m graph_net.model_path_handler ${USE_SUBPROCESS_ARGS} \
         --model-path-list "$device_rewrited_sample_list" \
         --handler-config=$(base64 -w 0 <<EOF
 {
@@ -267,7 +274,7 @@ function subgraph_dimension_generalizer(){
         echo ">>> Generating dimension generalized subgraph variant index: ${index}"
         dimension_generalized_sample_list="${DIMENSION_GENERALIZED_OUTPUT_DIR}/${index}/dimension_generalized_sample_list.txt"
         generate_subgraph_list ${DIMENSION_GENERALIZED_OUTPUT_DIR}/${index} ${dimension_generalized_sample_list}
-        python3 -m graph_net.model_path_handler \
+        python3 -m graph_net.model_path_handler ${USE_SUBPROCESS_ARGS} \
             --model-path-list "${dimension_generalized_sample_list}" \
             --handler-config $(base64 -w 0 <<EOF
 {
@@ -323,7 +330,7 @@ function remove_duplicate_dimension_generalized_fusible_graphs() {
 }
 
 function dtype_generalizer() {
-    echo ">>> [12] Data type generalizer for samples under ${DEDUPLICATED_FUSIBLE_SUBGRAPH_DIR}."
+    echo ">>> [12] Data type generalizer for samples under ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}."
     echo ">>>"
     python3 -m graph_net.apply_sample_pass \
         --model-path-list $deduplicated_fusible_subgraphs_list \
@@ -335,6 +342,7 @@ function dtype_generalizer() {
     "model_path_prefix": "$DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR",
     "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
     "try_run": false,
+    "device": "cuda",
     "resume": ${RESUME}
 }
 EOF
@@ -342,17 +350,17 @@ EOF
 }
 
 function generate_unittests() {
-    echo ">>> [12] Generate unittests for subgraph samples under ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}. "
+    echo ">>> [13] Generate unittests for subgraph samples under ${DTYPE_GENERALIZED_OUTPUT_DIR}. "
     echo ">>>"
     python3 -m graph_net.model_path_handler \
-        --model-path-list ${deduplicated_fusible_subgraphs_list} \
+        --model-path-list ${dtype_generalized_subgraphs_list} \
         --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "${GRAPH_NET_ROOT}/graph_net/sample_pass/agent_unittest_generator.py",
     "handler_class_name": "AgentUnittestGeneratorPass",
     "handler_config": {
         "framework": "torch",
-        "model_path_prefix": "${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}",
+        "model_path_prefix": "${DTYPE_GENERALIZED_OUTPUT_DIR}",
         "output_dir": "${UNITTESTS_OUTPUT_DIR}",
         "device": "cuda",
         "generate_main": false,
@@ -397,6 +405,10 @@ main() {
     rename_dimension_generalized_fusible_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_dimension_generalized_subgraph_${suffix}.txt
     remove_duplicate_dimension_generalized_fusible_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_dimension_generalized_subgraphs_${suffix}.txt
     generate_generalized_subgraph_list ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} ${deduplicated_fusible_subgraphs_list}
+
+    # dtype generalization
+    dtype_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_dtype_generalizer_${suffix}.txt
+    generate_generalized_subgraph_list ${DTYPE_GENERALIZED_OUTPUT_DIR} ${dtype_generalized_subgraphs_list}
 
     # generate kernelbench format unittest
     generate_unittests 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_${suffix}.txt

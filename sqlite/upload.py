@@ -11,15 +11,13 @@ from orm_models import (
 )
 from sqlalchemy.exc import IntegrityError
 import os
-from pathlib import Path
 from huggingface_hub import HfApi
 
-FULL_GRAPH_PATH = (
-    "/work/clone/GraphNet/subgraph_dataset_workspace_small10_torch_samples/full_graph"
-)
-TYPICAL_GRAPH_PATH = "/work/clone/GraphNet/subgraph_dataset_workspace_small10_torch_samples/typical_graph"
-FUSIBLE_GRAPH_PATH = "/work/clone/GraphNet/subgraph_dataset_workspace_small10_torch_samples/fusible_graph"
-SOLE_OP_GRAPH_PATH = "/work/clone/GraphNet/subgraph_dataset_workspace_small10_torch_samples/sole_op_graph"
+BASE_PATH = "/work/clone/GraphNet/subgraph_dataset_workspace_small10_torch_samples"
+FULL_GRAPH_PATH = f"{BASE_PATH}/full_graph"
+TYPICAL_GRAPH_PATH = f"{BASE_PATH}/typical_graph"
+FUSIBLE_GRAPH_PATH = f"{BASE_PATH}/fusible_graph"
+SOLE_OP_GRAPH_PATH = f"{BASE_PATH}/sole_op_graph"
 
 HF_REPO_ID = "PaddlePaddle/GraphNet"
 HF_REPO_TYPE = "dataset"
@@ -34,27 +32,18 @@ def upload_to_huggingface(api: HfApi, local_path: str, repo_id: str, path_in_rep
     if not os.path.exists(local_path):
         print(f"Warning: Local path not found, skipping upload: {local_path}")
         return
-
-    print(f"Uploading {local_path} to HF: {repo_id}/{path_in_repo} ...")
+    print(f"Uploading folder {local_path} to HF: {repo_id}/{path_in_repo} ...")
     try:
-        folder_size = sum(
-            f.stat().st_size for f in Path(local_path).rglob("*") if f.is_file()
+        api.upload_folder(
+            folder_path=local_path,
+            path_in_repo=path_in_repo,
+            repo_id=repo_id,
+            repo_type=HF_REPO_TYPE,
+            revision=HF_BRANCH,
+            commit_message=f"Upload folder: {path_in_repo}",
+            ignore_patterns=["**/__pycache__/*", "*.pyc", ".ipynb_checkpoints/*"],
         )
-        size_mb = folder_size / (1024 * 1024)
-        print(f"  Size: {size_mb:.2f}MB, uploading files individually...")
-        for file_path in Path(local_path).rglob("*"):
-            if file_path.is_file():
-                rel_path = file_path.relative_to(local_path)
-                remote_path = f"{path_in_repo}/{rel_path}"
-                api.upload_file(
-                    path_or_fileobj=str(file_path),
-                    path_in_repo=remote_path,
-                    repo_id=repo_id,
-                    repo_type=HF_REPO_TYPE,
-                    revision=HF_BRANCH,
-                    commit_message=f"Upload {rel_path}",
-                )
-        print(f"Success: Uploaded {path_in_repo} ({size_mb:.2f}MB)")
+        print(f"Success: Folder uploaded to {path_in_repo}")
     except Exception as e:
         print(f"Error uploading to Hugging Face: {e}")
 

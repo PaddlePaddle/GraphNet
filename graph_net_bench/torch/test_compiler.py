@@ -16,6 +16,7 @@ import platform
 import base64
 from graph_net_bench.torch.backend.graph_compiler_backend import GraphCompilerBackend
 from graph_net_bench.torch.backend.tvm_backend import TvmBackend
+from graph_net_bench.torch.backend.flagtree_backend import FlagtreeBackend
 from graph_net_bench.torch.backend.xla_backend import XlaBackend
 from graph_net_bench.torch.backend.inductor_backend import InductorBackend
 from graph_net_bench.torch.backend.tensorrt_backend import TensorRTBackend
@@ -37,6 +38,7 @@ from graph_net_bench import path_utils
 
 compiler_backend_name2class = {
     "tvm": TvmBackend,
+    "flagtree": FlagtreeBackend,
     "xla": XlaBackend,
     "inductor": InductorBackend,
     "tensorrt": TensorRTBackend,
@@ -70,7 +72,7 @@ def get_hardward_name(args):
 def get_compile_framework_version(args):
     if args.compiler in ["inductor", "nope", "unstable_to_stable"]:
         return torch.__version__
-    elif args.compiler in ["tvm", "xla", "tensorrt", "bladedisc"]:
+    elif args.compiler in ["tvm", "flagtree", "xla", "tensorrt", "bladedisc"]:
         # Assuming compiler object has a version attribute
         return f"{args.compiler.capitalize()} {args.compiler.version}"
     return "unknown"

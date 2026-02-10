@@ -47,7 +47,7 @@ def get_hardward_name(device):
 def get_compiler_version(compiler):
     if compiler in ["inductor", "nope", "unstable_to_stable"]:
         return torch.__version__
-    elif compiler in ["tvm", "xla", "tensorrt", "bladedisc"]:
+    elif compiler in ["tvm", "flagtree", "xla", "tensorrt", "bladedisc"]:
         # Assuming compiler object has a version attribute
         return f"{compiler.capitalize()} {compiler.version}"
     return "unknown"

@@ -33,7 +33,9 @@ UNITTESTS_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/15_kernelbench_unittests
 
 mkdir -p "$DECOMPOSE_WORKSPACE"
 
-model_list="$GRAPH_NET_ROOT/graph_net/config/torch_samples_list.txt"
+model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt"
+DB_PATH=$DECOMPOSE_WORKSPACE/small100_torch_samples.db
+
 device_rewrited_sample_list=${DECOMPOSE_WORKSPACE}/device_rewrited_sample_list.txt
 range_decomposed_subgraph_list=${DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_sample_list.txt
 deduplicated_subgraph_list=${DECOMPOSE_WORKSPACE}/deduplicated_subgraph_sample_list.txt
@@ -69,6 +71,35 @@ function generate_subgraph_list() {
         | xargs dirname \
         | xargs realpath --relative-to=$target_dir \
         | tee $sample_list
+}
+
+function grpahsample_insert(){
+    local target_dir="$1"
+    local repo_uid="$2"
+    local sample_type="$3"
+    local sample_list="$4"
+    echo ">>> [0] Inserting samples into database: ${DB_PATH}."
+    echo ">>>"
+
+    if [ ! -f "$DB_PATH" ]; then
+        echo "Fail ! No Database ! : $DB_PATH"
+        exit 1
+    fi
+
+    local order_value=0
+    while IFS= read -r model_rel_path; do
+        echo "insert : $model_rel_path"
+        python3 "${GRAPH_NET_ROOT}/sqlite/graphsample_insert.py" \
+            --model_path_prefix "${target_dir}" \
+            --relative_model_path "$model_rel_path" \
+            --repo_uid "${repo_uid}" \
+            --sample_type "${sample_type}" \
+            --order_value "$order_value" \
+            --db_path "$DB_PATH"
+
+        ((order_value++))
+
+    done < "$sample_list"
 }
 
 function rewrite_device() {
@@ -378,6 +409,10 @@ main() {
     timestamp=`date +%Y%m%d_%H%M`
     suffix="${OP_RANGE}ops_${timestamp}"
 
+    # init database
+    python ./sqlite/init_db.py --db_path ${DB_PATH} 2>&1 | tee sqlite/logs/init_db_$(date +"%Y%m%d_%H%M%S").log
+    grpahsample_insert ${GRAPH_NET_ROOT} "github_torch_samples" "full_graph" ${model_list}
+
     # rewrite the device in model to cuda
     rewrite_device 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rewrite_device_${suffix}.txt
     generate_subgraph_list ${DEVICE_REWRITED_OUTPUT_DIR} ${device_rewrited_sample_list}
@@ -394,6 +429,7 @@ main() {
     rename_decomposed_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_decomposed_subgraph_${suffix}.txt
     remove_duplicate_renamed_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_renamed_graphs_${suffix}.txt
     generate_subgraph_list ${DEDUPLICATED_OUTPUT_DIR} ${deduplicated_subgraph_list}
+    grpahsample_insert ${DEDUPLICATED_OUTPUT_DIR} "github_torch_samples" "typical_graph" ${deduplicated_subgraph_list}
 
     # generate fusible subgraph ranges
     gen_fusible_subgraph_ranges 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_fusible_subgraphs_${suffix}.txt
@@ -405,6 +441,7 @@ main() {
     rename_dimension_generalized_fusible_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_dimension_generalized_subgraph_${suffix}.txt
     remove_duplicate_dimension_generalized_fusible_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_dimension_generalized_subgraphs_${suffix}.txt
     generate_generalized_subgraph_list ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} ${deduplicated_fusible_subgraphs_list}
+    grpahsample_insert ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} "github_torch_samples" "fusible_graph" ${deduplicated_fusible_subgraphs_list}
 
     # dtype generalization
     dtype_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_dtype_generalizer_${suffix}.txt

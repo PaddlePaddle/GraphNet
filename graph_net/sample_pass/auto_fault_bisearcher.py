@@ -1,5 +1,6 @@
 import os
 import graph_net
+import shutil
 from pathlib import Path
 from typing import List, Tuple
 from graph_net.sample_pass.sample_pass import SamplePass
@@ -81,7 +82,10 @@ class AutoFaultBisearcher(SamplePass):
         """
         # 2. Invoke the core binary search algorithm
         # history type: list[tuple[int, bool]]
-        history: List[Tuple[int, bool]] = bi_search(
+        history: List[Tuple[int, bool]]
+        faulty_operator_index: int
+        faulty_model_path: str
+        history, faulty_operator_index, faulty_model_path = bi_search(
             relative_model_path=rel_model_path,
             truncator=self.truncator,
             evaluator=self.evaluator,
@@ -100,13 +104,21 @@ class AutoFaultBisearcher(SamplePass):
         output_base.mkdir(parents=True, exist_ok=True)
 
         result_file = output_base / file_name
+        test_file = (
+            Path(self.config["truncator_config"]["output_dir"]) / faulty_model_path
+        )
 
         # Write history entries in the format: {truncate_size} {has_fault}
         with result_file.open("w", encoding="utf-8") as f:
             for trunc_size, has_fault in history:
                 f.write(f"{trunc_size} {has_fault}\n")
 
+        save_base = Path(self.config["output_dir"]) / "faulty_test"
+        save_base.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(test_file, save_base / test_file.name, dirs_exist_ok=True)
         print(
             f"[AutoFault] Search history for {rel_model_path} saved to: {result_file}"
         )
+        print(f"First faulty operator index: {faulty_operator_index}")
+        print(f"Faulty operator model path: {test_file}")
         return history

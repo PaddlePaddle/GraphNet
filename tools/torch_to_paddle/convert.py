@@ -19,6 +19,7 @@ def _get_model_path_list(args):
             if not clean_line.startswith("#")
         )
 
+
 def remove_string_from_model(input_file, target_string):
     # Delete a fixed string from model.py.
     if not os.path.exists(input_file):
@@ -26,7 +27,7 @@ def remove_string_from_model(input_file, target_string):
         return
 
     try:
-        with open(input_file, 'r', encoding='utf-8') as f:
+        with open(input_file, "r", encoding="utf-8") as f:
             content = f.read()
 
         if target_string not in content:
@@ -34,7 +35,7 @@ def remove_string_from_model(input_file, target_string):
 
         new_content = content.replace(target_string, "")
 
-        with open(input_file, 'w', encoding='utf-8') as f:
+        with open(input_file, "w", encoding="utf-8") as f:
             f.write(new_content)
 
     except Exception as e:
@@ -47,10 +48,13 @@ def run_paconvert(input_file, output_file, output_log):
 
     command = [
         "paconvert",
-        "-i", input_file,
-        "-o", output_file,
-        "--log_dir", output_log, 
-        "--show_unsupport_api"
+        "-i",
+        input_file,
+        "-o",
+        output_file,
+        "--log_dir",
+        output_log,
+        "--show_unsupport_api",
     ]
 
     try:
@@ -59,10 +63,12 @@ def run_paconvert(input_file, output_file, output_log):
     except subprocess.CalledProcessError as e:
         print(f"Convert failed: {e}")
     except FileNotFoundError:
-        print("Error: The paconvert command could not be found. Please ensure that the tool is installed.")
-    
+        print(
+            "Error: The paconvert command could not be found. Please ensure that the tool is installed."
+        )
 
-def convert_model_py(model_path, output_dir): 
+
+def convert_model_py(model_path, output_dir):
     # Convert model.py from torch to paddle.
     input_model_py = os.path.join(model_path, "model.py")
     output_model_py = os.path.join(output_dir, "model.py")
@@ -70,25 +76,26 @@ def convert_model_py(model_path, output_dir):
     run_paconvert(input_model_py, output_model_py, output_log)
     remove_string_from_model(output_model_py, ">>>>>>")
 
+
 def convert_weight_meta_py(model_path, output_dir):
     # Convert weight_meta.py from torch to paddle.
-    input_file = os.path.join(model_path, 'weight_meta.py')
-    output_file = os.path.join(output_dir, 'weight_meta.py')
-    
+    input_file = os.path.join(model_path, "weight_meta.py")
+    output_file = os.path.join(output_dir, "weight_meta.py")
+
     if not os.path.exists(input_file):
         print(f"[Error] Not found: {input_file}")
         return
-    
+
     pattern = r"(dtype\s*=\s*['\"])torch(?=.*['\"])"
     replacement = r"\1paddle"
 
     try:
-        with open(input_file, 'r', encoding='utf-8') as f:
+        with open(input_file, "r", encoding="utf-8") as f:
             content = f.read()
 
         new_content = re.sub(pattern, replacement, content)
 
-        with open(output_file, 'w', encoding='utf-8') as f:
+        with open(output_file, "w", encoding="utf-8") as f:
             f.write(new_content)
 
     except Exception as e:
@@ -97,22 +104,22 @@ def convert_weight_meta_py(model_path, output_dir):
 
 def convert_graph_net_json(model_path, output_dir):
     # Convert graph_net.json from torch to paddle.
-    input_file = os.path.join(model_path, 'graph_net.json')
-    output_file = os.path.join(output_dir, 'graph_net.json')
+    input_file = os.path.join(model_path, "graph_net.json")
+    output_file = os.path.join(output_dir, "graph_net.json")
 
     if not os.path.exists(input_file):
         print(f"Error: {input_file} not found.")
         return
 
-    with open(input_file, 'r', encoding='utf-8') as f:
+    with open(input_file, "r", encoding="utf-8") as f:
         data = json.load(f)
 
     if data.get("framework") == "torch":
         data["framework"] = "paddle"
 
-    with open(output_file, 'w', encoding='utf-8') as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
-    
+
 
 def copy_sample_files(model_path, output_dir, files_copied):
     # Copy files of sample.
@@ -130,28 +137,30 @@ def convert_sample_from_torch_to_paddle(model_path, output_dir):
     convert_graph_net_json(model_path, output_dir)
     copy_sample_files(model_path, output_dir, files_copied)
 
+
 def get_api_convert_rate(log_path):
     # Get api convert rate of sample.
     try:
-        with open(log_path, 'r', encoding='utf-8') as f:
+        with open(log_path, "r", encoding="utf-8") as f:
             for line in f:
-                match = re.search(r'Convert Rate is:\s*(\d+\.?\d*)%', line)
+                match = re.search(r"Convert Rate is:\s*(\d+\.?\d*)%", line)
                 if match:
-                    rate = match.group(1) 
+                    rate = match.group(1)
                     return rate
-                
+
     except FileNotFoundError:
         print(f"Not found: {log_path}")
+
 
 def get_api_unsupported(log_path):
     # Get a list of api unsupported.
     api_unsupported_list = []
-    try: 
-        with open(log_path, 'r', encoding='utf-8') as f:
+    try:
+        with open(log_path, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
                 if line.startswith("torch."):
-                    parts = line.split() 
+                    parts = line.split()
                     if len(parts) >= 2:
                         name = parts[0]
                         api_unsupported_list.append((name))
@@ -161,11 +170,12 @@ def get_api_unsupported(log_path):
 
     return api_unsupported_list
 
+
 def save_result_to_json(rel_model_path, result, result_file):
     # Save result of sample to result.json.
     all_data = {}
     try:
-        with open(result_file, 'r', encoding='utf-8') as json_f:
+        with open(result_file, "r", encoding="utf-8") as json_f:
             all_data = json.load(json_f)
 
     except (json.JSONDecodeError, ValueError):
@@ -173,12 +183,12 @@ def save_result_to_json(rel_model_path, result, result_file):
 
     all_data[rel_model_path] = {
         "api_convert_rate": result[0],
-        "api_unsupported_list": result[1] 
+        "api_unsupported_list": result[1],
     }
 
-    with open(result_file, 'w', encoding='utf-8') as json_f:
+    with open(result_file, "w", encoding="utf-8") as json_f:
         json.dump(all_data, json_f, indent=4, ensure_ascii=False)
-    
+
 
 def convert_log_process(rel_model_path, output_dir, result_file):
     # Get api convert rate and api unsupported from log.
@@ -203,6 +213,7 @@ def main(args):
         convert_sample_from_torch_to_paddle(abs_model_path, abs_output_dir)
         convert_log_process(model_path, abs_output_dir, result_file)
     return
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Test compiler performance.")

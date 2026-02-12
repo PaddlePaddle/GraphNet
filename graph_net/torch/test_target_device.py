@@ -75,14 +75,23 @@ def test_single_model(args):
     target_time_stats = eval_backend_diff.parse_time_stats_from_reference_log(
         target_log
     )
-
-    eval_backend_diff.compare_correctness(ref_out, target_out, eval_args)
+    eval_backend_diff.compare_correctness(
+        list(flatten_tensor(ref_out)), list(flatten_tensor(target_out)), eval_args
+    )
     test_compiler_util.print_times_and_speedup(args, ref_time_stats, target_time_stats)
 
 
 def is_reference_log_exist(reference_dir, model_path):
     log_path = utils.get_log_path(reference_dir, model_path)
     return os.path.isfile(log_path)
+
+
+def flatten_tensor(lst):
+    for i in lst:
+        if isinstance(i, (list, tuple)):
+            yield from flatten_tensor(i)
+        else:
+            yield i
 
 
 def test_multi_models(args):
@@ -144,7 +153,11 @@ def main(args):
             )
         else:
             eval_backend_perf.register_op_lib(args.op_lib)
-
+        print(
+            f"[Processing] model_path: {args.model_path}",
+            file=sys.stderr,
+            flush=True,
+        )
         test_single_model(args)
     else:
         test_multi_models(args)

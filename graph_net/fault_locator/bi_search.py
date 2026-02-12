@@ -6,9 +6,9 @@ def bi_search(
     predicator,  # Signature: (ES, tolerance) -> bool
     stoper,  # Signature: (history_list) -> bool
     tolerance=0,
-) -> list[(int, bool)]:
+) -> (list[(int, bool)], int):
     """
-    Binary Search Algorithm for Automatic Fault Location.
+    Binary Search Algorithm for Automatic Fault Location with Faulty Operator Detection.
 
     This algorithm locates the first faulty operation in a computational graph
     by iteratively narrowing the search range through graph truncation and
@@ -24,9 +24,12 @@ def bi_search(
         tolerance (int): Numerical threshold for fault detection.
 
     Returns:
-        list: Search history as a list of (split_point, is_fault) tuples.
+        tuple: (search_history, faulty_operator_index)
+        - search_history: list of (split_point, is_fault) tuples
+        - faulty_operator_index: index of the first faulty operator, or -1 if no fault found
     """
     search_history = []
+    faulty_operator_index = -1  # Initialize as -1 meaning no fault found
 
     # Initialize boundaries.
     # 'high' usually represents the total number of operators in the graph.
@@ -73,7 +76,19 @@ def bi_search(
             if not any(h[0] == low for h in search_history):
                 truncated_model_path = truncator(relative_model_path, low)
                 final_es = es_scores_calculator(evaluator(truncated_model_path))
-                search_history.append((low, predicator(final_es, tolerance)))
+                final_is_fault = predicator(final_es, tolerance)
+                search_history.append((low, final_is_fault))
+
+                if final_is_fault:
+                    faulty_operator_index = low
             break
 
-    return search_history
+    faulty_positions = [pos for pos, is_fault in search_history if is_fault]
+    if faulty_positions:
+        faulty_operator_index = min(faulty_positions)
+        faulty_model_path = truncator(relative_model_path, faulty_operator_index)
+    else:
+        faulty_operator_index = -1
+        faulty_model_path = ""
+
+    return search_history, faulty_operator_index, faulty_model_path

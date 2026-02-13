@@ -10,6 +10,7 @@ from sqlalchemy import (
     ForeignKey,
     Index,
     UniqueConstraint,
+    Text,
 )
 
 Base = declarative_base()
@@ -94,6 +95,17 @@ class GraphSample(Base):
         "BackwardGraphSource",
         foreign_keys="BackwardGraphSource.original_graph_uuid",
         back_populates="original_graph",
+    )
+    sample_op_names = relationship(
+        "SampleOpName",
+        foreign_keys="SampleOpName.sample_uuid",
+        back_populates="sample",
+    )
+    sample_op_name_list = relationship(
+        "SampleOpNameList",
+        foreign_keys="SampleOpNameList.sample_uuid",
+        back_populates="sample",
+        uselist=False,
     )
 
 
@@ -227,6 +239,43 @@ class BackwardGraphSource(Base):
         foreign_keys=[original_graph_uuid],
         back_populates="backward_graph_as_original",
     )
+
+
+class SampleOpName(Base):
+    __tablename__ = "sample_op_name"
+
+    sample_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    op_idx = Column(Integer, nullable=False, primary_key=True)
+    op_name = Column(String(255), nullable=False)
+    op_size = Column(Integer, nullable=False)
+    create_at = Column(DateTime, default=datetime.now)
+    delete_at = Column(DateTime)
+    deleted = Column(Boolean, default=False)
+
+    __table_args__ = (
+        Index("idx_sample_op_name_sample_uuid", "sample_uuid"),
+        Index("idx_sample_op_name_op_name", "op_name"),
+    )
+
+    sample = relationship("GraphSample", back_populates="sample_op_names")
+
+
+class SampleOpNameList(Base):
+    __tablename__ = "sample_op_name_list"
+
+    sample_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    op_names_json = Column(Text, nullable=False)
+    create_at = Column(DateTime, default=datetime.now)
+    delete_at = Column(DateTime)
+    deleted = Column(Boolean, default=False)
+
+    __table_args__ = (Index("idx_sample_op_name_list_op_names", "op_names_json"),)
+
+    sample = relationship("GraphSample", back_populates="sample_op_name_list")
 
 
 def get_session(db_path: str, echo: bool = False):

@@ -6,6 +6,8 @@ from orm_models import (
     SubgraphSource,
     DimensionGeneralizationSource,
     DataTypeGeneralizationSource,
+    SampleOpNameList,
+    SampleOpName,
 )
 
 
@@ -62,6 +64,13 @@ def delete_graph_sample(db_path: str, relative_model_path: str, repo_uid: str = 
             if datatype_source:
                 datatype_source.deleted = True
                 datatype_source.delete_at = delete_at
+
+            session.query(SampleOpNameList).filter(
+                SampleOpNameList.sample_uuid == graph_sample.uuid
+            ).update({"deleted": True, "delete_at": delete_at})
+            session.query(SampleOpName).filter(
+                SampleOpName.sample_uuid == graph_sample.uuid
+            ).update({"deleted": True, "delete_at": delete_at})
 
         session.commit()
         print(f"Successfully deleted: {relative_model_path}")

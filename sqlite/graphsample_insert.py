@@ -378,52 +378,30 @@ def insert_sample_input_tensor_meta(
     relative_model_path: str,
     db_path: str,
 ):
+    from graph_net.tensor_meta import TensorMeta
+
     model_path = Path(model_path_prefix) / relative_model_path
     weight_meta_file = model_path / "weight_meta.py"
 
     try:
-        with open(weight_meta_file) as f:
-            content = f.read()
+        tensor_metas = TensorMeta.unserialize_from_py_file(str(weight_meta_file))
     except Exception as e:
-        print(f"Warning: Failed to read {weight_meta_file}: {e}")
+        print(f"Warning: Failed to parse {weight_meta_file}: {e}")
         return
 
     input_tensor_metas = []
-    input_idx = 0
-    original_name_pattern = re.compile(r'original_name\s*=\s*"(.+?)"')
-    shape_pattern = re.compile(r"shape\s*=\s*\[(.+?)\]")
-    dtype_pattern = re.compile(r'dtype\s*=\s*"(.+?)"')
-    class_blocks = re.split(r"\nclass Program_weight_tensor_meta_", content)
-
-    for block in class_blocks:
-        original_name_match = original_name_pattern.search(block)
-        if not original_name_match:
-            continue
-
-        original_name = original_name_match.group(1)
-
-        shape_match = shape_pattern.search(block)
-        if not shape_match:
-            print(f"Warning: No shape found for {original_name} in {weight_meta_file}")
-            continue
-
-        shape_str = f"[{shape_match.group(1)}]"
-
-        dtype_match = dtype_pattern.search(block)
-        dtype = dtype_match.group(1) if dtype_match else ""
-
+    for input_idx, tensor_meta in enumerate(tensor_metas):
         input_tensor_metas.append(
             {
-                "input_name": original_name,
+                "input_name": tensor_meta.original_name or tensor_meta.name,
                 "input_idx": input_idx,
-                "shape": shape_str,
-                "dtype": dtype,
+                "shape": str(tensor_meta.shape),
+                "dtype": tensor_meta.dtype,
             }
         )
-        input_idx += 1
 
     if not input_tensor_metas:
-        print(f"No input tensor meta found in {weight_meta_file}")
+        print(f"No tensor meta found in {weight_meta_file}")
         return
 
     session = get_session(db_path)

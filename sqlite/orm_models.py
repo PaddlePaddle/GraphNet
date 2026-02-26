@@ -107,6 +107,10 @@ class GraphSample(Base):
         back_populates="sample",
         uselist=False,
     )
+    sample_input_tensor_metas = relationship(
+        "SampleInputTensorMeta",
+        back_populates="sample",
+    )
 
 
 class SubgraphSource(Base):
@@ -276,6 +280,29 @@ class SampleOpNameList(Base):
     __table_args__ = (Index("idx_sample_op_name_list_op_names", "op_names_json"),)
 
     sample = relationship("GraphSample", back_populates="sample_op_name_list")
+
+
+class SampleInputTensorMeta(Base):
+    __tablename__ = "sample_input_tensor_meta"
+
+    sample_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    input_name = Column(String(255), nullable=False, primary_key=True)
+    input_idx = Column(Integer, nullable=False)
+    shape = Column(Text, nullable=False, primary_key=True)
+    dtype = Column(String(50), nullable=False, primary_key=True)
+    create_at = Column(DateTime, default=datetime.now)
+    delete_at = Column(DateTime)
+    deleted = Column(Boolean, default=False)
+
+    __table_args__ = (
+        Index("idx_sample_input_tensor_meta_sample_uid", "sample_uuid"),
+        Index("idx_sample_input_tensor_meta_shape", "shape"),
+        Index("idx_sample_input_tensor_meta_dtype", "dtype"),
+    )
+
+    sample = relationship("GraphSample", back_populates="sample_input_tensor_metas")
 
 
 def get_session(db_path: str, echo: bool = False):

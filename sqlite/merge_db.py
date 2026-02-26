@@ -10,6 +10,7 @@ from orm_models import (
     BackwardGraphSource,
     SampleOpName,
     SampleOpNameList,
+    SampleInputTensorMeta,
 )
 from sqlalchemy.exc import IntegrityError
 
@@ -27,6 +28,7 @@ def merge_databases(main_db_path: str, new_db_path: str):
         "backward_graph_source": 0,
         "sample_op_name": 0,
         "sample_op_name_list": 0,
+        "sample_input_tensor_meta": 0,
     }
 
     try:
@@ -70,6 +72,11 @@ def merge_databases(main_db_path: str, new_db_path: str):
         sample_op_name_list_map = {
             s.sample_uuid: s for s in new_session.query(SampleOpNameList).all()
         }
+        sample_input_tensor_meta_list_map = {}
+        for s in new_session.query(SampleInputTensorMeta).all():
+            if s.sample_uuid not in sample_input_tensor_meta_list_map:
+                sample_input_tensor_meta_list_map[s.sample_uuid] = []
+            sample_input_tensor_meta_list_map[s.sample_uuid].append(s)
 
         existing_graph_uuids = {
             g.uuid for g in main_session.query(GraphSample.uuid).all()
@@ -186,6 +193,21 @@ def merge_databases(main_db_path: str, new_db_path: str):
                         )
                         main_session.add(new_op_name)
                         stats["sample_op_name"] += 1
+
+            if sample.uuid in sample_input_tensor_meta_list_map:
+                for src in sample_input_tensor_meta_list_map[sample.uuid]:
+                    new_input_tensor_meta = SampleInputTensorMeta(
+                        sample_uuid=src.sample_uuid,
+                        input_name=src.input_name,
+                        input_idx=src.input_idx,
+                        shape=src.shape,
+                        dtype=src.dtype,
+                        create_at=src.create_at,
+                        deleted=src.deleted,
+                        delete_at=src.delete_at,
+                    )
+                    main_session.add(new_input_tensor_meta)
+                    stats["sample_input_tensor_meta"] += 1
 
         main_session.commit()
 

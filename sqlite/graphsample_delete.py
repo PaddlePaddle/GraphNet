@@ -8,6 +8,7 @@ from orm_models import (
     DataTypeGeneralizationSource,
     SampleOpNameList,
     SampleOpName,
+    SampleInputTensorMeta,
 )
 
 
@@ -70,6 +71,9 @@ def delete_graph_sample(db_path: str, relative_model_path: str, repo_uid: str = 
             ).update({"deleted": True, "delete_at": delete_at})
             session.query(SampleOpName).filter(
                 SampleOpName.sample_uuid == graph_sample.uuid
+            ).update({"deleted": True, "delete_at": delete_at})
+            session.query(SampleInputTensorMeta).filter(
+                SampleInputTensorMeta.sample_uuid == graph_sample.uuid
             ).update({"deleted": True, "delete_at": delete_at})
 
         session.commit()

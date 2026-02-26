@@ -13,6 +13,7 @@ from orm_models import (
     DataTypeGeneralizationSource,
     SampleOpName,
     SampleOpNameList,
+    SampleInputTensorMeta,
 )
 from sqlalchemy import delete as sql_delete
 from sqlalchemy.exc import IntegrityError
@@ -370,6 +371,93 @@ def insert_sample_op_name_list(
         session.close()
 
 
+# SampleInputTensorMeta insert func
+def insert_sample_input_tensor_meta(
+    sample_uuid: str,
+    model_path_prefix: str,
+    relative_model_path: str,
+    db_path: str,
+):
+    model_path = Path(model_path_prefix) / relative_model_path
+    weight_meta_file = model_path / "weight_meta.py"
+
+    try:
+        with open(weight_meta_file) as f:
+            content = f.read()
+    except Exception as e:
+        print(f"Warning: Failed to read {weight_meta_file}: {e}")
+        return
+
+    input_tensor_metas = []
+    input_idx = 0
+    original_name_pattern = re.compile(r'original_name\s*=\s*"(.+?)"')
+    shape_pattern = re.compile(r"shape\s*=\s*\[(.+?)\]")
+    dtype_pattern = re.compile(r'dtype\s*=\s*"(.+?)"')
+    class_blocks = re.split(r"\nclass Program_weight_tensor_meta_", content)
+
+    for block in class_blocks:
+        original_name_match = original_name_pattern.search(block)
+        if not original_name_match:
+            continue
+
+        original_name = original_name_match.group(1)
+
+        shape_match = shape_pattern.search(block)
+        if not shape_match:
+            print(f"Warning: No shape found for {original_name} in {weight_meta_file}")
+            continue
+
+        shape_str = f"[{shape_match.group(1)}]"
+
+        dtype_match = dtype_pattern.search(block)
+        dtype = dtype_match.group(1) if dtype_match else ""
+
+        input_tensor_metas.append(
+            {
+                "input_name": original_name,
+                "input_idx": input_idx,
+                "shape": shape_str,
+                "dtype": dtype,
+            }
+        )
+        input_idx += 1
+
+    if not input_tensor_metas:
+        print(f"No input tensor meta found in {weight_meta_file}")
+        return
+
+    session = get_session(db_path)
+    try:
+        session.execute(
+            sql_delete(SampleInputTensorMeta).where(
+                SampleInputTensorMeta.sample_uuid == sample_uuid
+            )
+        )
+        for meta in input_tensor_metas:
+            sample_input_tensor_meta = SampleInputTensorMeta(
+                sample_uuid=sample_uuid,
+                input_name=meta["input_name"],
+                input_idx=meta["input_idx"],
+                shape=meta["shape"],
+                dtype=meta["dtype"],
+                create_at=datetime.now(),
+                deleted=False,
+                delete_at=None,
+            )
+            session.add(sample_input_tensor_meta)
+
+        session.commit()
+        print(
+            f"Inserted {len(input_tensor_metas)} input tensor meta(s) for sample_uuid={sample_uuid}"
+        )
+    except IntegrityError as e:
+        session.rollback()
+        print(f"Error inserting input tensor meta: {e}")
+        raise e
+    finally:
+        session.close()
+
+
 # main func
 def main(args):
     data = get_graph_sample_data(
@@ -394,6 +482,12 @@ def main(args):
                 sample_uuid=data["uuid"],
                 model_path_prefix=args.model_path_prefix,
                 op_names_path_prefix=args.op_names_path_prefix,
+                relative_model_path=args.relative_model_path,
+                db_path=args.db_path,
+            )
+            insert_sample_input_tensor_meta(
+                sample_uuid=data["uuid"],
+                model_path_prefix=args.model_path_prefix,
                 relative_model_path=args.relative_model_path,
                 db_path=args.db_path,
             )

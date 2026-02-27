@@ -28,9 +28,6 @@ from graph_net.graph_net_json_file_util import (
     update_json,
 )
 from graph_net.torch.constraint_util import RunModelPredicator
-from graph_net.torch.fx_graph_cache_util import (
-    parse_immutable_model_path_into_sole_graph_module,
-)
 from graph_net.torch.fx_graph_serialize_util import serialize_graph_module_to_str
 from graph_net.torch.dtype_gen_passes.pass_mgr import get_dtype_generalization_pass
 from graph_net.torch import utils
@@ -108,7 +105,7 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
     def __call__(self, model_path: str) -> None:
         self.resumable_handle_sample(model_path)
 
-    def resume(self, model_path: str) -> None:
+    def resume(self, rel_model_path: str) -> None:
         """
         Initialize dtype passes for the given model.
 
@@ -116,8 +113,7 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             model_path: Path to the model directory (may be relative to model_path_prefix)
         """
         # Apply model_path_prefix if provided
-        if self.model_path_prefix:
-            model_path = str(Path(self.model_path_prefix) / model_path)
+        model_path = str(Path(self.model_path_prefix) / rel_model_path)
 
         # Parse the computation graph
         module, inputs = get_torch_module_and_inputs(model_path)
@@ -318,32 +314,27 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             List of generated sample directories
         """
         # Apply model_path_prefix if provided
-        if self.model_path_prefix:
-            abs_model_path = str(Path(self.model_path_prefix) / rel_model_path)
+        model_path = str(Path(self.model_path_prefix) / rel_model_path)
 
         # Read pass names from graph_net.json
-        dtype_pass_names = self._read_dtype_pass_names(abs_model_path)
+        dtype_pass_names = self._read_dtype_pass_names(model_path)
+        logging.info(f"Apply {dtype_pass_names=} for {rel_model_path=}")
+
+        # Copy the original float32 sample
+        fp32_output_dir = self._get_output_dir(rel_model_path, "float32")
+        self._copy_sample(rel_model_path, fp32_output_dir)
 
         if not dtype_pass_names:
-            logging.warning(f"No dtype passes found in {abs_model_path}/graph_net.json")
+            logging.warning(f"No dtype passes found in {model_path}/graph_net.json")
             return []
 
         # Parse the computation graph
-        traced_model = parse_immutable_model_path_into_sole_graph_module(
-            abs_model_path, device=self._choose_device(self.config["device"])
+        module, inputs = get_torch_module_and_inputs(
+            model_path, device=self._choose_device(self.config["device"])
         )
+        traced_model = parse_sole_graph_module(module, inputs)
 
-        # Copy the originl sample
-        files_copied = [
-            "model.py",
-            "graph_hash.txt",
-            "graph_net.json",
-            "weight_meta.py",
-            "input_meta.py",
-            "input_tensor_constraints.py",
-            "subgraph_sources.json",
-        ]
-        self._copy_sample_files(rel_model_path, "float32", files_copied)
+        ShapeProp(traced_model).propagate(*inputs)
 
         # Generate samples for each pass
         generated_samples = []
@@ -381,13 +372,13 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         return metadata.get(kDataTypeGeneralizationPasses, [])
 
     def _apply_pass_and_generate(
-        self, model_path: str, traced_model: fx.GraphModule, pass_name: str
+        self, rel_model_path: str, traced_model: fx.GraphModule, pass_name: str
     ) -> str:
         """
         Apply a specific pass and generate a new sample.
 
         Args:
-            model_path: Original model path
+            rel_model_path: Original model path
             traced_model: Original traced model
             pass_name: Name of the pass file (without .py extension),
                        e.g., "dtype_generalization_pass_float16"
@@ -413,42 +404,33 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         gm_modified = dtype_pass.rewrite(gm_copy)
 
         # Generate output directory
-        output_sample_dir = Path(self.output_dir) / dtype / model_path
-        output_sample_dir.mkdir(parents=True, exist_ok=True)
+        output_dir = self._get_output_dir(rel_model_path, dtype)
 
-        # Write modified model.py
+        # Copy metadata files of original sample
+        self._copy_sample(rel_model_path, output_dir)
+
+        # Update model.py
         model_code = serialize_graph_module_to_str(gm_modified)
-        write_code = utils.apply_templates(model_code)
-        with open(output_sample_dir / "model.py", "w") as f:
-            f.write(write_code)
+        templated_model_code = utils.apply_templates(model_code)
+        (output_dir / "model.py").write_text(templated_model_code)
 
-        # Write modified graph_hash.txt
+        # Update graph_hash.txt
         model_hash = get_sha256_hash(model_code)
-        with open(output_sample_dir / "graph_hash.txt", "w") as f:
-            f.write(model_hash)
-
-        # Copy metadata files
-        files_copied = [
-            "graph_net.json",
-            "weight_meta.py",
-            "input_meta.py",
-            "input_tensor_constraints.py",
-            "subgraph_sources.json",
-        ]
-        self._copy_sample_files(model_path, dtype, files_copied)
+        (output_dir / "graph_hash.txt").write_text(model_hash)
 
         # Update graph_net.json with dtype information
-        self._update_sample_metadata(output_sample_dir, dtype)
+        self._update_sample_metadata(output_dir, dtype)
 
         # Validate generated sample (required - generated code must be runnable)
         if self.try_run:
-            if not self.model_runnable_predicator(str(output_sample_dir)):
-                raise RuntimeError(
-                    f"Generated sample failed validation: {output_sample_dir}"
-                )
-            logging.info(f"Generated sample validated: {output_sample_dir}")
+            if not self.model_runnable_predicator(str(output_dir)):
+                raise RuntimeError(f"Generated sample failed validation: {output_dir}")
+            logging.info(f"Generated sample validated: {output_dir}")
 
-        return str(output_sample_dir)
+        return str(output_dir)
+
+    def _get_output_dir(self, rel_model_path: str, dtype: str):
+        return Path(self.output_dir) / dtype / rel_model_path
 
     def _update_sample_metadata(self, sample_dir: Path, dtype: str) -> None:
         """
@@ -463,24 +445,17 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         update_json(graph_net_json_path, kDtypeGeneralizationPrecision, dtype)
         update_json(graph_net_json_path, kDtypeGeneralizationGenerated, True)
 
-    def _copy_sample_files(
-        self, rel_model_path: str, dtype: str, files_copied: list
-    ) -> None:
+    def _copy_sample(self, rel_model_path: str, output_dir: str) -> None:
         """
         Copy files of sample.
 
         Args:
             rel_model_path: relative model path
         """
-        # Generate output directory
-        output_sample_dir = Path(self.output_dir) / dtype / rel_model_path
-        output_sample_dir.mkdir(parents=True, exist_ok=True)
-
-        # Copy files of original sample
-        for fname in files_copied:
-            src = Path(rel_model_path) / fname
-            if src.exists():
-                shutil.copy(src, output_sample_dir / fname)
+        model_path = str(Path(self.model_path_prefix) / rel_model_path)
+        if not output_dir.exists():
+            logging.info(f"Copy {model_path} -> {output_dir}")
+            shutil.copytree(model_path, output_dir)
 
 
 class MultiDtypeFilter:

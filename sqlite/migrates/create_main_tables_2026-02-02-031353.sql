@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS repo (
     repo_url TEXT
 );
 INSERT OR IGNORE INTO repo (repo_uid, repo_type, repo_name, repo_url) VALUES
-('github_torch_samples', 'github', 'GraphNet', 'https://github.com/PaddlePaddle/GraphNet'),
-('github_paddle_samples', 'github', 'GraphNet', 'https://github.com/PaddlePaddle/GraphNet');
+('hf_torch_samples', 'huggingface', 'GraphNet', 'https://huggingface.co/datasets/PaddlePaddle/GraphNet'),
+('hf_paddle_samples', 'huggingface', 'GraphNet', 'https://huggingface.co/datasets/PaddlePaddle/GraphNet');
 
 
 -- create graph_sample table

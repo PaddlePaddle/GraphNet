@@ -39,9 +39,17 @@ bash ./sqlite/graphsample_delete.sh sqlite/xxx.db 2>&1 | tee sqlite/logs/delete_
 bash ./sqlite/graphsample_delete.sh 2>&1 | tee sqlite/logs/delete_$(date +"%Y%m%d_%H%M%S").log
 ```
 
-## Merge Databases and Upload to Hugging Face
+## Merge Databases
 
 ```bash
-# Usage: python ./sqlite/upload.py --main_db_path <path> --new_db_path <path>
-python ./sqlite/upload.py --main_db_path <path> --new_db_path <path>
+# Usage: python ./sqlite/merge_db.py --main_db_path <path> --new_db_path <path>
+python ./sqlite/merge_db.py --main_db_path sqlite/GraphNet.db --new_db_path sqlite/new.db
 ```
+
+## Upload to Hugging Face
+
+```bash
+python ./sqlite/upload.py
+```
+
+**Note:** Set `HF_TOKEN` variable in `upload.py` before running.

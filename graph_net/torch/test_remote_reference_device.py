@@ -12,7 +12,7 @@ from pathlib import Path
 
 from graph_net_rpc.sample_remote_executor import SampleRemoteExecutor
 from graph_net_bench import path_utils
-from graph_net.torch import test_reference_device
+from graph_net_bench.torch import utils
 from graph_net import model_path_util
 
 
@@ -41,12 +41,8 @@ def _build_remote_rpc_cmd(args) -> str:
 
 
 def test_single_model_remote(args):
-    ref_log = test_reference_device.get_reference_log_path(
-        args.reference_dir, args.model_path
-    )
-    ref_dump = test_reference_device.get_reference_output_path(
-        args.reference_dir, args.model_path
-    )
+    ref_log = utils.get_log_path(args.reference_dir, args.model_path)
+    ref_dump = utils.get_output_path(args.reference_dir, args.model_path)
 
     print(f"Reference log path: {ref_log}", file=sys.stderr, flush=True)
     print(f"Reference outputs path: {ref_dump}", file=sys.stderr, flush=True)
@@ -157,7 +153,6 @@ def test_multi_models_remote(args):
                     f"--seed {args.seed}",
                     f"--reference-dir {args.reference_dir}",
                     (f"--allow-list {args.allow_list}" if args.allow_list else ""),
-                    (f'--rpc-cmd "{args.rpc_cmd}"' if args.rpc_cmd else ""),
                 ]
             ).strip()
 

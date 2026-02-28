@@ -65,24 +65,33 @@ def test_single_model(args):
     eval_backend_perf.eval_single_model_with_single_backend(eval_args)
 
     ref_dump = utils.get_output_path(args.reference_dir, args.model_path)
-    ref_out = torch.load(str(ref_dump))
+    ref_out = torch.load(str(ref_dump), map_location=torch.device(args.device))
     ref_log = utils.get_log_path(args.reference_dir, args.model_path)
     ref_time_stats = eval_backend_diff.parse_time_stats_from_reference_log(ref_log)
 
     target_dump = utils.get_output_path(target_dir, args.model_path)
-    target_out = torch.load(str(target_dump))
+    target_out = torch.load(str(target_dump), map_location=torch.device(args.device))
     target_log = utils.get_log_path(target_dir, args.model_path)
     target_time_stats = eval_backend_diff.parse_time_stats_from_reference_log(
         target_log
     )
-
-    eval_backend_diff.compare_correctness(ref_out, target_out, eval_args)
+    eval_backend_diff.compare_correctness(
+        list(flatten_tensor(ref_out)), list(flatten_tensor(target_out)), eval_args
+    )
     test_compiler_util.print_times_and_speedup(args, ref_time_stats, target_time_stats)
 
 
 def is_reference_log_exist(reference_dir, model_path):
     log_path = utils.get_log_path(reference_dir, model_path)
     return os.path.isfile(log_path)
+
+
+def flatten_tensor(lst):
+    for i in lst:
+        if isinstance(i, (list, tuple)):
+            yield from flatten_tensor(i)
+        else:
+            yield i
 
 
 def test_multi_models(args):
@@ -99,7 +108,7 @@ def test_multi_models(args):
 
         if test_samples is None or os.path.abspath(model_path) in test_samples:
             print(
-                f"[{sample_idx}] {module_name}, model_path: {model_path}",
+                f"[{sample_idx}][Processing] {module_name}, model_path: {model_path}",
                 file=sys.stderr,
                 flush=True,
             )
@@ -144,7 +153,11 @@ def main(args):
             )
         else:
             eval_backend_perf.register_op_lib(args.op_lib)
-
+        print(
+            f"[Processing] model_path: {args.model_path}",
+            file=sys.stderr,
+            flush=True,
+        )
         test_single_model(args)
     else:
         test_multi_models(args)

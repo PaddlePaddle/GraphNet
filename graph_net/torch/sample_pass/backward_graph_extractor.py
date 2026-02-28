@@ -16,39 +16,43 @@ from graph_net.torch.fx_graph_module_util import (
 
 class BackwardGraphExtractor:
     def __init__(self, model_name, model_path, output_dir, device):
+        self.model_name = model_name
         self.model_path = model_path
         self.output_dir = output_dir
         self.device = device
-        self.builtin_extractor = BuiltinGraphExtractor(
-            name=model_name,
-            dynamic=False,
-            mut_graph_codes=[],
-            placeholder_auto_rename=False,
-            workspace_path=output_dir,
-        )
 
     def __call__(self):
-        module, example_inputs = get_torch_module_and_inputs(
+        module, forward_inputs = get_torch_module_and_inputs(
             self.model_path, use_dummy_inputs=False, device=self.device
         )
         module.train()
 
-        example_inputs = self.set_requires_grad_for_forward_inputs(
-            self.model_path, module, example_inputs
+        forward_inputs = self.set_requires_grad_for_forward_inputs(
+            self.model_path, module, forward_inputs
         )
-        bw_gm, backward_inputs = self.capture_backward_graph(module, example_inputs)
-        self.builtin_extractor(bw_gm, backward_inputs)
+        gm_holder, backward_inputs = self.capture_graph(module, forward_inputs)
+        self.get_extractor("forward")(gm_holder["forward_gm"], forward_inputs)
+        self.get_extractor("backward")(gm_holder["backward_gm"], backward_inputs)
 
-    def capture_backward_graph(self, module, example_inputs):
-        backward_gm_holder = {}
+    def get_extractor(self, suffix):
+        return BuiltinGraphExtractor(
+            name=f"{self.model_name}_{suffix}",
+            dynamic=False,
+            mut_graph_codes=[],
+            placeholder_auto_rename=False,
+            workspace_path=self.output_dir,
+        )
+
+    def capture_graph(self, module, forward_inputs):
+        gm_holder = {}
         backward_inputs = []
 
-        def forward_compiler(fx_gm, example_inputs):
+        def forward_compiler(fx_gm, forward_inputs):
+            gm_holder["forward_gm"] = fx_gm
             return fx_gm
 
-        def backward_compiler(fx_gm, example_inputs):
-            # Save the backward fx.Graph
-            backward_gm_holder["gm"] = fx_gm
+        def backward_compiler(fx_gm, forward_inputs):
+            gm_holder["backward_gm"] = fx_gm
 
             placeholders = [n for n in fx_gm.graph.nodes if n.op == "placeholder"]
             origin_forward = fx_gm.forward
@@ -63,11 +67,11 @@ class BackwardGraphExtractor:
 
         compiled = aot_module_simplified(
             module,
-            example_inputs,
+            forward_inputs,
             fw_compiler=forward_compiler,
             bw_compiler=backward_compiler,
         )
-        outs = compiled(*example_inputs)
+        outs = compiled(*forward_inputs)
         outs = [outs] if isinstance(outs, torch.Tensor) else outs
         valid_pairs = [
             (out, torch.ones_like(out))
@@ -78,9 +82,11 @@ class BackwardGraphExtractor:
         if valid_pairs:
             tensors, grads = zip(*valid_pairs)
             torch.autograd.backward(tensors, grads)
+            gm_holder["backward_gm"] = self._remove_none_from_output(
+                gm_holder["backward_gm"]
+            )
 
-        bw_gm = self._remove_none_from_output(backward_gm_holder["gm"])
-        return bw_gm, backward_inputs
+        return gm_holder, backward_inputs
 
     def _remove_none_from_output(self, gm):
         output_node = next(
@@ -167,9 +173,13 @@ class BackwardGraphExtractorPass(SamplePass, ResumableSamplePassMixin):
 
     def resume(self, rel_model_path: str):
         model_path_prefix = Path(self.config["model_path_prefix"])
-        model_name = f"{os.path.basename(rel_model_path)}_backward"
+        model_name = f"{os.path.basename(rel_model_path)}"
         model_path = model_path_prefix / rel_model_path
-        output_dir = Path(self.config["output_dir"]) / os.path.dirname(rel_model_path)
+        output_dir = (
+            Path(self.config["output_dir"])
+            / os.path.dirname(rel_model_path)
+            / model_name
+        )
         device = self._choose_device(self.config["device"])
         extractor = BackwardGraphExtractor(model_name, model_path, output_dir, device)
         extractor()

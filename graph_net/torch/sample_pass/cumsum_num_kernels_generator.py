@@ -41,7 +41,7 @@ class CumSumNumKernelsGenerator(SamplePass, ResumableSamplePassMixin):
     def resume(self, rel_model_path: str):
         model_path = Path(self.config["model_path_prefix"]) / rel_model_path
         device = self._choose_device(self.config["device"])
-        start_offset_in_original_graph = self.config["start_offset_in_original_graph"]
+        start_offset_in_original_graph = self._resolve_start_offset(model_path)
         analyzer = CumsumNumKernelsAnalyzer(
             model_path, device, start_offset_in_original_graph
         )
@@ -51,6 +51,19 @@ class CumSumNumKernelsGenerator(SamplePass, ResumableSamplePassMixin):
         output_dir_path.mkdir(parents=True, exist_ok=True)
         output_file_path = output_dir_path / self.config["output_json_file_name"]
         output_file_path.write_text(cumsum_num_kernels_json)
+
+    def _resolve_start_offset(self, model_path: Path) -> int:
+        subgraph_sources_json_file = model_path / "subgraph_sources.json"
+        if not subgraph_sources_json_file.exists():
+            return 0
+        with open(subgraph_sources_json_file, "r") as f:
+            sources_data = json.load(f)
+        if not sources_data:
+            raise ValueError(f"No sources found in {subgraph_sources_json_file}")
+        for original_model_name, ranges in sources_data.items():
+            if ranges and len(ranges) > 0:
+                return ranges[0][0]
+        return 0
 
     def _choose_device(self, device) -> str:
         if device in ["cpu", "cuda"]:

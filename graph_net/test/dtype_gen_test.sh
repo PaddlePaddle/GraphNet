@@ -32,36 +32,11 @@ python3 -m graph_net.apply_sample_pass \
     "output_dir": "$OUTPUT_DIR",
     "model_path_prefix": "$GRAPHNET_ROOT",
     "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/torch/constraint_util.py",
-    "model_runnable_predicator_class_name": "RunModelPredicator",
-    "model_runnable_predicator_config": {
-        "use_dummy_inputs": true
-    },
     "resume": true,
-    "limits_handled_models": null
+    "limits_handled_models": null,
+    "try_run": true
 }
 EOF
 )
 
 
-# Step 3: Valiation
-SUCCESS_CNT=0
-FAIL_CNT=0
-
-for model_path in "$OUTPUT_DIR"/*; do
-    echo "[VALIDATE] $model_path"
-
-    output=$(python -m graph_net.torch.validate \
-        --model-path "$model_path" 2>&1)
-
-    if echo "$output" | grep -q "Validation success, model_path="; then
-        echo "SUCCESS"
-        ((SUCCESS_CNT++))
-    else
-        echo "FAIL"
-        ((FAIL_CNT++))
-    fi
-done
-
-echo "===================="
-echo "SUCCESS $SUCCESS_CNT"
-echo "FAIL    $FAIL_CNT"

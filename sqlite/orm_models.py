@@ -111,6 +111,15 @@ class GraphSample(Base):
         "SampleInputTensorMeta",
         back_populates="sample",
     )
+    sample_buckets = relationship(
+        "GraphNetSampleBucket",
+        back_populates="sample",
+        uselist=False,
+    )
+    sample_groups = relationship(
+        "GraphNetSampleGroup",
+        back_populates="sample",
+    )
 
 
 class SubgraphSource(Base):
@@ -303,6 +312,54 @@ class SampleInputTensorMeta(Base):
     )
 
     sample = relationship("GraphSample", back_populates="sample_input_tensor_metas")
+
+
+class GraphNetSampleBucket(Base):
+    __tablename__ = "graph_net_sample_buckets"
+
+    sample_uid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    op_seq_bucket_id = Column(Text, nullable=False)
+    input_shapes_bucket_id = Column(Text, nullable=False)
+    input_dtypes_bucket_id = Column(Text, nullable=False)
+    create_at = Column(DateTime, default=datetime.now)
+    delete_at = Column(DateTime)
+    deleted = Column(Boolean, default=False)
+
+    __table_args__ = (
+        Index("idx_buckets_sample_uid", "sample_uid"),
+        Index("idx_buckets_op_seq_bucket_id", "op_seq_bucket_id"),
+        Index("idx_buckets_input_shapes_bucket_id", "input_shapes_bucket_id"),
+        Index("idx_buckets_input_dtypes_bucket_id", "input_dtypes_bucket_id"),
+    )
+
+    sample = relationship("GraphSample", back_populates="sample_buckets")
+
+
+class GraphNetSampleGroup(Base):
+    __tablename__ = "graph_net_sample_groups"
+
+    sample_uid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    group_uid = Column(String(255), nullable=False, primary_key=True)
+    group_type = Column(String(50), nullable=False)
+    group_policy = Column(String(50), nullable=False)
+    policy_version = Column(String(20), nullable=False)
+    create_at = Column(DateTime, default=datetime.now)
+    delete_at = Column(DateTime)
+    deleted = Column(Boolean, default=False)
+
+    __table_args__ = (
+        Index("idx_groups_sample_uid", "sample_uid"),
+        Index("idx_groups_group_type", "group_type"),
+        Index("idx_groups_group_policy", "group_policy"),
+        Index("idx_groups_group_uid", "group_uid"),
+        Index("idx_groups_policy_version", "policy_version"),
+    )
+
+    sample = relationship("GraphSample", back_populates="sample_groups")
 
 
 def get_session(db_path: str, echo: bool = False):

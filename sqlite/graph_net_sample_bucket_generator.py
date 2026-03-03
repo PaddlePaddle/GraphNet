@@ -57,8 +57,8 @@ class SampleTypeBucketResult:
 
 
 def get_default_dimension_bucket(dim: int) -> int:
-    """Default bucket function: log2(dim) // 3"""
-    return -1 if dim <= 0 else int(math.log2(dim)) // 3
+    """Default bucket function: log2(dim) // 4"""
+    return -1 if dim <= 0 else int(math.log2(dim)) // 4
 
 
 def generate_sample_buckets(
@@ -70,7 +70,7 @@ def generate_sample_buckets(
 
     Args:
         session: SQLAlchemy session
-        get_dimension_bucket: bucket function, defaults to log2(dim) // 3
+        get_dimension_bucket: bucket function, defaults to log2(dim) // 4
 
     Returns:
         sample_type_results: List[SampleTypeBucketResult], results grouped by sample_type

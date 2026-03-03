@@ -68,17 +68,23 @@ def _compute_metrics(
     for seq in op_seqs:
         edges = list(zip(seq[:-1], seq[1:]))
         if not edges:
-            result.append({"rarity_score": 0.0, "unique_edges": frozenset(), "edge_count": 0})
+            result.append(
+                {"rarity_score": 0.0, "unique_edges": frozenset(), "edge_count": 0}
+            )
             continue
         neg_log_probs = [
-            -math.log(_transition_prob(op_to_id, count_matrix, row_sums, src, dst, alpha))
+            -math.log(
+                _transition_prob(op_to_id, count_matrix, row_sums, src, dst, alpha)
+            )
             for src, dst in edges
         ]
-        result.append({
-            "rarity_score": sum(neg_log_probs) / len(neg_log_probs),
-            "unique_edges": frozenset(edges),
-            "edge_count": len(edges),
-        })
+        result.append(
+            {
+                "rarity_score": sum(neg_log_probs) / len(neg_log_probs),
+                "unique_edges": frozenset(edges),
+                "edge_count": len(edges),
+            }
+        )
     return result
 
 

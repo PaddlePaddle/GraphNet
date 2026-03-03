@@ -3,18 +3,16 @@ set -x
 
 MIN_SEQ_OPS=${1:-4}
 MAX_SEQ_OPS=${2:-64}
-GPU_ID=${3:-5}
+GPU_ID=${3:-0}
 
 OP_RANGE=$MIN_SEQ_OPS-$MAX_SEQ_OPS
 
 export CUDA_VISIBLE_DEVICES="${GPU_ID}"
-export PYTHONPATH=/work/GraphNet:/work/abstract_pass/Athena:$PYTHONPATH
 
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 RESUME="true"
 
-#DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
-DECOMPOSE_WORKSPACE=/work/graphnet_test_workspace/subgraph_dataset_20260203
+DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
 DEVICE_REWRITED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/01_device_rewrited_samples
 DIMENSION_GENERALIZED_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/02_dimension_generalized_samples
 OP_NAMES_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/03_sample_op_names
@@ -43,7 +41,7 @@ dimension_generalized_subgraph_list=${DECOMPOSE_WORKSPACE}/dimension_generalized
 deduplicated_fusible_subgraphs_list=${DECOMPOSE_WORKSPACE}/deduplicated_dimension_generalized_subgraph_sample_list.txt
 dtype_generalized_subgraphs_list=${DECOMPOSE_WORKSPACE}/dtype_generalized_subgraphs_sample_list.txt
 
-if [[ "$model_list" == *"torch_samples_list.txt" ]]; then
+if [[ "$model_list" == *"/torch_samples_list.txt" ]]; then
     USE_SUBPROCESS_ARGS="--use-subprocess"
 else
     USE_SUBPROCESS_ARGS=""
@@ -73,7 +71,7 @@ function generate_subgraph_list() {
         | tee $sample_list
 }
 
-function grpahsample_insert(){
+function insert_graph_sample(){
     local target_dir="$1"
     local repo_uid="$2"
     local sample_type="$3"
@@ -364,6 +362,7 @@ function dtype_generalizer() {
     echo ">>> [12] Data type generalizer for samples under ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}."
     echo ">>>"
     python3 -m graph_net.apply_sample_pass \
+        --use-subprocess \
         --model-path-list $deduplicated_fusible_subgraphs_list \
         --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/dtype_generalizer.py" \
         --sample-pass-class-name ApplyDataTypeGeneralizationPasses \
@@ -410,8 +409,8 @@ main() {
     suffix="${OP_RANGE}ops_${timestamp}"
 
     # init database
-    python ./sqlite/init_db.py --db_path ${DB_PATH} 2>&1 | tee sqlite/logs/init_db_$(date +"%Y%m%d_%H%M%S").log
-    grpahsample_insert ${GRAPH_NET_ROOT} "github_torch_samples" "full_graph" ${model_list}
+    python ${GRAPH_NET_ROOT}/sqlite/init_db.py --db_path ${DB_PATH} 2>&1 | tee sqlite/logs/init_db_${timestamp}.log
+    insert_graph_sample ${GRAPH_NET_ROOT} "github_torch_samples" "full_graph" ${model_list}
 
     # rewrite the device in model to cuda
     rewrite_device 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rewrite_device_${suffix}.txt
@@ -425,11 +424,11 @@ main() {
     generate_split_point 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_split_point_${suffix}.txt
     range_decompose 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_range_decompose_${suffix}.txt
     generate_subgraph_list ${RANGE_DECOMPOSE_OUTPUT_DIR} ${range_decomposed_subgraph_list}
-
+    
     rename_decomposed_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_decomposed_subgraph_${suffix}.txt
     remove_duplicate_renamed_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_renamed_graphs_${suffix}.txt
     generate_subgraph_list ${DEDUPLICATED_OUTPUT_DIR} ${deduplicated_subgraph_list}
-    grpahsample_insert ${DEDUPLICATED_OUTPUT_DIR} "github_torch_samples" "typical_graph" ${deduplicated_subgraph_list}
+    insert_graph_sample ${DEDUPLICATED_OUTPUT_DIR} "github_torch_samples" "typical_graph" ${deduplicated_subgraph_list}
 
     # generate fusible subgraph ranges
     gen_fusible_subgraph_ranges 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_fusible_subgraphs_${suffix}.txt
@@ -437,15 +436,15 @@ main() {
     # subgraph dimension generalization
     subgraph_dimension_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_subgraph_dimension_generalizer_${suffix}.txt
     generate_generalized_subgraph_list ${SUBGRAPH_DIMENSION_GENERALIZED_OUTPUT_DIR} ${dimension_generalized_subgraph_list}
-
+    
     rename_dimension_generalized_fusible_subgraph 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_rename_dimension_generalized_subgraph_${suffix}.txt
     remove_duplicate_dimension_generalized_fusible_graphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_remove_duplicate_dimension_generalized_subgraphs_${suffix}.txt
     generate_generalized_subgraph_list ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} ${deduplicated_fusible_subgraphs_list}
-    grpahsample_insert ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} "github_torch_samples" "fusible_graph" ${deduplicated_fusible_subgraphs_list}
 
     # dtype generalization
     dtype_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_dtype_generalizer_${suffix}.txt
     generate_generalized_subgraph_list ${DTYPE_GENERALIZED_OUTPUT_DIR} ${dtype_generalized_subgraphs_list}
+    insert_graph_sample ${DEDUPLICATED_DIMENSION_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} "github_torch_samples" "fusible_graph" ${dtype_generalized_subgraphs_list}
 
     # generate kernelbench format unittest
     generate_unittests 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_${suffix}.txt
@@ -520,12 +519,22 @@ summary() {
     done
     echo ""
 
+    num_dtype_generalized_subgraphs=`find ${DTYPE_GENERALIZED_OUTPUT_DIR} -name "model.py" | wc -l`
+    echo "- [Step 12] dtype generalization: successed=${num_dtype_generalized_subgraphs}"
+    for dtype in float32 float16 bfloat16
+    do
+        num_dtype_generalized_subgraphs_index=`find ${DTYPE_GENERALIZED_OUTPUT_DIR}/${dtype} -name "model.py" | wc -l`
+        echo "    ${dtype}, successed=${num_dtype_generalized_subgraphs_index}"
+    done
+    echo ""
+
     num_successed_unittests=`find ${UNITTESTS_OUTPUT_DIR} -name "*_test.py" | wc -l`
-    unittest_successed_percent=$((num_successed_unittests * 100 / num_deduplicated_fusible_subgraphs))
-    echo "- [Step 12] generate unittest: successed=${num_successed_unittests}, percent=${unittest_successed_percent}%"
-    for index in {0..8}; do
-        num_successed_unittests=`find ${UNITTESTS_OUTPUT_DIR}/${index} -name "*_test.py" | wc -l`
-        echo "    ${index}, successed=${num_successed_unittests}"
+    unittest_successed_percent=$((num_successed_unittests * 100 / num_dtype_generalized_subgraphs))
+    echo "- [Step 13] generate unittest: successed=${num_successed_unittests}, percent=${unittest_successed_percent}%"
+    for dtype in float32 float16 bfloat16
+    do
+        num_successed_unittests=`find ${UNITTESTS_OUTPUT_DIR}/${dtype} -name "*_test.py" | wc -l`
+        echo "    ${dtype}, successed=${num_successed_unittests}"
     done
 }
 

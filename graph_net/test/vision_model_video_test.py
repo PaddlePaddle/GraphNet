@@ -2,9 +2,9 @@ import argparse
 import os
 import torch
 import torchvision
-from torchvision import transforms
 import graph_net
 import importlib
+
 
 def load_video_model(model_name):
     """
@@ -15,18 +15,19 @@ def load_video_model(model_name):
         model_builder = getattr(video_module, model_name)
         if isinstance(model_builder, type):
             try:
-                weights_enum = getattr(torchvision.models.video, f"{model_name.upper()}_WEIGHTS", None)
+                weights_enum = getattr(
+                    torchvision.models.video, f"{model_name.upper()}_WEIGHTS", None
+                )
                 if weights_enum and hasattr(weights_enum, "DEFAULT"):
                     return model_builder(weights=weights_enum.DEFAULT)
                 else:
                     return model_builder(pretrained=True)
-            except Exception as e:
-                print(f"Initialize randomly")
+            except Exception:
+                print("Initialize randomly")
                 return model_builder()
         else:
             # 如果是函数，直接调用
             return model_builder(pretrained=True)
-
 
     raise ValueError(f"Not found: {model_name}")
 
@@ -50,9 +51,6 @@ def extract_visio_graph(model_name, model_path):
 
     print("Running inference...")
     print("Input shape:", normalized_input.shape)
-
-    output = model(normalized_input)
-
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@
 import json
 from typing import Dict, List
 
-from orm_models import get_session, GraphSample, SampleOpNameList
+from sqlite.orm_models import get_session, GraphSample, SampleOpNameList
 
 
 class GraphNetSampleTypeGetter:

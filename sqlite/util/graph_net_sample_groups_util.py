@@ -2,7 +2,7 @@
 from typing import List, Set, Dict
 from collections import defaultdict
 
-from orm_models import get_session, GraphNetSampleGroup
+from sqlite.orm_models import get_session, GraphNetSampleGroup
 
 
 def get_all_graph_net_sample_groups(

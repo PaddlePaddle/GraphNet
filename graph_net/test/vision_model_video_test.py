@@ -6,7 +6,6 @@ from torchvision import transforms
 import graph_net
 import importlib
 
-
 def load_video_model(model_name):
     """
     动态加载视频模型，兼容不同版本的 torchvision

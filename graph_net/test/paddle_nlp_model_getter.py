@@ -1,3 +1,6 @@
+# Reference implementation: https://github.com/PaddlePaddle/PaddleTest/tree/develop/framework/e2e/PaddleLT_new/layerNLPcase/transformers
+
+
 def get_auto_model_and_inputs(model_name, text, dtype):
     from paddlenlp.transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
 
@@ -116,7 +119,6 @@ def get_bart_model_and_inputs(model_name, text, dtype):
     model.eval()
 
     tokenizer = BartTokenizer.from_pretrained(model_name)
-
     inputs = tokenizer(
         text,
         return_tensors="pd",
@@ -125,7 +127,6 @@ def get_bart_model_and_inputs(model_name, text, dtype):
         max_length=512,
     )
     inputs.pop("token_type_ids", None)
-
     return model, inputs
 
 
@@ -141,16 +142,54 @@ def get_xlnet_model_and_inputs(model_name, text, dtype):
 
     tokenizer = XLNetTokenizer.from_pretrained(model_name)
 
-    enc = tokenizer(
+    inputs = tokenizer(
         text,
         return_tensors="pd",
         padding=True,
         truncation=True,
         # max_length=512,
     )
-    if "attention_mask" not in enc:
-        input_ids = enc["input_ids"]
+    if "attention_mask" not in inputs:
+        input_ids = inputs["input_ids"]
         pad_id = tokenizer.pad_token_id
-        enc["attention_mask"] = (input_ids != pad_id).astype("int64")
+        inputs["attention_mask"] = (input_ids != pad_id).astype("int64")
+    return model, inputs
 
-    return model, enc
+
+def get_fnet_model_and_inputs(model_name, text, dtype):
+    from paddlenlp.transformers.fnet.modeling import FNetModel, FNetConfig
+    from paddlenlp.transformers.fnet.tokenizer import FNetTokenizer
+
+    config = FNetConfig.from_pretrained(model_name)
+    model = FNetModel(config)
+
+    tokenizer = FNetTokenizer.from_pretrained(model_name)
+    inputs = tokenizer(text, return_tensors="pd")
+    return model, inputs
+
+
+def get_prophetnet_model_and_inputs(model_name, text, dtype):
+    import paddle
+    from paddlenlp.transformers import ProphetNetModel, ProphetNetConfig
+    from paddlenlp.transformers import ProphetNetTokenizer
+
+    config = ProphetNetConfig.from_pretrained(model_name)
+    model = ProphetNetModel(config)
+
+    tokenizer = ProphetNetTokenizer.from_pretrained(model_name)
+    inputs = tokenizer(text, return_tensors="pd")
+    inputs.pop("token_type_ids", None)
+
+    if "attention_mask" not in inputs:
+        input_ids = inputs["input_ids"]
+        pad_id = tokenizer.pad_token_id
+        inputs["attention_mask"] = (input_ids != pad_id).astype("int64")
+
+    if "decoder_input_ids" not in inputs:
+        batch_size = inputs["input_ids"].shape[0]
+        decoder_input_ids = paddle.full(
+            [batch_size, 1], tokenizer.bos_token_id, dtype="int64"
+        )
+        inputs["decoder_input_ids"] = decoder_input_ids
+
+    return model, inputs

@@ -1,22 +1,17 @@
 import argparse
-import importlib.util
-import time
-import numpy as np
-import random
 import os
-from pathlib import Path
 import json
-import re
 import sys
 import traceback
 
 import paddle
-from graph_net import path_utils
-from graph_net import test_compiler_util
+from graph_net_bench import path_utils
+from graph_net_bench import test_compiler_util
+from graph_net import model_path_util
 from graph_net.paddle import test_compiler, test_reference_device
 
 
-def parse_config_from_reference_log(log_path):
+def parse_config_from_log_file(log_path):
     assert os.path.isfile(
         log_path
     ), f"{log_path} does not exist or is not a regular file."
@@ -35,7 +30,7 @@ def parse_config_from_reference_log(log_path):
     return config
 
 
-def parse_time_stats_from_reference_log(log_path):
+def parse_time_stats_from_log_file(log_path):
     assert os.path.isfile(
         log_path
     ), f"{log_path} does not exist or is not a regular file."
@@ -54,7 +49,7 @@ def update_args_and_set_seed(args, model_path):
     ref_log = test_reference_device.get_reference_log_path(
         args.reference_dir, model_path
     )
-    config = parse_config_from_reference_log(ref_log)
+    config = parse_config_from_log_file(ref_log)
     vars(args)["model_path"] = model_path
     vars(args)["compiler"] = config.get("compiler")
     vars(args)["trials"] = int(config.get("trials"))
@@ -63,12 +58,33 @@ def update_args_and_set_seed(args, model_path):
     return args
 
 
+def get_reference_output_and_time_stats(model_path, reference_dir):
+    model_name = test_compiler_util.get_model_name(model_path)
+    if test_compiler_util.get_subgraph_tag(model_path):
+        model_name += "_" + test_compiler_util.get_subgraph_tag(model_path)
+
+    ref_dump = test_reference_device.get_reference_output_path(
+        reference_dir, model_path
+    )
+    ref_out = paddle.load(str(ref_dump))
+
+    ref_log = test_reference_device.get_reference_log_path(reference_dir, model_path)
+    ref_time_stats = parse_time_stats_from_log_file(ref_log)
+    return ref_out, ref_time_stats
+
+
 def test_single_model(args):
+    model_path = os.path.normpath(args.model_path)
+    test_compiler_util.print_with_log_prompt(
+        "[Processing]", model_path, args.log_prompt
+    )
+    args = update_args_and_set_seed(args, model_path)
+
     compiler = test_compiler.get_compiler_backend(args)
     test_compiler.check_and_print_gpu_utilization(compiler)
 
-    input_dict = test_compiler.get_input_dict(args.model_path)
-    model = test_compiler.get_model(args.model_path)
+    input_dict = test_compiler.get_input_dict(model_path)
+    model = test_compiler.get_model(model_path)
     model.eval()
 
     test_compiler_util.print_basic_config(
@@ -80,7 +96,7 @@ def test_single_model(args):
     success = False
     time_stats = {}
     try:
-        input_spec = test_compiler.get_input_spec(args.model_path)
+        input_spec = test_compiler.get_input_spec(model_path)
         compiled_model = compiler(model, input_spec)
         outputs, time_stats = test_compiler.measure_performance(
             lambda: compiled_model(**input_dict), args, compiler, profile=False
@@ -94,21 +110,9 @@ def test_single_model(args):
         )
 
     test_compiler_util.print_running_status(args, success)
-
-    model_name = test_compiler_util.get_model_name(args.model_path)
-    if test_compiler_util.get_subgraph_tag(args.model_path):
-        model_name += "_" + test_compiler_util.get_subgraph_tag(args.model_path)
-
-    ref_dump = test_reference_device.get_reference_output_path(
-        args.reference_dir, args.model_path
+    ref_out, ref_time_stats = get_reference_output_and_time_stats(
+        model_path, args.reference_dir
     )
-    ref_out = paddle.load(str(ref_dump))
-
-    ref_log = test_reference_device.get_reference_log_path(
-        args.reference_dir, args.model_path
-    )
-    ref_time_stats = parse_time_stats_from_reference_log(ref_log)
-
     if success:
         test_compiler.check_outputs(args, ref_out, outputs)
 
@@ -123,7 +127,7 @@ def is_reference_log_exist(reference_dir, model_path):
 def test_multi_models(args):
     assert os.path.isdir(args.reference_dir)
 
-    test_samples = test_compiler_util.get_allow_samples(args.allow_list)
+    test_samples = model_path_util.get_allow_samples(args.allow_list)
 
     sample_idx = 0
     failed_samples = []
@@ -170,14 +174,13 @@ def main(args):
     test_compiler.init_env(args)
 
     if path_utils.is_single_model_dir(args.model_path):
-        args = update_args_and_set_seed(args, args.model_path)
         test_single_model(args)
     else:
         test_multi_models(args)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Test compiler performance.")
+    parser = argparse.ArgumentParser(description="Test target device performance.")
     parser.add_argument(
         "--model-path",
         type=str,

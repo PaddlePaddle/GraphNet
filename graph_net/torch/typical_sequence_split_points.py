@@ -5,57 +5,29 @@ from pathlib import Path
 from typing import Any, Dict, List
 import torch
 import torch.nn as nn
+
 from graph_net.torch.rp_expr.rp_expr_parser import RpExprParser
+from graph_net.torch.rp_expr.rp_expr_util import (
+    MakeNestedIndexRangeFromLetsListTokenRpExpr,
+)
 from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module_without_varify
 
 
-class TypicalSequenceExtractor:
-    def __init__(self):
-        self.extract_node = []
-
-    def _extract_operators_from_graph(
-        self, gm: nn.Module, example_inputs: List[torch.Tensor] = None
-    ) -> List[Dict[str, Any]]:
-        operator_list = []
-        named_modules = dict(gm.named_modules())
-
-        for node in gm.graph.nodes:
-            if node.op not in ("call_method", "call_function", "call_module"):
-                continue
-
-            if node.op == "call_module":
-                target_name = type(named_modules[node.target]).__name__
-            elif node.op == "call_method":
-                target_name = f"Tensor.{node.target}"
-            elif node.op == "call_function":
-                target_name = getattr(node.target, "__name__", str(node.target))
-            else:
-                raise NotImplementedError()
-            operator_list.append(
-                {
-                    "op_type": node.op,
-                    "target": node.target,
-                    "name": node.name,
-                    "target_name": target_name,
-                }
-            )
-
-        return operator_list
-
-    def extract_compiler(self, gm: torch.fx.GraphModule, inputs: List[torch.Tensor]):
-        operator = self._extract_operators_from_graph(gm, inputs)
-        self.extract_node = operator
-        return gm.forward
-
-
 class SplitAnalyzer:
     def __init__(
-        self, window_size: int = 10, fold_policy: str = "default", fold_times: int = 0
+        self,
+        window_size: int = 10,
+        fold_policy: str = "default",
+        fold_times: int = 0,
+        min_seq_ops: int = 2,
+        max_seq_ops: int = 64,
     ):
         self.window_size = window_size
         self.fold_policy = fold_policy
         self.fold_times = fold_times
+        self.min_seq_ops = min_seq_ops
+        self.max_seq_ops = max_seq_ops
 
     def _resolve_token_to_ops(
         self, tid, num_primitives, token_id2primitive_id, symbol_map
@@ -74,17 +46,11 @@ class SplitAnalyzer:
             return ops
         return [f"Unknown({tid})"]
 
-    def _extract_ops_via_compile(
-        self, model_path: str, device: str = "cpu"
-    ) -> List[str]:
-        print(f"extracting ops from {model_path}")
-        extractor = TypicalSequenceExtractor()
-        model, inputs = get_torch_module_and_inputs(model_path)
-        compiled_model, _ = parse_sole_graph_module_without_varify(model, inputs)
-        extractor.extract_compiler(compiled_model, inputs)
-        ops_info = extractor.extract_node
-
-        return [op["target_name"] for op in ops_info]
+    def _load_op_names_from_file(self, txt_path: Path) -> List[str]:
+        if not txt_path.exists():
+            print(f"File not found: {txt_path}")
+            return []
+        return txt_path.read_text().split("\n")
 
     def _calculate_token_lengths(
         self, rp_expr, num_primitives, symbol_map
@@ -110,7 +76,7 @@ class SplitAnalyzer:
         return token2len
 
     def analyze(
-        self, model_path_prefix: str, model_paths_file: str, device: str
+        self, op_names_path_prefix: str, model_paths_file: str, device: str
     ) -> Dict[str, Dict]:
         input_file = Path(model_paths_file)
 
@@ -124,33 +90,45 @@ class SplitAnalyzer:
         inputs_seqs = []
         valid_models = []
 
-        for p in rel_model_paths:
-            model_full_path = os.path.join(model_path_prefix, p)
-            seq = self._extract_ops_via_compile(model_full_path, device)
+        for rel_model_path in rel_model_paths:
+            txt_path = Path(op_names_path_prefix) / rel_model_path / "op_names.txt"
+            seq = self._load_op_names_from_file(txt_path)
             if seq:
                 inputs_seqs.append(seq)
-                valid_models.append((p.name, p))
+                valid_models.append((rel_model_path.name, rel_model_path))
 
-        if not inputs_seqs:
-            return {}
+        assert len(inputs_seqs) > 0
         rp_parser = RpExprParser(
             window_size=self.window_size,
             fold_policy=self.fold_policy,
             fold_times=self.fold_times,
         )
         rp_expr, token_id2primitive_id = rp_parser(inputs_seqs)
-        rp_expr.try_unwrap_body_of_sole_symbol_token()
-        rp_expr.try_recursive_inline_symbol_sole_used(token_id2primitive_id)
+        trees = MakeNestedIndexRangeFromLetsListTokenRpExpr(rp_expr)
+
+        def get_debug_sprintf():
+            var_and_vals = zip(rp_expr.symbol_token_ids, rp_expr.symbol_token_tensors)
+            ret_lst = [
+                *(f"{var}: {val}" for var, val in var_and_vals),
+                "",
+                str(rp_expr.body_rp_expr),
+            ]
+            return "\n".join(ret_lst)
+
+        # Path("/tmp/rp_expr.txt").write_text(get_debug_sprintf())
 
         num_primitives = len(token_id2primitive_id)
         symbol_map = dict(zip(rp_expr.symbol_token_ids, rp_expr.symbol_token_tensors))
         token2len = self._calculate_token_lengths(rp_expr, num_primitives, symbol_map)
 
-        results = {}
+        split_positions_json = {}
+        subgraph_ranges_json = {}
 
         for i, (model_name, original_path) in enumerate(valid_models):
             if i >= len(rp_expr.body_rp_expr):
                 break
+
+            tree = trees[i]
 
             target_body_tensor = rp_expr.body_rp_expr[i]
             seq_tokens = target_body_tensor.tolist()
@@ -163,36 +141,50 @@ class SplitAnalyzer:
                     )
                 )
 
-            current_idx = 0
-            split_positions = set()
             total_len = sum(token2len.get(t, 1) for t in seq_tokens)
 
-            for token_id in seq_tokens:
-                length = token2len.get(token_id, 1)
-                is_pattern = token_id >= num_primitives
+            subgraph_ranges = list(
+                tree.FilterSubTreeRangeBySize(self.min_seq_ops, self.max_seq_ops)
+            )
 
-                if is_pattern:
-                    if current_idx > 0:
-                        split_positions.add(current_idx)
-                    end_idx = current_idx + length
-                    if end_idx < total_len:
-                        split_positions.add(end_idx)
-
-                current_idx += length
-
-            sorted_splits = sorted(list(split_positions))
+            sorted_splits = sorted(
+                set(
+                    split_pos
+                    for start, end in subgraph_ranges
+                    for split_pos in (start, end)
+                    if end - start > 1
+                )
+            )
 
             self._print_analysis(
                 model_name, str(original_path), sorted_splits, total_len, full_model_ops
             )
 
-            results[str(original_path)] = {
+            split_positions_json[str(original_path)] = {
                 "model_name": model_name,
                 "split_positions": sorted_splits,
                 "total_length": total_len,
             }
 
-        return results
+            sorted_subgraph_ranges = sorted(
+                set((start, end) for start, end in subgraph_ranges if end - start > 1)
+            )
+
+            # make sorted_subgraph_ranges is a disjoint set
+            sorted_subgraph_ranges = [
+                sorted_subgraph_ranges[i]
+                for i in range(len(sorted_subgraph_ranges))
+                if i == 0
+                or sorted_subgraph_ranges[i][0] >= sorted_subgraph_ranges[i - 1][1]
+            ]
+
+            subgraph_ranges_json[str(original_path)] = {
+                "model_name": model_name,
+                "subgraph_ranges": sorted_subgraph_ranges,
+                "total_length": total_len,
+            }
+
+        return split_positions_json, subgraph_ranges_json
 
     def _print_analysis(self, name, path, splits, total_len, full_ops):
         print("=" * 60)
@@ -219,16 +211,72 @@ class SplitAnalyzer:
         print("\n")
 
 
+def _all_models_handled(args):
+    output_json_path = Path(args.output_json)
+    if not output_json_path.exists():
+        return False
+    with open(output_json_path) as f:
+        output_json = json.load(f)
+    rel_model_paths = [
+        path for path in Path(args.model_list).read_text().split("\n") if len(path) > 0
+    ]
+    return all(path in output_json for path in rel_model_paths)
+
+
 def main(args):
+    if args.enable_resume and _all_models_handled(args):
+        return
     analyzer = SplitAnalyzer(
         window_size=args.window_size,
         fold_policy=args.fold_policy,
         fold_times=args.fold_times,
+        min_seq_ops=args.min_seq_ops,
+        max_seq_ops=args.max_seq_ops,
     )
-    results = analyzer.analyze(args.model_path_prefix, args.model_list, args.device)
+    split_positions_json, subgraph_ranges_json = analyzer.analyze(
+        args.op_names_path_prefix, args.model_list, args.device
+    )
     if args.output_json:
         with open(args.output_json, "w") as f:
-            json.dump(results, f, indent=4)
+            json.dump(split_positions_json, f, indent=4)
+    print(f"{args.subgraph_ranges_json=}")
+    if args.subgraph_ranges_json:
+        with open(args.subgraph_ranges_json, "w") as f:
+            json.dump(subgraph_ranges_json, f, indent=4)
+    assert args.output_dir is not None
+    _save_subgraph_ranges_json_into_different_directorys(
+        subgraph_ranges_json,
+        output_dir=args.output_dir,
+        file_name=args.subgraph_ranges_file_name,
+        key_name=args.subgraph_ranges_key_name,
+    )
+
+
+def _save_subgraph_ranges_json_into_different_directorys(
+    subgraph_ranges_json: dict[str, dict],
+    output_dir: str,
+    file_name: str,
+    key_name: str,
+):
+    for filepath, json_obj in _get_model_subgraph_ranges(
+        subgraph_ranges_json, output_dir=output_dir, file_name=file_name
+    ):
+        json_obj = {key_name: json_obj}
+        with open(filepath, "w") as f:
+            json.dump(json_obj, f, indent=4)
+
+
+def _get_model_subgraph_ranges(
+    subgraph_ranges_json: dict[str, dict],
+    output_dir: str,
+    file_name: str,
+):
+    for rel_model_path, json_data in subgraph_ranges_json.items():
+        file_dir = Path(output_dir) / rel_model_path
+        file_dir.mkdir(parents=True, exist_ok=True)
+        filepath = file_dir / file_name
+        subgraph_ranges = json_data["subgraph_ranges"]
+        yield filepath, subgraph_ranges
 
 
 if __name__ == "__main__":
@@ -242,10 +290,10 @@ if __name__ == "__main__":
         help="Path to a text file containing paths to models (one per line).",
     )
     parser.add_argument(
-        "--model-path-prefix",
+        "--op-names-path-prefix",
         type=str,
         default="./",
-        help="Prefix to add to each model path in the list.",
+        help="Prefix to add to each op_names.txt file path in the list.",
     )
     parser.add_argument(
         "--device",
@@ -269,10 +317,52 @@ if __name__ == "__main__":
         help="How many times to fold tokens. If 0, then no folding is done.",
     )
     parser.add_argument(
+        "--output-dir",
+        type=str,
+        default=None,
+        help="output directory",
+    )
+    parser.add_argument(
+        "--subgraph-ranges-file-name",
+        type=str,
+        default="subgraph_ranges.json",
+        help="Path to save the subgraph ranges in JSON format.",
+    )
+    parser.add_argument(
+        "--subgraph-ranges-key-name",
+        type=str,
+        default="subgraph_ranges",
+        help="key name in json dict",
+    )
+    parser.add_argument(
+        "--subgraph-ranges-json",
+        type=str,
+        default="subgraph_ranges.json",
+        help="Path to save the subgraph ranges in JSON format.",
+    )
+    parser.add_argument(
         "--output-json",
         type=str,
         default="split_results.json",
         help="Path to save the analysis results in JSON format.",
+    )
+    parser.add_argument(
+        "--enable-resume",
+        action="store_true",
+        default=False,
+        help="Resume process",
+    )
+    parser.add_argument(
+        "--min-seq-ops",
+        type=int,
+        default=2,
+        help="minimum number of sequence operators",
+    )
+    parser.add_argument(
+        "--max-seq-ops",
+        type=int,
+        default=64,
+        help="maximum number of sequence operators",
     )
     args = parser.parse_args()
     main(args)

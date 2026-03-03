@@ -1,1 +1,24 @@
-{"framework": "torch", "num_devices_required": 1, "num_nodes_required": 1, "dynamic": false, "source": "timm", "heuristic_tag": "computer_vision", "dimension_generalization_passes": ["naive_call_method_view_pass", "naive_call_method_reshape_pass", "naive_call_method_expand_pass", "non_batch_call_method_expand_pass", "non_batch_call_function_arange_pass", "non_batch_call_function_getitem_slice_pass", "non_batch_call_function_full_pass", "non_batch_call_function_full_plus_one_pass", "non_batch_call_function_zeros_pass", "non_batch_call_function_arange_plus_one_pass"]}
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": false,
+    "source": "timm",
+    "heuristic_tag": "computer_vision",
+    "dimension_generalization_passes": [
+        "naive_call_method_view_pass",
+        "naive_call_method_reshape_pass",
+        "naive_call_method_expand_pass",
+        "non_batch_call_method_expand_pass",
+        "non_batch_call_function_arange_pass",
+        "non_batch_call_function_getitem_slice_pass",
+        "non_batch_call_function_full_pass",
+        "non_batch_call_function_full_plus_one_pass",
+        "non_batch_call_function_zeros_pass",
+        "non_batch_call_function_arange_plus_one_pass"
+    ],
+    "data_type_generalization_passes": [
+        "dtype_generalization_pass_float16",
+        "dtype_generalization_pass_bfloat16"
+    ]
+}

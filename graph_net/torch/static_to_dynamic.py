@@ -1,9 +1,11 @@
 import traceback
 import logging
 import torch
-from graph_net.torch.utils import get_dummy_named_tensors
+from graph_net.torch.utils import (
+    get_named_tensors,
+    apply_templates,
+)
 from torch.fx.passes.shape_prop import ShapeProp
-from graph_net.torch.utils import apply_templates
 from pathlib import Path
 import inspect
 from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module
@@ -24,7 +26,7 @@ class StaticToDynamic:
         return StaticToDynamicModulePass(self.config, module, dim_axes_pairs)
 
     def create_inputs_by_metas(self, module, tensor_meta_attrs_list):
-        named_tensors = get_dummy_named_tensors(tensor_meta_attrs_list)
+        named_tensors = get_named_tensors(tensor_meta_attrs_list, use_dummy_inputs=True)
         name2tensor = {k: v for k, v in named_tensors}
         return tuple(
             name2tensor[name] for name in inspect.signature(module.forward).parameters

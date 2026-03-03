@@ -240,9 +240,7 @@ class Program_weight_tensor_data_21:
     shape = [1, 8400, 4]
     dtype = "float32"
     min_val = float("-4.36945")
-    max_val = float("inf")
-    mean = float("inf")
-    std = float("nan")
+    max_val = float("5.0")
     data = None
 
 

@@ -85,6 +85,16 @@ jobs:
           bash ${work_dir}/tools/ci/check_validate.sh
           '
 
+      - name: Run Unit Test
+        env:
+          work_dir: ${{ github.workspace }}
+        if: steps.check-bypass.outputs.can-skip != 'true'
+        run: |
+          docker exec -t ${{ env.container_name }} /bin/bash -c '
+          source ${{ github.workspace }}/../../../proxy
+          bash ${work_dir}/tools/ci/run_unittest.sh
+          '
+      
       - name: Terminate and delete the container
         if: always()
         run: |

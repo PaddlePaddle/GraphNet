@@ -19,6 +19,10 @@ dev = [
   "pre-commit>=3.0",
   "astor>=0.8",
 ]
+agent = [
+  "huggingface_hub>=0.20.0",
+  "transformers>=4.20.0",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["graph_net"]

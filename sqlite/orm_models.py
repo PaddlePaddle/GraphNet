@@ -1,0 +1,368 @@
+from sqlalchemy.orm import declarative_base, sessionmaker, relationship
+from datetime import datetime
+from sqlalchemy import (
+    create_engine,
+    Column,
+    String,
+    Integer,
+    Boolean,
+    DateTime,
+    ForeignKey,
+    Index,
+    UniqueConstraint,
+    Text,
+)
+
+Base = declarative_base()
+
+
+class Repo(Base):
+    __tablename__ = "repo"
+
+    repo_uid = Column(String(255), primary_key=True)
+    repo_type = Column(String(50), nullable=False)
+    repo_name = Column(String(255), nullable=False)
+    repo_url = Column(String(255), nullable=False)
+    graph_samples = relationship("GraphSample", back_populates="repo")
+
+
+class GraphSample(Base):
+    __tablename__ = "graph_sample"
+
+    uuid = Column(String(255), primary_key=True)
+    repo_uid = Column(String(255), ForeignKey("repo.repo_uid"), nullable=False)
+    relative_model_path = Column(String, nullable=False)
+    sample_type = Column(String(50), nullable=False)
+    is_subgraph = Column(Boolean, default=False)
+    num_ops = Column(Integer, default=-1)
+    graph_hash = Column(String(255), nullable=False)
+    order_value = Column(Integer)
+    create_at = Column(DateTime, default=datetime.now)
+    deleted = Column(Boolean, default=False)
+    delete_at = Column(DateTime)
+
+    __table_args__ = (
+        Index("idx_relative_model_path", "relative_model_path"),
+        Index("idx_graph_hash", "graph_hash"),
+        Index("idx_order_value", "order_value"),
+        UniqueConstraint(
+            "relative_model_path", "repo_uid", name="uq_relative_model_path_repo_uid"
+        ),
+    )
+
+    repo = relationship("Repo", back_populates="graph_samples")
+    subgraph_sources = relationship(
+        "SubgraphSource",
+        foreign_keys="SubgraphSource.subgraph_uuid",
+        back_populates="subgraph",
+    )
+    subgraph_as_full_graph = relationship(
+        "SubgraphSource",
+        foreign_keys="SubgraphSource.full_graph_uuid",
+        back_populates="full_graph",
+    )
+    dimension_sources_as_generalized = relationship(
+        "DimensionGeneralizationSource",
+        foreign_keys="DimensionGeneralizationSource.generalized_graph_uuid",
+        back_populates="generalized_graph",
+    )
+    dimension_sources_as_original = relationship(
+        "DimensionGeneralizationSource",
+        foreign_keys="DimensionGeneralizationSource.original_graph_uuid",
+        back_populates="original_graph",
+    )
+    data_type_sources_as_original = relationship(
+        "DataTypeGeneralizationSource",
+        foreign_keys="DataTypeGeneralizationSource.original_graph_uuid",
+        back_populates="original_graph",
+    )
+    data_type_sources_as_generalized = relationship(
+        "DataTypeGeneralizationSource",
+        foreign_keys="DataTypeGeneralizationSource.generalized_graph_uuid",
+        back_populates="generalized_graph",
+    )
+    backward_graph_sources_as_forward = relationship(
+        "BackwardGraphSource",
+        foreign_keys="BackwardGraphSource.forward_graph_uuid",
+        back_populates="forward_graph",
+    )
+    backward_graph_as_backward = relationship(
+        "BackwardGraphSource",
+        foreign_keys="BackwardGraphSource.backward_graph_uuid",
+        back_populates="backward_graph",
+    )
+    backward_graph_as_original = relationship(
+        "BackwardGraphSource",
+        foreign_keys="BackwardGraphSource.original_graph_uuid",
+        back_populates="original_graph",
+    )
+    sample_op_names = relationship(
+        "SampleOpName",
+        foreign_keys="SampleOpName.sample_uuid",
+        back_populates="sample",
+    )
+    sample_op_name_list = relationship(
+        "SampleOpNameList",
+        foreign_keys="SampleOpNameList.sample_uuid",
+        back_populates="sample",
+        uselist=False,
+    )
+    sample_input_tensor_metas = relationship(
+        "SampleInputTensorMeta",
+        back_populates="sample",
+    )
+    sample_buckets = relationship(
+        "GraphNetSampleBucket",
+        back_populates="sample",
+        uselist=False,
+    )
+    sample_groups = relationship(
+        "GraphNetSampleGroup",
+        back_populates="sample",
+    )
+
+
+class SubgraphSource(Base):
+    __tablename__ = "subgraph_source"
+
+    subgraph_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    full_graph_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False
+    )
+    range_start = Column(Integer, nullable=False)
+    range_end = Column(Integer, nullable=False)
+    create_at = Column(DateTime, default=datetime.now)
+    deleted = Column(Boolean, default=False)
+    delete_at = Column(DateTime)
+
+    __table_args__ = (
+        Index("idx_subgraph_uuid", "subgraph_uuid"),
+        Index("idx_full_graph_uuid", "full_graph_uuid"),
+    )
+
+    subgraph = relationship(
+        "GraphSample", foreign_keys=[subgraph_uuid], back_populates="subgraph_sources"
+    )
+    full_graph = relationship(
+        "GraphSample",
+        foreign_keys=[full_graph_uuid],
+        back_populates="subgraph_as_full_graph",
+    )
+
+
+class DimensionGeneralizationSource(Base):
+    __tablename__ = "dimension_generalization_source"
+
+    generalized_graph_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    original_graph_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False
+    )
+    total_element_size = Column(Integer, nullable=False)
+    create_at = Column(DateTime, default=datetime.now)
+    deleted = Column(Boolean, default=False)
+    delete_at = Column(DateTime)
+
+    __table_args__ = (
+        Index("idx_dimension_generalized_graph_uuid", "generalized_graph_uuid"),
+        Index("idx_dimension_original_graph_uuid", "original_graph_uuid"),
+        Index("idx_total_element_size", "total_element_size"),
+    )
+
+    generalized_graph = relationship(
+        "GraphSample",
+        foreign_keys=[generalized_graph_uuid],
+        back_populates="dimension_sources_as_generalized",
+    )
+    original_graph = relationship(
+        "GraphSample",
+        foreign_keys=[original_graph_uuid],
+        back_populates="dimension_sources_as_original",
+    )
+
+
+class DataTypeGeneralizationSource(Base):
+    __tablename__ = "datatype_generalization_source"
+
+    generalized_graph_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    original_graph_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False
+    )
+    data_type = Column(String(50), nullable=False)
+    create_at = Column(DateTime, default=datetime.now)
+    deleted = Column(Boolean, default=False)
+    delete_at = Column(DateTime)
+
+    __table_args__ = (
+        Index("idx_datatype_generalized_graph_uuid", "generalized_graph_uuid"),
+        Index("idx_datatype_original_graph_uuid", "original_graph_uuid"),
+    )
+
+    generalized_graph = relationship(
+        "GraphSample",
+        foreign_keys=[generalized_graph_uuid],
+        back_populates="data_type_sources_as_generalized",
+    )
+    original_graph = relationship(
+        "GraphSample",
+        foreign_keys=[original_graph_uuid],
+        back_populates="data_type_sources_as_original",
+    )
+
+
+class BackwardGraphSource(Base):
+    __tablename__ = "backward_graph_source"
+
+    forward_graph_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    backward_graph_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False
+    )
+    original_graph_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False
+    )
+    create_at = Column(DateTime, default=datetime.now)
+    deleted = Column(Boolean, default=False)
+    delete_at = Column(DateTime)
+
+    __table_args__ = (
+        Index("idx_forward_graph_uuid", "forward_graph_uuid"),
+        Index("idx_backward_graph_uuid", "backward_graph_uuid"),
+        Index("idx_backward_original_graph_uuid", "original_graph_uuid"),
+    )
+
+    forward_graph = relationship(
+        "GraphSample",
+        foreign_keys=[forward_graph_uuid],
+        back_populates="backward_graph_sources_as_forward",
+    )
+    backward_graph = relationship(
+        "GraphSample",
+        foreign_keys=[backward_graph_uuid],
+        back_populates="backward_graph_as_backward",
+    )
+    original_graph = relationship(
+        "GraphSample",
+        foreign_keys=[original_graph_uuid],
+        back_populates="backward_graph_as_original",
+    )
+
+
+class SampleOpName(Base):
+    __tablename__ = "sample_op_name"
+
+    sample_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    op_idx = Column(Integer, nullable=False, primary_key=True)
+    op_name = Column(String(255), nullable=False)
+    op_size = Column(Integer, nullable=False)
+    create_at = Column(DateTime, default=datetime.now)
+    delete_at = Column(DateTime)
+    deleted = Column(Boolean, default=False)
+
+    __table_args__ = (
+        Index("idx_sample_op_name_sample_uuid", "sample_uuid"),
+        Index("idx_sample_op_name_op_name", "op_name"),
+    )
+
+    sample = relationship("GraphSample", back_populates="sample_op_names")
+
+
+class SampleOpNameList(Base):
+    __tablename__ = "sample_op_name_list"
+
+    sample_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    op_names_json = Column(Text, nullable=False)
+    create_at = Column(DateTime, default=datetime.now)
+    delete_at = Column(DateTime)
+    deleted = Column(Boolean, default=False)
+
+    __table_args__ = (Index("idx_sample_op_name_list_op_names", "op_names_json"),)
+
+    sample = relationship("GraphSample", back_populates="sample_op_name_list")
+
+
+class SampleInputTensorMeta(Base):
+    __tablename__ = "sample_input_tensor_meta"
+
+    sample_uuid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    input_name = Column(String(255), nullable=False, primary_key=True)
+    input_idx = Column(Integer, nullable=False)
+    shape = Column(Text, nullable=False, primary_key=True)
+    dtype = Column(String(50), nullable=False, primary_key=True)
+    create_at = Column(DateTime, default=datetime.now)
+    delete_at = Column(DateTime)
+    deleted = Column(Boolean, default=False)
+
+    __table_args__ = (
+        Index("idx_sample_input_tensor_meta_sample_uid", "sample_uuid"),
+        Index("idx_sample_input_tensor_meta_shape", "shape"),
+        Index("idx_sample_input_tensor_meta_dtype", "dtype"),
+    )
+
+    sample = relationship("GraphSample", back_populates="sample_input_tensor_metas")
+
+
+class GraphNetSampleBucket(Base):
+    __tablename__ = "graph_net_sample_buckets"
+
+    sample_uid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    op_seq_bucket_id = Column(Text, nullable=False)
+    input_shapes_bucket_id = Column(Text, nullable=False)
+    input_dtypes_bucket_id = Column(Text, nullable=False)
+    create_at = Column(DateTime, default=datetime.now)
+    delete_at = Column(DateTime)
+    deleted = Column(Boolean, default=False)
+
+    __table_args__ = (
+        Index("idx_buckets_sample_uid", "sample_uid"),
+        Index("idx_buckets_op_seq_bucket_id", "op_seq_bucket_id"),
+        Index("idx_buckets_input_shapes_bucket_id", "input_shapes_bucket_id"),
+        Index("idx_buckets_input_dtypes_bucket_id", "input_dtypes_bucket_id"),
+    )
+
+    sample = relationship("GraphSample", back_populates="sample_buckets")
+
+
+class GraphNetSampleGroup(Base):
+    __tablename__ = "graph_net_sample_groups"
+
+    sample_uid = Column(
+        String(255), ForeignKey("graph_sample.uuid"), nullable=False, primary_key=True
+    )
+    group_uid = Column(String(255), nullable=False, primary_key=True)
+    group_type = Column(String(50), nullable=False)
+    group_policy = Column(String(50), nullable=False)
+    policy_version = Column(String(20), nullable=False)
+    create_at = Column(DateTime, default=datetime.now)
+    delete_at = Column(DateTime)
+    deleted = Column(Boolean, default=False)
+
+    __table_args__ = (
+        Index("idx_groups_sample_uid", "sample_uid"),
+        Index("idx_groups_group_type", "group_type"),
+        Index("idx_groups_group_policy", "group_policy"),
+        Index("idx_groups_group_uid", "group_uid"),
+        Index("idx_groups_policy_version", "policy_version"),
+    )
+
+    sample = relationship("GraphSample", back_populates="sample_groups")
+
+
+def get_session(db_path: str, echo: bool = False):
+    engine = create_engine(f"sqlite:///{db_path}", echo=echo)
+    Session = sessionmaker(bind=engine)
+    return Session()

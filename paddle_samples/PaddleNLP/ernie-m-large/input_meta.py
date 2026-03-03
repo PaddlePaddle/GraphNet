@@ -1,5 +1,6 @@
 class Program_weight_tensor_data_0:
     name = "data_0"
+    original_name = "input_ids"
     shape = [1, 21]
     dtype = "int64"
     data = [

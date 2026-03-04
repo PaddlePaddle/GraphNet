@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 from collections import Counter
+from typing import Callable
 
 import numpy as np
 from scipy import sparse
@@ -88,12 +89,17 @@ def _compute_metrics(
     return result
 
 
-def _greedy_select(metrics: list[dict], k: int, rarity_weight: float) -> list[int]:
+def _greedy_select(
+    metrics: list[dict], k: int, rarity_weight: float, selected: list[int] = None
+) -> list[int]:
     """Greedily maximise edge coverage, weighted by rarity score."""
     target = min(k, len(metrics))
     rarity_norm = _min_max_normalize([m["rarity_score"] for m in metrics])
 
-    selected: list[int] = []
+    if selected is None:
+        selected: list[int] = []
+    else:
+        assert isinstance(selected, list)
     selected_set: set[int] = set()
     covered_edges: set[tuple[str, str]] = set()
 
@@ -123,6 +129,7 @@ def select_evaluation_subset(
     *,
     smoothing_alpha: float = 1e-3,
     rarity_weight: float = 1,
+    is_selected: Callable[tuple[str, ...], bool] = lambda x: False,
 ) -> list[tuple[str, ...]]:
     """Select k sequences from op_seqs using Markov-based greedy coverage.
 
@@ -140,4 +147,8 @@ def select_evaluation_subset(
 
     op_to_id, count_matrix, row_sums = _build_markov_model(seqs)
     metrics = _compute_metrics(seqs, op_to_id, count_matrix, row_sums, smoothing_alpha)
-    return [seqs[i] for i in _greedy_select(metrics, k, rarity_weight)]
+    selected_indexes = [i for i, seq in enumerate(seqs) if is_selected(seq)]
+    return [
+        seqs[i]
+        for i in _greedy_select(metrics, k, rarity_weight, selected=selected_indexes)
+    ]

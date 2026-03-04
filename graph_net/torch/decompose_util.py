@@ -5,13 +5,137 @@ from collections import defaultdict
 from dataclasses import dataclass
 
 
+def gen_submodule_input_nodes(
+    gm: torch.fx.GraphModule,
+    subgraph_ranges: list[(int, int)],
+    chain_style=False,
+    group_head_and_tail=True,
+    use_all_inputs=True,
+):
+    """
+    chain_style=True: decompose gm into g0 * g1 * g2 * g3
+    """
+    submodules_body_nodes = [
+        node
+        for node in gm.graph.nodes
+        if node.op
+        not in {
+            "placeholder",
+            "output",
+        }
+    ]
+
+    def get_range_idx2range_by_split_positions():
+        split_positions = sorted(
+            set(pos for subgraph_range in subgraph_ranges for pos in subgraph_range)
+        )
+        split_positions = (
+            [0, *split_positions, len(submodules_body_nodes)]
+            if group_head_and_tail
+            else split_positions
+        )
+        split_positions = [
+            max(0, min(pos, len(submodules_body_nodes))) for pos in split_positions
+        ]
+        return [
+            (start, end)
+            for i in range(len(split_positions) - 1)
+            for start in [split_positions[i]]
+            for end in [split_positions[i + 1]]
+            if end > start
+        ]
+
+    def get_range_idx2range_by_subgraph_ranges():
+        nonlocal subgraph_ranges
+        assert subgraph_ranges is not None
+        num_nodes = len(submodules_body_nodes)
+
+        def try_shift(old_end):
+            return old_end if old_end >= 0 else (old_end + num_nodes)
+
+        subgraph_ranges = [
+            (start, end)
+            for old_start, old_end in subgraph_ranges
+            for start in [max(0, min(old_start, num_nodes))]
+            for end in [max(0, min(try_shift(old_end), num_nodes))]
+            if start < end
+        ]
+        num_nodes = len(submodules_body_nodes)
+        for i in range(len(subgraph_ranges)):
+            start, end = subgraph_ranges[i]
+            assert start >= 0
+            assert start < end
+            assert end <= num_nodes
+            # check disjoint
+            assert i == 0 or start >= subgraph_ranges[i - 1][1], f"{i=}"
+        return subgraph_ranges
+
+    range_idx2range = (
+        get_range_idx2range_by_split_positions()
+        if chain_style
+        else get_range_idx2range_by_subgraph_ranges()
+    )
+    range_idx2submodule_body_nodes = [
+        submodules_body_nodes[start:end] for start, end in range_idx2range
+    ]
+
+    def get_body_nodes(range_idx):
+        return range_idx2submodule_body_nodes[range_idx]
+
+    def get_start_node_idx(range_idx):
+        start_node = get_body_nodes(range_idx)[0]
+        for i, node in enumerate(gm.graph.nodes):
+            if node == start_node:
+                return i
+        raise NotImplementedError("Dead code.")
+
+    def get_end_node_idx(range_idx):
+        last_node = get_body_nodes(range_idx)[-1]
+        for i, node in enumerate(gm.graph.nodes):
+            if node == last_node:
+                return i + 1
+        raise NotImplementedError("Dead code.")
+
+    new_node2original_node = {}
+    for node in gm.graph.nodes:
+        new_node2original_node[node] = node
+
+    def sort_key(node):
+        return new_node2original_node[node].name
+
+    num_subgraphs = len(range_idx2submodule_body_nodes)
+    for range_idx in range(num_subgraphs):
+        use_all_inputs = use_all_inputs and range_idx == 0
+        start, end = range_idx2range[range_idx]
+        (
+            submodule_input_nodes,
+            submodule_output_nodes,
+            identity_nodes,
+        ) = _get_submodule_inputs_and_outputs(
+            gm=gm,
+            start_node_idx=get_start_node_idx(range_idx),
+            end_node_idx=get_end_node_idx(range_idx),
+            chain_style=chain_style,
+            use_all_inputs=use_all_inputs,
+        )
+
+        def get_input_nodes(range_idx):
+            if use_all_inputs:
+                return submodule_input_nodes
+            return sorted(submodule_input_nodes, key=sort_key)
+
+        yield start, end, get_input_nodes(range_idx)
+
+
 def convert_to_submodules_graph(
     gm: torch.fx.GraphModule,
     split_positions: list[int],
+    subgraph_ranges: list[(int, int)] = None,
     submodule_hook=None,
     submodule_name_prefix="extracted_submodule",
     chain_style=False,
     group_head_and_tail=True,
+    use_all_inputs=True,
 ):
     """
     chain_style=True: decompose gm into g0 * g1 * g2 * g3
@@ -26,21 +150,54 @@ def convert_to_submodules_graph(
             "output",
         }
     ]
-    split_positions = (
-        [0, *split_positions, len(submodules_body_nodes)]
-        if group_head_and_tail
-        else split_positions
+
+    def get_range_idx2range_by_split_positions():
+        nonlocal split_positions
+        split_positions = (
+            [0, *split_positions, len(submodules_body_nodes)]
+            if group_head_and_tail
+            else split_positions
+        )
+        split_positions = [
+            max(0, min(pos, len(submodules_body_nodes))) for pos in split_positions
+        ]
+        return [
+            (start, end)
+            for i in range(len(split_positions) - 1)
+            for start in [split_positions[i]]
+            for end in [split_positions[i + 1]]
+            if end > start
+        ]
+
+    def get_range_idx2range_by_subgraph_ranges():
+        nonlocal subgraph_ranges
+        assert subgraph_ranges is not None
+        num_nodes = len(submodules_body_nodes)
+
+        def try_shift(old_end):
+            return old_end if old_end >= 0 else (old_end + num_nodes)
+
+        subgraph_ranges = [
+            (start, end)
+            for old_start, old_end in subgraph_ranges
+            for start in [max(0, min(old_start, num_nodes))]
+            for end in [max(0, min(try_shift(old_end), num_nodes))]
+            if start < end
+        ]
+        for i in range(len(subgraph_ranges)):
+            start, end = subgraph_ranges[i]
+            assert start >= 0
+            assert start < end
+            assert end <= num_nodes
+            # check disjoint
+            assert i == 0 or start >= subgraph_ranges[i - 1][1], f"{i=}"
+        return subgraph_ranges
+
+    range_idx2range = (
+        get_range_idx2range_by_split_positions()
+        if (chain_style or subgraph_ranges is None)
+        else get_range_idx2range_by_subgraph_ranges()
     )
-    split_positions = [
-        max(0, min(pos, len(submodules_body_nodes))) for pos in split_positions
-    ]
-    range_idx2range = [
-        (start, end)
-        for i in range(len(split_positions) - 1)
-        for start in [split_positions[i]]
-        for end in [split_positions[i + 1]]
-        if end > start
-    ]
     range_idx2submodule_body_nodes = [
         submodules_body_nodes[start:end] for start, end in range_idx2range
     ]
@@ -85,7 +242,9 @@ def convert_to_submodules_graph(
     def sort_key(node):
         return new_node2original_node[node].name
 
-    for range_idx in range(len(range_idx2submodule_body_nodes)):
+    num_subgraphs = len(range_idx2submodule_body_nodes)
+    for range_idx in range(num_subgraphs):
+        use_all_inputs = use_all_inputs and range_idx == 0
         (
             submodule_input_nodes,
             submodule_output_nodes,
@@ -95,9 +254,13 @@ def convert_to_submodules_graph(
             start_node_idx=get_start_node_idx(range_idx),
             end_node_idx=get_end_node_idx(range_idx),
             chain_style=chain_style,
+            use_all_inputs=use_all_inputs,
         )
+        identity_node_set = set(identity_nodes)
 
         def get_input_nodes(range_idx):
+            if use_all_inputs:
+                return submodule_input_nodes
             return sorted(submodule_input_nodes, key=sort_key)
 
         def get_output_nodes(range_idx):
@@ -153,13 +316,13 @@ def convert_to_submodules_graph(
                 prev_node = new_output_node
 
         # Replace all use of outputs
-        identity_node_set = set(identity_nodes)
         for original_output in get_output_nodes(range_idx):
-            if original_output not in identity_node_set:
-                original_output.replace_all_uses_with(node_map[original_output])
-                new_node2original_node[
-                    node_map[original_output]
-                ] = new_node2original_node[original_output]
+            if original_output in identity_node_set:
+                continue
+            original_output.replace_all_uses_with(node_map[original_output])
+            new_node2original_node[node_map[original_output]] = new_node2original_node[
+                original_output
+            ]
 
         # Erase old nodes
         for node in reversed(get_body_nodes(range_idx)):
@@ -204,6 +367,7 @@ def _get_submodule_inputs_and_outputs(
     start_node_idx: int,
     end_node_idx: int,
     chain_style=False,
+    use_all_inputs=False,
 ):
     if not chain_style:
         (
@@ -212,15 +376,26 @@ def _get_submodule_inputs_and_outputs(
         ) = _get_minimal_submodule_inputs_and_outputs(
             gm=gm, start_node_idx=start_node_idx, end_node_idx=end_node_idx
         )
-        return minimal_input_nodes, minimal_output_nodes, []
+        if use_all_inputs:
+            node_list = list(gm.graph.nodes)
+            input_nodes = [node for node in node_list if node.op == "placeholder"]
+        else:
+            input_nodes = minimal_input_nodes
+        return input_nodes, minimal_output_nodes, []
     else:
         node_list = list(gm.graph.nodes)
-        input_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
-            gm=gm, start_node_idx=start_node_idx, end_node_idx=len(node_list)
-        )
-        output_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
-            gm=gm, start_node_idx=end_node_idx, end_node_idx=len(node_list)
-        )
+        if _is_node_idx_out_of_range(gm, start_node_idx):
+            input_nodes = list(_get_return_nodes(gm))
+        else:
+            input_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
+                gm=gm, start_node_idx=start_node_idx, end_node_idx=len(node_list)
+            )
+        if _is_node_idx_out_of_range(gm, end_node_idx):
+            output_nodes = list(_get_return_nodes(gm))
+        else:
+            output_nodes, _ = _get_minimal_submodule_inputs_and_outputs(
+                gm=gm, start_node_idx=end_node_idx, end_node_idx=len(node_list)
+            )
         identity_nodes_set = set(input_nodes) & set(output_nodes)
         identity_nodes = [node for node in input_nodes if node in identity_nodes_set]
         return input_nodes, output_nodes, identity_nodes
@@ -237,6 +412,7 @@ def _get_minimal_submodule_inputs_and_outputs(
         defaultdict(int),
     )
     node_list = list(gm.graph.nodes)
+    assert end_node_idx <= len(node_list)
 
     def get_args_node(arg):
         if isinstance(arg, torch.fx.Node):
@@ -254,12 +430,24 @@ def _get_minimal_submodule_inputs_and_outputs(
             pass
         else:
             assert isinstance(
-                arg, (int, bool, float, str, type(...), type(None))
+                arg,
+                (
+                    int,
+                    bool,
+                    float,
+                    str,
+                    type(...),
+                    type(None),
+                    torch.dtype,
+                    torch.device,
+                ),
             ), f"{type(arg)=}"
 
     def get_args_node_and_self_node(node):
         for arg in node.args:
             yield from get_args_node(arg)
+        for name, values in node.kwargs.items():
+            yield from get_args_node(values)
         yield node
 
     for node in node_list[0:start_node_idx]:
@@ -288,3 +476,24 @@ def _get_minimal_submodule_inputs_and_outputs(
         if count_ctx.node2after_output[node] > 0
     ]
     return input_nodes, output_nodes
+
+
+def _get_return_nodes(gm):
+    for node in gm.graph.nodes:
+        if node.op != "output":
+            continue
+        for arg in node.args:
+            if isinstance(arg, (tuple, list)):
+                yield from arg
+            else:
+                yield arg
+
+
+def _is_node_idx_out_of_range(gm, node_idx: int):
+    node_list = list(gm.graph.nodes)
+    num_nodes = len(node_list)
+    if node_idx < 0:
+        return True
+    if node_idx >= num_nodes:
+        return True
+    return node_list[node_idx].op in {"output", "placeholder"}

@@ -1,6 +1,10 @@
+import ast
 import importlib.util as imp
 import inspect
 from dataclasses import dataclass
+import math
+import functools
+from pathlib import Path
 
 
 @dataclass
@@ -18,7 +22,23 @@ class TensorMeta:
     min_val: int | None
 
     @classmethod
-    def unserialize_from_py_file(cls, file_path) -> list["TensorMeta"]:
+    def reset_tensor_metas_by_original_name(cls, mut_file_path, const_file_path):
+        mut_tensor_metas = cls.unserialize_from_py_file(mut_file_path)
+        const_tensor_metas = cls.unserialize_from_py_file(const_file_path)
+        name2const_tensor_meta = {tensor.name: tensor for tensor in const_tensor_metas}
+
+        def get_name(tensor_meta):
+            old_name = getattr(tensor_meta, "original_name", None)
+            return old_name if old_name is not None else tensor_meta.name
+
+        new_tensor_metas = [
+            name2const_tensor_meta.get(get_name(mut_tensor_meta), mut_tensor_meta)
+            for mut_tensor_meta in mut_tensor_metas
+        ]
+        cls.save_tensor_metas(mut_file_path, new_tensor_metas)
+
+    @classmethod
+    def unserialize_from_py_file(cls, file_path: str) -> list["TensorMeta"]:
         return [
             TensorMeta(
                 record_class_name=attrs.get("record_class_name"),
@@ -38,6 +58,26 @@ class TensorMeta:
         ]
 
     @classmethod
+    def unserialize_from_py_file_order_preserved(cls, file_path) -> list["TensorMeta"]:
+        return [
+            TensorMeta(
+                record_class_name=attrs.get("record_class_name"),
+                name=attrs.get("name"),
+                original_name=attrs.get("original_name", None),
+                shape=attrs.get("shape", []),
+                dtype=attrs.get("dtype"),
+                device=attrs.get("device", None),
+                mean=attrs.get("mean", None),
+                std=attrs.get("std", None),
+                data=attrs.get("data", None),
+                max_val=attrs.get("max_val", None),
+                min_val=attrs.get("min_val", None),
+            )
+            for name, tensor_meta_cls in cls._get_classes_order_preserved(file_path)
+            for attrs in [cls._convert_cls_to_attrs(tensor_meta_cls)]
+        ]
+
+    @classmethod
     def _convert_cls_to_attrs(cls, tensor_meta_cls):
         attrs = {
             k: v
@@ -49,10 +89,48 @@ class TensorMeta:
 
     @classmethod
     def _get_classes(cls, file_path, name="unnamed"):
-        spec = imp.spec_from_file_location("unnamed", file_path)
+        spec = imp.spec_from_file_location(name, file_path)
         unnamed = imp.module_from_spec(spec)
         spec.loader.exec_module(unnamed)
-        yield from inspect.getmembers(unnamed, inspect.isclass)
+        classes = inspect.getmembers(unnamed, inspect.isclass)
+        file_content = Path(file_path).read_text()
+        class2pos = {
+            cls_pair: file_content.find(cls_pair[1].__name__) for cls_pair in classes
+        }
+        classes.sort(key=lambda x: class2pos[x])
+        return classes
+
+    @classmethod
+    def _get_classes_order_preserved(cls, file_path, name="unnamed"):
+        with open(file_path, "r", encoding="utf-8") as f:
+            tree = ast.parse(f.read(), filename=file_path)
+
+        class_names = [
+            node.name for node in tree.body if isinstance(node, ast.ClassDef)
+        ]
+
+        spec = imp.spec_from_file_location(name, file_path)
+        unnamed = imp.module_from_spec(spec)
+        spec.loader.exec_module(unnamed)
+        yield from [(name, getattr(unnamed, name)) for name in class_names]
+
+    def update_shape_safely(self, shape):
+        self.shape = shape
+        if self.data is None:
+            return
+        assert isinstance(self.data, (list, tuple))
+        size = functools.reduce(lambda a, b: a * b, self.shape, 1)
+        extended_tensor_data = list(self.data)
+        while len(extended_tensor_data) < size:
+            extended_tensor_data.extend(extended_tensor_data)
+        self.data = extended_tensor_data[:size]
+
+    @classmethod
+    def save_tensor_metas(cls, file_path: str | Path, tensor_metas: list):
+        py_code = "\n\n".join(
+            tensor_meta.serialize_to_py_str() for tensor_meta in tensor_metas
+        )
+        Path(file_path).write_text(py_code)
 
     def serialize_to_py_str(self) -> str:
         lines = [
@@ -83,6 +161,8 @@ class TensorMeta:
     def _get_limited_precision_float_str(self, value):
         if not isinstance(value, float):
             return value
+        if math.isnan(value) or math.isinf(value):
+            return f'float("{value}")'
         return f"{value:.3f}"
 
     def _format_data(self, data):

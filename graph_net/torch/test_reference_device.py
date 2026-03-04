@@ -1,99 +1,38 @@
 import argparse
-import importlib.util
-import torch
-import time
-import numpy as np
-import random
 import os
-from pathlib import Path
-from contextlib import redirect_stdout, redirect_stderr
-import json
-import re
 import sys
-import traceback
+import types
+import torch
+from pathlib import Path
 
-from graph_net import path_utils
-from graph_net import test_compiler_util
-from graph_net.torch import test_compiler
-
-
-def get_reference_log_path(reference_dir, model_path):
-    model_name = model_path.split("torch_samples/")[-1].replace(os.sep, "_")
-    return os.path.join(reference_dir, f"{model_name}.log")
+from graph_net_bench import path_utils
+from graph_net import model_path_util
+from graph_net_bench.torch import eval_backend_perf
 
 
-def get_reference_output_path(reference_dir, model_path):
-    model_name = model_path.split("torch_samples/")[-1].replace(os.sep, "_")
-    return os.path.join(reference_dir, f"{model_name}.pth")
-
-
-def register_op_lib(op_lib):
-    if op_lib == "flaggems":
-        import flag_gems
-
-        flag_gems.enable()
-    else:
-        pass
+def convert_args_for_eval_backend(args):
+    """Convert test_reference_device args to eval_backend_perf args format."""
+    return types.SimpleNamespace(
+        model_path=args.model_path,
+        output_path=args.reference_dir,
+        seed=args.seed,
+        compiler=args.compiler,
+        device=args.device,
+        op_lib=args.op_lib,
+        warmup=args.warmup,
+        trials=args.trials,
+        log_prompt=args.log_prompt,
+        backend_config=getattr(args, "config", None),
+    )
 
 
 def test_single_model(args):
-    ref_log = get_reference_log_path(args.reference_dir, args.model_path)
-    ref_dump = get_reference_output_path(args.reference_dir, args.model_path)
-    print(f"Reference log path: {ref_log}", file=sys.stderr, flush=True)
-    print(f"Reference outputs path: {ref_dump}", file=sys.stderr, flush=True)
-
-    with open(ref_log, "w", encoding="utf-8") as log_f:
-        with redirect_stdout(log_f), redirect_stderr(log_f):
-            compiler = test_compiler.get_compiler_backend(args)
-
-            input_dict = test_compiler.get_input_dict(args)
-            model = test_compiler.get_model(args)
-            model.eval()
-
-            test_compiler_util.print_with_log_prompt(
-                "[Config] seed:", args.seed, args.log_prompt
-            )
-
-            test_compiler_util.print_basic_config(
-                args,
-                test_compiler.get_hardward_name(args),
-                test_compiler.get_compile_framework_version(args),
-            )
-
-            test_compiler_util.print_with_log_prompt(
-                "[Config] op_lib:", args.op_lib, args.log_prompt
-            )
-
-            success = False
-            time_stats = {}
-            try:
-                compiled_model = compiler(model)
-                model_call = lambda: compiled_model(**input_dict)
-                outputs, time_stats = test_compiler.measure_performance(
-                    model_call, args, compiler
-                )
-                success = True
-            except Exception as e:
-                print(
-                    f"Run model failed: {str(e)}\n{traceback.format_exc()}",
-                    file=sys.stderr,
-                    flush=True,
-                )
-
-            test_compiler_util.print_running_status(args, success)
-            if success:
-                torch.save(outputs, str(ref_dump))
-            test_compiler_util.print_with_log_prompt(
-                "[Performance][eager]:", json.dumps(time_stats), args.log_prompt
-            )
-
-    with open(ref_log, "r", encoding="utf-8") as f:
-        content = f.read()
-        print(content, file=sys.stderr, flush=True)
+    eval_args = convert_args_for_eval_backend(args)
+    eval_backend_perf.eval_single_model_with_single_backend(eval_args)
 
 
 def test_multi_models(args):
-    test_samples = test_compiler_util.get_allow_samples(args.allow_list)
+    test_samples = model_path_util.get_allow_samples(args.allow_list)
 
     sample_idx = 0
     failed_samples = []
@@ -137,20 +76,16 @@ def test_multi_models(args):
 
 def main(args):
     assert os.path.isdir(args.model_path)
-    # Support all torch compilers
-    valid_compilers = list(test_compiler.registry_backend.keys())
-    assert (
-        args.compiler in valid_compilers
-    ), f"Compiler must be one of {valid_compilers}"
-    assert args.device in ["cuda"]
+    assert args.device in ["cuda", "cpu"]
 
-    test_compiler.set_seed(random_seed=args.seed)
+    eval_backend_perf.set_seed(args.seed)
+    torch.set_default_device(args.device)
 
     ref_dump_dir = Path(args.reference_dir)
     ref_dump_dir.mkdir(parents=True, exist_ok=True)
 
     if path_utils.is_single_model_dir(args.model_path):
-        register_op_lib(args.op_lib)
+        eval_backend_perf.register_op_lib(args.op_lib)
         test_single_model(args)
     else:
         test_multi_models(args)
@@ -217,6 +152,13 @@ if __name__ == "__main__":
         type=str,
         required=True,
         help="Directory to save reference stats log and outputs",
+    )
+    parser.add_argument(
+        "--config",
+        type=str,
+        required=False,
+        default=None,
+        help="Path to compiler configuration file or a JSON string",
     )
     args = parser.parse_args()
     main(args=args)

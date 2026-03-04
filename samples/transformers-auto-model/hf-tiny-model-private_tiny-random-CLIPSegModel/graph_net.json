@@ -14,5 +14,9 @@
         "region:us"
     ],
     "heuristic_tag": "multimodal",
-    "symbolic_dimension_reifier": "naive_cv_sym_dim_reifier"
+    "symbolic_dimension_reifier": "naive_cv_sym_dim_reifier",
+    "data_type_generalization_passes": [
+        "dtype_generalization_pass_float16",
+        "dtype_generalization_pass_bfloat16"
+    ]
 }

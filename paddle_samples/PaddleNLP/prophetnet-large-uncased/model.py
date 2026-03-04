@@ -564,18 +564,18 @@ class GraphModule(paddle.nn.Layer):
         cast_0 = paddle._C_ops.cast(not_equal_0, paddle.float32)
         del not_equal_0
 
-        # pd_op.embedding: (1x10x1024xf32) <- (1x10xi64, 30522x1024xf32)
+        # pd_op.embedding: (1x20x1024xf32) <- (1x20xi64, 30522x1024xf32)
         embedding_0 = paddle._C_ops.embedding(data_0, parameter_539, 0, False)
         del data_0
 
         # pd_op.full_int_array: (1xi64) <- ()
         full_int_array_0 = [1]
 
-        # pd_op.unsqueeze: (1x1x10xi64) <- (1x10xi64, 1xi64)
+        # pd_op.unsqueeze: (1x1x20xi64) <- (1x20xi64, 1xi64)
         unsqueeze_0 = paddle._C_ops.unsqueeze(data_1, full_int_array_0)
         del data_1
 
-        # pd_op.cast: (1x1x10xf32) <- (1x1x10xi64)
+        # pd_op.cast: (1x1x20xf32) <- (1x1x20xi64)
         cast_1 = paddle._C_ops.cast(unsqueeze_0, paddle.float32)
 
         # pd_op.full: (1xf32) <- ()
@@ -583,14 +583,14 @@ class GraphModule(paddle.nn.Layer):
             [1], float("-1"), paddle.float32, paddle.core.CPUPlace()
         )
 
-        # pd_op.scale: (1x1x10xf32) <- (1x1x10xf32, 1xf32)
+        # pd_op.scale: (1x1x20xf32) <- (1x1x20xf32, 1xf32)
         scale_0 = paddle._C_ops.scale(cast_1, full_1, float("1"), True)
         del cast_1
 
         # pd_op.full_int_array: (3xi64) <- ()
         full_int_array_1 = [16, 1, 1]
 
-        # pd_op.tile: (16x1x10xf32) <- (1x1x10xf32, 3xi64)
+        # pd_op.tile: (16x1x20xf32) <- (1x1x20xf32, 3xi64)
         tile_0 = paddle._C_ops.tile(scale_0, full_int_array_1)
         del scale_0
 
@@ -599,17 +599,17 @@ class GraphModule(paddle.nn.Layer):
             [1], float("-10000"), paddle.float32, paddle.core.CPUPlace()
         )
 
-        # pd_op.scale: (16x1x10xf32) <- (16x1x10xf32, 1xf32)
+        # pd_op.scale: (16x1x20xf32) <- (16x1x20xf32, 1xf32)
         scale_1 = paddle._C_ops.scale(tile_0, full_2, float("0"), True)
         del tile_0
 
-        # pd_op.cast: (16x1x10xf32) <- (16x1x10xf32)
+        # pd_op.cast: (16x1x20xf32) <- (16x1x20xf32)
         cast_2 = paddle._C_ops.cast(scale_1, paddle.float32)
         del scale_1
 
-        # pd_op.full: (1x10xi64) <- ()
+        # pd_op.full: (1x20xi64) <- ()
         full_3 = paddle._C_ops.full(
-            [1, 10],
+            [1, 20],
             float("1"),
             paddle.int64,
             paddle.framework._current_expected_place(),
@@ -620,18 +620,18 @@ class GraphModule(paddle.nn.Layer):
             [1], float("1"), paddle.int32, paddle.core.CPUPlace()
         )
 
-        # pd_op.cumsum: (1x10xi64) <- (1x10xi64, 1xi32)
+        # pd_op.cumsum: (1x20xi64) <- (1x20xi64, 1xi32)
         cumsum_0 = paddle._C_ops.cumsum(full_3, full_4, False, False, False)
 
-        # pd_op.cast: (1x10xi64) <- (1x10xi64)
+        # pd_op.cast: (1x20xi64) <- (1x20xi64)
         cast_3 = paddle._C_ops.cast(cumsum_0, paddle.int64)
         del cumsum_0
 
-        # pd_op.multiply: (1x10xi64) <- (1x10xi64, 1x10xi64)
+        # pd_op.multiply: (1x20xi64) <- (1x20xi64, 1x20xi64)
         multiply_0 = paddle._C_ops.multiply(cast_3, full_3)
         del cast_3, full_3
 
-        # pd_op.cast: (1x10xi64) <- (1x10xi64)
+        # pd_op.cast: (1x20xi64) <- (1x20xi64)
         cast_4 = paddle._C_ops.cast(multiply_0, paddle.int64)
         del multiply_0
 
@@ -640,7 +640,7 @@ class GraphModule(paddle.nn.Layer):
             [1], float("1"), paddle.float32, paddle.core.CPUPlace()
         )
 
-        # pd_op.scale: (1x10xi64) <- (1x10xi64, 1xf32)
+        # pd_op.scale: (1x20xi64) <- (1x20xi64, 1xf32)
         scale_2 = paddle._C_ops.scale(cast_4, full_5, float("0"), True)
         del cast_4
 
@@ -654,19 +654,19 @@ class GraphModule(paddle.nn.Layer):
             [1], float("511"), paddle.float32, paddle.core.CPUPlace()
         )
 
-        # pd_op.clip: (1x10xi64) <- (1x10xi64, 1xf32, 1xf32)
+        # pd_op.clip: (1x20xi64) <- (1x20xi64, 1xf32, 1xf32)
         clip_0 = paddle._C_ops.clip(scale_2, full_6, full_7)
         del scale_2
 
-        # pd_op.embedding: (1x10x1024xf32) <- (1x10xi64, 512x1024xf32)
+        # pd_op.embedding: (1x20x1024xf32) <- (1x20xi64, 512x1024xf32)
         embedding_1 = paddle._C_ops.embedding(clip_0, parameter_538, 0, False)
         del clip_0, parameter_538
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_0 = paddle._C_ops.add(embedding_0, embedding_1)
         del embedding_0, embedding_1
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_0, layer_norm_1, layer_norm_2 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_0, parameter_537, parameter_536, float("1e-05"), 2
@@ -680,7 +680,7 @@ class GraphModule(paddle.nn.Layer):
             [1], float("0.1"), paddle.float32, paddle.core.CPUPlace()
         )
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_0, dropout_1 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 layer_norm_0, None, full_8, True, "upscale_in_train", 0, False
@@ -689,11 +689,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del layer_norm_0
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_0 = paddle._C_ops.matmul(dropout_0, parameter_531, False, False)
         del parameter_531
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_1 = paddle._C_ops.add(matmul_0, parameter_530)
         del matmul_0, parameter_530
 
@@ -702,88 +702,88 @@ class GraphModule(paddle.nn.Layer):
             [1], float("0.125"), paddle.float32, paddle.core.CPUPlace()
         )
 
-        # pd_op.scale: (1x10x1024xf32) <- (1x10x1024xf32, 1xf32)
+        # pd_op.scale: (1x20x1024xf32) <- (1x20x1024xf32, 1xf32)
         scale_3 = paddle._C_ops.scale(add_1, full_9, float("0"), True)
         del add_1
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_1 = paddle._C_ops.matmul(dropout_0, parameter_535, False, False)
         del parameter_535
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_2 = paddle._C_ops.add(matmul_1, parameter_534)
         del matmul_1, parameter_534
 
         # pd_op.full_int_array: (4xi64) <- ()
         full_int_array_2 = [1, -1, 16, 64]
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_24 = paddle._C_ops.reshape(add_2, full_int_array_2)
         del add_2
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_0 = paddle._C_ops.transpose(reshape_24, [0, 2, 1, 3])
         del reshape_24
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_2 = paddle._C_ops.matmul(dropout_0, parameter_533, False, False)
         del parameter_533
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_3 = paddle._C_ops.add(matmul_2, parameter_532)
         del matmul_2, parameter_532
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_25 = paddle._C_ops.reshape(add_3, full_int_array_2)
         del add_3
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_1 = paddle._C_ops.transpose(reshape_25, [0, 2, 1, 3])
         del reshape_25
 
         # pd_op.full_int_array: (4xi64) <- ()
-        full_int_array_3 = [1, 10, 16, 64]
+        full_int_array_3 = [1, 20, 16, 64]
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_26 = paddle._C_ops.reshape(scale_3, full_int_array_3)
         del scale_3
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_2 = paddle._C_ops.transpose(reshape_26, [0, 2, 1, 3])
         del reshape_26
 
         # pd_op.full_int_array: (3xi64) <- ()
         full_int_array_4 = [16, -1, 64]
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_27 = paddle._C_ops.reshape(transpose_2, full_int_array_4)
         del transpose_2
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_28 = paddle._C_ops.reshape(transpose_0, full_int_array_4)
         del transpose_0
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_29 = paddle._C_ops.reshape(transpose_1, full_int_array_4)
         del transpose_1
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_3 = paddle._C_ops.transpose(reshape_28, [0, 2, 1])
         del reshape_28
 
-        # pd_op.bmm: (16x10x10xf32) <- (16x10x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x20x20xf32) <- (16x20x64xf32, 16x64x20xf32)
         bmm_0 = paddle._C_ops.bmm(reshape_27, transpose_3)
         del reshape_27, transpose_3
 
-        # pd_op.add: (16x10x10xf32) <- (16x10x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x20x20xf32) <- (16x20x20xf32, 16x1x20xf32)
         add_4 = paddle._C_ops.add(bmm_0, cast_2)
         del bmm_0
 
-        # pd_op.softmax: (16x10x10xf32) <- (16x10x10xf32)
+        # pd_op.softmax: (16x20x20xf32) <- (16x20x20xf32)
         softmax_0 = paddle._C_ops.softmax(add_4, -1)
         del add_4
 
-        # pd_op.dropout: (16x10x10xf32, 16x10x10xui8) <- (16x10x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x20x20xf32, 16x20x20xui8) <- (16x20x20xf32, None, 1xf32)
         dropout_2, dropout_3 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_0, None, full_8, True, "upscale_in_train", 0, False
@@ -792,37 +792,37 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_0
 
-        # pd_op.bmm: (16x10x64xf32) <- (16x10x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x20x64xf32) <- (16x20x20xf32, 16x20x64xf32)
         bmm_1 = paddle._C_ops.bmm(dropout_2, reshape_29)
         del dropout_2, reshape_29
 
         # pd_op.full_int_array: (4xi64) <- ()
-        full_int_array_5 = [1, 16, 10, 64]
+        full_int_array_5 = [1, 16, 20, 64]
 
-        # pd_op.reshape: (1x16x10x64xf32) <- (16x10x64xf32, 4xi64)
+        # pd_op.reshape: (1x16x20x64xf32) <- (16x20x64xf32, 4xi64)
         reshape_30 = paddle._C_ops.reshape(bmm_1, full_int_array_5)
         del bmm_1
 
-        # pd_op.transpose: (1x10x16x64xf32) <- (1x16x10x64xf32)
+        # pd_op.transpose: (1x20x16x64xf32) <- (1x16x20x64xf32)
         transpose_4 = paddle._C_ops.transpose(reshape_30, [0, 2, 1, 3])
         del reshape_30
 
         # pd_op.full_int_array: (3xi64) <- ()
-        full_int_array_6 = [1, 10, 1024]
+        full_int_array_6 = [1, 20, 1024]
 
-        # pd_op.reshape: (1x10x1024xf32) <- (1x10x16x64xf32, 3xi64)
+        # pd_op.reshape: (1x20x1024xf32) <- (1x20x16x64xf32, 3xi64)
         reshape_31 = paddle._C_ops.reshape(transpose_4, full_int_array_6)
         del transpose_4
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_3 = paddle._C_ops.matmul(reshape_31, parameter_529, False, False)
         del parameter_529, reshape_31
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_5 = paddle._C_ops.add(matmul_3, parameter_528)
         del matmul_3, parameter_528
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_4, dropout_5 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_5, None, full_8, True, "upscale_in_train", 0, False
@@ -831,11 +831,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_5
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_6 = paddle._C_ops.add(dropout_4, dropout_0)
         del dropout_0, dropout_4
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_3, layer_norm_4, layer_norm_5 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_6, parameter_527, parameter_526, float("1e-05"), 2
@@ -844,19 +844,19 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_6, parameter_526, parameter_527
 
-        # pd_op.matmul: (1x10x4096xf32) <- (1x10x1024xf32, 1024x4096xf32)
+        # pd_op.matmul: (1x20x4096xf32) <- (1x20x1024xf32, 1024x4096xf32)
         matmul_4 = paddle._C_ops.matmul(layer_norm_3, parameter_525, False, False)
         del parameter_525
 
-        # pd_op.add: (1x10x4096xf32) <- (1x10x4096xf32, 4096xf32)
+        # pd_op.add: (1x20x4096xf32) <- (1x20x4096xf32, 4096xf32)
         add_7 = paddle._C_ops.add(matmul_4, parameter_524)
         del matmul_4, parameter_524
 
-        # pd_op.gelu: (1x10x4096xf32) <- (1x10x4096xf32)
+        # pd_op.gelu: (1x20x4096xf32) <- (1x20x4096xf32)
         gelu_0 = paddle._C_ops.gelu(add_7, False)
         del add_7
 
-        # pd_op.dropout: (1x10x4096xf32, 1x10x4096xui8) <- (1x10x4096xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x4096xf32, 1x20x4096xui8) <- (1x20x4096xf32, None, 1xf32)
         dropout_6, dropout_7 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 gelu_0, None, full_8, True, "upscale_in_train", 0, False
@@ -865,15 +865,15 @@ class GraphModule(paddle.nn.Layer):
         )
         del gelu_0
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x4096xf32, 4096x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x4096xf32, 4096x1024xf32)
         matmul_5 = paddle._C_ops.matmul(dropout_6, parameter_523, False, False)
         del dropout_6, parameter_523
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_8 = paddle._C_ops.add(matmul_5, parameter_522)
         del matmul_5, parameter_522
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_8, dropout_9 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_8, None, full_8, True, "upscale_in_train", 0, False
@@ -882,11 +882,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_8
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_9 = paddle._C_ops.add(dropout_8, layer_norm_3)
         del dropout_8, layer_norm_3
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_6, layer_norm_7, layer_norm_8 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_9, parameter_521, parameter_520, float("1e-05"), 2
@@ -895,87 +895,87 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_9, parameter_520, parameter_521
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_6 = paddle._C_ops.matmul(layer_norm_6, parameter_515, False, False)
         del parameter_515
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_10 = paddle._C_ops.add(matmul_6, parameter_514)
         del matmul_6, parameter_514
 
-        # pd_op.scale: (1x10x1024xf32) <- (1x10x1024xf32, 1xf32)
+        # pd_op.scale: (1x20x1024xf32) <- (1x20x1024xf32, 1xf32)
         scale_4 = paddle._C_ops.scale(add_10, full_9, float("0"), True)
         del add_10
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_7 = paddle._C_ops.matmul(layer_norm_6, parameter_519, False, False)
         del parameter_519
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_11 = paddle._C_ops.add(matmul_7, parameter_518)
         del matmul_7, parameter_518
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_32 = paddle._C_ops.reshape(add_11, full_int_array_2)
         del add_11
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_5 = paddle._C_ops.transpose(reshape_32, [0, 2, 1, 3])
         del reshape_32
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_8 = paddle._C_ops.matmul(layer_norm_6, parameter_517, False, False)
         del parameter_517
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_12 = paddle._C_ops.add(matmul_8, parameter_516)
         del matmul_8, parameter_516
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_33 = paddle._C_ops.reshape(add_12, full_int_array_2)
         del add_12
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_6 = paddle._C_ops.transpose(reshape_33, [0, 2, 1, 3])
         del reshape_33
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_34 = paddle._C_ops.reshape(scale_4, full_int_array_3)
         del scale_4
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_7 = paddle._C_ops.transpose(reshape_34, [0, 2, 1, 3])
         del reshape_34
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_35 = paddle._C_ops.reshape(transpose_7, full_int_array_4)
         del transpose_7
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_36 = paddle._C_ops.reshape(transpose_5, full_int_array_4)
         del transpose_5
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_37 = paddle._C_ops.reshape(transpose_6, full_int_array_4)
         del transpose_6
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_8 = paddle._C_ops.transpose(reshape_36, [0, 2, 1])
         del reshape_36
 
-        # pd_op.bmm: (16x10x10xf32) <- (16x10x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x20x20xf32) <- (16x20x64xf32, 16x64x20xf32)
         bmm_2 = paddle._C_ops.bmm(reshape_35, transpose_8)
         del reshape_35, transpose_8
 
-        # pd_op.add: (16x10x10xf32) <- (16x10x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x20x20xf32) <- (16x20x20xf32, 16x1x20xf32)
         add_13 = paddle._C_ops.add(bmm_2, cast_2)
         del bmm_2
 
-        # pd_op.softmax: (16x10x10xf32) <- (16x10x10xf32)
+        # pd_op.softmax: (16x20x20xf32) <- (16x20x20xf32)
         softmax_1 = paddle._C_ops.softmax(add_13, -1)
         del add_13
 
-        # pd_op.dropout: (16x10x10xf32, 16x10x10xui8) <- (16x10x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x20x20xf32, 16x20x20xui8) <- (16x20x20xf32, None, 1xf32)
         dropout_10, dropout_11 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_1, None, full_8, True, "upscale_in_train", 0, False
@@ -984,31 +984,31 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_1
 
-        # pd_op.bmm: (16x10x64xf32) <- (16x10x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x20x64xf32) <- (16x20x20xf32, 16x20x64xf32)
         bmm_3 = paddle._C_ops.bmm(dropout_10, reshape_37)
         del dropout_10, reshape_37
 
-        # pd_op.reshape: (1x16x10x64xf32) <- (16x10x64xf32, 4xi64)
+        # pd_op.reshape: (1x16x20x64xf32) <- (16x20x64xf32, 4xi64)
         reshape_38 = paddle._C_ops.reshape(bmm_3, full_int_array_5)
         del bmm_3
 
-        # pd_op.transpose: (1x10x16x64xf32) <- (1x16x10x64xf32)
+        # pd_op.transpose: (1x20x16x64xf32) <- (1x16x20x64xf32)
         transpose_9 = paddle._C_ops.transpose(reshape_38, [0, 2, 1, 3])
         del reshape_38
 
-        # pd_op.reshape: (1x10x1024xf32) <- (1x10x16x64xf32, 3xi64)
+        # pd_op.reshape: (1x20x1024xf32) <- (1x20x16x64xf32, 3xi64)
         reshape_39 = paddle._C_ops.reshape(transpose_9, full_int_array_6)
         del transpose_9
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_9 = paddle._C_ops.matmul(reshape_39, parameter_513, False, False)
         del parameter_513, reshape_39
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_14 = paddle._C_ops.add(matmul_9, parameter_512)
         del matmul_9, parameter_512
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_12, dropout_13 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_14, None, full_8, True, "upscale_in_train", 0, False
@@ -1017,11 +1017,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_14
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_15 = paddle._C_ops.add(dropout_12, layer_norm_6)
         del dropout_12, layer_norm_6
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_9, layer_norm_10, layer_norm_11 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_15, parameter_511, parameter_510, float("1e-05"), 2
@@ -1030,19 +1030,19 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_15, parameter_510, parameter_511
 
-        # pd_op.matmul: (1x10x4096xf32) <- (1x10x1024xf32, 1024x4096xf32)
+        # pd_op.matmul: (1x20x4096xf32) <- (1x20x1024xf32, 1024x4096xf32)
         matmul_10 = paddle._C_ops.matmul(layer_norm_9, parameter_509, False, False)
         del parameter_509
 
-        # pd_op.add: (1x10x4096xf32) <- (1x10x4096xf32, 4096xf32)
+        # pd_op.add: (1x20x4096xf32) <- (1x20x4096xf32, 4096xf32)
         add_16 = paddle._C_ops.add(matmul_10, parameter_508)
         del matmul_10, parameter_508
 
-        # pd_op.gelu: (1x10x4096xf32) <- (1x10x4096xf32)
+        # pd_op.gelu: (1x20x4096xf32) <- (1x20x4096xf32)
         gelu_1 = paddle._C_ops.gelu(add_16, False)
         del add_16
 
-        # pd_op.dropout: (1x10x4096xf32, 1x10x4096xui8) <- (1x10x4096xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x4096xf32, 1x20x4096xui8) <- (1x20x4096xf32, None, 1xf32)
         dropout_14, dropout_15 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 gelu_1, None, full_8, True, "upscale_in_train", 0, False
@@ -1051,15 +1051,15 @@ class GraphModule(paddle.nn.Layer):
         )
         del gelu_1
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x4096xf32, 4096x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x4096xf32, 4096x1024xf32)
         matmul_11 = paddle._C_ops.matmul(dropout_14, parameter_507, False, False)
         del dropout_14, parameter_507
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_17 = paddle._C_ops.add(matmul_11, parameter_506)
         del matmul_11, parameter_506
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_16, dropout_17 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_17, None, full_8, True, "upscale_in_train", 0, False
@@ -1068,11 +1068,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_17
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_18 = paddle._C_ops.add(dropout_16, layer_norm_9)
         del dropout_16, layer_norm_9
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_12, layer_norm_13, layer_norm_14 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_18, parameter_505, parameter_504, float("1e-05"), 2
@@ -1081,87 +1081,87 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_18, parameter_504, parameter_505
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_12 = paddle._C_ops.matmul(layer_norm_12, parameter_499, False, False)
         del parameter_499
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_19 = paddle._C_ops.add(matmul_12, parameter_498)
         del matmul_12, parameter_498
 
-        # pd_op.scale: (1x10x1024xf32) <- (1x10x1024xf32, 1xf32)
+        # pd_op.scale: (1x20x1024xf32) <- (1x20x1024xf32, 1xf32)
         scale_5 = paddle._C_ops.scale(add_19, full_9, float("0"), True)
         del add_19
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_13 = paddle._C_ops.matmul(layer_norm_12, parameter_503, False, False)
         del parameter_503
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_20 = paddle._C_ops.add(matmul_13, parameter_502)
         del matmul_13, parameter_502
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_40 = paddle._C_ops.reshape(add_20, full_int_array_2)
         del add_20
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_10 = paddle._C_ops.transpose(reshape_40, [0, 2, 1, 3])
         del reshape_40
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_14 = paddle._C_ops.matmul(layer_norm_12, parameter_501, False, False)
         del parameter_501
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_21 = paddle._C_ops.add(matmul_14, parameter_500)
         del matmul_14, parameter_500
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_41 = paddle._C_ops.reshape(add_21, full_int_array_2)
         del add_21
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_11 = paddle._C_ops.transpose(reshape_41, [0, 2, 1, 3])
         del reshape_41
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_42 = paddle._C_ops.reshape(scale_5, full_int_array_3)
         del scale_5
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_12 = paddle._C_ops.transpose(reshape_42, [0, 2, 1, 3])
         del reshape_42
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_43 = paddle._C_ops.reshape(transpose_12, full_int_array_4)
         del transpose_12
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_44 = paddle._C_ops.reshape(transpose_10, full_int_array_4)
         del transpose_10
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_45 = paddle._C_ops.reshape(transpose_11, full_int_array_4)
         del transpose_11
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_13 = paddle._C_ops.transpose(reshape_44, [0, 2, 1])
         del reshape_44
 
-        # pd_op.bmm: (16x10x10xf32) <- (16x10x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x20x20xf32) <- (16x20x64xf32, 16x64x20xf32)
         bmm_4 = paddle._C_ops.bmm(reshape_43, transpose_13)
         del reshape_43, transpose_13
 
-        # pd_op.add: (16x10x10xf32) <- (16x10x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x20x20xf32) <- (16x20x20xf32, 16x1x20xf32)
         add_22 = paddle._C_ops.add(bmm_4, cast_2)
         del bmm_4
 
-        # pd_op.softmax: (16x10x10xf32) <- (16x10x10xf32)
+        # pd_op.softmax: (16x20x20xf32) <- (16x20x20xf32)
         softmax_2 = paddle._C_ops.softmax(add_22, -1)
         del add_22
 
-        # pd_op.dropout: (16x10x10xf32, 16x10x10xui8) <- (16x10x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x20x20xf32, 16x20x20xui8) <- (16x20x20xf32, None, 1xf32)
         dropout_18, dropout_19 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_2, None, full_8, True, "upscale_in_train", 0, False
@@ -1170,31 +1170,31 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_2
 
-        # pd_op.bmm: (16x10x64xf32) <- (16x10x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x20x64xf32) <- (16x20x20xf32, 16x20x64xf32)
         bmm_5 = paddle._C_ops.bmm(dropout_18, reshape_45)
         del dropout_18, reshape_45
 
-        # pd_op.reshape: (1x16x10x64xf32) <- (16x10x64xf32, 4xi64)
+        # pd_op.reshape: (1x16x20x64xf32) <- (16x20x64xf32, 4xi64)
         reshape_46 = paddle._C_ops.reshape(bmm_5, full_int_array_5)
         del bmm_5
 
-        # pd_op.transpose: (1x10x16x64xf32) <- (1x16x10x64xf32)
+        # pd_op.transpose: (1x20x16x64xf32) <- (1x16x20x64xf32)
         transpose_14 = paddle._C_ops.transpose(reshape_46, [0, 2, 1, 3])
         del reshape_46
 
-        # pd_op.reshape: (1x10x1024xf32) <- (1x10x16x64xf32, 3xi64)
+        # pd_op.reshape: (1x20x1024xf32) <- (1x20x16x64xf32, 3xi64)
         reshape_47 = paddle._C_ops.reshape(transpose_14, full_int_array_6)
         del transpose_14
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_15 = paddle._C_ops.matmul(reshape_47, parameter_497, False, False)
         del parameter_497, reshape_47
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_23 = paddle._C_ops.add(matmul_15, parameter_496)
         del matmul_15, parameter_496
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_20, dropout_21 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_23, None, full_8, True, "upscale_in_train", 0, False
@@ -1203,11 +1203,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_23
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_24 = paddle._C_ops.add(dropout_20, layer_norm_12)
         del dropout_20, layer_norm_12
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_15, layer_norm_16, layer_norm_17 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_24, parameter_495, parameter_494, float("1e-05"), 2
@@ -1216,19 +1216,19 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_24, parameter_494, parameter_495
 
-        # pd_op.matmul: (1x10x4096xf32) <- (1x10x1024xf32, 1024x4096xf32)
+        # pd_op.matmul: (1x20x4096xf32) <- (1x20x1024xf32, 1024x4096xf32)
         matmul_16 = paddle._C_ops.matmul(layer_norm_15, parameter_493, False, False)
         del parameter_493
 
-        # pd_op.add: (1x10x4096xf32) <- (1x10x4096xf32, 4096xf32)
+        # pd_op.add: (1x20x4096xf32) <- (1x20x4096xf32, 4096xf32)
         add_25 = paddle._C_ops.add(matmul_16, parameter_492)
         del matmul_16, parameter_492
 
-        # pd_op.gelu: (1x10x4096xf32) <- (1x10x4096xf32)
+        # pd_op.gelu: (1x20x4096xf32) <- (1x20x4096xf32)
         gelu_2 = paddle._C_ops.gelu(add_25, False)
         del add_25
 
-        # pd_op.dropout: (1x10x4096xf32, 1x10x4096xui8) <- (1x10x4096xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x4096xf32, 1x20x4096xui8) <- (1x20x4096xf32, None, 1xf32)
         dropout_22, dropout_23 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 gelu_2, None, full_8, True, "upscale_in_train", 0, False
@@ -1237,15 +1237,15 @@ class GraphModule(paddle.nn.Layer):
         )
         del gelu_2
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x4096xf32, 4096x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x4096xf32, 4096x1024xf32)
         matmul_17 = paddle._C_ops.matmul(dropout_22, parameter_491, False, False)
         del dropout_22, parameter_491
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_26 = paddle._C_ops.add(matmul_17, parameter_490)
         del matmul_17, parameter_490
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_24, dropout_25 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_26, None, full_8, True, "upscale_in_train", 0, False
@@ -1254,11 +1254,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_26
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_27 = paddle._C_ops.add(dropout_24, layer_norm_15)
         del dropout_24, layer_norm_15
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_18, layer_norm_19, layer_norm_20 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_27, parameter_489, parameter_488, float("1e-05"), 2
@@ -1267,87 +1267,87 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_27, parameter_488, parameter_489
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_18 = paddle._C_ops.matmul(layer_norm_18, parameter_483, False, False)
         del parameter_483
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_28 = paddle._C_ops.add(matmul_18, parameter_482)
         del matmul_18, parameter_482
 
-        # pd_op.scale: (1x10x1024xf32) <- (1x10x1024xf32, 1xf32)
+        # pd_op.scale: (1x20x1024xf32) <- (1x20x1024xf32, 1xf32)
         scale_6 = paddle._C_ops.scale(add_28, full_9, float("0"), True)
         del add_28
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_19 = paddle._C_ops.matmul(layer_norm_18, parameter_487, False, False)
         del parameter_487
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_29 = paddle._C_ops.add(matmul_19, parameter_486)
         del matmul_19, parameter_486
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_48 = paddle._C_ops.reshape(add_29, full_int_array_2)
         del add_29
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_15 = paddle._C_ops.transpose(reshape_48, [0, 2, 1, 3])
         del reshape_48
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_20 = paddle._C_ops.matmul(layer_norm_18, parameter_485, False, False)
         del parameter_485
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_30 = paddle._C_ops.add(matmul_20, parameter_484)
         del matmul_20, parameter_484
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_49 = paddle._C_ops.reshape(add_30, full_int_array_2)
         del add_30
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_16 = paddle._C_ops.transpose(reshape_49, [0, 2, 1, 3])
         del reshape_49
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_50 = paddle._C_ops.reshape(scale_6, full_int_array_3)
         del scale_6
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_17 = paddle._C_ops.transpose(reshape_50, [0, 2, 1, 3])
         del reshape_50
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_51 = paddle._C_ops.reshape(transpose_17, full_int_array_4)
         del transpose_17
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_52 = paddle._C_ops.reshape(transpose_15, full_int_array_4)
         del transpose_15
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_53 = paddle._C_ops.reshape(transpose_16, full_int_array_4)
         del transpose_16
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_18 = paddle._C_ops.transpose(reshape_52, [0, 2, 1])
         del reshape_52
 
-        # pd_op.bmm: (16x10x10xf32) <- (16x10x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x20x20xf32) <- (16x20x64xf32, 16x64x20xf32)
         bmm_6 = paddle._C_ops.bmm(reshape_51, transpose_18)
         del reshape_51, transpose_18
 
-        # pd_op.add: (16x10x10xf32) <- (16x10x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x20x20xf32) <- (16x20x20xf32, 16x1x20xf32)
         add_31 = paddle._C_ops.add(bmm_6, cast_2)
         del bmm_6
 
-        # pd_op.softmax: (16x10x10xf32) <- (16x10x10xf32)
+        # pd_op.softmax: (16x20x20xf32) <- (16x20x20xf32)
         softmax_3 = paddle._C_ops.softmax(add_31, -1)
         del add_31
 
-        # pd_op.dropout: (16x10x10xf32, 16x10x10xui8) <- (16x10x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x20x20xf32, 16x20x20xui8) <- (16x20x20xf32, None, 1xf32)
         dropout_26, dropout_27 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_3, None, full_8, True, "upscale_in_train", 0, False
@@ -1356,31 +1356,31 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_3
 
-        # pd_op.bmm: (16x10x64xf32) <- (16x10x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x20x64xf32) <- (16x20x20xf32, 16x20x64xf32)
         bmm_7 = paddle._C_ops.bmm(dropout_26, reshape_53)
         del dropout_26, reshape_53
 
-        # pd_op.reshape: (1x16x10x64xf32) <- (16x10x64xf32, 4xi64)
+        # pd_op.reshape: (1x16x20x64xf32) <- (16x20x64xf32, 4xi64)
         reshape_54 = paddle._C_ops.reshape(bmm_7, full_int_array_5)
         del bmm_7
 
-        # pd_op.transpose: (1x10x16x64xf32) <- (1x16x10x64xf32)
+        # pd_op.transpose: (1x20x16x64xf32) <- (1x16x20x64xf32)
         transpose_19 = paddle._C_ops.transpose(reshape_54, [0, 2, 1, 3])
         del reshape_54
 
-        # pd_op.reshape: (1x10x1024xf32) <- (1x10x16x64xf32, 3xi64)
+        # pd_op.reshape: (1x20x1024xf32) <- (1x20x16x64xf32, 3xi64)
         reshape_55 = paddle._C_ops.reshape(transpose_19, full_int_array_6)
         del transpose_19
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_21 = paddle._C_ops.matmul(reshape_55, parameter_481, False, False)
         del parameter_481, reshape_55
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_32 = paddle._C_ops.add(matmul_21, parameter_480)
         del matmul_21, parameter_480
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_28, dropout_29 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_32, None, full_8, True, "upscale_in_train", 0, False
@@ -1389,11 +1389,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_32
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_33 = paddle._C_ops.add(dropout_28, layer_norm_18)
         del dropout_28, layer_norm_18
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_21, layer_norm_22, layer_norm_23 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_33, parameter_479, parameter_478, float("1e-05"), 2
@@ -1402,19 +1402,19 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_33, parameter_478, parameter_479
 
-        # pd_op.matmul: (1x10x4096xf32) <- (1x10x1024xf32, 1024x4096xf32)
+        # pd_op.matmul: (1x20x4096xf32) <- (1x20x1024xf32, 1024x4096xf32)
         matmul_22 = paddle._C_ops.matmul(layer_norm_21, parameter_477, False, False)
         del parameter_477
 
-        # pd_op.add: (1x10x4096xf32) <- (1x10x4096xf32, 4096xf32)
+        # pd_op.add: (1x20x4096xf32) <- (1x20x4096xf32, 4096xf32)
         add_34 = paddle._C_ops.add(matmul_22, parameter_476)
         del matmul_22, parameter_476
 
-        # pd_op.gelu: (1x10x4096xf32) <- (1x10x4096xf32)
+        # pd_op.gelu: (1x20x4096xf32) <- (1x20x4096xf32)
         gelu_3 = paddle._C_ops.gelu(add_34, False)
         del add_34
 
-        # pd_op.dropout: (1x10x4096xf32, 1x10x4096xui8) <- (1x10x4096xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x4096xf32, 1x20x4096xui8) <- (1x20x4096xf32, None, 1xf32)
         dropout_30, dropout_31 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 gelu_3, None, full_8, True, "upscale_in_train", 0, False
@@ -1423,15 +1423,15 @@ class GraphModule(paddle.nn.Layer):
         )
         del gelu_3
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x4096xf32, 4096x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x4096xf32, 4096x1024xf32)
         matmul_23 = paddle._C_ops.matmul(dropout_30, parameter_475, False, False)
         del dropout_30, parameter_475
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_35 = paddle._C_ops.add(matmul_23, parameter_474)
         del matmul_23, parameter_474
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_32, dropout_33 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_35, None, full_8, True, "upscale_in_train", 0, False
@@ -1440,11 +1440,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_35
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_36 = paddle._C_ops.add(dropout_32, layer_norm_21)
         del dropout_32, layer_norm_21
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_24, layer_norm_25, layer_norm_26 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_36, parameter_473, parameter_472, float("1e-05"), 2
@@ -1453,87 +1453,87 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_36, parameter_472, parameter_473
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_24 = paddle._C_ops.matmul(layer_norm_24, parameter_467, False, False)
         del parameter_467
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_37 = paddle._C_ops.add(matmul_24, parameter_466)
         del matmul_24, parameter_466
 
-        # pd_op.scale: (1x10x1024xf32) <- (1x10x1024xf32, 1xf32)
+        # pd_op.scale: (1x20x1024xf32) <- (1x20x1024xf32, 1xf32)
         scale_7 = paddle._C_ops.scale(add_37, full_9, float("0"), True)
         del add_37
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_25 = paddle._C_ops.matmul(layer_norm_24, parameter_471, False, False)
         del parameter_471
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_38 = paddle._C_ops.add(matmul_25, parameter_470)
         del matmul_25, parameter_470
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_56 = paddle._C_ops.reshape(add_38, full_int_array_2)
         del add_38
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_20 = paddle._C_ops.transpose(reshape_56, [0, 2, 1, 3])
         del reshape_56
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_26 = paddle._C_ops.matmul(layer_norm_24, parameter_469, False, False)
         del parameter_469
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_39 = paddle._C_ops.add(matmul_26, parameter_468)
         del matmul_26, parameter_468
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_57 = paddle._C_ops.reshape(add_39, full_int_array_2)
         del add_39
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_21 = paddle._C_ops.transpose(reshape_57, [0, 2, 1, 3])
         del reshape_57
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_58 = paddle._C_ops.reshape(scale_7, full_int_array_3)
         del scale_7
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_22 = paddle._C_ops.transpose(reshape_58, [0, 2, 1, 3])
         del reshape_58
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_59 = paddle._C_ops.reshape(transpose_22, full_int_array_4)
         del transpose_22
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_60 = paddle._C_ops.reshape(transpose_20, full_int_array_4)
         del transpose_20
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_61 = paddle._C_ops.reshape(transpose_21, full_int_array_4)
         del transpose_21
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_23 = paddle._C_ops.transpose(reshape_60, [0, 2, 1])
         del reshape_60
 
-        # pd_op.bmm: (16x10x10xf32) <- (16x10x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x20x20xf32) <- (16x20x64xf32, 16x64x20xf32)
         bmm_8 = paddle._C_ops.bmm(reshape_59, transpose_23)
         del reshape_59, transpose_23
 
-        # pd_op.add: (16x10x10xf32) <- (16x10x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x20x20xf32) <- (16x20x20xf32, 16x1x20xf32)
         add_40 = paddle._C_ops.add(bmm_8, cast_2)
         del bmm_8
 
-        # pd_op.softmax: (16x10x10xf32) <- (16x10x10xf32)
+        # pd_op.softmax: (16x20x20xf32) <- (16x20x20xf32)
         softmax_4 = paddle._C_ops.softmax(add_40, -1)
         del add_40
 
-        # pd_op.dropout: (16x10x10xf32, 16x10x10xui8) <- (16x10x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x20x20xf32, 16x20x20xui8) <- (16x20x20xf32, None, 1xf32)
         dropout_34, dropout_35 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_4, None, full_8, True, "upscale_in_train", 0, False
@@ -1542,31 +1542,31 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_4
 
-        # pd_op.bmm: (16x10x64xf32) <- (16x10x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x20x64xf32) <- (16x20x20xf32, 16x20x64xf32)
         bmm_9 = paddle._C_ops.bmm(dropout_34, reshape_61)
         del dropout_34, reshape_61
 
-        # pd_op.reshape: (1x16x10x64xf32) <- (16x10x64xf32, 4xi64)
+        # pd_op.reshape: (1x16x20x64xf32) <- (16x20x64xf32, 4xi64)
         reshape_62 = paddle._C_ops.reshape(bmm_9, full_int_array_5)
         del bmm_9
 
-        # pd_op.transpose: (1x10x16x64xf32) <- (1x16x10x64xf32)
+        # pd_op.transpose: (1x20x16x64xf32) <- (1x16x20x64xf32)
         transpose_24 = paddle._C_ops.transpose(reshape_62, [0, 2, 1, 3])
         del reshape_62
 
-        # pd_op.reshape: (1x10x1024xf32) <- (1x10x16x64xf32, 3xi64)
+        # pd_op.reshape: (1x20x1024xf32) <- (1x20x16x64xf32, 3xi64)
         reshape_63 = paddle._C_ops.reshape(transpose_24, full_int_array_6)
         del transpose_24
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_27 = paddle._C_ops.matmul(reshape_63, parameter_465, False, False)
         del parameter_465, reshape_63
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_41 = paddle._C_ops.add(matmul_27, parameter_464)
         del matmul_27, parameter_464
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_36, dropout_37 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_41, None, full_8, True, "upscale_in_train", 0, False
@@ -1575,11 +1575,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_41
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_42 = paddle._C_ops.add(dropout_36, layer_norm_24)
         del dropout_36, layer_norm_24
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_27, layer_norm_28, layer_norm_29 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_42, parameter_463, parameter_462, float("1e-05"), 2
@@ -1588,19 +1588,19 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_42, parameter_462, parameter_463
 
-        # pd_op.matmul: (1x10x4096xf32) <- (1x10x1024xf32, 1024x4096xf32)
+        # pd_op.matmul: (1x20x4096xf32) <- (1x20x1024xf32, 1024x4096xf32)
         matmul_28 = paddle._C_ops.matmul(layer_norm_27, parameter_461, False, False)
         del parameter_461
 
-        # pd_op.add: (1x10x4096xf32) <- (1x10x4096xf32, 4096xf32)
+        # pd_op.add: (1x20x4096xf32) <- (1x20x4096xf32, 4096xf32)
         add_43 = paddle._C_ops.add(matmul_28, parameter_460)
         del matmul_28, parameter_460
 
-        # pd_op.gelu: (1x10x4096xf32) <- (1x10x4096xf32)
+        # pd_op.gelu: (1x20x4096xf32) <- (1x20x4096xf32)
         gelu_4 = paddle._C_ops.gelu(add_43, False)
         del add_43
 
-        # pd_op.dropout: (1x10x4096xf32, 1x10x4096xui8) <- (1x10x4096xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x4096xf32, 1x20x4096xui8) <- (1x20x4096xf32, None, 1xf32)
         dropout_38, dropout_39 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 gelu_4, None, full_8, True, "upscale_in_train", 0, False
@@ -1609,15 +1609,15 @@ class GraphModule(paddle.nn.Layer):
         )
         del gelu_4
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x4096xf32, 4096x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x4096xf32, 4096x1024xf32)
         matmul_29 = paddle._C_ops.matmul(dropout_38, parameter_459, False, False)
         del dropout_38, parameter_459
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_44 = paddle._C_ops.add(matmul_29, parameter_458)
         del matmul_29, parameter_458
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_40, dropout_41 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_44, None, full_8, True, "upscale_in_train", 0, False
@@ -1626,11 +1626,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_44
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_45 = paddle._C_ops.add(dropout_40, layer_norm_27)
         del dropout_40, layer_norm_27
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_30, layer_norm_31, layer_norm_32 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_45, parameter_457, parameter_456, float("1e-05"), 2
@@ -1639,87 +1639,87 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_45, parameter_456, parameter_457
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_30 = paddle._C_ops.matmul(layer_norm_30, parameter_451, False, False)
         del parameter_451
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_46 = paddle._C_ops.add(matmul_30, parameter_450)
         del matmul_30, parameter_450
 
-        # pd_op.scale: (1x10x1024xf32) <- (1x10x1024xf32, 1xf32)
+        # pd_op.scale: (1x20x1024xf32) <- (1x20x1024xf32, 1xf32)
         scale_8 = paddle._C_ops.scale(add_46, full_9, float("0"), True)
         del add_46
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_31 = paddle._C_ops.matmul(layer_norm_30, parameter_455, False, False)
         del parameter_455
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_47 = paddle._C_ops.add(matmul_31, parameter_454)
         del matmul_31, parameter_454
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_64 = paddle._C_ops.reshape(add_47, full_int_array_2)
         del add_47
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_25 = paddle._C_ops.transpose(reshape_64, [0, 2, 1, 3])
         del reshape_64
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_32 = paddle._C_ops.matmul(layer_norm_30, parameter_453, False, False)
         del parameter_453
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_48 = paddle._C_ops.add(matmul_32, parameter_452)
         del matmul_32, parameter_452
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_65 = paddle._C_ops.reshape(add_48, full_int_array_2)
         del add_48
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_26 = paddle._C_ops.transpose(reshape_65, [0, 2, 1, 3])
         del reshape_65
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_66 = paddle._C_ops.reshape(scale_8, full_int_array_3)
         del scale_8
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_27 = paddle._C_ops.transpose(reshape_66, [0, 2, 1, 3])
         del reshape_66
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_67 = paddle._C_ops.reshape(transpose_27, full_int_array_4)
         del transpose_27
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_68 = paddle._C_ops.reshape(transpose_25, full_int_array_4)
         del transpose_25
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_69 = paddle._C_ops.reshape(transpose_26, full_int_array_4)
         del transpose_26
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_28 = paddle._C_ops.transpose(reshape_68, [0, 2, 1])
         del reshape_68
 
-        # pd_op.bmm: (16x10x10xf32) <- (16x10x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x20x20xf32) <- (16x20x64xf32, 16x64x20xf32)
         bmm_10 = paddle._C_ops.bmm(reshape_67, transpose_28)
         del reshape_67, transpose_28
 
-        # pd_op.add: (16x10x10xf32) <- (16x10x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x20x20xf32) <- (16x20x20xf32, 16x1x20xf32)
         add_49 = paddle._C_ops.add(bmm_10, cast_2)
         del bmm_10
 
-        # pd_op.softmax: (16x10x10xf32) <- (16x10x10xf32)
+        # pd_op.softmax: (16x20x20xf32) <- (16x20x20xf32)
         softmax_5 = paddle._C_ops.softmax(add_49, -1)
         del add_49
 
-        # pd_op.dropout: (16x10x10xf32, 16x10x10xui8) <- (16x10x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x20x20xf32, 16x20x20xui8) <- (16x20x20xf32, None, 1xf32)
         dropout_42, dropout_43 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_5, None, full_8, True, "upscale_in_train", 0, False
@@ -1728,31 +1728,31 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_5
 
-        # pd_op.bmm: (16x10x64xf32) <- (16x10x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x20x64xf32) <- (16x20x20xf32, 16x20x64xf32)
         bmm_11 = paddle._C_ops.bmm(dropout_42, reshape_69)
         del dropout_42, reshape_69
 
-        # pd_op.reshape: (1x16x10x64xf32) <- (16x10x64xf32, 4xi64)
+        # pd_op.reshape: (1x16x20x64xf32) <- (16x20x64xf32, 4xi64)
         reshape_70 = paddle._C_ops.reshape(bmm_11, full_int_array_5)
         del bmm_11
 
-        # pd_op.transpose: (1x10x16x64xf32) <- (1x16x10x64xf32)
+        # pd_op.transpose: (1x20x16x64xf32) <- (1x16x20x64xf32)
         transpose_29 = paddle._C_ops.transpose(reshape_70, [0, 2, 1, 3])
         del reshape_70
 
-        # pd_op.reshape: (1x10x1024xf32) <- (1x10x16x64xf32, 3xi64)
+        # pd_op.reshape: (1x20x1024xf32) <- (1x20x16x64xf32, 3xi64)
         reshape_71 = paddle._C_ops.reshape(transpose_29, full_int_array_6)
         del transpose_29
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_33 = paddle._C_ops.matmul(reshape_71, parameter_449, False, False)
         del parameter_449, reshape_71
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_50 = paddle._C_ops.add(matmul_33, parameter_448)
         del matmul_33, parameter_448
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_44, dropout_45 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_50, None, full_8, True, "upscale_in_train", 0, False
@@ -1761,11 +1761,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_50
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_51 = paddle._C_ops.add(dropout_44, layer_norm_30)
         del dropout_44, layer_norm_30
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_33, layer_norm_34, layer_norm_35 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_51, parameter_447, parameter_446, float("1e-05"), 2
@@ -1774,19 +1774,19 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_51, parameter_446, parameter_447
 
-        # pd_op.matmul: (1x10x4096xf32) <- (1x10x1024xf32, 1024x4096xf32)
+        # pd_op.matmul: (1x20x4096xf32) <- (1x20x1024xf32, 1024x4096xf32)
         matmul_34 = paddle._C_ops.matmul(layer_norm_33, parameter_445, False, False)
         del parameter_445
 
-        # pd_op.add: (1x10x4096xf32) <- (1x10x4096xf32, 4096xf32)
+        # pd_op.add: (1x20x4096xf32) <- (1x20x4096xf32, 4096xf32)
         add_52 = paddle._C_ops.add(matmul_34, parameter_444)
         del matmul_34, parameter_444
 
-        # pd_op.gelu: (1x10x4096xf32) <- (1x10x4096xf32)
+        # pd_op.gelu: (1x20x4096xf32) <- (1x20x4096xf32)
         gelu_5 = paddle._C_ops.gelu(add_52, False)
         del add_52
 
-        # pd_op.dropout: (1x10x4096xf32, 1x10x4096xui8) <- (1x10x4096xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x4096xf32, 1x20x4096xui8) <- (1x20x4096xf32, None, 1xf32)
         dropout_46, dropout_47 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 gelu_5, None, full_8, True, "upscale_in_train", 0, False
@@ -1795,15 +1795,15 @@ class GraphModule(paddle.nn.Layer):
         )
         del gelu_5
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x4096xf32, 4096x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x4096xf32, 4096x1024xf32)
         matmul_35 = paddle._C_ops.matmul(dropout_46, parameter_443, False, False)
         del dropout_46, parameter_443
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_53 = paddle._C_ops.add(matmul_35, parameter_442)
         del matmul_35, parameter_442
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_48, dropout_49 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_53, None, full_8, True, "upscale_in_train", 0, False
@@ -1812,11 +1812,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_53
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_54 = paddle._C_ops.add(dropout_48, layer_norm_33)
         del dropout_48, layer_norm_33
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_36, layer_norm_37, layer_norm_38 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_54, parameter_441, parameter_440, float("1e-05"), 2
@@ -1825,87 +1825,87 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_54, parameter_440, parameter_441
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_36 = paddle._C_ops.matmul(layer_norm_36, parameter_435, False, False)
         del parameter_435
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_55 = paddle._C_ops.add(matmul_36, parameter_434)
         del matmul_36, parameter_434
 
-        # pd_op.scale: (1x10x1024xf32) <- (1x10x1024xf32, 1xf32)
+        # pd_op.scale: (1x20x1024xf32) <- (1x20x1024xf32, 1xf32)
         scale_9 = paddle._C_ops.scale(add_55, full_9, float("0"), True)
         del add_55
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_37 = paddle._C_ops.matmul(layer_norm_36, parameter_439, False, False)
         del parameter_439
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_56 = paddle._C_ops.add(matmul_37, parameter_438)
         del matmul_37, parameter_438
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_72 = paddle._C_ops.reshape(add_56, full_int_array_2)
         del add_56
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_30 = paddle._C_ops.transpose(reshape_72, [0, 2, 1, 3])
         del reshape_72
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_38 = paddle._C_ops.matmul(layer_norm_36, parameter_437, False, False)
         del parameter_437
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_57 = paddle._C_ops.add(matmul_38, parameter_436)
         del matmul_38, parameter_436
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_73 = paddle._C_ops.reshape(add_57, full_int_array_2)
         del add_57
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_31 = paddle._C_ops.transpose(reshape_73, [0, 2, 1, 3])
         del reshape_73
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_74 = paddle._C_ops.reshape(scale_9, full_int_array_3)
         del scale_9
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_32 = paddle._C_ops.transpose(reshape_74, [0, 2, 1, 3])
         del reshape_74
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_75 = paddle._C_ops.reshape(transpose_32, full_int_array_4)
         del transpose_32
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_76 = paddle._C_ops.reshape(transpose_30, full_int_array_4)
         del transpose_30
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_77 = paddle._C_ops.reshape(transpose_31, full_int_array_4)
         del transpose_31
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_33 = paddle._C_ops.transpose(reshape_76, [0, 2, 1])
         del reshape_76
 
-        # pd_op.bmm: (16x10x10xf32) <- (16x10x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x20x20xf32) <- (16x20x64xf32, 16x64x20xf32)
         bmm_12 = paddle._C_ops.bmm(reshape_75, transpose_33)
         del reshape_75, transpose_33
 
-        # pd_op.add: (16x10x10xf32) <- (16x10x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x20x20xf32) <- (16x20x20xf32, 16x1x20xf32)
         add_58 = paddle._C_ops.add(bmm_12, cast_2)
         del bmm_12
 
-        # pd_op.softmax: (16x10x10xf32) <- (16x10x10xf32)
+        # pd_op.softmax: (16x20x20xf32) <- (16x20x20xf32)
         softmax_6 = paddle._C_ops.softmax(add_58, -1)
         del add_58
 
-        # pd_op.dropout: (16x10x10xf32, 16x10x10xui8) <- (16x10x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x20x20xf32, 16x20x20xui8) <- (16x20x20xf32, None, 1xf32)
         dropout_50, dropout_51 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_6, None, full_8, True, "upscale_in_train", 0, False
@@ -1914,31 +1914,31 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_6
 
-        # pd_op.bmm: (16x10x64xf32) <- (16x10x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x20x64xf32) <- (16x20x20xf32, 16x20x64xf32)
         bmm_13 = paddle._C_ops.bmm(dropout_50, reshape_77)
         del dropout_50, reshape_77
 
-        # pd_op.reshape: (1x16x10x64xf32) <- (16x10x64xf32, 4xi64)
+        # pd_op.reshape: (1x16x20x64xf32) <- (16x20x64xf32, 4xi64)
         reshape_78 = paddle._C_ops.reshape(bmm_13, full_int_array_5)
         del bmm_13
 
-        # pd_op.transpose: (1x10x16x64xf32) <- (1x16x10x64xf32)
+        # pd_op.transpose: (1x20x16x64xf32) <- (1x16x20x64xf32)
         transpose_34 = paddle._C_ops.transpose(reshape_78, [0, 2, 1, 3])
         del reshape_78
 
-        # pd_op.reshape: (1x10x1024xf32) <- (1x10x16x64xf32, 3xi64)
+        # pd_op.reshape: (1x20x1024xf32) <- (1x20x16x64xf32, 3xi64)
         reshape_79 = paddle._C_ops.reshape(transpose_34, full_int_array_6)
         del transpose_34
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_39 = paddle._C_ops.matmul(reshape_79, parameter_433, False, False)
         del parameter_433, reshape_79
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_59 = paddle._C_ops.add(matmul_39, parameter_432)
         del matmul_39, parameter_432
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_52, dropout_53 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_59, None, full_8, True, "upscale_in_train", 0, False
@@ -1947,11 +1947,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_59
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_60 = paddle._C_ops.add(dropout_52, layer_norm_36)
         del dropout_52, layer_norm_36
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_39, layer_norm_40, layer_norm_41 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_60, parameter_431, parameter_430, float("1e-05"), 2
@@ -1960,19 +1960,19 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_60, parameter_430, parameter_431
 
-        # pd_op.matmul: (1x10x4096xf32) <- (1x10x1024xf32, 1024x4096xf32)
+        # pd_op.matmul: (1x20x4096xf32) <- (1x20x1024xf32, 1024x4096xf32)
         matmul_40 = paddle._C_ops.matmul(layer_norm_39, parameter_429, False, False)
         del parameter_429
 
-        # pd_op.add: (1x10x4096xf32) <- (1x10x4096xf32, 4096xf32)
+        # pd_op.add: (1x20x4096xf32) <- (1x20x4096xf32, 4096xf32)
         add_61 = paddle._C_ops.add(matmul_40, parameter_428)
         del matmul_40, parameter_428
 
-        # pd_op.gelu: (1x10x4096xf32) <- (1x10x4096xf32)
+        # pd_op.gelu: (1x20x4096xf32) <- (1x20x4096xf32)
         gelu_6 = paddle._C_ops.gelu(add_61, False)
         del add_61
 
-        # pd_op.dropout: (1x10x4096xf32, 1x10x4096xui8) <- (1x10x4096xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x4096xf32, 1x20x4096xui8) <- (1x20x4096xf32, None, 1xf32)
         dropout_54, dropout_55 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 gelu_6, None, full_8, True, "upscale_in_train", 0, False
@@ -1981,15 +1981,15 @@ class GraphModule(paddle.nn.Layer):
         )
         del gelu_6
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x4096xf32, 4096x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x4096xf32, 4096x1024xf32)
         matmul_41 = paddle._C_ops.matmul(dropout_54, parameter_427, False, False)
         del dropout_54, parameter_427
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_62 = paddle._C_ops.add(matmul_41, parameter_426)
         del matmul_41, parameter_426
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_56, dropout_57 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_62, None, full_8, True, "upscale_in_train", 0, False
@@ -1998,11 +1998,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_62
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_63 = paddle._C_ops.add(dropout_56, layer_norm_39)
         del dropout_56, layer_norm_39
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_42, layer_norm_43, layer_norm_44 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_63, parameter_425, parameter_424, float("1e-05"), 2
@@ -2011,87 +2011,87 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_63, parameter_424, parameter_425
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_42 = paddle._C_ops.matmul(layer_norm_42, parameter_419, False, False)
         del parameter_419
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_64 = paddle._C_ops.add(matmul_42, parameter_418)
         del matmul_42, parameter_418
 
-        # pd_op.scale: (1x10x1024xf32) <- (1x10x1024xf32, 1xf32)
+        # pd_op.scale: (1x20x1024xf32) <- (1x20x1024xf32, 1xf32)
         scale_10 = paddle._C_ops.scale(add_64, full_9, float("0"), True)
         del add_64
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_43 = paddle._C_ops.matmul(layer_norm_42, parameter_423, False, False)
         del parameter_423
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_65 = paddle._C_ops.add(matmul_43, parameter_422)
         del matmul_43, parameter_422
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_80 = paddle._C_ops.reshape(add_65, full_int_array_2)
         del add_65
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_35 = paddle._C_ops.transpose(reshape_80, [0, 2, 1, 3])
         del reshape_80
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_44 = paddle._C_ops.matmul(layer_norm_42, parameter_421, False, False)
         del parameter_421
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_66 = paddle._C_ops.add(matmul_44, parameter_420)
         del matmul_44, parameter_420
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_81 = paddle._C_ops.reshape(add_66, full_int_array_2)
         del add_66
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_36 = paddle._C_ops.transpose(reshape_81, [0, 2, 1, 3])
         del reshape_81
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_82 = paddle._C_ops.reshape(scale_10, full_int_array_3)
         del scale_10
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_37 = paddle._C_ops.transpose(reshape_82, [0, 2, 1, 3])
         del reshape_82
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_83 = paddle._C_ops.reshape(transpose_37, full_int_array_4)
         del transpose_37
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_84 = paddle._C_ops.reshape(transpose_35, full_int_array_4)
         del transpose_35
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_85 = paddle._C_ops.reshape(transpose_36, full_int_array_4)
         del transpose_36
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_38 = paddle._C_ops.transpose(reshape_84, [0, 2, 1])
         del reshape_84
 
-        # pd_op.bmm: (16x10x10xf32) <- (16x10x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x20x20xf32) <- (16x20x64xf32, 16x64x20xf32)
         bmm_14 = paddle._C_ops.bmm(reshape_83, transpose_38)
         del reshape_83, transpose_38
 
-        # pd_op.add: (16x10x10xf32) <- (16x10x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x20x20xf32) <- (16x20x20xf32, 16x1x20xf32)
         add_67 = paddle._C_ops.add(bmm_14, cast_2)
         del bmm_14
 
-        # pd_op.softmax: (16x10x10xf32) <- (16x10x10xf32)
+        # pd_op.softmax: (16x20x20xf32) <- (16x20x20xf32)
         softmax_7 = paddle._C_ops.softmax(add_67, -1)
         del add_67
 
-        # pd_op.dropout: (16x10x10xf32, 16x10x10xui8) <- (16x10x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x20x20xf32, 16x20x20xui8) <- (16x20x20xf32, None, 1xf32)
         dropout_58, dropout_59 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_7, None, full_8, True, "upscale_in_train", 0, False
@@ -2100,31 +2100,31 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_7
 
-        # pd_op.bmm: (16x10x64xf32) <- (16x10x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x20x64xf32) <- (16x20x20xf32, 16x20x64xf32)
         bmm_15 = paddle._C_ops.bmm(dropout_58, reshape_85)
         del dropout_58, reshape_85
 
-        # pd_op.reshape: (1x16x10x64xf32) <- (16x10x64xf32, 4xi64)
+        # pd_op.reshape: (1x16x20x64xf32) <- (16x20x64xf32, 4xi64)
         reshape_86 = paddle._C_ops.reshape(bmm_15, full_int_array_5)
         del bmm_15
 
-        # pd_op.transpose: (1x10x16x64xf32) <- (1x16x10x64xf32)
+        # pd_op.transpose: (1x20x16x64xf32) <- (1x16x20x64xf32)
         transpose_39 = paddle._C_ops.transpose(reshape_86, [0, 2, 1, 3])
         del reshape_86
 
-        # pd_op.reshape: (1x10x1024xf32) <- (1x10x16x64xf32, 3xi64)
+        # pd_op.reshape: (1x20x1024xf32) <- (1x20x16x64xf32, 3xi64)
         reshape_87 = paddle._C_ops.reshape(transpose_39, full_int_array_6)
         del transpose_39
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_45 = paddle._C_ops.matmul(reshape_87, parameter_417, False, False)
         del parameter_417, reshape_87
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_68 = paddle._C_ops.add(matmul_45, parameter_416)
         del matmul_45, parameter_416
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_60, dropout_61 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_68, None, full_8, True, "upscale_in_train", 0, False
@@ -2133,11 +2133,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_68
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_69 = paddle._C_ops.add(dropout_60, layer_norm_42)
         del dropout_60, layer_norm_42
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_45, layer_norm_46, layer_norm_47 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_69, parameter_415, parameter_414, float("1e-05"), 2
@@ -2146,19 +2146,19 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_69, parameter_414, parameter_415
 
-        # pd_op.matmul: (1x10x4096xf32) <- (1x10x1024xf32, 1024x4096xf32)
+        # pd_op.matmul: (1x20x4096xf32) <- (1x20x1024xf32, 1024x4096xf32)
         matmul_46 = paddle._C_ops.matmul(layer_norm_45, parameter_413, False, False)
         del parameter_413
 
-        # pd_op.add: (1x10x4096xf32) <- (1x10x4096xf32, 4096xf32)
+        # pd_op.add: (1x20x4096xf32) <- (1x20x4096xf32, 4096xf32)
         add_70 = paddle._C_ops.add(matmul_46, parameter_412)
         del matmul_46, parameter_412
 
-        # pd_op.gelu: (1x10x4096xf32) <- (1x10x4096xf32)
+        # pd_op.gelu: (1x20x4096xf32) <- (1x20x4096xf32)
         gelu_7 = paddle._C_ops.gelu(add_70, False)
         del add_70
 
-        # pd_op.dropout: (1x10x4096xf32, 1x10x4096xui8) <- (1x10x4096xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x4096xf32, 1x20x4096xui8) <- (1x20x4096xf32, None, 1xf32)
         dropout_62, dropout_63 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 gelu_7, None, full_8, True, "upscale_in_train", 0, False
@@ -2167,15 +2167,15 @@ class GraphModule(paddle.nn.Layer):
         )
         del gelu_7
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x4096xf32, 4096x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x4096xf32, 4096x1024xf32)
         matmul_47 = paddle._C_ops.matmul(dropout_62, parameter_411, False, False)
         del dropout_62, parameter_411
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_71 = paddle._C_ops.add(matmul_47, parameter_410)
         del matmul_47, parameter_410
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_64, dropout_65 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_71, None, full_8, True, "upscale_in_train", 0, False
@@ -2184,11 +2184,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_71
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_72 = paddle._C_ops.add(dropout_64, layer_norm_45)
         del dropout_64, layer_norm_45
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_48, layer_norm_49, layer_norm_50 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_72, parameter_409, parameter_408, float("1e-05"), 2
@@ -2197,87 +2197,87 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_72, parameter_408, parameter_409
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_48 = paddle._C_ops.matmul(layer_norm_48, parameter_403, False, False)
         del parameter_403
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_73 = paddle._C_ops.add(matmul_48, parameter_402)
         del matmul_48, parameter_402
 
-        # pd_op.scale: (1x10x1024xf32) <- (1x10x1024xf32, 1xf32)
+        # pd_op.scale: (1x20x1024xf32) <- (1x20x1024xf32, 1xf32)
         scale_11 = paddle._C_ops.scale(add_73, full_9, float("0"), True)
         del add_73
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_49 = paddle._C_ops.matmul(layer_norm_48, parameter_407, False, False)
         del parameter_407
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_74 = paddle._C_ops.add(matmul_49, parameter_406)
         del matmul_49, parameter_406
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_88 = paddle._C_ops.reshape(add_74, full_int_array_2)
         del add_74
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_40 = paddle._C_ops.transpose(reshape_88, [0, 2, 1, 3])
         del reshape_88
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_50 = paddle._C_ops.matmul(layer_norm_48, parameter_405, False, False)
         del parameter_405
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_75 = paddle._C_ops.add(matmul_50, parameter_404)
         del matmul_50, parameter_404
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_89 = paddle._C_ops.reshape(add_75, full_int_array_2)
         del add_75
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_41 = paddle._C_ops.transpose(reshape_89, [0, 2, 1, 3])
         del reshape_89
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_90 = paddle._C_ops.reshape(scale_11, full_int_array_3)
         del scale_11
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_42 = paddle._C_ops.transpose(reshape_90, [0, 2, 1, 3])
         del reshape_90
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_91 = paddle._C_ops.reshape(transpose_42, full_int_array_4)
         del transpose_42
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_92 = paddle._C_ops.reshape(transpose_40, full_int_array_4)
         del transpose_40
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_93 = paddle._C_ops.reshape(transpose_41, full_int_array_4)
         del transpose_41
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_43 = paddle._C_ops.transpose(reshape_92, [0, 2, 1])
         del reshape_92
 
-        # pd_op.bmm: (16x10x10xf32) <- (16x10x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x20x20xf32) <- (16x20x64xf32, 16x64x20xf32)
         bmm_16 = paddle._C_ops.bmm(reshape_91, transpose_43)
         del reshape_91, transpose_43
 
-        # pd_op.add: (16x10x10xf32) <- (16x10x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x20x20xf32) <- (16x20x20xf32, 16x1x20xf32)
         add_76 = paddle._C_ops.add(bmm_16, cast_2)
         del bmm_16
 
-        # pd_op.softmax: (16x10x10xf32) <- (16x10x10xf32)
+        # pd_op.softmax: (16x20x20xf32) <- (16x20x20xf32)
         softmax_8 = paddle._C_ops.softmax(add_76, -1)
         del add_76
 
-        # pd_op.dropout: (16x10x10xf32, 16x10x10xui8) <- (16x10x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x20x20xf32, 16x20x20xui8) <- (16x20x20xf32, None, 1xf32)
         dropout_66, dropout_67 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_8, None, full_8, True, "upscale_in_train", 0, False
@@ -2286,31 +2286,31 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_8
 
-        # pd_op.bmm: (16x10x64xf32) <- (16x10x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x20x64xf32) <- (16x20x20xf32, 16x20x64xf32)
         bmm_17 = paddle._C_ops.bmm(dropout_66, reshape_93)
         del dropout_66, reshape_93
 
-        # pd_op.reshape: (1x16x10x64xf32) <- (16x10x64xf32, 4xi64)
+        # pd_op.reshape: (1x16x20x64xf32) <- (16x20x64xf32, 4xi64)
         reshape_94 = paddle._C_ops.reshape(bmm_17, full_int_array_5)
         del bmm_17
 
-        # pd_op.transpose: (1x10x16x64xf32) <- (1x16x10x64xf32)
+        # pd_op.transpose: (1x20x16x64xf32) <- (1x16x20x64xf32)
         transpose_44 = paddle._C_ops.transpose(reshape_94, [0, 2, 1, 3])
         del reshape_94
 
-        # pd_op.reshape: (1x10x1024xf32) <- (1x10x16x64xf32, 3xi64)
+        # pd_op.reshape: (1x20x1024xf32) <- (1x20x16x64xf32, 3xi64)
         reshape_95 = paddle._C_ops.reshape(transpose_44, full_int_array_6)
         del transpose_44
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_51 = paddle._C_ops.matmul(reshape_95, parameter_401, False, False)
         del parameter_401, reshape_95
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_77 = paddle._C_ops.add(matmul_51, parameter_400)
         del matmul_51, parameter_400
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_68, dropout_69 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_77, None, full_8, True, "upscale_in_train", 0, False
@@ -2319,11 +2319,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_77
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_78 = paddle._C_ops.add(dropout_68, layer_norm_48)
         del dropout_68, layer_norm_48
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_51, layer_norm_52, layer_norm_53 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_78, parameter_399, parameter_398, float("1e-05"), 2
@@ -2332,19 +2332,19 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_78, parameter_398, parameter_399
 
-        # pd_op.matmul: (1x10x4096xf32) <- (1x10x1024xf32, 1024x4096xf32)
+        # pd_op.matmul: (1x20x4096xf32) <- (1x20x1024xf32, 1024x4096xf32)
         matmul_52 = paddle._C_ops.matmul(layer_norm_51, parameter_397, False, False)
         del parameter_397
 
-        # pd_op.add: (1x10x4096xf32) <- (1x10x4096xf32, 4096xf32)
+        # pd_op.add: (1x20x4096xf32) <- (1x20x4096xf32, 4096xf32)
         add_79 = paddle._C_ops.add(matmul_52, parameter_396)
         del matmul_52, parameter_396
 
-        # pd_op.gelu: (1x10x4096xf32) <- (1x10x4096xf32)
+        # pd_op.gelu: (1x20x4096xf32) <- (1x20x4096xf32)
         gelu_8 = paddle._C_ops.gelu(add_79, False)
         del add_79
 
-        # pd_op.dropout: (1x10x4096xf32, 1x10x4096xui8) <- (1x10x4096xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x4096xf32, 1x20x4096xui8) <- (1x20x4096xf32, None, 1xf32)
         dropout_70, dropout_71 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 gelu_8, None, full_8, True, "upscale_in_train", 0, False
@@ -2353,15 +2353,15 @@ class GraphModule(paddle.nn.Layer):
         )
         del gelu_8
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x4096xf32, 4096x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x4096xf32, 4096x1024xf32)
         matmul_53 = paddle._C_ops.matmul(dropout_70, parameter_395, False, False)
         del dropout_70, parameter_395
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_80 = paddle._C_ops.add(matmul_53, parameter_394)
         del matmul_53, parameter_394
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_72, dropout_73 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_80, None, full_8, True, "upscale_in_train", 0, False
@@ -2370,11 +2370,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_80
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_81 = paddle._C_ops.add(dropout_72, layer_norm_51)
         del dropout_72, layer_norm_51
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_54, layer_norm_55, layer_norm_56 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_81, parameter_393, parameter_392, float("1e-05"), 2
@@ -2383,87 +2383,87 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_81, parameter_392, parameter_393
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_54 = paddle._C_ops.matmul(layer_norm_54, parameter_387, False, False)
         del parameter_387
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_82 = paddle._C_ops.add(matmul_54, parameter_386)
         del matmul_54, parameter_386
 
-        # pd_op.scale: (1x10x1024xf32) <- (1x10x1024xf32, 1xf32)
+        # pd_op.scale: (1x20x1024xf32) <- (1x20x1024xf32, 1xf32)
         scale_12 = paddle._C_ops.scale(add_82, full_9, float("0"), True)
         del add_82
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_55 = paddle._C_ops.matmul(layer_norm_54, parameter_391, False, False)
         del parameter_391
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_83 = paddle._C_ops.add(matmul_55, parameter_390)
         del matmul_55, parameter_390
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_96 = paddle._C_ops.reshape(add_83, full_int_array_2)
         del add_83
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_45 = paddle._C_ops.transpose(reshape_96, [0, 2, 1, 3])
         del reshape_96
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_56 = paddle._C_ops.matmul(layer_norm_54, parameter_389, False, False)
         del parameter_389
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_84 = paddle._C_ops.add(matmul_56, parameter_388)
         del matmul_56, parameter_388
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_97 = paddle._C_ops.reshape(add_84, full_int_array_2)
         del add_84
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_46 = paddle._C_ops.transpose(reshape_97, [0, 2, 1, 3])
         del reshape_97
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_98 = paddle._C_ops.reshape(scale_12, full_int_array_3)
         del scale_12
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_47 = paddle._C_ops.transpose(reshape_98, [0, 2, 1, 3])
         del reshape_98
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_99 = paddle._C_ops.reshape(transpose_47, full_int_array_4)
         del transpose_47
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_100 = paddle._C_ops.reshape(transpose_45, full_int_array_4)
         del transpose_45
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_101 = paddle._C_ops.reshape(transpose_46, full_int_array_4)
         del transpose_46
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_48 = paddle._C_ops.transpose(reshape_100, [0, 2, 1])
         del reshape_100
 
-        # pd_op.bmm: (16x10x10xf32) <- (16x10x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x20x20xf32) <- (16x20x64xf32, 16x64x20xf32)
         bmm_18 = paddle._C_ops.bmm(reshape_99, transpose_48)
         del reshape_99, transpose_48
 
-        # pd_op.add: (16x10x10xf32) <- (16x10x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x20x20xf32) <- (16x20x20xf32, 16x1x20xf32)
         add_85 = paddle._C_ops.add(bmm_18, cast_2)
         del bmm_18
 
-        # pd_op.softmax: (16x10x10xf32) <- (16x10x10xf32)
+        # pd_op.softmax: (16x20x20xf32) <- (16x20x20xf32)
         softmax_9 = paddle._C_ops.softmax(add_85, -1)
         del add_85
 
-        # pd_op.dropout: (16x10x10xf32, 16x10x10xui8) <- (16x10x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x20x20xf32, 16x20x20xui8) <- (16x20x20xf32, None, 1xf32)
         dropout_74, dropout_75 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_9, None, full_8, True, "upscale_in_train", 0, False
@@ -2472,31 +2472,31 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_9
 
-        # pd_op.bmm: (16x10x64xf32) <- (16x10x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x20x64xf32) <- (16x20x20xf32, 16x20x64xf32)
         bmm_19 = paddle._C_ops.bmm(dropout_74, reshape_101)
         del dropout_74, reshape_101
 
-        # pd_op.reshape: (1x16x10x64xf32) <- (16x10x64xf32, 4xi64)
+        # pd_op.reshape: (1x16x20x64xf32) <- (16x20x64xf32, 4xi64)
         reshape_102 = paddle._C_ops.reshape(bmm_19, full_int_array_5)
         del bmm_19
 
-        # pd_op.transpose: (1x10x16x64xf32) <- (1x16x10x64xf32)
+        # pd_op.transpose: (1x20x16x64xf32) <- (1x16x20x64xf32)
         transpose_49 = paddle._C_ops.transpose(reshape_102, [0, 2, 1, 3])
         del reshape_102
 
-        # pd_op.reshape: (1x10x1024xf32) <- (1x10x16x64xf32, 3xi64)
+        # pd_op.reshape: (1x20x1024xf32) <- (1x20x16x64xf32, 3xi64)
         reshape_103 = paddle._C_ops.reshape(transpose_49, full_int_array_6)
         del transpose_49
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_57 = paddle._C_ops.matmul(reshape_103, parameter_385, False, False)
         del parameter_385, reshape_103
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_86 = paddle._C_ops.add(matmul_57, parameter_384)
         del matmul_57, parameter_384
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_76, dropout_77 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_86, None, full_8, True, "upscale_in_train", 0, False
@@ -2505,11 +2505,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_86
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_87 = paddle._C_ops.add(dropout_76, layer_norm_54)
         del dropout_76, layer_norm_54
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_57, layer_norm_58, layer_norm_59 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_87, parameter_383, parameter_382, float("1e-05"), 2
@@ -2518,19 +2518,19 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_87, parameter_382, parameter_383
 
-        # pd_op.matmul: (1x10x4096xf32) <- (1x10x1024xf32, 1024x4096xf32)
+        # pd_op.matmul: (1x20x4096xf32) <- (1x20x1024xf32, 1024x4096xf32)
         matmul_58 = paddle._C_ops.matmul(layer_norm_57, parameter_381, False, False)
         del parameter_381
 
-        # pd_op.add: (1x10x4096xf32) <- (1x10x4096xf32, 4096xf32)
+        # pd_op.add: (1x20x4096xf32) <- (1x20x4096xf32, 4096xf32)
         add_88 = paddle._C_ops.add(matmul_58, parameter_380)
         del matmul_58, parameter_380
 
-        # pd_op.gelu: (1x10x4096xf32) <- (1x10x4096xf32)
+        # pd_op.gelu: (1x20x4096xf32) <- (1x20x4096xf32)
         gelu_9 = paddle._C_ops.gelu(add_88, False)
         del add_88
 
-        # pd_op.dropout: (1x10x4096xf32, 1x10x4096xui8) <- (1x10x4096xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x4096xf32, 1x20x4096xui8) <- (1x20x4096xf32, None, 1xf32)
         dropout_78, dropout_79 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 gelu_9, None, full_8, True, "upscale_in_train", 0, False
@@ -2539,15 +2539,15 @@ class GraphModule(paddle.nn.Layer):
         )
         del gelu_9
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x4096xf32, 4096x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x4096xf32, 4096x1024xf32)
         matmul_59 = paddle._C_ops.matmul(dropout_78, parameter_379, False, False)
         del dropout_78, parameter_379
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_89 = paddle._C_ops.add(matmul_59, parameter_378)
         del matmul_59, parameter_378
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_80, dropout_81 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_89, None, full_8, True, "upscale_in_train", 0, False
@@ -2556,11 +2556,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_89
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_90 = paddle._C_ops.add(dropout_80, layer_norm_57)
         del dropout_80, layer_norm_57
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_60, layer_norm_61, layer_norm_62 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_90, parameter_377, parameter_376, float("1e-05"), 2
@@ -2569,87 +2569,87 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_90, parameter_376, parameter_377
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_60 = paddle._C_ops.matmul(layer_norm_60, parameter_371, False, False)
         del parameter_371
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_91 = paddle._C_ops.add(matmul_60, parameter_370)
         del matmul_60, parameter_370
 
-        # pd_op.scale: (1x10x1024xf32) <- (1x10x1024xf32, 1xf32)
+        # pd_op.scale: (1x20x1024xf32) <- (1x20x1024xf32, 1xf32)
         scale_13 = paddle._C_ops.scale(add_91, full_9, float("0"), True)
         del add_91
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_61 = paddle._C_ops.matmul(layer_norm_60, parameter_375, False, False)
         del parameter_375
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_92 = paddle._C_ops.add(matmul_61, parameter_374)
         del matmul_61, parameter_374
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_104 = paddle._C_ops.reshape(add_92, full_int_array_2)
         del add_92
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_50 = paddle._C_ops.transpose(reshape_104, [0, 2, 1, 3])
         del reshape_104
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_62 = paddle._C_ops.matmul(layer_norm_60, parameter_373, False, False)
         del parameter_373
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_93 = paddle._C_ops.add(matmul_62, parameter_372)
         del matmul_62, parameter_372
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_105 = paddle._C_ops.reshape(add_93, full_int_array_2)
         del add_93
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_51 = paddle._C_ops.transpose(reshape_105, [0, 2, 1, 3])
         del reshape_105
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_106 = paddle._C_ops.reshape(scale_13, full_int_array_3)
         del scale_13
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_52 = paddle._C_ops.transpose(reshape_106, [0, 2, 1, 3])
         del reshape_106
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_107 = paddle._C_ops.reshape(transpose_52, full_int_array_4)
         del transpose_52
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_108 = paddle._C_ops.reshape(transpose_50, full_int_array_4)
         del transpose_50
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_109 = paddle._C_ops.reshape(transpose_51, full_int_array_4)
         del transpose_51
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_53 = paddle._C_ops.transpose(reshape_108, [0, 2, 1])
         del reshape_108
 
-        # pd_op.bmm: (16x10x10xf32) <- (16x10x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x20x20xf32) <- (16x20x64xf32, 16x64x20xf32)
         bmm_20 = paddle._C_ops.bmm(reshape_107, transpose_53)
         del reshape_107, transpose_53
 
-        # pd_op.add: (16x10x10xf32) <- (16x10x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x20x20xf32) <- (16x20x20xf32, 16x1x20xf32)
         add_94 = paddle._C_ops.add(bmm_20, cast_2)
         del bmm_20
 
-        # pd_op.softmax: (16x10x10xf32) <- (16x10x10xf32)
+        # pd_op.softmax: (16x20x20xf32) <- (16x20x20xf32)
         softmax_10 = paddle._C_ops.softmax(add_94, -1)
         del add_94
 
-        # pd_op.dropout: (16x10x10xf32, 16x10x10xui8) <- (16x10x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x20x20xf32, 16x20x20xui8) <- (16x20x20xf32, None, 1xf32)
         dropout_82, dropout_83 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_10, None, full_8, True, "upscale_in_train", 0, False
@@ -2658,31 +2658,31 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_10
 
-        # pd_op.bmm: (16x10x64xf32) <- (16x10x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x20x64xf32) <- (16x20x20xf32, 16x20x64xf32)
         bmm_21 = paddle._C_ops.bmm(dropout_82, reshape_109)
         del dropout_82, reshape_109
 
-        # pd_op.reshape: (1x16x10x64xf32) <- (16x10x64xf32, 4xi64)
+        # pd_op.reshape: (1x16x20x64xf32) <- (16x20x64xf32, 4xi64)
         reshape_110 = paddle._C_ops.reshape(bmm_21, full_int_array_5)
         del bmm_21
 
-        # pd_op.transpose: (1x10x16x64xf32) <- (1x16x10x64xf32)
+        # pd_op.transpose: (1x20x16x64xf32) <- (1x16x20x64xf32)
         transpose_54 = paddle._C_ops.transpose(reshape_110, [0, 2, 1, 3])
         del reshape_110
 
-        # pd_op.reshape: (1x10x1024xf32) <- (1x10x16x64xf32, 3xi64)
+        # pd_op.reshape: (1x20x1024xf32) <- (1x20x16x64xf32, 3xi64)
         reshape_111 = paddle._C_ops.reshape(transpose_54, full_int_array_6)
         del transpose_54
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_63 = paddle._C_ops.matmul(reshape_111, parameter_369, False, False)
         del parameter_369, reshape_111
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_95 = paddle._C_ops.add(matmul_63, parameter_368)
         del matmul_63, parameter_368
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_84, dropout_85 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_95, None, full_8, True, "upscale_in_train", 0, False
@@ -2691,11 +2691,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_95
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_96 = paddle._C_ops.add(dropout_84, layer_norm_60)
         del dropout_84, layer_norm_60
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_63, layer_norm_64, layer_norm_65 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_96, parameter_367, parameter_366, float("1e-05"), 2
@@ -2704,19 +2704,19 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_96, parameter_366, parameter_367
 
-        # pd_op.matmul: (1x10x4096xf32) <- (1x10x1024xf32, 1024x4096xf32)
+        # pd_op.matmul: (1x20x4096xf32) <- (1x20x1024xf32, 1024x4096xf32)
         matmul_64 = paddle._C_ops.matmul(layer_norm_63, parameter_365, False, False)
         del parameter_365
 
-        # pd_op.add: (1x10x4096xf32) <- (1x10x4096xf32, 4096xf32)
+        # pd_op.add: (1x20x4096xf32) <- (1x20x4096xf32, 4096xf32)
         add_97 = paddle._C_ops.add(matmul_64, parameter_364)
         del matmul_64, parameter_364
 
-        # pd_op.gelu: (1x10x4096xf32) <- (1x10x4096xf32)
+        # pd_op.gelu: (1x20x4096xf32) <- (1x20x4096xf32)
         gelu_10 = paddle._C_ops.gelu(add_97, False)
         del add_97
 
-        # pd_op.dropout: (1x10x4096xf32, 1x10x4096xui8) <- (1x10x4096xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x4096xf32, 1x20x4096xui8) <- (1x20x4096xf32, None, 1xf32)
         dropout_86, dropout_87 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 gelu_10, None, full_8, True, "upscale_in_train", 0, False
@@ -2725,15 +2725,15 @@ class GraphModule(paddle.nn.Layer):
         )
         del gelu_10
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x4096xf32, 4096x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x4096xf32, 4096x1024xf32)
         matmul_65 = paddle._C_ops.matmul(dropout_86, parameter_363, False, False)
         del dropout_86, parameter_363
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_98 = paddle._C_ops.add(matmul_65, parameter_362)
         del matmul_65, parameter_362
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_88, dropout_89 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_98, None, full_8, True, "upscale_in_train", 0, False
@@ -2742,11 +2742,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_98
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_99 = paddle._C_ops.add(dropout_88, layer_norm_63)
         del dropout_88, layer_norm_63
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_66, layer_norm_67, layer_norm_68 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_99, parameter_361, parameter_360, float("1e-05"), 2
@@ -2755,87 +2755,87 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_99, parameter_360, parameter_361
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_66 = paddle._C_ops.matmul(layer_norm_66, parameter_355, False, False)
         del parameter_355
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_100 = paddle._C_ops.add(matmul_66, parameter_354)
         del matmul_66, parameter_354
 
-        # pd_op.scale: (1x10x1024xf32) <- (1x10x1024xf32, 1xf32)
+        # pd_op.scale: (1x20x1024xf32) <- (1x20x1024xf32, 1xf32)
         scale_14 = paddle._C_ops.scale(add_100, full_9, float("0"), True)
         del add_100
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_67 = paddle._C_ops.matmul(layer_norm_66, parameter_359, False, False)
         del parameter_359
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_101 = paddle._C_ops.add(matmul_67, parameter_358)
         del matmul_67, parameter_358
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_112 = paddle._C_ops.reshape(add_101, full_int_array_2)
         del add_101
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_55 = paddle._C_ops.transpose(reshape_112, [0, 2, 1, 3])
         del reshape_112
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_68 = paddle._C_ops.matmul(layer_norm_66, parameter_357, False, False)
         del parameter_357
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_102 = paddle._C_ops.add(matmul_68, parameter_356)
         del matmul_68, parameter_356
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_113 = paddle._C_ops.reshape(add_102, full_int_array_2)
         del add_102
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_56 = paddle._C_ops.transpose(reshape_113, [0, 2, 1, 3])
         del reshape_113
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_114 = paddle._C_ops.reshape(scale_14, full_int_array_3)
         del full_int_array_3, scale_14
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_57 = paddle._C_ops.transpose(reshape_114, [0, 2, 1, 3])
         del reshape_114
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_115 = paddle._C_ops.reshape(transpose_57, full_int_array_4)
         del transpose_57
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_116 = paddle._C_ops.reshape(transpose_55, full_int_array_4)
         del transpose_55
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_117 = paddle._C_ops.reshape(transpose_56, full_int_array_4)
         del transpose_56
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_58 = paddle._C_ops.transpose(reshape_116, [0, 2, 1])
         del reshape_116
 
-        # pd_op.bmm: (16x10x10xf32) <- (16x10x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x20x20xf32) <- (16x20x64xf32, 16x64x20xf32)
         bmm_22 = paddle._C_ops.bmm(reshape_115, transpose_58)
         del reshape_115, transpose_58
 
-        # pd_op.add: (16x10x10xf32) <- (16x10x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x20x20xf32) <- (16x20x20xf32, 16x1x20xf32)
         add_103 = paddle._C_ops.add(bmm_22, cast_2)
         del bmm_22, cast_2
 
-        # pd_op.softmax: (16x10x10xf32) <- (16x10x10xf32)
+        # pd_op.softmax: (16x20x20xf32) <- (16x20x20xf32)
         softmax_11 = paddle._C_ops.softmax(add_103, -1)
         del add_103
 
-        # pd_op.dropout: (16x10x10xf32, 16x10x10xui8) <- (16x10x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x20x20xf32, 16x20x20xui8) <- (16x20x20xf32, None, 1xf32)
         dropout_90, dropout_91 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_11, None, full_8, True, "upscale_in_train", 0, False
@@ -2844,31 +2844,31 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_11
 
-        # pd_op.bmm: (16x10x64xf32) <- (16x10x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x20x64xf32) <- (16x20x20xf32, 16x20x64xf32)
         bmm_23 = paddle._C_ops.bmm(dropout_90, reshape_117)
         del dropout_90, reshape_117
 
-        # pd_op.reshape: (1x16x10x64xf32) <- (16x10x64xf32, 4xi64)
+        # pd_op.reshape: (1x16x20x64xf32) <- (16x20x64xf32, 4xi64)
         reshape_118 = paddle._C_ops.reshape(bmm_23, full_int_array_5)
         del bmm_23, full_int_array_5
 
-        # pd_op.transpose: (1x10x16x64xf32) <- (1x16x10x64xf32)
+        # pd_op.transpose: (1x20x16x64xf32) <- (1x16x20x64xf32)
         transpose_59 = paddle._C_ops.transpose(reshape_118, [0, 2, 1, 3])
         del reshape_118
 
-        # pd_op.reshape: (1x10x1024xf32) <- (1x10x16x64xf32, 3xi64)
+        # pd_op.reshape: (1x20x1024xf32) <- (1x20x16x64xf32, 3xi64)
         reshape_119 = paddle._C_ops.reshape(transpose_59, full_int_array_6)
         del full_int_array_6, transpose_59
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_69 = paddle._C_ops.matmul(reshape_119, parameter_353, False, False)
         del parameter_353, reshape_119
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_104 = paddle._C_ops.add(matmul_69, parameter_352)
         del matmul_69, parameter_352
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_92, dropout_93 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_104, None, full_8, True, "upscale_in_train", 0, False
@@ -2877,11 +2877,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_104
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_105 = paddle._C_ops.add(dropout_92, layer_norm_66)
         del dropout_92, layer_norm_66
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_69, layer_norm_70, layer_norm_71 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_105, parameter_351, parameter_350, float("1e-05"), 2
@@ -2890,19 +2890,19 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_105, parameter_350, parameter_351
 
-        # pd_op.matmul: (1x10x4096xf32) <- (1x10x1024xf32, 1024x4096xf32)
+        # pd_op.matmul: (1x20x4096xf32) <- (1x20x1024xf32, 1024x4096xf32)
         matmul_70 = paddle._C_ops.matmul(layer_norm_69, parameter_349, False, False)
         del parameter_349
 
-        # pd_op.add: (1x10x4096xf32) <- (1x10x4096xf32, 4096xf32)
+        # pd_op.add: (1x20x4096xf32) <- (1x20x4096xf32, 4096xf32)
         add_106 = paddle._C_ops.add(matmul_70, parameter_348)
         del matmul_70, parameter_348
 
-        # pd_op.gelu: (1x10x4096xf32) <- (1x10x4096xf32)
+        # pd_op.gelu: (1x20x4096xf32) <- (1x20x4096xf32)
         gelu_11 = paddle._C_ops.gelu(add_106, False)
         del add_106
 
-        # pd_op.dropout: (1x10x4096xf32, 1x10x4096xui8) <- (1x10x4096xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x4096xf32, 1x20x4096xui8) <- (1x20x4096xf32, None, 1xf32)
         dropout_94, dropout_95 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 gelu_11, None, full_8, True, "upscale_in_train", 0, False
@@ -2911,15 +2911,15 @@ class GraphModule(paddle.nn.Layer):
         )
         del gelu_11
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x4096xf32, 4096x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x4096xf32, 4096x1024xf32)
         matmul_71 = paddle._C_ops.matmul(dropout_94, parameter_347, False, False)
         del dropout_94, parameter_347
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_107 = paddle._C_ops.add(matmul_71, parameter_346)
         del matmul_71, parameter_346
 
-        # pd_op.dropout: (1x10x1024xf32, 1x10x1024xui8) <- (1x10x1024xf32, None, 1xf32)
+        # pd_op.dropout: (1x20x1024xf32, 1x20x1024xui8) <- (1x20x1024xf32, None, 1xf32)
         dropout_96, dropout_97 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 add_107, None, full_8, True, "upscale_in_train", 0, False
@@ -2928,11 +2928,11 @@ class GraphModule(paddle.nn.Layer):
         )
         del add_107
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1x10x1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1x20x1024xf32)
         add_108 = paddle._C_ops.add(dropout_96, layer_norm_69)
         del dropout_96, layer_norm_69
 
-        # pd_op.layer_norm: (1x10x1024xf32, 1x10xf32, 1x10xf32) <- (1x10x1024xf32, 1024xf32, 1024xf32)
+        # pd_op.layer_norm: (1x20x1024xf32, 1x20xf32, 1x20xf32) <- (1x20x1024xf32, 1024xf32, 1024xf32)
         layer_norm_72, layer_norm_73, layer_norm_74 = (lambda x, f: f(x))(
             paddle._C_ops.layer_norm(
                 add_108, parameter_345, parameter_344, float("1e-05"), 2
@@ -3194,23 +3194,23 @@ class GraphModule(paddle.nn.Layer):
         cast_8 = paddle._C_ops.cast(tile_4, paddle.float32)
         del tile_4
 
-        # pd_op.tile: (16x1x10xi64) <- (1x1x10xi64, 3xi64)
+        # pd_op.tile: (16x1x20xi64) <- (1x1x20xi64, 3xi64)
         tile_5 = paddle._C_ops.tile(unsqueeze_0, full_int_array_1)
         del full_int_array_1, unsqueeze_0
 
-        # pd_op.cast: (16x1x10xf32) <- (16x1x10xi64)
+        # pd_op.cast: (16x1x20xf32) <- (16x1x20xi64)
         cast_9 = paddle._C_ops.cast(tile_5, paddle.float32)
         del tile_5
 
-        # pd_op.scale: (16x1x10xf32) <- (16x1x10xf32, 1xf32)
+        # pd_op.scale: (16x1x20xf32) <- (16x1x20xf32, 1xf32)
         scale_21 = paddle._C_ops.scale(cast_9, full_1, float("1"), True)
         del cast_9, full_1
 
-        # pd_op.scale: (16x1x10xf32) <- (16x1x10xf32, 1xf32)
+        # pd_op.scale: (16x1x20xf32) <- (16x1x20xf32, 1xf32)
         scale_22 = paddle._C_ops.scale(scale_21, full_2, float("0"), True)
         del full_2, scale_21
 
-        # pd_op.cast: (16x1x10xf32) <- (16x1x10xf32)
+        # pd_op.cast: (16x1x20xf32) <- (16x1x20xf32)
         cast_10 = paddle._C_ops.cast(scale_22, paddle.float32)
         del scale_22
 
@@ -3914,35 +3914,35 @@ class GraphModule(paddle.nn.Layer):
         scale_24 = paddle._C_ops.scale(add_126, full_9, float("0"), True)
         del add_126
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_80 = paddle._C_ops.matmul(layer_norm_72, parameter_329, False, False)
         del parameter_329
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_127 = paddle._C_ops.add(matmul_80, parameter_328)
         del matmul_80, parameter_328
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_145 = paddle._C_ops.reshape(add_127, full_int_array_2)
         del add_127
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_70 = paddle._C_ops.transpose(reshape_145, [0, 2, 1, 3])
         del reshape_145
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_81 = paddle._C_ops.matmul(layer_norm_72, parameter_327, False, False)
         del parameter_327
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_128 = paddle._C_ops.add(matmul_81, parameter_326)
         del matmul_81, parameter_326
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_146 = paddle._C_ops.reshape(add_128, full_int_array_2)
         del add_128
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_71 = paddle._C_ops.transpose(reshape_146, [0, 2, 1, 3])
         del reshape_146
 
@@ -3958,29 +3958,31 @@ class GraphModule(paddle.nn.Layer):
         reshape_148 = paddle._C_ops.reshape(transpose_72, full_int_array_4)
         del transpose_72
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_149 = paddle._C_ops.reshape(transpose_70, full_int_array_4)
+        del transpose_70
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_150 = paddle._C_ops.reshape(transpose_71, full_int_array_4)
+        del transpose_71
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_73 = paddle._C_ops.transpose(reshape_149, [0, 2, 1])
         del reshape_149
 
-        # pd_op.bmm: (16x3x10xf32) <- (16x3x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x3x20xf32) <- (16x3x64xf32, 16x64x20xf32)
         bmm_26 = paddle._C_ops.bmm(reshape_148, transpose_73)
         del reshape_148, transpose_73
 
-        # pd_op.add: (16x3x10xf32) <- (16x3x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x3x20xf32) <- (16x3x20xf32, 16x1x20xf32)
         add_129 = paddle._C_ops.add(bmm_26, cast_10)
         del bmm_26
 
-        # pd_op.softmax: (16x3x10xf32) <- (16x3x10xf32)
+        # pd_op.softmax: (16x3x20xf32) <- (16x3x20xf32)
         softmax_14 = paddle._C_ops.softmax(add_129, -1)
         del add_129
 
-        # pd_op.dropout: (16x3x10xf32, 16x3x10xui8) <- (16x3x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x3x20xf32, 16x3x20xui8) <- (16x3x20xf32, None, 1xf32)
         dropout_106, dropout_107 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_14, None, full_8, True, "upscale_in_train", 0, False
@@ -3989,7 +3991,7 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_14
 
-        # pd_op.bmm: (16x3x64xf32) <- (16x3x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x3x64xf32) <- (16x3x20xf32, 16x20x64xf32)
         bmm_27 = paddle._C_ops.bmm(dropout_106, reshape_150)
         del dropout_106, reshape_150
 
@@ -4605,35 +4607,35 @@ class GraphModule(paddle.nn.Layer):
         scale_26 = paddle._C_ops.scale(add_147, full_9, float("0"), True)
         del add_147
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_93 = paddle._C_ops.matmul(layer_norm_72, parameter_301, False, False)
         del parameter_301
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_148 = paddle._C_ops.add(matmul_93, parameter_300)
         del matmul_93, parameter_300
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_176 = paddle._C_ops.reshape(add_148, full_int_array_2)
         del add_148
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_85 = paddle._C_ops.transpose(reshape_176, [0, 2, 1, 3])
         del reshape_176
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_94 = paddle._C_ops.matmul(layer_norm_72, parameter_299, False, False)
         del parameter_299
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_149 = paddle._C_ops.add(matmul_94, parameter_298)
         del matmul_94, parameter_298
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_177 = paddle._C_ops.reshape(add_149, full_int_array_2)
         del add_149
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_86 = paddle._C_ops.transpose(reshape_177, [0, 2, 1, 3])
         del reshape_177
 
@@ -4649,29 +4651,31 @@ class GraphModule(paddle.nn.Layer):
         reshape_179 = paddle._C_ops.reshape(transpose_87, full_int_array_4)
         del transpose_87
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_180 = paddle._C_ops.reshape(transpose_85, full_int_array_4)
+        del transpose_85
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_181 = paddle._C_ops.reshape(transpose_86, full_int_array_4)
+        del transpose_86
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_88 = paddle._C_ops.transpose(reshape_180, [0, 2, 1])
         del reshape_180
 
-        # pd_op.bmm: (16x3x10xf32) <- (16x3x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x3x20xf32) <- (16x3x64xf32, 16x64x20xf32)
         bmm_30 = paddle._C_ops.bmm(reshape_179, transpose_88)
         del reshape_179, transpose_88
 
-        # pd_op.add: (16x3x10xf32) <- (16x3x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x3x20xf32) <- (16x3x20xf32, 16x1x20xf32)
         add_150 = paddle._C_ops.add(bmm_30, cast_10)
         del bmm_30
 
-        # pd_op.softmax: (16x3x10xf32) <- (16x3x10xf32)
+        # pd_op.softmax: (16x3x20xf32) <- (16x3x20xf32)
         softmax_17 = paddle._C_ops.softmax(add_150, -1)
         del add_150
 
-        # pd_op.dropout: (16x3x10xf32, 16x3x10xui8) <- (16x3x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x3x20xf32, 16x3x20xui8) <- (16x3x20xf32, None, 1xf32)
         dropout_120, dropout_121 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_17, None, full_8, True, "upscale_in_train", 0, False
@@ -4680,7 +4684,7 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_17
 
-        # pd_op.bmm: (16x3x64xf32) <- (16x3x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x3x64xf32) <- (16x3x20xf32, 16x20x64xf32)
         bmm_31 = paddle._C_ops.bmm(dropout_120, reshape_181)
         del dropout_120, reshape_181
 
@@ -5290,35 +5294,35 @@ class GraphModule(paddle.nn.Layer):
         scale_28 = paddle._C_ops.scale(add_168, full_9, float("0"), True)
         del add_168
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_106 = paddle._C_ops.matmul(layer_norm_72, parameter_273, False, False)
         del parameter_273
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_169 = paddle._C_ops.add(matmul_106, parameter_272)
         del matmul_106, parameter_272
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_207 = paddle._C_ops.reshape(add_169, full_int_array_2)
         del add_169
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_100 = paddle._C_ops.transpose(reshape_207, [0, 2, 1, 3])
         del reshape_207
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_107 = paddle._C_ops.matmul(layer_norm_72, parameter_271, False, False)
         del parameter_271
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_170 = paddle._C_ops.add(matmul_107, parameter_270)
         del matmul_107, parameter_270
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_208 = paddle._C_ops.reshape(add_170, full_int_array_2)
         del add_170
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_101 = paddle._C_ops.transpose(reshape_208, [0, 2, 1, 3])
         del reshape_208
 
@@ -5334,29 +5338,31 @@ class GraphModule(paddle.nn.Layer):
         reshape_210 = paddle._C_ops.reshape(transpose_102, full_int_array_4)
         del transpose_102
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_211 = paddle._C_ops.reshape(transpose_100, full_int_array_4)
+        del transpose_100
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_212 = paddle._C_ops.reshape(transpose_101, full_int_array_4)
+        del transpose_101
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_103 = paddle._C_ops.transpose(reshape_211, [0, 2, 1])
         del reshape_211
 
-        # pd_op.bmm: (16x3x10xf32) <- (16x3x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x3x20xf32) <- (16x3x64xf32, 16x64x20xf32)
         bmm_34 = paddle._C_ops.bmm(reshape_210, transpose_103)
         del reshape_210, transpose_103
 
-        # pd_op.add: (16x3x10xf32) <- (16x3x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x3x20xf32) <- (16x3x20xf32, 16x1x20xf32)
         add_171 = paddle._C_ops.add(bmm_34, cast_10)
         del bmm_34
 
-        # pd_op.softmax: (16x3x10xf32) <- (16x3x10xf32)
+        # pd_op.softmax: (16x3x20xf32) <- (16x3x20xf32)
         softmax_20 = paddle._C_ops.softmax(add_171, -1)
         del add_171
 
-        # pd_op.dropout: (16x3x10xf32, 16x3x10xui8) <- (16x3x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x3x20xf32, 16x3x20xui8) <- (16x3x20xf32, None, 1xf32)
         dropout_134, dropout_135 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_20, None, full_8, True, "upscale_in_train", 0, False
@@ -5365,7 +5371,7 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_20
 
-        # pd_op.bmm: (16x3x64xf32) <- (16x3x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x3x64xf32) <- (16x3x20xf32, 16x20x64xf32)
         bmm_35 = paddle._C_ops.bmm(dropout_134, reshape_212)
         del dropout_134, reshape_212
 
@@ -5975,35 +5981,35 @@ class GraphModule(paddle.nn.Layer):
         scale_30 = paddle._C_ops.scale(add_189, full_9, float("0"), True)
         del add_189
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_119 = paddle._C_ops.matmul(layer_norm_72, parameter_245, False, False)
         del parameter_245
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_190 = paddle._C_ops.add(matmul_119, parameter_244)
         del matmul_119, parameter_244
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_238 = paddle._C_ops.reshape(add_190, full_int_array_2)
         del add_190
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_115 = paddle._C_ops.transpose(reshape_238, [0, 2, 1, 3])
         del reshape_238
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_120 = paddle._C_ops.matmul(layer_norm_72, parameter_243, False, False)
         del parameter_243
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_191 = paddle._C_ops.add(matmul_120, parameter_242)
         del matmul_120, parameter_242
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_239 = paddle._C_ops.reshape(add_191, full_int_array_2)
         del add_191
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_116 = paddle._C_ops.transpose(reshape_239, [0, 2, 1, 3])
         del reshape_239
 
@@ -6019,29 +6025,31 @@ class GraphModule(paddle.nn.Layer):
         reshape_241 = paddle._C_ops.reshape(transpose_117, full_int_array_4)
         del transpose_117
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_242 = paddle._C_ops.reshape(transpose_115, full_int_array_4)
+        del transpose_115
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_243 = paddle._C_ops.reshape(transpose_116, full_int_array_4)
+        del transpose_116
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_118 = paddle._C_ops.transpose(reshape_242, [0, 2, 1])
         del reshape_242
 
-        # pd_op.bmm: (16x3x10xf32) <- (16x3x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x3x20xf32) <- (16x3x64xf32, 16x64x20xf32)
         bmm_38 = paddle._C_ops.bmm(reshape_241, transpose_118)
         del reshape_241, transpose_118
 
-        # pd_op.add: (16x3x10xf32) <- (16x3x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x3x20xf32) <- (16x3x20xf32, 16x1x20xf32)
         add_192 = paddle._C_ops.add(bmm_38, cast_10)
         del bmm_38
 
-        # pd_op.softmax: (16x3x10xf32) <- (16x3x10xf32)
+        # pd_op.softmax: (16x3x20xf32) <- (16x3x20xf32)
         softmax_23 = paddle._C_ops.softmax(add_192, -1)
         del add_192
 
-        # pd_op.dropout: (16x3x10xf32, 16x3x10xui8) <- (16x3x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x3x20xf32, 16x3x20xui8) <- (16x3x20xf32, None, 1xf32)
         dropout_148, dropout_149 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_23, None, full_8, True, "upscale_in_train", 0, False
@@ -6050,7 +6058,7 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_23
 
-        # pd_op.bmm: (16x3x64xf32) <- (16x3x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x3x64xf32) <- (16x3x20xf32, 16x20x64xf32)
         bmm_39 = paddle._C_ops.bmm(dropout_148, reshape_243)
         del dropout_148, reshape_243
 
@@ -6660,35 +6668,35 @@ class GraphModule(paddle.nn.Layer):
         scale_32 = paddle._C_ops.scale(add_210, full_9, float("0"), True)
         del add_210
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_132 = paddle._C_ops.matmul(layer_norm_72, parameter_217, False, False)
         del parameter_217
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_211 = paddle._C_ops.add(matmul_132, parameter_216)
         del matmul_132, parameter_216
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_269 = paddle._C_ops.reshape(add_211, full_int_array_2)
         del add_211
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_130 = paddle._C_ops.transpose(reshape_269, [0, 2, 1, 3])
         del reshape_269
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_133 = paddle._C_ops.matmul(layer_norm_72, parameter_215, False, False)
         del parameter_215
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_212 = paddle._C_ops.add(matmul_133, parameter_214)
         del matmul_133, parameter_214
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_270 = paddle._C_ops.reshape(add_212, full_int_array_2)
         del add_212
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_131 = paddle._C_ops.transpose(reshape_270, [0, 2, 1, 3])
         del reshape_270
 
@@ -6704,29 +6712,31 @@ class GraphModule(paddle.nn.Layer):
         reshape_272 = paddle._C_ops.reshape(transpose_132, full_int_array_4)
         del transpose_132
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_273 = paddle._C_ops.reshape(transpose_130, full_int_array_4)
+        del transpose_130
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_274 = paddle._C_ops.reshape(transpose_131, full_int_array_4)
+        del transpose_131
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_133 = paddle._C_ops.transpose(reshape_273, [0, 2, 1])
         del reshape_273
 
-        # pd_op.bmm: (16x3x10xf32) <- (16x3x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x3x20xf32) <- (16x3x64xf32, 16x64x20xf32)
         bmm_42 = paddle._C_ops.bmm(reshape_272, transpose_133)
         del reshape_272, transpose_133
 
-        # pd_op.add: (16x3x10xf32) <- (16x3x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x3x20xf32) <- (16x3x20xf32, 16x1x20xf32)
         add_213 = paddle._C_ops.add(bmm_42, cast_10)
         del bmm_42
 
-        # pd_op.softmax: (16x3x10xf32) <- (16x3x10xf32)
+        # pd_op.softmax: (16x3x20xf32) <- (16x3x20xf32)
         softmax_26 = paddle._C_ops.softmax(add_213, -1)
         del add_213
 
-        # pd_op.dropout: (16x3x10xf32, 16x3x10xui8) <- (16x3x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x3x20xf32, 16x3x20xui8) <- (16x3x20xf32, None, 1xf32)
         dropout_162, dropout_163 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_26, None, full_8, True, "upscale_in_train", 0, False
@@ -6735,7 +6745,7 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_26
 
-        # pd_op.bmm: (16x3x64xf32) <- (16x3x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x3x64xf32) <- (16x3x20xf32, 16x20x64xf32)
         bmm_43 = paddle._C_ops.bmm(dropout_162, reshape_274)
         del dropout_162, reshape_274
 
@@ -7345,35 +7355,35 @@ class GraphModule(paddle.nn.Layer):
         scale_34 = paddle._C_ops.scale(add_231, full_9, float("0"), True)
         del add_231
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_145 = paddle._C_ops.matmul(layer_norm_72, parameter_189, False, False)
         del parameter_189
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_232 = paddle._C_ops.add(matmul_145, parameter_188)
         del matmul_145, parameter_188
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_300 = paddle._C_ops.reshape(add_232, full_int_array_2)
         del add_232
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_145 = paddle._C_ops.transpose(reshape_300, [0, 2, 1, 3])
         del reshape_300
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_146 = paddle._C_ops.matmul(layer_norm_72, parameter_187, False, False)
         del parameter_187
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_233 = paddle._C_ops.add(matmul_146, parameter_186)
         del matmul_146, parameter_186
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_301 = paddle._C_ops.reshape(add_233, full_int_array_2)
         del add_233
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_146 = paddle._C_ops.transpose(reshape_301, [0, 2, 1, 3])
         del reshape_301
 
@@ -7389,29 +7399,31 @@ class GraphModule(paddle.nn.Layer):
         reshape_303 = paddle._C_ops.reshape(transpose_147, full_int_array_4)
         del transpose_147
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_304 = paddle._C_ops.reshape(transpose_145, full_int_array_4)
+        del transpose_145
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_305 = paddle._C_ops.reshape(transpose_146, full_int_array_4)
+        del transpose_146
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_148 = paddle._C_ops.transpose(reshape_304, [0, 2, 1])
         del reshape_304
 
-        # pd_op.bmm: (16x3x10xf32) <- (16x3x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x3x20xf32) <- (16x3x64xf32, 16x64x20xf32)
         bmm_46 = paddle._C_ops.bmm(reshape_303, transpose_148)
         del reshape_303, transpose_148
 
-        # pd_op.add: (16x3x10xf32) <- (16x3x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x3x20xf32) <- (16x3x20xf32, 16x1x20xf32)
         add_234 = paddle._C_ops.add(bmm_46, cast_10)
         del bmm_46
 
-        # pd_op.softmax: (16x3x10xf32) <- (16x3x10xf32)
+        # pd_op.softmax: (16x3x20xf32) <- (16x3x20xf32)
         softmax_29 = paddle._C_ops.softmax(add_234, -1)
         del add_234
 
-        # pd_op.dropout: (16x3x10xf32, 16x3x10xui8) <- (16x3x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x3x20xf32, 16x3x20xui8) <- (16x3x20xf32, None, 1xf32)
         dropout_176, dropout_177 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_29, None, full_8, True, "upscale_in_train", 0, False
@@ -7420,7 +7432,7 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_29
 
-        # pd_op.bmm: (16x3x64xf32) <- (16x3x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x3x64xf32) <- (16x3x20xf32, 16x20x64xf32)
         bmm_47 = paddle._C_ops.bmm(dropout_176, reshape_305)
         del dropout_176, reshape_305
 
@@ -8030,35 +8042,35 @@ class GraphModule(paddle.nn.Layer):
         scale_36 = paddle._C_ops.scale(add_252, full_9, float("0"), True)
         del add_252
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_158 = paddle._C_ops.matmul(layer_norm_72, parameter_161, False, False)
         del parameter_161
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_253 = paddle._C_ops.add(matmul_158, parameter_160)
         del matmul_158, parameter_160
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_331 = paddle._C_ops.reshape(add_253, full_int_array_2)
         del add_253
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_160 = paddle._C_ops.transpose(reshape_331, [0, 2, 1, 3])
         del reshape_331
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_159 = paddle._C_ops.matmul(layer_norm_72, parameter_159, False, False)
         del parameter_159
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_254 = paddle._C_ops.add(matmul_159, parameter_158)
         del matmul_159, parameter_158
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_332 = paddle._C_ops.reshape(add_254, full_int_array_2)
         del add_254
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_161 = paddle._C_ops.transpose(reshape_332, [0, 2, 1, 3])
         del reshape_332
 
@@ -8074,29 +8086,31 @@ class GraphModule(paddle.nn.Layer):
         reshape_334 = paddle._C_ops.reshape(transpose_162, full_int_array_4)
         del transpose_162
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_335 = paddle._C_ops.reshape(transpose_160, full_int_array_4)
+        del transpose_160
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_336 = paddle._C_ops.reshape(transpose_161, full_int_array_4)
+        del transpose_161
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_163 = paddle._C_ops.transpose(reshape_335, [0, 2, 1])
         del reshape_335
 
-        # pd_op.bmm: (16x3x10xf32) <- (16x3x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x3x20xf32) <- (16x3x64xf32, 16x64x20xf32)
         bmm_50 = paddle._C_ops.bmm(reshape_334, transpose_163)
         del reshape_334, transpose_163
 
-        # pd_op.add: (16x3x10xf32) <- (16x3x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x3x20xf32) <- (16x3x20xf32, 16x1x20xf32)
         add_255 = paddle._C_ops.add(bmm_50, cast_10)
         del bmm_50
 
-        # pd_op.softmax: (16x3x10xf32) <- (16x3x10xf32)
+        # pd_op.softmax: (16x3x20xf32) <- (16x3x20xf32)
         softmax_32 = paddle._C_ops.softmax(add_255, -1)
         del add_255
 
-        # pd_op.dropout: (16x3x10xf32, 16x3x10xui8) <- (16x3x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x3x20xf32, 16x3x20xui8) <- (16x3x20xf32, None, 1xf32)
         dropout_190, dropout_191 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_32, None, full_8, True, "upscale_in_train", 0, False
@@ -8105,7 +8119,7 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_32
 
-        # pd_op.bmm: (16x3x64xf32) <- (16x3x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x3x64xf32) <- (16x3x20xf32, 16x20x64xf32)
         bmm_51 = paddle._C_ops.bmm(dropout_190, reshape_336)
         del dropout_190, reshape_336
 
@@ -8715,35 +8729,35 @@ class GraphModule(paddle.nn.Layer):
         scale_38 = paddle._C_ops.scale(add_273, full_9, float("0"), True)
         del add_273
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_171 = paddle._C_ops.matmul(layer_norm_72, parameter_133, False, False)
         del parameter_133
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_274 = paddle._C_ops.add(matmul_171, parameter_132)
         del matmul_171, parameter_132
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_362 = paddle._C_ops.reshape(add_274, full_int_array_2)
         del add_274
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_175 = paddle._C_ops.transpose(reshape_362, [0, 2, 1, 3])
         del reshape_362
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_172 = paddle._C_ops.matmul(layer_norm_72, parameter_131, False, False)
         del parameter_131
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_275 = paddle._C_ops.add(matmul_172, parameter_130)
         del matmul_172, parameter_130
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_363 = paddle._C_ops.reshape(add_275, full_int_array_2)
         del add_275
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_176 = paddle._C_ops.transpose(reshape_363, [0, 2, 1, 3])
         del reshape_363
 
@@ -8759,29 +8773,31 @@ class GraphModule(paddle.nn.Layer):
         reshape_365 = paddle._C_ops.reshape(transpose_177, full_int_array_4)
         del transpose_177
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_366 = paddle._C_ops.reshape(transpose_175, full_int_array_4)
+        del transpose_175
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_367 = paddle._C_ops.reshape(transpose_176, full_int_array_4)
+        del transpose_176
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_178 = paddle._C_ops.transpose(reshape_366, [0, 2, 1])
         del reshape_366
 
-        # pd_op.bmm: (16x3x10xf32) <- (16x3x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x3x20xf32) <- (16x3x64xf32, 16x64x20xf32)
         bmm_54 = paddle._C_ops.bmm(reshape_365, transpose_178)
         del reshape_365, transpose_178
 
-        # pd_op.add: (16x3x10xf32) <- (16x3x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x3x20xf32) <- (16x3x20xf32, 16x1x20xf32)
         add_276 = paddle._C_ops.add(bmm_54, cast_10)
         del bmm_54
 
-        # pd_op.softmax: (16x3x10xf32) <- (16x3x10xf32)
+        # pd_op.softmax: (16x3x20xf32) <- (16x3x20xf32)
         softmax_35 = paddle._C_ops.softmax(add_276, -1)
         del add_276
 
-        # pd_op.dropout: (16x3x10xf32, 16x3x10xui8) <- (16x3x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x3x20xf32, 16x3x20xui8) <- (16x3x20xf32, None, 1xf32)
         dropout_204, dropout_205 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_35, None, full_8, True, "upscale_in_train", 0, False
@@ -8790,7 +8806,7 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_35
 
-        # pd_op.bmm: (16x3x64xf32) <- (16x3x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x3x64xf32) <- (16x3x20xf32, 16x20x64xf32)
         bmm_55 = paddle._C_ops.bmm(dropout_204, reshape_367)
         del dropout_204, reshape_367
 
@@ -9400,35 +9416,35 @@ class GraphModule(paddle.nn.Layer):
         scale_40 = paddle._C_ops.scale(add_294, full_9, float("0"), True)
         del add_294
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_184 = paddle._C_ops.matmul(layer_norm_72, parameter_105, False, False)
         del parameter_105
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_295 = paddle._C_ops.add(matmul_184, parameter_104)
         del matmul_184, parameter_104
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_393 = paddle._C_ops.reshape(add_295, full_int_array_2)
         del add_295
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_190 = paddle._C_ops.transpose(reshape_393, [0, 2, 1, 3])
         del reshape_393
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_185 = paddle._C_ops.matmul(layer_norm_72, parameter_103, False, False)
         del parameter_103
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_296 = paddle._C_ops.add(matmul_185, parameter_102)
         del matmul_185, parameter_102
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_394 = paddle._C_ops.reshape(add_296, full_int_array_2)
         del add_296
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_191 = paddle._C_ops.transpose(reshape_394, [0, 2, 1, 3])
         del reshape_394
 
@@ -9444,29 +9460,31 @@ class GraphModule(paddle.nn.Layer):
         reshape_396 = paddle._C_ops.reshape(transpose_192, full_int_array_4)
         del transpose_192
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_397 = paddle._C_ops.reshape(transpose_190, full_int_array_4)
+        del transpose_190
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_398 = paddle._C_ops.reshape(transpose_191, full_int_array_4)
+        del transpose_191
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_193 = paddle._C_ops.transpose(reshape_397, [0, 2, 1])
         del reshape_397
 
-        # pd_op.bmm: (16x3x10xf32) <- (16x3x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x3x20xf32) <- (16x3x64xf32, 16x64x20xf32)
         bmm_58 = paddle._C_ops.bmm(reshape_396, transpose_193)
         del reshape_396, transpose_193
 
-        # pd_op.add: (16x3x10xf32) <- (16x3x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x3x20xf32) <- (16x3x20xf32, 16x1x20xf32)
         add_297 = paddle._C_ops.add(bmm_58, cast_10)
         del bmm_58
 
-        # pd_op.softmax: (16x3x10xf32) <- (16x3x10xf32)
+        # pd_op.softmax: (16x3x20xf32) <- (16x3x20xf32)
         softmax_38 = paddle._C_ops.softmax(add_297, -1)
         del add_297
 
-        # pd_op.dropout: (16x3x10xf32, 16x3x10xui8) <- (16x3x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x3x20xf32, 16x3x20xui8) <- (16x3x20xf32, None, 1xf32)
         dropout_218, dropout_219 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_38, None, full_8, True, "upscale_in_train", 0, False
@@ -9475,7 +9493,7 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_38
 
-        # pd_op.bmm: (16x3x64xf32) <- (16x3x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x3x64xf32) <- (16x3x20xf32, 16x20x64xf32)
         bmm_59 = paddle._C_ops.bmm(dropout_218, reshape_398)
         del dropout_218, reshape_398
 
@@ -10085,35 +10103,35 @@ class GraphModule(paddle.nn.Layer):
         scale_42 = paddle._C_ops.scale(add_315, full_9, float("0"), True)
         del add_315
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_197 = paddle._C_ops.matmul(layer_norm_72, parameter_77, False, False)
         del parameter_77
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_316 = paddle._C_ops.add(matmul_197, parameter_76)
         del matmul_197, parameter_76
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_424 = paddle._C_ops.reshape(add_316, full_int_array_2)
         del add_316
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_205 = paddle._C_ops.transpose(reshape_424, [0, 2, 1, 3])
         del reshape_424
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_198 = paddle._C_ops.matmul(layer_norm_72, parameter_75, False, False)
         del parameter_75
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_317 = paddle._C_ops.add(matmul_198, parameter_74)
         del matmul_198, parameter_74
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_425 = paddle._C_ops.reshape(add_317, full_int_array_2)
         del add_317
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_206 = paddle._C_ops.transpose(reshape_425, [0, 2, 1, 3])
         del reshape_425
 
@@ -10129,29 +10147,31 @@ class GraphModule(paddle.nn.Layer):
         reshape_427 = paddle._C_ops.reshape(transpose_207, full_int_array_4)
         del transpose_207
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_428 = paddle._C_ops.reshape(transpose_205, full_int_array_4)
+        del transpose_205
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_429 = paddle._C_ops.reshape(transpose_206, full_int_array_4)
+        del transpose_206
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_208 = paddle._C_ops.transpose(reshape_428, [0, 2, 1])
         del reshape_428
 
-        # pd_op.bmm: (16x3x10xf32) <- (16x3x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x3x20xf32) <- (16x3x64xf32, 16x64x20xf32)
         bmm_62 = paddle._C_ops.bmm(reshape_427, transpose_208)
         del reshape_427, transpose_208
 
-        # pd_op.add: (16x3x10xf32) <- (16x3x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x3x20xf32) <- (16x3x20xf32, 16x1x20xf32)
         add_318 = paddle._C_ops.add(bmm_62, cast_10)
         del bmm_62
 
-        # pd_op.softmax: (16x3x10xf32) <- (16x3x10xf32)
+        # pd_op.softmax: (16x3x20xf32) <- (16x3x20xf32)
         softmax_41 = paddle._C_ops.softmax(add_318, -1)
         del add_318
 
-        # pd_op.dropout: (16x3x10xf32, 16x3x10xui8) <- (16x3x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x3x20xf32, 16x3x20xui8) <- (16x3x20xf32, None, 1xf32)
         dropout_232, dropout_233 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_41, None, full_8, True, "upscale_in_train", 0, False
@@ -10160,7 +10180,7 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_41
 
-        # pd_op.bmm: (16x3x64xf32) <- (16x3x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x3x64xf32) <- (16x3x20xf32, 16x20x64xf32)
         bmm_63 = paddle._C_ops.bmm(dropout_232, reshape_429)
         del dropout_232, reshape_429
 
@@ -10770,35 +10790,35 @@ class GraphModule(paddle.nn.Layer):
         scale_44 = paddle._C_ops.scale(add_336, full_9, float("0"), True)
         del add_336
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_210 = paddle._C_ops.matmul(layer_norm_72, parameter_49, False, False)
         del parameter_49
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_337 = paddle._C_ops.add(matmul_210, parameter_48)
         del matmul_210, parameter_48
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_455 = paddle._C_ops.reshape(add_337, full_int_array_2)
         del add_337
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_220 = paddle._C_ops.transpose(reshape_455, [0, 2, 1, 3])
         del reshape_455
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_211 = paddle._C_ops.matmul(layer_norm_72, parameter_47, False, False)
         del parameter_47
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_338 = paddle._C_ops.add(matmul_211, parameter_46)
         del matmul_211, parameter_46
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_456 = paddle._C_ops.reshape(add_338, full_int_array_2)
         del add_338
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_221 = paddle._C_ops.transpose(reshape_456, [0, 2, 1, 3])
         del reshape_456
 
@@ -10814,29 +10834,31 @@ class GraphModule(paddle.nn.Layer):
         reshape_458 = paddle._C_ops.reshape(transpose_222, full_int_array_4)
         del transpose_222
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_459 = paddle._C_ops.reshape(transpose_220, full_int_array_4)
+        del transpose_220
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_460 = paddle._C_ops.reshape(transpose_221, full_int_array_4)
+        del transpose_221
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_223 = paddle._C_ops.transpose(reshape_459, [0, 2, 1])
         del reshape_459
 
-        # pd_op.bmm: (16x3x10xf32) <- (16x3x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x3x20xf32) <- (16x3x64xf32, 16x64x20xf32)
         bmm_66 = paddle._C_ops.bmm(reshape_458, transpose_223)
         del reshape_458, transpose_223
 
-        # pd_op.add: (16x3x10xf32) <- (16x3x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x3x20xf32) <- (16x3x20xf32, 16x1x20xf32)
         add_339 = paddle._C_ops.add(bmm_66, cast_10)
         del bmm_66
 
-        # pd_op.softmax: (16x3x10xf32) <- (16x3x10xf32)
+        # pd_op.softmax: (16x3x20xf32) <- (16x3x20xf32)
         softmax_44 = paddle._C_ops.softmax(add_339, -1)
         del add_339
 
-        # pd_op.dropout: (16x3x10xf32, 16x3x10xui8) <- (16x3x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x3x20xf32, 16x3x20xui8) <- (16x3x20xf32, None, 1xf32)
         dropout_246, dropout_247 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_44, None, full_8, True, "upscale_in_train", 0, False
@@ -10845,7 +10867,7 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_44
 
-        # pd_op.bmm: (16x3x64xf32) <- (16x3x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x3x64xf32) <- (16x3x20xf32, 16x20x64xf32)
         bmm_67 = paddle._C_ops.bmm(dropout_246, reshape_460)
         del dropout_246, reshape_460
 
@@ -11458,35 +11480,35 @@ class GraphModule(paddle.nn.Layer):
         scale_46 = paddle._C_ops.scale(add_357, full_9, float("0"), True)
         del add_357, full_9
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_223 = paddle._C_ops.matmul(layer_norm_72, parameter_21, False, False)
         del parameter_21
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_358 = paddle._C_ops.add(matmul_223, parameter_20)
         del matmul_223, parameter_20
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_486 = paddle._C_ops.reshape(add_358, full_int_array_2)
         del add_358
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_235 = paddle._C_ops.transpose(reshape_486, [0, 2, 1, 3])
         del reshape_486
 
-        # pd_op.matmul: (1x10x1024xf32) <- (1x10x1024xf32, 1024x1024xf32)
+        # pd_op.matmul: (1x20x1024xf32) <- (1x20x1024xf32, 1024x1024xf32)
         matmul_224 = paddle._C_ops.matmul(layer_norm_72, parameter_19, False, False)
-        del parameter_19
+        del layer_norm_72, parameter_19
 
-        # pd_op.add: (1x10x1024xf32) <- (1x10x1024xf32, 1024xf32)
+        # pd_op.add: (1x20x1024xf32) <- (1x20x1024xf32, 1024xf32)
         add_359 = paddle._C_ops.add(matmul_224, parameter_18)
         del matmul_224, parameter_18
 
-        # pd_op.reshape: (1x10x16x64xf32) <- (1x10x1024xf32, 4xi64)
+        # pd_op.reshape: (1x20x16x64xf32) <- (1x20x1024xf32, 4xi64)
         reshape_487 = paddle._C_ops.reshape(add_359, full_int_array_2)
         del add_359, full_int_array_2
 
-        # pd_op.transpose: (1x16x10x64xf32) <- (1x10x16x64xf32)
+        # pd_op.transpose: (1x16x20x64xf32) <- (1x20x16x64xf32)
         transpose_236 = paddle._C_ops.transpose(reshape_487, [0, 2, 1, 3])
         del reshape_487
 
@@ -11502,30 +11524,31 @@ class GraphModule(paddle.nn.Layer):
         reshape_489 = paddle._C_ops.reshape(transpose_237, full_int_array_4)
         del transpose_237
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_490 = paddle._C_ops.reshape(transpose_235, full_int_array_4)
+        del transpose_235
 
-        # pd_op.reshape: (16x10x64xf32) <- (1x16x10x64xf32, 3xi64)
+        # pd_op.reshape: (16x20x64xf32) <- (1x16x20x64xf32, 3xi64)
         reshape_491 = paddle._C_ops.reshape(transpose_236, full_int_array_4)
-        del full_int_array_4
+        del full_int_array_4, transpose_236
 
-        # pd_op.transpose: (16x64x10xf32) <- (16x10x64xf32)
+        # pd_op.transpose: (16x64x20xf32) <- (16x20x64xf32)
         transpose_238 = paddle._C_ops.transpose(reshape_490, [0, 2, 1])
         del reshape_490
 
-        # pd_op.bmm: (16x3x10xf32) <- (16x3x64xf32, 16x64x10xf32)
+        # pd_op.bmm: (16x3x20xf32) <- (16x3x64xf32, 16x64x20xf32)
         bmm_70 = paddle._C_ops.bmm(reshape_489, transpose_238)
         del reshape_489, transpose_238
 
-        # pd_op.add: (16x3x10xf32) <- (16x3x10xf32, 16x1x10xf32)
+        # pd_op.add: (16x3x20xf32) <- (16x3x20xf32, 16x1x20xf32)
         add_360 = paddle._C_ops.add(bmm_70, cast_10)
         del bmm_70, cast_10
 
-        # pd_op.softmax: (16x3x10xf32) <- (16x3x10xf32)
+        # pd_op.softmax: (16x3x20xf32) <- (16x3x20xf32)
         softmax_47 = paddle._C_ops.softmax(add_360, -1)
         del add_360
 
-        # pd_op.dropout: (16x3x10xf32, 16x3x10xui8) <- (16x3x10xf32, None, 1xf32)
+        # pd_op.dropout: (16x3x20xf32, 16x3x20xui8) <- (16x3x20xf32, None, 1xf32)
         dropout_260, dropout_261 = (lambda x, f: f(x))(
             paddle._C_ops.dropout(
                 softmax_47, None, full_8, True, "upscale_in_train", 0, False
@@ -11534,7 +11557,7 @@ class GraphModule(paddle.nn.Layer):
         )
         del softmax_47
 
-        # pd_op.bmm: (16x3x64xf32) <- (16x3x10xf32, 16x10x64xf32)
+        # pd_op.bmm: (16x3x64xf32) <- (16x3x20xf32, 16x20x64xf32)
         bmm_71 = paddle._C_ops.bmm(dropout_260, reshape_491)
         del dropout_260, reshape_491
 
@@ -11641,36 +11664,7 @@ class GraphModule(paddle.nn.Layer):
         slice_1 = paddle._C_ops.slice(
             layer_norm_183, [1], full_int_array_0, full_int_array_13, [1], []
         )
-        del (
-            full_int_array_0,
-            full_int_array_13,
-            layer_norm_183,
-            layer_norm_72,
-            transpose_100,
-            transpose_101,
-            transpose_115,
-            transpose_116,
-            transpose_130,
-            transpose_131,
-            transpose_145,
-            transpose_146,
-            transpose_160,
-            transpose_161,
-            transpose_175,
-            transpose_176,
-            transpose_190,
-            transpose_191,
-            transpose_205,
-            transpose_206,
-            transpose_220,
-            transpose_221,
-            transpose_235,
-            transpose_236,
-            transpose_70,
-            transpose_71,
-            transpose_85,
-            transpose_86,
-        )
+        del full_int_array_0, full_int_array_13, layer_norm_183
 
         return (
             slice_0,

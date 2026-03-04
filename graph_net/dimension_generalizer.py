@@ -26,13 +26,13 @@ class ApplyDimGenPasses:
     def _make_config(
         self,
         output_dir: str,
-        dimension_generalizer_filepath=None,
-        dimension_generalizer_class_name="StaticToDynamic",
-        dimension_generalizer_config=None,
-        model_path_prefix="",
-        resume=False,
-        last_model_log_file=None,
-        limits_handled_models=None,
+        dimension_generalizer_filepath: str = None,
+        dimension_generalizer_class_name: str = "StaticToDynamic",
+        dimension_generalizer_config: dict = None,
+        model_path_prefix: str = "",
+        resume: bool = False,
+        last_model_log_file: str = None,
+        limits_handled_models: int = None,
     ):
         if dimension_generalizer_config is None:
             dimension_generalizer_config = {}
@@ -118,7 +118,7 @@ class ApplyDimGenPasses:
 
         reifier_class = get_reifier(reifier_name)
         reifier_instance = reifier_class(str(from_model_path))
-        assert reifier_instance.match
+        assert reifier_instance.match()
         symbols2reified_dims = reifier_instance.reify()
         assert len(symbols2reified_dims) == 1
         symbols, reified_dims = next(iter(symbols2reified_dims.items()))
@@ -137,14 +137,41 @@ class ApplyDimGenPasses:
         (to_model_path / "weight_meta.py").write_text(weight_meta_code)
 
     def _get_to_model_path(self, rel_model_path, symbol2example_value):
-        sym_dim_str = "_".join(
-            f"{sym_name}_{dim}"
-            for symbol, dim in symbol2example_value.items()
-            for sym_name in [symbol.name]
+        """
+        Generates output paths organized by dimension configuration indices rather than
+        symbolic dimension strings.
+
+        Path structure transformation:
+        Before: model_name__symbolic_dims (e.g., 'model1__symA_8_symB_16')
+        After: index/model_name (e.g., '0/model1', '1/model1')
+
+        The index represents a specific dimension configuration from the reification set,
+        enabling systematic management of dimension variations.
+        """
+        # Use indices instead of symbol strings
+        symbols, reified_dims = self._get_symbols_and_reified_dims(
+            Path(self.config["model_path_prefix"]) / rel_model_path,
+            DynamicDimConstraints.unserialize_from_py_file(
+                os.path.join(
+                    self.config["model_path_prefix"],
+                    rel_model_path,
+                    "input_tensor_constraints.py",
+                )
+            ),
         )
-        sub_module_name = f"{os.path.basename(rel_model_path)}__{sym_dim_str}"
+        current_dims = tuple(symbol2example_value[symbol] for symbol in symbols)
+
+        # Find corresponding index through dimension value matching
+        dim_index = 0
+        for i, dims in enumerate(reified_dims):
+            if tuple(dims) == current_dims:
+                dim_index = i
+                break
+
+        # Path structure changed from model/name to index/model
+        sub_module_name = f"{dim_index}"
         to_model_path = (
-            Path(self.config["output_dir"]) / rel_model_path / sub_module_name
+            Path(self.config["output_dir"]) / sub_module_name / rel_model_path
         )
         return to_model_path
 
@@ -235,12 +262,19 @@ class ApplyDimGenPasses:
 def update_tensor_metas_by_dyn_dim_cstr(
     tensor_metas: list[TensorMeta], dyn_dim_cstr: DynamicDimConstraints
 ):
-    input_shapes = dyn_dim_cstr.get_reified_input_shapes()
-    assert len(tensor_metas) == len(input_shapes)
-    for i, tensor_meta in enumerate(tensor_metas):
-        tensor_meta.shape = input_shapes[i]
+    input_shapes_with_names = dyn_dim_cstr.input_shapes
+    name2shape = {
+        name: [dyn_dim_cstr._try_reify(dim) for dim in shape]
+        for shape, name in input_shapes_with_names
+    }
+    for tensor_meta in tensor_metas:
+        if tensor_meta.name not in name2shape:
+            continue
+        tensor_meta.shape = name2shape[tensor_meta.name]
         if tensor_meta.data is not None:
             assert isinstance(tensor_meta.data, (list, tuple))
             size = functools.reduce(lambda a, b: a * b, tensor_meta.shape, 1)
-            doubled_data = [*tensor_meta.data, *tensor_meta.data]
-            tensor_meta.data = doubled_data[:size]
+            extended_tensor_data = list(tensor_meta.data)
+            while len(extended_tensor_data) < size:
+                extended_tensor_data.extend(extended_tensor_data)
+            tensor_meta.data = extended_tensor_data[:size]

@@ -279,7 +279,7 @@ python -m graph_net.paddle.test_compiler \
 **ES 评估指标获取**：
 ```bash
 # 使用 plot_ESt.py 分析测试日志，获得 ES(t) 指标
-python -m graph_net.plot_ESt \
+python -m graph_net_visual.plot_ESt \
     --benchmark-path torch_to_paddle_samples/ \
     --output-dir results/
 ```
@@ -442,7 +442,7 @@ def convert_graph_net_json(source_path, target_path, log):
 
 3. **绘制 ES(t) 曲线**：
    ```bash
-   python -m graph_net.plot_ESt \
+   python -m graph_net_visual.plot_ESt \
        --benchmark-path {log_file_or_dir} \
        --output-dir results/
    ```

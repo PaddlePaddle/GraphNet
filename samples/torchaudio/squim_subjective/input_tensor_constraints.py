@@ -1,14 +1,16 @@
 from sympy import Symbol, Expr, Rel, Eq
 
+S0 = Symbol("S0")
+S1 = Symbol("S1")
 
-dynamic_dim_constraint_symbols = []
+dynamic_dim_constraint_symbols = [S0, S1]
 
-dynamic_dim_constraint_symbol2example_value = {}
+dynamic_dim_constraint_symbol2example_value = {S0: 1, S1: 80000}
 
 dynamic_dim_constraint_relations = []
 
 dynamic_dim_constraint_input_shapes = [
-    ([1, 80000], "L_reference_"),
+    ([S0, S1], "L_reference_"),
     (
         [1],
         "L_self_modules_predictor_modules_att_pool_layer_modules_linear1_parameters_bias_",
@@ -867,5 +869,5 @@ dynamic_dim_constraint_input_shapes = [
         [512, 512, 2],
         "L_self_modules_ssl_model_modules_feature_extractor_modules_conv_layers_modules_6_modules_conv_parameters_weight_",
     ),
-    ([1, 80000], "L_waveform_"),
+    ([S0, S1], "L_waveform_"),
 ]

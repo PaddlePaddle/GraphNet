@@ -15,5 +15,9 @@
         "endpoints_compatible",
         "region:us"
     ],
-    "heuristic_tag": "audio"
+    "heuristic_tag": "audio",
+    "data_type_generalization_passes": [
+        "dtype_generalization_pass_float16",
+        "dtype_generalization_pass_bfloat16"
+    ]
 }

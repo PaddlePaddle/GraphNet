@@ -1,0 +1,7 @@
+{
+    "framework": "torch",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": false,
+    "model_name": "mobilenetv4_conv_aa_large.e230_r384_in12k_start33_end38_6"
+}

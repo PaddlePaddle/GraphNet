@@ -1,4 +1,5 @@
 import argparse
+import traceback
 from graph_net.imp_util import load_module
 import logging
 import sys
@@ -52,6 +53,9 @@ def handle_model_path_list_in_current_process(handler, args):
         except KeyboardInterrupt:
             print("KeyboardInterrupt")
             return
+        except Exception:
+            print("------------[model_path_handler failed]------------", flush=True)
+            traceback.print_exc()
 
 
 def handle_model_path_list_in_subprocess(args):

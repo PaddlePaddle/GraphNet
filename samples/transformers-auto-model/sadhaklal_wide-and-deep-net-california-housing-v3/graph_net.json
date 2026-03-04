@@ -14,5 +14,9 @@
         "dataset:gvlassis/california_housing",
         "region:us"
     ],
-    "heuristic_tag": "other"
+    "heuristic_tag": "other",
+    "data_type_generalization_passes": [
+        "dtype_generalization_pass_float16",
+        "dtype_generalization_pass_bfloat16"
+    ]
 }

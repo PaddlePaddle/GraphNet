@@ -41,6 +41,7 @@ from graph_net.sample_pass.sample_pass import SamplePass
 from graph_net.sample_pass.resumable_sample_pass_mixin import ResumableSamplePassMixin
 
 from graph_net.hash_util import get_sha256_hash
+from graph_net.tensor_meta import TensorMeta
 
 # Weights that must remain float32 for numerical stability
 FLOAT32_PRESERVED_WEIGHTS = {
@@ -403,6 +404,9 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         gm_copy = copy.deepcopy(traced_model)
         gm_modified = dtype_pass.rewrite(gm_copy)
 
+        # Get the list of tensor names that need dtype conversion
+        converted_tensor_names = set(getattr(dtype_pass, "converted_tensor_names", []))
+
         # Generate output directory
         output_dir = self._get_output_dir(rel_model_path, dtype)
 
@@ -413,6 +417,12 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         model_code = serialize_graph_module_to_str(gm_modified)
         templated_model_code = utils.apply_templates(model_code)
         (output_dir / "model.py").write_text(templated_model_code)
+
+        # Update weight_meta.py and input_meta.py dtypes
+        target_dtype_str = f"torch.{dtype}"
+        self._update_tensor_meta_dtypes(
+            output_dir, converted_tensor_names, target_dtype_str
+        )
 
         # Update graph_hash.txt
         model_hash = get_sha256_hash(model_code)
@@ -444,6 +454,42 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         update_json(graph_net_json_path, kDtypeGeneralizationTargetDtype, dtype)
         update_json(graph_net_json_path, kDtypeGeneralizationPrecision, dtype)
         update_json(graph_net_json_path, kDtypeGeneralizationGenerated, True)
+
+    def _update_tensor_meta_dtypes(
+        self,
+        sample_dir: Path,
+        converted_tensor_names: set,
+        target_dtype_str: str,
+    ) -> None:
+        """
+        Update dtype in weight_meta.py and input_meta.py for converted tensors.
+
+        Instead of inserting .to(dtype) in model.py, we modify the dtype field
+        in the meta files so that tensors are generated with the target dtype
+        directly.
+
+        Args:
+            sample_dir: Path to generated sample directory
+            converted_tensor_names: Set of tensor names that were converted
+            target_dtype_str: Target dtype string, e.g. "torch.float16"
+        """
+        for meta_file in ["weight_meta.py", "input_meta.py"]:
+            meta_path = sample_dir / meta_file
+            if not meta_path.exists():
+                continue
+
+            tensor_metas = TensorMeta.unserialize_from_py_file(str(meta_path))
+            changed = False
+            for tm in tensor_metas:
+                # FX Graph node.target corresponds to tm.name (the forward
+                # parameter name), not tm.original_name. Check both to be safe.
+                if tm.name in converted_tensor_names or (
+                    tm.original_name and tm.original_name in converted_tensor_names
+                ):
+                    tm.dtype = target_dtype_str
+                    changed = True
+            if changed:
+                TensorMeta.save_tensor_metas(str(meta_path), tensor_metas)
 
     def _copy_sample(self, rel_model_path: str, output_dir: str) -> None:
         """

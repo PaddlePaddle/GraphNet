@@ -2,6 +2,7 @@ import argparse
 import sqlite3
 import uuid as uuid_module
 from datetime import datetime
+from collections import namedtuple
 from collections import defaultdict
 
 from orm_models import (
@@ -36,14 +37,34 @@ class DB:
         self.conn.close()
 
 
-def get_ai4c_group_members(triples):
-    for sample_uid, *_ in triples:
-        new_uuid = str(uuid_module.uuid4())
-        yield sample_uid, new_uuid
+SampleBucketInfo = namedtuple(
+    "SampleBucketInfo",
+    [
+        "sample_uid",
+        "op_seq_bucket_id",
+        "input_shapes_bucket_id",
+        "sample_type",
+        "sample_uids",
+    ],
+)
+
+
+def get_ai4c_group_members(sample_bucket_infos: list[SampleBucketInfo]):
+    for bucket_info in sample_bucket_infos:
+        head_sample_uid = bucket_info.sample_uid
+        sample_uids = bucket_info.sample_uids.split(",")
+        selected_other_sample_uids = [
+            other_sample_uid
+            for other_sample_uid in sample_uids[::5]
+            if other_sample_uid != head_sample_uid
+        ]
+        for sample_uid in selected_other_sample_uids:
+            new_uuid = str(uuid_module.uuid4())
+            yield sample_uid, new_uuid
 
     grouped = defaultdict(list)
-    for t in triples:
-        grouped[t[1]].append(t[0])
+    for bucket_info in sample_bucket_infos:
+        grouped[bucket_info.op_seq_bucket_id].append(bucket_info.sample_uid)
 
     grouped = dict(grouped)
     for op_seq, sample_uids in grouped.items():
@@ -68,7 +89,7 @@ def main():
     db.connect()
 
     query_str = """
-SELECT b.sample_uid, b.op_seq_bucket_id as op_seq, b.input_shapes_bucket_id, b.sample_type
+SELECT b.sample_uid, b.op_seq_bucket_id as op_seq, b.input_shapes_bucket_id, b.sample_type, group_concat(b.sample_uid, ',') as sample_uids
 FROM (
     SELECT
     s.uuid AS sample_uid,
@@ -78,6 +99,7 @@ FROM (
     FROM graph_sample s
     JOIN graph_net_sample_buckets b
         ON s.uuid = b.sample_uid
+    order by s.create_at asc, s.uuid asc
 ) b
 GROUP BY b.sample_type, b.op_seq_bucket_id, b.input_shapes_bucket_id;
     """
@@ -85,12 +107,12 @@ GROUP BY b.sample_type, b.op_seq_bucket_id, b.input_shapes_bucket_id;
     query_results = db.query(query_str)
     print("Output:", len(query_results))
 
-    triples = [row[0:-1] for row in query_results]
+    query_results = [SampleBucketInfo(row) for row in query_results]
 
     session = get_session(args.db_path)
 
     try:
-        for sample_uid, group_uid in get_ai4c_group_members(triples):
+        for sample_uid, group_uid in get_ai4c_group_members(query_results):
             new_group = GraphNetSampleGroup(
                 sample_uid=sample_uid,
                 group_uid=group_uid,

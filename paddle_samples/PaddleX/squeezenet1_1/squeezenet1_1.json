@@ -51,7 +51,7 @@
     (%49) = "builtin.parameter" () {is_distributed:[false],is_parameter:[true],need_clip:[true],parameter_name:"conv2d_1.w_0",persistable:[true],stop_gradient:[false],trainable:[true]} : () -> tensor<16x64x1x1xf32>
     (%50) = "builtin.parameter" () {is_distributed:[false],is_parameter:[true],need_clip:[true],parameter_name:"conv2d_0.b_0",persistable:[true],stop_gradient:[false],trainable:[true]} : () -> tensor<64xf32>
     (%51) = "builtin.parameter" () {is_distributed:[false],is_parameter:[true],need_clip:[true],parameter_name:"conv2d_0.w_0",persistable:[true],stop_gradient:[false],trainable:[true]} : () -> tensor<64x3x3x3xf32>
-    (%52) = "pd_op.data" () {dtype:float32,name:"inputs",place:Place(undefined:0),shape:[1,3,224,224],stop_gradient:[true]} : () -> tensor<1x3x224x224xf32>
+    (%52) = "pd_op.data" () {dtype:float32,name:"image",place:Place(undefined:0),shape:[1,3,224,224],stop_gradient:[true]} : () -> tensor<1x3x224x224xf32>
     (%53) = "pd_op.conv2d" (%52, %51) {data_format:"NCHW",dilations:[1,1],groups:1,padding_algorithm:"EXPLICIT",paddings:[1,1],stop_gradient:[false],strides:[2,2],struct_name:"/SqueezeNet/Conv2D/"} : (tensor<1x3x224x224xf32>, tensor<64x3x3x3xf32>) -> tensor<1x64x112x112xf32>
     (%54) = "pd_op.full_int_array" () {dtype:int64,place:Place(cpu),stop_gradient:[true],struct_name:"/SqueezeNet/Conv2D/",value:[1,-1,1,1]} : () -> tensor<4xi64>
     (%55) = "pd_op.reshape" (%50, %54) {stop_gradient:[false],struct_name:"/SqueezeNet/Conv2D/"} : (tensor<64xf32>, tensor<4xi64>) -> tensor<1x64x1x1xf32>

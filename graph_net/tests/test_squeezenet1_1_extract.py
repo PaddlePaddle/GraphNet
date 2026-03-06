@@ -14,13 +14,12 @@ def extract_squeezenet():
         model = squeezenet1_1(pretrained=False)
         model(inputs)
 
-    # 使用绝对路径，防止 FileNotFoundError
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # Updated save path to the new directory structure
     save_path = os.path.join(
-        base_dir, "samples/paddle_samples/vision/squeezenet1_1/squeezenet1_1.json"
+        base_dir, "paddle_samples/vision/squeezenet1_1/squeezenet1_1.json"
     )
 
-    # 确保目录存在
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
     with open(save_path, "w") as f:

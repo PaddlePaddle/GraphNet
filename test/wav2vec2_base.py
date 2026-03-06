@@ -4,7 +4,6 @@ wav2vec2_base 计算图抽取脚本
 """
 
 import torch
-import torchaudio
 from torchaudio.models import wav2vec2_base
 from graph_net.torch.extractor import extract
 
@@ -43,11 +42,8 @@ def run_model(name: str = "wav2vec2_base", device_str: str = "cpu") -> None:
 
     # ── 步骤 4：计算图抽取（关键：dynamic=False） ──
     # 参考 PR #80，必须禁用动态形状追踪
-    wrapped = extract(
-        name=name,
-        dynamic=False  # ✅ 关键修改：禁用动态形状
-    )(model).eval()
-    
+    wrapped = extract(name=name, dynamic=False)(model).eval()  # ✅ 关键修改：禁用动态形状
+
     try:
         with torch.no_grad():
             wrapped(input_data)

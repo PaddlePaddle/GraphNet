@@ -7,8 +7,7 @@ class GraphModule(paddle.nn.Layer):
         super().__init__()
         self.model = squeezenet1_1(pretrained=False)
 
-    def forward(self, **kwargs):
-        # 无论 validate.py 传入 key 是什么，都能在这里被接收
-        # 根据 input_meta.py，传进来的 key 应该是 'inputs'
-        x = kwargs.get("inputs")
+    def forward(self, *args, **kwargs):
+        # 兼容性抓取：优先抓取位置参数第一个，或者关键字参数名为 'inputs' 的
+        x = args[0] if args else kwargs.get("inputs")
         return self.model(x)

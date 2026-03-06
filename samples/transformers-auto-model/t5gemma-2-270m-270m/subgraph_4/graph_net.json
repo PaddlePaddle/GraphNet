@@ -1,7 +1,0 @@
-{
-    "framework": "torch",
-    "num_devices_required": 1,
-    "num_nodes_required": 1,
-    "dynamic": true,
-    "model_name": "t5gemma-2-270m-270m"
-}

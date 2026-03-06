@@ -45,7 +45,7 @@ class ResumableSamplePassMixin(SamplePassMixin):
         self._inc_num_handled_models_or_exit()
 
     def _inc_num_handled_models_or_exit(self):
-        if self.config["limits_handled_models"] is None:
+        if self.config.get("limits_handled_models", None) is None:
             return
         self.num_handled_models += 1
         if self.num_handled_models >= self.config["limits_handled_models"]:

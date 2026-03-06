@@ -2,6 +2,7 @@ import paddle
 import os
 from paddle.vision.models import squeezenet1_1
 
+
 def extract_squeezenet():
     os.environ["FLAGS_enable_pir_api"] = "1"
     paddle.enable_static()
@@ -14,7 +15,9 @@ def extract_squeezenet():
         model(inputs)
 
     # Correct path to the new root-level paddle_samples directory
-    base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    base_dir = os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    )
     save_path = os.path.join(
         base_dir, "paddle_samples/PaddleX/squeezenet1_1/squeezenet1_1.json"
     )
@@ -24,6 +27,7 @@ def extract_squeezenet():
     with open(save_path, "w") as f:
         f.write(str(main_program))
     print(f"Extract success! Saved to: {save_path}")
+
 
 if __name__ == "__main__":
     extract_squeezenet()

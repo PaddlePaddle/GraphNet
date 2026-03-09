@@ -3,5 +3,5 @@
     "num_devices_required": 1,
     "num_nodes_required": 1,
     "dynamic": true,
-    "model_name": "resnet18"
+    "model_name": "vovnet39a"
 }

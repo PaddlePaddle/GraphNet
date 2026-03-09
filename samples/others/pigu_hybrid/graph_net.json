@@ -1,0 +1,8 @@
+{
+    "framework": "torch",
+    "torch_version": "2.2.0",
+    "num_devices_required": 1,
+    "num_nodes_required": 1,
+    "dynamic": true,
+    "model_name": "pigu_hybrid"
+}

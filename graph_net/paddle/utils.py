@@ -255,10 +255,81 @@ def _rewrite_model_for_randomness_removal(model_code):
     return modified_code
 
 
+def _rewrite_model_for_use_gpudnn(model_code):
+    class UseGpudnnRewriter(ast.NodeTransformer):
+        def _is_assign_of_avg_pool(self, node):
+            if not isinstance(node.value, ast.Call):
+                return False
+
+            call = node.value
+            if not (
+                isinstance(call.func, ast.Attribute)
+                and isinstance(call.func.value, ast.Attribute)
+                and isinstance(call.func.value.value, ast.Name)
+                and call.func.value.value.id == "paddle"
+                and call.func.value.attr == "_C_ops"
+                and call.func.attr == "pool2d"
+            ):
+                return False
+
+            is_avg_pool = any(
+                isinstance(arg, ast.Constant) and arg.value == "avg"
+                for arg in call.args
+            )
+            return is_avg_pool
+
+        def _create_in_dynamic_mode_call(self):
+            # Create paddle.framework.in_dynamic_mode() call node
+            return ast.Call(
+                func=ast.Attribute(
+                    value=ast.Attribute(
+                        value=ast.Name(id="paddle", ctx=ast.Load()),
+                        attr="framework",
+                        ctx=ast.Load(),
+                    ),
+                    attr="in_dynamic_mode",
+                    ctx=ast.Load(),
+                ),
+                args=[],
+                keywords=[],
+            )
+
+        def visit_Assign(self, node):
+            # match assign of paddle._C_ops.pool2d
+            if not self._is_assign_of_avg_pool(node):
+                return self.generic_visit(node)
+
+            call = node.value
+            dynamic_mode_check = ast.If(
+                test=self._create_in_dynamic_mode_call(),
+                body=[
+                    ast.Expr(
+                        value=ast.Call(
+                            func=ast.Attribute(
+                                value=call.args[0], attr="_use_gpudnn", ctx=ast.Load()
+                            ),
+                            args=[ast.Constant(value=False)],
+                            keywords=[],
+                        )
+                    )
+                ],
+                orelse=[],
+            )
+
+            # insert dynamic_mode_check before pool2d
+            return [dynamic_mode_check, node]
+
+    tree = ast.parse(model_code)
+    modified_tree = UseGpudnnRewriter().visit(tree)
+    ast.fix_missing_locations(modified_tree)
+    modified_code = ast.unparse(modified_tree)
+    return modified_code
+
+
 def rewrite_model(model_code):
     modified_code = _rewrite_model_for_mode(model_code)
     modified_code = _rewrite_model_for_randomness_removal(modified_code)
-    with open("debug.py", "w") as f:
-        f.write(modified_code)
-    # sys.exit(0)
+    modified_code = _rewrite_model_for_use_gpudnn(modified_code)
+    # with open("debug.py", "w") as f:
+    #     f.write(modified_code)
     return modified_code

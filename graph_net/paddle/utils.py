@@ -140,3 +140,125 @@ def replay_tensor(info, use_numpy=True):
     else:
         tensor = init_float_tensor(shape, mean, std, min_val, max_val, use_numpy)
         return tensor.to(dtype).to(device)
+
+
+def _rewrite_model_for_mode(model_code):
+    class IsTestRewriter(ast.NodeTransformer):
+        def visit_Call(self, node: ast.Call):
+            self.generic_visit(node)
+
+            # modify paddle._C_ops.dropout/batch_norm according to position
+            if isinstance(node.func, ast.Attribute):
+                func = node.func
+
+                if (
+                    isinstance(func.value, ast.Attribute)
+                    and func.value.attr == "_C_ops"
+                    and isinstance(func.value.value, ast.Name)
+                    and func.value.value.id == "paddle"
+                ):
+                    op_name = func.attr
+
+                    POSITIONAL_IS_TEST_INDEX = {
+                        "dropout": 3,
+                        "batch_norm": 5,
+                    }
+
+                    if op_name in POSITIONAL_IS_TEST_INDEX:
+                        idx = POSITIONAL_IS_TEST_INDEX[op_name]
+                        if idx < len(node.args):
+                            node.args[idx] = ast.UnaryOp(
+                                op=ast.Not(),
+                                operand=ast.Attribute(
+                                    value=ast.Name(id="self", ctx=ast.Load()),
+                                    attr="training",
+                                    ctx=ast.Load(),
+                                ),
+                            )
+            return node
+
+    tree = ast.parse(model_code)
+    modified_tree = IsTestRewriter().visit(tree)
+    ast.fix_missing_locations(modified_tree)
+    modified_code = ast.unparse(modified_tree)
+    return modified_code
+
+
+def _rewrite_model_for_randomness_removal(model_code):
+    class RandomnessRemovalRewriter(ast.NodeTransformer):
+        def visit_Assign(self, node):
+            if not isinstance(node.value, ast.Call):
+                return self.generic_visit(node)
+
+            call = node.value
+
+            # match paddle._C_ops.uniform
+            if not (
+                isinstance(call.func, ast.Attribute)
+                and isinstance(call.func.value, ast.Attribute)
+                and isinstance(call.func.value.value, ast.Name)
+                and call.func.value.value.id == "paddle"
+                and call.func.value.attr == "_C_ops"
+                and call.func.attr == "uniform"
+            ):
+                return self.generic_visit(node)
+
+            original_target = node.targets[0]
+            if not isinstance(original_target, ast.Name):
+                return self.generic_visit(node)
+
+            original_name = original_target.id
+            cpu_name = original_name + "_cpu"
+
+            original_place = call.args[-1]
+            call.args[-1] = ast.Call(
+                func=ast.Attribute(
+                    value=ast.Attribute(
+                        value=ast.Name(id="paddle", ctx=ast.Load()),
+                        attr="core",
+                        ctx=ast.Load(),
+                    ),
+                    attr="CPUPlace",
+                    ctx=ast.Load(),
+                ),
+                args=[],
+                keywords=[],
+            )
+
+            assign_cpu = ast.Assign(
+                targets=[ast.Name(id=cpu_name, ctx=ast.Store())],
+                value=call,
+            )
+
+            # insert cpu_tensor._copy_to
+            assign_gpu = ast.Assign(
+                targets=[ast.Name(id=original_name, ctx=ast.Store())],
+                value=ast.Call(
+                    func=ast.Attribute(
+                        value=ast.Name(id=cpu_name, ctx=ast.Load()),
+                        attr="_copy_to",
+                        ctx=ast.Load(),
+                    ),
+                    args=[
+                        original_place,
+                        ast.Constant(value=False),
+                    ],
+                    keywords=[],
+                ),
+            )
+            return [assign_cpu, assign_gpu]
+
+    tree = ast.parse(model_code)
+    modified_tree = RandomnessRemovalRewriter().visit(tree)
+    ast.fix_missing_locations(modified_tree)
+    modified_code = ast.unparse(modified_tree)
+    return modified_code
+
+
+def rewrite_model(model_code):
+    modified_code = _rewrite_model_for_mode(model_code)
+    modified_code = _rewrite_model_for_randomness_removal(modified_code)
+    with open("debug.py", "w") as f:
+        f.write(modified_code)
+    # sys.exit(0)
+    return modified_code

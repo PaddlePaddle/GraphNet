@@ -83,32 +83,44 @@ class ConcretePass(DtypeGeneralizationPass):
         Rewrite the graph to convert dtypes.
 
         Strategy:
-        1. For each placeholder (input), insert .to(target_dtype) after it
-        2. For each get_attr (weight), insert .to(target_dtype) if not preserved
-        3. Update the graph and recompile
+        1. For placeholder (input) and get_attr (weight) nodes, do NOT insert
+           .to(dtype) in the graph. Instead, collect their names in
+           self.converted_tensor_names so that weight_meta.py / input_meta.py
+           can be updated externally.
+        2. For AMP-sensitive call_function/call_method nodes, insert .to(dtype)
+           for float32 arguments that are not already converted via meta file.
+        3. Non-AMP ops are copied as-is without dtype propagation inference.
+        4. Update the graph and recompile.
         """
         new_graph = fx.Graph()
         val_map = {}
+        self.converted_tensor_names = []
+
+        # Track nodes whose dtype is converted via meta file (placeholder/get_attr).
+        # Only these nodes are known to output target dtype at runtime.
+        # We do NOT infer dtype propagation for intermediate ops, to avoid
+        # incorrect assumptions about operator dtype behavior.
+        nodes_converted_via_meta = set()
 
         def create_placeholder(node: fx.Node) -> fx.Node:
-            """Create a placeholder node with dtype conversion if needed."""
+            """Create a placeholder node, collecting name if dtype conversion needed."""
             new_node = new_graph.node_copy(node, lambda x: val_map.get(x, x))
             if self._is_float32_tensor(node):
                 attr_name = str(node.target)
-                if self.should_preserve_weight(attr_name):
-                    return new_node
-
-                return new_graph.call_method("to", args=(new_node, self.torch_dtype))
+                if not self.should_preserve_weight(attr_name):
+                    self.converted_tensor_names.append(attr_name)
+                    nodes_converted_via_meta.add(node)
             return new_node
 
         def create_get_attr(node: fx.Node) -> fx.Node:
-            """Create a get_attr node with dtype conversion if needed."""
+            """Create a get_attr node, collecting name if dtype conversion needed."""
             new_node = new_graph.node_copy(node, lambda x: val_map.get(x, x))
             attr_name = str(node.target)
             if self._is_float32_tensor(node) and not self.should_preserve_weight(
                 attr_name
             ):
-                return new_graph.call_method("to", args=(new_node, self.torch_dtype))
+                self.converted_tensor_names.append(attr_name)
+                nodes_converted_via_meta.add(node)
             return new_node
 
         def create_new_args(node: fx.Node) -> list:
@@ -118,7 +130,10 @@ class ConcretePass(DtypeGeneralizationPass):
             for arg in node.args:
                 if isinstance(arg, fx.Node):
                     mapped = val_map[arg]
-                    if self._is_float32_tensor(arg):
+                    if (
+                        self._is_float32_tensor(arg)
+                        and arg not in nodes_converted_via_meta
+                    ):
                         mapped = new_graph.call_method("to", (mapped, self.torch_dtype))
                     new_args.append(mapped)
                 else:
@@ -132,10 +147,9 @@ class ConcretePass(DtypeGeneralizationPass):
             for k, v in node.kwargs.items():
                 if isinstance(v, fx.Node):
                     mapped = val_map[v]
-                    if self._is_float32_tensor(v):
+                    if self._is_float32_tensor(v) and v not in nodes_converted_via_meta:
                         mapped = new_graph.call_method("to", (mapped, self.torch_dtype))
-                    else:
-                        new_kwargs[k] = mapped
+                    new_kwargs[k] = mapped
                 else:
                     new_kwargs[k] = v
             return new_kwargs
@@ -145,8 +159,8 @@ class ConcretePass(DtypeGeneralizationPass):
             if node.target not in AMP_CALL_FUNCTION:
                 return new_graph.node_copy(node, lambda x: val_map[x])
 
+            # AMP ops: insert .to() for float32 args not converted via meta file
             new_args = create_new_args(node)
-
             new_kwargs = create_new_kwargs(node)
 
             return new_graph.call_function(
@@ -161,7 +175,6 @@ class ConcretePass(DtypeGeneralizationPass):
                 return new_graph.node_copy(node, lambda x: val_map[x])
 
             new_args = create_new_args(node)
-
             new_kwargs = create_new_kwargs(node)
 
             return new_graph.call_method(

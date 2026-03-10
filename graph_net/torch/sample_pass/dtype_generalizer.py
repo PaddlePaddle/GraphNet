@@ -478,7 +478,9 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             if not meta_path.exists():
                 continue
 
-            tensor_metas = TensorMeta.unserialize_from_py_file(str(meta_path))
+            tensor_metas = TensorMeta.unserialize_from_py_file_order_preserved(
+                str(meta_path)
+            )
             changed = False
             for tm in tensor_metas:
                 # FX Graph node.target corresponds to tm.name (the forward

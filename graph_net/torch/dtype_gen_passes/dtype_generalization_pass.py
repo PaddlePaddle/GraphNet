@@ -201,6 +201,45 @@ class ConcretePass(DtypeGeneralizationPass):
 
         return gm
 
+    def remove_redundant_to_calls(self, gm: fx.GraphModule) -> fx.GraphModule:
+        """
+        Remove redundant .to(dtype) calls from the graph.
+
+        After ShapeProp with low-precision inputs, each node's tensor_meta
+        contains the real runtime dtype. A .to(target_dtype) call is redundant
+        if its input already has target_dtype.
+
+        Must be called after ShapeProp on the rewritten graph with low-precision inputs.
+        """
+        graph = gm.graph
+        nodes_to_remove = []
+
+        for node in graph.nodes:
+            if node.op != "call_method" or node.target != "to":
+                continue
+            # .to(dtype) node: args = (input_tensor, dtype)
+            if len(node.args) < 2 or node.args[1] != self.torch_dtype:
+                continue
+
+            input_node = node.args[0]
+            if not isinstance(input_node, fx.Node):
+                continue
+
+            # Check if input already has target dtype via ShapeProp metadata
+            if "tensor_meta" not in input_node.meta:
+                continue
+            input_meta = input_node.meta["tensor_meta"]
+            if hasattr(input_meta, "dtype") and input_meta.dtype == self.torch_dtype:
+                # Input is already target dtype, this .to() is redundant
+                node.replace_all_uses_with(input_node)
+                nodes_to_remove.append(node)
+
+        for node in nodes_to_remove:
+            graph.erase_node(node)
+
+        gm.recompile()
+        return gm
+
     def _is_float32_tensor(self, node: fx.Node) -> bool:
         """
         Check if a node represents a float32 tensor.

@@ -342,7 +342,7 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         for pass_name in dtype_pass_names:
             try:
                 sample_dir = self._apply_pass_and_generate(
-                    rel_model_path, traced_model, pass_name
+                    rel_model_path, traced_model, pass_name, inputs
                 )
                 generated_samples.append(sample_dir)
                 logging.info(f"Generated sample: {sample_dir}")
@@ -373,7 +373,11 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         return metadata.get(kDataTypeGeneralizationPasses, [])
 
     def _apply_pass_and_generate(
-        self, rel_model_path: str, traced_model: fx.GraphModule, pass_name: str
+        self,
+        rel_model_path: str,
+        traced_model: fx.GraphModule,
+        pass_name: str,
+        inputs: list = None,
     ) -> str:
         """
         Apply a specific pass and generate a new sample.
@@ -383,6 +387,8 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             traced_model: Original traced model
             pass_name: Name of the pass file (without .py extension),
                        e.g., "dtype_generalization_pass_float16"
+            inputs: Original model inputs, used for ShapeProp to remove
+                    redundant .to() calls
 
         Returns:
             Path to the generated sample directory
@@ -403,6 +409,23 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
 
         gm_copy = copy.deepcopy(traced_model)
         gm_modified = dtype_pass.rewrite(gm_copy)
+
+        # Remove redundant .to() calls by re-running ShapeProp with
+        # low-precision inputs to get real runtime dtypes, then pruning
+        # .to() nodes whose input is already target dtype.
+        if inputs is not None:
+            try:
+                torch_dtype = getattr(torch, dtype)
+                low_prec_inputs = [
+                    x.to(torch_dtype)
+                    if isinstance(x, torch.Tensor) and x.is_floating_point()
+                    else x
+                    for x in inputs
+                ]
+                ShapeProp(gm_modified).propagate(*low_prec_inputs)
+                gm_modified = dtype_pass.remove_redundant_to_calls(gm_modified)
+            except Exception as e:
+                logging.warning(f"Failed to remove redundant .to() calls: {e}")
 
         # Get the list of tensor names that need dtype conversion
         converted_tensor_names = set(getattr(dtype_pass, "converted_tensor_names", []))

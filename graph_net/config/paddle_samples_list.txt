@@ -166,6 +166,7 @@ paddle_samples/PaddleNLP/distilbert-base-cased
 paddle_samples/PaddleX/FasterRCNN-ResNet50-vd-FPN/subgraph_4
 paddle_samples/PaddleX/FasterRCNN-ResNet50-vd-FPN/subgraph_6
 paddle_samples/PaddleX/PP-ShiTuV2_rec/subgraph_0
+paddle_samples/PaddleX/PP-ShiTuV2_rec/subgraph_1
 paddle_samples/PaddleX/MobileNetV4_conv_medium/subgraph_1
 paddle_samples/PaddleX/FasterNet-T1/subgraph_1
 paddle_samples/PaddleX/FasterNet-T2/subgraph_2
@@ -271,7 +272,6 @@ paddle_samples/PaddleX/ResNet101_vd
 paddle_samples/PaddleNLP/roformer_v2_chinese_char_small
 paddle_samples/PaddleX/Mask-RT-DETR-X/subgraph_0
 paddle_samples/PaddleX/Mask-RT-DETR-X/subgraph_1
-paddle_samples/PaddleX/PP-ShiTuV2_det/subgraph_1
 paddle_samples/PaddleX/MobileNetV4_conv_medium/subgraph_0
 paddle_samples/PaddleX/PicoDet-S/subgraph_9
 paddle_samples/PaddleX/PP-HGNetV2-B5/subgraph_0

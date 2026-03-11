@@ -28,17 +28,16 @@ class BackwardGraphExtractor:
         )
         module.train()
 
+        original_name_dir = os.path.join(self.output_dir, self.model_name)
+        if not os.path.exists(original_name_dir):
+            shutil.copytree(self.model_path, original_name_dir)
+
         forward_inputs = self.set_requires_grad_for_forward_inputs(
             self.model_path, module, forward_inputs
         )
         gm_holder, backward_inputs = self.capture_graph(module, forward_inputs)
         self.get_extractor("forward")(gm_holder["forward_gm"], forward_inputs)
         self.get_extractor("backward")(gm_holder["backward_gm"], backward_inputs)
-
-        forward_dir = os.path.join(self.output_dir, f"{self.model_name}_forward")
-        original_name_dir = os.path.join(self.output_dir, self.model_name)
-        if os.path.exists(forward_dir) and not os.path.exists(original_name_dir):
-            shutil.copytree(forward_dir, original_name_dir)
 
     def get_extractor(self, suffix):
         return BuiltinGraphExtractor(

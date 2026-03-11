@@ -387,8 +387,7 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             traced_model: Original traced model
             pass_name: Name of the pass file (without .py extension),
                        e.g., "dtype_generalization_pass_float16"
-            inputs: Original model inputs, used for ShapeProp to remove
-                    redundant .to() calls
+            inputs: Original model inputs (unused, kept for compatibility)
 
         Returns:
             Path to the generated sample directory
@@ -410,23 +409,6 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         gm_copy = copy.deepcopy(traced_model)
         gm_modified = dtype_pass.rewrite(gm_copy)
 
-        # Remove redundant .to() calls by re-running ShapeProp with
-        # low-precision inputs to get real runtime dtypes, then pruning
-        # .to() nodes whose input is already target dtype.
-        if inputs is not None:
-            try:
-                torch_dtype = getattr(torch, dtype)
-                low_prec_inputs = [
-                    x.to(torch_dtype)
-                    if isinstance(x, torch.Tensor) and x.is_floating_point()
-                    else x
-                    for x in inputs
-                ]
-                ShapeProp(gm_modified).propagate(*low_prec_inputs)
-                gm_modified = dtype_pass.remove_redundant_to_calls(gm_modified)
-            except Exception as e:
-                logging.warning(f"Failed to remove redundant .to() calls: {e}")
-
         # Get the list of tensor names that need dtype conversion
         converted_tensor_names = set(getattr(dtype_pass, "converted_tensor_names", []))
 
@@ -436,16 +418,27 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         # Copy metadata files of original sample
         self._copy_sample(rel_model_path, output_dir)
 
-        # Update model.py
-        model_code = serialize_graph_module_to_str(gm_modified)
-        templated_model_code = utils.apply_templates(model_code)
-        (output_dir / "model.py").write_text(templated_model_code)
-
-        # Update weight_meta.py and input_meta.py dtypes
+        # Update weight_meta.py and input_meta.py dtypes FIRST,
+        # so we can use the updated meta to generate inputs for ShapeProp
         target_dtype_str = f"torch.{dtype}"
         self._update_tensor_meta_dtypes(
             output_dir, converted_tensor_names, target_dtype_str
         )
+
+        # Remove redundant .to() calls:
+        # Load inputs from the updated meta files (dtype matches meta exactly),
+        # run ShapeProp to get real runtime dtypes, then prune redundant .to() nodes.
+        try:
+            _, meta_inputs = get_torch_module_and_inputs(str(output_dir))
+            ShapeProp(gm_modified).propagate(*meta_inputs)
+            gm_modified = dtype_pass.remove_redundant_to_calls(gm_modified)
+        except Exception as e:
+            logging.warning(f"Failed to remove redundant .to() calls: {e}")
+
+        # Update model.py (after redundant .to() removal)
+        model_code = serialize_graph_module_to_str(gm_modified)
+        templated_model_code = utils.apply_templates(model_code)
+        (output_dir / "model.py").write_text(templated_model_code)
 
         # Update graph_hash.txt
         model_hash = get_sha256_hash(model_code)

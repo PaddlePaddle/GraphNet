@@ -342,7 +342,7 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         for pass_name in dtype_pass_names:
             try:
                 sample_dir = self._apply_pass_and_generate(
-                    rel_model_path, traced_model, pass_name, inputs
+                    rel_model_path, traced_model, pass_name
                 )
                 generated_samples.append(sample_dir)
                 logging.info(f"Generated sample: {sample_dir}")
@@ -377,7 +377,6 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         rel_model_path: str,
         traced_model: fx.GraphModule,
         pass_name: str,
-        inputs: list = None,
     ) -> str:
         """
         Apply a specific pass and generate a new sample.
@@ -387,7 +386,6 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             traced_model: Original traced model
             pass_name: Name of the pass file (without .py extension),
                        e.g., "dtype_generalization_pass_float16"
-            inputs: Original model inputs (unused, kept for compatibility)
 
         Returns:
             Path to the generated sample directory
@@ -429,6 +427,7 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         # Load inputs from the updated meta files (dtype matches meta exactly),
         # run ShapeProp to get real runtime dtypes, then prune redundant .to() nodes.
         try:
+            torch.cuda.empty_cache()
             _, meta_inputs = get_torch_module_and_inputs(str(output_dir))
             ShapeProp(gm_modified).propagate(*meta_inputs)
             gm_modified = dtype_pass.remove_redundant_to_calls(gm_modified)

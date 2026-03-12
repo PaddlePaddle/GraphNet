@@ -12,7 +12,10 @@ export CUDA_VISIBLE_DEVICES="${GPU_ID}"
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 RESUME="true"
 
-DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
+#DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
+DECOMPOSE_WORKSPACE=/work/graphnet_test_workspace/subgraph_dataset_20260203
+OUTPUT_DIR=$DECOMPOSE_WORKSPACE/outputs
+
 DEVICE_REWRITED_SAMPLE_DIR=$DECOMPOSE_WORKSPACE/01_device_rewrited_samples
 DIM_GENERALIZED_SAMPLE_DIR=$DECOMPOSE_WORKSPACE/02_dimension_generalized_samples
 SAMPLE_OP_NAMES_DIR=$DECOMPOSE_WORKSPACE/03_sample_op_names
@@ -38,7 +41,8 @@ DEDUP_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/2-10_deduplicate
 DTYPE_GENERALIZED_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/2-11_dtype_generalized_typical_subgraphs
 TYPICAL_SUBGRAPH_UNITTEST_DIR=$DECOMPOSE_WORKSPACE/2-12_typical_kernelbench_unittests
 
-mkdir -p "$DECOMPOSE_WORKSPACE"
+mkdir -p $DECOMPOSE_WORKSPACE
+mkdir -p $OUTPUT_DIR
 
 model_list="$GRAPH_NET_ROOT/graph_net/config/torch_samples_list.txt"
 DB_PATH=$DECOMPOSE_WORKSPACE/small100_torch_samples.db
@@ -613,11 +617,17 @@ function main() {
     python ${GRAPH_NET_ROOT}/sqlite/init_db.py --db_path ${DB_PATH} 2>&1 | tee sqlite/logs/init_db_${timestamp}.log
     insert_graph_sample ${GRAPH_NET_ROOT} "github_torch_samples" "full_graph" ${model_list}
 
+    sample_type="fusible_graph"
     generate_fusible_subgraphs
-    insert_graph_sample ${DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} "github_torch_samples" "fusible_graph" ${deduplicated_fusible_subgraphs_list}
+    insert_graph_sample ${DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} "github_torch_samples" ${sample_type} ${deduplicated_fusible_subgraphs_list}
+    cp -rf $DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR $OUTPUT_DIR/${sample_type}
+    cp -rf $deduplicated_fusible_subgraphs_list $OUTPUT_DIR/${sample_type}/sample_list.txt
 
+    sample_type="typical_graph"
     generate_typical_subgraphs
-    insert_graph_sample ${DEDUP_TYPICAL_SUBGRAPH_DIR} "github_torch_samples" "typical_graph" ${deduplicated_typical_subgraph_list}    
+    insert_graph_sample ${DEDUP_TYPICAL_SUBGRAPH_DIR} "github_torch_samples" ${sample_type} ${deduplicated_typical_subgraph_list}
+    cp -rf $DEDUP_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR $OUTPUT_DIR/${sample_type}
+    cp -rf $deduplicated_typical_subgraph_list $OUTPUT_DIR/${sample_type}/sample_list.txt
 }
 
 summary() {

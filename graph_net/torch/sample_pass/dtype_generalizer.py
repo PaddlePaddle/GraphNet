@@ -373,7 +373,10 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         return metadata.get(kDataTypeGeneralizationPasses, [])
 
     def _apply_pass_and_generate(
-        self, rel_model_path: str, traced_model: fx.GraphModule, pass_name: str
+        self,
+        rel_model_path: str,
+        traced_model: fx.GraphModule,
+        pass_name: str,
     ) -> str:
         """
         Apply a specific pass and generate a new sample.
@@ -413,16 +416,28 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         # Copy metadata files of original sample
         self._copy_sample(rel_model_path, output_dir)
 
-        # Update model.py
-        model_code = serialize_graph_module_to_str(gm_modified)
-        templated_model_code = utils.apply_templates(model_code)
-        (output_dir / "model.py").write_text(templated_model_code)
-
-        # Update weight_meta.py and input_meta.py dtypes
+        # Update weight_meta.py and input_meta.py dtypes FIRST,
+        # so we can use the updated meta to generate inputs for ShapeProp
         target_dtype_str = f"torch.{dtype}"
         self._update_tensor_meta_dtypes(
             output_dir, converted_tensor_names, target_dtype_str
         )
+
+        # Remove redundant .to() calls:
+        # Load inputs from the updated meta files (dtype matches meta exactly),
+        # run ShapeProp to get real runtime dtypes, then prune redundant .to() nodes.
+        try:
+            torch.cuda.empty_cache()
+            _, meta_inputs = get_torch_module_and_inputs(str(output_dir))
+            ShapeProp(gm_modified).propagate(*meta_inputs)
+            gm_modified = dtype_pass.remove_redundant_to_calls(gm_modified)
+        except Exception as e:
+            logging.warning(f"Failed to remove redundant .to() calls: {e}")
+
+        # Update model.py (after redundant .to() removal)
+        model_code = serialize_graph_module_to_str(gm_modified)
+        templated_model_code = utils.apply_templates(model_code)
+        (output_dir / "model.py").write_text(templated_model_code)
 
         # Update graph_hash.txt
         model_hash = get_sha256_hash(model_code)

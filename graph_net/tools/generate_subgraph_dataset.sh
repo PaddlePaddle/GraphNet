@@ -3,7 +3,7 @@ set -x
 
 MIN_SEQ_OPS=${1:-4}
 MAX_SEQ_OPS=${2:-64}
-GPU_ID=${3:-0}
+GPU_ID=${3:-6}
 
 OP_RANGE=$MIN_SEQ_OPS-$MAX_SEQ_OPS
 
@@ -26,13 +26,13 @@ DEDUP_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/07_deduplicated_typical_subgraph
 
 # fusible_subgraphs
 CUMSUM_NUM_KERNELS_DIR=$DECOMPOSE_WORKSPACE/08_cumsum_num_kernels
-FUSIBLE_SUBGRAPH_RANGE_DIR=$DECOMPOSE_WORKSPACE/09_fusible_subgraph_ranges
-GROUPED_FUSIBLE_SUBGRAPH_RANGE_DIR=$DECOMPOSE_WORKSPACE/10_grouped_fusible_subgraph_ranges
-DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/11_dimension_generalized_fusible_subgraphs
-RENAMED_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/12_renamed_dimension_generalized_fusible_subgraphs
-DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/13_deduplicated_dimension_generalized_fusible_subgraphs
-DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/14_dtype_generalized_fusible_subgraphs
-FUSIBLE_SUBGRAPH_UNITTEST_DIR=$DECOMPOSE_WORKSPACE/15_fusible_subgraphs_unittests
+FUSIBLE_SUBGRAPH_RANGE_DIR=$DECOMPOSE_WORKSPACE/09_fusible_subgraph_ranges_v2
+GROUPED_FUSIBLE_SUBGRAPH_RANGE_DIR=$DECOMPOSE_WORKSPACE/10_grouped_fusible_subgraph_ranges_v2
+DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/11_dimension_generalized_fusible_subgraphs_v2
+RENAMED_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/12_renamed_dimension_generalized_fusible_subgraphs_v2
+DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/13_deduplicated_dimension_generalized_fusible_subgraphs_v2
+DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/14_dtype_generalized_fusible_subgraphs_v2
+FUSIBLE_SUBGRAPH_UNITTEST_DIR=$DECOMPOSE_WORKSPACE/15_fusible_subgraphs_unittests_v2
 
 # typical_subgraphs
 DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/2-08_dimension_generalized_typical_subgraphs
@@ -160,6 +160,7 @@ function dimension_generalizer(){
 }
 EOF
 )
+    cp -rf $DEVICE_REWRITED_SAMPLE_DIR $DIM_GENERALIZED_SAMPLE_DIR/9
 }
 
 function generate_op_names() {
@@ -272,23 +273,23 @@ function remove_duplicate_renamed_graphs() {
 function gen_fusible_subgraph_ranges() {
     echo ">>> [8] Generate fusible subgraphs for subgraph samples under ${DEDUP_TYPICAL_SUBGRAPH_DIR}."
     echo ">>>"
-    python3 -m graph_net.model_path_handler \
-        --use-subprocess    \
-        --model-path-list "$deduplicated_subgraph_list" \
-        --handler-config $(base64 -w 0 <<EOF
-{
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/cumsum_num_kernels_generator.py",
-    "handler_class_name": "CumSumNumKernelsGenerator",
-    "handler_config": {
-        "output_json_file_name": "cumsum_num_kernels.json",
-        "model_path_prefix": "${DEDUP_TYPICAL_SUBGRAPH_DIR}",
-        "output_dir": "$CUMSUM_NUM_KERNELS_DIR",
-        "device": "cuda",
-        "resume": ${RESUME}
-    }
-}
-EOF
-)
+#     python3 -m graph_net.model_path_handler \
+#         --use-subprocess    \
+#         --model-path-list "$deduplicated_subgraph_list" \
+#         --handler-config $(base64 -w 0 <<EOF
+# {
+#     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/cumsum_num_kernels_generator.py",
+#     "handler_class_name": "CumSumNumKernelsGenerator",
+#     "handler_config": {
+#         "output_json_file_name": "cumsum_num_kernels.json",
+#         "model_path_prefix": "${DEDUP_TYPICAL_SUBGRAPH_DIR}",
+#         "output_dir": "$CUMSUM_NUM_KERNELS_DIR",
+#         "device": "cuda",
+#         "resume": ${RESUME}
+#     }
+# }
+# EOF
+# )
 
     python3 -m graph_net.model_path_handler \
         --model-path-list "$deduplicated_subgraph_list" \
@@ -325,7 +326,7 @@ EOF
 
 function subgraph_dimension_generalizer(){
     echo ">>> [9] Generate dimension generalized subgraph samples under ${DIM_GENERALIZED_SAMPLE_DIR}."
-    for index in {0..8}; do
+    for index in {0..9}; do
         echo ">>> Generating dimension generalized subgraph variant index: ${index}"
         dimension_generalized_sample_list="${DIM_GENERALIZED_SAMPLE_DIR}/${index}/dimension_generalized_sample_list.txt"
         generate_subgraph_list ${DIM_GENERALIZED_SAMPLE_DIR}/${index} ${dimension_generalized_sample_list}
@@ -377,7 +378,7 @@ EOF
 function remove_duplicate_dimension_generalized_fusible_graphs() {
     echo ">>> [11] Remove duplicated subgraph samples under ${RENAMED_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}."
     echo ">>>"
-    for index in {0..8}; do
+    for index in {0..9}; do
         python3 -m graph_net.tools.deduplicated \
             --samples-dir ${RENAMED_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}/${index} \
             --target-dir ${DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}/${index}
@@ -613,9 +614,11 @@ function generate_typical_subgraphs() {
 function main() {
     timestamp=`date +%Y%m%d_%H%M`
 
-    # init database
-    python ${GRAPH_NET_ROOT}/sqlite/init_db.py --db_path ${DB_PATH} 2>&1 | tee sqlite/logs/init_db_${timestamp}.log
-    insert_graph_sample ${GRAPH_NET_ROOT} "github_torch_samples" "full_graph" ${model_list}
+    # # init database
+    # python ${GRAPH_NET_ROOT}/sqlite/init_db.py --db_path ${DB_PATH} 2>&1 | tee sqlite/logs/init_db_${timestamp}.log
+    # insert_graph_sample ${GRAPH_NET_ROOT} "github_torch_samples" "full_graph" ${model_list}
+
+    # do_common_generalzation_and_decompose
 
     sample_type="fusible_graph"
     generate_fusible_subgraphs
@@ -623,11 +626,11 @@ function main() {
     cp -rf $DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR $OUTPUT_DIR/${sample_type}
     cp -rf $deduplicated_fusible_subgraphs_list $OUTPUT_DIR/${sample_type}/sample_list.txt
 
-    sample_type="typical_graph"
-    generate_typical_subgraphs
-    insert_graph_sample ${DEDUP_TYPICAL_SUBGRAPH_DIR} "github_torch_samples" ${sample_type} ${deduplicated_typical_subgraph_list}
-    cp -rf $DEDUP_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR $OUTPUT_DIR/${sample_type}
-    cp -rf $deduplicated_typical_subgraph_list $OUTPUT_DIR/${sample_type}/sample_list.txt
+    # sample_type="typical_graph"
+    # generate_typical_subgraphs
+    # insert_graph_sample ${DEDUP_TYPICAL_SUBGRAPH_DIR} "github_torch_samples" ${sample_type} ${deduplicated_typical_subgraph_list}
+    # cp -rf $DEDUP_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR $OUTPUT_DIR/${sample_type}
+    # cp -rf $deduplicated_typical_subgraph_list $OUTPUT_DIR/${sample_type}/sample_list.txt
 }
 
 summary() {
@@ -638,38 +641,38 @@ summary() {
     device_rewrited_successed_precent=$(( num_device_rewrited_samples * 100 / num_original_samples ))
     echo "- [Common - 1] device rewrite: successed=${num_device_rewrited_samples}, percent=$device_rewrited_successed_precent%"
 
-    num_successed_dimension_generalized_samples=`find ${DIM_GENERALIZED_SAMPLE_DIR} -name "model.py" | wc -l`
-    dimension_generalized_samples_successed_percent=$((num_successed_dimension_generalized_samples * 100 / (num_original_samples * 9)))
-    echo "- [Common - 2] dimension generalization: successed=${num_successed_dimension_generalized_samples}, percent=${dimension_generalized_samples_successed_percent}%"
+    num_dim_generalized_samples=`find ${DIM_GENERALIZED_SAMPLE_DIR} -name "model.py" | wc -l`
+    dim_generalization_successed_percent=$((num_dim_generalized_samples * 100 / (num_original_samples * 9)))
+    echo "- [Common - 2] dimension generalization: successed=${num_dim_generalized_samples}, percent=${dim_generalization_successed_percent}%"
     for index in {0..8}; do
-        num_successed_dimension_generalized_samples=`find ${DIM_GENERALIZED_SAMPLE_DIR}/${index} -name "model.py" | wc -l`
-        dimension_generalized_samples_successed_percent=$(( num_successed_dimension_generalized_samples * 100 / num_original_samples ))
-        echo "    ${index}, successed=${num_successed_dimension_generalized_samples}, percent=${dimension_generalized_samples_successed_percent}%"
+        num_dim_generalized_samples_index=`find ${DIM_GENERALIZED_SAMPLE_DIR}/${index} -name "model.py" | wc -l`
+        dim_generalization_successed_percent=$((num_dim_generalized_samples_index * 100 / num_original_samples))
+        echo "    ${index}, successed=${num_dim_generalized_samples}, percent=${dim_generalization_successed_percent}%"
     done
     echo ""
 
-    num_successed_op_names=`find ${SAMPLE_OP_NAMES_DIR} -name op_names.txt | wc -l`
-    op_names_successed_percent=$(( num_successed_op_names * 100 / num_original_samples ))
-    echo "- [Common - 3] generate op names: successed=${num_successed_op_names}, percent=${op_names_successed_percent}%"
+    num_op_names=`find ${SAMPLE_OP_NAMES_DIR} -name op_names.txt | wc -l`
+    op_names_successed_percent=$((num_op_names * 100 / num_original_samples))
+    echo "- [Common - 3] generate op names: successed=${num_op_names}, percent=${op_names_successed_percent}%"
 
     num_typical_subgraph_ranges=`find ${TYPICAL_SUBGRAPH_RANGE_DIR} -name typical_subgraph_ranges.json | wc -l`
-    typical_subgraph_ranges_successed_percent=$(( num_typical_subgraph_ranges * 100 / num_original_samples ))
+    typical_subgraph_ranges_successed_percent=$((num_typical_subgraph_ranges * 100 / num_original_samples))
     echo "- [Common - 4] generate typical subgraph ranges: successed=${num_typical_subgraph_ranges}, percent=${typical_subgraph_ranges_successed_percent}%"
 
-    num_successed_range_decomposed_subgraphs=`find ${TYPICAL_SUBGRAPH_DIR} -name "model.py" | wc -l`
-    echo "- [Common - 5] range decompose: successed=${num_successed_range_decomposed_subgraphs}"
+    num_typical_subgraphs=`find ${TYPICAL_SUBGRAPH_DIR} -name "model.py" | wc -l`
+    echo "- [Common - 5] range decompose: successed=${num_typical_subgraphs}"
+
+    num_renamed_typical_subgraphs=`find ${RENAMED_TYPICAL_SUBGRAPH_DIR} -name "model.py" | wc -l`
+    echo "- [Common - 6] rename: successed=${num_renamed_typical_subgraphs}"
     
-    num_renamed_subgraphs=`find ${RENAMED_TYPICAL_SUBGRAPH_DIR} -name "model.py" | wc -l`
-    echo "- [Common - 6] rename: successed=${num_renamed_subgraphs}"
-    
-    num_deduplicated_typical_subgraphs=`find ${DEDUP_TYPICAL_SUBGRAPH_DIR} -name "model.py" | wc -l`
-    echo "- [Common - 7] remove duplicated: successed=${num_deduplicated_typical_subgraphs}"
+    num_dedup_typical_subgraphs=`find ${DEDUP_TYPICAL_SUBGRAPH_DIR} -name "model.py" | wc -l`
+    echo "- [Common - 7] remove duplicated: successed=${num_dedup_typical_subgraphs}"
     echo ""
 
     # fusible subgraphs
-    num_successed_cumsum_kernels_subgraphs=`find ${CUMSUM_NUM_KERNELS_DIR} -name "cumsum_num_kernels.json" | wc -l`
-    cumsum_kernels_successed_percent=$((num_successed_cumsum_kernels_subgraphs * 100 / num_deduplicated_typical_subgraphs))
-    echo "- [Fusible - 1] cumsum kernels: successed=${num_successed_cumsum_kernels_subgraphs}, percent=${cumsum_kernels_successed_percent}%"
+    num_cumsum_kernels_subgraphs=`find ${CUMSUM_NUM_KERNELS_DIR} -name "cumsum_num_kernels.json" | wc -l`
+    cumsum_kernels_successed_percent=$((num_cumsum_kernels_subgraphs * 100 / num_dedup_typical_subgraphs))
+    echo "- [Fusible - 1] cumsum kernels: successed=${num_cumsum_kernels_subgraphs}, percent=${cumsum_kernels_successed_percent}%"
 
     num_fusible_subgraph_ranges=`find ${FUSIBLE_SUBGRAPH_RANGE_DIR} -name "fusible_subgraph_ranges.json" | wc -l`
     num_grouped_fusible_subgraph_ranges=`find ${GROUPED_FUSIBLE_SUBGRAPH_RANGE_DIR} -name "grouped_fusible_subgraph_ranges.json" | wc -l`
@@ -677,11 +680,11 @@ summary() {
     echo "    grouped fusible subgraph ranges: successed=${num_grouped_fusible_subgraph_ranges}"
     echo ""
 
-    num_successed_dimension_generalized_subgraphs=`find ${DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} -name "model.py" | wc -l`
-    echo "- [Fusible - 2] subgraph dimension generalization: successed=${num_successed_dimension_generalized_subgraphs}"
+    num_dim_generalized_subgraphs=`find ${DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} -name "model.py" | wc -l`
+    echo "- [Fusible - 2] subgraph dimension generalization: successed=${num_dim_generalized_subgraphs}"
     for index in {0..8}; do
-        num_successed_dimension_generalized_subgraphs=`find ${DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}/${index} -name "model.py" | wc -l`
-        echo "    ${index}, successed=${num_successed_dimension_generalized_subgraphs}"
+        num_dim_generalized_subgraphs=`find ${DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}/${index} -name "model.py" | wc -l`
+        echo "    ${index}, successed=${num_dim_generalized_subgraphs}"
     done
     echo ""
 
@@ -710,35 +713,35 @@ summary() {
     done
     echo ""
 
-    num_successed_unittests=`find ${FUSIBLE_SUBGRAPH_UNITTEST_DIR} -name "*_test.py" | wc -l`
-    unittest_successed_percent=$((num_successed_unittests * 100 / num_dtype_generalized_subgraphs))
-    echo "- [Fusible - 6] generate unittest: successed=${num_successed_unittests}, percent=${unittest_successed_percent}%"
+    num_fusible_subgraph_unittests=`find ${FUSIBLE_SUBGRAPH_UNITTEST_DIR} -name "*_test.py" | wc -l`
+    unittest_successed_percent=$((num_fusible_subgraph_unittests * 100 / num_dtype_generalized_subgraphs))
+    echo "- [Fusible - 6] generate unittest: successed=${num_fusible_subgraph_unittests}, percent=${unittest_successed_percent}%"
     for dtype in float32 float16 bfloat16
     do
-        num_successed_unittests=`find ${FUSIBLE_SUBGRAPH_UNITTEST_DIR}/${dtype} -name "*_test.py" | wc -l`
-        echo "    ${dtype}, successed=${num_successed_unittests}"
+        num_fusible_subgraph_unittests=`find ${FUSIBLE_SUBGRAPH_UNITTEST_DIR}/${dtype} -name "*_test.py" | wc -l`
+        echo "    ${dtype}, successed=${num_fusible_subgraph_unittests}"
     done
     echo ""
 
     # typical subgraphs
-    num_successed_dim_generalized_typical_subgraphs=`find ${DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR} -name "model.py" | wc -l`
-    echo "- [Typical - 1] subgraph dimension generalization: successed=${num_successed_dim_generalized_typical_subgraphs}"
+    num_dim_generalized_typical_subgraphs=`find ${DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR} -name "model.py" | wc -l`
+    echo "- [Typical - 1] subgraph dimension generalization: successed=${num_dim_generalized_typical_subgraphs}"
     for index in {0..8}; do
-        num_successed_dim_generalized_typical_index=`find ${DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR}/${index} -name "model.py" | wc -l`
-        echo "    ${index}, successed=${num_successed_dim_generalized_typical_index}"
+        num_dim_generalized_typical_index=`find ${DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR}/${index} -name "model.py" | wc -l`
+        echo "    ${index}, successed=${num_dim_generalized_typical_index}"
     done
     echo ""
 
-    num_renamed_typical_subgraphs=`find ${RENAMED_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR} -name "model.py" | wc -l`
-    echo "- [Typical - 2] rename: successed=${num_renamed_typical_subgraphs}"
+    num_renamed_dim_generalized_typical_subgraphs=`find ${RENAMED_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR} -name "model.py" | wc -l`
+    echo "- [Typical - 2] rename: successed=${num_renamed_dim_generalized_typical_subgraphs}"
     for index in {0..8}; do
-        num_renamed_typical_subgraphs_index=`find ${RENAMED_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR}/${index} -name "model.py" | wc -l`
-        echo "    ${index}, successed=${num_renamed_typical_subgraphs_index}"
+        num_renamed_dim_generalized_typical_subgraphs_index=`find ${RENAMED_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR}/${index} -name "model.py" | wc -l`
+        echo "    ${index}, successed=${num_renamed_dim_generalized_typical_subgraphs_index}"
     done
     echo ""
 
-    num_deduplicated_typical_subgraphs=`find ${DEDUP_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR} -name "model.py" | wc -l`
-    echo "- [Typical - 3] remove duplicated: successed=${num_deduplicated_typical_subgraphs}"
+    num_dedup_typical_subgraphs=`find ${DEDUP_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR} -name "model.py" | wc -l`
+    echo "- [Typical - 3] remove duplicated: successed=${num_dedup_typical_subgraphs}"
     for index in {0..9}; do
         num_deduplicated_typical_subgraphs_index=`find ${DEDUP_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR}/${index} -name "model.py" | wc -l`
         echo "    ${index}, successed=${num_deduplicated_typical_subgraphs_index}"

@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS graph_sample (
 CREATE INDEX IF NOT EXISTS idx_relative_model_path ON graph_sample (relative_model_path);
 CREATE INDEX IF NOT EXISTS idx_graph_hash ON graph_sample (graph_hash);
 CREATE INDEX IF NOT EXISTS idx_order_value ON graph_sample (order_value);
-CREATE UNIQUE INDEX IF NOT EXISTS uq_relative_model_path_repo_uid ON graph_sample (relative_model_path, repo_uid);
+CREATE UNIQUE INDEX IF NOT EXISTS uq_relative_model_path_repo_uid ON graph_sample (relative_model_path, repo_uid,sample_type);
 
 -- create subgraph_source table
 CREATE TABLE IF NOT EXISTS subgraph_source (

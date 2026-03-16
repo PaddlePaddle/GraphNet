@@ -7,7 +7,7 @@ TORCH_MODEL_LIST="graph_net/config/torch_samples_list.txt"
 PADDLE_MODEL_LIST="graph_net/config/small10_paddle_samples_list.txt"
 TYPICAL_GRAPH_SAMPLES_LIST="subgraph_dataset_20260203/deduplicated_subgraph_sample_list.txt"
 FUSIBLE_GRAPH_SAMPLES_LIST="subgraph_dataset_20260203/deduplicated_dimension_generalized_subgraph_sample_list.txt"
-SOLE_OP_GRAPH_SAMPLES_LIST="subgraph_dataset_20260203/sole/solo_sample_list.txt"
+SOLE_OP_GRAPH_SAMPLES_LIST="subgraph_dataset_20260203/solo_sample_list.txt"
 ORDER_VALUE=0
 
 if [ ! -f "$DB_PATH" ]; then

@@ -69,7 +69,7 @@ def insert_subgraph_source(
     session = get_session(db_path)
     try:
         parent_relative_path = get_parent_relative_path(relative_model_path)
-        if sample_type == "fusible_graph":
+        if sample_type == "fusible_graph" or sample_type == "typical_graph":
             parent_parts = parent_relative_path.split("/")
             parent_parts = parent_parts[1:]
             parent_relative_path = "/".join(parent_parts)
@@ -469,7 +469,7 @@ def main(args):
                 relative_model_path=args.relative_model_path,
                 db_path=args.db_path,
             )
-            if args.sample_type in ["fusible_graph"]:
+            if args.sample_type in ["fusible_graph", "typical_graph"]:
                 insert_dimension_generalization_source(
                     subgraph_source_data["subgraph_uuid"],
                     subgraph_source_data["full_graph_uuid"],

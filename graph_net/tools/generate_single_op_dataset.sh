@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-export CUDA_VISIBLE_DEVICES="6"
+export CUDA_VISIBLE_DEVICES="0"
 
 # ==============================================================================
 # Configuration Area
@@ -23,8 +23,8 @@ fi
 RESUME="true"
 
 # Workspace Setup
-WORKSPACE="/work/graphnet_test_workspace/single_op_dataset_20260228"
-MODEL_LIST="${GRAPH_NET_ROOT}/graph_net/config/torch_samples_list.txt"
+WORKSPACE="/tmp/single_op_workspace"
+MODEL_LIST="${GRAPH_NET_ROOT}/graph_net/config/small100_torch_samples_list.txt"
 
 # Output Directories
 OP_NAMES_DIR="${WORKSPACE}/01_op_names"
@@ -32,6 +32,7 @@ RANGES_DIR="${WORKSPACE}/02_ranges"
 RAW_SUBGRAPH_DIR="${WORKSPACE}/03_raw_subgraphs"
 RENAMED_DIR="${WORKSPACE}/04_renamed"
 DEDUPLICATED_DIR="${WORKSPACE}/05_deduplicated"
+DTYPE_GENERALIZED_SUBGRAPH_DIR="${WORKSPACE}/06_dtype_generalized_subgraphs"
 
 if [[ "$MODEL_LIST" == *"/torch_samples_list.txt" ]]; then
     USE_SUBPROCESS_ARGS="--use-subprocess"
@@ -161,6 +162,28 @@ function deduplicate_subgraphs() {
         --target-dir ${DEDUPLICATED_DIR}
 }
 
+function dtype_generalizer() {
+    # Stage 6: Dtype generalization
+    echo ">>> Data type generalizer for samples under ${DEDUPLICATED_DIR}."
+    echo ">>>"
+    python3 -m graph_net.apply_sample_pass \
+        --use-subprocess \
+        --model-path-list ${WORKSPACE}/deduplicated_subgraphs_list.txt \
+        --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/dtype_generalizer.py" \
+        --sample-pass-class-name ApplyDataTypeGeneralizationPasses \
+        --sample-pass-config $(base64 -w 0 <<EOF
+{
+    "output_dir": "$DTYPE_GENERALIZED_SUBGRAPH_DIR",
+    "model_path_prefix": "$DEDUPLICATED_DIR",
+    "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
+    "try_run": false,
+    "device": "cuda",
+    "resume": ${RESUME}
+}
+EOF
+)
+}
+
 function main() {
     TIMESTAMP=$(date +%Y%m%d_%H%M)
 
@@ -173,5 +196,9 @@ function main() {
     deduplicate_subgraphs 2>&1 | tee ${WORKSPACE}/log_deduplicated_subgraphs_${TIMESTAMP}.txt
     generate_generalized_subgraph_list ${DEDUPLICATED_DIR} ${WORKSPACE}/deduplicated_subgraphs_list.txt
 
+    dtype_generalizer 2>&1 | tee ${WORKSPACE}/log_dtype_generalizer_${TIMESTAMP}.txt
+
     echo ">>> ALL DONE. Final dataset located at: ${DEDUPLICATED_DIR}"
 }
+
+main

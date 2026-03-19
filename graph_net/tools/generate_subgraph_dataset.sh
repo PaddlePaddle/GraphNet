@@ -638,13 +638,13 @@ function main() {
 
     sample_type="fusible_graph"
     generate_fusible_subgraphs
-    cp -rf $DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR $OUTPUT_DIR/$sample_type
-    cp -rf $deduplicated_fusible_subgraphs_list $OUTPUT_DIR/$sample_type/sample_list.txt
+    cp -rf $DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR $OUTPUT_DIR/$sample_type
+    cp -rf $dtype_generalized_subgraphs_list $OUTPUT_DIR/$sample_type/sample_list.txt
 
     sample_type="typical_graph"
     generate_typical_subgraphs
-    cp -rf $DEDUP_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR $OUTPUT_DIR/$sample_type
-    cp -rf $deduplicated_typical_subgraph_list $OUTPUT_DIR/$sample_type/sample_list.txt
+    cp -rf $DTYPE_GENERALIZED_TYPICAL_SUBGRAPH_DIR $OUTPUT_DIR/$sample_type
+    cp -rf $dtype_generalized_typical_subgraph_list $OUTPUT_DIR/$sample_type/sample_list.txt
 
     generate_database
 }

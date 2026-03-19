@@ -71,6 +71,10 @@ def insert_subgraph_source(
         parent_relative_path = get_parent_relative_path(relative_model_path)
         if sample_type == "fusible_graph" or sample_type == "typical_graph":
             parent_parts = parent_relative_path.split("/")
+            parent_parts = parent_parts[2:]
+            parent_relative_path = "/".join(parent_parts)
+        if sample_type == "sole_op_graph":
+            parent_parts = parent_relative_path.split("/")
             parent_parts = parent_parts[1:]
             parent_relative_path = "/".join(parent_parts)
 
@@ -255,7 +259,7 @@ def insert_datatype_generalization_source(
 
 
 def _get_data_type(model_path_prefix: str, relative_model_path: str):
-    return "todo"
+    return relative_model_path.split("/")[0]
 
 
 # SampleOpNameList and SampleOpName insert func
@@ -477,13 +481,13 @@ def main(args):
                     args.relative_model_path,
                     args.db_path,
                 )
-                insert_datatype_generalization_source(
-                    subgraph_source_data["subgraph_uuid"],
-                    subgraph_source_data["full_graph_uuid"],
-                    args.model_path_prefix,
-                    args.relative_model_path,
-                    args.db_path,
-                )
+            insert_datatype_generalization_source(
+                subgraph_source_data["subgraph_uuid"],
+                subgraph_source_data["full_graph_uuid"],
+                args.model_path_prefix,
+                args.relative_model_path,
+                args.db_path,
+            )
         print(f"success insert: {data['relative_model_path']}")
     except sqlite3.IntegrityError as e:
         print("insert failed: integrity error (possible duplicate uuid or graph_hash)")

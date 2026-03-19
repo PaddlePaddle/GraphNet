@@ -3,7 +3,7 @@ set -x
 
 MIN_SEQ_OPS=${1:-4}
 MAX_SEQ_OPS=${2:-64}
-GPU_ID=${3:-6}
+GPU_ID=${3:-0}
 
 OP_RANGE=$MIN_SEQ_OPS-$MAX_SEQ_OPS
 
@@ -12,9 +12,9 @@ export CUDA_VISIBLE_DEVICES="${GPU_ID}"
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 RESUME="true"
 
-#DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
-DECOMPOSE_WORKSPACE=/work/graphnet_test_workspace/subgraph_dataset_20260203
+DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
 OUTPUT_DIR=$DECOMPOSE_WORKSPACE/outputs
+DB_PATH=$OUTPUT_DIR/GraphNet.db
 
 DEVICE_REWRITED_SAMPLE_DIR=$DECOMPOSE_WORKSPACE/01_device_rewrited_samples
 DIM_GENERALIZED_SAMPLE_DIR=$DECOMPOSE_WORKSPACE/02_dimension_generalized_samples
@@ -26,26 +26,25 @@ DEDUP_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/07_deduplicated_typical_subgraph
 
 # fusible_subgraphs
 CUMSUM_NUM_KERNELS_DIR=$DECOMPOSE_WORKSPACE/08_cumsum_num_kernels
-FUSIBLE_SUBGRAPH_RANGE_DIR=$DECOMPOSE_WORKSPACE/09_fusible_subgraph_ranges_v2
-GROUPED_FUSIBLE_SUBGRAPH_RANGE_DIR=$DECOMPOSE_WORKSPACE/10_grouped_fusible_subgraph_ranges_v2
-DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/11_dimension_generalized_fusible_subgraphs_v2
-RENAMED_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/12_renamed_dimension_generalized_fusible_subgraphs_v2
-DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/13_deduplicated_dimension_generalized_fusible_subgraphs_v2
-DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/14_dtype_generalized_fusible_subgraphs_v2
-FUSIBLE_SUBGRAPH_UNITTEST_DIR=$DECOMPOSE_WORKSPACE/15_fusible_subgraphs_unittests_v2
+FUSIBLE_SUBGRAPH_RANGE_DIR=$DECOMPOSE_WORKSPACE/09_fusible_subgraph_ranges
+GROUPED_FUSIBLE_SUBGRAPH_RANGE_DIR=$DECOMPOSE_WORKSPACE/10_grouped_fusible_subgraph_ranges
+DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/11_dimension_generalized_fusible_subgraphs
+RENAMED_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/12_renamed_dimension_generalized_fusible_subgraphs
+DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/13_deduplicated_dimension_generalized_fusible_subgraphs
+DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/14_dtype_generalized_fusible_subgraphs
+# FUSIBLE_SUBGRAPH_UNITTEST_DIR=$DECOMPOSE_WORKSPACE/15_fusible_subgraphs_unittests
 
 # typical_subgraphs
 DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/2-08_dimension_generalized_typical_subgraphs
 RENAMED_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/2-09_renamed_dimension_generalized_typical_subgraphs
 DEDUP_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/2-10_deduplicated_dimension_generalized_typical_subgraphs
 DTYPE_GENERALIZED_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/2-11_dtype_generalized_typical_subgraphs
-TYPICAL_SUBGRAPH_UNITTEST_DIR=$DECOMPOSE_WORKSPACE/2-12_typical_kernelbench_unittests
+# TYPICAL_SUBGRAPH_UNITTEST_DIR=$DECOMPOSE_WORKSPACE/2-12_typical_kernelbench_unittests
 
 mkdir -p $DECOMPOSE_WORKSPACE
 mkdir -p $OUTPUT_DIR
 
-model_list="$GRAPH_NET_ROOT/graph_net/config/torch_samples_list.txt"
-DB_PATH=$DECOMPOSE_WORKSPACE/small100_torch_samples.db
+model_list="$GRAPH_NET_ROOT/graph_net/config/small100_torch_samples_list.txt"
 
 device_rewrited_sample_list=${DECOMPOSE_WORKSPACE}/device_rewrited_sample_list.txt
 range_decomposed_subgraph_list=${DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_sample_list.txt
@@ -273,23 +272,23 @@ function remove_duplicate_renamed_graphs() {
 function gen_fusible_subgraph_ranges() {
     echo ">>> [8] Generate fusible subgraphs for subgraph samples under ${DEDUP_TYPICAL_SUBGRAPH_DIR}."
     echo ">>>"
-#     python3 -m graph_net.model_path_handler \
-#         --use-subprocess    \
-#         --model-path-list "$deduplicated_subgraph_list" \
-#         --handler-config $(base64 -w 0 <<EOF
-# {
-#     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/cumsum_num_kernels_generator.py",
-#     "handler_class_name": "CumSumNumKernelsGenerator",
-#     "handler_config": {
-#         "output_json_file_name": "cumsum_num_kernels.json",
-#         "model_path_prefix": "${DEDUP_TYPICAL_SUBGRAPH_DIR}",
-#         "output_dir": "$CUMSUM_NUM_KERNELS_DIR",
-#         "device": "cuda",
-#         "resume": ${RESUME}
-#     }
-# }
-# EOF
-# )
+    python3 -m graph_net.model_path_handler \
+        --use-subprocess    \
+        --model-path-list "$deduplicated_subgraph_list" \
+        --handler-config $(base64 -w 0 <<EOF
+{
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/cumsum_num_kernels_generator.py",
+    "handler_class_name": "CumSumNumKernelsGenerator",
+    "handler_config": {
+        "output_json_file_name": "cumsum_num_kernels.json",
+        "model_path_prefix": "${DEDUP_TYPICAL_SUBGRAPH_DIR}",
+        "output_dir": "$CUMSUM_NUM_KERNELS_DIR",
+        "device": "cuda",
+        "resume": ${RESUME}
+    }
+}
+EOF
+)
 
     python3 -m graph_net.model_path_handler \
         --model-path-list "$deduplicated_subgraph_list" \
@@ -584,11 +583,11 @@ function generate_fusible_subgraphs() {
     generate_generalized_subgraph_list ${DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} ${deduplicated_fusible_subgraphs_list}
 
     # dtype generalization
-    dtype_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_dtype_generalizer_${suffix}.txt
+    dtype_generalizer 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_dtype_generalizer_fusible_subgraphs_${suffix}.txt
     generate_generalized_subgraph_list ${DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} ${dtype_generalized_subgraphs_list}
 
     # generate kernelbench format unittest
-    generate_unittests 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_${suffix}.txt
+    # generate_unittests 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_${suffix}.txt
 }
 
 function generate_typical_subgraphs() {
@@ -608,32 +607,49 @@ function generate_typical_subgraphs() {
     generate_generalized_subgraph_list ${DTYPE_GENERALIZED_TYPICAL_SUBGRAPH_DIR} ${dtype_generalized_typical_subgraph_list}
 
     # generate kernelbench format unittest
-    generate_unittest_for_typical_subgraphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_typical_subgraphs_${suffix}.txt
+    # generate_unittest_for_typical_subgraphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_typical_subgraphs_${suffix}.txt
+}
+
+function generate_database() {
+    timestamp=`date +%Y%m%d_%H%M`
+
+    # init database
+    if [ ! -f ${DB_PATH} ]; then
+        python ${GRAPH_NET_ROOT}/sqlite/init_db.py --db_path ${DB_PATH} 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_init_db_${timestamp}.txt
+    fi
+    
+    # full_graph
+    insert_graph_sample ${GRAPH_NET_ROOT} "hf_torch_samples" "full_graph" ${model_list}
+
+    # fusible_graph, typical_graph
+    for sample_type in fusible_graph typical_graph; do
+        insert_graph_sample $OUTPUT_DIR/$sample_type "hf_torch_samples" $sample_type $OUTPUT_DIR/${sample_type}/sample_list.txt
+    done
+
+    # insert buckets
+    python ${GRAPH_NET_ROOT}/sqlite/graph_net_sample_bucket_generator.py --db_path ${DB_PATH}
+
+    # insert groups
+    python ${GRAPH_NET_ROOT}/sqlite/graph_net_sample_groups_insert.py --db_path ${DB_PATH}
 }
 
 function main() {
-    timestamp=`date +%Y%m%d_%H%M`
-
-    # # init database
-    # python ${GRAPH_NET_ROOT}/sqlite/init_db.py --db_path ${DB_PATH} 2>&1 | tee sqlite/logs/init_db_${timestamp}.log
-    # insert_graph_sample ${GRAPH_NET_ROOT} "github_torch_samples" "full_graph" ${model_list}
-
-    # do_common_generalzation_and_decompose
+    do_common_generalzation_and_decompose
 
     sample_type="fusible_graph"
     generate_fusible_subgraphs
-    insert_graph_sample ${DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} "github_torch_samples" ${sample_type} ${deduplicated_fusible_subgraphs_list}
-    cp -rf $DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR $OUTPUT_DIR/${sample_type}
-    cp -rf $deduplicated_fusible_subgraphs_list $OUTPUT_DIR/${sample_type}/sample_list.txt
+    cp -rf $DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR $OUTPUT_DIR/$sample_type
+    cp -rf $deduplicated_fusible_subgraphs_list $OUTPUT_DIR/$sample_type/sample_list.txt
 
-    # sample_type="typical_graph"
-    # generate_typical_subgraphs
-    # insert_graph_sample ${DEDUP_TYPICAL_SUBGRAPH_DIR} "github_torch_samples" ${sample_type} ${deduplicated_typical_subgraph_list}
-    # cp -rf $DEDUP_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR $OUTPUT_DIR/${sample_type}
-    # cp -rf $deduplicated_typical_subgraph_list $OUTPUT_DIR/${sample_type}/sample_list.txt
+    sample_type="typical_graph"
+    generate_typical_subgraphs
+    cp -rf $DEDUP_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR $OUTPUT_DIR/$sample_type
+    cp -rf $deduplicated_typical_subgraph_list $OUTPUT_DIR/$sample_type/sample_list.txt
+
+    generate_database
 }
 
-summary() {
+function summary() {
     num_original_samples=`cat $model_list | grep "^samples/" | wc -l`
     echo "Number of original graphnet samples: $num_original_samples"
 
@@ -644,10 +660,10 @@ summary() {
     num_dim_generalized_samples=`find ${DIM_GENERALIZED_SAMPLE_DIR} -name "model.py" | wc -l`
     dim_generalization_successed_percent=$((num_dim_generalized_samples * 100 / (num_original_samples * 9)))
     echo "- [Common - 2] dimension generalization: successed=${num_dim_generalized_samples}, percent=${dim_generalization_successed_percent}%"
-    for index in {0..8}; do
+    for index in {0..9}; do
         num_dim_generalized_samples_index=`find ${DIM_GENERALIZED_SAMPLE_DIR}/${index} -name "model.py" | wc -l`
         dim_generalization_successed_percent=$((num_dim_generalized_samples_index * 100 / num_original_samples))
-        echo "    ${index}, successed=${num_dim_generalized_samples}, percent=${dim_generalization_successed_percent}%"
+        echo "    ${index}, successed=${num_dim_generalized_samples_index}, percent=${dim_generalization_successed_percent}%"
     done
     echo ""
 
@@ -682,7 +698,7 @@ summary() {
 
     num_dim_generalized_subgraphs=`find ${DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} -name "model.py" | wc -l`
     echo "- [Fusible - 2] subgraph dimension generalization: successed=${num_dim_generalized_subgraphs}"
-    for index in {0..8}; do
+    for index in {0..9}; do
         num_dim_generalized_subgraphs=`find ${DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}/${index} -name "model.py" | wc -l`
         echo "    ${index}, successed=${num_dim_generalized_subgraphs}"
     done
@@ -690,7 +706,7 @@ summary() {
 
     num_renamed_fusible_subgraphs=`find ${RENAMED_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} -name "model.py" | wc -l`
     echo "- [Fusible - 3] rename: successed=${num_renamed_fusible_subgraphs}"
-    for index in {0..8}; do
+    for index in {0..9}; do
         num_renamed_fusible_subgraphs_index=`find ${RENAMED_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}/${index} -name "model.py" | wc -l`
         echo "    ${index}, successed=${num_renamed_fusible_subgraphs_index}"
     done
@@ -698,7 +714,7 @@ summary() {
 
     num_deduplicated_fusible_subgraphs=`find ${DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} -name "model.py" | wc -l`
     echo "- [Fusible - 4] remove duplicated: successed=${num_deduplicated_fusible_subgraphs}"
-    for index in {0..8}; do
+    for index in {0..9}; do
         num_deduplicated_fusible_subgraphs_index=`find ${DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}/${index} -name "model.py" | wc -l`
         echo "    ${index}, successed=${num_deduplicated_fusible_subgraphs_index}"
     done
@@ -710,16 +726,6 @@ summary() {
     do
         num_dtype_generalized_subgraphs_index=`find ${DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR}/${dtype} -name "model.py" | wc -l`
         echo "    ${dtype}, successed=${num_dtype_generalized_subgraphs_index}"
-    done
-    echo ""
-
-    num_fusible_subgraph_unittests=`find ${FUSIBLE_SUBGRAPH_UNITTEST_DIR} -name "*_test.py" | wc -l`
-    unittest_successed_percent=$((num_fusible_subgraph_unittests * 100 / num_dtype_generalized_subgraphs))
-    echo "- [Fusible - 6] generate unittest: successed=${num_fusible_subgraph_unittests}, percent=${unittest_successed_percent}%"
-    for dtype in float32 float16 bfloat16
-    do
-        num_fusible_subgraph_unittests=`find ${FUSIBLE_SUBGRAPH_UNITTEST_DIR}/${dtype} -name "*_test.py" | wc -l`
-        echo "    ${dtype}, successed=${num_fusible_subgraph_unittests}"
     done
     echo ""
 
@@ -745,6 +751,15 @@ summary() {
     for index in {0..9}; do
         num_deduplicated_typical_subgraphs_index=`find ${DEDUP_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR}/${index} -name "model.py" | wc -l`
         echo "    ${index}, successed=${num_deduplicated_typical_subgraphs_index}"
+    done
+    echo ""
+
+    num_dtype_generalized_typical_subgraphs=`find ${DTYPE_GENERALIZED_TYPICAL_SUBGRAPH_DIR} -name "model.py" | wc -l`
+    echo "- [Typical - 4] dtype generalization: successed=${num_dtype_generalized_typical_subgraphs}"
+    for dtype in float32 float16 bfloat16
+    do
+        num_dtype_generalized_typical_subgraphs_index=`find ${DTYPE_GENERALIZED_TYPICAL_SUBGRAPH_DIR}/${dtype} -name "model.py" | wc -l`
+        echo "    ${dtype}, successed=${num_dtype_generalized_typical_subgraphs_index}"
     done
     echo ""
 }

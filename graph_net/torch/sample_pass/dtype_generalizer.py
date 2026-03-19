@@ -330,6 +330,7 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             return []
 
         # Parse the computation graph
+        torch.cuda.empty_cache()
         module, inputs = get_torch_module_and_inputs(
             model_path, device=self._choose_device(self.config["device"])
         )
@@ -428,7 +429,9 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         # run ShapeProp to get real runtime dtypes, then prune redundant .to() nodes.
         try:
             torch.cuda.empty_cache()
-            _, meta_inputs = get_torch_module_and_inputs(str(output_dir))
+            _, meta_inputs = get_torch_module_and_inputs(
+                str(output_dir), device=self._choose_device(self.config["device"])
+            )
             ShapeProp(gm_modified).propagate(*meta_inputs)
             gm_modified = dtype_pass.remove_redundant_to_calls(gm_modified)
         except Exception as e:

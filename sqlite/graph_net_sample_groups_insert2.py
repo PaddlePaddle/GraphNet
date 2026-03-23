@@ -1,15 +1,3 @@
-"""
-bucket_policy_v2: Generate graph_net_sample_groups for v2 candidates.
-
-v2 candidates = total_graph_buckets - v1_selected_graph_buckets
-
-Graph bucket key: (op_seq_bucket_id, input_shapes_bucket_id, input_dtypes_bucket_id, graph_hash)
-
-v2 grouping strategy (progressive, mutually exclusive with v1):
-  Rule 3 (global sparse sampling): per op_seq, sort by sample_uid, every 5 pick 1.
-  Rule 4 (dtype coverage): from Rule 3 remainder, per op_seq+shape, pick num_dtypes different-dtype samples.
-"""
-
 import argparse
 import sqlite3
 import uuid as uuid_module
@@ -52,15 +40,6 @@ CandidateGraph = namedtuple(
 
 
 def query_v2_candidates(db: DB) -> list[CandidateGraph]:
-    """
-    Query v2 candidate graphs:
-    total graph buckets - v1 selected graph buckets.
-
-    Each (op_seq, shapes, dtypes, graph_hash) bucket picks one representative sample_uid
-    (the earliest by create_at, uuid).
-
-    v1 selected = sample_uids already in graph_net_sample_groups with group_policy='bucket_policy_v1'.
-    """
     query_str = """
 SELECT
     sub.sample_uid,
@@ -98,18 +77,6 @@ ORDER BY sub.op_seq_bucket_id, sub.input_shapes_bucket_id, sub.input_dtypes_buck
 
 
 def get_v2_group_members(candidates: list[CandidateGraph], num_dtypes: int):
-    """
-    Yield (sample_uid, group_uid) pairs for v2 grouping.
-
-    Rule 3 (global sparse sampling):
-      Sort all candidates by sample_uid, every 5 pick 1 sample.
-      All picked samples under the same op_seq share one group_uid.
-
-    Rule 4 (dtype coverage):
-      From remaining candidates (not selected in Rule 3),
-      per op_seq, for each shape, pick up to num_dtypes samples with different dtypes.
-      All picked samples under the same op_seq share one group_uid.
-    """
     # Index candidates by op_seq
     by_op_seq = defaultdict(list)
     for c in candidates:

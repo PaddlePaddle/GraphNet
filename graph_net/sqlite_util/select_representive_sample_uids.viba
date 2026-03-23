@@ -1,0 +1,11 @@
+# select_representive_sample_uids.py
+select_representive_sample_uids :=
+	$ret list[$sample_uids str]
+  <- $total_sample_uids_and_op_seqs ArgParse[FileContentEachLine[$sample_uids str, TAB, $op_seq str]]
+  <- $selected_op_seqs ArgParse[FileContentEachLine[$op_seq str]]
+  # inline
+  <- ($grouped_by_op_seq dict[$op_seq str, list[$sample_uids str]] <- $total_sample_uids_and_op_seqs)
+  <- $get_max_len_sample_uids (str <- list[$sample_uids str])
+  <- ($op_seq_to_max_len_sample_uids dict[$op_seq, $max_len_sample_uids str]
+     <- $get_max_len_sample_uids <- $grouped_by_op_seq)
+  <- ($ret <- $op_seq_to_max_len_sample_uids <- $selected_op_seqs)

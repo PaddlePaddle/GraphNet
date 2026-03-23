@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+export CUDA_VISIBLE_DEVICES="0"
+
 # ==============================================================================
 # Configuration Area
 # ==============================================================================
@@ -18,12 +20,11 @@ if [ -z "$GRAPH_NET_ROOT" ]; then
     exit 1
 fi
 
-RESUME="false"
+RESUME="true"
 
 # Workspace Setup
-TIMESTAMP=$(date +%Y%m%d_%H%M)
-WORKSPACE="/tmp/single_op_workspace_${TIMESTAMP}"
-MODEL_LIST="${MODEL_LIST:-${GRAPH_NET_ROOT}/graph_net/config/small100_torch_samples_list.txt}"
+WORKSPACE="/tmp/single_op_workspace"
+MODEL_LIST="${GRAPH_NET_ROOT}/graph_net/config/small100_torch_samples_list.txt"
 
 # Output Directories
 OP_NAMES_DIR="${WORKSPACE}/01_op_names"
@@ -31,6 +32,13 @@ RANGES_DIR="${WORKSPACE}/02_ranges"
 RAW_SUBGRAPH_DIR="${WORKSPACE}/03_raw_subgraphs"
 RENAMED_DIR="${WORKSPACE}/04_renamed"
 DEDUPLICATED_DIR="${WORKSPACE}/05_deduplicated"
+DTYPE_GENERALIZED_SUBGRAPH_DIR="${WORKSPACE}/06_dtype_generalized_subgraphs"
+
+if [[ "$MODEL_LIST" == *"/torch_samples_list.txt" ]]; then
+    USE_SUBPROCESS_ARGS="--use-subprocess"
+else
+    USE_SUBPROCESS_ARGS=""
+fi
 
 mkdir -p "$WORKSPACE"
 
@@ -42,73 +50,96 @@ echo ">>> Starting Pipeline..."
 echo "    Python: $PYTHON_EXEC"
 echo "    Root:   $GRAPH_NET_ROOT"
 
-# 1. Prepare Data
 if [ ! -f "$MODEL_LIST" ]; then
     echo "Error: Model list not found at $MODEL_LIST"
     exit 1
 fi
 
-# 2. Stage 1: Op Names
-echo ">>> Running Stage 1: Op Names..."
-python3 -m graph_net.model_path_handler \
-    --model-path-list "${MODEL_LIST}" \
-    --handler-config=$(base64 -w 0 <<EOF
+function generate_generalized_subgraph_list() {
+    local target_dir="$1"
+    local sample_list="$2"
+    echo ">>> Generate subgraph_sample_list for samples under ${target_dir}."
+    echo ">>>"
+    find ${target_dir} -name "model.py" \
+        | xargs dirname \
+        | xargs realpath --relative-to=${target_dir} \
+        | tee $sample_list
+}
+
+function generate_op_names() {
+    # Stage 1: Op Names
+    echo ">>> Running Stage 1: Op Names..."
+    python3 -m graph_net.model_path_handler \
+        --model-path-list "${MODEL_LIST}" \
+        --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/op_names_extractor.py",
     "handler_class_name": "OpNamesExtractor",
-    "handler_config": { "resume": $RESUME, "model_path_prefix": "$GRAPH_NET_ROOT", "output_dir": "$OP_NAMES_DIR" }
-}
-EOF
-)
-
-# 3. Stage 2: Ranges
-echo ">>> Running Stage 2: Ranges..."
-python3 -m graph_net.apply_sample_pass \
-    --model-path-list "${MODEL_LIST}" \
-    --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/sample_pass/op_extract_points_generator.py" \
-    --sample-pass-class-name "OpExtractPointsGenerator" \
-    --sample-pass-config=$(base64 -w 0 <<EOF
-{
-    "model_path_prefix": "$GRAPH_NET_ROOT", "op_names_path_prefix": "$OP_NAMES_DIR",
-    "output_dir": "$RANGES_DIR", "subgraph_ranges_file_name": "subgraph_ranges.json"
-}
-EOF
-)
-
-# 4. Stage 3: Decompose
-echo ">>> Running Stage 3: Decompose..."
-python3 -m graph_net.model_path_handler \
-    --model-path-list "${MODEL_LIST}" \
-    --handler-config=$(base64 -w 0 <<EOF
-{
-    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_generator.py",
-    "handler_class_name": "SubgraphGenerator",
     "handler_config": {
-        "resume": $RESUME, "model_path_prefix": "$GRAPH_NET_ROOT", "output_dir": "$RAW_SUBGRAPH_DIR",
-        "subgraph_ranges_json_root": "$RANGES_DIR", "subgraph_ranges_json_file_name": "subgraph_ranges.json",
-        "group_head_and_tail": false, "chain_style": false, "device": "cuda"
+        "resume": $RESUME,
+        "model_path_prefix": "$GRAPH_NET_ROOT",
+        "output_dir": "$OP_NAMES_DIR"
     }
 }
 EOF
 )
+}
 
-# 5. Generate generated_subgraphs_list.txt
-echo ">>> Generating generated_subgraphs_list.txt..."
-find ${RAW_SUBGRAPH_DIR} -name "model.py" \
-    | xargs dirname \
-    | xargs realpath --relative-to=${RAW_SUBGRAPH_DIR} \
-    > "${WORKSPACE}/generated_subgraphs_list.txt"
+function extract_op_points() {
+    # Stage 2: Ranges
+    echo ">>> Running Stage 2: Ranges..."
+    python3 -m graph_net.apply_sample_pass \
+        --model-path-list "${MODEL_LIST}" \
+        --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/sample_pass/op_extract_points_generator.py" \
+        --sample-pass-class-name "OpExtractPointsGenerator" \
+        --sample-pass-config=$(base64 -w 0 <<EOF
+{
+    "model_path_prefix": "$GRAPH_NET_ROOT",
+    "op_names_path_prefix": "$OP_NAMES_DIR",
+    "output_dir": "$RANGES_DIR",
+    "subgraph_ranges_file_name": "subgraph_ranges.json"
+}
+EOF
+)
+}
 
-# 6. Post-processing: Rename
-echo ">>> Running Post-processing: Rename..."
-python3 -m graph_net.model_path_handler \
-    --model-path-list "${WORKSPACE}/generated_subgraphs_list.txt" \
-    --handler-config=$(base64 -w 0 <<EOF
+function generate_subgraphs() {
+    # Stage 3: Decompose
+    echo ">>> Running Stage 3: Decompose..."
+    python3 -m graph_net.model_path_handler $USE_SUBPROCESS_ARGS \
+        --model-path-list "${MODEL_LIST}" \
+        --handler-config=$(base64 -w 0 <<EOF
+{
+    "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/subgraph_generator.py",
+    "handler_class_name": "SubgraphGenerator",
+    "handler_config": {
+        "resume": $RESUME,
+        "model_path_prefix": "$GRAPH_NET_ROOT",
+        "output_dir": "$RAW_SUBGRAPH_DIR",
+        "subgraph_ranges_json_root": "$RANGES_DIR",
+        "subgraph_ranges_json_file_name": "subgraph_ranges.json",
+        "group_head_and_tail": false,
+        "chain_style": false,
+        "device": null
+    }
+}
+EOF
+)
+}
+
+function rename_subgraphs() {
+    # Stage 4: Rename
+    echo ">>> Running Post-processing: Rename..."
+    python3 -m graph_net.model_path_handler \
+        --model-path-list "${WORKSPACE}/generated_subgraphs_list.txt" \
+        --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/sample_pass/ast_graph_variable_renamer.py",
     "handler_class_name": "AstGraphVariableRenamer",
     "handler_config": {
-        "device": "cuda", "try_run": false, "resume": $RESUME,
+        "device": "cuda",
+        "try_run": false,
+        "resume": $RESUME,
         "model_path_prefix": "${RAW_SUBGRAPH_DIR}",
         "data_input_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
         "data_input_predicator_class_name": "NaiveDataInputPredicator",
@@ -119,17 +150,55 @@ python3 -m graph_net.model_path_handler \
 }
 EOF
 )
+}
 
-# 7. Post-processing: Deduplicate
-echo ">>> Running Post-processing: Deduplicate..."
-if [ -d "${DEDUPLICATED_DIR}" ]; then rm -rf "${DEDUPLICATED_DIR}"; fi
+function deduplicate_subgraphs() {
+    # Stage 5: Deduplicate
+    echo ">>> Running Post-processing: Deduplicate..."
+    if [ -d "${DEDUPLICATED_DIR}" ]; then rm -rf "${DEDUPLICATED_DIR}"; fi
 
-python3 -m graph_net.tools.deduplicated \
-    --samples-dir ${RENAMED_DIR} \
-    --target-dir ${DEDUPLICATED_DIR}
+    python3 -m graph_net.tools.deduplicated \
+        --samples-dir ${RENAMED_DIR} \
+        --target-dir ${DEDUPLICATED_DIR}
+}
 
-# Copy generated_subgraphs_list.txt to final output
-cp "${WORKSPACE}/generated_subgraphs_list.txt" "${DEDUPLICATED_DIR}/"
+function dtype_generalizer() {
+    # Stage 6: Dtype generalization
+    echo ">>> Data type generalizer for samples under ${DEDUPLICATED_DIR}."
+    echo ">>>"
+    python3 -m graph_net.apply_sample_pass \
+        --use-subprocess \
+        --model-path-list ${WORKSPACE}/deduplicated_subgraphs_list.txt \
+        --sample-pass-file-path "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/dtype_generalizer.py" \
+        --sample-pass-class-name ApplyDataTypeGeneralizationPasses \
+        --sample-pass-config $(base64 -w 0 <<EOF
+{
+    "output_dir": "$DTYPE_GENERALIZED_SUBGRAPH_DIR",
+    "model_path_prefix": "$DEDUPLICATED_DIR",
+    "model_runnable_predicator_filepath": "$GRAPH_NET_ROOT/graph_net/torch/constraint_util.py",
+    "try_run": false,
+    "device": "cuda",
+    "resume": ${RESUME}
+}
+EOF
+)
+}
 
-echo ">>> ALL DONE. Final dataset located at: ${DEDUPLICATED_DIR}"
-echo ">>> generated_subgraphs_list.txt also saved to: ${DEDUPLICATED_DIR}/generated_subgraphs_list.txt"
+function main() {
+    TIMESTAMP=$(date +%Y%m%d_%H%M)
+
+    generate_op_names 2>&1 | tee ${WORKSPACE}/log_op_names_${TIMESTAMP}.txt
+    extract_op_points 2>&1 | tee ${WORKSPACE}/log_extract_op_points_${TIMESTAMP}.txt
+    generate_subgraphs 2>&1 | tee ${WORKSPACE}/log_generate_subgraphs_${TIMESTAMP}.txt
+    generate_generalized_subgraph_list ${RAW_SUBGRAPH_DIR} ${WORKSPACE}/generated_subgraphs_list.txt
+    
+    rename_subgraphs 2>&1 | tee ${WORKSPACE}/log_rename_subgraphs_${TIMESTAMP}.txt
+    deduplicate_subgraphs 2>&1 | tee ${WORKSPACE}/log_deduplicated_subgraphs_${TIMESTAMP}.txt
+    generate_generalized_subgraph_list ${DEDUPLICATED_DIR} ${WORKSPACE}/deduplicated_subgraphs_list.txt
+
+    dtype_generalizer 2>&1 | tee ${WORKSPACE}/log_dtype_generalizer_${TIMESTAMP}.txt
+
+    echo ">>> ALL DONE. Final dataset located at: ${DEDUPLICATED_DIR}"
+}
+
+main

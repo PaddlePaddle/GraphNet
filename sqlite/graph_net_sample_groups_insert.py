@@ -38,7 +38,7 @@ BucketGroup = namedtuple(
 
 V2Candidate = namedtuple(
     "V2Candidate",
-    ["uid", "op_seq", "shapes", "dtypes"],
+    ["uid", "sample_type", "op_seq", "shapes", "dtypes"],
 )
 
 
@@ -76,12 +76,14 @@ def generate_v1_groups(bucket_groups: list[BucketGroup]):
         for uid in sampled:
             yield uid, _new_group_id(), "rule1"
 
-    # Rule 2: group heads by op_seq
-    op_seq_to_heads = defaultdict(list)
+    # Rule 2: group heads by (sample_type, op_seq)
+    type_op_seq_to_heads = defaultdict(list)
     for bucket in bucket_groups:
-        op_seq_to_heads[bucket.op_seq].append(bucket.head_uid)
+        type_op_seq_to_heads[(bucket.sample_type, bucket.op_seq)].append(
+            bucket.head_uid
+        )
 
-    for heads in op_seq_to_heads.values():
+    for heads in type_op_seq_to_heads.values():
         group_id = _new_group_id()
         for uid in heads:
             yield uid, group_id, "rule2"
@@ -150,12 +152,12 @@ def generate_v2_groups(candidates: list[V2Candidate], num_dtypes: int):
 
     candidates_by_op_seq = defaultdict(list)
     for c in candidates:
-        candidates_by_op_seq[c.op_seq].append(c)
+        candidates_by_op_seq[(c.sample_type, c.op_seq)].append(c)
 
     dtype_covered_uids = set()
 
     # --- Rule 4: dtype coverage (runs first) ---
-    for op_seq, op_candidates in candidates_by_op_seq.items():
+    for key, op_candidates in candidates_by_op_seq.items():
         candidates_by_shape = defaultdict(list)
         for c in op_candidates:
             candidates_by_shape[c.shapes].append(c)
@@ -176,7 +178,7 @@ def generate_v2_groups(candidates: list[V2Candidate], num_dtypes: int):
 
     # --- Rule 3: global sparse sampling (on remaining candidates) ---
     window_size = num_dtypes * 5
-    for op_seq, op_candidates in candidates_by_op_seq.items():
+    for key, op_candidates in candidates_by_op_seq.items():
         remaining = [c for c in op_candidates if c.uid not in dtype_covered_uids]
         remaining.sort(key=lambda c: c.uid)
 
@@ -195,6 +197,7 @@ def query_v2_candidates(db: DB) -> list[V2Candidate]:
     sql = """
 SELECT
     s.uuid,
+    s.sample_type,
     b.op_seq_bucket_id,
     b.input_shapes_bucket_id,
     b.input_dtypes_bucket_id
@@ -208,7 +211,7 @@ WHERE s.deleted = 0
     WHERE g.group_policy = 'bucket_policy_v1'
       AND g.deleted = 0
   )
-ORDER BY b.op_seq_bucket_id, b.input_shapes_bucket_id, b.input_dtypes_bucket_id, s.uuid;
+ORDER BY s.sample_type, b.op_seq_bucket_id, b.input_shapes_bucket_id, b.input_dtypes_bucket_id, s.uuid;
     """
     return [V2Candidate(*row) for row in db.query(sql)]
 

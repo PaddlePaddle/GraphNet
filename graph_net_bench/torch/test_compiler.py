@@ -447,7 +447,7 @@ def test_multi_models(args):
 
 def test_multi_models_with_prefix(args):
     assert os.path.isdir(args.model_path_prefix)
-    assert os.path.isfile(args.allow_list)
+    assert os.path.isfile(args.allow_list), f"{args.allow_list=} is not a regular file."
     test_samples = test_compiler_util.get_allow_samples(
         args.allow_list, get_sample_root(args)
     )

@@ -35,7 +35,6 @@ SampleBucketInfo = namedtuple(
         "sample_uid",
         "op_seq_bucket_id",
         "input_shapes_bucket_id",
-        "input_dtypes_bucket_id",
         "sample_type",
         "sample_uids",
     ],
@@ -63,7 +62,7 @@ CandidateGraph = namedtuple(
 
 def get_v1_group_members(sample_bucket_infos: list[SampleBucketInfo]):
     """Rule 1: stride-5 sampling within each bucket, each sample is its own group.
-    Rule 2: cross-shape aggregation by (op_seq, dtype), heads share one group_uid."""
+    Rule 2: cross-shape aggregation by op_seq, heads share one group_uid."""
 
     # Rule 1
     for bucket_info in sample_bucket_infos:
@@ -81,11 +80,10 @@ def get_v1_group_members(sample_bucket_infos: list[SampleBucketInfo]):
     # Rule 2
     grouped = defaultdict(list)
     for bucket_info in sample_bucket_infos:
-        key = (bucket_info.op_seq_bucket_id, bucket_info.input_dtypes_bucket_id)
-        grouped[key].append(bucket_info.sample_uid)
+        grouped[bucket_info.op_seq_bucket_id].append(bucket_info.sample_uid)
 
     grouped = dict(grouped)
-    for key, sample_uids in grouped.items():
+    for op_seq, sample_uids in grouped.items():
         new_uuid = str(uuid_module.uuid4())
         for sample_uid in sample_uids:
             yield sample_uid, new_uuid
@@ -93,20 +91,19 @@ def get_v1_group_members(sample_bucket_infos: list[SampleBucketInfo]):
 
 def query_v1_candidates(db: DB):
     query_str = """
-SELECT b.sample_uid, b.op_seq_bucket_id as op_seq, b.input_shapes_bucket_id, b.input_dtypes_bucket_id, b.sample_type, group_concat(b.sample_uid, ',') as sample_uids
+SELECT b.sample_uid, b.op_seq_bucket_id as op_seq, b.input_shapes_bucket_id, b.sample_type, group_concat(b.sample_uid, ',') as sample_uids
 FROM (
     SELECT
     s.uuid AS sample_uid,
     s.sample_type AS sample_type,
     b.op_seq_bucket_id AS op_seq_bucket_id,
-    b.input_shapes_bucket_id AS input_shapes_bucket_id,
-    b.input_dtypes_bucket_id AS input_dtypes_bucket_id
+    b.input_shapes_bucket_id AS input_shapes_bucket_id
     FROM graph_sample s
     JOIN graph_net_sample_buckets b
         ON s.uuid = b.sample_uid
     order by s.create_at asc, s.uuid asc
 ) b
-GROUP BY b.sample_type, b.op_seq_bucket_id, b.input_shapes_bucket_id, b.input_dtypes_bucket_id;
+GROUP BY b.sample_type, b.op_seq_bucket_id, b.input_shapes_bucket_id;
     """
     rows = db.query(query_str)
     return [SampleBucketInfo(*row) for row in rows]

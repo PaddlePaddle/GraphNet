@@ -33,7 +33,7 @@ RENAMED_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/12_renamed_dim
 DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/13_deduplicated_dimension_generalized_fusible_subgraphs
 DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/14_dtype_generalized_fusible_subgraphs
 BACKWARD_GRAPH_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/15_backward_graph_extracted
-FUSIBLE_SUBGRAPH_UNITTEST_DIR=$DECOMPOSE_WORKSPACE/16_fusible_subgraphs_unittests
+# FUSIBLE_SUBGRAPH_UNITTEST_DIR=$DECOMPOSE_WORKSPACE/16_fusible_subgraphs_unittests
 
 # typical_subgraphs
 DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/2-08_dimension_generalized_typical_subgraphs
@@ -41,13 +41,12 @@ RENAMED_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/2-09_renamed_d
 DEDUP_DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/2-10_deduplicated_dimension_generalized_typical_subgraphs
 DTYPE_GENERALIZED_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/2-11_dtype_generalized_typical_subgraphs
 BACKWARD_GRAPH_TYPICAL_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/2-13_backward_graph_extracted
-TYPICAL_SUBGRAPH_UNITTEST_DIR=$DECOMPOSE_WORKSPACE/2-14_typical_kernelbench_unittests
+# TYPICAL_SUBGRAPH_UNITTEST_DIR=$DECOMPOSE_WORKSPACE/2-14_typical_kernelbench_unittests
 
 mkdir -p $DECOMPOSE_WORKSPACE
 mkdir -p $OUTPUT_DIR
 
 model_list="$GRAPH_NET_ROOT/graph_net/config/torch_samples_list.txt"
-DB_PATH=$DECOMPOSE_WORKSPACE/small100_torch_samples.db
 
 device_rewrited_sample_list=${DECOMPOSE_WORKSPACE}/device_rewrited_sample_list.txt
 range_decomposed_subgraph_list=${DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_sample_list.txt
@@ -692,7 +691,6 @@ function main() {
 
     sample_type="typical_graph"
     generate_typical_subgraphs
-    insert_graph_sample ${DEDUP_TYPICAL_SUBGRAPH_DIR} "github_torch_samples" "typical_graph" ${deduplicated_typical_subgraph_list}
     cp -rf $DTYPE_GENERALIZED_TYPICAL_SUBGRAPH_DIR $OUTPUT_DIR/$sample_type
     cp -rf $dtype_generalized_typical_subgraph_list $OUTPUT_DIR/$sample_type/sample_list.txt
 
@@ -785,16 +783,6 @@ function summary() {
     do
         num_backward_graph_subgraphs_mode=`find ${BACKWARD_GRAPH_OUTPUT_DIR}/${mode} -name "model.py" | wc -l`
         echo "    ${mode}, successed=${num_backward_graph_subgraphs_mode}"
-    done
-    echo ""
-
-    num_successed_unittests=`find ${FUSIBLE_SUBGRAPH_UNITTEST_DIR} -name "*_test.py" | wc -l`
-    unittest_successed_percent=$((num_successed_unittests * 100 / num_backward_graph_subgraphs))
-    echo "- [Fusible - 7] generate unittest: successed=${num_successed_unittests}, percent=${unittest_successed_percent}%"
-    for dtype in float32 float16 bfloat16
-    do
-        num_successed_unittests=`find ${FUSIBLE_SUBGRAPH_UNITTEST_DIR}/${dtype} -name "*_test.py" | wc -l`
-        echo "    ${dtype}, successed=${num_successed_unittests}"
     done
     echo ""
 

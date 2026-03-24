@@ -32,6 +32,7 @@ from graph_net_bench.torch.backend.range_decomposer_validator_backend import (
 from graph_net_bench.torch.backend.graph_variable_renamer_validator_backend import (
     GraphVariableRenamerValidatorBackend,
 )
+from graph_net_bench.torch.backend.tilelang_backend import TilelangBackend
 from graph_net_bench import test_compiler_util
 from graph_net_bench import path_utils
 
@@ -48,6 +49,7 @@ compiler_backend_name2class = {
     "unstable_to_stable": UnstableToStableBackend,
     "range_decomposer_validator": RangeDecomposerValidatorBackend,
     "graph_variable_renamer_validator": GraphVariableRenamerValidatorBackend,
+    "tilelang": TilelangBackend,
 }
 
 

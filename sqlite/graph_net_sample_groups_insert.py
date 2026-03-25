@@ -1,13 +1,57 @@
 import argparse
 import sqlite3
 import uuid as uuid_module
+from collections import defaultdict, namedtuple
 from datetime import datetime
-from collections import namedtuple, defaultdict
 
-from orm_models import (
-    get_session,
-    GraphNetSampleGroup,
+from orm_models import get_session, GraphNetSampleGroup
+
+
+# ── Types ──
+
+BucketGroup = namedtuple(
+    "BucketGroup",
+    ["head_uid", "op_seq", "shapes", "sample_type", "all_uids_csv"],
 )
+
+Candidate = namedtuple(
+    "Candidate",
+    ["uid", "sample_type", "op_seq", "shapes", "dtypes"],
+)
+
+
+# ── Helpers ──
+
+
+def _new_group_id():
+    return str(uuid_module.uuid4())
+
+
+def _merge_stats(dst, src):
+    for key, val in src.items():
+        dst[key]["records"] += val["records"]
+        dst[key]["groups"].update(val["groups"])
+
+
+def _print_stats(stats):
+    rule_order = ["rule1", "rule2", "rule4", "rule3"]
+    sample_types = sorted({st for st, _ in stats})
+    total_records = 0
+    total_groups = 0
+    for sample_type in sample_types:
+        print(f"\n  [{sample_type}]")
+        for rule in rule_order:
+            key = (sample_type, rule)
+            if key in stats:
+                n_records = stats[key]["records"]
+                n_groups = len(stats[key]["groups"])
+                print(f"    {rule}: {n_records} records, {n_groups} groups")
+                total_records += n_records
+                total_groups += n_groups
+    print(f"\n  Total: {total_records} records, {total_groups} groups.")
+
+
+# ── Database Queries ──
 
 
 class DB:
@@ -17,84 +61,17 @@ class DB:
     def connect(self):
         self.conn = sqlite3.connect(self.path)
         self.conn.row_factory = sqlite3.Row
-        self.cur = self.conn.cursor()
+        self.cursor = self.conn.cursor()
 
     def query(self, sql, params=None):
-        self.cur.execute(sql, params or ())
-        return self.cur.fetchall()
+        self.cursor.execute(sql, params or ())
+        return self.cursor.fetchall()
 
     def close(self):
         self.conn.close()
 
 
-# ── V1 types ──
-
-BucketGroup = namedtuple(
-    "BucketGroup",
-    ["head_uid", "op_seq", "shapes", "sample_type", "all_uids_csv"],
-)
-
-# ── V2 types ──
-
-V2Candidate = namedtuple(
-    "V2Candidate",
-    ["uid", "sample_type", "op_seq", "shapes", "dtypes"],
-)
-
-
-def _new_group_id():
-    return str(uuid_module.uuid4())
-
-
-def _print_stats(stats):
-    rule_order = ["rule1", "rule2", "rule4", "rule3"]
-    sample_types = sorted({st for st, _ in stats.keys()})
-    total_records = 0
-    total_groups = 0
-    for sample_type in sample_types:
-        print(f"\n  [{sample_type}]")
-        for rule_name in rule_order:
-            key = (sample_type, rule_name)
-            if key in stats:
-                r = stats[key]["records"]
-                g = len(stats[key]["groups"])
-                print(f"    {rule_name}: {r} records, {g} groups")
-                total_records += r
-                total_groups += g
-    print(f"\n  Total: {total_records} records, {total_groups} groups.")
-
-
-# ═══════════════════════════════════════════════════════════════════
-# V1: Rule 1 (bucket-internal stride-5) + Rule 2 (cross-shape aggregation)
-# ═══════════════════════════════════════════════════════════════════
-
-
-def generate_v1_groups(bucket_groups: list[BucketGroup]):
-    """Rule 1: stride-5 sampling, each sampled uid gets its own group.
-    Rule 2: group all bucket heads that share the same op_seq.
-    Yields (sample_type, uid, group_id, rule_name)."""
-
-    # Rule 1: stride-5 sampling
-    for bucket in bucket_groups:
-        members = bucket.all_uids_csv.split(",")
-        sampled = [uid for uid in members[::16] if uid != bucket.head_uid]
-        for uid in sampled:
-            yield bucket.sample_type, uid, _new_group_id(), "rule1"
-
-    # Rule 2: group heads by (sample_type, op_seq)
-    type_op_seq_to_heads = defaultdict(list)
-    for bucket in bucket_groups:
-        type_op_seq_to_heads[(bucket.sample_type, bucket.op_seq)].append(
-            bucket.head_uid
-        )
-
-    for (sample_type, _), heads in type_op_seq_to_heads.items():
-        group_id = _new_group_id()
-        for uid in heads:
-            yield sample_type, uid, group_id, "rule2"
-
-
-def query_v1_bucket_groups(db: DB) -> list[BucketGroup]:
+def query_bucket_groups(db: DB) -> list[BucketGroup]:
     sql = """
 SELECT
     sub.sample_uid,
@@ -117,84 +94,7 @@ GROUP BY sub.sample_type, sub.op_seq_bucket_id, sub.input_shapes_bucket_id;
     return [BucketGroup(*row) for row in db.query(sql)]
 
 
-def insert_v1_groups(db: DB, session):
-    bucket_groups = query_v1_bucket_groups(db)
-    print(f"Bucket groups: {len(bucket_groups)}")
-
-    stats = defaultdict(lambda: {"records": 0, "groups": set()})
-    for sample_type, uid, group_id, rule_name in generate_v1_groups(bucket_groups):
-        session.add(
-            GraphNetSampleGroup(
-                sample_uid=uid,
-                group_uid=group_id,
-                group_type="ai4c",
-                group_policy="bucket_policy_v1",
-                policy_version="1.0",
-                create_at=datetime.now(),
-                deleted=False,
-            )
-        )
-        stats[(sample_type, rule_name)]["records"] += 1
-        stats[(sample_type, rule_name)]["groups"].add(group_id)
-
-    session.commit()
-    return stats
-
-
-# ═══════════════════════════════════════════════════════════════════
-# V2: Rule 4 (dtype coverage) + Rule 3 (global sparse sampling)
-# ═══════════════════════════════════════════════════════════════════
-
-
-def generate_v2_groups(candidates: list[V2Candidate], num_dtypes: int):
-    """Rule 4 runs first to ensure full dtype coverage.
-    Rule 3 then sparse-samples from the remaining candidates.
-    Yields (sample_type, uid, group_id, rule_name)."""
-
-    candidates_by_op_seq = defaultdict(list)
-    for c in candidates:
-        candidates_by_op_seq[(c.sample_type, c.op_seq)].append(c)
-
-    dtype_covered_uids = set()
-
-    # --- Rule 4: dtype coverage (runs first) ---
-    for (sample_type, _), op_candidates in candidates_by_op_seq.items():
-        candidates_by_shape = defaultdict(list)
-        for c in op_candidates:
-            candidates_by_shape[c.shapes].append(c)
-
-        selected_uids = []
-        for shape, shape_candidates in candidates_by_shape.items():
-            seen_dtypes = set()
-            for c in shape_candidates:
-                if c.dtypes not in seen_dtypes and len(seen_dtypes) < num_dtypes:
-                    seen_dtypes.add(c.dtypes)
-                    selected_uids.append(c.uid)
-                    dtype_covered_uids.add(c.uid)
-
-        if selected_uids:
-            group_id = _new_group_id()
-            for uid in selected_uids:
-                yield sample_type, uid, group_id, "rule4"
-
-    # --- Rule 3: global sparse sampling (on remaining candidates) ---
-    window_size = num_dtypes * 5
-    for (sample_type, _), op_candidates in candidates_by_op_seq.items():
-        remaining = [c for c in op_candidates if c.uid not in dtype_covered_uids]
-        remaining.sort(key=lambda c: c.uid)
-
-        selected_uids = []
-        for idx, c in enumerate(remaining):
-            if (idx % window_size) < num_dtypes:
-                selected_uids.append(c.uid)
-
-        if selected_uids:
-            group_id = _new_group_id()
-            for uid in selected_uids:
-                yield sample_type, uid, group_id, "rule3"
-
-
-def query_v2_candidates(db: DB) -> list[V2Candidate]:
+def query_v2_candidates(db: DB) -> list[Candidate]:
     sql = """
 SELECT
     s.uuid,
@@ -212,29 +112,111 @@ WHERE s.deleted = 0
     WHERE g.group_policy = 'bucket_policy_v1'
       AND g.deleted = 0
   )
-ORDER BY s.sample_type, b.op_seq_bucket_id, b.input_shapes_bucket_id, b.input_dtypes_bucket_id, s.uuid;
+ORDER BY s.sample_type, b.op_seq_bucket_id, b.input_shapes_bucket_id,
+         b.input_dtypes_bucket_id, s.uuid;
     """
-    return [V2Candidate(*row) for row in db.query(sql)]
+    return [Candidate(*row) for row in db.query(sql)]
 
 
-def insert_v2_groups(db: DB, session, num_dtypes: int):
-    candidates = query_v2_candidates(db)
-    print(f"V2 candidates: {len(candidates)}")
+# ═══════════════════════════════════════════════════════════════════
+# V1: Rule 1 (bucket-internal stride sampling) + Rule 2 (cross-shape)
+# ═══════════════════════════════════════════════════════════════════
 
+
+def generate_v1_groups(bucket_groups: list[BucketGroup]):
+    """Yields (sample_type, uid, group_id, rule_name).
+
+    Rule 1: stride-16 sampling within each bucket, one group per sample.
+    Rule 2: aggregate all bucket heads sharing the same (sample_type, op_seq).
+    """
+    # Rule 1
+    for bucket in bucket_groups:
+        members = bucket.all_uids_csv.split(",")
+        for uid in members[::16]:
+            if uid != bucket.head_uid:
+                yield bucket.sample_type, uid, _new_group_id(), "rule1"
+
+    # Rule 2
+    heads_by_type_op = defaultdict(list)
+    for bucket in bucket_groups:
+        heads_by_type_op[(bucket.sample_type, bucket.op_seq)].append(bucket.head_uid)
+    for (sample_type, _op), heads in heads_by_type_op.items():
+        gid = _new_group_id()
+        for uid in heads:
+            yield sample_type, uid, gid, "rule2"
+
+
+# ═══════════════════════════════════════════════════════════════════
+# V2: Rule 4 (dtype coverage) + Rule 3 (sparse sampling on remainder)
+# ═══════════════════════════════════════════════════════════════════
+
+
+def generate_v2_groups(candidates: list[Candidate], num_dtypes: int):
+    """Yields (sample_type, uid, group_id, rule_name).
+
+    Rule 4 (first): per (sample_type, op_seq, shape), pick up to
+                     num_dtypes samples with distinct dtypes.
+    Rule 3 (second): window-based sparse sampling on the remainder,
+                     window_size = num_dtypes * 5, pick first num_dtypes.
+    """
+    by_type_op = defaultdict(list)
+    for c in candidates:
+        by_type_op[(c.sample_type, c.op_seq)].append(c)
+
+    covered_uids = set()
+
+    # Rule 4: dtype coverage
+    for (sample_type, _op), group in by_type_op.items():
+        by_shape = defaultdict(list)
+        for c in group:
+            by_shape[c.shapes].append(c)
+
+        picked = []
+        for _shape, shape_group in by_shape.items():
+            seen_dtypes = set()
+            for c in shape_group:
+                if c.dtypes not in seen_dtypes and len(seen_dtypes) < num_dtypes:
+                    seen_dtypes.add(c.dtypes)
+                    picked.append(c.uid)
+                    covered_uids.add(c.uid)
+
+        if picked:
+            gid = _new_group_id()
+            for uid in picked:
+                yield sample_type, uid, gid, "rule4"
+
+    # Rule 3: sparse sampling on remainder
+    window_size = num_dtypes * 5
+    for (sample_type, _op), group in by_type_op.items():
+        remaining = sorted(
+            (c for c in group if c.uid not in covered_uids),
+            key=lambda c: c.uid,
+        )
+        picked = [
+            c.uid for i, c in enumerate(remaining) if (i % window_size) < num_dtypes
+        ]
+        if picked:
+            gid = _new_group_id()
+            for uid in picked:
+                yield sample_type, uid, gid, "rule3"
+
+
+# ═══════════════════════════════════════════════════════════════════
+# Insert
+# ═══════════════════════════════════════════════════════════════════
+
+
+def _insert_groups(session, rows, policy):
+    """Consume a generator of (sample_type, uid, group_id, rule_name),
+    write to DB, and return per-(sample_type, rule) stats."""
     stats = defaultdict(lambda: {"records": 0, "groups": set()})
-    if not candidates:
-        print("No v2 candidates found. Skipping.")
-        return stats
-
-    for sample_type, uid, group_id, rule_name in generate_v2_groups(
-        candidates, num_dtypes
-    ):
+    for sample_type, uid, group_id, rule_name in rows:
         session.add(
             GraphNetSampleGroup(
                 sample_uid=uid,
                 group_uid=group_id,
                 group_type="ai4c",
-                group_policy="bucket_policy_v2",
+                group_policy=policy,
                 policy_version="1.0",
                 create_at=datetime.now(),
                 deleted=False,
@@ -242,7 +224,6 @@ def insert_v2_groups(db: DB, session, num_dtypes: int):
         )
         stats[(sample_type, rule_name)]["records"] += 1
         stats[(sample_type, rule_name)]["groups"].add(group_id)
-
     session.commit()
     return stats
 
@@ -256,40 +237,41 @@ def main():
     parser = argparse.ArgumentParser(
         description="Generate graph_net_sample_groups (v1 + v2)"
     )
-    parser.add_argument(
-        "--db_path",
-        type=str,
-        required=True,
-        help="Path to the SQLite database file",
-    )
-    parser.add_argument(
-        "--num_dtypes",
-        type=int,
-        default=3,
-        help="Number of different dtypes to pick per shape in v2 (default: 3)",
-    )
+    parser.add_argument("--db_path", type=str, required=True)
+    parser.add_argument("--num_dtypes", type=int, default=3)
     args = parser.parse_args()
 
     db = DB(args.db_path)
     db.connect()
     session = get_session(args.db_path)
 
+    all_stats = defaultdict(lambda: {"records": 0, "groups": set()})
+
     try:
-        v1_stats = insert_v1_groups(db, session)
-        v2_stats = insert_v2_groups(db, session, args.num_dtypes)
+        # V1
+        buckets = query_bucket_groups(db)
+        print(f"Bucket groups: {len(buckets)}")
+        v1 = _insert_groups(session, generate_v1_groups(buckets), "bucket_policy_v1")
+        _merge_stats(all_stats, v1)
+
+        # V2
+        candidates = query_v2_candidates(db)
+        print(f"V2 candidates: {len(candidates)}")
+        if candidates:
+            v2 = _insert_groups(
+                session,
+                generate_v2_groups(candidates, args.num_dtypes),
+                "bucket_policy_v2",
+            )
+            _merge_stats(all_stats, v2)
+        else:
+            print("No V2 candidates found. Skipping.")
     except Exception:
         session.rollback()
         raise
     finally:
         session.close()
         db.close()
-
-    # Merge and print
-    all_stats = defaultdict(lambda: {"records": 0, "groups": set()})
-    for s in (v1_stats, v2_stats):
-        for key, val in s.items():
-            all_stats[key]["records"] += val["records"]
-            all_stats[key]["groups"].update(val["groups"])
 
     print("=" * 60)
     _print_stats(all_stats)

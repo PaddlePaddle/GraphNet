@@ -3,9 +3,7 @@ import numpy as np
 from graph_net.torch.rp_expr.rp_expr import Tokenize, PrimitiveId, LetsListTokenRpExpr
 from graph_net.torch.rp_expr.rp_expr_passes import (
     FlattenTokenListPass,
-    FoldTokensPass,
     RecursiveFoldTokensPass,
-    FoldIfTokenIdGreatEqualPass,
     UnflattenAndSubThresholdPass,
 )
 

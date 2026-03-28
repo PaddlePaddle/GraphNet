@@ -1,14 +1,8 @@
 from . import utils
 import argparse
 import importlib.util
-import inspect
-from pathlib import Path
-from typing import Type, Any
 import sys
 import hashlib
-from contextlib import contextmanager
-from collections import ChainMap
-import numpy as np
 import graph_net
 import os
 import ast
@@ -36,7 +30,6 @@ def _extract_forward_source(model_path, class_name):
         source = f.read()
 
     tree = ast.parse(source)
-    forward_code = None
 
     for node in tree.body:
         if isinstance(node, ast.ClassDef) and node.name == class_name:

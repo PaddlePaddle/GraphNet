@@ -12,7 +12,6 @@ class CinnBackend(GraphCompilerBackend):
             full_graph=True,
         )
         compiled_model.eval()
-        program = compiled_model.forward.concrete_program.main_program
         return compiled_model
 
     def synchronize(self):

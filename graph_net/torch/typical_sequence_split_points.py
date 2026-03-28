@@ -1,17 +1,12 @@
 import argparse
 import json
-import os
 from pathlib import Path
-from typing import Any, Dict, List
-import torch
-import torch.nn as nn
+from typing import Dict, List
 
 from graph_net.torch.rp_expr.rp_expr_parser import RpExprParser
 from graph_net.torch.rp_expr.rp_expr_util import (
     MakeNestedIndexRangeFromLetsListTokenRpExpr,
 )
-from graph_net.torch.fx_graph_module_util import get_torch_module_and_inputs
-from graph_net.torch.fx_graph_parse_util import parse_sole_graph_module_without_varify
 
 
 class SplitAnalyzer:

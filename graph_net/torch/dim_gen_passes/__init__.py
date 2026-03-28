@@ -1,1 +1,3 @@
-from graph_net.torch.dim_gen_passes.pass_base import DimensionGeneralizationPass
+from graph_net.torch.dim_gen_passes.pass_base import (
+    DimensionGeneralizationPass as DimensionGeneralizationPass,
+)

@@ -3,7 +3,6 @@ import os
 import tempfile
 import sys
 import contextlib
-import graph_net
 
 
 @contextlib.contextmanager
@@ -17,7 +16,7 @@ def temp_workspace():
 
 def main(args):
     model_path = args.model_path
-    with temp_workspace() as tmp_dir_name:
+    with temp_workspace():
         print("dump-graph-hash ...")
         extract_name = "temp"
         cmd = f"{sys.executable} -m graph_net.torch.single_device_runner --model-path {model_path} --enable-extract True --extract-name {extract_name} --dump-graph-hash-key"

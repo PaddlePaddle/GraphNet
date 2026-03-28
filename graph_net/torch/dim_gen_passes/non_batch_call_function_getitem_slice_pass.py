@@ -1,4 +1,3 @@
-import torch
 import torch.fx as fx
 from graph_net.torch.dim_gen_passes import DimensionGeneralizationPass
 from collections import namedtuple

@@ -74,7 +74,7 @@ class DB:
 def query_bucket_groups(db: DB) -> list[BucketGroup]:
     sql = """
 SELECT
-    sub.sample_uid,
+    MIN(sub.sample_uid) AS head_uid,
     sub.op_seq_bucket_id,
     sub.input_shapes_bucket_id,
     sub.sample_type,
@@ -87,6 +87,7 @@ FROM (
         b.input_shapes_bucket_id
     FROM graph_sample s
     JOIN graph_net_sample_buckets b ON s.uuid = b.sample_uid
+    WHERE s.deleted = 0 AND s.sample_type != 'full_graph'
     ORDER BY s.create_at ASC, s.uuid ASC
 ) sub
 GROUP BY sub.sample_type, sub.op_seq_bucket_id, sub.input_shapes_bucket_id;

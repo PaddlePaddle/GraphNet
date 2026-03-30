@@ -14,41 +14,46 @@ import random
 import numpy as np
 import platform
 import base64
-from graph_net_bench.torch.backend.graph_compiler_backend import GraphCompilerBackend
-from graph_net_bench.torch.backend.tvm_backend import TvmBackend
-from graph_net_bench.torch.backend.flagtree_backend import FlagtreeBackend
-from graph_net_bench.torch.backend.xla_backend import XlaBackend
-from graph_net_bench.torch.backend.inductor_backend import InductorBackend
-from graph_net_bench.torch.backend.tensorrt_backend import TensorRTBackend
-from graph_net_bench.torch.backend.blade_disc_backend import BladeDISCBackend
-from graph_net_bench.torch.backend.nope_backend import NopeBackend
-from graph_net_bench.torch.backend.pass_mgr_backend import PassMgrBackend
-from graph_net_bench.torch.backend.unstable_to_stable_backend import (
-    UnstableToStableBackend,
-)
-from graph_net_bench.torch.backend.range_decomposer_validator_backend import (
-    RangeDecomposerValidatorBackend,
-)
-from graph_net_bench.torch.backend.graph_variable_renamer_validator_backend import (
-    GraphVariableRenamerValidatorBackend,
-)
 from graph_net_bench import test_compiler_util
 from graph_net_bench import path_utils
 
 
-compiler_backend_name2class = {
-    "tvm": TvmBackend,
-    "flagtree": FlagtreeBackend,
-    "xla": XlaBackend,
-    "inductor": InductorBackend,
-    "tensorrt": TensorRTBackend,
-    "bladedisc": BladeDISCBackend,
-    "nope": NopeBackend,
-    "pass_mgr": PassMgrBackend,
-    "unstable_to_stable": UnstableToStableBackend,
-    "range_decomposer_validator": RangeDecomposerValidatorBackend,
-    "graph_variable_renamer_validator": GraphVariableRenamerValidatorBackend,
-}
+def _get_backend_class(name):
+    from graph_net_bench.torch.backend.tvm_backend import TvmBackend
+    from graph_net_bench.torch.backend.flagtree_backend import FlagtreeBackend
+    from graph_net_bench.torch.backend.xla_backend import XlaBackend
+    from graph_net_bench.torch.backend.inductor_backend import InductorBackend
+    from graph_net_bench.torch.backend.tensorrt_backend import TensorRTBackend
+    from graph_net_bench.torch.backend.blade_disc_backend import BladeDISCBackend
+    from graph_net_bench.torch.backend.nope_backend import NopeBackend
+    from graph_net_bench.torch.backend.pass_mgr_backend import PassMgrBackend
+    from graph_net_bench.torch.backend.unstable_to_stable_backend import (
+        UnstableToStableBackend,
+    )
+    from graph_net_bench.torch.backend.range_decomposer_validator_backend import (
+        RangeDecomposerValidatorBackend,
+    )
+    from graph_net_bench.torch.backend.graph_variable_renamer_validator_backend import (
+        GraphVariableRenamerValidatorBackend,
+    )
+    from graph_net_bench.torch.backend.tilelang_backend import TilelangBackend
+
+    compiler_backend_name2class = {
+        "tvm": TvmBackend,
+        "flagtree": FlagtreeBackend,
+        "xla": XlaBackend,
+        "inductor": InductorBackend,
+        "tensorrt": TensorRTBackend,
+        "bladedisc": BladeDISCBackend,
+        "nope": NopeBackend,
+        "pass_mgr": PassMgrBackend,
+        "unstable_to_stable": UnstableToStableBackend,
+        "range_decomposer_validator": RangeDecomposerValidatorBackend,
+        "graph_variable_renamer_validator": GraphVariableRenamerValidatorBackend,
+        "tilelang": TilelangBackend,
+    }
+    assert name in compiler_backend_name2class, f"Unknown compiler: {name}"
+    return compiler_backend_name2class[name]
 
 
 def set_seed(random_seed):
@@ -109,11 +114,8 @@ def convert_to_dict(config_str):
     return config
 
 
-def get_compiler_backend(args) -> GraphCompilerBackend:
-    assert (
-        args.compiler in compiler_backend_name2class
-    ), f"Unknown compiler: {args.compiler}"
-    backend_class = compiler_backend_name2class[args.compiler]
+def get_compiler_backend(args):
+    backend_class = _get_backend_class(args.compiler)
     config = convert_to_dict(args.config) if args.config is not None else {}
     return backend_class(config)
 
@@ -165,18 +167,16 @@ def measure_performance(model_call, args, compiler):
         gpu_times = []
 
         for i in range(args.trials):
+            # GPU-only timing (CUDA Events)
+            start_event = torch.cuda.Event(enable_timing=True)
+            end_event = torch.cuda.Event(enable_timing=True)
+
             # End-to-end timing (naive_timer)
             duration_box = test_compiler_util.DurationBox(-1)
             with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
-                # GPU-only timing (CUDA Events)
-                start_event = torch.cuda.Event(enable_timing=True)
-                end_event = torch.cuda.Event(enable_timing=True)
                 start_event.record()
-
                 model_call()
-
                 end_event.record()
-                compiler.synchronize()
 
             gpu_time_ms = start_event.elapsed_time(end_event)
             e2e_times.append(duration_box.value)
@@ -447,7 +447,7 @@ def test_multi_models(args):
 
 def test_multi_models_with_prefix(args):
     assert os.path.isdir(args.model_path_prefix)
-    assert os.path.isfile(args.allow_list)
+    assert os.path.isfile(args.allow_list), f"{args.allow_list=} is not a regular file."
     test_samples = test_compiler_util.get_allow_samples(
         args.allow_list, get_sample_root(args)
     )

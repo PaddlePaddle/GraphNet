@@ -1,7 +1,6 @@
 import torch
 from transformers import AutoModel, AutoTokenizer
 import graph_net.torch
-import os
 
 
 def get_model_name():

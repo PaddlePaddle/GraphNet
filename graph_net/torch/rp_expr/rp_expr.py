@@ -3,7 +3,6 @@ import typing as t
 import numpy as np
 import torch
 from collections import defaultdict
-import functools
 
 PrimitiveId = t.TypeVar("PrimitiveId")
 
@@ -428,7 +427,7 @@ class LetsListTokenRpExpr(TokenRpExpr):
             ]
         )
         yield from [
-            f"def main():",
+            "def main():",
             *[
                 f"  {SymbolToString(int(t[0]))}(){end_of_line}"
                 for t in self.body_rp_expr

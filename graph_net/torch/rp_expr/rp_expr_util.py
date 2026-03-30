@@ -2,7 +2,6 @@ import typing as t
 from graph_net.torch.rp_expr.rp_expr import LetsListTokenRpExpr
 from graph_net.torch.rp_expr.nested_range import Range, Tree
 from collections import defaultdict
-from dataclasses import dataclass
 
 
 def MakeNestedIndexRangeFromLetsListTokenRpExpr(

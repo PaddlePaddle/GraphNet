@@ -1,11 +1,8 @@
-from dataclasses import dataclass
 import typing as t
 import numpy as np
-import re
 import itertools
 import torch
 import torch.nn.functional as F
-import math
 from graph_net.torch.rp_expr.rp_expr import (
     TokenIdAllocator,
     NaiveTokenListRpExpr,
@@ -14,7 +11,6 @@ from graph_net.torch.rp_expr.rp_expr import (
     LetsTokenRpExpr,
     LetsListTokenRpExpr,
 )
-import itertools
 import sys
 
 
@@ -167,7 +163,7 @@ class FoldTokensPass(Pass):
         conv_weight = torch.cat(
             [GetWeight() for _ in range(self.random_feature_size)], dim=1
         )
-        conv = lambda input: F.conv1d(input, conv_weight, padding=0)
+        conv = lambda input: F.conv1d(input, conv_weight, padding=0)  # noqa: E731
         return conv, windows_size
 
     def GetDisjoint(self, gap, indexes):

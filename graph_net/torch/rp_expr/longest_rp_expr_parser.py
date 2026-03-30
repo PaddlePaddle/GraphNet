@@ -2,7 +2,6 @@ import typing as t
 from graph_net.torch.rp_expr.rp_expr_parser import RpExprParser
 from graph_net.torch.rp_expr.rp_expr import PrimitiveId, LetsListTokenRpExpr
 import numpy as np
-import sys
 
 
 class LongestRpExprParser:

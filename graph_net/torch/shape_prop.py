@@ -1,5 +1,4 @@
 import torch
-from typing import Union, Callable
 from torch.fx.passes.shape_prop import ShapeProp
 import inspect
 import os
@@ -33,4 +32,4 @@ class ShapePropModule(torch.nn.Module):
         inputs = [
             kwargs[name] for name in inspect.signature(self.module.forward).parameters
         ]
-        propagated_model = ShapeProp(traced_model).propagate(*inputs)
+        ShapeProp(traced_model).propagate(*inputs)

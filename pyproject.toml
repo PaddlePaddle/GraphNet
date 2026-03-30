@@ -34,4 +34,7 @@ include = [
   "LICENSE",
 ]
 
-
+[tool.ruff.lint.per-file-ignores]
+# F821: numpy string annotations like np.ndarray["N", np.int64] trigger false positives
+"graph_net/torch/rp_expr/rp_expr.py" = ["F821"]
+"graph_net/torch/rp_expr/rp_expr_passes.py" = ["F821"]

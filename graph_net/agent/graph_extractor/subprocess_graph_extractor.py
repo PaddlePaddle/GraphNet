@@ -2,6 +2,7 @@
 
 import logging
 import os
+import signal
 import subprocess
 import sys
 import time
@@ -12,7 +13,7 @@ from graph_net.agent.graph_extractor.base import BaseGraphExtractor
 from graph_net.agent.utils.exceptions import ExtractionError
 
 # Constants
-DEFAULT_TIMEOUT = 600  # 10 minutes for large models
+DEFAULT_TIMEOUT = 1000  # ~17 minutes for large models
 OUTPUT_SEARCH_WINDOW = 600  # 10 minutes for finding recently created directories
 HASH_DIR_LENGTH = 40  # SHA1 hash length
 ERROR_MSG_MAX_LINES = 20  # Keep first and last N lines of error messages
@@ -59,20 +60,38 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
             else:
                 env["PYTHONPATH"] = str(graphnet_root)
 
-            # Run script in subprocess
-            result = subprocess.run(
+            # Ensure GRAPH_NET_EXTRACT_WORKSPACE points to our workspace
+            if "GRAPH_NET_EXTRACT_WORKSPACE" not in env:
+                env["GRAPH_NET_EXTRACT_WORKSPACE"] = str(self.workspace)
+
+            # Run script in subprocess via Popen so we can kill on timeout
+            proc = subprocess.Popen(
                 [sys.executable, str(code_path)],
                 cwd=str(code_path.parent),
                 env=env,
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                timeout=self.timeout,
+                # 用新进程组，方便整组 kill（避免遗留孙进程占显存）
+                start_new_session=True,
             )
-
-            if result.returncode != 0:
-                error_msg = self._format_error_message(result.stderr or result.stdout)
+            try:
+                stdout, stderr = proc.communicate(timeout=self.timeout)
+            except subprocess.TimeoutExpired:
+                # 先 kill 整个进程组，确保 GPU 显存释放
+                try:
+                    os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+                except ProcessLookupError:
+                    proc.kill()
+                proc.communicate()  # 回收僵尸进程
                 raise ExtractionError(
-                    f"Script execution failed with return code {result.returncode}.\n"
+                    f"Script execution timed out after {self.timeout} seconds"
+                )
+
+            if proc.returncode != 0:
+                error_msg = self._format_error_message(stderr or stdout)
+                raise ExtractionError(
+                    f"Script execution failed with return code {proc.returncode}.\n"
                     f"Command: {sys.executable} {code_path}\n"
                     f"Error output:\n{error_msg}"
                 )
@@ -88,10 +107,8 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
                 )
 
             return output_dir
-        except subprocess.TimeoutExpired:
-            raise ExtractionError(
-                f"Script execution timed out after {self.timeout} seconds"
-            )
+        except ExtractionError:
+            raise
         except Exception as e:
             raise ExtractionError(f"Failed to extract graph: {e}") from e
 
@@ -118,6 +135,7 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
             self.logger.warning(f"Workspace path does not exist: {workspace_path}")
             return None
 
+        # Use 'org_model' naming to match the extract(name=...) convention
         safe_model_id = model_id.replace("/", "_")
         expected_dir = workspace_path / safe_model_id
 
@@ -137,7 +155,7 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
         if recent_dir:
             return recent_dir
 
-        # Strategy 4: Search by model_id pattern
+        # Strategy 4: Search by model_id pattern (org_model first)
         pattern_dir = self._find_dir_by_pattern(workspace_path, model_id, safe_model_id)
         if pattern_dir:
             return pattern_dir
@@ -187,9 +205,9 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
     ) -> Optional[Path]:
         """Find directory matching model_id patterns"""
         patterns = [
-            safe_model_id,
+            model_id.replace("/", "_"),  # org_model (primary)
             model_id.replace("/", "-"),
-            model_id.replace("/", "_"),
+            model_id.split("/")[-1],  # short name fallback
         ]
 
         for item in workspace_path.iterdir():
@@ -222,4 +240,8 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
     def _is_valid_sample_dir(self, dir_path: Path) -> bool:
         """Check if a directory is a valid sample directory"""
         required_files = ["model.py", "graph_net.json"]
-        return all((dir_path / f).exists() for f in required_files)
+        # 单图：根目录下有文件
+        if all((dir_path / f).exists() for f in required_files):
+            return True
+        # 多子图：subgraph_* 子目录下有文件
+        return any(dir_path.glob("subgraph_*/model.py"))

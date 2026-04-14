@@ -46,7 +46,7 @@ BACKWARD_GRAPH_TYPICAL_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/2-12_backward_typical_sub
 mkdir -p $DECOMPOSE_WORKSPACE
 mkdir -p $OUTPUT_DIR
 
-model_list="$GRAPH_NET_ROOT/graph_net/config/torch_samples_list.txt"
+model_list="$GRAPH_NET_ROOT/graph_net/config/torch100_samples_list.txt"
 
 device_rewrited_sample_list=${DECOMPOSE_WORKSPACE}/device_rewrited_sample_list.txt
 range_decomposed_subgraph_list=${DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_sample_list.txt
@@ -686,15 +686,15 @@ function main() {
 
     sample_type="fusible_graph"
     generate_fusible_subgraphs
-    cp -rf $DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR $OUTPUT_DIR/$sample_type
-    cp -rf $dtype_generalized_subgraphs_list $OUTPUT_DIR/$sample_type/sample_list.txt
+    #cp -rf $DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR $OUTPUT_DIR/$sample_type
+    #cp -rf $dtype_generalized_subgraphs_list $OUTPUT_DIR/$sample_type/sample_list.txt
 
     sample_type="typical_graph"
     generate_typical_subgraphs
-    cp -rf $DTYPE_GENERALIZED_TYPICAL_SUBGRAPH_DIR $OUTPUT_DIR/$sample_type
-    cp -rf $dtype_generalized_typical_subgraph_list $OUTPUT_DIR/$sample_type/sample_list.txt
+    #cp -rf $DTYPE_GENERALIZED_TYPICAL_SUBGRAPH_DIR $OUTPUT_DIR/$sample_type
+    #cp -rf $dtype_generalized_typical_subgraph_list $OUTPUT_DIR/$sample_type/sample_list.txt
 
-    generate_database
+    #generate_database
 }
 
 function summary() {

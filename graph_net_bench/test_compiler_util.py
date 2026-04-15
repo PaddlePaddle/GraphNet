@@ -251,15 +251,15 @@ def print_times_and_speedup(args, eager_stats, compiled_stats):
     e2e_speedup = 0
     gpu_speedup = 0
 
-    eager_e2e_time_ms = eager_stats.get("e2e", {}).get("mean", 0)
-    compiled_e2e_time_ms = compiled_stats.get("e2e", {}).get("mean", 0)
+    eager_e2e_time_ms = eager_stats.get("e2e", {}).get("median", 0)
+    compiled_e2e_time_ms = compiled_stats.get("e2e", {}).get("median", 0)
 
     if eager_e2e_time_ms > 0 and compiled_e2e_time_ms > 0:
         e2e_speedup = eager_e2e_time_ms / compiled_e2e_time_ms
 
     if is_gpu_device(args.device):
-        eager_gpu_time_ms = eager_stats.get("gpu", {}).get("mean", 0)
-        compiled_gpu_time_ms = compiled_stats.get("gpu", {}).get("mean", 0)
+        eager_gpu_time_ms = eager_stats.get("gpu", {}).get("median", 0)
+        compiled_gpu_time_ms = compiled_stats.get("gpu", {}).get("median", 0)
 
         if eager_gpu_time_ms > 0 and compiled_gpu_time_ms > 0:
             gpu_speedup = eager_gpu_time_ms / compiled_gpu_time_ms

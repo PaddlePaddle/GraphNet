@@ -108,11 +108,56 @@ def get_device_utilization(device_id, device_count, synchronizer_func):
 
 
 def get_timing_stats(elapsed_times):
+    """Compute timing statistics and detect environment fluctuation via IQR/median.
+
+    Args:
+        elapsed_times: List of elapsed times in ms.
+
+    Returns:
+        dict: Statistics containing mean, std, min, max, median, iqr, q1, q3.
+
+    Raises:
+        RuntimeError: If IQR/median exceeds threshold, indicating excessive fluctuation.
+            The threshold is configured via environment variable
+            GRAPH_NET_FLUCTUATION_DETECT_THRESHOLD (default: 0.2).
+
+    Environment variable GRAPH_NET_FLUCTUATION_DETECT_THRESHOLD:
+        Controls the fluctuation detection sensitivity.
+        - 0.0: Disable detection (always accept results)
+        - 0.5: Lenient (only flag severe fluctuations > 50%)
+        - 1.0: Strict (flag any fluctuations > 20%)
+        - 2.0: Very strict (flag any fluctuations > 10%)
+    """
+    rel_iqr_threshold = float(
+        os.getenv("GRAPH_NET_FLUCTUATION_DETECT_THRESHOLD", "0.2")
+    )
+    arr = np.array(elapsed_times)
+    median = float(np.median(arr))
+    q1 = float(np.percentile(arr, 25))
+    q3 = float(np.percentile(arr, 75))
+    iqr = q3 - q1
+
+    if median > 0:
+        rel_iqr = iqr / median
+        if rel_iqr > rel_iqr_threshold:
+            raise RuntimeError(
+                f"Environment fluctuation detected.\n"
+                f"  IQR/median = {rel_iqr:.1%} (threshold: {rel_iqr_threshold:.0%})\n"
+                f"  Q1 = {q1:.1%}, Q3 = {q3:.1%}\n"
+                f"  IQR = {iqr:.1%}\n"
+                f"  Raw times (ms): {elapsed_times}\n"
+                f"Please re-run evaluation."
+            )
+
     stats = {
-        "mean": float(f"{np.mean(elapsed_times):.6g}"),
-        "std": float(f"{np.std(elapsed_times):.6g}"),
-        "min": float(f"{np.min(elapsed_times):.6g}"),
-        "max": float(f"{np.max(elapsed_times):.6g}"),
+        "mean": float(f"{np.mean(arr):.6g}"),
+        "std": float(f"{np.std(arr):.6g}"),
+        "min": float(f"{np.min(arr):.6g}"),
+        "max": float(f"{np.max(arr):.6g}"),
+        "median": float(f"{median:.6g}"),
+        "q1": float(f"{q1:.6g}"),
+        "q3": float(f"{q3:.6g}"),
+        "iqr": float(f"{iqr:.6g}"),
     }
     return stats
 

@@ -12,7 +12,7 @@ from graph_net.subgraph_decompose_and_evaluation_step import (
 
 class AutoFaultLocator:
     def __init__(self, args):
-        self.log_file = os.path.abspath(args.log_file)
+        self.model_path_list = os.path.abspath(args.model_path_list)
         self.output_dir = os.path.abspath(args.output_dir)
         self.framework = args.framework
         self.decompose_method = args.decompose_method
@@ -23,20 +23,20 @@ class AutoFaultLocator:
         self.machine = args.machine
         self.port = args.port
 
-    def get_one_step_cmd(self, config_str):
-        config_b64 = convert_json_to_b64_string(config_str)
-        return [
+    def execute_one_step_cmd(self, test_config):
+        test_config_b64_str = convert_json_to_b64_string(test_config)
+        cmd = [
             sys.executable,
             "-m",
             "graph_net.subgraph_decompose_and_evaluation_step",
-            "--log-file",
-            self.log_file,
+            "--model-path-list",
+            self.model_path_list,
             "--output-dir",
             self.output_dir,
             "--framework",
             self.framework,
             "--test-config",
-            config_b64,
+            test_config_b64_str,
             "--decompose-method",
             self.decompose_method,
             "--tolerance",
@@ -45,49 +45,78 @@ class AutoFaultLocator:
             self.max_subgraph_size,
         ]
 
-    def run_remote_test_reference(self):
+        print(f"[AutoFaultLocator] Executing: {' '.join(cmd)}", flush=True)
+        result = subprocess.run(cmd, check=True, text=True)
+        return result
+
+    def run_test_reference_device(self, is_remote):
         print(
-            "\n>>> [Step 1] Run Remote Reference Device (Decomposition And Evaluation)\n"
+            "\n>>> [AutoFaultLocator 2/1] Run Test Reference Device (Decomposition And Evaluation)\n",
+            flush=True,
         )
 
-        test_remote_reference_device_config_str = {
-            "test_module_name": "test_remote_reference_device",
-            "test_remote_reference_device_arguments": {
+        test_module_name = (
+            "test_remote_reference_device" if is_remote else "test_reference_device"
+        )
+        test_reference_device_config = {
+            "test_module_name": test_module_name,
+            f"{test_module_name}_arguments": {
                 "model-path": None,
                 "reference-dir": None,
                 "compiler": "nope",
                 "device": self.reference_device,
-                "op-lib": "default",
                 "warmup": 5,
                 "trials": 20,
                 "seed": 123,
-                "machine": self.machine,
-                "port": self.port,
             },
         }
+        if args.framework == "torch":
+            test_reference_device_config[f"{test_module_name}_arguments"].update(
+                {"op-lib": "default"}
+            )
+        if is_remote:
+            test_reference_device_config[f"{test_module_name}_arguments"].update(
+                {
+                    "machine": self.machine,
+                    "port": self.port,
+                }
+            )
 
-        cmd = self.get_one_step_cmd(test_remote_reference_device_config_str)
-        print(f"Executing: {' '.join(cmd)}")
-        result = subprocess.run(cmd, check=True, text=True)
+        result = self.execute_one_step_cmd(test_reference_device_config)
         assert (
             result.returncode == 0
         ), f"Run Remote Reference Device failed with return code {result.returncode}"
 
-    def run_local_test_target(self):
-        print("\n>>> [Step 2] Run Local Target Device (Evaluation And Analysis)\n")
+    def run_test_target_device(self, is_remote):
+        print(
+            "\n>>> [AutoFaultLocator 2/2] Run Test Target Device (Evaluation And Analysis)\n",
+            flush=True,
+        )
 
-        test_target_device_config_str = {
-            "test_module_name": "test_target_device",
-            "test_target_device_arguments": {
+        test_module_name = (
+            "test_remote_target_device" if is_remote else "test_target_device"
+        )
+        test_target_device_config = {
+            "test_module_name": test_module_name,
+            f"{test_module_name}_arguments": {
                 "model-path": None,
                 "reference-dir": None,
+                "compiler": "nope",
                 "device": self.target_device,
+                "warmup": 5,
+                "trials": 20,
+                "seed": 123,
             },
         }
+        if is_remote:
+            test_target_device_config[f"{test_module_name}_arguments"].update(
+                {
+                    "machine": self.machine,
+                    "port": self.port,
+                }
+            )
 
-        cmd = self.get_one_step_cmd(test_target_device_config_str)
-        print(f"Executing: {' '.join(cmd)}")
-        result = subprocess.run(cmd, check=True, text=True)
+        result = self.execute_one_step_cmd(test_target_device_config)
         assert (
             result.returncode == 0
         ), f"Run Local Target Device failed with return code {result.returncode}"
@@ -114,8 +143,8 @@ class AutoFaultLocator:
 def main(args):
     locator = AutoFaultLocator(args)
     while True:
-        locator.run_remote_test_reference()
-        locator.run_local_test_target()
+        locator.run_test_reference_device(is_remote=False)
+        locator.run_test_target_device(is_remote=True)
         should_continue = locator.analyze_and_decide_next()
         if not should_continue:
             break
@@ -123,7 +152,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--log-file", type=str, required=True)
+    parser.add_argument("--model-path-list", type=str, required=True)
     parser.add_argument("--output-dir", type=str, required=True)
     parser.add_argument(
         "--framework", type=str, choices=["paddle", "torch"], required=True

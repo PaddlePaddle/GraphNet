@@ -78,8 +78,7 @@ def load_class_from_file(file_path: str, class_name: str):
 
     with open(file_path, "r", encoding="utf-8") as f:
         original_code = f.read()
-    import_stmt = "import paddle"
-    modified_code = f"{import_stmt}\n{original_code}"
+    modified_code = utils.rewrite_model(original_code)
     spec = importlib.util.spec_from_loader(module_name, loader=None)
     module = importlib.util.module_from_spec(spec)
     sys.modules[module_name] = module

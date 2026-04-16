@@ -3,6 +3,8 @@ import ast
 import numpy as np
 import paddle
 
+from graph_net.paddle.graph_rewriter import GraphRewriter
+
 
 def load_converted_from_text(file_path):
     input_info = {
@@ -140,3 +142,7 @@ def replay_tensor(info, use_numpy=True):
     else:
         tensor = init_float_tensor(shape, mean, std, min_val, max_val, use_numpy)
         return tensor.to(dtype).to(device)
+
+
+def rewrite_model(model_code, rewriter_names=None):
+    return GraphRewriter.run_pipeline(model_code, rewriter_names)

@@ -551,10 +551,10 @@ class Program_weight_tensor_parameter_46:
     original_name = "batch_norm2d_85.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("58247.6")
-    max_val = float("20544400000.0")
-    mean = float("675237000.0")
-    std = float("2138970000.0")
+    min_val = float("-582.476")
+    max_val = float("2054.44")
+    mean = float("675.237")
+    std = float("213.897")
     data = None
 
 
@@ -612,9 +612,9 @@ class Program_weight_tensor_parameter_51:
     shape = [128]
     dtype = "float32"
     min_val = float("0.000582512")
-    max_val = float("3249090000.0")
-    mean = float("60770300.0")
-    std = float("377372000.0")
+    max_val = float("3249.09")
+    mean = float("607.703")
+    std = float("377.372")
     data = None
 
 
@@ -671,10 +671,10 @@ class Program_weight_tensor_parameter_56:
     original_name = "batch_norm2d_83.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("2857.87")
-    max_val = float("412905000.0")
-    mean = float("15818900.0")
-    std = float("54657900.0")
+    min_val = float("-28.5787")
+    max_val = float("412.905")
+    mean = float("158.189")
+    std = float("54.6579")
     data = None
 
 
@@ -732,9 +732,9 @@ class Program_weight_tensor_parameter_61:
     shape = [128]
     dtype = "float32"
     min_val = float("0.00900684")
-    max_val = float("3556900000.0")
-    mean = float("43511400.0")
-    std = float("330022000.0")
+    max_val = float("3556.90")
+    mean = float("435.114")
+    std = float("330.022")
     data = None
 
 
@@ -792,9 +792,9 @@ class Program_weight_tensor_parameter_66:
     shape = [128]
     dtype = "float32"
     min_val = float("1872.14")
-    max_val = float("47439700.0")
-    mean = float("2879840.0")
-    std = float("7270230.0")
+    max_val = float("4743.97")
+    mean = float("2879.84")
+    std = float("727.023")
     data = None
 
 
@@ -852,9 +852,9 @@ class Program_weight_tensor_parameter_71:
     shape = [128]
     dtype = "float32"
     min_val = float("0.219354")
-    max_val = float("10336600000.0")
-    mean = float("92021900.0")
-    std = float("912436000.0")
+    max_val = float("1033.66")
+    mean = float("920.219")
+    std = float("91.2436")
     data = None
 
 
@@ -911,10 +911,10 @@ class Program_weight_tensor_parameter_76:
     original_name = "batch_norm2d_79.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("9659.32")
-    max_val = float("2853920000.0")
-    mean = float("67779800.0")
-    std = float("311856000.0")
+    min_val = float("96.5932")
+    max_val = float("2853.92")
+    mean = float("677.798")
+    std = float("311.856")
     data = None
 
 
@@ -972,9 +972,9 @@ class Program_weight_tensor_parameter_81:
     shape = [128]
     dtype = "float32"
     min_val = float("0.00619647")
-    max_val = float("8816430000000.0")
-    mean = float("70110200000.0")
-    std = float("776208000000.0")
+    max_val = float("8816.43")
+    mean = float("701.102")
+    std = float("776.208")
     data = None
 
 
@@ -983,10 +983,10 @@ class Program_weight_tensor_parameter_82:
     original_name = "batch_norm2d_78.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-121377.0")
-    max_val = float("1669060.0")
-    mean = float("15548.7")
-    std = float("148946.0")
+    min_val = float("-12137.7")
+    max_val = float("16690.6")
+    mean = float("1554.87")
+    std = float("1489.46")
     data = None
 
 
@@ -1053,10 +1053,8 @@ class Program_weight_tensor_parameter_88:
     original_name = "batch_norm2d_77.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("1256560000.0")
-    max_val = float("2.75381e+20")
-    mean = float("6.70377e+18")
-    std = float("inf")
+    min_val = float("125.656")
+    max_val = float("2753.81")
     data = None
 
 
@@ -1065,10 +1063,10 @@ class Program_weight_tensor_parameter_89:
     original_name = "batch_norm2d_77.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-18448400000.0")
-    max_val = float("13078200000.0")
-    mean = float("-31256100.0")
-    std = float("2219470000.0")
+    min_val = float("-1844.84")
+    max_val = float("1307.82")
+    mean = float("-312.561")
+    std = float("221.947")
     data = None
 
 
@@ -1089,10 +1087,10 @@ class Program_weight_tensor_parameter_91:
     original_name = "batch_norm2d_76.b_0"
     shape = [128]
     dtype = "float32"
-    min_val = float("-274863.0")
-    max_val = float("103392.0")
-    mean = float("-3753.37")
-    std = float("32628.5")
+    min_val = float("-2748.63")
+    max_val = float("1033.92")
+    mean = float("-375.337")
+    std = float("326.285")
     data = None
 
 
@@ -1101,10 +1099,10 @@ class Program_weight_tensor_parameter_92:
     original_name = "batch_norm2d_76.w_0"
     shape = [128]
     dtype = "float32"
-    min_val = float("-116014.0")
-    max_val = float("105656.0")
-    mean = float("-1460.97")
-    std = float("22152.4")
+    min_val = float("-1160.14")
+    max_val = float("1056.56")
+    mean = float("-146.097")
+    std = float("221.524")
     data = None
 
 
@@ -1114,9 +1112,7 @@ class Program_weight_tensor_parameter_93:
     shape = [128]
     dtype = "float32"
     min_val = float("1.40568e-05")
-    max_val = float("4.05002e+20")
-    mean = float("1.03691e+19")
-    std = float("inf")
+    max_val = float("4050.02")
     data = None
 
 
@@ -1125,10 +1121,10 @@ class Program_weight_tensor_parameter_94:
     original_name = "batch_norm2d_76.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-33518000000.0")
-    max_val = float("9649450000.0")
-    mean = float("-209845000.0")
-    std = float("3196110000.0")
+    min_val = float("-3351.80")
+    max_val = float("9649.45")
+    mean = float("-209.845")
+    std = float("319.611")
     data = None
 
 
@@ -1173,10 +1169,8 @@ class Program_weight_tensor_parameter_98:
     original_name = "batch_norm2d_75.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("37547100000.0")
-    max_val = float("2.3025e+21")
-    mean = float("4.36871e+19")
-    std = float("inf")
+    min_val = float("375.471")
+    max_val = float("2302.50")
     data = None
 
 
@@ -1185,10 +1179,10 @@ class Program_weight_tensor_parameter_99:
     original_name = "batch_norm2d_75.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-3777800000.0")
-    max_val = float("25793100000.0")
-    mean = float("647896000.0")
-    std = float("3109750000.0")
+    min_val = float("-3777.80")
+    max_val = float("2579.31")
+    mean = float("647.896")
+    std = float("310.975")
     data = None
 
 
@@ -1234,9 +1228,7 @@ class Program_weight_tensor_parameter_103:
     shape = [128]
     dtype = "float32"
     min_val = float("4.68528e-06")
-    max_val = float("6.52868e+22")
-    mean = float("5.83095e+20")
-    std = float("inf")
+    max_val = float("6528.68")
     data = None
 
 
@@ -1245,10 +1237,10 @@ class Program_weight_tensor_parameter_104:
     original_name = "batch_norm2d_74.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-36490500000.0")
-    max_val = float("482921000000.0")
-    mean = float("3732870000.0")
-    std = float("42791300000.0")
+    min_val = float("-3649.05")
+    max_val = float("4829.21")
+    mean = float("373.287")
+    std = float("427.913")
     data = None
 
 
@@ -1293,10 +1285,8 @@ class Program_weight_tensor_parameter_108:
     original_name = "batch_norm2d_73.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("39533200000.0")
-    max_val = float("2.72523e+20")
-    mean = float("6.79091e+18")
-    std = float("inf")
+    min_val = float("395.332")
+    max_val = float("2725.23")
     data = None
 
 
@@ -1305,10 +1295,10 @@ class Program_weight_tensor_parameter_109:
     original_name = "batch_norm2d_73.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-4719580000.0")
-    max_val = float("9380190000.0")
-    mean = float("36117900.0")
-    std = float("1408010000.0")
+    min_val = float("-4719.58")
+    max_val = float("9380.19")
+    mean = float("361.179")
+    std = float("1408.01")
     data = None
 
 
@@ -1354,9 +1344,7 @@ class Program_weight_tensor_parameter_113:
     shape = [128]
     dtype = "float32"
     min_val = float("4.3711e-05")
-    max_val = float("6.69868e+20")
-    mean = float("1.90444e+19")
-    std = float("inf")
+    max_val = float("6698.68")
     data = None
 
 
@@ -1365,10 +1353,10 @@ class Program_weight_tensor_parameter_114:
     original_name = "batch_norm2d_72.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-32210600000.0")
-    max_val = float("19296400000.0")
-    mean = float("-222346000.0")
-    std = float("3712630000.0")
+    min_val = float("-3221.06")
+    max_val = float("1929.64")
+    mean = float("-222.346")
+    std = float("371.263")
     data = None
 
 
@@ -1413,10 +1401,8 @@ class Program_weight_tensor_parameter_118:
     original_name = "batch_norm2d_71.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("131404000000.0")
-    max_val = float("6.8141e+21")
-    mean = float("1.01263e+20")
-    std = float("inf")
+    min_val = float("131.404")
+    max_val = float("6814.10")
     data = None
 
 
@@ -1425,10 +1411,10 @@ class Program_weight_tensor_parameter_119:
     original_name = "batch_norm2d_71.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-44285100000.0")
-    max_val = float("3857900000.0")
-    mean = float("-921017000.0")
-    std = float("5922380000.0")
+    min_val = float("-4428.51")
+    max_val = float("3857.90")
+    mean = float("-921.017")
+    std = float("592.238")
     data = None
 
 
@@ -1474,9 +1460,7 @@ class Program_weight_tensor_parameter_123:
     shape = [128]
     dtype = "float32"
     min_val = float("3.88607e-06")
-    max_val = float("3.93957e+20")
-    mean = float("1.01325e+19")
-    std = float("inf")
+    max_val = float("3939.57")
     data = None
 
 
@@ -1485,10 +1469,10 @@ class Program_weight_tensor_parameter_124:
     original_name = "batch_norm2d_70.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-30152100000.0")
-    max_val = float("10858700000.0")
-    mean = float("-434912000.0")
-    std = float("4031290000.0")
+    min_val = float("-3015.21")
+    max_val = float("1085.87")
+    mean = float("-434.912")
+    std = float("403.129")
     data = None
 
 
@@ -1556,9 +1540,9 @@ class Program_weight_tensor_parameter_130:
     shape = [128]
     dtype = "float32"
     min_val = float("3228.36")
-    max_val = float("101589000.0")
-    mean = float("4930090.0")
-    std = float("14493200.0")
+    max_val = float("10158.9")
+    mean = float("4930.090")
+    std = float("1449.32")
     data = None
 
 
@@ -1616,9 +1600,9 @@ class Program_weight_tensor_parameter_135:
     shape = [128]
     dtype = "float32"
     min_val = float("0.003342")
-    max_val = float("260327000.0")
-    mean = float("5286810.0")
-    std = float("29247200.0")
+    max_val = float("2603.27")
+    mean = float("528.681")
+    std = float("2924.72")
     data = None
 
 
@@ -1676,9 +1660,9 @@ class Program_weight_tensor_parameter_140:
     shape = [128]
     dtype = "float32"
     min_val = float("818.739")
-    max_val = float("44282300.0")
-    mean = float("1670460.0")
-    std = float("6291510.0")
+    max_val = float("4428.23")
+    mean = float("1670.46")
+    std = float("629.151")
     data = None
 
 
@@ -1736,9 +1720,9 @@ class Program_weight_tensor_parameter_145:
     shape = [128]
     dtype = "float32"
     min_val = float("0.00133377")
-    max_val = float("6346100000.0")
-    mean = float("54220400.0")
-    std = float("558920000.0")
+    max_val = float("6346.10")
+    mean = float("542.204")
+    std = float("5589.20")
     data = None
 
 
@@ -1796,9 +1780,9 @@ class Program_weight_tensor_parameter_150:
     shape = [128]
     dtype = "float32"
     min_val = float("473.663")
-    max_val = float("19018900.0")
-    mean = float("1142690.0")
-    std = float("3006780.0")
+    max_val = float("19018.9")
+    mean = float("1142.69")
+    std = float("3006.78")
     data = None
 
 
@@ -1856,9 +1840,9 @@ class Program_weight_tensor_parameter_155:
     shape = [128]
     dtype = "float32"
     min_val = float("0.00890485")
-    max_val = float("924151000.0")
-    mean = float("10677200.0")
-    std = float("84650300.0")
+    max_val = float("9241.51")
+    mean = float("1067.72")
+    std = float("8465.03")
     data = None
 
 
@@ -1916,9 +1900,9 @@ class Program_weight_tensor_parameter_160:
     shape = [128]
     dtype = "float32"
     min_val = float("287.46")
-    max_val = float("42264800.0")
-    mean = float("830575.0")
-    std = float("4131720.0")
+    max_val = float("4226.48")
+    mean = float("830.575")
+    std = float("413.172")
     data = None
 
 
@@ -1976,9 +1960,9 @@ class Program_weight_tensor_parameter_165:
     shape = [128]
     dtype = "float32"
     min_val = float("0.000128292")
-    max_val = float("7539160000000.0")
-    mean = float("120339000000.0")
-    std = float("872477000000.0")
+    max_val = float("7539.16")
+    mean = float("1203.39")
+    std = float("872.477")
     data = None
 
 
@@ -1987,10 +1971,10 @@ class Program_weight_tensor_parameter_166:
     original_name = "batch_norm2d_62.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-5927410.0")
-    max_val = float("3255460.0")
-    mean = float("-21456.2")
-    std = float("605831.0")
+    min_val = float("-5927.41")
+    max_val = float("3255.46")
+    mean = float("-2145.62")
+    std = float("605.831")
     data = None
 
 
@@ -2096,9 +2080,9 @@ class Program_weight_tensor_parameter_175:
     shape = [128]
     dtype = "float32"
     min_val = float("0.000156346")
-    max_val = float("391558000.0")
-    mean = float("3072800.0")
-    std = float("34472500.0")
+    max_val = float("3915.58")
+    mean = float("307.28")
+    std = float("344.725")
     data = None
 
 
@@ -2216,9 +2200,9 @@ class Program_weight_tensor_parameter_185:
     shape = [128]
     dtype = "float32"
     min_val = float("5.86101e-05")
-    max_val = float("12261400000000.0")
-    mean = float("105002000000.0")
-    std = float("1081960000000.0")
+    max_val = float("12261.4")
+    mean = float("1050.02")
+    std = float("10819.6")
     data = None
 
 
@@ -2227,10 +2211,10 @@ class Program_weight_tensor_parameter_186:
     original_name = "batch_norm2d_30.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-528399.0")
-    max_val = float("1345590.0")
+    min_val = float("-5283.99")
+    max_val = float("1345.59")
     mean = float("-1085.89")
-    std = float("134658.0")
+    std = float("1346.58")
     data = None
 
 
@@ -2275,10 +2259,10 @@ class Program_weight_tensor_parameter_190:
     original_name = "batch_norm2d_58.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("14777.6")
-    max_val = float("6550930000.0")
-    mean = float("152320000.0")
-    std = float("760843000.0")
+    min_val = float("147.776")
+    max_val = float("6550.93")
+    mean = float("1523.20")
+    std = float("760.843")
     data = None
 
 
@@ -2656,9 +2640,9 @@ class Program_weight_tensor_parameter_225:
     shape = [128]
     dtype = "float32"
     min_val = float("3.53324e-11")
-    max_val = float("61754200000.0")
-    mean = float("882636000.0")
-    std = float("5662340000.0")
+    max_val = float("6175.42")
+    mean = float("882.636")
+    std = float("5662.34")
     data = None
 
 
@@ -2715,10 +2699,8 @@ class Program_weight_tensor_parameter_230:
     original_name = "batch_norm2d_50.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("10737900000.0")
-    max_val = float("7.12963e+20")
-    mean = float("9.05393e+18")
-    std = float("inf")
+    min_val = float("1073.79")
+    max_val = float("7129.63")
     data = None
 
 
@@ -2727,10 +2709,10 @@ class Program_weight_tensor_parameter_231:
     original_name = "batch_norm2d_50.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-6512240000.0")
-    max_val = float("32799100000.0")
-    mean = float("166414000.0")
-    std = float("3188900000.0")
+    min_val = float("-6512.24")
+    max_val = float("3279.91")
+    mean = float("1664.14")
+    std = float("3188.90")
     data = None
 
 
@@ -3035,10 +3017,10 @@ class Program_weight_tensor_parameter_260:
     original_name = "batch_norm2d_47.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("1289980000.0")
-    max_val = float("1.01952e+19")
-    mean = float("1.77883e+17")
-    std = float("1.09482e+18")
+    min_val = float("128.998")
+    max_val = float("10195.2")
+    mean = float("1778.83")
+    std = float("109.482")
     data = None
 
 
@@ -3047,10 +3029,10 @@ class Program_weight_tensor_parameter_261:
     original_name = "batch_norm2d_47.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-969451000.0")
-    max_val = float("1719590000.0")
-    mean = float("19588100.0")
-    std = float("230945000.0")
+    min_val = float("-9694.51")
+    max_val = float("17195.9")
+    mean = float("1958.81")
+    std = float("2309.45")
     data = None
 
 
@@ -3096,9 +3078,7 @@ class Program_weight_tensor_parameter_265:
     shape = [128]
     dtype = "float32"
     min_val = float("0.000180454")
-    max_val = float("2.04952e+21")
-    mean = float("1.68005e+19")
-    std = float("inf")
+    max_val = float("2049.52")
     data = None
 
 
@@ -3107,10 +3087,10 @@ class Program_weight_tensor_parameter_266:
     original_name = "batch_norm2d_46.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-760651000.0")
-    max_val = float("48053000000.0")
-    mean = float("482595000.0")
-    std = float("4368170000.0")
+    min_val = float("-7606.51")
+    max_val = float("4805.30")
+    mean = float("482.595")
+    std = float("4368.17")
     data = None
 
 
@@ -3155,10 +3135,8 @@ class Program_weight_tensor_parameter_270:
     original_name = "batch_norm2d_42.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("29624000000.0")
-    max_val = float("3.50963e+20")
-    mean = float("8.11164e+18")
-    std = float("inf")
+    min_val = float("296.240")
+    max_val = float("3509.63")
     data = None
 
 
@@ -3167,10 +3145,10 @@ class Program_weight_tensor_parameter_271:
     original_name = "batch_norm2d_42.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-25856000000.0")
-    max_val = float("31882100000.0")
-    mean = float("-168986000.0")
-    std = float("3911860000.0")
+    min_val = float("-2585.60")
+    max_val = float("3188.21")
+    mean = float("-1689.86")
+    std = float("3911.86")
     data = None
 
 
@@ -3475,10 +3453,8 @@ class Program_weight_tensor_parameter_300:
     original_name = "batch_norm2d_36.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("5133710000.0")
-    max_val = float("6.86238e+20")
-    mean = float("1.13767e+19")
-    std = float("inf")
+    min_val = float("51.3371")
+    max_val = float("6862.38")
     data = None
 
 
@@ -3487,10 +3463,10 @@ class Program_weight_tensor_parameter_301:
     original_name = "batch_norm2d_36.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-10862500000.0")
-    max_val = float("21049400000.0")
-    mean = float("215672000.0")
-    std = float("2658170000.0")
+    min_val = float("-1086.25")
+    max_val = float("21049.4")
+    mean = float("2156.72")
+    std = float("2658.17")
     data = None
 
 
@@ -3795,10 +3771,8 @@ class Program_weight_tensor_parameter_330:
     original_name = "batch_norm2d_29.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("34782800000.0")
-    max_val = float("1.29377e+22")
-    mean = float("1.87313e+20")
-    std = float("inf")
+    min_val = float("347.828")
+    max_val = float("12937.7")
     data = None
 
 
@@ -3807,10 +3781,10 @@ class Program_weight_tensor_parameter_331:
     original_name = "batch_norm2d_29.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-196325000000.0")
-    max_val = float("43131900000.0")
-    mean = float("-956323000.0")
-    std = float("18669900000.0")
+    min_val = float("-1963.25")
+    max_val = float("4313.19")
+    mean = float("-956.323")
+    std = float("1866.99")
     data = None
 
 
@@ -3855,10 +3829,8 @@ class Program_weight_tensor_parameter_335:
     original_name = "batch_norm2d_28.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("12554200000.0")
-    max_val = float("4.2572e+20")
-    mean = float("7.03993e+18")
-    std = float("inf")
+    min_val = float("125.542")
+    max_val = float("4257.20")
     data = None
 
 
@@ -3867,10 +3839,10 @@ class Program_weight_tensor_parameter_336:
     original_name = "batch_norm2d_28.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-6273210000.0")
-    max_val = float("5488470000.0")
-    mean = float("-65105300.0")
-    std = float("1089890000.0")
+    min_val = float("-6273.21")
+    max_val = float("5488.47")
+    mean = float("-651.053")
+    std = float("1089.89")
     data = None
 
 
@@ -3915,10 +3887,8 @@ class Program_weight_tensor_parameter_340:
     original_name = "batch_norm2d_27.w_2"
     shape = [128]
     dtype = "float32"
-    min_val = float("20311000000.0")
-    max_val = float("1.84851e+21")
-    mean = float("3.34316e+19")
-    std = float("inf")
+    min_val = float("20.3110")
+    max_val = float("1848.51")
     data = None
 
 
@@ -3927,10 +3897,10 @@ class Program_weight_tensor_parameter_341:
     original_name = "batch_norm2d_27.w_1"
     shape = [128]
     dtype = "float32"
-    min_val = float("-32024200000.0")
-    max_val = float("21390200000.0")
-    mean = float("129123000.0")
-    std = float("3778280000.0")
+    min_val = float("-3202.42")
+    max_val = float("21390.2")
+    mean = float("1291.23")
+    std = float("3778.28")
     data = None
 
 
@@ -3975,10 +3945,8 @@ class Program_weight_tensor_parameter_345:
     original_name = "batch_norm2d_26.w_2"
     shape = [1280]
     dtype = "float32"
-    min_val = float("6039170000.0")
-    max_val = float("6.78926e+20")
-    mean = float("2.28536e+18")
-    std = float("inf")
+    min_val = float("60.3917")
+    max_val = float("6789.26")
     data = None
 
 
@@ -3987,10 +3955,10 @@ class Program_weight_tensor_parameter_346:
     original_name = "batch_norm2d_26.w_1"
     shape = [1280]
     dtype = "float32"
-    min_val = float("-14069300000.0")
-    max_val = float("7056590000.0")
-    mean = float("-8576950.0")
-    std = float("746888000.0")
+    min_val = float("-1406.93")
+    max_val = float("7056.59")
+    mean = float("-857.695")
+    std = float("7468.88")
     data = None
 
 
@@ -4084,9 +4052,7 @@ class Program_weight_tensor_parameter_354:
     shape = [1280]
     dtype = "float32"
     min_val = float("3.36739e-06")
-    max_val = float("6.40361e+20")
-    mean = float("1.15563e+18")
-    std = float("inf")
+    max_val = float("6403.61")
     data = None
 
 
@@ -4095,10 +4061,10 @@ class Program_weight_tensor_parameter_355:
     original_name = "batch_norm2d_25.w_1"
     shape = [1280]
     dtype = "float32"
-    min_val = float("-5005020000.0")
-    max_val = float("11081300000.0")
-    mean = float("100970.0")
-    std = float("432630000.0")
+    min_val = float("-5005.02")
+    max_val = float("11081.3")
+    mean = float("1009.70")
+    std = float("4326.30")
     data = None
 
 
@@ -4143,10 +4109,8 @@ class Program_weight_tensor_parameter_359:
     original_name = "batch_norm2d_24.w_2"
     shape = [1280]
     dtype = "float32"
-    min_val = float("1812810.0")
-    max_val = float("3.21017e+21")
-    mean = float("6.6749e+18")
-    std = float("inf")
+    min_val = float("18.12810")
+    max_val = float("3210.17")
     data = None
 
 
@@ -4155,10 +4119,10 @@ class Program_weight_tensor_parameter_360:
     original_name = "batch_norm2d_24.w_1"
     shape = [1280]
     dtype = "float32"
-    min_val = float("-16396500000.0")
-    max_val = float("20826700000.0")
-    mean = float("36435300.0")
-    std = float("1141100000.0")
+    min_val = float("-1639.65")
+    max_val = float("20826.7")
+    mean = float("3643.53")
+    std = float("11411.0")
     data = None
 
 
@@ -4252,9 +4216,7 @@ class Program_weight_tensor_parameter_368:
     shape = [640]
     dtype = "float32"
     min_val = float("1.61123e-07")
-    max_val = float("1.73247e+22")
-    mean = float("2.78801e+19")
-    std = float("inf")
+    max_val = float("1732.47")
     data = None
 
 
@@ -4263,10 +4225,10 @@ class Program_weight_tensor_parameter_369:
     original_name = "batch_norm2d_23.w_1"
     shape = [640]
     dtype = "float32"
-    min_val = float("-42998100000.0")
-    max_val = float("39908100000.0")
-    mean = float("-17340100.0")
-    std = float("2350230000.0")
+    min_val = float("-4299.81")
+    max_val = float("3990.81")
+    mean = float("-1734.01")
+    std = float("2350.23")
     data = None
 
 
@@ -4311,10 +4273,8 @@ class Program_weight_tensor_parameter_373:
     original_name = "batch_norm2d_22.w_2"
     shape = [640]
     dtype = "float32"
-    min_val = float("1290730000.0")
-    max_val = float("8.78844e+20")
-    mean = float("2.72846e+18")
-    std = float("inf")
+    min_val = float("12.9073")
+    max_val = float("8788.44")
     data = None
 
 
@@ -4323,10 +4283,10 @@ class Program_weight_tensor_parameter_374:
     original_name = "batch_norm2d_22.w_1"
     shape = [640]
     dtype = "float32"
-    min_val = float("-24967400000.0")
-    max_val = float("15440700000.0")
-    mean = float("-87857400.0")
-    std = float("1512910000.0")
+    min_val = float("-2496.74")
+    max_val = float("15440.7")
+    mean = float("-878.574")
+    std = float("15129.1")
     data = None
 
 
@@ -4372,9 +4332,7 @@ class Program_weight_tensor_parameter_378:
     shape = [640]
     dtype = "float32"
     min_val = float("2.85619e-06")
-    max_val = float("1.25829e+23")
-    mean = float("1.97856e+20")
-    std = float("inf")
+    max_val = float("12582.9")
     data = None
 
 
@@ -4383,10 +4341,10 @@ class Program_weight_tensor_parameter_379:
     original_name = "batch_norm2d_21.w_1"
     shape = [640]
     dtype = "float32"
-    min_val = float("-11284800000.0")
-    max_val = float("103528000000.0")
-    mean = float("205898000.0")
-    std = float("4183220000.0")
+    min_val = float("-1128.48")
+    max_val = float("10352.8")
+    mean = float("2058.98")
+    std = float("4183.22")
     data = None
 
 
@@ -4431,10 +4389,8 @@ class Program_weight_tensor_parameter_383:
     original_name = "batch_norm2d_20.w_2"
     shape = [640]
     dtype = "float32"
-    min_val = float("313117000.0")
-    max_val = float("3.12437e+22")
-    mean = float("6.42489e+19")
-    std = float("inf")
+    min_val = float("31.3117")
+    max_val = float("3124.37")
     data = None
 
 
@@ -4443,10 +4399,10 @@ class Program_weight_tensor_parameter_384:
     original_name = "batch_norm2d_20.w_1"
     shape = [640]
     dtype = "float32"
-    min_val = float("-13702700000.0")
-    max_val = float("70694600000.0")
-    mean = float("181567000.0")
-    std = float("3102160000.0")
+    min_val = float("-1370.27")
+    max_val = float("7069.46")
+    mean = float("1815.67")
+    std = float("3102.16")
     data = None
 
 
@@ -4492,9 +4448,7 @@ class Program_weight_tensor_parameter_388:
     shape = [640]
     dtype = "float32"
     min_val = float("7.95316e-07")
-    max_val = float("2.20108e+21")
-    mean = float("5.93378e+18")
-    std = float("inf")
+    max_val = float("2201.08")
     data = None
 
 
@@ -4503,10 +4457,10 @@ class Program_weight_tensor_parameter_389:
     original_name = "batch_norm2d_19.w_1"
     shape = [640]
     dtype = "float32"
-    min_val = float("-14660200000.0")
-    max_val = float("41376300000.0")
-    mean = float("3122360.0")
-    std = float("1908930000.0")
+    min_val = float("-1466.02")
+    max_val = float("4137.63")
+    mean = float("312.236")
+    std = float("1908.93")
     data = None
 
 
@@ -4551,10 +4505,8 @@ class Program_weight_tensor_parameter_393:
     original_name = "batch_norm2d_18.w_2"
     shape = [640]
     dtype = "float32"
-    min_val = float("1108370000.0")
-    max_val = float("5.8681e+20")
-    mean = float("3.0167e+18")
-    std = float("inf")
+    min_val = float("11.0837")
+    max_val = float("5868.10")
     data = None
 
 
@@ -4563,10 +4515,10 @@ class Program_weight_tensor_parameter_394:
     original_name = "batch_norm2d_18.w_1"
     shape = [640]
     dtype = "float32"
-    min_val = float("-23696700000.0")
-    max_val = float("11167400000.0")
-    mean = float("17698800.0")
-    std = float("1192040000.0")
+    min_val = float("-2369.67")
+    max_val = float("11167.4")
+    mean = float("1769.88")
+    std = float("11920.4")
     data = None
 
 
@@ -4612,9 +4564,7 @@ class Program_weight_tensor_parameter_398:
     shape = [640]
     dtype = "float32"
     min_val = float("1.64366e-05")
-    max_val = float("2.62001e+20")
-    mean = float("1.07981e+18")
-    std = float("inf")
+    max_val = float("2620.01")
     data = None
 
 
@@ -4623,10 +4573,10 @@ class Program_weight_tensor_parameter_399:
     original_name = "batch_norm2d_17.w_1"
     shape = [640]
     dtype = "float32"
-    min_val = float("-41680700000.0")
-    max_val = float("3437810000.0")
-    mean = float("-89032600.0")
-    std = float("1735380000.0")
+    min_val = float("-4168.07")
+    max_val = float("3437.81")
+    mean = float("-890.326")
+    std = float("1735.38")
     data = None
 
 
@@ -4671,10 +4621,8 @@ class Program_weight_tensor_parameter_403:
     original_name = "batch_norm2d_16.w_2"
     shape = [640]
     dtype = "float32"
-    min_val = float("698022000.0")
-    max_val = float("8.75483e+19")
-    mean = float("9.29516e+17")
-    std = float("inf")
+    min_val = float("69.8022")
+    max_val = float("8754.83")
     data = None
 
 
@@ -4683,10 +4631,10 @@ class Program_weight_tensor_parameter_404:
     original_name = "batch_norm2d_16.w_1"
     shape = [640]
     dtype = "float32"
-    min_val = float("-6894760000.0")
-    max_val = float("4684640000.0")
-    mean = float("-33198100.0")
-    std = float("540811000.0")
+    min_val = float("-6894.76")
+    max_val = float("4684.64")
+    mean = float("-331.981")
+    std = float("5408.11")
     data = None
 
 
@@ -4732,9 +4680,7 @@ class Program_weight_tensor_parameter_408:
     shape = [640]
     dtype = "float32"
     min_val = float("1.1929e-06")
-    max_val = float("3.93504e+20")
-    mean = float("1.88509e+18")
-    std = float("inf")
+    max_val = float("3935.04")
     data = None
 
 
@@ -4743,10 +4689,10 @@ class Program_weight_tensor_parameter_409:
     original_name = "batch_norm2d_15.w_1"
     shape = [640]
     dtype = "float32"
-    min_val = float("-9042340000.0")
-    max_val = float("16873600000.0")
-    mean = float("51932200.0")
-    std = float("1074300000.0")
+    min_val = float("-9042.34")
+    max_val = float("16873.6")
+    mean = float("5193.22")
+    std = float("10743.0")
     data = None
 
 
@@ -4791,10 +4737,8 @@ class Program_weight_tensor_parameter_413:
     original_name = "batch_norm2d_14.w_2"
     shape = [640]
     dtype = "float32"
-    min_val = float("1423200000.0")
-    max_val = float("4.42497e+20")
-    mean = float("1.82884e+18")
-    std = float("inf")
+    min_val = float("14.2320")
+    max_val = float("4424.97")
     data = None
 
 
@@ -4803,10 +4747,10 @@ class Program_weight_tensor_parameter_414:
     original_name = "batch_norm2d_14.w_1"
     shape = [640]
     dtype = "float32"
-    min_val = float("-11531700000.0")
-    max_val = float("10098100000.0")
-    mean = float("-4629380.0")
-    std = float("1126350000.0")
+    min_val = float("-1153.17")
+    max_val = float("10098.1")
+    mean = float("-462.938")
+    std = float("11263.5")
     data = None
 
 
@@ -4852,9 +4796,7 @@ class Program_weight_tensor_parameter_418:
     shape = [640]
     dtype = "float32"
     min_val = float("0.000284452")
-    max_val = float("6.8432e+21")
-    mean = float("1.23178e+19")
-    std = float("inf")
+    max_val = float("6843.20")
     data = None
 
 
@@ -4863,10 +4805,10 @@ class Program_weight_tensor_parameter_419:
     original_name = "batch_norm2d_13.w_1"
     shape = [640]
     dtype = "float32"
-    min_val = float("-52727100000.0")
-    max_val = float("32822800000.0")
-    mean = float("-74949700.0")
-    std = float("2727810000.0")
+    min_val = float("-5272.71")
+    max_val = float("3282.28")
+    mean = float("-749.497")
+    std = float("2727.81")
     data = None
 
 
@@ -4911,10 +4853,8 @@ class Program_weight_tensor_parameter_423:
     original_name = "batch_norm2d_12.w_2"
     shape = [640]
     dtype = "float32"
-    min_val = float("5812160000.0")
-    max_val = float("8.35144e+20")
-    mean = float("4.67478e+18")
-    std = float("inf")
+    min_val = float("58.1216")
+    max_val = float("8351.44")
     data = None
 
 
@@ -4923,10 +4863,10 @@ class Program_weight_tensor_parameter_424:
     original_name = "batch_norm2d_12.w_1"
     shape = [640]
     dtype = "float32"
-    min_val = float("-21357400000.0")
-    max_val = float("19106800000.0")
-    mean = float("-14194600.0")
-    std = float("1680160000.0")
+    min_val = float("-2135.74")
+    max_val = float("1910.68")
+    mean = float("-141.946")
+    std = float("1680.16")
     data = None
 
 
@@ -4972,9 +4912,7 @@ class Program_weight_tensor_parameter_428:
     shape = [320]
     dtype = "float32"
     min_val = float("4.15695e-08")
-    max_val = float("5.23365e+20")
-    mean = float("3.4446e+18")
-    std = float("inf")
+    max_val = float("5233.65")
     data = None
 
 
@@ -4983,10 +4921,10 @@ class Program_weight_tensor_parameter_429:
     original_name = "batch_norm2d_11.w_1"
     shape = [320]
     dtype = "float32"
-    min_val = float("-14413500000.0")
-    max_val = float("10180900000.0")
-    mean = float("30528800.0")
-    std = float("1377360000.0")
+    min_val = float("-1441.35")
+    max_val = float("10180.9")
+    mean = float("3052.88")
+    std = float("13773.6")
     data = None
 
 
@@ -5031,10 +4969,8 @@ class Program_weight_tensor_parameter_433:
     original_name = "batch_norm2d_10.w_2"
     shape = [320]
     dtype = "float32"
-    min_val = float("1546490000.0")
-    max_val = float("1.64206e+23")
-    mean = float("6.03107e+20")
-    std = float("inf")
+    min_val = float("15.4649")
+    max_val = float("1642.06")
     data = None
 
 
@@ -5043,10 +4979,10 @@ class Program_weight_tensor_parameter_434:
     original_name = "batch_norm2d_10.w_1"
     shape = [320]
     dtype = "float32"
-    min_val = float("-416065000000.0")
-    max_val = float("99026300000.0")
-    mean = float("-1221850000.0")
-    std = float("24383200000.0")
+    min_val = float("-4160.65")
+    max_val = float("9902.63")
+    mean = float("-1221.85")
+    std = float("2438.32")
     data = None
 
 
@@ -5092,9 +5028,7 @@ class Program_weight_tensor_parameter_438:
     shape = [320]
     dtype = "float32"
     min_val = float("0.110365")
-    max_val = float("3.00155e+21")
-    mean = float("2.22167e+19")
-    std = float("inf")
+    max_val = float("3001.55")
     data = None
 
 
@@ -5103,10 +5037,10 @@ class Program_weight_tensor_parameter_439:
     original_name = "batch_norm2d_9.w_1"
     shape = [320]
     dtype = "float32"
-    min_val = float("-7671760000.0")
-    max_val = float("90259200000.0")
-    mean = float("604382000.0")
-    std = float("6808880000.0")
+    min_val = float("-7671.76")
+    max_val = float("9025.92")
+    mean = float("604.382")
+    std = float("6808.88")
     data = None
 
 
@@ -5151,10 +5085,8 @@ class Program_weight_tensor_parameter_443:
     original_name = "batch_norm2d_8.w_2"
     shape = [320]
     dtype = "float32"
-    min_val = float("24902000000.0")
-    max_val = float("6.12093e+21")
-    mean = float("4.71114e+19")
-    std = float("inf")
+    min_val = float("24.9020")
+    max_val = float("6120.93")
     data = None
 
 
@@ -5163,10 +5095,10 @@ class Program_weight_tensor_parameter_444:
     original_name = "batch_norm2d_8.w_1"
     shape = [320]
     dtype = "float32"
-    min_val = float("-15461400000.0")
-    max_val = float("57228900000.0")
-    mean = float("276379000.0")
-    std = float("4405570000.0")
+    min_val = float("-1546.14")
+    max_val = float("5722.89")
+    mean = float("276.379")
+    std = float("4405.57")
     data = None
 
 
@@ -5212,9 +5144,7 @@ class Program_weight_tensor_parameter_448:
     shape = [160]
     dtype = "float32"
     min_val = float("0.00149326")
-    max_val = float("1.16217e+23")
-    mean = float("7.49654e+20")
-    std = float("inf")
+    max_val = float("1162.17")
     data = None
 
 
@@ -5223,10 +5153,10 @@ class Program_weight_tensor_parameter_449:
     original_name = "batch_norm2d_7.w_1"
     shape = [160]
     dtype = "float32"
-    min_val = float("-179041000000.0")
-    max_val = float("5518870000.0")
-    mean = float("-1501810000.0")
-    std = float("14392900000.0")
+    min_val = float("-1790.41")
+    max_val = float("5518.87")
+    mean = float("-1501.81")
+    std = float("14392.9")
     data = None
 
 
@@ -5271,10 +5201,8 @@ class Program_weight_tensor_parameter_453:
     original_name = "batch_norm2d_6.w_2"
     shape = [160]
     dtype = "float32"
-    min_val = float("37523100000.0")
-    max_val = float("7.09867e+21")
-    mean = float("8.02912e+19")
-    std = float("inf")
+    min_val = float("37.5231")
+    max_val = float("7098.67")
     data = None
 
 
@@ -5283,10 +5211,10 @@ class Program_weight_tensor_parameter_454:
     original_name = "batch_norm2d_6.w_1"
     shape = [160]
     dtype = "float32"
-    min_val = float("-70317900000.0")
-    max_val = float("40189100000.0")
-    mean = float("-286138000.0")
-    std = float("7667220000.0")
+    min_val = float("-7031.79")
+    max_val = float("4018.91")
+    mean = float("-2861.38")
+    std = float("7667.22")
     data = None
 
 
@@ -5332,9 +5260,7 @@ class Program_weight_tensor_parameter_458:
     shape = [160]
     dtype = "float32"
     min_val = float("5.88099")
-    max_val = float("4.35754e+23")
-    mean = float("3.37242e+21")
-    std = float("inf")
+    max_val = float("4357.54")
     data = None
 
 
@@ -5343,10 +5269,10 @@ class Program_weight_tensor_parameter_459:
     original_name = "batch_norm2d_5.w_1"
     shape = [160]
     dtype = "float32"
-    min_val = float("-1002460000000.0")
-    max_val = float("138202000000.0")
-    mean = float("-7099590000.0")
-    std = float("81248300000.0")
+    min_val = float("-10024.6")
+    max_val = float("1382.02")
+    mean = float("-7099.59")
+    std = float("8124.83")
     data = None
 
 
@@ -5391,10 +5317,8 @@ class Program_weight_tensor_parameter_463:
     original_name = "batch_norm2d_4.w_2"
     shape = [160]
     dtype = "float32"
-    min_val = float("10782800000.0")
-    max_val = float("8.59511e+21")
-    mean = float("2.0735e+20")
-    std = float("inf")
+    min_val = float("10.7828")
+    max_val = float("8595.11")
     data = None
 
 
@@ -5403,10 +5327,10 @@ class Program_weight_tensor_parameter_464:
     original_name = "batch_norm2d_4.w_1"
     shape = [160]
     dtype = "float32"
-    min_val = float("-55967000000.0")
-    max_val = float("24376500000.0")
-    mean = float("-1380990000.0")
-    std = float("7539840000.0")
+    min_val = float("-5596.70")
+    max_val = float("2437.65")
+    mean = float("-1380.99")
+    std = float("7539.84")
     data = None
 
 
@@ -5452,9 +5376,7 @@ class Program_weight_tensor_parameter_468:
     shape = [80]
     dtype = "float32"
     min_val = float("0.00285509")
-    max_val = float("6.28874e+23")
-    mean = float("8.72561e+21")
-    std = float("inf")
+    max_val = float("6288.74")
     data = None
 
 
@@ -5463,10 +5385,10 @@ class Program_weight_tensor_parameter_469:
     original_name = "batch_norm2d_3.w_1"
     shape = [80]
     dtype = "float32"
-    min_val = float("-824200000000.0")
-    max_val = float("116249000000.0")
-    mean = float("-10789600000.0")
-    std = float("93473500000.0")
+    min_val = float("-8242.00")
+    max_val = float("11624.9")
+    mean = float("-1078.96")
+    std = float("9347.35")
     data = None
 
 
@@ -5511,10 +5433,8 @@ class Program_weight_tensor_parameter_473:
     original_name = "batch_norm2d_2.w_2"
     shape = [80]
     dtype = "float32"
-    min_val = float("29321900000.0")
-    max_val = float("7.11039e+23")
-    mean = float("9.04831e+21")
-    std = float("inf")
+    min_val = float("29.3219")
+    max_val = float("7110.39")
     data = None
 
 
@@ -5523,10 +5443,10 @@ class Program_weight_tensor_parameter_474:
     original_name = "batch_norm2d_2.w_1"
     shape = [80]
     dtype = "float32"
-    min_val = float("-925988000000.0")
-    max_val = float("53176100000.0")
-    mean = float("-12275300000.0")
-    std = float("103743000000.0")
+    min_val = float("-9259.88")
+    max_val = float("5317.61")
+    mean = float("-1227.53")
+    std = float("10374.3")
     data = None
 
 

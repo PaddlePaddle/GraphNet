@@ -7,9 +7,10 @@ import shutil
 import argparse
 import subprocess
 import glob
+from pathlib import Path
 from dataclasses import dataclass, field, asdict
 from typing import List, Dict
-from graph_net_bench.analysis_util import get_incorrect_models
+from graph_net_bench.analysis_util import get_incorrect_models, get_min_passed_tolerance
 from graph_net.graph_net_root import get_graphnet_root
 from graph_net_bench import path_utils
 
@@ -297,6 +298,64 @@ class DecomposeConfig:
         )
 
 
+class ToleranceRecord:
+    model_name2subgraph_tolerance_record = {}
+    filename = "tolerance_record.json"
+
+    @classmethod
+    def load(cls, pass_id, output_dir):
+        if pass_id >= 0:
+            work_dir = get_decompose_workspace_path(output_dir, pass_id)
+            filepath = os.path.join(work_dir, cls.filename)
+            with open(filepath, "r") as f:
+                data = json.load(f)
+                cls.model_name2subgraph_tolerance_record = data
+
+    @classmethod
+    def save(cls, pass_id, output_dir):
+        work_dir = get_decompose_workspace_path(output_dir, pass_id)
+        filepath = os.path.join(work_dir, cls.filename)
+        print(f"Save tolerance record to: {filepath}.")
+        with open(filepath, "w") as f:
+            json.dump(cls.model_name2subgraph_tolerance_record, f, indent=4)
+
+    @classmethod
+    def update(cls, pass_id, output_dir, decompose_config, log_path):
+        cls.load(pass_id - 1, output_dir)
+
+        subgraph_path2tolerance = get_min_passed_tolerance(log_path)
+        running_state = decompose_config.get_running_state(pass_id)
+        for subgraph_path, tolerance in subgraph_path2tolerance.items():
+            model_name, subgraph_idx = extract_model_name_and_subgraph_idx(
+                subgraph_path
+            )
+            if model_name not in running_state.model_name2record:
+                continue
+
+            split_positions = running_state.model_name2record[
+                model_name
+            ].get_split_positions(decompose_config.decompose_method)
+            assert len(split_positions) >= 2
+            subgraph_split_point = int(split_positions[1])
+            if model_name not in cls.model_name2subgraph_tolerance_record:
+                cls.model_name2subgraph_tolerance_record[model_name] = {}
+            cls.model_name2subgraph_tolerance_record[model_name][
+                subgraph_split_point
+            ] = tolerance
+
+        cls.model_name2subgraph_tolerance_record = dict(
+            sorted(cls.model_name2subgraph_tolerance_record.items())
+        )
+        for (
+            model_name,
+            subgraph_tolerance_record,
+        ) in cls.model_name2subgraph_tolerance_record.items():
+            cls.model_name2subgraph_tolerance_record[model_name] = dict(
+                sorted(subgraph_tolerance_record.items(), key=lambda x: int(x[0]))
+            )
+        cls.save(pass_id, output_dir)
+
+
 def get_rectfied_model_path(model_path):
     graphnet_root = get_graphnet_root()
     return os.path.join(graphnet_root, model_path.split("GraphNet/")[-1])
@@ -518,7 +577,10 @@ def reconstruct_split_positions_for_subgraphs(
 
 def generate_initial_tasks(args):
     """Generates tasks for Pass 0 based on the initial log file."""
-    print(f"[Init] Pass 0: Reading from log file: {args.log_file}", flush=True)
+    print(
+        f"[Init] Pass 0: Reading from model-path-list file: {args.model_path_list}",
+        flush=True,
+    )
 
     if args.decompose_method == "fixed-start":
         max_subgraph_size = MAX_GRAPH_SIZE
@@ -530,9 +592,10 @@ def generate_initial_tasks(args):
     )
 
     model_name2record = {}
-    initial_incorrect_models = get_ranged_incorrect_models(
-        args.tolerance, args.log_file
-    )
+    model_path_list = Path(args.model_path_list).read_text()
+    initial_incorrect_models = [
+        line.strip() for line in model_path_list.splitlines() if line.strip()
+    ]
     for model_path in sorted(initial_incorrect_models):
         model_name = get_model_name_with_subgraph_tag(model_path)
         model_name2record[model_name] = ModelRecord(
@@ -792,6 +855,10 @@ def main(args):
         print_incorrect_models(
             decompose_config, current_pass_id, log_prompt="[Analysis]"
         )
+
+        ToleranceRecord.update(
+            current_pass_id, base_output_dir, decompose_config, log_path
+        )
         print_summary_and_suggestion(decompose_config, current_pass_id)
 
     # --- Step 5: Save States ---
@@ -800,7 +867,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--log-file", type=str, required=True)
+    parser.add_argument("--model-path-list", type=str, required=True)
     parser.add_argument("--output-dir", type=str, required=True)
     parser.add_argument(
         "--framework", type=str, choices=["paddle", "torch"], required=True

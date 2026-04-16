@@ -3,13 +3,8 @@ import torch
 from .graph_compiler_backend import GraphCompilerBackend
 
 
-# Predefined Inductor config templates.
-# Each template maps to a set of torch._inductor.config overrides.
-# Reference: https://github.com/pytorch/pytorch/blob/main/torch/_inductor/config.py
-#
-# Note: These are extension to PyTorch's official "mode" concept.
-# PyTorch modes: "default", "reduce-overhead", "max-autotune", "max-autotune-no-cudagraphs"
-# These templates provide additional config combinations for specific use cases.
+# Predefined Inductor config templates for GraphNet.
+# Each template maps to a set of torch._inductor.config options.
 _INDUCTOR_CONFIG_TEMPLATES = {
     "triton": {
         # Default Triton code generation (Inductor's default behavior).
@@ -21,31 +16,16 @@ _INDUCTOR_CONFIG_TEMPLATES = {
         # Reference: torch._inductor.config.cpp_wrapper
         "cpp_wrapper": True,
     },
-    "cutlass": {
-        # Enable max-autotune to potentially use CUTLASS-based GEMM kernels.
-        # CUTLASS backend requires separate installation.
-        # Reference: torch._inductor.config.max_autotune_gemm_backends
-        "max_autotune": True,
-        "max_autotune_gemm": True,
-        "epilogue_fusion": True,
-        "coordinate_descent_tuning": True,
-    },
-    "aten": {
-        # Enable autotune fallback to ATen kernels for debugging.
-        # This causes Inductor to fall back to ATen (eager) kernels
-        # when autotuning finds them faster. Useful for debugging.
-        # Reference: torch._inductor.config.autotune_fallback_to_aten
-        "autotune_fallback_to_aten": True,
-    },
     "cudagraphs": {
         # Enable CUDA Graphs to reduce kernel launch overhead.
         # Reference: torch._inductor.config.triton.cudagraphs
-        # Note: Prefer using mode="reduce-overhead" for official support.
+        # NOTE: CUDA Graphs does not support dynamic shapes or graph breaks, so it is
+        # highly recommended to use only for inference with fixed input shapes.
+        # Prefer using mode="reduce-overhead" for official support.
         "triton.cudagraphs": True,
     },
     "max_autotune": {
         # Enable comprehensive autotuning across all backends.
-        # Equivalent to torch.compile(mode="max-autotune") with extra options.
         "max_autotune": True,
         "max_autotune_gemm": True,
         "coordinate_descent_tuning": True,
@@ -59,111 +39,88 @@ _INDUCTOR_CONFIG_TEMPLATES = {
     },
     "tma": {
         # Enable persistent matmul kernels with TMA (Tensor Memory Accelerator).
+        # Reference: torch._inductor.config.triton.enable_persistent_tma_matmul
         # NOTE: This config has graceful fallback behavior:
         #   - On NVIDIA H100+ (Hopper, CC >= 9.0): Enables TMA persistent kernels
         #   - On other GPUs (A100, AMD, etc.): Enables non-TMA persistent kernels as fallback
-        # Reference: torch._inductor.config.triton.enable_persistent_tma_matmul
         "triton.enable_persistent_tma_matmul": True,
     },
 }
-
-# Map template names to torch.compile mode strings where applicable.
-# Reference: https://pytorch.org/docs/stable/generated/torch.compile.html
-_TEMPLATE_TO_COMPILE_MODE = {
-    "cudagraphs": "reduce-overhead",
-    "max_autotune": "max-autotune",
-}
-
-
-def _set_nested_attr(config_module, key, value):
-    """Set a possibly nested attribute on a config module.
-
-    For example, key="triton.cudagraphs" sets config_module.triton.cudagraphs = value.
-    """
-    parts = key.split(".")
-    obj = config_module
-    for part in parts[:-1]:
-        obj = getattr(obj, part)
-    setattr(obj, parts[-1], value)
 
 
 class InductorBackend(GraphCompilerBackend):
     """Inductor backend with configurable config template selection.
 
     Supported config keys:
-        template (str): One of "triton", "cpp_wrapper", "cutlass", "aten",
+        fullgraph (bool): Whether to compile the entire model into a single graph.
+            Defaults to False. Passed to torch.compile.
+        dynamic (bool | None): Whether to enable dynamic shape support.
+            Defaults to None. Passed to torch.compile.
+        graph_net_inductor_config_template (str): One of "triton", "cpp_wrapper",
             "cudagraphs", "max_autotune", "freezing", "tma".
-            Applies a predefined set of Inductor config overrides.
-            Note: These are extensions to PyTorch's official "mode" concept.
+            GraphNet predefined Inductor config templates.
         mode (str): torch.compile mode. One of "default", "reduce-overhead",
-            "max-autotune", "max-autotune-no-cudagraphs".
-            If a template implies a mode, that is used unless explicitly overridden.
-        freezing (bool): Enable/disable model freezing before compilation.
-        inductor_config (dict): Arbitrary torch._inductor.config overrides.
-            Keys can be dotted paths (e.g. "triton.cudagraphs").
-            These are applied last and override everything else.
+            "max-autotune". Passed directly to torch.compile.
+        options (dict): Direct torch.compile options dict.
+
+        NOTE: `torch.compile` does not allow `mode` and `options` to be specified together.
+        Therefore `graph_net_inductor_config_template` (which provides `options`),
+        `mode` and `options` are mutually exclusive with each other.
 
     Reference:
-        - PyTorch modes: https://pytorch.org/docs/stable/generated/torch.compile.html
+        - PyTorch compile: https://pytorch.org/docs/stable/generated/torch.compile.html
         - Inductor configs: https://github.com/pytorch/pytorch/blob/main/torch/_inductor/config.py
     """
 
     def __init__(self, config):
         super().__init__(config)
-        self._template = config.get("template", None)
-        self._mode = config.get("mode", None)
-        self._freezing = config.get("freezing", None)
-        self._inductor_config = config.get("inductor_config", {})
+        self._config_template = config.get("graph_net_inductor_config_template")
+        self._mode = config.get("mode")
+        self._fullgraph = config.get("fullgraph", False)
+        self._dynamic = config.get("dynamic")
+        self._options = config.get("options")
 
-    def _build_inductor_overrides(self):
-        """Collect all Inductor config overrides from template + explicit config."""
-        overrides = {}
+        # Mutually exclusive: exactly one of template / mode / options can be specified
+        provided = [self._config_template, self._mode, self._options]
+        if sum(1 for x in provided if x is not None) > 1:
+            raise ValueError(
+                "Specify exactly one of 'graph_net_inductor_config_template', "
+                "'mode', or 'options', not multiple."
+            )
 
-        # 1. Apply template defaults
-        if self._template is not None:
-            if self._template not in _INDUCTOR_CONFIG_TEMPLATES:
+    def _build_options(self):
+        if self._options:
+            return self._options
+
+        if self._config_template:
+            if self._config_template not in _INDUCTOR_CONFIG_TEMPLATES:
                 raise ValueError(
-                    f"Unknown Inductor config template: {self._template!r}. "
-                    f"Available templates: {sorted(_INDUCTOR_CONFIG_TEMPLATES.keys())}"
+                    f"Unknown config template: {self._config_template!r}. "
+                    f"Available: {sorted(_INDUCTOR_CONFIG_TEMPLATES.keys())}"
                 )
-            overrides.update(_INDUCTOR_CONFIG_TEMPLATES[self._template])
+            return _INDUCTOR_CONFIG_TEMPLATES[self._config_template]
 
-        # 2. Apply top-level convenience flags
-        if self._freezing is not None:
-            overrides["freezing"] = self._freezing
-
-        # 3. Apply explicit inductor_config overrides (highest priority)
-        overrides.update(self._inductor_config)
-
-        return overrides
-
-    def _resolve_compile_mode(self):
-        """Determine the torch.compile mode string."""
-        if self._mode is not None:
-            return self._mode
-        if self._template in _TEMPLATE_TO_COMPILE_MODE:
-            return _TEMPLATE_TO_COMPILE_MODE[self._template]
-        return "default"
+        return {}
 
     def __call__(self, model):
-        import torch._inductor.config as inductor_config
+        final_options = self._build_options()
 
-        overrides = self._build_inductor_overrides()
-        compile_mode = self._resolve_compile_mode()
-
-        if self._template or self._inductor_config:
+        if self._config_template is not None or self._options is not None:
             print(
-                f"[InductorBackend] template={self._template!r}, mode={compile_mode!r}, "
-                f"overrides={overrides}",
+                f"[InductorBackend] graph_net_inductor_config_template={self._config_template!r}, "
+                f"mode={self._mode!r}, options={final_options}",
                 file=sys.stderr,
                 flush=True,
             )
 
-        # Apply Inductor config overrides
-        for key, value in overrides.items():
-            _set_nested_attr(inductor_config, key, value)
-
-        return torch.compile(model, backend="inductor", mode=compile_mode)
+        return torch.compile(
+            model,
+            backend="inductor",
+            fullgraph=self._fullgraph,
+            dynamic=self._dynamic,
+            **({"mode": self._mode} if self._mode is not None else {}),
+            **({"options": final_options} if final_options else {}),
+        )
 
     def synchronize(self):
         if torch.cuda.is_available():

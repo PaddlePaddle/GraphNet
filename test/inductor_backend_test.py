@@ -1,9 +1,10 @@
 """
 Unit tests for InductorBackend config templates.
 
-Tests verify that all config templates are valid and produce expected overrides.
+Tests verify that all config templates are valid and produce expected options.
 Uses relative paths to access the backend module.
 """
+
 import sys
 import unittest
 from pathlib import Path
@@ -23,7 +24,6 @@ except ImportError:
 
 from graph_net_bench.torch.backend.inductor_backend import (  # noqa: E402 - Import after try/except is intentional
     _INDUCTOR_CONFIG_TEMPLATES,
-    _TEMPLATE_TO_COMPILE_MODE,
     InductorBackend,
 )
 
@@ -36,8 +36,6 @@ class TestInductorBackendTemplates(unittest.TestCase):
         expected_templates = {
             "triton",
             "cpp_wrapper",
-            "cutlass",
-            "aten",
             "cudagraphs",
             "max_autotune",
             "freezing",
@@ -52,65 +50,34 @@ class TestInductorBackendTemplates(unittest.TestCase):
 
     def test_triton_template(self):
         """Test triton template configuration."""
-        backend = InductorBackend({"template": "triton"})
-        overrides = backend._build_inductor_overrides()
-        mode = backend._resolve_compile_mode()
+        backend = InductorBackend({"graph_net_inductor_config_template": "triton"})
+        options = backend._build_options()
 
-        self.assertEqual(overrides, {"cpp_wrapper": False})
-        self.assertEqual(mode, "default")
+        self.assertEqual(options, {"cpp_wrapper": False})
 
     def test_cpp_wrapper_template(self):
         """Test cpp_wrapper template configuration."""
-        backend = InductorBackend({"template": "cpp_wrapper"})
-        overrides = backend._build_inductor_overrides()
-        mode = backend._resolve_compile_mode()
+        backend = InductorBackend({"graph_net_inductor_config_template": "cpp_wrapper"})
+        options = backend._build_options()
 
-        self.assertEqual(overrides, {"cpp_wrapper": True})
-        self.assertEqual(mode, "default")
-
-    def test_cutlass_template(self):
-        """Test cutlass template configuration."""
-        backend = InductorBackend({"template": "cutlass"})
-        overrides = backend._build_inductor_overrides()
-        mode = backend._resolve_compile_mode()
-
-        self.assertEqual(
-            overrides,
-            {
-                "max_autotune": True,
-                "max_autotune_gemm": True,
-                "epilogue_fusion": True,
-                "coordinate_descent_tuning": True,
-            },
-        )
-        self.assertEqual(mode, "default")
-
-    def test_aten_template(self):
-        """Test aten template configuration."""
-        backend = InductorBackend({"template": "aten"})
-        overrides = backend._build_inductor_overrides()
-        mode = backend._resolve_compile_mode()
-
-        self.assertEqual(overrides, {"autotune_fallback_to_aten": True})
-        self.assertEqual(mode, "default")
+        self.assertEqual(options, {"cpp_wrapper": True})
 
     def test_cudagraphs_template(self):
         """Test cudagraphs template configuration."""
-        backend = InductorBackend({"template": "cudagraphs"})
-        overrides = backend._build_inductor_overrides()
-        mode = backend._resolve_compile_mode()
+        backend = InductorBackend({"graph_net_inductor_config_template": "cudagraphs"})
+        options = backend._build_options()
 
-        self.assertEqual(overrides, {"triton.cudagraphs": True})
-        self.assertEqual(mode, "reduce-overhead")
+        self.assertEqual(options, {"triton.cudagraphs": True})
 
     def test_max_autotune_template(self):
         """Test max_autotune template configuration."""
-        backend = InductorBackend({"template": "max_autotune"})
-        overrides = backend._build_inductor_overrides()
-        mode = backend._resolve_compile_mode()
+        backend = InductorBackend(
+            {"graph_net_inductor_config_template": "max_autotune"}
+        )
+        options = backend._build_options()
 
         self.assertEqual(
-            overrides,
+            options,
             {
                 "max_autotune": True,
                 "max_autotune_gemm": True,
@@ -118,96 +85,135 @@ class TestInductorBackendTemplates(unittest.TestCase):
                 "epilogue_fusion": True,
             },
         )
-        self.assertEqual(mode, "max-autotune")
 
     def test_freezing_template(self):
         """Test freezing template configuration."""
-        backend = InductorBackend({"template": "freezing"})
-        overrides = backend._build_inductor_overrides()
-        mode = backend._resolve_compile_mode()
+        backend = InductorBackend({"graph_net_inductor_config_template": "freezing"})
+        options = backend._build_options()
 
-        self.assertEqual(overrides, {"freezing": True})
-        self.assertEqual(mode, "default")
+        self.assertEqual(options, {"freezing": True})
 
     def test_tma_template(self):
         """Test TMA template configuration.
 
-        Note: This test verifies the config is accepted. On GPUs without
+        Note: This test verifies that config is accepted. On GPUs without
         TMA support (e.g., A100), Inductor will gracefully fall back
         to non-TMA persistent kernels. The config itself is valid regardless
-        of the underlying hardware.
+        of underlying hardware.
         """
-        backend = InductorBackend({"template": "tma"})
-        overrides = backend._build_inductor_overrides()
-        mode = backend._resolve_compile_mode()
+        backend = InductorBackend({"graph_net_inductor_config_template": "tma"})
+        options = backend._build_options()
 
-        self.assertEqual(overrides, {"triton.enable_persistent_tma_matmul": True})
-        self.assertEqual(mode, "default")
+        self.assertEqual(options, {"triton.enable_persistent_tma_matmul": True})
 
-    def test_mode_override(self):
-        """Test explicit mode override."""
-        backend = InductorBackend({"template": "cudagraphs", "mode": "max-autotune"})
-        mode = backend._resolve_compile_mode()
+    def test_options_only(self):
+        """Test options alone."""
+        backend = InductorBackend({"options": {"triton.cudagraphs": True}})
+        options = backend._build_options()
 
-        # Explicit mode should take precedence
-        self.assertEqual(mode, "max-autotune")
-
-    def test_freezing_override(self):
-        """Test explicit freezing override."""
-        backend = InductorBackend({"template": "max_autotune", "freezing": False})
-        overrides = backend._build_inductor_overrides()
-
-        # Freezing should override template defaults
-        self.assertIn("freezing", overrides)
-        self.assertEqual(overrides["freezing"], False)
-        self.assertIn("max_autotune", overrides)
-
-    def test_inductor_config_override(self):
-        """Test inductor_config overrides take highest priority."""
-        backend = InductorBackend(
-            {
-                "template": "triton",
-                "inductor_config": {"cpp_wrapper": True, "triton.cudagraphs": True},
-            }
-        )
-        overrides = backend._build_inductor_overrides()
-
-        # inductor_config overrides should be applied
-        self.assertIn("cpp_wrapper", overrides)
-        self.assertIn("triton.cudagraphs", overrides)
+        self.assertEqual(options, {"triton.cudagraphs": True})
 
     def test_invalid_template_raises_error(self):
         """Test invalid template raises ValueError."""
         with self.assertRaises(ValueError) as context:
-            backend = InductorBackend({"template": "invalid_template"})
-            backend._build_inductor_overrides()
+            backend = InductorBackend(
+                {"graph_net_inductor_config_template": "invalid_template"}
+            )
+            backend._build_options()
 
-        self.assertIn("Unknown Inductor config template", str(context.exception))
+        self.assertIn("Unknown config template", str(context.exception))
         self.assertIn("invalid_template", str(context.exception))
 
-    def test_empty_config(self):
-        """Test empty config produces no overrides."""
-        backend = InductorBackend({})
-        overrides = backend._build_inductor_overrides()
-        mode = backend._resolve_compile_mode()
-
-        self.assertEqual(overrides, {})
-        self.assertEqual(mode, "default")
-
-    def test_template_to_mode_mapping(self):
-        """Test template to mode mapping."""
-        self.assertEqual(
-            _TEMPLATE_TO_COMPILE_MODE,
+    def test_mutually_exclusive_params(self):
+        """Test that template/mode/options are mutually exclusive."""
+        configs = [
             {
-                "cudagraphs": "reduce-overhead",
-                "max_autotune": "max-autotune",
+                "graph_net_inductor_config_template": "triton",
+                "mode": "reduce-overhead",
             },
-        )
+            {
+                "graph_net_inductor_config_template": "triton",
+                "options": {"triton.cudagraphs": True},
+            },
+            {
+                "mode": "reduce-overhead",
+                "options": {"triton.cudagraphs": True},
+            },
+            {
+                "graph_net_inductor_config_template": "triton",
+                "mode": "reduce-overhead",
+                "options": {"triton.cudagraphs": True},
+            },
+        ]
+
+        for config in configs:
+            with self.assertRaises(ValueError) as context:
+                InductorBackend(config)
+
+            self.assertIn("exactly one", str(context.exception))
+
+    def test_empty_config(self):
+        """Test empty config produces no options."""
+        backend = InductorBackend({})
+        options = backend._build_options()
+
+        self.assertEqual(options, {})
+
+
+class TestInductorBackendParameters(unittest.TestCase):
+    """Test InductorBackend torch.compile parameters."""
+
+    def test_fullgraph_parameter(self):
+        """Test fullgraph parameter is stored."""
+        backend = InductorBackend({"fullgraph": True})
+        self.assertTrue(backend._fullgraph)
+
+        backend = InductorBackend({})
+        self.assertFalse(backend._fullgraph)
+
+    def test_dynamic_parameter(self):
+        """Test dynamic parameter is stored."""
+        backend = InductorBackend({"dynamic": True})
+        self.assertTrue(backend._dynamic)
+
+        backend = InductorBackend({"dynamic": False})
+        self.assertFalse(backend._dynamic)
+
+        backend = InductorBackend({})
+        self.assertIsNone(backend._dynamic)
+
+    def test_mode_parameter(self):
+        """Test mode parameter is stored."""
+        backend = InductorBackend({"mode": "max-autotune"})
+        self.assertEqual(backend._mode, "max-autotune")
+
+        backend = InductorBackend({})
+        self.assertIsNone(backend._mode)
+
+    def test_options_parameter(self):
+        """Test options parameter is stored."""
+        options = {"triton.cudagraphs": True, "max_autotune": True}
+        backend = InductorBackend({"options": options})
+        self.assertEqual(backend._options, options)
+
+    def test_all_compatible_parameters_combined(self):
+        """Test all torch.compile parameters can be combined when compatible."""
+        config = {
+            "graph_net_inductor_config_template": "max_autotune",
+            "fullgraph": True,
+            "dynamic": True,
+        }
+        backend = InductorBackend(config)
+
+        self.assertEqual(backend._config_template, "max_autotune")
+        self.assertIsNone(backend._mode)
+        self.assertTrue(backend._fullgraph)
+        self.assertTrue(backend._dynamic)
 
 
 @unittest.skipIf(not TORCH_AVAILABLE, "PyTorch not available")
 class TestInductorConfigValidation(unittest.TestCase):
-    """Test that all config overrides reference valid torch._inductor.config attributes."""
+    """Test that all config options reference valid torch._inductor.config attributes."""
 
     def _check_config_key_exists(self, key):
         """Check if a config key (possibly nested) exists in torch._inductor.config."""
@@ -250,10 +256,6 @@ class TestInductorConfigValidation(unittest.TestCase):
             self._check_config_key_exists("triton.enable_persistent_tma_matmul")
         )
 
-    def test_autotune_fallback_to_aten_config_exists(self):
-        """Test autotune_fallback_to_aten config exists."""
-        self.assertTrue(self._check_config_key_exists("autotune_fallback_to_aten"))
-
     def test_triton_cudagraphs_config_exists(self):
         """Test triton.cudagraphs config exists."""
         self.assertTrue(self._check_config_key_exists("triton.cudagraphs"))
@@ -269,33 +271,6 @@ class TestInductorConfigValidation(unittest.TestCase):
         if missing_configs:
             self.fail(f"Missing config keys: {missing_configs}")
 
-    @unittest.skipIf(not TORCH_AVAILABLE, "PyTorch not available")
-    def test_tma_fallback_on_non_tma_gpu(self):
-        """Test TMA config gracefully falls back on non-TMA GPUs.
-
-        This verifies that even on GPUs without TMA support (like A100),
-        the TMA config doesn't cause errors - it just falls back to
-        non-TMA persistent kernels.
-        """
-        backend = InductorBackend({"template": "tma"})
-
-        # On non-TMA GPUs, this should not raise an error
-        # (Inductor handles the fallback internally)
-        try:
-            import torch._inductor.config as cfg
-            from graph_net_bench.torch.backend.inductor_backend import _set_nested_attr
-
-            # This is what __call__ does - should not fail
-            for key, value in backend._build_inductor_overrides().items():
-                _set_nested_attr(cfg, key, value)
-
-            # If we get here, config was accepted successfully
-            # (regardless of actual TMA support on the GPU)
-            self.assertTrue(True)
-        except Exception as e:
-            # Should not fail even on non-TMA GPU
-            self.fail(f"TMA config should be accepted on non-TMA GPU: {e}")
-
 
 class TestInductorBackendIntegration(unittest.TestCase):
     """Integration tests for InductorBackend."""
@@ -304,32 +279,15 @@ class TestInductorBackendIntegration(unittest.TestCase):
         """Test backend can be initialized with various configs."""
         configs = [
             {},
-            {"template": "triton"},
-            {"template": "max_autotune", "mode": "default"},
-            {"template": "cudagraphs", "freezing": True},
+            {"graph_net_inductor_config_template": "triton"},
+            {"mode": "max-autotune"},
+            {"options": {"max_autotune": True}, "fullgraph": True},
+            {"fullgraph": True, "dynamic": True},
         ]
 
         for config in configs:
             backend = InductorBackend(config)
             self.assertIsNotNone(backend)
-
-    def test_build_overrides_priority(self):
-        """Test override priority: template < freezing < inductor_config."""
-        backend = InductorBackend(
-            {
-                "template": "freezing",
-                "freezing": False,
-                "inductor_config": {
-                    "freezing": True,
-                    "max_autotune": True,
-                },
-            }
-        )
-        overrides = backend._build_inductor_overrides()
-
-        # inductor_config has highest priority
-        self.assertTrue(overrides["freezing"])
-        self.assertTrue(overrides["max_autotune"])
 
 
 if __name__ == "__main__":

@@ -206,6 +206,28 @@ def measure_performance(model_call, args, compiler):
             e2e_times.append(duration_box.value)
         stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
 
+    # Profiler device_time measurement (only when enabled and on CUDA)
+    if args.profiler_device_time and "cuda" in args.device:
+        profiler_device_times = []
+        for i in range(args.trials):
+            with torch.profiler.profile(
+                activities=[torch.profiler.ProfilerActivity.CUDA],
+            ) as prof:
+                model_call()
+            compiler.synchronize()
+            device_time_ms = (
+                sum(evt.self_device_time_total for evt in prof.key_averages()) / 1000.0
+            )
+            profiler_device_times.append(device_time_ms)
+            print(
+                f"Trial {i + 1}: profiler_device={device_time_ms:.5f} ms",
+                file=sys.stderr,
+                flush=True,
+            )
+        stats["profiler_device"] = test_compiler_util.get_timing_stats(
+            profiler_device_times
+        )
+
     return outs, stats
 
 
@@ -423,6 +445,7 @@ def test_multi_models(args):
                     f"--trials {args.trials}",
                     f"--log-prompt {args.log_prompt}",
                     f"--config {args.config}",
+                    "--profiler-device-time" if args.profiler_device_time else "",
                 ]
             )
             try:
@@ -472,6 +495,7 @@ def test_multi_models_with_prefix(args):
                 f"--trials {args.trials}",
                 f"--log-prompt {args.log_prompt}",
                 f"--config {args.config}",
+                "--profiler-device-time" if args.profiler_device_time else "",
             ]
         )
         try:
@@ -557,6 +581,12 @@ if __name__ == "__main__":
         required=False,
         default=None,
         help="base64 encode configuration json.",
+    )
+    parser.add_argument(
+        "--profiler-device-time",
+        action="store_true",
+        default=False,
+        help="Enable PyTorch Profiler device time measurement (CUDA only)",
     )
     args = parser.parse_args()
     main(args=args)

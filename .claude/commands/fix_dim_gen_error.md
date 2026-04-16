@@ -18,37 +18,46 @@ model: glm-5.1
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
 | `samples_dir` | 无（必填） | 待修复样本的根目录，其下每个子目录为一个样本 |
+| `sample_list_with_status` | 无（可选） | 带状态的样本列表文件路径，格式为每行 `STATUS<TAB>样本绝对路径`，STATUS 为 `PASS` 或 `FAILED`。提供此参数后，仅处理状态为 `FAILED` 的样本；修复完成后直接更新该文件中对应样本的状态；`samples_dir` 参数忽略 |
 | `max_samples` | 0（不限） | 最多处理的样本数量，0 表示处理全部样本 |
 | `max_retries` | 10 | 每个样本的最大修复尝试次数 |
-| `timeout` | 300 | 每次 run_model 执行的超时秒数 |
+| `timeout` | 600 | 每次 run_model 执行的超时秒数 |
 | `original_samples_dir` | `samples/` | 原始（未维度泛化）样本的根目录，用于参考原始维度和恢复多 -1 参数 |
+
+**`sample_list_with_status` 文件格式**：每行以 Tab 分隔，第一列为状态（`PASS`/`FAILED`），第二列为样本绝对路径。例如：
+```
+PASS	/path/to/samples/timm/resnet18
+FAILED	/path/to/samples/timm/beitv2_base
+	/path/to/samples/timm/convit_base
+```
+- 状态为 `PASS` 的样本跳过不处理
+- 状态为 `FAILED` 或无状态标记（空白）的样本，默认视为 `FAILED`，需要执行修复
+- 修复完成后，将该文件中对应样本的状态原地更新为 `PASS` 或 `FAILED`
+- 如果未提供 `sample_list_with_status`，则扫描 `samples_dir` 下所有样本，全部视为 `FAILED`
 
 如果用户没有明确指定参数，使用默认值并在开始前确认。
 
 **日志目录命名**：`<timestamp>` 格式为 `YYYYMMDD_HHMMSS`（如 `20260414_153012`），在任务启动时生成一次，整个运行过程中保持不变。所有单样本日志和汇总报告均输出到同一个 `benchmark_task/fix_sample_logs-<timestamp>/` 目录下。
 
-## 3. 环境准备
+## 3. 执行步骤
 
-在执行前，需要确保当前 shell 已激活合适的 Python 虚拟环境，且 `PYTHONPATH` 包含项目根目录。
+### 3.1 扫描样本
 
-```bash
-# 激活虚拟环境（路径根据实际环境调整）
-source <VIRTUAL_ENV>/bin/activate
-export PYTHONPATH=<PROJECT_ROOT>:$PYTHONPATH
-```
+根据是否提供 `sample_list_with_status` 参数，有两种方式确定待处理样本列表：
 
-**注意**：所有执行 `run_model` 的 Bash 命令都必须先激活虚拟环境。启动时自动检测：
-1. 如果当前 shell 已有 `VIRTUAL_ENV` 环境变量，直接使用
-2. 否则查找项目根目录下的 `.venv/`、`venv/` 或 `CLAUDE.md` 中配置的虚拟环境路径
-3. 如果均未找到，提示用户指定虚拟环境路径
+**方式 A：提供 `sample_list_with_status`**
+1. 读取文件，逐行解析 `STATUS<TAB>样本路径`
+2. 过滤出状态为 `FAILED` 或无状态标记（空白）的行，收集对应的样本路径
+3. 状态为 `PASS` 的行直接跳过，记录到汇总报告中（标记为"跳过（已通过）"）
+4. 如果 `max_samples` > 0，则只取前 `max_samples` 个 `FAILED` 样本
+5. 每个样本修复完成后，**立即原地更新该文件中对应行的状态**（成功→`PASS`，失败→`FAILED`）
 
-## 4. 执行步骤
+**方式 B：仅提供 `samples_dir`（不提供 `sample_list_with_status`）**
+1. 列出 `samples_dir` 下所有包含 `model.py` 的子目录作为待处理样本列表
+2. 所有样本均视为 `FAILED`，需要执行修复
+3. 如果 `max_samples` > 0，则只取前 `max_samples` 个样本
 
-### 4.1 扫描样本
-
-列出 `samples_dir` 下所有包含 `model.py` 的子目录作为待处理样本列表。如果 `max_samples` > 0，则只取前 `max_samples` 个样本。
-
-### 4.2 逐个样本执行修复循环
+### 3.2 逐个样本执行修复循环
 
 对每个样本目录 `<sample_path>`（样本名为 `<sample_name>`），执行以下循环（最多 `max_retries` 次）。
 
@@ -169,9 +178,13 @@ timeout <timeout>s python -m graph_net.torch.run_model --model-path <sample_path
 
 修复后返回 Step B 重新执行。如果达到 `max_retries` 次仍未成功，标记为"失败（达到最大重试次数）"，更新该样本的 `fix_log.md`，记录最后一次的错误信息。
 
-### 4.3 生成汇总报告
+### 3.3 生成汇总报告
 
-全部样本处理完成后，汇总所有 `benchmark_task/fix_sample_logs-<timestamp>/<sample_name>/fix_log.md` 的结果，生成总报告写入 `benchmark_task/fix_sample_logs-<timestamp>/fix_samples_report.md`。报告格式如下：
+全部样本处理完成后，汇总所有 `benchmark_task/fix_sample_logs-<timestamp>/<sample_name>/fix_log.md` 的结果，生成总报告写入 `benchmark_task/fix_sample_logs-<timestamp>/fix_samples_report.md`。
+
+**更新 `sample_list_with_status` 文件**：如果提供了 `sample_list_with_status` 参数，修复过程中已逐个原地更新了该文件中对应行的状态。全部完成后，再次确认所有处理过的样本状态已正确更新（成功→`PASS`，失败/跳过→`FAILED`）。未提供的样本行保持不变。
+
+报告格式如下：
 
 ```markdown
 # 样本自动修复报告
@@ -220,9 +233,9 @@ timeout <timeout>s python -m graph_net.torch.run_model --model-path <sample_path
 | yyy | CUDA out of memory |
 ```
 
-## 5. 错误分析方法
+## 4. 错误分析方法
 
-### 5.1 分析流程
+### 4.1 分析流程
 
 收到 `run_model` 的错误输出后，按以下流程进行分析：
 
@@ -238,7 +251,7 @@ timeout <timeout>s python -m graph_net.torch.run_model --model-path <sample_path
                                      └── 其他错误 → 跳过
 ```
 
-### 5.2 关键分析技巧
+### 4.2 关键分析技巧
 
 **技巧 1：从错误信息反推实际 tensor 形状**
 
@@ -274,7 +287,7 @@ ViT 模型中 `x + pos_embed` 是常见的维度不匹配点：
 - 第 3 轮：可能还有其他相关的 hardcoded 维度
 - 逐轮修复，每轮只修当前报错，且**每轮只做原地修改**
 
-### 5.3 常见错误模式与修复策略速查表
+### 4.3 常见错误模式与修复策略速查表
 
 | 错误模式 | 典型错误信息 | 修复策略 | 修改位置 |
 |----------|-------------|----------|----------|
@@ -286,7 +299,7 @@ ViT 模型中 `x + pos_embed` 是常见的维度不匹配点：
 | expand 不兼容 | `expand size must match existing size at non-singleton dimension` | 原地修正 expand 的目标 shape 参数 | model.py 中的 expand 调用 |
 | 需插入新算子才能修复 | 各类，无法仅通过修改参数解决 | **不可修复**，标记失败跳过 | — |
 
-## 6. 修复示例
+## 5. 修复示例
 
 > **核心约束**：所有修复都是**原地修改已有算子的参数**。唯一允许添加的语句是 `size = x.size(i)` 这样的取值操作。严禁插入 slice、pad、cat、narrow 等新算子。
 
@@ -434,13 +447,7 @@ but found at least two devices, cpu and cuda:0!
 ```
 RuntimeError: only one dimension can be inferred
 ```
-→ reshape 中有多个 -1（如 `reshape(1, -1, -1)`），**不再直接标记失败**。修复流程：
-1. 在 `original_samples_dir` 中找到对应原始样本的 model.py
-2. 定位同一变量名的 reshape/view 调用，获取原始具体参数（如 `reshape(1, 196, 768)`）
-3. 将多个 -1 恢复为原始参数值，再根据当前 tensor 实际大小调整
-4. 如果找不到原始样本或无法对应，才标记为"失败"
-
-详见示例 7。
+→ reshape 中有多个 -1，修复方法详见示例 7。
 
 **场景 D：复杂的跨模块形状不匹配——超出原地修复能力**
 ```
@@ -524,6 +531,49 @@ reshape = linear.reshape(1, 64, 768)
 - 如果原始样本不存在或无法定位同一变量，才标记为"失败"
 
 ---
+
+## 6. 工具脚本
+
+以下脚本位于 `benchmark_task/` 目录下，用于查看修复进度和验证样本状态。
+
+### 6.1 查看修复状态汇总
+
+```bash
+# 自动查找最新的 fix_sample_logs 目录并显示汇总
+bash benchmark_task/fix_sample_status.sh
+
+# 指定日志目录
+bash benchmark_task/fix_sample_status.sh benchmark_task/fix_sample_logs-20260414_213511
+
+# 只显示失败/跳过的样本
+bash benchmark_task/fix_sample_status.sh benchmark_task/fix_sample_logs-20260414_213511 failed
+```
+
+输出包含每个样本的状态（OK/FAIL/SKIP）、修复次数，以及汇总统计和 sample_list.txt 的 PASS/FAILED 计数。
+
+### 6.2 验证单个样本
+
+```bash
+# 验证单个样本是否可通过 run_model（默认 120s 超时）
+bash benchmark_task/fix_sample_verify.sh <sample_path>
+
+# 指定超时时间
+bash benchmark_task/fix_sample_verify.sh <sample_path> 300
+```
+
+输出样本的 PASS/FAIL/TIMEOUT 状态，若失败则提取错误信息并判断是否为维度错误。
+
+### 6.3 批量验证 FAILED 样本
+
+```bash
+# 验证 sample_list.txt 中所有 FAILED 样本的当前状态（默认 60s/样本）
+bash benchmark_task/fix_sample_batch_verify.sh
+
+# 指定列表文件和超时
+bash benchmark_task/fix_sample_batch_verify.sh benchmark_task/sample_list.txt 120
+```
+
+对每个 FAILED 样本重新执行 run_model，若通过则自动将 sample_list.txt 中对应行更新为 PASS。
 
 ## 7. 注意事项
 

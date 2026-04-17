@@ -1,2 +1,0 @@
-export DISALLOWED_UNSTABLE_API="torch._C._special.special_logit"
-bash todo_works/unstable_api_to_stable_api/test_unstable_to_stable.sh

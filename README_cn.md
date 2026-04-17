@@ -106,17 +106,7 @@ python -m graph_net_visual.plot_violin \
 您可以通过扫描下方群聊二维码加入我们的社区。欢迎提出任何关于使用和构建 GraphNet 的问题。
 
 <div align="center">
-<table>
-<tr>
-<td align="center">
-    <img width="200" src="https://github.com/user-attachments/assets/125e3494-25c9-4494-9acd-8ad65ca85d03" />
-</td>
-<td align="center">
-    <img width="150" src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/67d00cf7266d2c75571aebde_Example.svg" />
-    <p><a href="https://discord.gg/vyeAydwh">Channel</a> is also available.</p>
-</td>
-</tr>
-</table>
+  <img width="200" src="https://github.com/user-attachments/assets/125e3494-25c9-4494-9acd-8ad65ca85d03" alt="微信" />
 </div>
 
 ## 许可证与致谢

@@ -110,17 +110,7 @@ Check out the [Construction Guide](./docs/README_contribute.md) for details on t
 You can join our community by following the group chats. Welcome to ask any questions about using and building GraphNet.
 
 <div align="center">
-<table>
-<tr>
-<td align="center">
-    <img width="200" src="https://github.com/user-attachments/assets/125e3494-25c9-4494-9acd-8ad65ca85d03" />
-</td>
-<td align="center">
-    <img width="150" src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/67d00cf7266d2c75571aebde_Example.svg" />
-    <p><a href="https://discord.gg/vyeAydwh">Channel</a> is also available.</p>
-</td>
-</tr>
-</table>
+  <img width="200" src="https://github.com/user-attachments/assets/125e3494-25c9-4494-9acd-8ad65ca85d03" alt="微信" />
 </div>
 
 ## License and Acknowledgement

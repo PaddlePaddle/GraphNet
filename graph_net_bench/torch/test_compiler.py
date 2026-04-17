@@ -498,7 +498,7 @@ def test_multi_models_with_prefix(args):
                 f"--trials {args.trials}",
                 f"--log-prompt {args.log_prompt}",
                 f"--config {args.config}",
-                "--profiler-device-time" if args.profiler_device_time else "",
+                "--kernel-time" if args.profiler_device_time else "",
             ]
         )
         try:

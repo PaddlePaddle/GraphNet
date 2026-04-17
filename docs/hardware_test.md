@@ -1,8 +1,8 @@
 ## Hardware Regression Testing
 ### Step 1: Generate Reference Data
-First, use `graph_net.paddle.test_reference_device` on a trusted setting (e.g., a specific hardware/compiler version) to generate baseline logs and output files.
+First, use `graph_net_bench.paddle.test_reference_device` on a trusted setting (e.g., a specific hardware/compiler version) to generate baseline logs and output files.
 ```bash
-python -m graph_net.paddle.test_reference_device \
+python -m graph_net_bench.paddle.test_reference_device \
     --model-path /path/to/all_models/ \
     --reference-dir ./gold_reference \
     --compiler cinn \
@@ -13,7 +13,7 @@ python -m graph_net.paddle.test_reference_device \
 ### Step 2: Run Regression Test
 After changing hardware, run the correctness test script. This script reads the reference data, re-runs the models using the same configuration, and compares the new results against the "golden" reference.
 ```bash
-python -m graph_net.paddle.test_device_correctness \
+python -m graph_net_bench.paddle.test_device_correctness \
     --reference-dir ./golden_reference \
     --device cuda
 ```

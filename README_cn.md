@@ -35,14 +35,14 @@
 
 **步骤 1：基准测试**
 
-使用 `graph_net.torch.test_compiler` 对 GraphNet 样本进行基准测试，可指定批次和日志配置：
+使用 `graph_net_bench.torch.test_compiler` 对 GraphNet 样本进行基准测试，可指定批次和日志配置：
 
 ```bash
 # 设置你的基准测试目录
 export GRAPH_NET_BENCH_PATH=/home/yourname/graphnet_benchmark/
 
 # 运行基准测试
-python -m graph_net.torch.test_compiler \
+python -m graph_net_bench.torch.test_compiler \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name/ \
   --compiler /custom/or/builtin/compiler/ \
   --device /device/to/execute/ \
@@ -53,7 +53,7 @@ python -m graph_net.torch.test_compiler \
 # 注意：如果省略 --compiler 参数，默认使用 PyTorch 的内置编译器。
 ```
 
-执行后，`graph_net.torch.test_compiler` 将：
+执行后，`graph_net_bench.torch.test_compiler` 将：
 1. 以即时执行模式运行原始模型，记录基线性能。
 2. 使用指定的后端（例如 CINN, TVM, Inductor, TensorRT, XLA, BladeDISC）编译模型。
 3. 执行编译后的模型，收集其运行时间和输出。
@@ -106,17 +106,7 @@ python -m graph_net_visual.plot_violin \
 您可以通过扫描下方群聊二维码加入我们的社区。欢迎提出任何关于使用和构建 GraphNet 的问题。
 
 <div align="center">
-<table>
-<tr>
-<td align="center">
-    <img width="200" src="https://github.com/user-attachments/assets/125e3494-25c9-4494-9acd-8ad65ca85d03" />
-</td>
-<td align="center">
-    <img width="150" src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/67d00cf7266d2c75571aebde_Example.svg" />
-    <p><a href="https://discord.gg/vyeAydwh">Channel</a> is also available.</p>
-</td>
-</tr>
-</table>
+  <img width="200" src="https://github.com/user-attachments/assets/125e3494-25c9-4494-9acd-8ad65ca85d03" alt="微信" />
 </div>
 
 ## 许可证与致谢

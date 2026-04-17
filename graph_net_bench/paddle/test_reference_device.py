@@ -10,7 +10,7 @@ import traceback
 from graph_net_bench import path_utils
 from graph_net_bench import test_compiler_util
 from graph_net import model_path_util
-from graph_net.paddle import test_compiler
+from graph_net_bench.paddle import test_compiler
 
 
 def get_reference_log_path(reference_dir, model_path):

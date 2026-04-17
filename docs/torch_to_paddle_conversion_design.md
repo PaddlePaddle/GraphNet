@@ -66,13 +66,13 @@ samples/{source}/{model_name}/
 **重要：转换器必须实现为 CompilerBackend**
 
 整个转换器需要实现为 `GraphCompilerBackend` 接口，以便：
-1. **复用现有测试流程**：转换后的样本可以直接通过 `graph_net.paddle.test_compiler` 流程进行测试
+1. **复用现有测试流程**：转换后的样本可以直接通过 `graph_net_bench.paddle.test_compiler` 流程进行测试
 2. **获得 ES 评估指标**：通过 `test_compiler` 流程生成的日志，可以被 `analysis_util` 解析并计算 ES(t) 指标
 3. **统一接口**：与其他编译器后端（如 CinnBackend、NopeBackend）保持一致，便于集成和管理
 
 **实现位置**：
-- 转换器 Backend：`graph_net/paddle/backend/torch_to_paddle_backend.py`
-- 注册到 `graph_net/paddle/test_compiler.py` 的 `registry_backend` 中
+- 转换器 Backend：`graph_net_bench/paddle/backend/torch_to_paddle_backend.py`
+- 注册到 `graph_net_bench/paddle/test_compiler.py` 的 `registry_backend` 中
 
 **工作流程**：
 ```
@@ -82,7 +82,7 @@ samples/{source}/{model_name}/
 
 2. 测试阶段（通过 test_compiler）：
    - 使用 TorchToPaddleBackend 作为编译器后端
-   - 运行 graph_net.paddle.test_compiler --compiler torch_to_paddle
+   - 运行 graph_net_bench.paddle.test_compiler --compiler torch_to_paddle
    - 生成标准格式的测试日志
 
 3. 评估阶段（通过现有工具）：
@@ -104,7 +104,7 @@ tools/torch_to_paddle/
         ├── {timestamp}_conversion_summary.json
         └── {sample_name}_conversion.log
 
-graph_net/paddle/backend/
+graph_net_bench/paddle/backend/
 └── torch_to_paddle_backend.py  # CompilerBackend 实现
 ```
 
@@ -211,7 +211,7 @@ python -m tools.torch_to_paddle.convert \
 
 **关键实现**：
 ```python
-from graph_net.paddle.backend.graph_compiler_backend import GraphCompilerBackend
+from graph_net_bench.paddle.backend.graph_compiler_backend import GraphCompilerBackend
 import paddle
 
 class TorchToPaddleBackend(GraphCompilerBackend):
@@ -242,9 +242,9 @@ class TorchToPaddleBackend(GraphCompilerBackend):
 ```
 
 **注册方式**：
-在 `graph_net/paddle/test_compiler.py` 中注册：
+在 `graph_net_bench/paddle/test_compiler.py` 中注册：
 ```python
-from graph_net.paddle.backend.torch_to_paddle_backend import TorchToPaddleBackend
+from graph_net_bench.paddle.backend.torch_to_paddle_backend import TorchToPaddleBackend
 
 registry_backend = {
     "cinn": CinnBackend(),
@@ -262,7 +262,7 @@ registry_backend = {
 **测试命令**：
 ```bash
 # 批量测试转换后的样本
-python -m graph_net.paddle.test_compiler \
+python -m graph_net_bench.paddle.test_compiler \
     --compiler torch_to_paddle \
     --model-path torch_to_paddle_samples/{source}/{model_name} \
     --device gpu \
@@ -391,7 +391,7 @@ def convert_graph_net_json(source_path, target_path, log):
 
 **核心原则：复用现有 test_compiler 流程**
 
-转换后的样本通过 `graph_net.paddle.test_compiler` 进行测试，使用 `TorchToPaddleBackend` 作为编译器后端。
+转换后的样本通过 `graph_net_bench.paddle.test_compiler` 进行测试，使用 `TorchToPaddleBackend` 作为编译器后端。
 
 **测试流程**：
 ```python
@@ -671,15 +671,15 @@ def convert_graph_net_json(source_path, target_path, log):
 
 ### 9.2 参考实现
 - **CompilerBackend 实现**：
-  - `graph_net/paddle/backend/nope_backend.py`：最简单的 Backend 实现示例
-  - `graph_net/paddle/backend/cinn_backend.py`：完整的 Backend 实现示例
+  - `graph_net_bench/paddle/backend/nope_backend.py`：最简单的 Backend 实现示例
+  - `graph_net_bench/paddle/backend/cinn_backend.py`：完整的 Backend 实现示例
 - **test_compiler 流程**：
-  - `graph_net/paddle/test_compiler.py`：Paddle 测试主流程
-  - `graph_net/torch/test_compiler.py`：PyTorch 测试主流程（参考）
+  - `graph_net_bench/paddle/test_compiler.py`：Paddle 测试主流程
+  - `graph_net_bench/torch/test_compiler.py`：PyTorch 测试主流程（参考）
 - **ES 评估工具**：
-  - `graph_net/plot_ESt.py`：ES(t) 计算和绘图工具
-  - `graph_net/analysis_util.py`：日志解析和 ES(t) 计算
+  - `graph_net_visual/plot_ESt.py`：ES(t) 计算和绘图工具
+  - `graph_net_bench/analysis_util.py`：日志解析和 ES(t) 计算
 - **其他工具**：
-  - `graph_net/paddle/test_target_device.py`：设备测试脚本
+  - `graph_net_bench/paddle/test_target_device.py`：设备测试脚本
   - `tools/check_and_count_samples.py`：样本检查工具
 

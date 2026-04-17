@@ -672,13 +672,13 @@ def convert_graph_net_json(source_path, target_path, log):
 ### 9.2 参考实现
 - **CompilerBackend 实现**：
   - `graph_net_bench/paddle/backend/nope_backend.py`：最简单的 Backend 实现示例
-  - `graph_ngraph_net_benchet/paddle/backend/cinn_backend.py`：完整的 Backend 实现示例
+  - `graph_net_bench/paddle/backend/cinn_backend.py`：完整的 Backend 实现示例
 - **test_compiler 流程**：
   - `graph_net_bench/paddle/test_compiler.py`：Paddle 测试主流程
   - `graph_net_bench/torch/test_compiler.py`：PyTorch 测试主流程（参考）
 - **ES 评估工具**：
   - `graph_net_visual/plot_ESt.py`：ES(t) 计算和绘图工具
-  - `graph_net_visual/analysis_util.py`：日志解析和 ES(t) 计算
+  - `graph_net_bench/analysis_util.py`：日志解析和 ES(t) 计算
 - **其他工具**：
   - `graph_net_bench/paddle/test_target_device.py`：设备测试脚本
   - `tools/check_and_count_samples.py`：样本检查工具

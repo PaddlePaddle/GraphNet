@@ -47,23 +47,36 @@ def replay_tensor(info, use_dummy_inputs):
         return utils.replay_tensor(info)
 
 
+def get_input_dict(args, use_dummy_inputs):
+    inputs_params = utils.load_converted_from_text(f"{args.model_path}")
+    params = inputs_params["weight_info"]
+    for tensor_meta in params.values():
+        if "device" in tensor_meta["info"]:
+            tensor_meta["info"]["device"] = args.device
+
+    state_dict = {
+        k: replay_tensor(v, use_dummy_inputs).to(torch.device(args.device))
+        for k, v in params.items()
+    }
+    return state_dict
+
+
 def main(args):
     model_path = args.model_path
+    device = args.device
     model_class = load_class_from_file(
         f"{model_path}/model.py", class_name="GraphModule"
     )
     assert model_class is not None
-    model = model_class()
+    model = model_class().to(torch.device(device))
     print(f"{model_path=}")
     decorator_config = _convert_to_dict(args.decorator_config)
     if "decorator_path" in decorator_config:
         model = _get_decorator(decorator_config)(model)
 
-    inputs_params = utils.load_converted_from_text(f"{model_path}")
-    params = inputs_params["weight_info"]
     use_dummy_inputs = get_flag_use_dummy_inputs(decorator_config)
     print(f"{use_dummy_inputs=}")
-    state_dict = {k: replay_tensor(v, use_dummy_inputs) for k, v in params.items()}
+    state_dict = get_input_dict(args, use_dummy_inputs)
     model.__graph_net_file_path__ = model_path
     model(**state_dict)
 
@@ -82,6 +95,13 @@ if __name__ == "__main__":
         required=False,
         default=None,
         help="decorator configuration string",
+    )
+    parser.add_argument(
+        "--device",
+        type=str,
+        required=False,
+        default="cuda",
+        help="Device for running the model (e.g., 'cpu' or 'cuda')",
     )
     args = parser.parse_args()
     main(args=args)

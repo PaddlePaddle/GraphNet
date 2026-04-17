@@ -37,14 +37,14 @@ as well as how to contribute new computation graphs (for GraphNet contributors).
 
 **Step 1: Benchmark**
 
-Use graph_net.torch.test_compiler to benchmark GraphNet samples with specific batch and logging configurations:
+Use graph_net_bench.torch.test_compiler to benchmark GraphNet samples with specific batch and logging configurations:
 
 ```bash
 # Set your benchmark directory
 export GRAPH_NET_BENCH_PATH=/home/yourname/graphnet_benchmark/
 
 # Run benchmark
-python -m graph_net.torch.test_compiler \
+python -m graph_net_bench.torch.test_compiler \
   --model-path $GRAPH_NET_EXTRACT_WORKSPACE/model_name/ \
   --compiler /custom/or/builtin/compiler/ \
   --device /device/to/execute/ \
@@ -55,7 +55,7 @@ python -m graph_net.torch.test_compiler \
 # Note: If --compiler is omitted, PyTorch’s built-in compiler is used by default.
 ```
 
-After executing, `graph_net.torch.test_compiler` will:
+After executing, `graph_net_bench.torch.test_compiler` will:
 1. Running the original model in eager mode to record a baseline.
 2. Compiling the model with the specified backend (e.g., CINN, TVM, Inductor, TensorRT, XLA, BladeDISC).
 3. Executing the compiled model and collecting its runtime and outputs.

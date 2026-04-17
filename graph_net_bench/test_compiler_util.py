@@ -239,7 +239,7 @@ def print_times_and_speedup(args, eager_stats, compiled_stats):
 
     e2e_speedup = 0
     gpu_speedup = 0
-    profiler_device_speedup = 0
+    kernel_speedup = 0
 
     eager_e2e_time_ms = eager_stats.get("e2e", {}).get("median", 0)
     compiled_e2e_time_ms = compiled_stats.get("e2e", {}).get("median", 0)
@@ -254,15 +254,11 @@ def print_times_and_speedup(args, eager_stats, compiled_stats):
         if eager_gpu_time_ms > 0 and compiled_gpu_time_ms > 0:
             gpu_speedup = eager_gpu_time_ms / compiled_gpu_time_ms
 
-        eager_profiler_device_ms = eager_stats.get("profiler_device", {}).get("mean", 0)
-        compiled_profiler_device_ms = compiled_stats.get("profiler_device", {}).get(
-            "mean", 0
-        )
+        eager_kernel_time_ms = eager_stats.get("kernel", {}).get("median", 0)
+        compiled_kernel_time_ms = compiled_stats.get("kernel", {}).get("median", 0)
 
-        if eager_profiler_device_ms > 0 and compiled_profiler_device_ms > 0:
-            profiler_device_speedup = (
-                eager_profiler_device_ms / compiled_profiler_device_ms
-            )
+        if eager_kernel_time_ms > 0 and compiled_kernel_time_ms > 0:
+            kernel_speedup = eager_kernel_time_ms / compiled_kernel_time_ms
 
     if e2e_speedup > 0:
         print_with_log_prompt("[Speedup][e2e]:", f"{e2e_speedup:.5f}", args.log_prompt)
@@ -270,10 +266,10 @@ def print_times_and_speedup(args, eager_stats, compiled_stats):
     if is_gpu_device(args.device) and gpu_speedup > 0:
         print_with_log_prompt("[Speedup][gpu]:", f"{gpu_speedup:.5f}", args.log_prompt)
 
-    if is_gpu_device(args.device) and profiler_device_speedup > 0:
+    if is_gpu_device(args.device) and kernel_speedup > 0:
         print_with_log_prompt(
-            "[Speedup][profiler_device]:",
-            f"{profiler_device_speedup:.5f}",
+            "[Speedup][kernel]:",
+            f"{kernel_speedup:.5f}",
             args.log_prompt,
         )
 

@@ -197,7 +197,7 @@ if __name__ == "__main__":
         "--model-path",
         type=str,
         required=True,
-        help="Path to model file(s), each subdirectory containing graph_net_bench.json will be regarded as a model",
+        help="Path to model file(s), each subdirectory containing graph_net.json will be regarded as a model",
     )
     parser.add_argument(
         "--compiler",

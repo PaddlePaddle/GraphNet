@@ -206,6 +206,31 @@ def measure_performance(model_call, args, compiler):
             e2e_times.append(duration_box.value)
         stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
 
+    # Kernel-level compute time measurement (only when enabled and on CUDA)
+    if args.kernel_time and "cuda" in args.device:
+        with torch.profiler.profile(
+            activities=[torch.profiler.ProfilerActivity.CUDA],
+        ) as prof:
+            for _ in range(args.trials):
+                model_call()
+        compiler.synchronize()
+        kernel_time_ms = (
+            sum(evt.self_device_time_total for evt in prof.key_averages())
+            / 1000.0
+            / args.trials
+        )
+        print(
+            f"kernel={kernel_time_ms:.5f} ms (avg over {args.trials} trials)",
+            file=sys.stderr,
+            flush=True,
+        )
+        stats["kernel"] = {
+            "mean": kernel_time_ms,
+            "min": kernel_time_ms,
+            "max": kernel_time_ms,
+            "median": kernel_time_ms,
+        }
+
     return outs, stats
 
 
@@ -423,6 +448,7 @@ def test_multi_models(args):
                     f"--trials {args.trials}",
                     f"--log-prompt {args.log_prompt}",
                     f"--config {args.config}",
+                    "--kernel-time" if args.kernel_time else "",
                 ]
             )
             try:
@@ -472,6 +498,7 @@ def test_multi_models_with_prefix(args):
                 f"--trials {args.trials}",
                 f"--log-prompt {args.log_prompt}",
                 f"--config {args.config}",
+                "--kernel-time" if args.kernel_time else "",
             ]
         )
         try:
@@ -557,6 +584,12 @@ if __name__ == "__main__":
         required=False,
         default=None,
         help="base64 encode configuration json.",
+    )
+    parser.add_argument(
+        "--kernel-time",
+        action="store_true",
+        default=False,
+        help="Enable kernel-level compute time measurement via torch.profiler (CUDA only)",
     )
     args = parser.parse_args()
     main(args=args)

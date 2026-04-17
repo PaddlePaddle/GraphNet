@@ -22,7 +22,7 @@ GraphNet 项目包含大量从 PyTorch 提取的计算图样本（位于 `sample
 ```
 samples/{source}/{model_name}/
 ├── model.py              # 必需：包含 GraphModule(torch.nn.Module) 类定义
-├── graph_net_bench.json        # 必需：元数据配置（framework: "torch"）
+├── graph_net.json        # 必需：元数据配置（framework: "torch"）
 ├── graph_hash.txt        # 必需：计算图哈希值（用于去重）
 ├── input_meta.py         # 必需：输入张量元数据（可能为空）
 └── weight_meta.py        # 必需：权重张量元数据（包含 torch 类型字符串）
@@ -46,7 +46,7 @@ samples/{source}/{model_name}/
 - **需要转换**：`"torch.float32"` → `"paddle.float32"`, `"torch.int64"` → `"paddle.int64"` 等
 - **处理策略**：使用正则表达式或 AST 解析进行批量替换
 
-#### 2.2.3 graph_net_bench.json
+#### 2.2.3 graph_net.json
 - **特点**：JSON 配置文件
 - **需要修改**：`"framework": "torch"` → `"framework": "paddle"`
 - **处理策略**：直接修改 JSON 文件

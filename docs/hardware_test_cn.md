@@ -1,8 +1,8 @@
 ## 硬件回归测试
 ### 步骤 1：生成参考数据
-首先，在可信的环境中（例如，特定的硬件/编译器版本），使用 `graph_net.paddle.test_reference_device` 来生成基线日志和输出文件。
+首先，在可信的环境中（例如，特定的硬件/编译器版本），使用 `graph_net_bench.paddle.test_reference_device` 来生成基线日志和输出文件。
 ```bash
-python -m graph_net.paddle.test_reference_device \
+python -m graph_net_bench.paddle.test_reference_device \
     --model-path /path/to/all_models/ \
     --reference-dir ./gold_reference \
     --compiler cinn \
@@ -14,7 +14,7 @@ python -m graph_net.paddle.test_reference_device \
 ### 步骤 2：运行回归测试
 更换硬件后，运行正确性测试脚本。此脚本会读取参考数据，使用完全相同的配置重新运行模型，并将新结果与“黄金”参考标准进行比对。
 ```bash
-python -m graph_net.paddle.test_device_correctness \
+python -m graph_net_bench.paddle.test_device_correctness \
     --reference-dir ./golden_reference \
     --device cuda
 ```

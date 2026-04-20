@@ -1,3 +1,4 @@
+import re
 from graph_net.sample_pass.sample_pass import SamplePass
 from graph_net.sample_pass.resumable_sample_pass_mixin import ResumableSamplePassMixin
 from graph_net.sample_pass.only_model_file_rewrite_sample_pass_mixin import (
@@ -30,7 +31,19 @@ class DeviceRewriteSamplePass(
         return self.naive_sample_handled(rel_model_path, search_file_name="model.py")
 
     def resume(self, rel_model_path: str):
-        return self.copy_sample_and_handle_model_py_file(rel_model_path)
+        self.copy_sample_and_handle_model_py_file(rel_model_path)
+        self._rewrite_meta_files(rel_model_path)
+
+    def _rewrite_meta_files(self, rel_model_path: str):
+        """Rewrite 'cuda:N' device strings in weight_meta.py and input_meta.py."""
+        dst_model_path = Path(self.config["output_dir"]) / rel_model_path
+        for meta_file in ["weight_meta.py", "input_meta.py"]:
+            meta_path = dst_model_path / meta_file
+            if meta_path.exists():
+                content = meta_path.read_text()
+                new_content = re.sub(r"""['"]cuda:\d+['"]""", '"cuda"', content)
+                if new_content != content:
+                    meta_path.write_text(new_content)
 
     def handle_model_py_file(self, rel_model_path: str) -> str:
         src_model_path = Path(self.config["model_path_prefix"]) / rel_model_path

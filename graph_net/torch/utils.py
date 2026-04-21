@@ -1,5 +1,6 @@
 import torch
 import ast
+import re
 import math
 import inspect
 import importlib
@@ -368,6 +369,34 @@ def modify_code_by_device(code, new_device_str):
             super().__init__()
             self.new_device = new_device
 
+        def _fix_device_call(self, device_call):
+            """Fix a device() call: remove index keyword and fix device strings."""
+            # Remove index keyword
+            device_call.keywords = [
+                kw for kw in device_call.keywords if kw.arg != "index"
+            ]
+            # Fix type keyword: device(type="cuda") or device(type="cuda:N")
+            for keyword in device_call.keywords:
+                if (
+                    keyword.arg == "type"
+                    and isinstance(keyword.value, ast.Constant)
+                    and isinstance(keyword.value.value, str)
+                ):
+                    keyword.value.value = self.new_device
+            # Fix positional string arg: device("cuda:0") or device("cuda")
+            if (
+                device_call.args
+                and isinstance(device_call.args[0], ast.Constant)
+                and isinstance(device_call.args[0].value, str)
+            ):
+                device_call.args[0].value = self.new_device
+
+        def visit_Constant(self, node):
+            """Replace 'cuda:N' string constants with the target device string."""
+            if isinstance(node.value, str) and re.match(r"^cuda:\d+$", node.value):
+                node.value = self.new_device
+            return node
+
         def visit_Call(self, node):
             # device.type("device")
             if (
@@ -384,7 +413,7 @@ def modify_code_by_device(code, new_device_str):
                     node.args[0].value = self.new_device
                 return node
 
-            # .to(device(type="device"))
+            # .to(device(type="device"[, index=N])) or .to(device("cuda:0"))
             if (
                 isinstance(node.func, ast.Attribute)
                 and node.func.attr == "to"
@@ -393,18 +422,10 @@ def modify_code_by_device(code, new_device_str):
                 and isinstance(node.args[0].func, ast.Name)
                 and node.args[0].func.id == "device"
             ):
-                device_call = node.args[0]
-                for keyword in device_call.keywords:
-                    if (
-                        keyword.arg == "type"
-                        and isinstance(keyword.value, ast.Constant)
-                        and isinstance(keyword.value.value, str)
-                    ):
-                        keyword.value.value = self.new_device
+                self._fix_device_call(node.args[0])
                 return node
 
-            # device=device(type="device")
-            new_keywords = []
+            # device=device(type="device"[, index=N]) keyword in any call
             for keyword in node.keywords:
                 if (
                     keyword.arg == "device"
@@ -412,18 +433,18 @@ def modify_code_by_device(code, new_device_str):
                     and isinstance(keyword.value.func, ast.Name)
                     and keyword.value.func.id == "device"
                 ):
-                    device_call = keyword.value
-                    for kw in device_call.keywords:
-                        if (
-                            kw.arg == "type"
-                            and isinstance(kw.value, ast.Constant)
-                            and isinstance(kw.value.value, str)
-                        ):
-                            kw.value.value = self.new_device
-                    new_keywords.append(keyword)
-                else:
-                    new_keywords.append(keyword)
-            node.keywords = new_keywords
+                    self._fix_device_call(keyword.value)
+
+            # device(type="device"[, index=N]) or device("cuda:N") standalone
+            if isinstance(node.func, ast.Name) and node.func.id == "device":
+                self._fix_device_call(node)
+                return node
+
+            # torch.device(type="device"[, index=N]) or torch.device("cuda:N")
+            if isinstance(node.func, ast.Attribute) and node.func.attr == "device":
+                self._fix_device_call(node)
+                return node
+
             return self.generic_visit(node)
 
     transformer = DeviceReplacer(new_device_str)

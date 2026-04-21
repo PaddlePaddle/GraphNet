@@ -119,7 +119,7 @@ if __name__ == "__main__":
         # For all other architectures: load config then randomly init weights
         return (
             f"from transformers import AutoConfig\n"
-            f'_config = AutoConfig.from_pretrained("{model_path}")\n'
+            f'_config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
             f"model = AutoModel.from_config(_config)"
         )
 

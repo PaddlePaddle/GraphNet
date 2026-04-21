@@ -50,6 +50,8 @@ class GraphNetAgent:
         self.model_fetcher = HFFetcher(
             cache_dir=str(self.workspace.models_dir),
             token=hf_token,
+            max_retries=3,
+            retry_delay=5,
         )
         self.metadata_analyzer = ConfigMetadataAnalyzer()
         self.code_generator = TemplateCodeGenerator()

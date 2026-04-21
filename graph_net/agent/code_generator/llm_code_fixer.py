@@ -29,7 +29,7 @@ _SYSTEM_PROMPT = """\
    graph_net.torch.extract(name="{name}", dynamic=False)(model).eval()(**inputs)
    - name 值已指定，禁止修改；dynamic 必须为 False（Swin/F.pad 等动态模式会崩溃）
 2. 模型加载必须用随机权重（禁止下载权重文件）：
-   config = AutoConfig.from_pretrained(model_dir)
+   config = AutoConfig.from_pretrained(model_dir, trust_remote_code=True)
    model = AutoModel.from_config(config)   # 或对应任务类
 3. 设备选择固定写法：device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 4. 只允许使用 torch、transformers、graph_net 及 Python 标准库（os/pathlib/json 等）

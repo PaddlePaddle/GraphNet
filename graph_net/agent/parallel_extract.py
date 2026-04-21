@@ -51,6 +51,25 @@ DEFAULT_WORKSPACE = "/work/graphnet_workspace"
 # ---------------------------------------------------------------------------
 
 
+def _setup_nvidia_ld_library_path() -> None:
+    """
+    将 pip nvidia 包的 lib 目录注入 LD_LIBRARY_PATH 最前面，
+    确保子进程加载正确版本的 NCCL/CUPTI/nvJitLink 等库，
+    避免系统旧版库导致 undefined symbol 错误。
+    """
+    import glob
+
+    base = "/usr/local/lib/python3.12/site-packages/nvidia"
+    nvidia_libs = ":".join(glob.glob(f"{base}/*/lib"))
+    if not nvidia_libs:
+        return
+    current = os.environ.get("LD_LIBRARY_PATH", "")
+    if nvidia_libs not in current:
+        os.environ["LD_LIBRARY_PATH"] = (
+            f"{nvidia_libs}:{current}" if current else nvidia_libs
+        )
+
+
 def _worker(
     gpu_id: int,
     task_queue: multiprocessing.Queue,
@@ -76,10 +95,13 @@ def _worker(
     # 传递 workspace 给 SubprocessGraphExtractor 使用的环境变量
     os.environ["GRAPH_NET_EXTRACT_WORKSPACE"] = workspace
 
+    # 确保 pip nvidia 库优先加载（修复 NCCL/nvJitLink 符号缺失问题）
+    _setup_nvidia_ld_library_path()
+
     print(f"[GPU {gpu_id}] Worker started", flush=True)
 
     try:
-        agent = GraphNetAgent(workspace=workspace, hf_token=hf_token)
+        agent = GraphNetAgent(workspace=workspace, hf_token=hf_token, llm_retry=False)
     except Exception as e:
         print(f"[GPU {gpu_id}] Failed to initialize agent: {e}", flush=True)
         # 把队列里剩余任务都标记为失败并排空，避免主进程死等

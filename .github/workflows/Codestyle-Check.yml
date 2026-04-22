@@ -6,9 +6,20 @@ on:
       - develop
 
 jobs:
+  check-bypass:
+    name: Check bypass
+    uses: ./.github/workflows/check-bypass.yml
+    with:
+      workflow-name: codestyle
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+
   pre-commit:
     name: Pre Commit
+    needs: check-bypass
+    if: needs.check-bypass.outputs.can-skip != 'true'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     env:
       PR_ID: ${{ github.event.pull_request.number }}
       BRANCH: develop
@@ -24,33 +35,22 @@ jobs:
           ref: ${{ github.event.pull_request.base.ref }}
           fetch-depth: 1000
 
-      - name: Check bypass
-        id: check-bypass
-        uses: ./.github/actions/check-bypass
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          workflow-name: codestyle
-
       - name: Merge PR to test branch
-        if: steps.check-bypass.outputs.can-skip != 'true'
         run: |
           git fetch origin pull/${PR_ID}/merge
           git checkout -b test FETCH_HEAD
 
       - name: Setup python3.10
-        if: steps.check-bypass.outputs.can-skip != 'true'
         uses: actions/setup-python@v6
         with:
           python-version: '3.10'
           cache: 'pip'
 
       - name: Install dependencies
-        if: steps.check-bypass.outputs.can-skip != 'true'
         run: |
           pip install pre-commit==2.17.0
 
       - name: Check pre-commit
-        if: steps.check-bypass.outputs.can-skip != 'true'
         run: |
           set +e
           bash -x tools/codestyle/pre_commit.sh;EXCODE=$?

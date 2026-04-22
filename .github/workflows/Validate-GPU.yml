@@ -20,11 +20,21 @@ defaults:
     shell: bash
 
 jobs:
+  check-bypass:
+    name: Check bypass
+    uses: ./.github/workflows/check-bypass.yml
+    with:
+      workflow-name: validate
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+
   validate:
     name: Validate
-    if: ${{ inputs.can-skip != 'true' }}
+    needs: check-bypass
+    if: needs.check-bypass.outputs.can-skip != 'true'
     runs-on:
       group: BD_BJ-V100
+    timeout-minutes: 120
     steps:
       - name: Clone GraphNet
         uses: actions/checkout@v6
@@ -33,15 +43,7 @@ jobs:
           submodules: 'recursive'
           fetch-depth: 1000
 
-      - name: Check bypass
-        id: check-bypass
-        uses: ./.github/actions/check-bypass
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          workflow-name: validate
-
       - name: Merge PR to test branch
-        if: steps.check-bypass.outputs.can-skip != 'true'
         run: |
           git fetch origin pull/${PR_ID}/merge
           git checkout -b test FETCH_HEAD
@@ -50,7 +52,6 @@ jobs:
         env:
           work_dir: ${{ github.workspace }}
           CACHE_DIR: /home/data/cfs/.cache
-        if: steps.check-bypass.outputs.can-skip != 'true'
         run: |
           container_name=${TASK}-${core_index}-$(date +%Y%m%d-%H%M%S)
           echo "container_name=${container_name}" >> ${{ github.env }}
@@ -78,7 +79,6 @@ jobs:
       - name: Run check
         env:
           work_dir: ${{ github.workspace }}
-        if: steps.check-bypass.outputs.can-skip != 'true'
         run: |
           docker exec -t ${{ env.container_name }} /bin/bash -c '
           source ${{ github.workspace }}/../../../proxy
@@ -88,7 +88,6 @@ jobs:
       - name: Run Unit Test
         env:
           work_dir: ${{ github.workspace }}
-        if: steps.check-bypass.outputs.can-skip != 'true'
         run: |
           docker exec -t ${{ env.container_name }} /bin/bash -c '
           source ${{ github.workspace }}/../../../proxy

@@ -141,97 +141,116 @@ def get_input_dict(args):
     }
 
 
-def measure_performance(model_call, args, compiler):
-    stats = {}
-    outs = model_call()
+class PerformanceMeasurer:
+    """Manages warmup, performance measurement trials, and CUDA memory cleanup."""
 
-    # Warmup runs
-    for _ in range(args.warmup):
-        model_call()
-    compiler.synchronize()
+    def __init__(self, model_call, args, compiler):
+        self.model_call = model_call
+        self.args = args
+        self.compiler = compiler
+        self.stats = {}
 
-    hardware_name = get_hardward_name(args)
-    print(
-        f"[Profiling] Using device: {args.device} {hardware_name}, warm up {args.warmup}, trials {args.trials}",
-        file=sys.stderr,
-        flush=True,
-    )
+    def warmup(self):
+        for _ in range(self.args.warmup):
+            self.model_call()
+        self.compiler.synchronize()
 
-    if "cuda" in args.device:
-        """
-        Acknowledgement: We evaluate the performance on both end-to-end and GPU-only timings,
-        With reference to methods only based on CUDA events from KernelBench in https://github.com/ScalingIntelligence/KernelBench
-        """
-
-        e2e_times = []
-        gpu_times = []
-
-        for i in range(args.trials):
-            # End-to-end timing (naive_timer)
-            duration_box = test_compiler_util.DurationBox(-1)
-            with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
-                # GPU-only timing (CUDA Events)
-                start_event = torch.cuda.Event(enable_timing=True)
-                end_event = torch.cuda.Event(enable_timing=True)
-                start_event.record()
-
-                model_call()
-
-                end_event.record()
-                compiler.synchronize()
-
-            gpu_time_ms = start_event.elapsed_time(end_event)
-            e2e_times.append(duration_box.value)
-            gpu_times.append(gpu_time_ms)
-            print(
-                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms, gpu={gpu_time_ms:.5f} ms",
-                file=sys.stderr,
-                flush=True,
-            )
-
-        stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
-        stats["gpu"] = test_compiler_util.get_timing_stats(gpu_times)
-
-    else:  # CPU or other devices
-        e2e_times = []
-        for i in range(args.trials):
-            duration_box = test_compiler_util.DurationBox(-1)
-            with test_compiler_util.naive_timer(duration_box, compiler.synchronize):
-                model_call()
-            print(
-                f"Trial {i + 1}: e2e={duration_box.value:.5f} ms",
-                file=sys.stderr,
-                flush=True,
-            )
-            e2e_times.append(duration_box.value)
-        stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
-
-    # Kernel-level compute time measurement (only when enabled and on CUDA)
-    if args.kernel_time and "cuda" in args.device:
-        with torch.profiler.profile(
-            activities=[torch.profiler.ProfilerActivity.CUDA],
-        ) as prof:
-            for _ in range(args.trials):
-                model_call()
-        compiler.synchronize()
-        kernel_time_ms = (
-            sum(evt.self_device_time_total for evt in prof.key_averages())
-            / 1000.0
-            / args.trials
-        )
+    def exec(self):
+        """Run benchmark trials and return (output, stats)."""
+        hardware_name = get_hardward_name(self.args)
         print(
-            f"kernel={kernel_time_ms:.5f} ms (avg over {args.trials} trials)",
+            f"[Profiling] Using device: {self.args.device} {hardware_name}, "
+            f"warm up {self.args.warmup}, trials {self.args.trials}",
             file=sys.stderr,
             flush=True,
         )
-        stats["kernel"] = {
-            "mean": kernel_time_ms,
-            "min": kernel_time_ms,
-            "max": kernel_time_ms,
-            "median": kernel_time_ms,
-        }
 
-    return outs, stats
+        if "cuda" in self.args.device:
+            e2e_times = []
+            gpu_times = []
+
+            for i in range(self.args.trials):
+                duration_box = test_compiler_util.DurationBox(-1)
+                with test_compiler_util.naive_timer(
+                    duration_box, self.compiler.synchronize
+                ):
+                    start_event = torch.cuda.Event(enable_timing=True)
+                    end_event = torch.cuda.Event(enable_timing=True)
+                    start_event.record()
+
+                    self.model_call()
+
+                    end_event.record()
+                    self.compiler.synchronize()
+
+                gpu_time_ms = start_event.elapsed_time(end_event)
+                e2e_times.append(duration_box.value)
+                gpu_times.append(gpu_time_ms)
+                print(
+                    f"Trial {i + 1}: e2e={duration_box.value:.5f} ms, gpu={gpu_time_ms:.5f} ms",
+                    file=sys.stderr,
+                    flush=True,
+                )
+
+            self.stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
+            self.stats["gpu"] = test_compiler_util.get_timing_stats(gpu_times)
+
+        else:  # CPU or other devices
+            e2e_times = []
+            for i in range(self.args.trials):
+                duration_box = test_compiler_util.DurationBox(-1)
+                with test_compiler_util.naive_timer(
+                    duration_box, self.compiler.synchronize
+                ):
+                    self.model_call()
+                print(
+                    f"Trial {i + 1}: e2e={duration_box.value:.5f} ms",
+                    file=sys.stderr,
+                    flush=True,
+                )
+                e2e_times.append(duration_box.value)
+            self.stats["e2e"] = test_compiler_util.get_timing_stats(e2e_times)
+
+        # Kernel-level compute time measurement (only when enabled and on CUDA)
+        if self.args.kernel_time and "cuda" in self.args.device:
+            with torch.profiler.profile(
+                activities=[torch.profiler.ProfilerActivity.CUDA],
+            ) as prof:
+                for _ in range(self.args.trials):
+                    self.model_call()
+            self.compiler.synchronize()
+            kernel_time_ms = (
+                sum(evt.self_device_time_total for evt in prof.key_averages())
+                / 1000.0
+                / self.args.trials
+            )
+            print(
+                f"kernel={kernel_time_ms:.5f} ms (avg over {self.args.trials} trials)",
+                file=sys.stderr,
+                flush=True,
+            )
+            self.stats["kernel"] = {
+                "mean": kernel_time_ms,
+                "min": kernel_time_ms,
+                "max": kernel_time_ms,
+                "median": kernel_time_ms,
+            }
+
+        outs = self.model_call()
+        # Clone outputs immediately to avoid CUDAGraphs overwriting the returned
+        # tensors during subsequent warmup/trial runs.
+        if isinstance(outs, torch.Tensor):
+            outs = outs.clone()
+        elif isinstance(outs, tuple):
+            outs = tuple(o.clone() if isinstance(o, torch.Tensor) else o for o in outs)
+        return outs, self.stats
+
+    def cleanup(self):
+        import gc
+
+        gc.collect()
+        if "cuda" in self.args.device:
+            torch.cuda.empty_cache()
 
 
 def test_single_model(args):
@@ -247,40 +266,22 @@ def test_single_model(args):
     )
 
     runtime_seed = 1024
-    eager_failure = False
-    expected_out = None
-    eager_time_stats = {}
 
-    try:
-
-        def eager_model_call():
-            return model(**input_dict)
-
-        expected_out, eager_time_stats = measure_performance(
-            eager_model_call, args, compiler
-        )
-
-        torch.manual_seed(runtime_seed)
-        if not isinstance(expected_out, tuple):
-            expected_out = (expected_out,)
-    except (TypeError, RuntimeError) as e:
-        print(f"Eager model execution failed: {str(e)}", file=sys.stderr)
-        eager_failure = True
-
+    # --- Compiled ---
     compiled_failure = False
     compiled_model = None
     compiled_time_stats = {}
 
     try:
         compiled_model = compiler(model)
-        torch.manual_seed(runtime_seed)
 
         def compiled_model_call():
+            torch.manual_seed(runtime_seed)
             return compiled_model(**input_dict)
 
-        compiled_out, compiled_time_stats = measure_performance(
-            compiled_model_call, args, compiler
-        )
+        compiled_bench = PerformanceMeasurer(compiled_model_call, args, compiler)
+        compiled_bench.warmup()
+        compiled_out, compiled_time_stats = compiled_bench.exec()
 
         if not isinstance(compiled_out, tuple):
             compiled_out = (compiled_out,)
@@ -298,6 +299,29 @@ def test_single_model(args):
         traceback.print_exc()
         print(f"debug-model-execution {type(e).__name__} {args.model_path}", flush=True)
 
+    # --- Eager ---
+    eager_failure = False
+    expected_out = None
+    eager_time_stats = {}
+
+    try:
+
+        def eager_model_call():
+            torch.manual_seed(runtime_seed)
+            return model(**input_dict)
+
+        eager_bench = PerformanceMeasurer(eager_model_call, args, compiler)
+        eager_bench.warmup()
+        expected_out, eager_time_stats = eager_bench.exec()
+        eager_bench.cleanup()
+
+        if not isinstance(expected_out, tuple):
+            expected_out = (expected_out,)
+    except (TypeError, RuntimeError) as e:
+        print(f"Eager model execution failed: {str(e)}", file=sys.stderr)
+        eager_failure = True
+
+    # --- Results ---
     if eager_failure:
         print(f"{args.log_prompt} [Result] status: failed", file=sys.stderr, flush=True)
         print(

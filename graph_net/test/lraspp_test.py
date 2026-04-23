@@ -16,9 +16,7 @@ def extract_lraspp_graph(model_name: str, workspace: str) -> None:
     print(f"Testing model: {model_name} on {device}")
 
     # 1. Instantiate model with default pretrained weights.
-    model = torchvision.models.segmentation.lraspp_mobilenet_v3_large(
-        weights="DEFAULT"
-    )
+    model = torchvision.models.segmentation.lraspp_mobilenet_v3_large(weights="DEFAULT")
     model = model.to(device).eval()
 
     # 2. Build dummy input. lraspp_mobilenet_v3_large accepts a single (B,C,H,W)

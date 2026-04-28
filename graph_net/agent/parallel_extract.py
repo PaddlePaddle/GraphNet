@@ -161,9 +161,84 @@ def _worker(
     print(f"[GPU {gpu_id}] Worker finished (queue empty)", flush=True)
 
 
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
+def _cpu_worker(
+    worker_id: int,
+    task_queue: multiprocessing.Queue,
+    result_queue: multiprocessing.Queue,
+    workspace: str,
+    hf_token: Optional[str],
+    total: int,
+    llm_retry: bool = False,
+) -> None:
+    """
+    CPU-only worker，专门处理 oom_risk=high 的模型（不绑定 GPU）。
+    通过隐藏所有 GPU 让模型自动跑在 CPU 上。
+    """
+    os.environ["CUDA_VISIBLE_DEVICES"] = ""  # 对子进程隐藏所有 GPU
+    os.environ["GRAPH_NET_EXTRACT_WORKSPACE"] = workspace
+
+    print(f"[CPU {worker_id}] Worker started", flush=True)
+
+    try:
+        agent = GraphNetAgent(workspace=workspace, hf_token=hf_token, llm_retry=llm_retry)
+    except Exception as e:
+        print(f"[CPU {worker_id}] Failed to initialize agent: {e}", flush=True)
+        while True:
+            try:
+                mid = task_queue.get_nowait()
+                result_queue.put(
+                    {
+                        "gpu": f"cpu-{worker_id}",
+                        "model_id": mid,
+                        "success": False,
+                        "error": str(e),
+                        "elapsed": 0.0,
+                    }
+                )
+            except queue.Empty:
+                break
+        return
+
+    while True:
+        try:
+            model_id = task_queue.get_nowait()
+        except queue.Empty:
+            break
+
+        print(f"[CPU {worker_id}] Extracting: {model_id}", flush=True)
+        t0 = time.time()
+        try:
+            success = agent.extract_sample(model_id)
+            elapsed = time.time() - t0
+            status = "OK" if success else "FAIL"
+            print(f"[CPU {worker_id}] {status} {model_id} ({elapsed:.1f}s)", flush=True)
+            result_queue.put(
+                {
+                    "gpu": f"cpu-{worker_id}",
+                    "model_id": model_id,
+                    "success": success,
+                    "elapsed": round(elapsed, 2),
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
+        except Exception as e:
+            elapsed = time.time() - t0
+            print(f"[CPU {worker_id}] ERROR {model_id}: {e} ({elapsed:.1f}s)", flush=True)
+            result_queue.put(
+                {
+                    "gpu": f"cpu-{worker_id}",
+                    "model_id": model_id,
+                    "success": False,
+                    "error": str(e),
+                    "elapsed": round(elapsed, 2),
+                    "timestamp": datetime.now().isoformat(),
+                }
+            )
+
+    print(f"[CPU {worker_id}] Worker finished (queue empty)", flush=True)
+
+
+
 
 
 def _save_results(results: Dict, output_file: str) -> None:
@@ -196,11 +271,12 @@ def _print_summary(results: Dict) -> None:
         gpu_stats[g]["total"] += 1
         if d.get("success"):
             gpu_stats[g]["success"] += 1
-    print("\n  Per-GPU:")
-    for g in sorted(gpu_stats):
+    print("\n  Per-Worker:")
+    for g in sorted(gpu_stats, key=lambda x: (str(x))):
         gs = gpu_stats[g]
         gr = (gs["success"] / gs["total"] * 100) if gs["total"] else 0.0
-        print(f"    GPU {g}: {gs['success']}/{gs['total']} ({gr:.1f}%)")
+        label = f"CPU {g.split('-')[1]}" if isinstance(g, str) and g.startswith("cpu-") else f"GPU {g}"
+        print(f"    {label}: {gs['success']}/{gs['total']} ({gr:.1f}%)")
     print("=" * 60)
 
 
@@ -261,6 +337,13 @@ def main() -> int:
         default=False,
         help="失败时调用 LLM（ducc -p）兜底修复，默认关闭（并行场景下会增加耗时）",
     )
+    parser.add_argument(
+        "--cpu-workers",
+        type=int,
+        default=None,
+        help="CPU-only worker 数量，用于处理 oom_risk=high 的模型"
+             "（默认自动设为 CPU 核数的一半，最多 16）",
+    )
 
     args = parser.parse_args()
 
@@ -299,18 +382,63 @@ def main() -> int:
 
     print(f"[INFO] Total models: {len(model_ids)}, workers: {len(gpus)}")
 
-    # --- 将所有模型填入共享任务队列 ---
-    task_queue: multiprocessing.Queue = multiprocessing.Queue()
-    for mid in model_ids:
-        task_queue.put(mid)
+    # --- 预分析 OOM 风险，GPU 模型优先入队，CPU 模型后入队 ---
+    import json as _json
+    from pathlib import Path as _Path
+    from graph_net.agent.metadata_analyzer.config_metadata_analyzer import (
+        ConfigMetadataAnalyzer,
+    )
 
-    # --- Launch workers ---
+    _analyzer = ConfigMetadataAnalyzer()
+    _models_cache = _Path(workspace) / "models"
+
+    def _get_oom_risk(model_id: str) -> str:
+        safe_id = model_id.replace("/", "--")
+        # HF snapshot cache 目录格式：models--org--model/snapshots/hash
+        for snap in _models_cache.glob(f"models--{safe_id}/snapshots/*/config.json"):
+            try:
+                cfg = _json.loads(snap.read_text())
+                return _analyzer._estimate_oom_risk(cfg)
+            except Exception:
+                pass
+        return "low"  # 未下载过的模型默认 low，下载后由模板决定
+
+    gpu_models, cpu_models = [], []
+    for mid in model_ids:
+        if _get_oom_risk(mid) == "high":
+            cpu_models.append(mid)
+        else:
+            gpu_models.append(mid)
+
+    print(
+        f"[INFO] Queue split: {len(gpu_models)} GPU models + "
+        f"{len(cpu_models)} CPU models (oom_risk=high)"
+    )
+
+    # --- 将 GPU 模型先入队，CPU 模型后入队 ---
+    gpu_task_queue: multiprocessing.Queue = multiprocessing.Queue()
+    for mid in gpu_models:
+        gpu_task_queue.put(mid)
+
+    cpu_task_queue: multiprocessing.Queue = multiprocessing.Queue()
+    for mid in cpu_models:
+        cpu_task_queue.put(mid)
+
+    # --- Launch GPU workers ---
     result_queue: multiprocessing.Queue = multiprocessing.Queue()
     processes = []
 
+    n_cpu_workers = min(
+        args.cpu_workers if args.cpu_workers is not None
+        else max(1, (os.cpu_count() or 4) // 2),  # 默认：核数/2，至少1
+        16,                                         # 上限16，避免过度竞争内存
+        max(1, len(cpu_models)),                    # 不超过实际 CPU 任务数
+    )
+    total_workers = len(gpus) + (n_cpu_workers if cpu_models else 0)
     start_time = datetime.now()
     print(
-        f"\n[START] {start_time.strftime('%Y-%m-%d %H:%M:%S')} — launching {len(gpus)} workers\n"
+        f"\n[START] {start_time.strftime('%Y-%m-%d %H:%M:%S')} — "
+        f"launching {len(gpus)} GPU workers + {n_cpu_workers if cpu_models else 0} CPU workers\n"
     )
 
     for gpu_id in gpus:
@@ -318,7 +446,7 @@ def main() -> int:
             target=_worker,
             args=(
                 gpu_id,
-                task_queue,
+                gpu_task_queue,
                 result_queue,
                 workspace,
                 args.hf_token,
@@ -330,6 +458,26 @@ def main() -> int:
         )
         p.start()
         processes.append(p)
+
+    # --- Launch CPU workers ---
+    if cpu_models:
+        for i in range(n_cpu_workers):
+            p = multiprocessing.Process(
+                target=_cpu_worker,
+                args=(
+                    i,
+                    cpu_task_queue,
+                    result_queue,
+                    workspace,
+                    args.hf_token,
+                    len(model_ids),
+                    args.llm_retry,
+                ),
+                name=f"worker-cpu{i}",
+                daemon=True,
+            )
+            p.start()
+            processes.append(p)
 
     # --- Collect results ---
     details = []

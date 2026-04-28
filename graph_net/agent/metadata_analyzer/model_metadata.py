@@ -16,6 +16,7 @@ class ModelMetadata:
     embedding_size: Optional[
         int
     ] = None  # Actual embedding layer size (from model weights)
+    oom_risk: str = "low"  # Estimated OOM risk: "low" / "medium" / "high"
 
     def __post_init__(self):
         """Validate metadata"""

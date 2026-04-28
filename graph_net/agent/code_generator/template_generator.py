@@ -74,6 +74,12 @@ class TemplateCodeGenerator(BaseCodeGenerator):
 
         short_name = self._model_short_name(model_metadata.model_id)
 
+        # High OOM risk: force CPU to avoid CUDA out-of-memory
+        if model_metadata.oom_risk == "high":
+            device_code = 'device = torch.device("cpu")'
+        else:
+            device_code = 'device = torch.device("cuda" if torch.cuda.is_available() else "cpu")'
+
         # Generate main code
         code = f"""import torch
 try:
@@ -91,7 +97,7 @@ def main():
 {self._indent(input_code, 4)}
 
     # Extract graph
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    {device_code}
     model = model.to(device).eval()
 
     # Move inputs to same device as model

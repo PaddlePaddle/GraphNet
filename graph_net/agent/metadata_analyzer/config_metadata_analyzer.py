@@ -65,6 +65,7 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
                 model_type=model_type,
                 vocab_size=vocab_size,
                 embedding_size=embedding_size,
+                oom_risk=self._estimate_oom_risk(config),
             )
         except json.JSONDecodeError as e:
             raise AnalysisError(f"Failed to parse config.json: {e}") from e
@@ -138,6 +139,48 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
             input_dtypes["input_ids"] = "int64"
 
         return input_shapes, input_dtypes
+
+    @staticmethod
+    def _estimate_oom_risk(config: Dict) -> str:
+        """Estimate GPU OOM risk from config fields.
+
+        Returns 'low', 'medium', or 'high'.
+        'high' means the model should fall back to CPU to avoid OOM.
+        """
+        vocab_size = config.get("vocab_size", 0) or 0
+        hidden_size = config.get("hidden_size", 768) or 768
+        num_layers = config.get("num_hidden_layers", 12) or 12
+        num_experts = (
+            config.get("num_experts")
+            or config.get("num_local_experts")
+            or 1
+        )
+        # Raw context window: models may allocate internal attention buffers
+        # based on max_position_embeddings regardless of actual input length
+        raw_ctx_len = config.get("max_position_embeddings", 512) or 512
+        seq_len = min(raw_ctx_len, 2048)
+
+        # Models with very large context may allocate causal mask buffers of
+        # size max_position_embeddings × max_position_embeddings internally
+        if raw_ctx_len > 65536:
+            return "high"
+        if raw_ctx_len > 16384:
+            return "medium"
+
+        # lm_head output tensor (MB): batch=1 × seq_len × vocab_size × fp32
+        lm_head_mb = seq_len * vocab_size * 4 / 1024**2
+        # Activations estimate (MB): layers × seq_len × hidden_size × fp32
+        activation_mb = num_layers * seq_len * hidden_size * 4 / 1024**2
+        # MoE amplification (cap at 8 concurrent experts)
+        moe_factor = min(int(num_experts), 8) if int(num_experts) > 1 else 1
+
+        total_est_mb = (lm_head_mb + activation_mb) * moe_factor
+
+        if total_est_mb > 8000:
+            return "high"
+        if total_est_mb > 3000:
+            return "medium"
+        return "low"
 
     def _get_model_id(self, model_dir: Path, config: Dict) -> str:
         """Get model ID from directory or config"""

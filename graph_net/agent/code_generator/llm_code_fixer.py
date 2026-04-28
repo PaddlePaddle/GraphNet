@@ -15,6 +15,7 @@ from graph_net.agent.utils.exceptions import CodeGenError
 _DUCC_CANDIDATES = [
     "ducc",
     "claude",
+    os.path.expanduser("~/.comate/baidu-cc/bin/ducc"),
     "/root/.comate/baidu-cc/bin/ducc",
     "/usr/local/bin/ducc",
     os.path.expanduser("~/.local/bin/ducc"),
@@ -129,7 +130,7 @@ class LLMCodeFixer:
             self.logger.warning(
                 "LLMCodeFixer: ducc/claude binary not found; "
                 "LLM retry will be skipped. "
-                "Add ducc to PATH or set /root/.comate/baidu-cc/bin in PATH."
+                "Add ducc to PATH or set ~/.comate/baidu-cc/bin in PATH."
             )
 
     @property
@@ -241,7 +242,9 @@ class LLMCodeFixer:
 
         # Inherit current env so ANTHROPIC_* vars are passed through
         env = os.environ.copy()
-        path_prefix = "/root/.comate/baidu-cc/bin"
+        path_prefix = os.path.dirname(self._ducc_bin) if os.path.isabs(
+            self._ducc_bin
+        ) else os.path.expanduser("~/.comate/baidu-cc/bin")
         env["PATH"] = f"{path_prefix}:{env.get('PATH', '')}"
 
         try:

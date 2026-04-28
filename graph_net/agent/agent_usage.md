@@ -14,7 +14,7 @@ export http_proxy=http://agent.baidu.com:8891
 export https_proxy=http://agent.baidu.com:8891
 
 # LLM 兜底功能需要 ducc CLI（可选）
-export PATH="/root/.comate/baidu-cc/bin:$PATH"
+export PATH="$HOME/.comate/baidu-cc/bin:$PATH"
 ```
 
 ---
@@ -29,8 +29,8 @@ ok = agent.extract_sample("prajjwal1/bert-tiny")
 print("成功" if ok else "失败")
 ```
 
-默认 workspace 为 `/work/graphnet_workspace`，输出目录按 `组织_模型名` 命名，例如：
-`/work/graphnet_workspace/prajjwal1_bert-tiny/`
+默认 workspace 为 `/home/luotao02/workspace`，输出目录按 `组织_模型名` 命名，例如：
+`/home/luotao02/workspace/prajjwal1_bert-tiny/`
 
 ---
 
@@ -38,7 +38,7 @@ print("成功" if ok else "失败")
 
 ```python
 GraphNetAgent(
-    workspace  = "/work/graphnet_workspace",  # 工作目录根路径
+    workspace  = "/home/luotao02/workspace",  # 工作目录根路径
     hf_token   = None,                        # HuggingFace Token（私有模型需要）
     llm_retry  = True,                        # 失败时调用 LLM 兜底修复
 )
@@ -46,7 +46,7 @@ GraphNetAgent(
 
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
-| `workspace` | `/work/graphnet_workspace` | 工作目录，自动创建子目录结构 |
+| `workspace` | `/home/luotao02/workspace` | 工作目录，自动创建子目录结构 |
 | `hf_token` | `None` | HF access token，公开模型无需填写 |
 | `llm_retry` | `True` | 模板脚本失败后，调用 `ducc -p` 让 LLM 修复并重试一次 |
 
@@ -81,7 +81,7 @@ for mid, ok in results.items():
 ## 工作目录结构
 
 ```
-/work/graphnet_workspace/
+/home/luotao02/workspace/
 ├── models/                         # HuggingFace 下载缓存（仅 config，不含权重）
 │   └── models--org--model-name/
 ├── generated/                      # 自动生成的抽取脚本
@@ -143,7 +143,7 @@ HuggingFace model_id
 当模板脚本执行失败时，若满足以下条件则触发 LLM 兜底：
 
 - `llm_retry=True`（默认开启）
-- `ducc` 命令可用（在 PATH 或 `/root/.comate/baidu-cc/bin/ducc`）
+- `ducc` 命令可用（在 PATH 或 `~/.comate/baidu-cc/bin/ducc`）
 
 LLM 收到的信息包括：失败脚本原文、报错信息、`config.json` 内容。
 LLM 必须遵守以下约束（写在 system prompt 里）：

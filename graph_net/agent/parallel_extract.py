@@ -11,7 +11,7 @@
 
     # 指定 workspace 和 HF token
     python parallel_extract.py --model-list models.txt \
-        --workspace /work/graphnet_workspace \
+        --workspace /home/luotao02/workspace \
         --hf-token YOUR_TOKEN
 
     # 指定使用的 GPU（默认 2,3,4,5）
@@ -43,7 +43,7 @@ from graph_net.agent.tests.test_batch_success_rate import (  # noqa: E402
 )
 
 DEFAULT_GPUS = [2, 3, 4, 5]
-DEFAULT_WORKSPACE = "/work/graphnet_workspace"
+DEFAULT_WORKSPACE = "/home/luotao02/workspace"
 
 
 # ---------------------------------------------------------------------------
@@ -77,6 +77,7 @@ def _worker(
     workspace: str,
     hf_token: Optional[str],
     total: int,
+    llm_retry: bool = False,
 ) -> None:
     """
     Worker 函数，在独立子进程中运行，绑定到指定 GPU。
@@ -101,7 +102,7 @@ def _worker(
     print(f"[GPU {gpu_id}] Worker started", flush=True)
 
     try:
-        agent = GraphNetAgent(workspace=workspace, hf_token=hf_token, llm_retry=False)
+        agent = GraphNetAgent(workspace=workspace, hf_token=hf_token, llm_retry=llm_retry)
     except Exception as e:
         print(f"[GPU {gpu_id}] Failed to initialize agent: {e}", flush=True)
         # 把队列里剩余任务都标记为失败并排空，避免主进程死等
@@ -254,6 +255,12 @@ def main() -> int:
         default=None,
         help="结果 JSON 文件路径（默认自动生成带时间戳的文件名）",
     )
+    parser.add_argument(
+        "--llm-retry",
+        action="store_true",
+        default=False,
+        help="失败时调用 LLM（ducc -p）兜底修复，默认关闭（并行场景下会增加耗时）",
+    )
 
     args = parser.parse_args()
 
@@ -316,6 +323,7 @@ def main() -> int:
                 workspace,
                 args.hf_token,
                 len(model_ids),
+                args.llm_retry,
             ),
             name=f"worker-gpu{gpu_id}",
             daemon=True,

@@ -27,7 +27,7 @@ class GraphNetAgent:
 
     def __init__(
         self,
-        workspace: str = "/work/graphnet_workspace",
+        workspace: str = "/home/luotao02/workspace",
         hf_token: Optional[str] = None,
         llm_retry: bool = True,
     ):

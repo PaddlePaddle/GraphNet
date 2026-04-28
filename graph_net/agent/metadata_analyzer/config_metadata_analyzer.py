@@ -104,9 +104,10 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
         input_dtypes = {}
 
         # Common patterns for NLP models
+        MAX_SEQ_LEN = 2048  # Cap sequence length to avoid OOM on large-context models
         if "max_position_embeddings" in config or "vocab_size" in config:
             # NLP model (BERT, GPT, etc.)
-            max_length = config.get("max_position_embeddings", 512)
+            max_length = min(config.get("max_position_embeddings", 512), MAX_SEQ_LEN)
             batch_size = 1
             input_shapes["input_ids"] = [batch_size, max_length]
             input_dtypes["input_ids"] = "int64"

@@ -120,7 +120,7 @@ if __name__ == "__main__":
         return (
             f"from transformers import AutoConfig\n"
             f'_config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
-            f"model = AutoModel.from_config(_config)"
+            f"model = AutoModel.from_config(_config, trust_remote_code=True)"
         )
 
     def _generate_input_code(self, model_metadata: ModelMetadata) -> str:

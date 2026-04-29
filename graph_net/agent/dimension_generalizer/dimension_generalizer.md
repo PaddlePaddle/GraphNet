@@ -64,6 +64,49 @@ python -m graph_net.agent.dimension_generalizer.dim_probe \
 - `probe_result.json` — 每个符号的成功值和失败值列表
 - `done.txt` — 状态标记（status=ok / status=timeout / status=error）
 
+### 4.1.5 Step 1.5: Batch-Only 探测（batch 硬编码挽救）
+
+**背景**：PyTorch FX trace 会将 trace 时的 `batch_size=1` 硬编码到 `model.py` 的所有 `reshape`/`view`/`expand`/`repeat` 调用中（如 `reshape(1, 197, 768)`）。这导致 Step 1 中 50%+ 模型被误判为"全静态"——实际上这些模型的 batch 维度（axis=0）是可变的，只是被 FX trace 的硬编码锁死了。
+
+**适用场景**：Step 1 探测结果显示大量模型"全静态"（所有维度不可变），需要挽回其中 batch 维度实际可变的模型。
+
+**流程**：
+
+**Step 1.5a: Batch 硬编码预处理**
+
+```bash
+python -m graph_net.agent.dimension_generalizer.batch_hardcode_preprocess \
+    --base-dir <base_dir> \
+    --model-list <model_list> \
+    --output-dir <preprocess_output_dir>
+```
+
+对每个模型的 `model.py`，将 `reshape`/`view`/`expand`/`repeat` 调用中**第一个参数**（batch 维度）的硬编码 `1` 替换为 `tensor.size(0)` 的动态取值。
+
+**注意**：只替换 reshape/view/expand/repeat 的**第一个参数**，避免误伤 `groups=1` 等非 batch 参数。支持三种参数形式：
+- 直接参数：`.reshape(1, 197, 768)`
+- 元组参数：`.reshape((1, 197, 768))`
+- 列表参数：`.reshape([1, 197, 768])`
+
+**Step 1.5b: Batch-Only 维度探测**
+
+```bash
+python -m graph_net.agent.dimension_generalizer.dim_probe_batch_only \
+    --base-dir <preprocess_output_dir> \
+    --model-list <model_list> \
+    --output-dir <probe_batch_output_dir> \
+    --verbose --resume
+```
+
+仅探测 axis=0（batch 维度），用 9 个探测值（2, 3, 4, 8, 16, 32, 64, 128, 256）测试。batch 探测呈"全通或全不通"模式——9 个探测值要么全部成功，要么全部失败。
+
+**输出**：与 Step 1 相同格式的探测结果（`input_tensor_constraints.py`、`probe_result.json`、`done.txt`）。
+
+**预期效果**：
+- 原"全静态"模型中 **~85.5%** 可挽回 batch 维度
+- LLM 类模型（7B/14B/70B）平均有 200-300 处 batch 硬编码
+- ViT 系列约 50-100 处，CNN 系列约 10-50 处
+
 ### 4.2 Step 2: 生成变体（run_trialrun_pipeline，跳过验证）
 
 ```bash
@@ -93,6 +136,8 @@ variants_output_dir/
 ```
 
 ### 4.3 可选 Step 2.5: 补充优化（dim_probe_retry）
+
+> **注意**：`dim_probe_retry.py` 已被移除（功能不稳定）。如需补充探测，建议直接使用 `dim_probe.py` 或 `dim_probe_batch_only.py` 配合不同参数重跑。以下为历史参考。
 
 对探测结果不理想的模型进行补充：
 
@@ -669,11 +714,25 @@ RuntimeError: The size of tensor a (65) must match the size of tensor b (197)
 
 **处理**：不泛化，原样保留。这是正常情况（约 50% 的模型是全静态的）。
 
+### 5.9 FX Trace batch=1 硬编码导致假"全静态"
+
+**现象**：Step 1 全维度探测中 50%+ 的模型被判定为"全静态"（所有维度不可变），但实际上 batch 维度（axis=0）是可变的。
+
+**根因**：PyTorch FX trace 将 trace 时 `batch_size=1` 硬编码到 `model.py` 的所有 `reshape`/`view`/`expand`/`repeat` 调用中。例如 `reshape(1, 197, 768)` 中的第一个 `1` 是 batch 维度的硬编码值，当 dim_probe 尝试改变 axis=0 的值时（如 batch=2），因为 model.py 中仍是 `reshape(1, ...)` 而导致形状不匹配。
+
+**影响范围**：
+- LLM 类模型（7B/14B/70B）平均有 200-300 处 batch 硬编码
+- ViT 系列约 50-100 处
+- CNN 系列约 10-50 处
+
+**解决**：使用 Step 1.5（`batch_hardcode_preprocess.py` + `dim_probe_batch_only.py`）进行 batch 维度挽救。经挽救后，原"全静态"模型中 **~85.5%** 可恢复 batch 维度泛化能力。
+
 ## 6. 模型分类与处理策略
 
 | 模型类型 | 识别方式 | 处理策略 |
 |---------|---------|---------|
 | 全静态 | dim_probe 所有维度都改不了 | 不泛化，原样保留 |
+| batch 硬编码假全静态 | Step 1 全静态，但 FX trace 有 batch=1 硬编码 | Step 1.5 batch 预处理 + batch-only 探测挽救（~85.5% 可挽回） |
 | 标准动态（batch+seq） | 两个 Symbol，成功值多 | 生成 10 个经典组合变体（常见 batch×seq_len 配置） |
 | 单维度动态 | 只有一个 Symbol | 从成功值中选取最多 10 个 |
 | 架构参数假阳性 | 只有值=1 成功，原始值很大 | 跳过（0 变体） |
@@ -699,18 +758,47 @@ RuntimeError: The size of tensor a (65) must match the size of tensor b (197)
 
 ## 8. 预期结果
 
-基于 12,538 模型的经验数据（含补充验证轮次）：
+基于 18,630 模型的实际数据（Batch-Only 探测 + 默认 probe 静态约束 + Pipeline 变体生成两轮）：
 
-| 指标 | 预期值 |
+| 指标 | 实际值 |
 |------|--------|
-| probe 成功率 | ~79% |
-| 有动态维度的比例 | ~29%（模型数）/ ~46%（进入 pipeline 的） |
-| 变体生成成功率 | ~86%（进入 pipeline 的模型中） |
-| 平均变体数 | ~7.7 个/模型 |
-| 验证通过变体总数 | ~38,030 |
-| 总转化率 | ~403%（原始 + 变体） |
+| 原始子图数 | 18,630（758 timm + 17,872 transformers） |
+| 维度探测（真实 + 默认） | 18,776（757 timm + 18,019 transformers） |
+| 有动态维度约束 | 18,547（757 timm + 17,790 transformers） |
+| Pipeline 成功生成变体 | 17,270（563 timm + 16,707 transformers） |
+| 变体目录总数 | 166,693 |
+| 实际变体 model.py 文件数 | 165,513（99.3%） |
+| Pipeline 总耗时 | ~30 分钟（两轮 pipeline + subgraph 修补） |
+| 总转化率 | **~988%**（原始 18,630 + 变体 165,513 = 184,143） |
 
 ### 转化率链路
+
+```
+原始子图: 18,630（758 timm + 17,872 transformers）
+  │
+  ├─ Step 1: 维度探测
+  │    │
+  │    ├─ 真实 batch-only 探测: ~10,250 个模型
+  │    │    ├─ batch 可泛化: 7,656（85.5%）
+  │    │    └─ 真全静态: 1,301（14.5%）
+  │    │
+  │    └─ 默认 probe + 静态约束: 10,425 个模型
+  │         └─ 从 weight_meta.py 解析 shape，生成 input_tensor_constraints.py
+  │
+  ├─ Step 2: Pipeline 生成变体（两轮）
+  │    │
+  │    ├─ 第一轮（全量 18,630）: 7,695 ok → 71,027 变体
+  │    ├─ 修复 constraints 后第二轮（补跑 10,681）: 9,575 ok → 95,726 变体
+  │    └─ 合计: 17,270 个模型 → 166,693 变体目录
+  │
+  └─ Step 3: Subgraph 路径修补
+       └─ 修补 82,297 个缺失 model.py → 最终 165,513 个 model.py
+
+总产出：18,630 + 165,513 = 184,143（~988% 转化率）
+缺失 model.py：1,180（源模型不存在，占 0.7%）
+```
+
+### 历史数据参考（全维度探测，12,538 模型）
 
 ```
 12,538 个原始模型

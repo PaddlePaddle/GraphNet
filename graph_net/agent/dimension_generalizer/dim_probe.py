@@ -30,6 +30,11 @@ _GRAPHNET_ROOT = str(Path(__file__).resolve().parent.parent.parent.parent)
 if _GRAPHNET_ROOT not in sys.path:
     sys.path.insert(0, _GRAPHNET_ROOT)
 
+# 导入 batch 硬编码预处理工具
+from graph_net.agent.dimension_generalizer.batch_hardcode_preprocess import (  # noqa: E402
+    preprocess_model_py_for_batch,
+)
+
 
 # ============================================================
 # 1. 解析 weight_meta.py 得到每个参数的元信息
@@ -257,6 +262,9 @@ def try_forward(
             with FakeTensorMode(allow_non_fake_inputs=True):
                 args = []
                 for pname in param_order:
+                    if pname not in metas_dict:
+                        # 参数不在 metas_dict 中，说明有默认值，跳过（不传）
+                        continue
                     if pname in symint_params:
                         if pname in symint_overrides:
                             args.append(symint_overrides[pname])
@@ -286,6 +294,9 @@ def try_forward(
     else:
         args = []
         for pname in param_order:
+            if pname not in metas_dict:
+                # 参数不在 metas_dict 中，说明有默认值，跳过（不传）
+                continue
             if pname in symint_params:
                 if pname in symint_overrides:
                     args.append(symint_overrides[pname])
@@ -411,6 +422,28 @@ def probe_single_model(model_dir: str, verbose: bool = True) -> Dict:
     if not os.path.exists(model_py) or not os.path.exists(weight_meta_py):
         print(f"  [SKIP] {model_dir}: missing model.py or weight_meta.py")
         return {"model_dir": model_dir, "params": {}, "error": "missing files"}
+
+    # 预处理：替换 batch 硬编码，以便 dim_probe 能正确探测 batch 维度
+    # 将 model.py 拷贝到临时文件进行预处理
+    import tempfile
+
+    temp_model_py = None
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as tmp:
+            temp_model_py = tmp.name
+
+        _, replacements = preprocess_model_py_for_batch(
+            model_py, temp_model_py, verbose=verbose
+        )
+
+        # 如果有替换，使用预处理后的文件
+        if replacements:
+            model_py = temp_model_py
+
+    finally:
+        # 注意：不要立即删除 temp_model_py，因为模型加载需要它
+        # 会在函数结束时被 GC 清理
+        pass
 
     # 加载元信息
     metas = load_weight_metas(weight_meta_py)

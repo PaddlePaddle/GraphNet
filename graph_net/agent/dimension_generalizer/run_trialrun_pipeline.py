@@ -180,6 +180,7 @@ def _rewrite_model_py(model_py_code, orig_values, new_values):
     - torch.arange(N, ...) / torch.zeros(N, ...) / torch.ones(N, ...)
     - .expand(..., N, ...) / .reshape(..., N, ...) / .view(..., N, ...)
     - 函数调用中的独立数字参数
+    - 特殊处理：batch 维度（S0）即使原值为 1 也要替换 reshape/view/expand 的第一个参数
 
     Args:
         model_py_code: model.py 源码
@@ -191,11 +192,15 @@ def _rewrite_model_py(model_py_code, orig_values, new_values):
     import re
 
     # 只替换 orig > 1 的值（值为 1 的太常见，替换容易误伤）
+    # 但 S0 (batch 维度) 即使是 1 也要替换
     replacements = {}
+    batch_original = orig_values.get("S0")
+    batch_new = new_values.get("S0")
+
     for sym in orig_values:
         orig = orig_values[sym]
         new = new_values[sym]
-        if orig != new and orig > 1:
+        if orig != new and (orig > 1 or sym == "S0"):
             replacements[orig] = new
 
     if not replacements:
@@ -205,26 +210,37 @@ def _rewrite_model_py(model_py_code, orig_values, new_values):
     for orig_val, new_val in replacements.items():
         orig_s = str(orig_val)
         new_s = str(new_val)
+
         # 模式1: torch.arange(N  /  torch.zeros(N  /  torch.ones(N  /  torch.full(N
         code = re.sub(
             r"(torch\.(?:arange|zeros|ones|full|empty)\()" + orig_s + r"(\b)",
             r"\g<1>" + new_s + r"\2",
             code,
         )
-        # 模式2: .expand(... N ...) / .reshape(... N ...) / .view(... N ...)
-        # 替换括号内独立出现的数字（前后是逗号、括号、空格）
-        code = re.sub(
-            r"(\.(expand|reshape|view|repeat|narrow)\([^)]*?)(?<=[,(  ])"
-            + orig_s
-            + r"(?=[,) ])",
-            r"\g<1>" + new_s,
-            code,
-        )
-        # 模式3: 独立数字参数 — 如 slice(None, N, None)、new_ones(N, ...)
-        # 更保守：只替换 (N, 和 , N, 和 , N) 模式中的
-        code = re.sub(r"\(" + orig_s + r",", "(" + new_s + ",", code)
-        code = re.sub(r", " + orig_s + r"\)", ", " + new_s + ")", code)
-        code = re.sub(r", " + orig_s + r",", ", " + new_s + ",", code)
+
+        # 特殊处理：batch 维度（S0）替换 reshape/view/expand 的第一个参数
+        if orig_val == batch_original and new_val == batch_new:
+            # 替换 .reshape(1, ...) / .view(1, ...) / .expand(1, ...) 中的第一个 1
+            # 只替换 reshape/view/expand 后面跟着的 1，而且是第一个参数
+            pattern = (
+                r"(\.(?:reshape|view|expand|repeat)\s*\(\s*)" + orig_s + r"(?=[,\)])"
+            )
+            code = re.sub(pattern, r"\g<1>" + new_s, code)
+
+        # 对于非 batch 维度（orig > 1），使用原来的模式替换
+        if orig_val > 1:
+            # 模式2: .expand(... N ...) / .reshape(... N ...) / .view(... N ...)
+            code = re.sub(
+                r"(\.(expand|reshape|view|repeat|narrow)\([^)]*?)(?<=[,(  ])"
+                + orig_s
+                + r"(?=[,) ])",
+                r"\g<1>" + new_s,
+                code,
+            )
+            # 模式3: 独立数字参数 — 如 slice(None, N, None)、new_ones(N, ...)
+            code = re.sub(r"\(" + orig_s + r",", "(" + new_s + ",", code)
+            code = re.sub(r", " + orig_s + r"\)", ", " + new_s + ")", code)
+            code = re.sub(r", " + orig_s + r",", ", " + new_s + ",", code)
 
     return code
 

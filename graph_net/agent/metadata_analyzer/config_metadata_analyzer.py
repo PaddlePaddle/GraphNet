@@ -104,6 +104,16 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
 
         return None
 
+    # Audio models that take raw waveform (input_values)
+    _AUDIO_WAVEFORM_TYPES = frozenset({
+        "wav2vec2", "hubert", "unispeech", "unispeech-sat", "wavlm",
+        "data2vec-audio", "sew", "sew-d",
+    })
+    # Audio models that take mel-spectrogram features (input_features)
+    _AUDIO_FEATURE_TYPES = frozenset({
+        "whisper", "clap", "audio-spectrogram-transformer", "musicgen",
+    })
+
     def _extract_input_info(
         self, config: Dict
     ) -> tuple[Dict[str, List[int]], Dict[str, str]]:
@@ -116,19 +126,32 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
         input_shapes = {}
         input_dtypes = {}
 
+        model_type = (config.get("model_type") or "").lower()
+
+        # --- Audio models: must be checked BEFORE NLP branch ---
+        # Whisper / mel-spectrogram models: input_features = [1, num_mel_bins, 3000]
+        if model_type in self._AUDIO_FEATURE_TYPES or "num_mel_bins" in config:
+            num_mel_bins = config.get("num_mel_bins", 80)
+            input_shapes["input_features"] = [1, num_mel_bins, 3000]
+            input_dtypes["input_features"] = "float32"
+
+        # Raw-waveform audio models (wav2vec2, hubert …): input_values = [1, 16000]
+        elif model_type in self._AUDIO_WAVEFORM_TYPES:
+            input_shapes["input_values"] = [1, 16000]
+            input_dtypes["input_values"] = "float32"
+
         # Common patterns for NLP models
-        MAX_SEQ_LEN = 2048  # Cap sequence length to avoid OOM on large-context models
-        if "max_position_embeddings" in config or "vocab_size" in config:
+        elif "max_position_embeddings" in config or "vocab_size" in config:
             # NLP model (BERT, GPT, etc.)
+            MAX_SEQ_LEN = 2048  # Cap sequence length to avoid OOM on large-context models
             max_length = min(config.get("max_position_embeddings", 512), MAX_SEQ_LEN)
             batch_size = 1
             input_shapes["input_ids"] = [batch_size, max_length]
             input_dtypes["input_ids"] = "int64"
 
-            # Add attention_mask if present
-            if "attention_mask" not in input_shapes:
-                input_shapes["attention_mask"] = [batch_size, max_length]
-                input_dtypes["attention_mask"] = "int64"
+            # Add attention_mask
+            input_shapes["attention_mask"] = [batch_size, max_length]
+            input_dtypes["attention_mask"] = "int64"
 
         # Common patterns for vision models
         elif "image_size" in config or "num_channels" in config:
@@ -146,7 +169,6 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
 
         # Fallback: use default values
         if not input_shapes:
-            # Default to common NLP input
             input_shapes["input_ids"] = [1, 128]
             input_dtypes["input_ids"] = "int64"
 

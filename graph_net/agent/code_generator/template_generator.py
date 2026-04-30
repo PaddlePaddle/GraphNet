@@ -113,6 +113,21 @@ if __name__ == "__main__":
 """
         return code
 
+    # model_type → transformers class that supports from_config() for random-weight init.
+    # AutoModel routes some types (e.g. whisper) to *ForConditionalGeneration which lacks
+    # a public from_config(); use the base encoder/decoder model class instead.
+    _MODEL_TYPE_TO_CLASS: dict = {
+        "whisper": "WhisperModel",
+        "wav2vec2": "Wav2Vec2Model",
+        "hubert": "HubertModel",
+        "wavlm": "WavLMModel",
+        "unispeech": "UniSpeechModel",
+        "unispeech-sat": "UniSpeechSatModel",
+        "sew": "SEWModel",
+        "sew-d": "SEWDModel",
+        "data2vec-audio": "Data2VecAudioModel",
+    }
+
     def _generate_model_loader(
         self, model_dir: Path, model_metadata: ModelMetadata
     ) -> str:
@@ -121,6 +136,18 @@ if __name__ == "__main__":
 
         if model_metadata.model_type in ["resnet", "vgg", "densenet"]:
             return f"model = torchvision.models.{model_metadata.model_type}(pretrained=False)"
+
+        # Some architectures map AutoModel → *ForConditionalGeneration which lacks
+        # a public from_config(). Use the explicit base class for those types.
+        explicit_cls = self._MODEL_TYPE_TO_CLASS.get(
+            (model_metadata.model_type or "").lower()
+        )
+        if explicit_cls:
+            return (
+                f"from transformers import AutoConfig, {explicit_cls}\n"
+                f'_config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
+                f"model = {explicit_cls}(_config)"
+            )
 
         # For all other architectures: load config then randomly init weights
         return (

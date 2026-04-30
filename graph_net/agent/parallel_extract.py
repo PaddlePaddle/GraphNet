@@ -524,8 +524,11 @@ def main() -> int:
         results["success_rate"] = round(results["success"] / results["total"] * 100, 2)
 
     # --- Save results ---
+    from graph_net.agent.utils.workspace_manager import WorkspaceManager as _WorkspaceManager
+    _ws = _WorkspaceManager(workspace)
     output_file = (
-        args.output or f"parallel_extract_{start_time.strftime('%Y%m%d_%H%M%S')}.json"
+        args.output
+        or str(_ws.logs_and_lists_dir / f"parallel_extract_{start_time.strftime('%Y%m%d_%H%M%S')}.json")
     )
     _save_results(results, output_file)
 

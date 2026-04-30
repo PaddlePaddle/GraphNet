@@ -224,20 +224,30 @@ class GraphNetAgent:
                 self.logger.warning(f"Failed to fix model_name in {json_path}: {e}")
 
     def _generate_graph_hash(self, sample_dir: Path) -> None:
-        """Generate graph_hash.txt from model.py if it doesn't exist"""
+        """Generate graph_hash.txt from model.py if it doesn't exist.
+
+        - Single-graph: hash root model.py
+        - Multi-subgraph: hash concatenation of all subgraph_*/model.py (sorted)
+        """
         graph_hash_path = sample_dir / "graph_hash.txt"
-        model_py_path = sample_dir / "model.py"
 
         if graph_hash_path.exists():
             return
 
-        if not model_py_path.exists():
-            self.logger.warning(f"model.py not found at {model_py_path}")
-            return
-
         try:
-            model_code = model_py_path.read_text()
-            graph_hash = get_sha256_hash(model_code)
+            root_model = sample_dir / "model.py"
+            if root_model.exists():
+                # Single-graph model
+                content = root_model.read_text()
+            else:
+                # Multi-subgraph model
+                subgraph_models = sorted(sample_dir.glob("subgraph_*/model.py"))
+                if not subgraph_models:
+                    self.logger.warning(f"No model.py found in {sample_dir}")
+                    return
+                content = "".join(p.read_text() for p in subgraph_models)
+
+            graph_hash = get_sha256_hash(content)
             graph_hash_path.write_text(graph_hash)
             self.logger.info(f"Generated graph_hash.txt: {graph_hash[:16]}...")
         except (OSError, IOError) as e:

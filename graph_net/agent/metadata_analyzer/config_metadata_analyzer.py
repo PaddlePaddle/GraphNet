@@ -18,6 +18,15 @@ _EMBEDDING_WEIGHT_KEYS = [
 ]
 
 
+# model_type values that are known to be unsupported by the current graph extraction
+# pipeline (e.g. uses operators not yet handled by GraphNet or fails verification).
+# Models with these types are rejected early to avoid multi-minute timeouts.
+_UNSUPPORTED_MODEL_TYPES: frozenset[str] = frozenset({
+    # Gemma 4: sliding-window + global attention mix → verification fails
+    "gemma4", "gemma4_text", "gemma4_audio", "gemma4_vision",
+})
+
+
 class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
     """Analyzer that extracts metadata from config.json"""
 
@@ -48,6 +57,13 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
 
             # Extract model type
             model_type = self._infer_model_type(config)
+
+            # Reject known-unsupported architectures early
+            if (model_type or "").lower() in _UNSUPPORTED_MODEL_TYPES:
+                raise AnalysisError(
+                    f"Unsupported model_type '{model_type}': architecture not yet "
+                    f"supported by GraphNet extraction pipeline."
+                )
 
             # Reject models that are too large to load even with random weights
             param_b = self._estimate_param_count_billion(config)

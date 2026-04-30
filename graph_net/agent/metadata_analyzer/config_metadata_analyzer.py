@@ -21,18 +21,21 @@ _EMBEDDING_WEIGHT_KEYS = [
 class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
     """Analyzer that extracts metadata from config.json"""
 
-    def analyze(self, model_dir: Path) -> ModelMetadata:
+    def analyze(self, model_dir: Path, max_param_b: float = 20.0) -> ModelMetadata:
         """
         Analyze model by parsing config.json
 
         Args:
-            model_dir: Path to model directory
+            model_dir:   Path to model directory
+            max_param_b: Maximum allowed estimated parameter count in billions.
+                         Models exceeding this limit are rejected with AnalysisError.
+                         Default 20B; set based on (total_RAM × 0.7 / workers / 4).
 
         Returns:
             ModelMetadata object
 
         Raises:
-            AnalysisError: If analysis fails
+            AnalysisError: If analysis fails or model is too large
         """
         config_path = model_dir / "config.json"
 
@@ -45,6 +48,15 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
 
             # Extract model type
             model_type = self._infer_model_type(config)
+
+            # Reject models that are too large to load even with random weights
+            param_b = self._estimate_param_count_billion(config)
+            if param_b > max_param_b:
+                raise AnalysisError(
+                    f"Model too large to extract: estimated {param_b:.1f}B parameters "
+                    f"(limit {max_param_b:.1f}B). "
+                    f"Loading random fp32 weights would require ~{param_b * 4:.0f}GB RAM."
+                )
 
             # Extract input shapes and dtypes
             input_shapes, input_dtypes = self._extract_input_info(config)
@@ -141,12 +153,53 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
         return input_shapes, input_dtypes
 
     @staticmethod
+    def _estimate_param_count_billion(config: Dict) -> float:
+        """Rough estimate of model parameter count in billions.
+
+        Formula covers standard Transformer decoder/encoder:
+          - Per layer: attention (4 × hidden²) + FFN (3 × hidden × intermediate, SwiGLU style)
+          - Embedding: 2 × vocab_size × hidden_size (input + output, unshared)
+        MoE models: total params ≈ num_experts × expert_params, but only a few
+        experts are active per token.  We use total params here because all expert
+        weights must be loaded into memory even when inactive.
+        """
+        hidden_size = config.get("hidden_size", 768) or 768
+        num_layers = config.get("num_hidden_layers", 12) or 12
+        intermediate_size = (
+            config.get("intermediate_size") or config.get("ffn_dim") or hidden_size * 4
+        )
+        vocab_size = config.get("vocab_size", 32000) or 32000
+
+        # MoE: total expert count (all experts loaded into RAM)
+        num_experts = (
+            config.get("num_experts")
+            or config.get("num_local_experts")
+            or config.get("moe_num_experts")
+            or 1
+        )
+
+        attn_params = 4 * hidden_size * hidden_size          # Q, K, V, O
+        ffn_params = 3 * hidden_size * intermediate_size     # gate, up, down (SwiGLU)
+        expert_ffn_params = ffn_params * int(num_experts)
+        embed_params = 2 * vocab_size * hidden_size          # input + output embedding
+
+        total = num_layers * (attn_params + expert_ffn_params) + embed_params
+        return total / 1e9
+
+    @staticmethod
     def _estimate_oom_risk(config: Dict) -> str:
         """Estimate GPU OOM risk from config fields.
 
         Returns 'low', 'medium', or 'high'.
         'high' means the model should fall back to CPU to avoid OOM.
         """
+        # Large models (>7B params) need >28GB GPU RAM in fp32 → CPU fallback
+        param_b = ConfigMetadataAnalyzer._estimate_param_count_billion(config)
+        if param_b > 7.0:
+            return "high"
+        if param_b > 3.0:
+            return "medium"
+
         vocab_size = config.get("vocab_size", 0) or 0
         hidden_size = config.get("hidden_size", 768) or 768
         num_layers = config.get("num_hidden_layers", 12) or 12

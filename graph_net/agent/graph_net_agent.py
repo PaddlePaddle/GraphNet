@@ -31,17 +31,23 @@ class GraphNetAgent:
         workspace: str = "/home/luotao02/workspace",
         hf_token: Optional[str] = None,
         llm_retry: bool = True,
+        max_model_size_b: float = 20.0,
     ):
         """
         Initialize GraphNet Agent
 
         Args:
-            workspace:  Workspace root directory
-            hf_token:   HuggingFace API token (optional)
-            llm_retry:  If True and ducc/claude CLI is available, retry failed
-                        extractions up to 2 times with LLM-fixed scripts.
+            workspace:        Workspace root directory
+            hf_token:         HuggingFace API token (optional)
+            llm_retry:        If True and ducc/claude CLI is available, retry failed
+                              extractions up to 2 times with LLM-fixed scripts.
+            max_model_size_b: Maximum model size in billions of parameters to attempt.
+                              Models exceeding this limit are skipped (AnalysisError).
+                              Set to (total_RAM_gb × 0.7 / num_workers / 4) for safe
+                              concurrent extraction.  Default: 20.0B.
         """
         self.workspace = WorkspaceManager(workspace)
+        self.max_model_size_b = max_model_size_b
         self.logger = setup_logger(
             "GraphNetAgent",
             log_file=self.workspace.get_log_path("agent"),
@@ -83,7 +89,7 @@ class GraphNetAgent:
             self.logger.info(f"Starting extraction for model: {model_id}")
 
             model_dir = self._fetch_model(model_id)
-            model_metadata = self._analyze_model(model_dir)
+            model_metadata = self._analyze_model(model_dir, self.max_model_size_b)
             script_path = self._generate_script(model_dir, model_metadata, model_id)
 
             # ── First attempt (template script) ──────────────────────────
@@ -178,10 +184,10 @@ class GraphNetAgent:
         self.logger.info(f"Model downloaded to: {model_dir}")
         return model_dir
 
-    def _analyze_model(self, model_dir: Path):
+    def _analyze_model(self, model_dir: Path, max_param_b: float = 20.0):
         """Analyze model configuration to extract metadata"""
         self.logger.info("Analyzing model configuration")
-        model_metadata = self.metadata_analyzer.analyze(model_dir)
+        model_metadata = self.metadata_analyzer.analyze(model_dir, max_param_b=max_param_b)
         self.logger.info(
             f"Metadata: model_type={model_metadata.model_type}, vocab_size={model_metadata.vocab_size}"
         )

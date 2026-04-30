@@ -78,6 +78,7 @@ def _worker(
     hf_token: Optional[str],
     total: int,
     llm_retry: bool = False,
+    max_model_size_b: float = 20.0,
 ) -> None:
     """
     Worker 函数，在独立子进程中运行，绑定到指定 GPU。
@@ -102,7 +103,8 @@ def _worker(
     print(f"[GPU {gpu_id}] Worker started", flush=True)
 
     try:
-        agent = GraphNetAgent(workspace=workspace, hf_token=hf_token, llm_retry=llm_retry)
+        agent = GraphNetAgent(workspace=workspace, hf_token=hf_token, llm_retry=llm_retry,
+                              max_model_size_b=max_model_size_b)
     except Exception as e:
         print(f"[GPU {gpu_id}] Failed to initialize agent: {e}", flush=True)
         # 把队列里剩余任务都标记为失败并排空，避免主进程死等
@@ -169,6 +171,7 @@ def _cpu_worker(
     hf_token: Optional[str],
     total: int,
     llm_retry: bool = False,
+    max_model_size_b: float = 20.0,
 ) -> None:
     """
     CPU-only worker，专门处理 oom_risk=high 的模型（不绑定 GPU）。
@@ -180,7 +183,8 @@ def _cpu_worker(
     print(f"[CPU {worker_id}] Worker started", flush=True)
 
     try:
-        agent = GraphNetAgent(workspace=workspace, hf_token=hf_token, llm_retry=llm_retry)
+        agent = GraphNetAgent(workspace=workspace, hf_token=hf_token, llm_retry=llm_retry,
+                              max_model_size_b=max_model_size_b)
     except Exception as e:
         print(f"[CPU {worker_id}] Failed to initialize agent: {e}", flush=True)
         while True:
@@ -344,6 +348,14 @@ def main() -> int:
         help="CPU-only worker 数量，用于处理 oom_risk=high 的模型"
              "（默认自动设为 CPU 核数的一半，最多 16）",
     )
+    parser.add_argument(
+        "--max-model-size-b",
+        type=str,
+        default="auto",
+        help="允许抽取的最大模型参数量（单位：十亿）。"
+             "'auto' 根据机器总 RAM / worker 数自动计算（默认）；"
+             "也可手动指定，如 '10' 表示最大 10B。",
+    )
 
     args = parser.parse_args()
 
@@ -381,6 +393,22 @@ def main() -> int:
         return 1
 
     print(f"[INFO] Total models: {len(model_ids)}, workers: {len(gpus)}")
+
+    # --- Resolve max_model_size_b ---
+    cpu_workers_count = args.cpu_workers or max(1, os.cpu_count() // 2)
+    total_workers = len(gpus) + cpu_workers_count
+    if args.max_model_size_b == "auto":
+        try:
+            import psutil
+            total_ram_gb = psutil.virtual_memory().total / 1024 ** 3
+        except ImportError:
+            total_ram_gb = 256.0  # conservative fallback
+        max_model_size_b = total_ram_gb * 0.7 / total_workers / 4
+        print(f"[INFO] max_model_size_b=auto → {max_model_size_b:.1f}B "
+              f"(RAM={total_ram_gb:.0f}GB, workers={total_workers})")
+    else:
+        max_model_size_b = float(args.max_model_size_b)
+        print(f"[INFO] max_model_size_b={max_model_size_b:.1f}B (manually set)")
 
     # --- 预分析 OOM 风险，GPU 模型优先入队，CPU 模型后入队 ---
     import json as _json
@@ -452,6 +480,7 @@ def main() -> int:
                 args.hf_token,
                 len(model_ids),
                 args.llm_retry,
+                max_model_size_b,
             ),
             name=f"worker-gpu{gpu_id}",
             daemon=True,
@@ -472,6 +501,7 @@ def main() -> int:
                     args.hf_token,
                     len(model_ids),
                     args.llm_retry,
+                    max_model_size_b,
                 ),
                 name=f"worker-cpu{i}",
                 daemon=True,

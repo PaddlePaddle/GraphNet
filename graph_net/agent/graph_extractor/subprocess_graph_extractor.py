@@ -5,7 +5,6 @@ import os
 import signal
 import subprocess
 import sys
-import threading
 import time
 from pathlib import Path
 from typing import Optional
@@ -84,25 +83,7 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
                     os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
                 except ProcessLookupError:
                     proc.kill()
-                # 彻底非阻塞清理：
-                # Step 1 - 立即关闭 pipe（非阻塞，仅释放本侧 fd，不等对端）
-                for stream in (proc.stdout, proc.stderr):
-                    if stream:
-                        try:
-                            stream.close()
-                        except OSError:
-                            pass
-                proc.stdout = None
-                proc.stderr = None
-                # Step 2 - 在 daemon thread 里 waitpid，最多等 10s
-                # D-state 进程无法被 SIGKILL，waitpid 会永久阻塞；
-                # daemon thread 被放弃后进程变孤儿，不影响当前 worker 继续运行
-                _reaped = threading.Event()
-                threading.Thread(
-                    target=lambda: (_reaped.set() if proc.wait() is None else _reaped.set()),
-                    daemon=True,
-                ).start()
-                _reaped.wait(timeout=10)
+                proc.communicate()  # 回收僵尸进程
                 raise ExtractionError(
                     f"Script execution timed out after {self.timeout} seconds"
                 )

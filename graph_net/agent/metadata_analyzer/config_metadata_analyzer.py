@@ -24,11 +24,6 @@ _EMBEDDING_WEIGHT_KEYS = [
 _UNSUPPORTED_MODEL_TYPES: frozenset[str] = frozenset({
     # Gemma 4: sliding-window + global attention mix → verification fails
     "gemma4", "gemma4_text", "gemma4_audio", "gemma4_vision",
-    # 音频类模型：在 subprocess 内触发 GPU UVM 内核死锁（uvm_gpu_retain_by_uuid），
-    # 进程进入 D-state，SIGKILL 无效，必须在 subprocess 创建前提前拒绝。
-    "mms", "wav2vec2-bert",   # 已确认 D-state
-    "whisper",                # 已确认 D-state
-    "wav2vec2",               # 与 mms/wav2vec2-bert 同类架构，batch2 含 ~142 个
 })
 
 

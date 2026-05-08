@@ -79,6 +79,7 @@ def _worker(
     total: int,
     llm_retry: bool = False,
     max_model_size_b: float = 20.0,
+    timeout: int = 1000,
 ) -> None:
     """
     Worker 函数，在独立子进程中运行，绑定到指定 GPU。
@@ -104,7 +105,7 @@ def _worker(
 
     try:
         agent = GraphNetAgent(workspace=workspace, hf_token=hf_token, llm_retry=llm_retry,
-                              max_model_size_b=max_model_size_b)
+                              max_model_size_b=max_model_size_b, timeout=timeout)
     except Exception as e:
         print(f"[GPU {gpu_id}] Failed to initialize agent: {e}", flush=True)
         # 把队列里剩余任务都标记为失败并排空，避免主进程死等
@@ -172,6 +173,7 @@ def _cpu_worker(
     total: int,
     llm_retry: bool = False,
     max_model_size_b: float = 20.0,
+    timeout: int = 1000,
 ) -> None:
     """
     CPU-only worker，专门处理 oom_risk=high 的模型（不绑定 GPU）。
@@ -184,7 +186,7 @@ def _cpu_worker(
 
     try:
         agent = GraphNetAgent(workspace=workspace, hf_token=hf_token, llm_retry=llm_retry,
-                              max_model_size_b=max_model_size_b)
+                              max_model_size_b=max_model_size_b, timeout=timeout)
     except Exception as e:
         print(f"[CPU {worker_id}] Failed to initialize agent: {e}", flush=True)
         while True:
@@ -356,6 +358,13 @@ def main() -> int:
              "'auto' 根据机器总 RAM / worker 数自动计算（默认）；"
              "也可手动指定，如 '10' 表示最大 10B。",
     )
+    parser.add_argument(
+        "--timeout",
+        type=int,
+        default=1000,
+        help="单个模型 subprocess 执行超时（秒），默认 1000s。"
+             "建议按批次设置：≤1B→180, 2~3B→300, 4~7B→500, 8~13B→800。",
+    )
 
     args = parser.parse_args()
 
@@ -481,6 +490,7 @@ def main() -> int:
                 len(model_ids),
                 args.llm_retry,
                 max_model_size_b,
+                args.timeout,
             ),
             name=f"worker-gpu{gpu_id}",
             daemon=True,
@@ -502,6 +512,7 @@ def main() -> int:
                     len(model_ids),
                     args.llm_retry,
                     max_model_size_b,
+                    args.timeout,
                 ),
                 name=f"worker-cpu{i}",
                 daemon=True,

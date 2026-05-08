@@ -381,9 +381,13 @@ def main() -> int:
         print(f"[ERROR] Invalid --gpus value: {args.gpus}")
         return 1
     if not gpus:
-        print("[ERROR] No GPUs specified")
-        return 1
-    print(f"[INFO] GPUs: {gpus}")
+        if args.cpu_workers:
+            print("[INFO] CPU-only mode (no GPUs)")
+        else:
+            print("[ERROR] No GPUs specified and no CPU workers")
+            return 1
+    else:
+        print(f"[INFO] GPUs: {gpus}")
 
     # --- Load model list ---
     if args.model_list:
@@ -440,16 +444,21 @@ def main() -> int:
                 pass
         return "low"  # 未下载过的模型默认 low，下载后由模板决定
 
-    gpu_models, cpu_models = [], []
-    for mid in model_ids:
-        if _get_oom_risk(mid) == "high":
-            cpu_models.append(mid)
-        else:
-            gpu_models.append(mid)
+    if gpus:
+        gpu_models, cpu_models = [], []
+        for mid in model_ids:
+            if _get_oom_risk(mid) == "high":
+                cpu_models.append(mid)
+            else:
+                gpu_models.append(mid)
+    else:
+        # CPU-only mode: all models go to CPU queue
+        gpu_models, cpu_models = [], model_ids[:]
 
     print(
         f"[INFO] Queue split: {len(gpu_models)} GPU models + "
-        f"{len(cpu_models)} CPU models (oom_risk=high)"
+        f"{len(cpu_models)} CPU models"
+        + (" (oom_risk=high)" if gpus else " (CPU-only mode)")
     )
 
     # --- 将 GPU 模型先入队，CPU 模型后入队 ---
@@ -471,11 +480,12 @@ def main() -> int:
         16,                                         # 上限16，避免过度竞争内存
         max(1, len(cpu_models)),                    # 不超过实际 CPU 任务数
     )
-    total_workers = len(gpus) + (n_cpu_workers if cpu_models else 0)
+    total_workers = (len(gpus) if gpus else 0) + (n_cpu_workers if cpu_models else 0)
     start_time = datetime.now()
+    gpu_workers_str = f"{len(gpus)} GPU workers + " if gpus else ""
     print(
         f"\n[START] {start_time.strftime('%Y-%m-%d %H:%M:%S')} — "
-        f"launching {len(gpus)} GPU workers + {n_cpu_workers if cpu_models else 0} CPU workers\n"
+        f"launching {gpu_workers_str}{n_cpu_workers if cpu_models else 0} CPU workers\n"
     )
 
     for gpu_id in gpus:

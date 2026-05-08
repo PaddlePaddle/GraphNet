@@ -60,9 +60,13 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
             else:
                 env["PYTHONPATH"] = str(graphnet_root)
 
-            # Ensure GRAPH_NET_EXTRACT_WORKSPACE points to our workspace
-            if "GRAPH_NET_EXTRACT_WORKSPACE" not in env:
-                env["GRAPH_NET_EXTRACT_WORKSPACE"] = str(self.workspace)
+            # Ensure GRAPH_NET_EXTRACT_WORKSPACE points to samples dir
+            # so extraction output goes to workspace/samples/ instead of root
+            samples_dir = self.workspace / "samples"
+            samples_dir.mkdir(parents=True, exist_ok=True)
+            env["GRAPH_NET_EXTRACT_WORKSPACE"] = str(samples_dir)
+            # Also set in current process env so _get_workspace_path() can find it
+            os.environ["GRAPH_NET_EXTRACT_WORKSPACE"] = str(samples_dir)
 
             # Run script in subprocess via Popen so we can kill on timeout
             proc = subprocess.Popen(
@@ -171,7 +175,12 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
     def _get_workspace_path(self) -> Optional[Path]:
         """Get workspace path from environment or instance variable"""
         workspace_env = os.environ.get("GRAPH_NET_EXTRACT_WORKSPACE")
-        return Path(workspace_env) if workspace_env else self.workspace
+        if workspace_env:
+            return Path(workspace_env)
+        # Default to samples/ subdir to avoid cluttering workspace root
+        samples_dir = self.workspace / "samples"
+        samples_dir.mkdir(parents=True, exist_ok=True)
+        return samples_dir
 
     def _find_recent_sample_dir(self, workspace_path: Path) -> Optional[Path]:
         """Find most recently modified sample directory"""

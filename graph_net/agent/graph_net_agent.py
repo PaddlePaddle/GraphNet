@@ -51,6 +51,7 @@ class GraphNetAgent:
         self.workspace = WorkspaceManager(workspace)
         self.max_model_size_b = max_model_size_b
         self.logger = setup_logger(
+            name="graph_net_agent",
             log_file=self.workspace.get_log_path("agent"),
         )
 

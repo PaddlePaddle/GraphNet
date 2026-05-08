@@ -127,6 +127,7 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         dtype_list: list,
         model_path_prefix: str,
         output_dir: str,
+        device: str = "auto",
         resume: bool = False,
         limits_handled_models: int = None,
     ):
@@ -155,7 +156,9 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         model_path = str(Path(self.model_path_prefix) / rel_model_path)
 
         # Parse the computation graph
-        module, inputs = get_torch_module_and_inputs(model_path)
+        module, inputs = get_torch_module_and_inputs(
+            model_path, device=self._choose_device(self.config["device"])
+        )
         traced_model = parse_sole_graph_module(module, inputs)
 
         ShapeProp(traced_model).propagate(*inputs)
@@ -264,6 +267,13 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
             except (IOError, RuntimeError, ValueError) as e:
                 logging.debug(f"Graph test failed for {dtype}: {e}")
                 return False
+
+    def _choose_device(self, device) -> str:
+        if device is None:
+            return None
+        if device in ["cpu", "cuda"]:
+            return device
+        return "cuda" if torch.cuda.is_available() else "cpu"
 
     def _save_dtype_pass_names(
         self, dtype_pass_names: List[str], model_path: str

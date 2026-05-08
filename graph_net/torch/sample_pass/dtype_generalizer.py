@@ -55,6 +55,44 @@ FLOAT32_PRESERVED_WEIGHTS = {
 }
 
 
+def _choose_device(device) -> str:
+    if device is None:
+        return None
+    if device in ["cpu", "cuda"]:
+        return device
+    return "cuda" if torch.cuda.is_available() else "cpu"
+
+
+def _load_and_trace_model(model_path: str, device: str = None):
+    """Load a model, trace it, and run ShapeProp."""
+    module, inputs = get_torch_module_and_inputs(
+        model_path, device=_choose_device(device)
+    )
+    traced_model = parse_sole_graph_module(module, inputs)
+    ShapeProp(traced_model).propagate(*inputs)
+    return traced_model
+
+
+def _apply_dtype_pass(traced_model: fx.GraphModule, pass_name: str):
+    """Load a dtype pass, apply it to a copy of the model, and return results.
+
+    If the pass determines no rewrite is needed, returns (None, set(), None).
+
+    Returns:
+        Tuple of (modified GraphModule, set of converted tensor names, dtype pass instance)
+    """
+    dtype_pass_class = get_dtype_generalization_pass(pass_name)
+    dtype_pass = dtype_pass_class()
+
+    if not dtype_pass.need_rewrite(traced_model):
+        return None, set(), None
+
+    gm_copy = copy.deepcopy(traced_model)
+    gm_modified = dtype_pass.rewrite(gm_copy)
+    converted_tensor_names = set(getattr(dtype_pass, "converted_tensor_names", []))
+    return gm_modified, converted_tensor_names, dtype_pass
+
+
 def _update_tensor_meta_dtypes(
     sample_dir: Path,
     converted_tensor_names: set,
@@ -127,6 +165,7 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         dtype_list: list,
         model_path_prefix: str,
         output_dir: str,
+        device: str = "auto",
         resume: bool = False,
         limits_handled_models: int = None,
     ):
@@ -137,7 +176,7 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         graph_net_json_path = dst_model_path / "graph_net.json"
         with open(graph_net_json_path, "r", encoding="utf-8") as f:
             data = json.load(f)
-        if data.get("data_type_generalization_passes"):
+        if data.get(kDataTypeGeneralizationPasses):
             return True
         return False
 
@@ -155,10 +194,7 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         model_path = str(Path(self.model_path_prefix) / rel_model_path)
 
         # Parse the computation graph
-        module, inputs = get_torch_module_and_inputs(model_path)
-        traced_model = parse_sole_graph_module(module, inputs)
-
-        ShapeProp(traced_model).propagate(*inputs)
+        traced_model = _load_and_trace_model(model_path, self.config["device"])
 
         # Test which dtype passes work
         dtype_pass_names = self._test_dtype_passes(model_path, traced_model)
@@ -186,30 +222,18 @@ class InitDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         working_passes = []
 
         for dtype in self.dtype_list:
-            # Pass name directly corresponds to file name (without .py)
             pass_name = f"dtype_generalization_pass_{dtype}"
 
             try:
-                # Try to load and apply the pass
-                dtype_pass_class = get_dtype_generalization_pass(pass_name)
-                dtype_pass = dtype_pass_class()
-
-                # Check if pass is needed
-                if not dtype_pass.need_rewrite(traced_model):
-                    continue
-
-                # Apply the pass
-                gm_copy = copy.deepcopy(traced_model)
-                gm_copy = dtype_pass.rewrite(gm_copy)
-
-                # Get the list of tensor names that need dtype conversion
-                converted_tensor_names = set(
-                    getattr(dtype_pass, "converted_tensor_names", [])
+                gm_modified, converted_tensor_names, _ = _apply_dtype_pass(
+                    traced_model, pass_name
                 )
 
-                # Try to run the modified graph
+                if gm_modified is None:
+                    continue
+
                 if self._test_graph_runnable(
-                    model_path, gm_copy, dtype, converted_tensor_names
+                    model_path, gm_modified, dtype, converted_tensor_names
                 ):
                     working_passes.append(pass_name)
                     logging.info(f"Pass {pass_name} works for {model_path}")
@@ -330,18 +354,10 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         pass
 
     def _make_model_runnable_predicator(self, config: Dict[str, Any]):
-        """Create model runnable predicator from config."""
         module = load_module(config["model_runnable_predicator_filepath"])
         cls = getattr(module, self.model_runnable_predicator_class_name)
         predicator_config = self.model_runnable_predicator_config
         return cls(predicator_config)
-
-    def _choose_device(self, device) -> str:
-        if device is None:
-            return None
-        if device in ["cpu", "cuda"]:
-            return device
-        return "cuda" if torch.cuda.is_available() else "cpu"
 
     def sample_handled(self, rel_model_path: str) -> bool:
         model_path = Path(self.config["model_path_prefix"]) / rel_model_path
@@ -387,12 +403,7 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
 
         # Parse the computation graph
         torch.cuda.empty_cache()
-        module, inputs = get_torch_module_and_inputs(
-            model_path, device=self._choose_device(self.config["device"])
-        )
-        traced_model = parse_sole_graph_module(module, inputs)
-
-        ShapeProp(traced_model).propagate(*inputs)
+        traced_model = _load_and_trace_model(model_path, self.config["device"])
 
         # Generate samples for each pass
         generated_samples = []
@@ -458,14 +469,9 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         dtype = pass_name.replace("dtype_generalization_pass_", "")
 
         # Load and apply the pass
-        dtype_pass_class = get_dtype_generalization_pass(pass_name)
-        dtype_pass = dtype_pass_class()
-
-        gm_copy = copy.deepcopy(traced_model)
-        gm_modified = dtype_pass.rewrite(gm_copy)
-
-        # Get the list of tensor names that need dtype conversion
-        converted_tensor_names = set(getattr(dtype_pass, "converted_tensor_names", []))
+        gm_modified, converted_tensor_names, dtype_pass = _apply_dtype_pass(
+            traced_model, pass_name
+        )
 
         # Generate output directory
         output_dir = self._get_output_dir(rel_model_path, dtype)
@@ -484,7 +490,7 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         try:
             torch.cuda.empty_cache()
             _, meta_inputs = get_torch_module_and_inputs(
-                str(output_dir), device=self._choose_device(self.config["device"])
+                str(output_dir), device=_choose_device(self.config["device"])
             )
             ShapeProp(gm_modified).propagate(*meta_inputs)
             gm_modified = dtype_pass.remove_redundant_to_calls(gm_modified)
@@ -515,19 +521,11 @@ class ApplyDataTypeGeneralizationPasses(SamplePass, ResumableSamplePassMixin):
         return Path(self.output_dir) / dtype / rel_model_path
 
     def _update_sample_metadata(self, sample_dir: Path, dtype: str) -> None:
-        """
-        Update the generated sample's metadata.
+        update_json(sample_dir, kDtypeGeneralizationTargetDtype, dtype)
+        update_json(sample_dir, kDtypeGeneralizationPrecision, dtype)
+        update_json(sample_dir, kDtypeGeneralizationGenerated, True)
 
-        Args:
-            sample_dir: Path to generated sample directory
-            dtype: Target dtype
-        """
-        graph_net_json_path = sample_dir / "graph_net.json"
-        update_json(graph_net_json_path, kDtypeGeneralizationTargetDtype, dtype)
-        update_json(graph_net_json_path, kDtypeGeneralizationPrecision, dtype)
-        update_json(graph_net_json_path, kDtypeGeneralizationGenerated, True)
-
-    def _copy_sample(self, rel_model_path: str, output_dir: str) -> None:
+    def _copy_sample(self, rel_model_path: str, output_dir: Path) -> None:
         """
         Copy files of sample.
 

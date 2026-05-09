@@ -7,8 +7,19 @@ from graphsample_insert import insert_one_sample
 from init_db import migrate
 
 
+def collect_sample_paths(model_path_prefix):
+    """Collect relative paths of directories containing model.py under model_path_prefix."""
+    sample_paths = []
+    for dirpath, _, filenames in os.walk(model_path_prefix):
+        if "model.py" in filenames:
+            rel = os.path.relpath(dirpath, model_path_prefix)
+            sample_paths.append(rel)
+    sample_paths.sort()
+    return sample_paths
+
+
 def insert_from_list(
-    list_file,
+    list_file_path,
     model_path_prefix,
     sample_type,
     repo_uid,
@@ -16,17 +27,21 @@ def insert_from_list(
     op_names_path_prefix,
     start_order=0,
 ):
-    if not os.path.isfile(list_file):
-        print(f"List file not found: {list_file}, skipping")
-        return start_order
+    if os.path.isfile(list_file_path):
+        with open(list_file_path) as f:
+            sample_paths = [line.strip() for line in f if line.strip()]
+        sample_paths.sort()
+    else:
+        print(
+            f"List file not found: {list_file_path}, collecting from {model_path_prefix}"
+        )
+        sample_paths = collect_sample_paths(model_path_prefix)
 
-    with open(list_file) as f:
-        paths = [line.strip() for line in f if line.strip()]
-
+    total = len(sample_paths)
     order_value = start_order
-    for relative_model_path in paths:
+    for relative_model_path in sample_paths:
         print(f"insert : {relative_model_path}")
-        insert_one_sample(
+        successed = insert_one_sample(
             model_path_prefix=model_path_prefix,
             relative_model_path=relative_model_path,
             repo_uid=repo_uid,
@@ -35,9 +50,10 @@ def insert_from_list(
             db_path=db_path,
             op_names_path_prefix=op_names_path_prefix,
         )
-        order_value += 1
+        if successed:
+            order_value += 1
 
-    return order_value
+    return order_value, total
 
 
 def main(args):
@@ -54,49 +70,28 @@ def main(args):
 
     order_value = 0
 
-    # full_graph
-    order_value = insert_from_list(
-        list_file=os.path.join(dataset_root, "full_graph.txt"),
-        model_path_prefix=os.path.join(dataset_root, "full_graph"),
-        sample_type="full_graph",
-        repo_uid=repo_uid,
-        db_path=db_path,
-        op_names_path_prefix="",
-        start_order=order_value,
-    )
-
-    # typical_graph
-    order_value = insert_from_list(
-        list_file=os.path.join(dataset_root, "typical_graph.txt"),
-        model_path_prefix=os.path.join(dataset_root, "typical_graph"),
-        sample_type="typical_graph",
-        repo_uid=repo_uid,
-        db_path=db_path,
-        op_names_path_prefix=op_names_path_prefix,
-        start_order=order_value,
-    )
-
-    # fusible_graph
-    order_value = insert_from_list(
-        list_file=os.path.join(dataset_root, "fusible_graph.txt"),
-        model_path_prefix=os.path.join(dataset_root, "fusible_graph"),
-        sample_type="fusible_graph",
-        repo_uid=repo_uid,
-        db_path=db_path,
-        op_names_path_prefix=op_names_path_prefix,
-        start_order=order_value,
-    )
-
-    # sole_op_graph
-    order_value = insert_from_list(
-        list_file=os.path.join(dataset_root, "sole_op_graph.txt"),
-        model_path_prefix=os.path.join(dataset_root, "sole_op_graph"),
-        sample_type="sole_op_graph",
-        repo_uid=repo_uid,
-        db_path=db_path,
-        op_names_path_prefix=op_names_path_prefix,
-        start_order=order_value,
-    )
+    sample_types = [
+        ("full_graph", ""),
+        ("typical_graph", op_names_path_prefix),
+        ("fusible_graph", op_names_path_prefix),
+        ("sole_op_graph", op_names_path_prefix),
+    ]
+    for sample_type, op_prefix in sample_types:
+        order_start = order_value
+        order_value, total = insert_from_list(
+            list_file_path=os.path.join(dataset_root, f"{sample_type}.txt"),
+            model_path_prefix=os.path.join(dataset_root, sample_type),
+            sample_type=sample_type,
+            repo_uid=repo_uid,
+            db_path=db_path,
+            op_names_path_prefix=op_prefix,
+            start_order=order_value,
+        )
+        num_success = order_value - order_start
+        print(
+            f"[{sample_type}] total={total}, success={num_success}, "
+            f"fail={total - num_success}, order=[{order_start}, {order_value})"
+        )
 
     print("all done")
 

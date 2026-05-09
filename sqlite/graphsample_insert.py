@@ -507,8 +507,12 @@ def insert_one_sample(
     except sqlite3.IntegrityError as e:
         print("insert failed: integrity error (possible duplicate uuid or graph_hash)")
         print(f"error info: {e}")
+        return False
     except Exception as e:
         print(f"insert failed: {e}")
+        return False
+
+    return True
 
 
 def main(args):

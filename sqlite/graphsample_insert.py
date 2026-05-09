@@ -441,21 +441,28 @@ def insert_sample_input_tensor_meta(
 
 
 # main func
-def main(args):
-    model_path_prefix = args.model_path_prefix.strip()
-    relative_model_path = args.relative_model_path.strip()
-    repo_uid = args.repo_uid.strip()
-    sample_type = args.sample_type.strip()
-    db_path = args.db_path.strip()
-    op_names_path_prefix = (
-        args.op_names_path_prefix.strip() if args.op_names_path_prefix else ""
-    )
+def insert_one_sample(
+    model_path_prefix: str,
+    relative_model_path: str,
+    repo_uid: str,
+    sample_type: str,
+    order_value: int,
+    db_path: str,
+    op_names_path_prefix: str = "",
+):
+    model_path_prefix = model_path_prefix.strip()
+    relative_model_path = relative_model_path.strip()
+    repo_uid = repo_uid.strip()
+    sample_type = sample_type.strip()
+    db_path = db_path.strip()
+    op_names_path_prefix = op_names_path_prefix.strip() if op_names_path_prefix else ""
+
     data = get_graph_sample_data(
         model_path_prefix=model_path_prefix,
         relative_model_path=relative_model_path,
         repo_uid=repo_uid,
         sample_type=sample_type,
-        order_value=args.order_value,
+        order_value=order_value,
     )
     print(f"\ninsert into database: {db_path}")
     try:
@@ -502,6 +509,18 @@ def main(args):
         print(f"error info: {e}")
     except Exception as e:
         print(f"insert failed: {e}")
+
+
+def main(args):
+    insert_one_sample(
+        model_path_prefix=args.model_path_prefix,
+        relative_model_path=args.relative_model_path,
+        repo_uid=args.repo_uid,
+        sample_type=args.sample_type,
+        order_value=args.order_value,
+        db_path=args.db_path,
+        op_names_path_prefix=args.op_names_path_prefix,
+    )
 
 
 if __name__ == "__main__":

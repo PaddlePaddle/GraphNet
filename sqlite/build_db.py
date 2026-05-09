@@ -3,12 +3,8 @@ import argparse
 import os
 import sys
 
-import graph_net
-
 from graphsample_insert import insert_one_sample
-
-
-GRAPH_NET_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(graph_net.__file__)))
+from init_db import migrate
 
 
 def insert_from_list(
@@ -44,36 +40,16 @@ def insert_from_list(
     return order_value
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description="Batch insert graph samples from list files"
-    )
-    parser.add_argument(
-        "--db_path",
-        type=str,
-        default=None,
-        help="Database file path (default: GRAPH_NET_ROOT/sqlite/GraphNet.db)",
-    )
-    parser.add_argument(
-        "--dataset_root",
-        type=str,
-        default=None,
-        help="Dataset root directory (default: GRAPH_NET_ROOT/20260317)",
-    )
-    parser.add_argument(
-        "--repo_uid",
-        type=str,
-        default="hf_torch_samples",
-        help="Repository uid",
-    )
-    args = parser.parse_args()
-
-    dataset_root = args.dataset_root or os.path.join(GRAPH_NET_ROOT, "20260317")
-    db_path = args.db_path or os.path.join(GRAPH_NET_ROOT, "sqlite", "GraphNet.db")
+def main(args):
+    dataset_root = args.dataset_root.strip()
+    db_path = args.db_path.strip()
     repo_uid = args.repo_uid.strip()
+    op_names_path_prefix = args.op_names_path_prefix.strip()
 
-    if not os.path.isfile(db_path):
-        print(f"Fail ! No Database ! : {db_path}")
+    if not os.path.exists(db_path):
+        migrate(db_path)
+    else:
+        print(f"Fail ! Path is not a file: {db_path}")
         sys.exit(1)
 
     order_value = 0
@@ -96,7 +72,7 @@ def main():
         sample_type="typical_graph",
         repo_uid=repo_uid,
         db_path=db_path,
-        op_names_path_prefix=os.path.join(dataset_root, "03_sample_op_names"),
+        op_names_path_prefix=op_names_path_prefix,
         start_order=order_value,
     )
 
@@ -107,7 +83,7 @@ def main():
         sample_type="fusible_graph",
         repo_uid=repo_uid,
         db_path=db_path,
-        op_names_path_prefix=os.path.join(dataset_root, "03_sample_op_names"),
+        op_names_path_prefix=op_names_path_prefix,
         start_order=order_value,
     )
 
@@ -118,7 +94,7 @@ def main():
         sample_type="sole_op_graph",
         repo_uid=repo_uid,
         db_path=db_path,
-        op_names_path_prefix=os.path.join(dataset_root, "03_sample_op_names"),
+        op_names_path_prefix=op_names_path_prefix,
         start_order=order_value,
     )
 
@@ -126,4 +102,32 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(
+        description="Batch insert graph samples from list files"
+    )
+    parser.add_argument(
+        "--db_path",
+        type=str,
+        required=True,
+        help="Database file path",
+    )
+    parser.add_argument(
+        "--dataset_root",
+        type=str,
+        required=True,
+        help="Dataset root directory",
+    )
+    parser.add_argument(
+        "--repo_uid",
+        type=str,
+        default="hf_torch_samples",
+        help="Repository uid",
+    )
+    parser.add_argument(
+        "--op_names_path_prefix",
+        type=str,
+        required=True,
+        help="Path prefix of op names files",
+    )
+    args = parser.parse_args()
+    main(args)

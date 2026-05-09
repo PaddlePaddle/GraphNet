@@ -64,28 +64,23 @@ def main(args):
 
     if not os.path.exists(db_path):
         migrate(db_path)
-    else:
-        print(f"Fail ! Path is not a file: {db_path}")
-        sys.exit(1)
 
+    print(f"db_path={db_path}, repo_uid={repo_uid}")
     order_value = 0
 
-    sample_types = [
-        ("full_graph", ""),
-        ("typical_graph", op_names_path_prefix),
-        ("fusible_graph", op_names_path_prefix),
-        ("sole_op_graph", op_names_path_prefix),
-    ]
-    for sample_type, op_prefix in sample_types:
+    sample_types = ["full_graph", "typical_graph", "fusible_graph", "sole_op_graph"]
+    for sample_type in sample_types:
         model_path_prefix = os.path.join(dataset_root, sample_type)
         list_file_path = os.path.join(dataset_root, f"{sample_type}_list.txt")
         print(f"\n[{sample_type}] samples={model_path_prefix}, list={list_file_path}")
+
         if not os.path.isdir(model_path_prefix):
             if sample_type == "full_graph":
                 print(f"Fail ! full_graph directory not found: {model_path_prefix}")
                 sys.exit(1)
             print(f"[{sample_type}] skipped, directory not found")
             continue
+
         order_start = order_value
         order_value, total = insert_from_list(
             list_file_path=list_file_path,
@@ -93,7 +88,7 @@ def main(args):
             sample_type=sample_type,
             repo_uid=repo_uid,
             db_path=db_path,
-            op_names_path_prefix=op_prefix,
+            op_names_path_prefix=op_names_path_prefix,
             start_order=order_value,
         )
         num_success = order_value - order_start

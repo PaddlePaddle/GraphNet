@@ -442,51 +442,59 @@ def insert_sample_input_tensor_meta(
 
 # main func
 def main(args):
+    model_path_prefix = args.model_path_prefix.strip()
+    relative_model_path = args.relative_model_path.strip()
+    repo_uid = args.repo_uid.strip()
+    sample_type = args.sample_type.strip()
+    db_path = args.db_path.strip()
+    op_names_path_prefix = (
+        args.op_names_path_prefix.strip() if args.op_names_path_prefix else ""
+    )
     data = get_graph_sample_data(
-        model_path_prefix=args.model_path_prefix,
-        relative_model_path=args.relative_model_path,
-        repo_uid=args.repo_uid,
-        sample_type=args.sample_type,
+        model_path_prefix=model_path_prefix,
+        relative_model_path=relative_model_path,
+        repo_uid=repo_uid,
+        sample_type=sample_type,
         order_value=args.order_value,
     )
-    print(f"\ninsert into database: {args.db_path}")
+    print(f"\ninsert into database: {db_path}")
     try:
-        insert_graph_sample(args.db_path, data, args.model_path_prefix)
+        insert_graph_sample(db_path, data, model_path_prefix)
         if data["is_subgraph"]:
             subgraph_source_data = insert_subgraph_source(
                 subgraph_uuid=data["uuid"],
-                model_path_prefix=args.model_path_prefix,
-                sample_type=args.sample_type,
-                relative_model_path=args.relative_model_path,
-                db_path=args.db_path,
+                model_path_prefix=model_path_prefix,
+                sample_type=sample_type,
+                relative_model_path=relative_model_path,
+                db_path=db_path,
             )
             insert_sample_op_name_list(
                 sample_uuid=data["uuid"],
-                model_path_prefix=args.model_path_prefix,
-                op_names_path_prefix=args.op_names_path_prefix,
-                relative_model_path=args.relative_model_path,
-                db_path=args.db_path,
+                model_path_prefix=model_path_prefix,
+                op_names_path_prefix=op_names_path_prefix,
+                relative_model_path=relative_model_path,
+                db_path=db_path,
             )
             insert_sample_input_tensor_meta(
                 sample_uuid=data["uuid"],
-                model_path_prefix=args.model_path_prefix,
-                relative_model_path=args.relative_model_path,
-                db_path=args.db_path,
+                model_path_prefix=model_path_prefix,
+                relative_model_path=relative_model_path,
+                db_path=db_path,
             )
-            if args.sample_type in ["fusible_graph", "typical_graph"]:
+            if sample_type in ["fusible_graph", "typical_graph"]:
                 insert_dimension_generalization_source(
                     subgraph_source_data["subgraph_uuid"],
                     subgraph_source_data["full_graph_uuid"],
-                    args.model_path_prefix,
-                    args.relative_model_path,
-                    args.db_path,
+                    model_path_prefix,
+                    relative_model_path,
+                    db_path,
                 )
             insert_datatype_generalization_source(
                 subgraph_source_data["subgraph_uuid"],
                 subgraph_source_data["full_graph_uuid"],
-                args.model_path_prefix,
-                args.relative_model_path,
-                args.db_path,
+                model_path_prefix,
+                relative_model_path,
+                db_path,
             )
         print(f"success insert: {data['relative_model_path']}")
     except sqlite3.IntegrityError as e:

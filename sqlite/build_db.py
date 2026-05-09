@@ -77,10 +77,19 @@ def main(args):
         ("sole_op_graph", op_names_path_prefix),
     ]
     for sample_type, op_prefix in sample_types:
+        model_path_prefix = os.path.join(dataset_root, sample_type)
+        list_file_path = os.path.join(dataset_root, f"{sample_type}_list.txt")
+        print(f"\n[{sample_type}] samples={model_path_prefix}, list={list_file_path}")
+        if not os.path.isdir(model_path_prefix):
+            if sample_type == "full_graph":
+                print(f"Fail ! full_graph directory not found: {model_path_prefix}")
+                sys.exit(1)
+            print(f"[{sample_type}] skipped, directory not found")
+            continue
         order_start = order_value
         order_value, total = insert_from_list(
-            list_file_path=os.path.join(dataset_root, f"{sample_type}.txt"),
-            model_path_prefix=os.path.join(dataset_root, sample_type),
+            list_file_path=list_file_path,
+            model_path_prefix=model_path_prefix,
             sample_type=sample_type,
             repo_uid=repo_uid,
             db_path=db_path,

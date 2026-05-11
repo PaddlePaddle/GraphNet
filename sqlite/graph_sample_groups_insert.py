@@ -7,8 +7,6 @@ from datetime import datetime
 from orm_models import get_session, GraphNetSampleGroup
 
 
-# ── Types ──
-
 BucketGroup = namedtuple(
     "BucketGroup",
     ["head_uid", "op_seq", "shapes", "sample_type", "all_uids_csv"],
@@ -18,9 +16,6 @@ Candidate = namedtuple(
     "Candidate",
     ["uid", "sample_type", "op_seq", "shapes", "dtypes"],
 )
-
-
-# ── Helpers ──
 
 
 def _new_group_id():
@@ -49,9 +44,6 @@ def _print_stats(stats):
                 total_records += n_records
                 total_groups += n_groups
     print(f"\n  Total: {total_records} records, {total_groups} groups.")
-
-
-# ── Database Queries ──
 
 
 class DB:
@@ -229,39 +221,24 @@ def _insert_groups(session, rows, policy):
     return stats
 
 
-# ═══════════════════════════════════════════════════════════════════
-# Main
-# ═══════════════════════════════════════════════════════════════════
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="Generate graph_net_sample_groups (v1 + v2)"
-    )
-    parser.add_argument("--db_path", type=str, required=True)
-    parser.add_argument("--num_dtypes", type=int, default=3)
-    args = parser.parse_args()
-
-    db = DB(args.db_path)
+def generate_groups(db_path, num_dtypes=3):
+    """Generate sample groups and save to DB."""
+    db = DB(db_path)
     db.connect()
-    session = get_session(args.db_path)
-
+    session = get_session(db_path)
     all_stats = defaultdict(lambda: {"records": 0, "groups": set()})
-
     try:
-        # V1
         buckets = query_bucket_groups(db)
         print(f"Bucket groups: {len(buckets)}")
         v1 = _insert_groups(session, generate_v1_groups(buckets), "bucket_policy_v1")
         _merge_stats(all_stats, v1)
 
-        # V2
         candidates = query_v2_candidates(db)
         print(f"V2 candidates: {len(candidates)}")
         if candidates:
             v2 = _insert_groups(
                 session,
-                generate_v2_groups(candidates, args.num_dtypes),
+                generate_v2_groups(candidates, num_dtypes),
                 "bucket_policy_v2",
             )
             _merge_stats(all_stats, v2)
@@ -276,7 +253,17 @@ def main():
 
     print("=" * 60)
     _print_stats(all_stats)
-    print("\nDone!")
+    return all_stats
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Generate graph_net_sample_groups (v1 + v2)"
+    )
+    parser.add_argument("--db_path", type=str, required=True)
+    parser.add_argument("--num_dtypes", type=int, default=3)
+    args = parser.parse_args()
+    generate_groups(args.db_path, args.num_dtypes)
 
 
 if __name__ == "__main__":

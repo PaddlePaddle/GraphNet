@@ -93,36 +93,6 @@ function generate_subgraph_list() {
         | tee $sample_list
 }
 
-function insert_graph_sample(){
-    local target_dir="$1"
-    local repo_uid="$2"
-    local sample_type="$3"
-    local sample_list="$4"
-    echo ">>> [0] Inserting samples into database: ${DB_PATH}."
-    echo ">>>"
-
-    if [ ! -f "$DB_PATH" ]; then
-        echo "Fail ! No Database ! : $DB_PATH"
-        exit 1
-    fi
-
-    local order_value=0
-    while IFS= read -r model_rel_path; do
-        echo "insert : $model_rel_path"
-        python3 "${GRAPH_NET_ROOT}/sqlite/graphsample_insert.py" \
-            --model_path_prefix "${target_dir}" \
-            --relative_model_path "$model_rel_path" \
-            --repo_uid "${repo_uid}" \
-            --sample_type "${sample_type}" \
-            --order_value "$order_value" \
-            --db_path "$DB_PATH"
-
-        ((order_value++))
-
-    done < "$sample_list"
-}
-
-
 function rewrite_device() {
     echo ">>> [1] Rewrite devices for subgraph samples under ${GRAPH_NET_ROOT}."
     echo ">>>"
@@ -658,29 +628,6 @@ function generate_typical_subgraphs() {
     # generate_unittest_for_typical_subgraphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_typical_subgraphs_${suffix}.txt
 }
 
-function generate_database() {
-    timestamp=`date +%Y%m%d_%H%M`
-
-    # init database
-    if [ ! -f ${DB_PATH} ]; then
-        python ${GRAPH_NET_ROOT}/sqlite/init_db.py --db_path ${DB_PATH} 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_init_db_${timestamp}.txt
-    fi
-    
-    # full_graph
-    insert_graph_sample ${GRAPH_NET_ROOT} "hf_torch_samples" "full_graph" ${model_list}
-
-    # fusible_graph, typical_graph
-    for sample_type in fusible_graph typical_graph; do
-        insert_graph_sample $OUTPUT_DIR/$sample_type "hf_torch_samples" $sample_type $OUTPUT_DIR/${sample_type}/sample_list.txt
-    done
-
-    # insert buckets
-    python ${GRAPH_NET_ROOT}/sqlite/graph_net_sample_bucket_generator.py --db_path ${DB_PATH}
-
-    # insert groups
-    python ${GRAPH_NET_ROOT}/sqlite/graph_net_sample_groups_insert.py --db_path ${DB_PATH}
-}
-
 function main() {
     do_common_generalzation_and_decompose
 
@@ -693,8 +640,6 @@ function main() {
     generate_typical_subgraphs
     #cp -rf $DTYPE_GENERALIZED_TYPICAL_SUBGRAPH_DIR $OUTPUT_DIR/$sample_type
     #cp -rf $dtype_generalized_typical_subgraph_list $OUTPUT_DIR/$sample_type/sample_list.txt
-
-    #generate_database
 }
 
 function summary() {

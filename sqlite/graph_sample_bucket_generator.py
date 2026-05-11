@@ -213,52 +213,36 @@ def save_bucket_results(
     return count
 
 
+def generate_buckets(db_path, dry_run=False):
+    """Generate buckets and save to DB."""
+    session = get_session(db_path)
+    try:
+        print("=" * 70)
+        print("Step 1: Generating bucket info from graph_sample...")
+        _, bucket_info_map = generate_sample_buckets(session)
+        if dry_run:
+            print("Dry run mode - skipping database insert")
+            print(
+                f"  Would insert {len(bucket_info_map)} records into graph_net_sample_buckets"
+            )
+            return 0
+
+        print("Step 2: Saving to database...")
+        count = save_bucket_results(session, bucket_info_map)
+        print(f"  Inserted {count} records into graph_net_sample_buckets")
+        return count
+    finally:
+        session.close()
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Generate graph_net_sample_buckets from graph_sample"
     )
-    parser.add_argument(
-        "--db_path",
-        type=str,
-        required=True,
-        help="Path to the SQLite database file",
-    )
-    parser.add_argument(
-        "--dry_run",
-        action="store_true",
-        help="Only print what would be done, don't actually insert into database",
-    )
-
+    parser.add_argument("--db_path", type=str, required=True)
+    parser.add_argument("--dry_run", action="store_true")
     args = parser.parse_args()
-
-    session = get_session(args.db_path)
-
-    print("=" * 70)
-    print("Step 1: Generating bucket info from graph_sample...")
-    sample_type_results, all_bucket_info_map = generate_sample_buckets(session)
-    print(f"  Total samples: {len(all_bucket_info_map)}")
-    print(f"  Number of sample_types: {len(sample_type_results)}")
-
-    print()
-    for result in sorted(sample_type_results, key=lambda x: -len(x)):
-        flag = " [sole-op]" if result.is_sole_op else ""
-        print(f"  {result.sample_type}{flag}: {len(result)} samples")
-
-    print("=" * 70)
-    if args.dry_run:
-        print("Dry run mode - skipping database insert")
-        print(
-            f"  Would insert {len(all_bucket_info_map)} records into graph_net_sample_buckets"
-        )
-    else:
-        print("Step 2: Saving to database...")
-        count = save_bucket_results(session, all_bucket_info_map)
-        print(f"  Inserted {count} records into graph_net_sample_buckets")
-
-    print("=" * 70)
-    print("Done!")
-
-    session.close()
+    generate_buckets(args.db_path, dry_run=args.dry_run)
 
 
 if __name__ == "__main__":

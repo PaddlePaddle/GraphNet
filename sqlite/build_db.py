@@ -100,6 +100,12 @@ def main(args):
 
     print("all done")
 
+    from graph_sample_bucket_generator import generate_buckets
+    from graph_sample_groups_insert import generate_groups
+
+    generate_buckets(db_path)
+    generate_groups(db_path, num_dtypes=3)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

@@ -38,11 +38,11 @@ def _print_stats(stats):
         for rule in rule_order:
             key = (sample_type, rule)
             if key in stats:
-                n_records = stats[key]["records"]
-                n_groups = len(stats[key]["groups"])
-                print(f"    {rule}: {n_records} records, {n_groups} groups")
-                total_records += n_records
-                total_groups += n_groups
+                record_count = stats[key]["records"]
+                group_count = len(stats[key]["groups"])
+                print(f"    {rule}: {record_count} records, {group_count} groups")
+                total_records += record_count
+                total_groups += group_count
     print(f"\n  Total: {total_records} records, {total_groups} groups.")
 
 
@@ -114,12 +114,10 @@ ORDER BY s.sample_type, b.op_seq_bucket_id, b.input_shapes_bucket_id,
 # ═══════════════════════════════════════════════════════════════════
 # V1: Rule 1 (bucket-internal stride sampling) + Rule 2 (cross-shape)
 # ═══════════════════════════════════════════════════════════════════
-
-
 def generate_v1_groups(bucket_groups: list[BucketGroup]):
     """Yields (sample_type, uid, group_id, rule_name).
 
-    Rule 1: stride-16 sampling within each bucket, one group per sample.
+    Rule 1: stride-16 sampling within each bucket, 1 subgraph per group.
     Rule 2: aggregate all bucket heads sharing the same (sample_type, op_seq).
     """
     # Rule 1
@@ -133,54 +131,55 @@ def generate_v1_groups(bucket_groups: list[BucketGroup]):
     heads_by_type_op = defaultdict(list)
     for bucket in bucket_groups:
         heads_by_type_op[(bucket.sample_type, bucket.op_seq)].append(bucket.head_uid)
-    for (sample_type, _op), heads in heads_by_type_op.items():
-        gid = _new_group_id()
+    for (sample_type, _), heads in heads_by_type_op.items():
+        group_id = _new_group_id()
         for uid in heads:
-            yield sample_type, uid, gid, "rule2"
+            yield sample_type, uid, group_id, "rule2"
 
 
 # ═══════════════════════════════════════════════════════════════════
 # V2: Rule 4 (dtype coverage) + Rule 3 (sparse sampling on remainder)
 # ═══════════════════════════════════════════════════════════════════
-
-
 def generate_v2_groups(candidates: list[Candidate], num_dtypes: int):
     """Yields (sample_type, uid, group_id, rule_name).
 
     Rule 4 (first): per (sample_type, op_seq, shape), pick up to
-                     num_dtypes samples with distinct dtypes.
+                    num_dtypes samples with distinct dtypes.
     Rule 3 (second): window-based sparse sampling on the remainder,
                      window_size = num_dtypes * 5, pick first num_dtypes.
     """
     by_type_op = defaultdict(list)
-    for c in candidates:
-        by_type_op[(c.sample_type, c.op_seq)].append(c)
+    for candidate in candidates:
+        by_type_op[(candidate.sample_type, candidate.op_seq)].append(candidate)
 
     covered_uids = set()
 
     # Rule 4: dtype coverage
-    for (sample_type, _op), group in by_type_op.items():
+    for (sample_type, _), group in by_type_op.items():
         by_shape = defaultdict(list)
-        for c in group:
-            by_shape[c.shapes].append(c)
+        for candidate in group:
+            by_shape[candidate.shapes].append(candidate)
 
         picked = []
-        for _shape, shape_group in by_shape.items():
-            seen_dtypes = set()
-            for c in shape_group:
-                if c.dtypes not in seen_dtypes and len(seen_dtypes) < num_dtypes:
-                    seen_dtypes.add(c.dtypes)
-                    picked.append(c.uid)
-                    covered_uids.add(c.uid)
+        for _, shape_group in by_shape.items():
+            picked_dtypes = set()
+            for candidate in shape_group:
+                if (
+                    candidate.dtypes not in picked_dtypes
+                    and len(picked_dtypes) < num_dtypes
+                ):
+                    picked_dtypes.add(candidate.dtypes)
+                    picked.append(candidate.uid)
+                    covered_uids.add(candidate.uid)
 
         if picked:
-            gid = _new_group_id()
+            group_id = _new_group_id()
             for uid in picked:
-                yield sample_type, uid, gid, "rule4"
+                yield sample_type, uid, group_id, "rule4"
 
     # Rule 3: sparse sampling on remainder
     window_size = num_dtypes * 5
-    for (sample_type, _op), group in by_type_op.items():
+    for (sample_type, _), group in by_type_op.items():
         remaining = sorted(
             (c for c in group if c.uid not in covered_uids),
             key=lambda c: c.uid,
@@ -189,14 +188,9 @@ def generate_v2_groups(candidates: list[Candidate], num_dtypes: int):
             c.uid for i, c in enumerate(remaining) if (i % window_size) < num_dtypes
         ]
         if picked:
-            gid = _new_group_id()
+            group_id = _new_group_id()
             for uid in picked:
-                yield sample_type, uid, gid, "rule3"
-
-
-# ═══════════════════════════════════════════════════════════════════
-# Insert
-# ═══════════════════════════════════════════════════════════════════
+                yield sample_type, uid, group_id, "rule3"
 
 
 def _insert_groups(session, rows, policy):
@@ -230,18 +224,20 @@ def generate_groups(db_path, num_dtypes=3):
     try:
         buckets = query_bucket_groups(db)
         print(f"Bucket groups: {len(buckets)}")
-        v1 = _insert_groups(session, generate_v1_groups(buckets), "bucket_policy_v1")
-        _merge_stats(all_stats, v1)
+        v1_stats = _insert_groups(
+            session, generate_v1_groups(buckets), "bucket_policy_v1"
+        )
+        _merge_stats(all_stats, v1_stats)
 
         candidates = query_v2_candidates(db)
         print(f"V2 candidates: {len(candidates)}")
         if candidates:
-            v2 = _insert_groups(
+            v2_stats = _insert_groups(
                 session,
                 generate_v2_groups(candidates, num_dtypes),
                 "bucket_policy_v2",
             )
-            _merge_stats(all_stats, v2)
+            _merge_stats(all_stats, v2_stats)
         else:
             print("No V2 candidates found. Skipping.")
     except Exception:

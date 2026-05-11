@@ -464,7 +464,7 @@ def insert_one_sample(
         sample_type=sample_type,
         order_value=order_value,
     )
-    print(f"\ninsert into database: {db_path}")
+    print(f"\ninsert into database: {db_path=}, {sample_type=}")
     try:
         insert_graph_sample(db_path, data, model_path_prefix)
         if data["is_subgraph"]:
@@ -503,13 +503,15 @@ def insert_one_sample(
                 relative_model_path,
                 db_path,
             )
-        print(f"success insert: {data['relative_model_path']}")
+        print(f"insert {sample_type} success: {data['relative_model_path']}")
     except sqlite3.IntegrityError as e:
-        print("insert failed: integrity error (possible duplicate uuid or graph_hash)")
+        print(
+            "insert {sample_type} failed: integrity error (possible duplicate uuid or graph_hash)"
+        )
         print(f"error info: {e}")
         return False
     except Exception as e:
-        print(f"insert failed: {e}")
+        print(f"insert {sample_type} failed: {e}")
         return False
 
     return True

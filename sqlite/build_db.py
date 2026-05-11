@@ -52,6 +52,7 @@ def insert_from_list(
         )
         if successed:
             order_value += 1
+        assert successed
 
     return order_value, total
 

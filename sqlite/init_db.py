@@ -1,6 +1,7 @@
 import sqlite3
 import re
 import argparse
+import os
 from pathlib import Path
 
 
@@ -12,7 +13,10 @@ def parse_timestamp(filename: str) -> int:
     return 0
 
 
-def migrate(db_path: str = "sqlite/GraphNet.db", migrates_dir: str = "sqlite/migrates"):
+def migrate(db_path: str):
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    migrates_dir = os.path.join(script_dir, "migrates")
+
     db_path_obj = Path(db_path)
     migrates_path = Path(migrates_dir)
 
@@ -58,8 +62,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--db_path",
         type=str,
-        default="sqlite/GraphNet.db",
-        help="Database file path (default: sqlite/GraphNet.db)",
+        default="GraphNet.db",
+        help="Database file path",
     )
     args = parser.parse_args()
     migrate(args.db_path)

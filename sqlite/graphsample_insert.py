@@ -457,7 +457,7 @@ def insert_one_sample(
     except sqlite3.IntegrityError as e:
         session.rollback()
         print(
-            "insert {sample_type} failed: integrity error (possible duplicate uuid or graph_hash)"
+            f"insert {sample_type} failed: integrity error (possible duplicate uuid or graph_hash)"
         )
         print(f"error info: {e}")
         successed = False

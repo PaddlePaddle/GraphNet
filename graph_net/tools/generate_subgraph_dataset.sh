@@ -3,7 +3,7 @@ set -x
 
 MIN_SEQ_OPS=${1:-4}
 MAX_SEQ_OPS=${2:-64}
-GPU_ID=${3:-0}
+GPU_ID=${3:-7}
 
 OP_RANGE=$MIN_SEQ_OPS-$MAX_SEQ_OPS
 
@@ -12,9 +12,9 @@ export CUDA_VISIBLE_DEVICES="${GPU_ID}"
 GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 RESUME="true"
 
-DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
+#DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
+DECOMPOSE_WORKSPACE=/work/graphnet_test_workspace/subgraph_dataset_20260203
 OUTPUT_DIR=$DECOMPOSE_WORKSPACE/outputs
-DB_PATH=$OUTPUT_DIR/GraphNet.db
 
 DEVICE_REWRITED_SAMPLE_DIR=$DECOMPOSE_WORKSPACE/01_device_rewrited_samples
 DIM_GENERALIZED_SAMPLE_DIR=$DECOMPOSE_WORKSPACE/02_dimension_generalized_samples
@@ -131,7 +131,7 @@ function dimension_generalizer(){
 }
 EOF
 )
-    cp -rf $DEVICE_REWRITED_SAMPLE_DIR $DIM_GENERALIZED_SAMPLE_DIR/9
+    cp -rf $DEVICE_REWRITED_SAMPLE_DIR/* $DIM_GENERALIZED_SAMPLE_DIR/9/
 }
 
 function generate_op_names() {
@@ -599,7 +599,7 @@ function generate_fusible_subgraphs() {
     generate_generalized_subgraph_list ${DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} ${dtype_generalized_subgraphs_list}
 
     # extract backward graphs (train_forward, train_backward, eval_forward)
-    backward_graph_extractor 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_backward_graph_extractor_fusible_${suffix}.txt
+    # backward_graph_extractor 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_backward_graph_extractor_${suffix}.txt
 
     # generate kernelbench format unittest
     # generate_unittests 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_${suffix}.txt
@@ -622,7 +622,7 @@ function generate_typical_subgraphs() {
     generate_generalized_subgraph_list ${DTYPE_GENERALIZED_TYPICAL_SUBGRAPH_DIR} ${dtype_generalized_typical_subgraph_list}
 
     # extract backward graphs (train_forward, train_backward, eval_forward)
-    backward_graph_extractor_typical 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_backward_graph_extractor_typical_${suffix}.txt
+    #backward_graph_extractor_typical 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_backward_graph_extractor_typical_${suffix}.txt
 
     # generate kernelbench format unittest
     # generate_unittest_for_typical_subgraphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_typical_subgraphs_${suffix}.txt

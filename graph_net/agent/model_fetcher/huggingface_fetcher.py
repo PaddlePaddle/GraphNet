@@ -44,11 +44,26 @@ class HFFetcher(BaseModelFetcher):
             )
 
         try:
-            # Use snapshot_download to get all model files
+            # Only download config files; skip weights to speed up and save disk
             local_dir = snapshot_download(
                 repo_id=model_id,
                 cache_dir=str(self.cache_dir) if self.cache_dir else None,
                 token=self.token,
+                ignore_patterns=[
+                    "*.bin",
+                    "*.safetensors",
+                    "*.pt",
+                    "*.pth",
+                    "*.gguf",
+                    "*.ot",
+                    "*.tflite",
+                    "*.mlmodel",
+                    "*.onnx",
+                    "*.msgpack",
+                    "flax_model*",
+                    "tf_model*",
+                    "rust_model*",
+                ],
             )
             return Path(local_dir)
         except Exception as e:

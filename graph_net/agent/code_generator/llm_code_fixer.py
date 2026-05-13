@@ -81,6 +81,9 @@ _SYSTEM_PROMPT = """\
 """
 
 
+_CONFIG_JSON_MAX_CHARS = 4096
+
+
 def _find_ducc() -> Optional[str]:
     """Find ducc/claude binary, return full path or None."""
     for candidate in _DUCC_CANDIDATES:
@@ -129,7 +132,7 @@ class LLMCodeFixer:
             self.logger.warning(
                 "LLMCodeFixer: ducc/claude binary not found; "
                 "LLM retry will be skipped. "
-                "Add ducc to PATH or set /root/.comate/baidu-cc/bin in PATH."
+                "Add ducc or claude to PATH."
             )
 
     @property
@@ -241,8 +244,10 @@ class LLMCodeFixer:
 
         # Inherit current env so ANTHROPIC_* vars are passed through
         env = os.environ.copy()
-        path_prefix = "/root/.comate/baidu-cc/bin"
-        env["PATH"] = f"{path_prefix}:{env.get('PATH', '')}"
+        # Ensure the binary's directory is in PATH (handles non-PATH installs)
+        bin_dir = str(Path(self._ducc_bin).parent)
+        if bin_dir not in env.get("PATH", ""):
+            env["PATH"] = f"{bin_dir}:{env.get('PATH', '')}"
 
         try:
             result = subprocess.run(
@@ -276,8 +281,8 @@ class LLMCodeFixer:
         try:
             raw = json.loads(config_path.read_text(encoding="utf-8"))
             text = json.dumps(raw, ensure_ascii=False, indent=2)
-            if len(text) > 4096:
-                text = text[:4096] + "\n... (truncated)"
+            if len(text) > _CONFIG_JSON_MAX_CHARS:
+                text = text[:_CONFIG_JSON_MAX_CHARS] + "\n... (truncated)"
             return text
         except Exception:
             return "{}"

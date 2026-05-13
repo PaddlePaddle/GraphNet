@@ -9,7 +9,11 @@ from graph_net.agent.metadata_analyzer.model_metadata import ModelMetadata
 from graph_net.agent.utils.exceptions import AnalysisError
 
 
-# Common embedding weight keys in different model architectures
+# Cap sequence length to avoid OOM: attention is O(n²), graph extraction
+# only needs a short sequence to trace the computation graph.
+_MAX_SEQ_LEN = 128
+# Cap image size to avoid OOM on high-resolution configs.
+_MAX_IMAGE_SIZE = 512
 _EMBEDDING_WEIGHT_KEYS = [
     "embeddings.word_embeddings.weight",
     "model.embed_tokens.weight",
@@ -106,7 +110,10 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
         # Common patterns for NLP models
         if "max_position_embeddings" in config or "vocab_size" in config:
             # NLP model (BERT, GPT, etc.)
-            max_length = config.get("max_position_embeddings", 512)
+            # Cap to _MAX_SEQ_LEN: large models set max_position_embeddings to
+            # 131072+ which causes OOM via O(n²) attention during graph tracing.
+            raw_len = config.get("max_position_embeddings", 512)
+            max_length = min(raw_len, _MAX_SEQ_LEN)
             batch_size = 1
             input_shapes["input_ids"] = [batch_size, max_length]
             input_dtypes["input_ids"] = "int64"
@@ -119,7 +126,11 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
         # Common patterns for vision models
         elif "image_size" in config or "num_channels" in config:
             # Vision model (ResNet, ViT, etc.)
-            image_size = config.get("image_size", 224)
+            # image_size may be an int or a [H, W] list
+            raw_size = config.get("image_size", 224)
+            if isinstance(raw_size, (list, tuple)):
+                raw_size = raw_size[0]
+            image_size = min(int(raw_size), _MAX_IMAGE_SIZE)
             num_channels = config.get("num_channels", 3)
             batch_size = 1
             input_shapes["pixel_values"] = [

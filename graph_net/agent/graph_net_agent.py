@@ -1,6 +1,7 @@
 """GraphNet Agent core implementation"""
 
 import json
+import os
 from pathlib import Path
 from typing import Optional
 
@@ -27,7 +28,7 @@ class GraphNetAgent:
 
     def __init__(
         self,
-        workspace: str = "/work/graphnet_workspace",
+        workspace: Optional[str] = None,
         hf_token: Optional[str] = None,
         llm_retry: bool = True,
     ):
@@ -35,11 +36,17 @@ class GraphNetAgent:
         Initialize GraphNet Agent
 
         Args:
-            workspace:  Workspace root directory
+            workspace:  Workspace root directory. Defaults to
+                        $GRAPH_NET_EXTRACT_WORKSPACE or ~/graphnet_workspace.
             hf_token:   HuggingFace API token (optional)
             llm_retry:  If True and ducc/claude CLI is available, retry failed
                         extractions up to 2 times with LLM-fixed scripts.
         """
+        if workspace is None:
+            workspace = os.environ.get(
+                "GRAPH_NET_EXTRACT_WORKSPACE",
+                os.path.expanduser("~/graphnet_workspace"),
+            )
         self.workspace = WorkspaceManager(workspace)
         self.logger = setup_logger(
             "GraphNetAgent",

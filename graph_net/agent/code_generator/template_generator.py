@@ -113,10 +113,6 @@ if __name__ == "__main__":
         """Generate model loading code — config only, random weights"""
         model_path = str(model_dir).replace("\\", "/")
 
-        if model_metadata.model_type in ["resnet", "vgg", "densenet"]:
-            return f"model = torchvision.models.{model_metadata.model_type}(pretrained=False)"
-
-        # For all other architectures: load config then randomly init weights
         return (
             f"from transformers import AutoConfig\n"
             f'_config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'

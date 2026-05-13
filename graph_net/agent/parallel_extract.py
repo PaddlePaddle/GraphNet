@@ -11,11 +11,11 @@
 
     # 指定 workspace 和 HF token
     python parallel_extract.py --model-list models.txt \
-        --workspace /work/graphnet_workspace \
+        --workspace /data/graphnet_workspace \
         --hf-token YOUR_TOKEN
 
-    # 指定使用的 GPU（默认 2,3,4,5）
-    python parallel_extract.py --model-list models.txt --gpus 2,3,4,5
+    # 指定使用的 GPU（默认自动检测全部可用 GPU）
+    python parallel_extract.py --model-list models.txt --gpus 0,1,2,3
 """
 
 import argparse
@@ -23,11 +23,13 @@ import json
 import multiprocessing
 import os
 import queue
+import subprocess
 import sys
+import sysconfig
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 # 确保能 import graph_net
 _SCRIPT_DIR = Path(__file__).resolve().parent
@@ -36,14 +38,63 @@ if str(_GRAPHNET_ROOT) not in sys.path:
     sys.path.insert(0, str(_GRAPHNET_ROOT))
 
 from graph_net.agent import GraphNetAgent  # noqa: E402
-from graph_net.agent.tests.test_batch_success_rate import (  # noqa: E402
-    HUGGINGFACE_HUB_AVAILABLE,
-    get_models_from_hf,
-    load_models_from_file,
-)
 
-DEFAULT_GPUS = [2, 3, 4, 5]
-DEFAULT_WORKSPACE = "/work/graphnet_workspace"
+try:
+    from huggingface_hub import list_models as _hf_list_models
+
+    HUGGINGFACE_HUB_AVAILABLE = True
+except ImportError:
+    HUGGINGFACE_HUB_AVAILABLE = False
+
+
+def load_models_from_file(path: str) -> List[str]:
+    models = []
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#"):
+                models.append(line)
+    return models
+
+
+def get_models_from_hf(task: Optional[str] = None, limit: int = 100) -> List[str]:
+    return [
+        m.modelId
+        for m in _hf_list_models(task=task, limit=limit, sort="downloads", direction=-1)
+    ]
+
+
+def _get_default_gpus() -> List[int]:
+    """Detect available GPU indices from environment or nvidia-smi."""
+    cvd = os.getenv("CUDA_VISIBLE_DEVICES", "")
+    if cvd:
+        try:
+            return [int(g.strip()) for g in cvd.split(",") if g.strip()]
+        except ValueError:
+            pass
+    try:
+        result = subprocess.run(
+            ["nvidia-smi", "--query-gpu=index", "--format=csv,noheader"],
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        if result.returncode == 0:
+            gpus = [
+                int(x.strip()) for x in result.stdout.strip().split("\n") if x.strip()
+            ]
+            if gpus:
+                return gpus
+    except Exception:
+        pass
+    return [0]
+
+
+DEFAULT_GPUS = _get_default_gpus()
+DEFAULT_WORKSPACE = os.environ.get(
+    "GRAPH_NET_EXTRACT_WORKSPACE",
+    os.path.expanduser("~/graphnet_workspace"),
+)
 
 
 # ---------------------------------------------------------------------------
@@ -59,7 +110,7 @@ def _setup_nvidia_ld_library_path() -> None:
     """
     import glob
 
-    base = "/usr/local/lib/python3.12/site-packages/nvidia"
+    base = os.path.join(sysconfig.get_paths()["purelib"], "nvidia")
     nvidia_libs = ":".join(glob.glob(f"{base}/*/lib"))
     if not nvidia_libs:
         return

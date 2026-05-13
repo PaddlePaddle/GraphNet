@@ -150,17 +150,12 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
             self.logger.info(f"Found output directory (retry): {expected_dir}")
             return expected_dir
 
-        # Strategy 3: Search for recently modified directories
-        recent_dir = self._find_recent_sample_dir(workspace_path)
-        if recent_dir:
-            return recent_dir
-
-        # Strategy 4: Search by model_id pattern (org_model first)
+        # Strategy 3: Search by model_id pattern (org_model first)
         pattern_dir = self._find_dir_by_pattern(workspace_path, model_id, safe_model_id)
         if pattern_dir:
             return pattern_dir
 
-        # Strategy 5: Search for hash-named directories
+        # Strategy 4: Search for hash-named directories
         hash_dir = self._find_hash_named_dir(workspace_path)
         if hash_dir:
             return hash_dir
@@ -172,33 +167,6 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
         """Get workspace path from environment or instance variable"""
         workspace_env = os.environ.get("GRAPH_NET_EXTRACT_WORKSPACE")
         return Path(workspace_env) if workspace_env else self.workspace
-
-    def _find_recent_sample_dir(self, workspace_path: Path) -> Optional[Path]:
-        """Find most recently modified sample directory"""
-        current_time = time.time()
-        candidate_dirs = []
-
-        for item in workspace_path.iterdir():
-            if not item.is_dir() or not self._is_valid_sample_dir(item):
-                continue
-            try:
-                mtime = item.stat().st_mtime
-                time_diff = current_time - mtime
-                if time_diff < OUTPUT_SEARCH_WINDOW:
-                    candidate_dirs.append((item, mtime, time_diff))
-            except (OSError, FileNotFoundError):
-                continue
-
-        if candidate_dirs:
-            candidate_dirs.sort(key=lambda x: x[1], reverse=True)
-            most_recent = candidate_dirs[0][0]
-            time_diff = candidate_dirs[0][2]
-            self.logger.info(
-                f"Found recent directory: {most_recent} (modified {time_diff:.1f}s ago)"
-            )
-            return most_recent
-
-        return None
 
     def _find_dir_by_pattern(
         self, workspace_path: Path, model_id: str, safe_model_id: str

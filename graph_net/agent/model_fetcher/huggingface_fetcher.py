@@ -86,6 +86,11 @@ class HFFetcher(BaseModelFetcher):
                 "Please install it with: pip install huggingface_hub"
             )
 
+        # Set a stricter download timeout to avoid getting stuck on large/slow files
+        # (default is 10s; we bump to 30s to accommodate slow networks while still
+        # preventing indefinite hangs).
+        os.environ["HF_HUB_DOWNLOAD_TIMEOUT"] = os.environ.get("HF_HUB_DOWNLOAD_TIMEOUT", "30")
+
         last_err = None
         for attempt in range(1, self.max_retries + 1):
             try:

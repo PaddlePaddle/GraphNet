@@ -91,6 +91,31 @@ class GraphNetAgent:
         try:
             self.logger.info(f"Starting extraction for model: {model_id}")
 
+            # Pre-check: fetch only config.json to filter unsupported models early.
+            # This avoids snapshot_download getting stuck on repos with large files
+            # for models we already know are unsupported.
+            try:
+                from huggingface_hub import hf_hub_download
+                config_path = hf_hub_download(
+                    repo_id=model_id,
+                    filename="config.json",
+                    cache_dir=str(self.workspace.models_dir),
+                    token=getattr(self.model_fetcher, 'token', None),
+                )
+                with open(config_path, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                model_type = config.get("model_type", "").lower()
+                if model_type in {"gemma4", "gemma4_text", "gemma4_audio", "gemma4_vision"}:
+                    raise AnalysisError(
+                        f"Unsupported model_type '{model_type}': architecture not yet "
+                        f"supported by GraphNet extraction pipeline."
+                    )
+            except AnalysisError:
+                raise
+            except Exception:
+                # Pre-check is best-effort; if it fails, continue with normal flow
+                pass
+
             model_dir = self._fetch_model(model_id)
             model_metadata = self._analyze_model(model_dir, self.max_model_size_b)
             script_path = self._generate_script(model_dir, model_metadata, model_id)

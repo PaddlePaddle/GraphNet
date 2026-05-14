@@ -15,7 +15,6 @@ from graph_net.agent.utils.exceptions import CodeGenError
 _DUCC_CANDIDATES = [
     "ducc",
     "claude",
-    "/root/.comate/baidu-cc/bin/ducc",
     "/usr/local/bin/ducc",
     os.path.expanduser("~/.local/bin/ducc"),
 ]

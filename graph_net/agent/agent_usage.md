@@ -9,12 +9,6 @@
 # 目录
 在GraphNet目录下运行即可，不需要安装
 
-# 设置代理（访问 HuggingFace 需要）
-export http_proxy=http://agent.baidu.com:8891
-export https_proxy=http://agent.baidu.com:8891
-
-# LLM 兜底功能需要 ducc CLI（可选）
-export PATH="/root/.comate/baidu-cc/bin:$PATH"
 ```
 
 ---
@@ -143,7 +137,7 @@ HuggingFace model_id
 当模板脚本执行失败时，若满足以下条件则触发 LLM 兜底：
 
 - `llm_retry=True`（默认开启）
-- `ducc` 命令可用（在 PATH 或 `/root/.comate/baidu-cc/bin/ducc`）
+- `ducc` 命令可用（在 PATH 中）
 
 LLM 收到的信息包括：失败脚本原文、报错信息、`config.json` 内容。
 LLM 必须遵守以下约束（写在 system prompt 里）：

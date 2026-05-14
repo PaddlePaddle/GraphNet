@@ -1,20 +1,21 @@
 #!/usr/bin/env python3
 """
-并行抽取脚本：动态调度，所有模型放入共享任务队列，每张 GPU 的 worker 空闲时主动取任务。
+Parallel extraction script: dynamic scheduling, all models placed in a shared task queue,
+each GPU worker picks up tasks when idle.
 
-用法示例：
-    # 从文件读取模型列表（每行一个 model_id）
+Usage examples:
+    # Load model list from file (one model_id per line)
     python parallel_extract.py --model-list models.txt
 
-    # 从 HuggingFace Hub 抓取 400 个模型
+    # Fetch 400 models from HuggingFace Hub
     python parallel_extract.py --count 400
 
-    # 指定 workspace 和 HF token
+    # Specify workspace and HF token
     python parallel_extract.py --model-list models.txt \
         --workspace /data/graphnet_workspace \
         --hf-token YOUR_TOKEN
 
-    # 指定使用的 GPU（默认自动检测全部可用 GPU）
+    # Specify GPUs to use (default: auto-detect all available GPUs)
     python parallel_extract.py --model-list models.txt --gpus 0,1,2,3
 """
 
@@ -25,13 +26,12 @@ import os
 import queue
 import subprocess
 import sys
-import sysconfig
 import time
 from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional
 
-# 确保能 import graph_net
+# Ensure graph_net is importable
 _SCRIPT_DIR = Path(__file__).resolve().parent
 _GRAPHNET_ROOT = _SCRIPT_DIR.parent.parent  # GraphNet/
 if str(_GRAPHNET_ROOT) not in sys.path:
@@ -102,25 +102,6 @@ DEFAULT_WORKSPACE = os.environ.get(
 # ---------------------------------------------------------------------------
 
 
-def _setup_nvidia_ld_library_path() -> None:
-    """
-    将 pip nvidia 包的 lib 目录注入 LD_LIBRARY_PATH 最前面，
-    确保子进程加载正确版本的 NCCL/CUPTI/nvJitLink 等库，
-    避免系统旧版库导致 undefined symbol 错误。
-    """
-    import glob
-
-    base = os.path.join(sysconfig.get_paths()["purelib"], "nvidia")
-    nvidia_libs = ":".join(glob.glob(f"{base}/*/lib"))
-    if not nvidia_libs:
-        return
-    current = os.environ.get("LD_LIBRARY_PATH", "")
-    if nvidia_libs not in current:
-        os.environ["LD_LIBRARY_PATH"] = (
-            f"{nvidia_libs}:{current}" if current else nvidia_libs
-        )
-
-
 def _worker(
     gpu_id: int,
     task_queue: multiprocessing.Queue,
@@ -130,24 +111,21 @@ def _worker(
     total: int,
 ) -> None:
     """
-    Worker 函数，在独立子进程中运行，绑定到指定 GPU。
-    动态从 task_queue 取任务，队列为空时退出。
+    Worker function, runs in a dedicated subprocess bound to a single GPU.
+    Dynamically pulls tasks from task_queue and exits when the queue is empty.
 
     Args:
-        gpu_id:       CUDA 设备编号（如 2）
-        task_queue:   共享任务队列，每项为 model_id 字符串
-        result_queue: 用于向主进程汇报结果的队列
-        workspace:    工作目录根路径
-        hf_token:     HuggingFace token（可选）
-        total:        总任务数（仅用于日志显示）
+        gpu_id:       CUDA device index (e.g. 2)
+        task_queue:   Shared task queue; each item is a model_id string
+        result_queue: Queue for reporting results back to the main process
+        workspace:    Root workspace directory path
+        hf_token:     HuggingFace token (optional)
+        total:        Total task count (used for logging only)
     """
-    # 绑定 GPU：子进程只看到这一张卡，内部用 cuda:0 即可
+    # Bind GPU: subprocess only sees this card, internal code can use cuda:0
     os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
-    # 传递 workspace 给 SubprocessGraphExtractor 使用的环境变量
+    # Pass workspace to the environment variable used by SubprocessGraphExtractor
     os.environ["GRAPH_NET_EXTRACT_WORKSPACE"] = workspace
-
-    # 确保 pip nvidia 库优先加载（修复 NCCL/nvJitLink 符号缺失问题）
-    _setup_nvidia_ld_library_path()
 
     print(f"[GPU {gpu_id}] Worker started", flush=True)
 
@@ -155,7 +133,7 @@ def _worker(
         agent = GraphNetAgent(workspace=workspace, hf_token=hf_token, llm_retry=False)
     except Exception as e:
         print(f"[GPU {gpu_id}] Failed to initialize agent: {e}", flush=True)
-        # 把队列里剩余任务都标记为失败并排空，避免主进程死等
+        # Drain queue and mark remaining tasks as failed to avoid blocking the main process
         while True:
             try:
                 mid = task_queue.get_nowait()
@@ -261,49 +239,49 @@ def _print_summary(results: Dict) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="并行从 HuggingFace 抽取计算图，每张 GPU 跑一个独立 agent 进程"
+        description="Parallel computation graph extraction from HuggingFace; one agent process per GPU"
     )
     parser.add_argument(
         "--model-list",
         type=str,
         default=None,
-        help="模型列表文件路径（每行一个 model_id，# 开头为注释）",
+        help="Path to model list file (one model_id per line, lines starting with # are comments)",
     )
     parser.add_argument(
         "--count",
         type=int,
         default=100,
-        help="从 HuggingFace Hub 抓取的模型数量（model-list 未指定时生效，默认 100）",
+        help="Number of models to fetch from HuggingFace Hub (used when --model-list is not set, default 100)",
     )
     parser.add_argument(
         "--task",
         type=str,
         default=None,
-        help="HuggingFace 任务类型过滤（如 text-classification）",
+        help="HuggingFace task filter (e.g. text-classification)",
     )
     parser.add_argument(
         "--workspace",
         type=str,
         default=None,
-        help=f"工作目录根路径（默认 {DEFAULT_WORKSPACE} 或 GRAPH_NET_EXTRACT_WORKSPACE 环境变量）",
+        help=f"Root workspace directory (default: {DEFAULT_WORKSPACE} or GRAPH_NET_EXTRACT_WORKSPACE env var)",
     )
     parser.add_argument(
         "--hf-token",
         type=str,
         default=None,
-        help="HuggingFace API Token（私有模型需要）",
+        help="HuggingFace API Token (required for private models)",
     )
     parser.add_argument(
         "--gpus",
         type=str,
         default=",".join(str(g) for g in DEFAULT_GPUS),
-        help=f"使用的 GPU 编号，逗号分隔（默认 {','.join(str(g) for g in DEFAULT_GPUS)}）",
+        help=f"Comma-separated GPU indices to use (default: {','.join(str(g) for g in DEFAULT_GPUS)})",
     )
     parser.add_argument(
         "--output",
         type=str,
         default=None,
-        help="结果 JSON 文件路径（默认自动生成带时间戳的文件名）",
+        help="Output JSON file path (default: auto-generated filename with timestamp)",
     )
 
     args = parser.parse_args()
@@ -343,7 +321,7 @@ def main() -> int:
 
     print(f"[INFO] Total models: {len(model_ids)}, workers: {len(gpus)}")
 
-    # --- 将所有模型填入共享任务队列 ---
+    # --- Populate shared task queue ---
     task_queue: multiprocessing.Queue = multiprocessing.Queue()
     for mid in model_ids:
         task_queue.put(mid)
@@ -432,6 +410,6 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    # multiprocessing 在 Linux 上默认 fork，显式设置 spawn 避免 CUDA fork 问题
+    # Linux defaults to fork; explicitly use spawn to avoid CUDA fork issues
     multiprocessing.set_start_method("spawn", force=True)
     sys.exit(main())

@@ -39,6 +39,8 @@ if str(_GRAPHNET_ROOT) not in sys.path:
 
 from graph_net.agent import GraphNetAgent  # noqa: E402
 
+import torch  # noqa: E402
+
 try:
     from huggingface_hub import list_models as _hf_list_models
 
@@ -62,6 +64,11 @@ def get_models_from_hf(task: Optional[str] = None, limit: int = 100) -> List[str
         m.modelId
         for m in _hf_list_models(task=task, limit=limit, sort="downloads", direction=-1)
     ]
+
+
+def get_device_type() -> str:
+    """Return 'cuda' if torch CUDA is available, otherwise 'cpu'."""
+    return "cuda" if torch.cuda.is_available() else "cpu"
 
 
 def _get_default_gpus() -> List[int]:
@@ -90,10 +97,26 @@ def _get_default_gpus() -> List[int]:
     return [0]
 
 
-DEFAULT_GPUS = _get_default_gpus()
+def get_gpu_ids(args) -> List[int]:
+    """Resolve GPU indices from args or fall back to nvidia-smi.
+
+    Returns:
+        List of GPU indices if specified or detected.
+        Falls back to _get_default_gpus() if args.gpus is None, empty, or invalid.
+    """
+    if args.gpus is not None:
+        gpus_str = args.gpus.strip()
+        if gpus_str:
+            try:
+                return [int(g.strip()) for g in gpus_str.split(",") if g.strip()]
+            except ValueError:
+                print(f"[WARN] Invalid --gpus value: {args.gpus}, using default GPUs")
+
+    return _get_default_gpus()
+
+
 DEFAULT_WORKSPACE = os.environ.get(
-    "GRAPH_NET_EXTRACT_WORKSPACE",
-    os.path.expanduser("~/graphnet_workspace"),
+    "GRAPH_NET_EXTRACT_WORKSPACE", "/tmp/graphnet_workspace"
 )
 
 
@@ -102,8 +125,9 @@ DEFAULT_WORKSPACE = os.environ.get(
 # ---------------------------------------------------------------------------
 
 
-def _worker(
-    gpu_id: int,
+def worker_fn(
+    worker_id: int,
+    gpu_id: Optional[int],
     task_queue: multiprocessing.Queue,
     result_queue: multiprocessing.Queue,
     workspace: str,
@@ -111,35 +135,40 @@ def _worker(
     total: int,
 ) -> None:
     """
-    Worker function, runs in a dedicated subprocess bound to a single GPU.
+    Worker function, runs in a dedicated subprocess bound to a single GPU or CPU.
     Dynamically pulls tasks from task_queue and exits when the queue is empty.
 
     Args:
-        gpu_id:       CUDA device index (e.g. 2)
+        worker_id:    Worker process index (e.g. 0)
+        gpu_id:       CUDA device index (e.g. 2), None for CPU mode
         task_queue:   Shared task queue; each item is a model_id string
         result_queue: Queue for reporting results back to the main process
         workspace:    Root workspace directory path
         hf_token:     HuggingFace token (optional)
         total:        Total task count (used for logging only)
     """
-    # Bind GPU: subprocess only sees this card, internal code can use cuda:0
-    os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
+    if gpu_id is not None:
+        os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
+        prefix = f"[Worker-{worker_id} GPU:{gpu_id}]"
+    else:
+        os.environ["CUDA_VISIBLE_DEVICES"] = ""
+        prefix = f"[Worker-{worker_id} CPU]"
     # Pass workspace to the environment variable used by SubprocessGraphExtractor
     os.environ["GRAPH_NET_EXTRACT_WORKSPACE"] = workspace
 
-    print(f"[GPU {gpu_id}] Worker started", flush=True)
+    print(f"{prefix} Started", flush=True)
 
     try:
         agent = GraphNetAgent(workspace=workspace, hf_token=hf_token, llm_retry=False)
     except Exception as e:
-        print(f"[GPU {gpu_id}] Failed to initialize agent: {e}", flush=True)
+        print(f"{prefix} Failed to initialize agent: {e}", flush=True)
         # Drain queue and mark remaining tasks as failed to avoid blocking the main process
         while True:
             try:
                 mid = task_queue.get_nowait()
                 result_queue.put(
                     {
-                        "gpu": gpu_id,
+                        "gpu": gpu_id if gpu_id is not None else worker_id,
                         "model_id": mid,
                         "success": False,
                         "error": str(e),
@@ -156,37 +185,29 @@ def _worker(
         except queue.Empty:
             break
 
-        print(f"[GPU {gpu_id}] Extracting: {model_id}", flush=True)
+        print(f"{prefix} Extracting: {model_id}", flush=True)
         t0 = time.time()
+
+        result_dict = {
+            "gpu": gpu_id if gpu_id is not None else worker_id,
+            "model_id": model_id,
+        }
         try:
             success = agent.extract_sample(model_id)
             elapsed = time.time() - t0
             status = "OK" if success else "FAIL"
-            print(f"[GPU {gpu_id}] {status} {model_id} ({elapsed:.1f}s)", flush=True)
-            result_queue.put(
-                {
-                    "gpu": gpu_id,
-                    "model_id": model_id,
-                    "success": success,
-                    "elapsed": round(elapsed, 2),
-                    "timestamp": datetime.now().isoformat(),
-                }
-            )
+            print(f"{prefix} {status} {model_id} ({elapsed:.1f}s)", flush=True)
+            result_dict["success"] = success
         except Exception as e:
             elapsed = time.time() - t0
-            print(f"[GPU {gpu_id}] ERROR {model_id}: {e} ({elapsed:.1f}s)", flush=True)
-            result_queue.put(
-                {
-                    "gpu": gpu_id,
-                    "model_id": model_id,
-                    "success": False,
-                    "error": str(e),
-                    "elapsed": round(elapsed, 2),
-                    "timestamp": datetime.now().isoformat(),
-                }
-            )
+            print(f"{prefix} ERROR {model_id}: {e} ({elapsed:.1f}s)", flush=True)
+            result_dict["success"] = False
+            result_dict["error"] = str(e)
 
-    print(f"[GPU {gpu_id}] Worker finished (queue empty)", flush=True)
+        result_dict["elapsed"] = round(elapsed, 2)
+        result_dict["timestamp"] = datetime.now().isoformat()
+        result_queue.put(result_dict)
+    print(f"{prefix} Worker finished (queue empty)", flush=True)
 
 
 # ---------------------------------------------------------------------------
@@ -224,11 +245,13 @@ def _print_summary(results: Dict) -> None:
         gpu_stats[g]["total"] += 1
         if d.get("success"):
             gpu_stats[g]["success"] += 1
-    print("\n  Per-GPU:")
+
+    label = "GPU" if results.get("gpus") else "Worker"
+    print(f"\n  Per-{label}:")
     for g in sorted(gpu_stats):
         gs = gpu_stats[g]
         gr = (gs["success"] / gs["total"] * 100) if gs["total"] else 0.0
-        print(f"    GPU {g}: {gs['success']}/{gs['total']} ({gr:.1f}%)")
+        print(f"    {label} {g}: {gs['success']}/{gs['total']} ({gr:.1f}%)")
     print("=" * 60)
 
 
@@ -237,9 +260,9 @@ def _print_summary(results: Dict) -> None:
 # ---------------------------------------------------------------------------
 
 
-def main() -> int:
+def _parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Parallel computation graph extraction from HuggingFace; one agent process per GPU"
+        description="Parallel computation graph extraction from HuggingFace; one agent process per GPU or CPU"
     )
     parser.add_argument(
         "--model-list",
@@ -274,8 +297,14 @@ def main() -> int:
     parser.add_argument(
         "--gpus",
         type=str,
-        default=",".join(str(g) for g in DEFAULT_GPUS),
-        help=f"Comma-separated GPU indices to use (default: {','.join(str(g) for g in DEFAULT_GPUS)})",
+        default=None,
+        help="Comma-separated GPU indices to use (GPU mode; if set, ignores --num-workers)",
+    )
+    parser.add_argument(
+        "--num-workers",
+        type=int,
+        default=None,
+        help="Number of worker processes in CPU mode (default: CPU count)",
     )
     parser.add_argument(
         "--output",
@@ -283,43 +312,49 @@ def main() -> int:
         default=None,
         help="Output JSON file path (default: auto-generated filename with timestamp)",
     )
+    return parser.parse_args()
 
-    args = parser.parse_args()
 
-    # --- Resolve workspace ---
+def _load_model_ids(args: argparse.Namespace) -> List[str]:
+    if args.model_list:
+        return load_models_from_file(args.model_list)
+    if HUGGINGFACE_HUB_AVAILABLE:
+        print(
+            f"[INFO] Fetching {args.count} models from HuggingFace Hub (task={args.task})..."
+        )
+        return get_models_from_hf(task=args.task, limit=args.count)
+    return []
+
+
+def _resolve_config(args: argparse.Namespace):
     workspace = (
         args.workspace or os.getenv("GRAPH_NET_EXTRACT_WORKSPACE") or DEFAULT_WORKSPACE
     )
     print(f"[INFO] Workspace: {workspace}")
 
-    # --- Parse GPU list ---
-    try:
-        gpus = [int(g.strip()) for g in args.gpus.split(",") if g.strip()]
-    except ValueError:
-        print(f"[ERROR] Invalid --gpus value: {args.gpus}")
-        return 1
-    if not gpus:
-        print("[ERROR] No GPUs specified")
-        return 1
-    print(f"[INFO] GPUs: {gpus}")
-
-    # --- Load model list ---
-    if args.model_list:
-        model_ids = load_models_from_file(args.model_list)
-    elif HUGGINGFACE_HUB_AVAILABLE:
-        print(
-            f"[INFO] Fetching {args.count} models from HuggingFace Hub (task={args.task})..."
-        )
-        model_ids = get_models_from_hf(task=args.task, limit=args.count)
+    if get_device_type() == "cuda":
+        gpus = get_gpu_ids(args)
+        num_workers = len(gpus)
+        print(f"[INFO] GPU mode (torch fallback): {gpus}")
     else:
-        print("[ERROR] No model list provided and huggingface_hub not available")
-        return 1
+        gpus = []
+        num_workers = args.num_workers if args.num_workers else 1
+        print(f"[INFO] CPU mode: {num_workers} workers")
 
+    return workspace, gpus, num_workers
+
+
+def main() -> int:
+    args = _parse_args()
+
+    workspace, gpus, num_workers = _resolve_config(args)
+
+    model_ids = _load_model_ids(args)
     if not model_ids:
         print("[ERROR] Empty model list, nothing to do")
         return 1
 
-    print(f"[INFO] Total models: {len(model_ids)}, workers: {len(gpus)}")
+    print(f"[INFO] Total models: {len(model_ids)}, workers: {num_workers}")
 
     # --- Populate shared task queue ---
     task_queue: multiprocessing.Queue = multiprocessing.Queue()
@@ -328,17 +363,19 @@ def main() -> int:
 
     # --- Launch workers ---
     result_queue: multiprocessing.Queue = multiprocessing.Queue()
-    processes = []
 
     start_time = datetime.now()
     print(
-        f"\n[START] {start_time.strftime('%Y-%m-%d %H:%M:%S')} — launching {len(gpus)} workers\n"
+        f"\n[START] {start_time.strftime('%Y-%m-%d %H:%M:%S')} — launching {num_workers} workers\n"
     )
 
-    for gpu_id in gpus:
+    processes = []
+    for worker_id in range(num_workers):
+        gpu_id = gpus[worker_id] if gpus else None
         p = multiprocessing.Process(
-            target=_worker,
+            target=worker_fn,
             args=(
+                worker_id,
                 gpu_id,
                 task_queue,
                 result_queue,
@@ -346,7 +383,8 @@ def main() -> int:
                 args.hf_token,
                 len(model_ids),
             ),
-            name=f"worker-gpu{gpu_id}",
+            name=f"worker-{worker_id}"
+            + (f"-gpu{gpu_id}" if gpu_id is not None else "-cpu"),
             daemon=True,
         )
         p.start()
@@ -354,16 +392,14 @@ def main() -> int:
 
     # --- Collect results ---
     details = []
-    total_expected = len(model_ids)
-
-    while len(details) < total_expected:
+    while len(details) < len(model_ids):
         try:
             entry = result_queue.get(timeout=5)
             details.append(entry)
             done = len(details)
             success_so_far = sum(1 for d in details if d.get("success"))
             print(
-                f"[PROGRESS] {done}/{total_expected} done, "
+                f"[PROGRESS] {done}/{len(model_ids)} done, "
                 f"success rate so far: {success_so_far/done*100:.1f}%",
                 flush=True,
             )
@@ -378,18 +414,16 @@ def main() -> int:
         p.join(timeout=10)
 
     end_time = datetime.now()
-    elapsed_total = (end_time - start_time).total_seconds()
-
-    # --- Build result summary ---
+    success_count = sum(1 for d in details if d.get("success"))
     results = {
         "start_time": start_time.isoformat(),
         "end_time": end_time.isoformat(),
-        "elapsed_seconds": round(elapsed_total, 1),
+        "elapsed_seconds": round((end_time - start_time).total_seconds(), 1),
         "gpus": gpus,
         "workspace": workspace,
         "total": len(details),
-        "success": sum(1 for d in details if d.get("success")),
-        "failed": sum(1 for d in details if not d.get("success")),
+        "success": success_count,
+        "failed": len(details) - success_count,
         "success_rate": 0.0,
         "details": details,
     }
@@ -404,7 +438,7 @@ def main() -> int:
 
     # --- Print summary ---
     _print_summary(results)
-    print(f"\n[DONE] Total elapsed: {elapsed_total:.0f}s")
+    print(f"\n[DONE] Total elapsed: {results['elapsed_seconds']:.0f}s")
 
     return 0 if results["success_rate"] > 0 else 1
 

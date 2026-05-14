@@ -1,6 +1,7 @@
 """GraphNet Agent core implementation"""
 
-import shutil
+import json
+import os
 from pathlib import Path
 from typing import Optional
 
@@ -8,6 +9,7 @@ from graph_net.hash_util import get_sha256_hash
 
 from graph_net.agent.metadata_analyzer import ConfigMetadataAnalyzer
 from graph_net.agent.code_generator import TemplateCodeGenerator
+from graph_net.agent.code_generator.llm_code_fixer import LLMCodeFixer
 from graph_net.agent.graph_extractor import SubprocessGraphExtractor
 from graph_net.agent.model_fetcher import HFFetcher
 from graph_net.agent.utils.exceptions import (
@@ -18,7 +20,7 @@ from graph_net.agent.utils.exceptions import (
 )
 from graph_net.agent.utils.logger import setup_logger
 from graph_net.agent.utils.workspace_manager import WorkspaceManager
-from graph_net.agent.sample_verifier import BasicSampleVerifier
+from graph_net.agent.sample_verifier import ForwardVerifier
 
 
 class GraphNetAgent:
@@ -26,16 +28,25 @@ class GraphNetAgent:
 
     def __init__(
         self,
-        workspace: str,
+        workspace: Optional[str] = None,
         hf_token: Optional[str] = None,
+        llm_retry: bool = True,
     ):
         """
         Initialize GraphNet Agent
 
         Args:
-            workspace: Workspace root directory
-            hf_token: HuggingFace API token (optional)
+            workspace:  Workspace root directory. Defaults to
+                        $GRAPH_NET_EXTRACT_WORKSPACE or ~/graphnet_workspace.
+            hf_token:   HuggingFace API token (optional)
+            llm_retry:  If True and ducc/claude CLI is available, retry failed
+                        extractions up to 2 times with LLM-fixed scripts.
         """
+        if workspace is None:
+            workspace = os.environ.get(
+                "GRAPH_NET_EXTRACT_WORKSPACE",
+                os.path.expanduser("~/graphnet_workspace"),
+            )
         self.workspace = WorkspaceManager(workspace)
         self.logger = setup_logger(
             "GraphNetAgent",
@@ -46,17 +57,26 @@ class GraphNetAgent:
         self.model_fetcher = HFFetcher(
             cache_dir=str(self.workspace.models_dir),
             token=hf_token,
+            max_retries=3,
+            retry_delay=5,
         )
         self.metadata_analyzer = ConfigMetadataAnalyzer()
         self.code_generator = TemplateCodeGenerator()
         self.graph_extractor = SubprocessGraphExtractor(
             workspace=str(self.workspace.workspace_root)
         )
-        self.sample_verifier = BasicSampleVerifier()
+        self.sample_verifier = ForwardVerifier()
+
+        # LLM fixer — only created when llm_retry is requested
+        self.llm_fixer: Optional[LLMCodeFixer] = LLMCodeFixer() if llm_retry else None
 
     def extract_sample(self, model_id: str) -> bool:
         """
-        Execute complete sample extraction pipeline from HuggingFace model ID
+        Execute complete sample extraction pipeline from HuggingFace model ID.
+
+        On first failure the LLM fixer (ducc -p) is invoked up to 2 times to
+        produce a repaired script. Each retry feeds the previous script and its
+        error back to the LLM for further refinement.
 
         Args:
             model_id: HuggingFace model ID (e.g., "bert-base-uncased")
@@ -70,9 +90,17 @@ class GraphNetAgent:
             model_dir = self._fetch_model(model_id)
             model_metadata = self._analyze_model(model_dir)
             script_path = self._generate_script(model_dir, model_metadata, model_id)
-            sample_dir = self._extract_graph(script_path, model_id)
+
+            # ── First attempt (template script) ──────────────────────────
+            try:
+                sample_dir = self._extract_graph(script_path, model_id)
+            except ExtractionError as first_err:
+                sample_dir = self._llm_retry(
+                    first_err, script_path, model_dir, model_id
+                )
 
             self._generate_graph_hash(sample_dir)
+            self._fix_model_name(sample_dir, model_id)
 
             if self.is_duplicate_sample(sample_dir):
                 self.logger.info("Duplicate sample detected, skipping verification")
@@ -82,7 +110,6 @@ class GraphNetAgent:
                 self.logger.error("Sample verification failed")
                 return False
 
-            self._archive_script(script_path, sample_dir)
             self.logger.info(f"Successfully extracted sample for {model_id}")
             return True
 
@@ -92,6 +119,55 @@ class GraphNetAgent:
         except Exception as e:
             self.logger.error(f"Unexpected error for {model_id}: {e}", exc_info=True)
             return False
+
+    def _llm_retry(
+        self,
+        first_err: ExtractionError,
+        script_path: Path,
+        model_dir: Path,
+        model_id: str,
+    ) -> tuple[Path, Path]:
+        """
+        On extraction failure: ask the LLM to fix the script and retry, up to 2 times.
+        Each attempt feeds the previous script + its error back to the LLM.
+
+        Returns:
+            (sample_dir, successful_script_path)
+
+        Raises ExtractionError if LLM fix is unavailable or both attempts fail.
+        """
+        if self.llm_fixer is None or not self.llm_fixer.available:
+            self.logger.warning(
+                "LLM retry disabled or ducc not available; re-raising original error."
+            )
+            raise first_err
+
+        generated_dir = self.workspace.get_generated_dir(model_id)
+        err = first_err
+        current_script = script_path
+
+        for attempt in range(1, 3):  # attempt 1, 2
+            self.logger.warning(
+                f"Extraction failed (attempt {attempt}/2): {err}\n"
+                f"Invoking LLM to fix the script..."
+            )
+            fixed_path = self.llm_fixer.fix(
+                script_path=current_script,
+                error_msg=str(err),
+                model_dir=model_dir,
+                model_id=model_id,
+                output_dir=generated_dir,
+                attempt=attempt,
+            )
+            self.logger.info(f"Retrying extraction with LLM-fixed script: {fixed_path}")
+            try:
+                sample_dir = self._extract_graph(fixed_path, model_id)
+                return sample_dir
+            except ExtractionError as retry_err:
+                err = retry_err
+                current_script = fixed_path  # 第二次把上一次修复的脚本+新报错再喂给 LLM
+
+        raise err
 
     def _fetch_model(self, model_id: str) -> Path:
         """Download model from HuggingFace Hub"""
@@ -112,6 +188,9 @@ class GraphNetAgent:
     def _generate_script(self, model_dir: Path, model_metadata, model_id: str) -> Path:
         """Generate run_model.py script based on metadata"""
         self.logger.info("Generating extraction script")
+        # Override model_id in metadata with the original HF model_id so that
+        # extract(name=...) uses the short model name, not a snapshot hash.
+        model_metadata.model_id = model_id
         generated_dir = self.workspace.get_generated_dir(model_id)
         script_path = self.code_generator.generate(
             model_dir, model_metadata, generated_dir
@@ -126,10 +205,21 @@ class GraphNetAgent:
         self.logger.info(f"Graph extracted to: {sample_dir}")
         return sample_dir
 
-    def _archive_script(self, script_path: Path, sample_dir: Path) -> None:
-        """Archive generated script to sample directory"""
-        self.logger.info("Archiving extraction script")
-        self.save_extraction_script(script_path, sample_dir)
+    def _fix_model_name(self, sample_dir: Path, model_id: str) -> None:
+        """将 graph_net.json 中的 model_name 修正为原始 HuggingFace model_id（org/model）"""
+        for json_path in [
+            sample_dir / "graph_net.json",
+            *sample_dir.glob("subgraph_*/graph_net.json"),
+        ]:
+            if not json_path.exists():
+                continue
+            try:
+                data = json.loads(json_path.read_text())
+                if data.get("model_name") != model_id:
+                    data["model_name"] = model_id
+                    json_path.write_text(json.dumps(data, indent=4))
+            except (OSError, json.JSONDecodeError) as e:
+                self.logger.warning(f"Failed to fix model_name in {json_path}: {e}")
 
     def _generate_graph_hash(self, sample_dir: Path) -> None:
         """Generate graph_hash.txt from model.py if it doesn't exist"""
@@ -179,15 +269,4 @@ class GraphNetAgent:
             return False
         except (OSError, IOError) as e:
             self.logger.warning(f"Failed to check duplicate: {e}")
-            return False
-
-    def save_extraction_script(self, script_path: Path, sample_dir: Path) -> bool:
-        """Save the generated extraction script to the sample directory"""
-        try:
-            target_path = sample_dir / "run_model.py"
-            shutil.copy(script_path, target_path)
-            self.logger.info(f"Script archived to: {target_path}")
-            return True
-        except (OSError, IOError, shutil.Error) as e:
-            self.logger.error(f"Failed to archive script: {e}")
             return False

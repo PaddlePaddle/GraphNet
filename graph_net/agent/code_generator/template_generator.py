@@ -59,6 +59,11 @@ class TemplateCodeGenerator(BaseCodeGenerator):
         except Exception as e:
             raise CodeGenError(f"Failed to generate code: {e}") from e
 
+    @staticmethod
+    def _model_short_name(model_id: str) -> str:
+        """Return 'org_model' name (replace '/' with '_')"""
+        return model_id.replace("/", "_")
+
     def _generate_code(self, model_dir: Path, model_metadata: ModelMetadata) -> str:
         """Generate complete extraction script code string"""
         # Generate model loading code
@@ -66,6 +71,8 @@ class TemplateCodeGenerator(BaseCodeGenerator):
 
         # Generate input construction code
         input_code = self._generate_input_code(model_metadata)
+
+        short_name = self._model_short_name(model_metadata.model_id)
 
         # Generate main code
         code = f"""import torch
@@ -79,19 +86,19 @@ import graph_net
 def main():
     # Load model
 {self._indent(load_code, 4)}
-    
+
     # Prepare inputs
 {self._indent(input_code, 4)}
-    
+
     # Extract graph
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device).eval()
-    
+
     # Move inputs to same device as model
     inputs = {{k: v.to(device) for k, v in inputs.items()}}
-    
-    wrapped = graph_net.torch.extract(name="{model_metadata.model_id}", dynamic=True)(model).eval()
-    
+
+    wrapped = graph_net.torch.extract(name="{short_name}", dynamic=False)(model).eval()
+
     with torch.no_grad():
         wrapped(**inputs)
 
@@ -103,16 +110,14 @@ if __name__ == "__main__":
     def _generate_model_loader(
         self, model_dir: Path, model_metadata: ModelMetadata
     ) -> str:
-        """Generate model loading code based on model type"""
+        """Generate model loading code — config only, random weights"""
         model_path = str(model_dir).replace("\\", "/")
 
-        if model_metadata.model_type in ["bert", "gpt", "t5", "roberta"]:
-            return f'model = AutoModel.from_pretrained("{model_path}")'
-        elif model_metadata.model_type in ["resnet", "vgg", "densenet"]:
-            return f"model = torchvision.models.{model_metadata.model_type}(pretrained=True)"
-        else:
-            # Generic loading
-            return f'model = AutoModel.from_pretrained("{model_path}")'
+        return (
+            f"from transformers import AutoConfig\n"
+            f'_config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
+            f"model = AutoModel.from_config(_config)"
+        )
 
     def _generate_input_code(self, model_metadata: ModelMetadata) -> str:
         """Generate input tensor construction code based on model metadata"""

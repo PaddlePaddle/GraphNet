@@ -154,7 +154,10 @@ def worker_fn(
         os.environ["CUDA_VISIBLE_DEVICES"] = ""
         prefix = f"[Worker-{worker_id} CPU]"
     # Pass workspace to the environment variable used by SubprocessGraphExtractor
-    os.environ["GRAPH_NET_EXTRACT_WORKSPACE"] = workspace
+    if "GRAPH_NET_EXTRACT_WORKSPACE" not in os.environ:
+        os.envion[
+            "GRAPH_NET_EXTRACT_WORKSPACE"
+        ] = f"{workspace}/samples/transformers-auto-model"
 
     print(f"{prefix} Started", flush=True)
 

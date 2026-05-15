@@ -133,19 +133,23 @@ def worker_fn(
     workspace: str,
     hf_token: Optional[str],
     total: int,
+    extract_timeout: int,
+    verify_timeout: int,
 ) -> None:
     """
     Worker function, runs in a dedicated subprocess bound to a single GPU or CPU.
     Dynamically pulls tasks from task_queue and exits when the queue is empty.
 
     Args:
-        worker_id:    Worker process index (e.g. 0)
-        gpu_id:       CUDA device index (e.g. 2), None for CPU mode
-        task_queue:   Shared task queue; each item is a model_id string
-        result_queue: Queue for reporting results back to the main process
-        workspace:    Root workspace directory path
-        hf_token:     HuggingFace token (optional)
-        total:        Total task count (used for logging only)
+        worker_id:       Worker process index (e.g. 0)
+        gpu_id:          CUDA device index (e.g. 2), None for CPU mode
+        task_queue:      Shared task queue; each item is a model_id string
+        result_queue:    Queue for reporting results back to the main process
+        workspace:       Root workspace directory path
+        hf_token:        HuggingFace token (optional)
+        total:           Total task count (used for logging only)
+        extract_timeout: Timeout in seconds for graph extraction subprocess
+        verify_timeout:  Timeout in seconds for forward verification subprocess
     """
     if gpu_id is not None:
         os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
@@ -155,14 +159,24 @@ def worker_fn(
         prefix = f"[Worker-{worker_id} CPU]"
     # Pass workspace to the environment variable used by SubprocessGraphExtractor
     if "GRAPH_NET_EXTRACT_WORKSPACE" not in os.environ:
-        os.envion[
+        os.environ[
             "GRAPH_NET_EXTRACT_WORKSPACE"
         ] = f"{workspace}/samples/transformers-auto-model"
 
-    print(f"{prefix} Started", flush=True)
+    print(
+        f"{prefix} Started (extract_timeout={extract_timeout}s, "
+        f"verify_timeout={verify_timeout}s)",
+        flush=True,
+    )
 
     try:
-        agent = GraphNetAgent(workspace=workspace, hf_token=hf_token, llm_retry=False)
+        agent = GraphNetAgent(
+            workspace=workspace,
+            hf_token=hf_token,
+            llm_retry=False,
+            extract_timeout=extract_timeout,
+            verify_timeout=verify_timeout,
+        )
     except Exception as e:
         print(f"{prefix} Failed to initialize agent: {e}", flush=True)
         # Drain queue and mark remaining tasks as failed to avoid blocking the main process
@@ -315,6 +329,18 @@ def _parse_args() -> argparse.Namespace:
         default=None,
         help="Output JSON file path (default: auto-generated filename with timestamp)",
     )
+    parser.add_argument(
+        "--extract-timeout",
+        type=int,
+        default=None,
+        help="Timeout in seconds for graph extraction (default: 1000 on GPU, 2000 on CPU)",
+    )
+    parser.add_argument(
+        "--verify-timeout",
+        type=int,
+        default=None,
+        help="Timeout in seconds for forward verification (default: 300 on GPU, 600 on CPU)",
+    )
     return parser.parse_args()
 
 
@@ -339,18 +365,29 @@ def _resolve_config(args: argparse.Namespace):
         gpus = get_gpu_ids(args)
         num_workers = len(gpus)
         print(f"[INFO] GPU mode (torch fallback): {gpus}")
+        extract_timeout = (
+            args.extract_timeout if args.extract_timeout is not None else 1000
+        )
+        verify_timeout = args.verify_timeout if args.verify_timeout is not None else 300
     else:
         gpus = []
         num_workers = args.num_workers if args.num_workers else 1
         print(f"[INFO] CPU mode: {num_workers} workers")
+        extract_timeout = (
+            args.extract_timeout if args.extract_timeout is not None else 2000
+        )
+        verify_timeout = args.verify_timeout if args.verify_timeout is not None else 600
 
-    return workspace, gpus, num_workers
+    print(f"[INFO] Timeouts: extract={extract_timeout}s, verify={verify_timeout}s")
+    return workspace, gpus, num_workers, extract_timeout, verify_timeout
 
 
 def main() -> int:
     args = _parse_args()
 
-    workspace, gpus, num_workers = _resolve_config(args)
+    workspace, gpus, num_workers, extract_timeout, verify_timeout = _resolve_config(
+        args
+    )
 
     model_ids = _load_model_ids(args)
     if not model_ids:
@@ -385,6 +422,8 @@ def main() -> int:
                 workspace,
                 args.hf_token,
                 len(model_ids),
+                extract_timeout,
+                verify_timeout,
             ),
             name=f"worker-{worker_id}"
             + (f"-gpu{gpu_id}" if gpu_id is not None else "-cpu"),

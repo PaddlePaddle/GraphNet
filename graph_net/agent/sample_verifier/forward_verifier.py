@@ -41,13 +41,14 @@ class ForwardVerifier(BaseSampleVerifier):
     is verified independently; all must pass.
     """
 
-    def __init__(self, timeout: int = 300):
+    def __init__(self, timeout: int | None = 300):
         """
         Args:
-            timeout: seconds to wait for each forward-pass subprocess (default 5 min)
+            timeout: seconds to wait for each forward-pass subprocess
+                     (default 300s, can be overridden)
         """
         self._basic = BasicSampleVerifier()
-        self.timeout = timeout
+        self.timeout = timeout if timeout is not None else 300
         self.logger = logging.getLogger(self.__class__.__name__)
 
     def verify(self, sample_dir: Path) -> bool:

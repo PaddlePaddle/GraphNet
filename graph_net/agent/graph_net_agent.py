@@ -31,16 +31,22 @@ class GraphNetAgent:
         workspace: Optional[str] = None,
         hf_token: Optional[str] = None,
         llm_retry: bool = True,
+        extract_timeout: Optional[int] = None,
+        verify_timeout: Optional[int] = None,
     ):
         """
         Initialize GraphNet Agent
 
         Args:
-            workspace:  Workspace root directory. Defaults to
-                        $GRAPH_NET_EXTRACT_WORKSPACE or ~/graphnet_workspace.
-            hf_token:   HuggingFace API token (optional)
-            llm_retry:  If True and ducc/claude CLI is available, retry failed
-                        extractions up to 2 times with LLM-fixed scripts.
+            workspace:       Workspace root directory. Defaults to
+                             $GRAPH_NET_EXTRACT_WORKSPACE or ~/graphnet_workspace.
+            hf_token:        HuggingFace API token (optional)
+            llm_retry:       If True and ducc/claude CLI is available, retry failed
+                             extractions up to 2 times with LLM-fixed scripts.
+            extract_timeout: Timeout in seconds for graph extraction subprocess
+                             (default None -> 1000s).
+            verify_timeout:  Timeout in seconds for forward verification subprocess
+                             (default None -> 300s).
         """
         if workspace is None:
             workspace = os.environ.get(
@@ -63,9 +69,10 @@ class GraphNetAgent:
         self.metadata_analyzer = ConfigMetadataAnalyzer()
         self.code_generator = TemplateCodeGenerator()
         self.graph_extractor = SubprocessGraphExtractor(
-            workspace=str(self.workspace.workspace_root)
+            workspace=str(self.workspace.workspace_root),
+            timeout=extract_timeout,
         )
-        self.sample_verifier = ForwardVerifier()
+        self.sample_verifier = ForwardVerifier(timeout=verify_timeout)
 
         # LLM fixer — only created when llm_retry is requested
         self.llm_fixer: Optional[LLMCodeFixer] = LLMCodeFixer() if llm_retry else None

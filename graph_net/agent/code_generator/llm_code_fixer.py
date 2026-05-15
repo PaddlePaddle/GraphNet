@@ -117,11 +117,11 @@ class LLMCodeFixer:
     ):
         """
         Args:
-            timeout: Max seconds to wait for ducc response.
+            timeout: Max seconds to wait for ducc response (default 360s).
             model:   Override the LLM model (e.g. 'sonnet', 'haiku').
                      If None, uses whatever ducc default is configured.
         """
-        self.timeout = timeout
+        self.timeout = timeout if timeout is not None else 360
         self.model = model
         self.logger = logging.getLogger(self.__class__.__name__)
         self._ducc_bin = _find_ducc()

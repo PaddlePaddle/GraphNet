@@ -43,20 +43,22 @@ class GraphNetAgent:
         llm_retry: bool = True,
         extract_timeout: Optional[int] = None,
         verify_timeout: Optional[int] = None,
+        llm_timeout: int = 600,
     ):
         """
         Initialize GraphNet Agent
 
         Args:
-            workspace:       Workspace root directory. Defaults to
-                             $GRAPH_NET_EXTRACT_WORKSPACE or ~/graphnet_workspace.
-            hf_token:        HuggingFace API token (optional)
-            llm_retry:       If True and ducc/claude CLI is available, retry failed
-                             extractions up to 2 times with LLM-fixed scripts.
-            extract_timeout: Timeout in seconds for graph extraction subprocess
-                             (default None -> 1000s).
-            verify_timeout:  Timeout in seconds for forward verification subprocess
-                             (default None -> 300s).
+            workspace:        Workspace root directory. Defaults to
+                              $GRAPH_NET_EXTRACT_WORKSPACE or ~/graphnet_workspace.
+            hf_token:         HuggingFace API token (optional)
+            llm_retry:        If True and ducc/claude CLI is available, retry failed
+                              extractions up to 2 times with LLM-fixed scripts.
+            extract_timeout:  Timeout in seconds for graph extraction subprocess
+                              (default None -> 1000s).
+            verify_timeout:   Timeout in seconds for forward verification subprocess
+                              (default None -> 300s).
+            llm_timeout:      Timeout in seconds for LLM script fix (default: 600).
         """
         if workspace is None:
             workspace = os.environ.get(
@@ -85,7 +87,9 @@ class GraphNetAgent:
         self.sample_verifier = ForwardVerifier(timeout=verify_timeout)
 
         # LLM fixer — only created when llm_retry is requested
-        self.llm_fixer: Optional[LLMCodeFixer] = LLMCodeFixer() if llm_retry else None
+        self.llm_fixer: Optional[LLMCodeFixer] = (
+            LLMCodeFixer(timeout=llm_timeout) if llm_retry else None
+        )
 
     def extract_sample(self, model_id: str) -> ExtractionStatus:
         """

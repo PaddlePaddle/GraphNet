@@ -27,7 +27,11 @@ class BackwardGraphExtractor:
         module, forward_inputs = get_torch_module_and_inputs(
             self.model_path, use_dummy_inputs=False, device=self.device
         )
-        module.train()
+        module.eval()
+
+        if self._is_pure_shape_graph(module):
+            print(f"[Skip] Pure shape graph: {self.model_path}")
+            return
 
         eval_forward_dir = os.path.join(
             self.output_dir, "eval_forward", self.rel_model_path
@@ -35,6 +39,10 @@ class BackwardGraphExtractor:
         if not os.path.exists(eval_forward_dir):
             shutil.copytree(self.model_path, eval_forward_dir)
 
+        forward_inputs = [
+            inp.detach().clone() if isinstance(inp, torch.Tensor) else inp
+            for inp in forward_inputs
+        ]
         forward_inputs = self.set_requires_grad_for_forward_inputs(
             self.model_path, module, forward_inputs
         )
@@ -116,6 +124,38 @@ class BackwardGraphExtractor:
         gm.graph.lint()
         gm.recompile()
         return gm
+
+    def _is_pure_shape_graph(self, module):
+        """Check if the graph only contains shape manipulation ops."""
+        shape_only_ops = {
+            torch.ops.aten.view,
+            torch.ops.aten.reshape,
+            torch.ops.aten.squeeze,
+            torch.ops.aten.unsqueeze,
+            torch.ops.aten.permute,
+            torch.ops.aten.transpose,
+            torch.ops.aten.expand,
+            torch.ops.aten.flatten,
+            torch.ops.aten.t,
+            "view",
+            "reshape",
+            "squeeze",
+            "unsqueeze",
+            "permute",
+            "transpose",
+            "expand",
+            "flatten",
+            "t",
+        }
+        for node in module.graph.nodes:
+            if node.op in {"placeholder", "output", "get_attr"}:
+                continue
+            if node.op == "call_function" and node.target in shape_only_ops:
+                continue
+            if node.op == "call_method" and node.target in shape_only_ops:
+                continue
+            return False
+        return True
 
     def _requires_grad(self, name, tensor):
         if not tensor.is_floating_point():

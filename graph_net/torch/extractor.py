@@ -8,7 +8,10 @@ from graph_net.torch.fx_graph_serialize_util import serialize_graph_module_to_st
 
 torch._dynamo.config.capture_scalar_outputs = True
 torch._dynamo.config.capture_dynamic_output_shape_ops = True
-torch._dynamo.config.capture_sparse_compute = True
+try:
+    torch._dynamo.config.capture_sparse_compute = True
+except AttributeError:
+    pass
 torch._dynamo.config.raise_on_ctx_manager_usage = False
 torch._dynamo.config.allow_rnn = True
 

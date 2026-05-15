@@ -41,7 +41,7 @@ class ForwardVerifier(BaseSampleVerifier):
     is verified independently; all must pass.
     """
 
-    def __init__(self, timeout: int | None = 300):
+    def __init__(self, timeout: int = 300):
         """
         Args:
             timeout: seconds to wait for each forward-pass subprocess

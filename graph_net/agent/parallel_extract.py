@@ -37,7 +37,7 @@ _GRAPHNET_ROOT = _SCRIPT_DIR.parent.parent  # GraphNet/
 if str(_GRAPHNET_ROOT) not in sys.path:
     sys.path.insert(0, str(_GRAPHNET_ROOT))
 
-from graph_net.agent import GraphNetAgent  # noqa: E402
+from graph_net.agent import ExtractionStatus, GraphNetAgent  # noqa: E402
 
 import torch  # noqa: E402
 
@@ -212,15 +212,18 @@ def worker_fn(
             "model_id": model_id,
         }
         try:
-            success = agent.extract_sample(model_id)
+            status = agent.extract_sample(model_id)
             elapsed = time.time() - t0
-            status = "OK" if success else "FAIL"
-            print(f"{prefix} {status} {model_id} ({elapsed:.1f}s)", flush=True)
-            result_dict["success"] = success
+            ok = status == ExtractionStatus.OK
+            label = "OK" if ok else status.name.replace("_", " ")
+            print(f"{prefix} {label} {model_id} ({elapsed:.1f}s)", flush=True)
+            result_dict["success"] = ok
+            result_dict["status"] = status.value
         except Exception as e:
             elapsed = time.time() - t0
             print(f"{prefix} ERROR {model_id}: {e} ({elapsed:.1f}s)", flush=True)
             result_dict["success"] = False
+            result_dict["status"] = ExtractionStatus.ERROR.value
             result_dict["error"] = str(e)
 
         result_dict["elapsed"] = round(elapsed, 2)
@@ -246,31 +249,49 @@ def _print_summary(results: Dict) -> None:
     details = results.get("details", [])
     total = len(details)
     success = sum(1 for d in details if d.get("success"))
+    extract_success = sum(
+        1
+        for d in details
+        if d.get("status")
+        in (ExtractionStatus.OK.value, ExtractionStatus.VERIFY_FAILED.value)
+    )
     failed = total - success
     rate = (success / total * 100) if total else 0.0
+    extract_rate = (extract_success / total * 100) if total else 0.0
     print("\n" + "=" * 60)
     print("[SUMMARY] Parallel Extraction Summary")
     print("=" * 60)
-    print(f"  Total  : {total}")
-    print(f"  Success: {success}")
-    print(f"  Failed : {failed}")
-    print(f"  Rate   : {rate:.2f}%")
+    print(f"  Total   : {total}")
+    print(f"  Success : {success} (verify ok)")
+    print(f"  Extract : {extract_success} (graph extracted)")
+    print(f"  Failed  : {failed}")
+    print(f"  Rate    : {rate:.2f}% (overall)")
+    print(f"  Extract : {extract_rate:.2f}% (extraction only)")
     # Per-GPU breakdown
     gpu_stats: Dict[int, Dict] = {}
     for d in details:
         g = d.get("gpu", -1)
         if g not in gpu_stats:
-            gpu_stats[g] = {"total": 0, "success": 0}
+            gpu_stats[g] = {"total": 0, "success": 0, "extract": 0}
         gpu_stats[g]["total"] += 1
         if d.get("success"):
             gpu_stats[g]["success"] += 1
+        if d.get("status") in (
+            ExtractionStatus.OK.value,
+            ExtractionStatus.VERIFY_FAILED.value,
+        ):
+            gpu_stats[g]["extract"] += 1
 
     label = "GPU" if results.get("gpus") else "Worker"
     print(f"\n  Per-{label}:")
     for g in sorted(gpu_stats):
         gs = gpu_stats[g]
         gr = (gs["success"] / gs["total"] * 100) if gs["total"] else 0.0
-        print(f"    {label} {g}: {gs['success']}/{gs['total']} ({gr:.1f}%)")
+        er = (gs["extract"] / gs["total"] * 100) if gs["total"] else 0.0
+        print(
+            f"    {label} {g}: success={gs['success']}/{gs['total']} ({gr:.1f}%), "
+            f"extract={gs['extract']}/{gs['total']} ({er:.1f}%)"
+        )
     print("=" * 60)
 
 
@@ -345,9 +366,9 @@ def _parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--use-llm",
-        type=lambda x: x.lower() in ("true", "1", "yes"),
-        default="true",
-        help="Enable LLM retry for failed extractions (default: true)",
+        action="store_true",
+        default=False,
+        help="Enable LLM retry for failed extractions",
     )
     return parser.parse_args()
 
@@ -448,10 +469,17 @@ def main() -> int:
             entry = result_queue.get(timeout=5)
             details.append(entry)
             done = len(details)
-            success_so_far = sum(1 for d in details if d.get("success"))
+            ok_so_far = sum(1 for d in details if d.get("success"))
+            extract_ok_so_far = sum(
+                1
+                for d in details
+                if d.get("status")
+                in (ExtractionStatus.OK.value, ExtractionStatus.VERIFY_FAILED.value)
+            )
             print(
                 f"[PROGRESS] {done}/{len(model_ids)} done, "
-                f"success rate so far: {success_so_far/done*100:.1f}%",
+                f"success={ok_so_far/done*100:.1f}%, "
+                f"extract={extract_ok_so_far/done*100:.1f}%",
                 flush=True,
             )
         except Exception:
@@ -466,6 +494,12 @@ def main() -> int:
 
     end_time = datetime.now()
     success_count = sum(1 for d in details if d.get("success"))
+    extract_success_count = sum(
+        1
+        for d in details
+        if d.get("status")
+        in (ExtractionStatus.OK.value, ExtractionStatus.VERIFY_FAILED.value)
+    )
     results = {
         "start_time": start_time.isoformat(),
         "end_time": end_time.isoformat(),
@@ -474,12 +508,17 @@ def main() -> int:
         "workspace": workspace,
         "total": len(details),
         "success": success_count,
+        "extract_success": extract_success_count,
         "failed": len(details) - success_count,
         "success_rate": 0.0,
+        "extract_success_rate": 0.0,
         "details": details,
     }
     if results["total"] > 0:
         results["success_rate"] = round(results["success"] / results["total"] * 100, 2)
+        results["extract_success_rate"] = round(
+            results["extract_success"] / results["total"] * 100, 2
+        )
 
     # --- Save results ---
     output_file = (

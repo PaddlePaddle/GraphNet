@@ -65,16 +65,19 @@ class TemplateCodeGenerator(BaseCodeGenerator):
         return model_id.replace("/", "_")
 
     def _generate_code(self, model_dir: Path, model_metadata: ModelMetadata) -> str:
-        """Generate complete extraction script code string"""
-        # Generate model loading code
+        """Generate complete extraction script code string."""
+        if model_metadata.architecture_type == "diffusion":
+            return self._generate_diffusion_code(model_dir, model_metadata)
+        return self._generate_standard_code(model_dir, model_metadata)
+
+    def _generate_standard_code(
+        self, model_dir: Path, model_metadata: ModelMetadata
+    ) -> str:
+        """Generate standard (transformers-based) extraction script."""
         load_code = self._generate_model_loader(model_dir, model_metadata)
-
-        # Generate input construction code
         input_code = self._generate_input_code(model_metadata)
-
         short_name = self._model_short_name(model_metadata.model_id)
 
-        # Generate main code
         code = f"""import torch
 try:
     from transformers import AutoModel
@@ -107,17 +110,92 @@ if __name__ == "__main__":
 """
         return code
 
+    def _generate_diffusion_code(
+        self, model_dir: Path, model_metadata: ModelMetadata
+    ) -> str:
+        """Generate extraction script for diffusion models (diffusers UNet)."""
+        load_code = self._generate_model_loader(model_dir, model_metadata)
+        input_code = self._generate_input_code(model_metadata)
+        short_name = self._model_short_name(model_metadata.model_id)
+
+        # Diffusion model forward takes positional args, not **inputs dict
+        code = f"""import torch
+try:
+    from diffusers import UNet2DConditionModel
+except ImportError:
+    raise ImportError("diffusers is required. Install with: pip install diffusers")
+
+import graph_net
+
+def main():
+    # Load model
+{self._indent(load_code, 4)}
+
+    # Prepare inputs
+{self._indent(input_code, 4)}
+
+    # Extract graph
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = model.to(device).eval()
+
+    sample = inputs["sample"].to(device)
+    timestep = inputs["timestep"].to(device)
+    encoder_hidden_states = inputs["encoder_hidden_states"].to(device)
+
+    wrapped = graph_net.torch.extract(name="{short_name}", dynamic=False)(model).eval()
+
+    with torch.no_grad():
+        wrapped(sample, timestep, encoder_hidden_states)
+
+if __name__ == "__main__":
+    main()
+"""
+        return code
+
     def _generate_model_loader(
         self, model_dir: Path, model_metadata: ModelMetadata
     ) -> str:
-        """Generate model loading code — config only, random weights"""
+        """Generate model loading code based on architecture type."""
         model_path = str(model_dir).replace("\\", "/")
+        arch = model_metadata.architecture_type
 
-        return (
-            f"from transformers import AutoConfig\n"
-            f'_config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
-            f"model = AutoModel.from_config(_config)"
-        )
+        if arch == "seq2seq":
+            return (
+                f"from transformers import AutoConfig, AutoModelForSeq2SeqLM\n"
+                f'_config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
+                f"model = AutoModelForSeq2SeqLM.from_config(_config)"
+            )
+        elif arch == "diffusion":
+            return (
+                f"from diffusers import UNet2DConditionModel\n"
+                f'_config = UNet2DConditionModel.load_config("{model_path}")\n'
+                f"model = UNet2DConditionModel.from_config(_config)"
+            )
+        else:
+            # text, moe, vision, multimodal, audio, None → AutoModel
+            # If model_type is not present in config.json (e.g. prajjwal1/bert-tiny),
+            # inject the inferred model_type so AutoConfig can resolve the class.
+            model_type = model_metadata.model_type
+            if model_type:
+                return (
+                    f"import json as _json, os as _os, tempfile as _tmp\n"
+                    f"from transformers import AutoConfig, AutoModel\n"
+                    f'_raw = _json.load(open(_os.path.join("{model_path}", "config.json")))\n'
+                    f'if "model_type" not in _raw:\n'
+                    f'    _raw["model_type"] = "{model_type}"\n'
+                    f"    _td = _tmp.mkdtemp()\n"
+                    f'    _json.dump(_raw, open(_os.path.join(_td, "config.json"), "w"))\n'
+                    f"    _config = AutoConfig.from_pretrained(_td, trust_remote_code=True)\n"
+                    f"else:\n"
+                    f'    _config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
+                    f"model = AutoModel.from_config(_config)"
+                )
+            else:
+                return (
+                    f"from transformers import AutoConfig, AutoModel\n"
+                    f'_config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
+                    f"model = AutoModel.from_config(_config)"
+                )
 
     def _generate_input_code(self, model_metadata: ModelMetadata) -> str:
         """Generate input tensor construction code based on model metadata"""
@@ -129,7 +207,7 @@ if __name__ == "__main__":
             shape_tuple = f"({', '.join(map(str, shape))})"
 
             if dtype == "int64":
-                if "input_ids" in name.lower():
+                if "input_ids" in name.lower() or "decoder_input_ids" in name.lower():
                     safe_vocab_size = self._calculate_safe_vocab_size(model_metadata)
                     lines.append(
                         f'inputs["{name}"] = torch.randint(0, {safe_vocab_size}, {shape_tuple}, dtype={torch_dtype})'

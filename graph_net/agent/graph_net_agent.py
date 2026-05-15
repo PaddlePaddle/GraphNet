@@ -108,6 +108,7 @@ class GraphNetAgent:
             self.logger.info(f"Starting extraction for model: {model_id}")
 
             model_dir = self._fetch_model(model_id)
+            model_dir = self._resolve_model_dir(model_dir)
             model_metadata = self._analyze_model(model_dir)
             script_path = self._generate_script(model_dir, model_metadata, model_id)
 
@@ -197,6 +198,31 @@ class GraphNetAgent:
         self.logger.info(f"Fetching model: {model_id}")
         model_dir = self.model_fetcher.download(model_id)
         self.logger.info(f"Model downloaded to: {model_dir}")
+        return model_dir
+
+    def _resolve_model_dir(self, model_dir: Path) -> Path:
+        """
+        For diffusers pipeline repos (identified by model_index.json at root),
+        resolve to the UNet subdirectory which contains the actual UNet config.
+        Returns model_dir unchanged for non-pipeline repos.
+        """
+        model_index = model_dir / "model_index.json"
+        if not model_index.exists():
+            return model_dir
+
+        # It's a diffusers pipeline — find the unet subdirectory
+        unet_dir = model_dir / "unet"
+        if unet_dir.is_dir() and (unet_dir / "config.json").exists():
+            self.logger.info(
+                f"Detected diffusers pipeline; using UNet subdir: {unet_dir}"
+            )
+            return unet_dir
+
+        # Pipeline without unet/ (e.g., image-to-image or non-SD pipeline)
+        self.logger.warning(
+            f"Diffusers pipeline detected but no unet/ subdir found in {model_dir}; "
+            "proceeding with root dir."
+        )
         return model_dir
 
     def _analyze_model(self, model_dir: Path):

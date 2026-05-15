@@ -2,6 +2,7 @@
 
 import json
 import os
+from enum import Enum
 from pathlib import Path
 from typing import Optional
 
@@ -23,6 +24,15 @@ from graph_net.agent.utils.workspace_manager import WorkspaceManager
 from graph_net.agent.sample_verifier import ForwardVerifier
 
 
+class ExtractionStatus(str, Enum):
+    """Extraction result status for a single model."""
+
+    OK = "ok"
+    VERIFY_FAILED = "verify_failed"
+    EXTRACT_FAILED = "extract_failed"
+    ERROR = "error"
+
+
 class GraphNetAgent:
     """GraphNet automatic sample extraction agent"""
 
@@ -31,16 +41,22 @@ class GraphNetAgent:
         workspace: Optional[str] = None,
         hf_token: Optional[str] = None,
         llm_retry: bool = True,
+        extract_timeout: Optional[int] = None,
+        verify_timeout: Optional[int] = None,
     ):
         """
         Initialize GraphNet Agent
 
         Args:
-            workspace:  Workspace root directory. Defaults to
-                        $GRAPH_NET_EXTRACT_WORKSPACE or ~/graphnet_workspace.
-            hf_token:   HuggingFace API token (optional)
-            llm_retry:  If True and ducc/claude CLI is available, retry failed
-                        extractions up to 2 times with LLM-fixed scripts.
+            workspace:       Workspace root directory. Defaults to
+                             $GRAPH_NET_EXTRACT_WORKSPACE or ~/graphnet_workspace.
+            hf_token:        HuggingFace API token (optional)
+            llm_retry:       If True and ducc/claude CLI is available, retry failed
+                             extractions up to 2 times with LLM-fixed scripts.
+            extract_timeout: Timeout in seconds for graph extraction subprocess
+                             (default None -> 1000s).
+            verify_timeout:  Timeout in seconds for forward verification subprocess
+                             (default None -> 300s).
         """
         if workspace is None:
             workspace = os.environ.get(
@@ -63,14 +79,15 @@ class GraphNetAgent:
         self.metadata_analyzer = ConfigMetadataAnalyzer()
         self.code_generator = TemplateCodeGenerator()
         self.graph_extractor = SubprocessGraphExtractor(
-            workspace=str(self.workspace.workspace_root)
+            workspace=str(self.workspace.workspace_root),
+            timeout=extract_timeout,
         )
-        self.sample_verifier = ForwardVerifier()
+        self.sample_verifier = ForwardVerifier(timeout=verify_timeout)
 
         # LLM fixer — only created when llm_retry is requested
         self.llm_fixer: Optional[LLMCodeFixer] = LLMCodeFixer() if llm_retry else None
 
-    def extract_sample(self, model_id: str) -> bool:
+    def extract_sample(self, model_id: str) -> ExtractionStatus:
         """
         Execute complete sample extraction pipeline from HuggingFace model ID.
 
@@ -82,7 +99,10 @@ class GraphNetAgent:
             model_id: HuggingFace model ID (e.g., "bert-base-uncased")
 
         Returns:
-            True if sample extraction succeeded, False otherwise
+            ExtractionStatus.OK              – extraction and verification both passed
+            ExtractionStatus.VERIFY_FAILED   – extraction succeeded but verification failed
+            ExtractionStatus.EXTRACT_FAILED  – extraction (or pre-extraction) failed
+            ExtractionStatus.ERROR           – unexpected error
         """
         try:
             self.logger.info(f"Starting extraction for model: {model_id}")
@@ -104,21 +124,24 @@ class GraphNetAgent:
 
             if self.is_duplicate_sample(sample_dir):
                 self.logger.info("Duplicate sample detected, skipping verification")
-                return True
+                return ExtractionStatus.OK
 
             if not self.sample_verifier.verify(sample_dir):
                 self.logger.error("Sample verification failed")
-                return False
+                return ExtractionStatus.VERIFY_FAILED
 
             self.logger.info(f"Successfully extracted sample for {model_id}")
-            return True
+            return ExtractionStatus.OK
 
-        except (AnalysisError, CodeGenError, ExtractionError, VerificationError) as e:
+        except VerificationError as e:
             self.logger.error(f"Extraction failed for {model_id}: {e}")
-            return False
+            return ExtractionStatus.VERIFY_FAILED
+        except (AnalysisError, CodeGenError, ExtractionError) as e:
+            self.logger.error(f"Extraction failed for {model_id}: {e}")
+            return ExtractionStatus.EXTRACT_FAILED
         except Exception as e:
             self.logger.error(f"Unexpected error for {model_id}: {e}", exc_info=True)
-            return False
+            return ExtractionStatus.ERROR
 
     def _llm_retry(
         self,

@@ -5,6 +5,6 @@ This module provides an automated agent for extracting GraphNet samples
 from Hugging Face models.
 """
 
-from graph_net.agent.graph_net_agent import GraphNetAgent
+from graph_net.agent.graph_net_agent import ExtractionStatus, GraphNetAgent
 
-__all__ = ["GraphNetAgent"]
+__all__ = ["GraphNetAgent", "ExtractionStatus"]

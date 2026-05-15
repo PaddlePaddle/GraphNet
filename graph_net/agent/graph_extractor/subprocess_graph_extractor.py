@@ -22,14 +22,14 @@ ERROR_MSG_MAX_LINES = 20  # Keep first and last N lines of error messages
 class SubprocessGraphExtractor(BaseGraphExtractor):
     """Extractor that runs script in subprocess"""
 
-    def __init__(self, workspace: str, timeout: int = DEFAULT_TIMEOUT):
+    def __init__(self, workspace: str, timeout: int | None = None):
         """
         Args:
             workspace: Workspace root directory
-            timeout: Timeout in seconds for script execution
+            timeout: Timeout in seconds for script execution (default 1000s)
         """
         self.workspace = Path(workspace)
-        self.timeout = timeout
+        self.timeout = timeout if timeout is not None else DEFAULT_TIMEOUT
         self.logger = logging.getLogger(self.__class__.__name__)
 
     def extract(self, code_path: Path, model_id: str) -> Path:

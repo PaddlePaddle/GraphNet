@@ -50,6 +50,7 @@ class ForwardVerifier(BaseSampleVerifier):
         self._basic = BasicSampleVerifier()
         self.timeout = timeout if timeout is not None else 300
         self.logger = logging.getLogger(self.__class__.__name__)
+        self.last_timeout_success = False
 
     def verify(self, sample_dir: Path) -> bool:
         """
@@ -61,6 +62,7 @@ class ForwardVerifier(BaseSampleVerifier):
         Returns:
             True if all checks pass, False otherwise
         """
+        self.last_timeout_success = False
         try:
             # Stage 1: file structure check
             if not self._basic.verify(sample_dir):
@@ -72,16 +74,25 @@ class ForwardVerifier(BaseSampleVerifier):
             targets = subgraph_dirs if subgraph_dirs else [sample_dir]
 
             for target in targets:
-                if not self._run_forward(target):
+                ok, is_timeout = self._run_forward(target)
+                if not ok:
                     return False
+                if is_timeout:
+                    self.last_timeout_success = True
 
             return True
 
         except Exception as e:
             raise VerificationError(f"Forward verification failed: {e}") from e
 
-    def _run_forward(self, model_path: Path) -> bool:
-        """Run an eager forward pass on one model directory in a subprocess."""
+    def _run_forward(self, model_path: Path) -> tuple[bool, bool]:
+        """Run an eager forward pass on one model directory in a subprocess.
+
+        Returns:
+            (success, is_timeout): success=True means the check passed;
+                                   is_timeout=True means it passed only because
+                                   the subprocess timed out (treated as skip).
+        """
         self.logger.info(f"Forward verify (eager): {model_path.name}")
         try:
             result = subprocess.run(
@@ -92,15 +103,15 @@ class ForwardVerifier(BaseSampleVerifier):
             )
             if result.returncode == 0:
                 self.logger.info(f"Forward verify OK: {model_path.name}")
-                return True
+                return True, False
             else:
                 self.logger.warning(
                     f"Forward verify FAIL: {model_path.name}\n{result.stderr[-2000:]}"
                 )
-                return False
+                return False, False
         except subprocess.TimeoutExpired:
             self.logger.warning(
                 f"Forward verify TIMEOUT ({self.timeout}s): {model_path.name}, "
                 "treating as pass (skip verification for large models on CPU)"
             )
-            return True
+            return True, True

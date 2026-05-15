@@ -91,6 +91,9 @@ class GraphNetAgent:
             LLMCodeFixer(timeout=llm_timeout) if llm_retry else None
         )
 
+        # Track whether the last verify succeeded only because of timeout skip
+        self.last_timeout_success = False
+
     def extract_sample(self, model_id: str) -> ExtractionStatus:
         """
         Execute complete sample extraction pipeline from HuggingFace model ID.
@@ -108,6 +111,7 @@ class GraphNetAgent:
             ExtractionStatus.EXTRACT_FAILED  – extraction (or pre-extraction) failed
             ExtractionStatus.ERROR           – unexpected error
         """
+        self.last_timeout_success = False
         try:
             self.logger.info(f"Starting extraction for model: {model_id}")
 
@@ -133,6 +137,12 @@ class GraphNetAgent:
             if not self.sample_verifier.verify(sample_dir):
                 self.logger.error("Sample verification failed")
                 return ExtractionStatus.VERIFY_FAILED
+
+            if getattr(self.sample_verifier, "last_timeout_success", False):
+                self.last_timeout_success = True
+                self.logger.info(
+                    f"Sample verification for {model_id} passed via timeout skip"
+                )
 
             self.logger.info(f"Successfully extracted sample for {model_id}")
             return ExtractionStatus.OK

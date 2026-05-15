@@ -215,16 +215,21 @@ def worker_fn(
             status = agent.extract_sample(model_id)
             elapsed = time.time() - t0
             ok = status == ExtractionStatus.OK
+            timeout_success = getattr(agent, "last_timeout_success", False)
             label = "OK" if ok else status.name.replace("_", " ")
+            if ok and timeout_success:
+                label = "OK(timeout)"
             print(f"{prefix} {label} {model_id} ({elapsed:.1f}s)", flush=True)
             result_dict["success"] = ok
             result_dict["status"] = status.value
+            result_dict["timeout_success"] = timeout_success
         except Exception as e:
             elapsed = time.time() - t0
             print(f"{prefix} ERROR {model_id}: {e} ({elapsed:.1f}s)", flush=True)
             result_dict["success"] = False
             result_dict["status"] = ExtractionStatus.ERROR.value
             result_dict["error"] = str(e)
+            result_dict["timeout_success"] = False
 
         result_dict["elapsed"] = round(elapsed, 2)
         result_dict["timestamp"] = datetime.now().isoformat()
@@ -249,6 +254,7 @@ def _print_summary(results: Dict) -> None:
     details = results.get("details", [])
     total = len(details)
     success = sum(1 for d in details if d.get("success"))
+    timeout_success = sum(1 for d in details if d.get("timeout_success"))
     extract_success = sum(
         1
         for d in details
@@ -257,25 +263,29 @@ def _print_summary(results: Dict) -> None:
     )
     failed = total - success
     rate = (success / total * 100) if total else 0.0
+    timeout_rate = (timeout_success / total * 100) if total else 0.0
     extract_rate = (extract_success / total * 100) if total else 0.0
     print("\n" + "=" * 60)
     print("[SUMMARY] Parallel Extraction Summary")
     print("=" * 60)
     print(f"  Total   : {total}")
     print(f"  Success : {success} (verify ok)")
+    print(f"  Timeout : {timeout_success} (verify skipped by timeout)")
     print(f"  Extract : {extract_success} (graph extracted)")
     print(f"  Failed  : {failed}")
-    print(f"  Rate    : {rate:.2f}% (overall)")
+    print(f"  Rate    : {rate:.2f}% (overall, timeout_success={timeout_rate:.2f}%)")
     print(f"  Extract : {extract_rate:.2f}% (extraction only)")
     # Per-GPU breakdown
     gpu_stats: Dict[int, Dict] = {}
     for d in details:
         g = d.get("gpu", -1)
         if g not in gpu_stats:
-            gpu_stats[g] = {"total": 0, "success": 0, "extract": 0}
+            gpu_stats[g] = {"total": 0, "success": 0, "extract": 0, "timeout": 0}
         gpu_stats[g]["total"] += 1
         if d.get("success"):
             gpu_stats[g]["success"] += 1
+        if d.get("timeout_success"):
+            gpu_stats[g]["timeout"] += 1
         if d.get("status") in (
             ExtractionStatus.OK.value,
             ExtractionStatus.VERIFY_FAILED.value,
@@ -288,9 +298,11 @@ def _print_summary(results: Dict) -> None:
         gs = gpu_stats[g]
         gr = (gs["success"] / gs["total"] * 100) if gs["total"] else 0.0
         er = (gs["extract"] / gs["total"] * 100) if gs["total"] else 0.0
+        tr = (gs["timeout"] / gs["total"] * 100) if gs["total"] else 0.0
         print(
             f"    {label} {g}: success={gs['success']}/{gs['total']} ({gr:.1f}%), "
-            f"extract={gs['extract']}/{gs['total']} ({er:.1f}%)"
+            f"extract={gs['extract']}/{gs['total']} ({er:.1f}%), "
+            f"timeout={gs['timeout']}/{gs['total']} ({tr:.1f}%)"
         )
     print("=" * 60)
 
@@ -472,6 +484,7 @@ def main() -> int:
             details.append(entry)
             done = len(details)
             ok_so_far = sum(1 for d in details if d.get("success"))
+            timeout_so_far = sum(1 for d in details if d.get("timeout_success"))
             extract_ok_so_far = sum(
                 1
                 for d in details
@@ -480,7 +493,7 @@ def main() -> int:
             )
             print(
                 f"[PROGRESS] {done}/{len(model_ids)} done, "
-                f"success={ok_so_far/done*100:.1f}%, "
+                f"success={ok_so_far/done*100:.1f}%(timeout_success={timeout_so_far/done*100:.1f}%), "
                 f"extract={extract_ok_so_far/done*100:.1f}%",
                 flush=True,
             )
@@ -496,6 +509,7 @@ def main() -> int:
 
     end_time = datetime.now()
     success_count = sum(1 for d in details if d.get("success"))
+    timeout_success_count = sum(1 for d in details if d.get("timeout_success"))
     extract_success_count = sum(
         1
         for d in details
@@ -510,14 +524,19 @@ def main() -> int:
         "workspace": workspace,
         "total": len(details),
         "success": success_count,
+        "timeout_success": timeout_success_count,
         "extract_success": extract_success_count,
         "failed": len(details) - success_count,
         "success_rate": 0.0,
+        "timeout_success_rate": 0.0,
         "extract_success_rate": 0.0,
         "details": details,
     }
     if results["total"] > 0:
         results["success_rate"] = round(results["success"] / results["total"] * 100, 2)
+        results["timeout_success_rate"] = round(
+            results["timeout_success"] / results["total"] * 100, 2
+        )
         results["extract_success_rate"] = round(
             results["extract_success"] / results["total"] * 100, 2
         )

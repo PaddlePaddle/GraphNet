@@ -16,6 +16,9 @@ class ModelMetadata:
     embedding_size: Optional[
         int
     ] = None  # Actual embedding layer size (from model weights)
+    architecture_type: Optional[
+        str
+    ] = None  # e.g., "text", "vision", "seq2seq", "audio", "multimodal", "diffusion", "moe"
 
     def __post_init__(self):
         """Validate metadata"""

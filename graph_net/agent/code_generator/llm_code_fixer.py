@@ -64,6 +64,27 @@ _SYSTEM_PROMPT = """\
   attention_mask = torch.ones((1, 64), dtype=torch.long).to(device)
   decoder_input_ids = torch.randint(0, min(vocab_size-1, 1000), (1, 32), dtype=torch.long).to(device)
 
+**MoE 类**（mixtral/qwen2_moe/deepseek_v2/dbrx/olmoe 等）：
+  - 架构上仍是文本模型，输入与文本类完全相同（input_ids + attention_mask）
+  - 加载同样用 AutoModel.from_config(config)，无需任何特殊处理
+  ⚠️ vocab_size 通常很大（32000+），严格用 min(vocab_size-1, 30000) 作为 randint 上界
+  关键 config 字段：num_local_experts（Mixtral）/ num_experts（Qwen2-MoE）/ n_routed_experts（DeepSeek）
+
+**扩散模型类**（UNet2DConditionModel / DiT / stable-diffusion / SDXL 等）：
+  from diffusers import UNet2DConditionModel
+  _config = UNet2DConditionModel.load_config(model_dir)
+  model = UNet2DConditionModel.from_config(_config)
+  # 从 config 读取关键维度
+  in_channels        = _config.get("in_channels", 4)
+  sample_size        = _config.get("sample_size", 64)
+  cross_attention_dim = _config.get("cross_attention_dim", 768)
+  sample                 = torch.randn(1, in_channels, sample_size, sample_size).to(device)
+  timestep               = torch.tensor([1]).to(device)
+  encoder_hidden_states  = torch.randn(1, 77, cross_attention_dim).to(device)
+  # 调用必须用位置参数，不能 **inputs
+  wrapped(sample, timestep, encoder_hidden_states)
+  ⚠️ dynamic 必须为 False；调用格式固定为位置参数，禁止用 **inputs dict 展开
+
 ## 【常见报错 → 修复方法】
 | 报错关键词 | 修复方法 |
 |---|---|
@@ -77,6 +98,9 @@ _SYSTEM_PROMPT = """\
 | "sentencepiece" / "tiktoken" ImportError | 不使用 tokenizer，用 torch.randint 直接构造 input_ids |
 | "PendingUnbackedSymbolNotFound" | 确认 dynamic=False（不要改为 True） |
 | decoder_input_ids missing | Seq2Seq 模型需要同时传 input_ids 和 decoder_input_ids |
+| "encoder_hidden_states" required（UNet） | 扩散模型必须以位置参数传入 encoder_hidden_states，不能省略 |
+| UNet sample/timestep 形状错误 | 检查 in_channels/sample_size/cross_attention_dim 是否从 config 正确读取 |
+| MoE expert 路由 RuntimeError | 输入格式与普通文本模型相同，通常是 vocab 越界，检查 randint 上界是否 < vocab_size |
 """
 
 
@@ -312,9 +336,29 @@ class LLMCodeFixer:
             "patch_size",
             "num_mel_bins",
             "chunk_length",
+            # MoE routing (field names vary across models)
+            "num_local_experts",
+            "num_experts_per_tok",
+            "num_experts",
+            "n_routed_experts",
+            "moe_intermediate_size",
+            "num_shared_experts",
+            # Diffusion / UNet
+            "in_channels",
+            "sample_size",
+            "cross_attention_dim",
+            "layers_per_block",
+            # Seq2Seq
+            "is_encoder_decoder",
+            "decoder_start_token_id",
+            # GQA (Llama/Mistral family)
+            "num_key_value_heads",
+            # Audio
+            "feature_size",
+            "sample_rate",
         ]
         result = {k: cfg[k] for k in keys if k in cfg}
-        # 对嵌套 config 只取 model_type
+        # 对嵌套 config 只取关键字段
         for nested in ("audio_config", "vision_config", "text_config"):
             if isinstance(result.get(nested), dict):
                 result[nested] = {
@@ -326,6 +370,10 @@ class LLMCodeFixer:
                         "num_channels",
                         "num_mel_bins",
                         "hidden_size",
+                        "num_local_experts",
+                        "num_experts",
+                        "n_routed_experts",
+                        "sample_rate",
                     )
                     if k in result[nested]
                 }

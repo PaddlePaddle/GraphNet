@@ -135,6 +135,7 @@ def worker_fn(
     total: int,
     extract_timeout: int,
     verify_timeout: int,
+    llm_retry: bool,
 ) -> None:
     """
     Worker function, runs in a dedicated subprocess bound to a single GPU or CPU.
@@ -150,6 +151,7 @@ def worker_fn(
         total:           Total task count (used for logging only)
         extract_timeout: Timeout in seconds for graph extraction subprocess
         verify_timeout:  Timeout in seconds for forward verification subprocess
+        llm_retry:       Whether to enable LLM retry for failed extractions
     """
     if gpu_id is not None:
         os.environ["CUDA_VISIBLE_DEVICES"] = str(gpu_id)
@@ -173,7 +175,7 @@ def worker_fn(
         agent = GraphNetAgent(
             workspace=workspace,
             hf_token=hf_token,
-            llm_retry=False,
+            llm_retry=llm_retry,
             extract_timeout=extract_timeout,
             verify_timeout=verify_timeout,
         )
@@ -341,6 +343,12 @@ def _parse_args() -> argparse.Namespace:
         default=None,
         help="Timeout in seconds for forward verification (default: 300 on GPU, 600 on CPU)",
     )
+    parser.add_argument(
+        "--use-llm",
+        type=lambda x: x.lower() in ("true", "1", "yes"),
+        default="true",
+        help="Enable LLM retry for failed extractions (default: true)",
+    )
     return parser.parse_args()
 
 
@@ -378,7 +386,6 @@ def _resolve_config(args: argparse.Namespace):
         )
         verify_timeout = args.verify_timeout if args.verify_timeout is not None else 600
 
-    print(f"[INFO] Timeouts: extract={extract_timeout}s, verify={verify_timeout}s")
     return workspace, gpus, num_workers, extract_timeout, verify_timeout
 
 
@@ -388,6 +395,7 @@ def main() -> int:
     workspace, gpus, num_workers, extract_timeout, verify_timeout = _resolve_config(
         args
     )
+    llm_retry = args.use_llm
 
     model_ids = _load_model_ids(args)
     if not model_ids:
@@ -424,6 +432,7 @@ def main() -> int:
                 len(model_ids),
                 extract_timeout,
                 verify_timeout,
+                llm_retry,
             ),
             name=f"worker-{worker_id}"
             + (f"-gpu{gpu_id}" if gpu_id is not None else "-cpu"),

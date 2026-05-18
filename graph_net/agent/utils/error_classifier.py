@@ -93,9 +93,12 @@ class GraphExtractionErrorClassifier:
             "models_per_category": dict(per_category),
         }
 
-    def markdown_report(self) -> str:
-        lines = ["# Extraction Error Report", ""]
-        lines.append(f"**Total errors**: {len(self.records)}")
+    def report_lines(self) -> List[str]:
+        """Plain-text report as a list of lines (no markdown)."""
+        lines: List[str] = []
+        lines.append("Extraction Error Report")
+        lines.append("")
+        lines.append(f"Total errors: {len(self.records)}")
         lines.append("")
 
         counts: Dict[GraphExtractionErrorCategory, int] = defaultdict(int)
@@ -106,26 +109,21 @@ class GraphExtractionErrorClassifier:
             counts[rec.category] += 1
             per_cat[rec.category].append(rec)
 
-        lines.append("## Summary by Category")
-        lines.append("")
-        lines.append("| Category | Count |")
-        lines.append("|----------|-------|")
+        lines.append("Summary by Category:")
         for cat, cnt in sorted(counts.items(), key=lambda x: -x[1]):
-            lines.append(f"| {cat.value} | {cnt} |")
+            lines.append(f"  {cat.value}: {cnt}")
         lines.append("")
 
-        lines.append("## Details")
-        lines.append("")
+        lines.append("Details:")
         for cat, recs in sorted(per_cat.items(), key=lambda x: -len(x[1])):
-            lines.append(f"### {cat.value} ({len(recs)})")
-            lines.append("")
+            lines.append(f"  {cat.value} ({len(recs)}):")
             for rec in recs[:10]:
                 msg = (
                     rec.message[:120] + "..." if len(rec.message) > 120 else rec.message
                 )
-                lines.append(f"- `{rec.model_id}`: {msg}")
+                lines.append(f"    - {rec.model_id}: {msg}")
             if len(recs) > 10:
-                lines.append(f"- ... and {len(recs) - 10} more")
-            lines.append("")
+                lines.append(f"    - ... and {len(recs) - 10} more")
+        lines.append("")
 
-        return "\n".join(lines)
+        return lines

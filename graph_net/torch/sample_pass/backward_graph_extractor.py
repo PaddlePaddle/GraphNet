@@ -29,10 +29,6 @@ class BackwardGraphExtractor:
         )
         module.eval()
 
-        if self._is_pure_shape_graph(module):
-            print(f"[Skip] Pure shape graph: {self.model_path}")
-            return
-
         eval_forward_dir = os.path.join(
             self.output_dir, "eval_forward", self.rel_model_path
         )
@@ -124,38 +120,6 @@ class BackwardGraphExtractor:
         gm.graph.lint()
         gm.recompile()
         return gm
-
-    def _is_pure_shape_graph(self, module):
-        """Check if the graph only contains shape manipulation ops."""
-        shape_only_ops = {
-            torch.ops.aten.view,
-            torch.ops.aten.reshape,
-            torch.ops.aten.squeeze,
-            torch.ops.aten.unsqueeze,
-            torch.ops.aten.permute,
-            torch.ops.aten.transpose,
-            torch.ops.aten.expand,
-            torch.ops.aten.flatten,
-            torch.ops.aten.t,
-            "view",
-            "reshape",
-            "squeeze",
-            "unsqueeze",
-            "permute",
-            "transpose",
-            "expand",
-            "flatten",
-            "t",
-        }
-        for node in module.graph.nodes:
-            if node.op in {"placeholder", "output", "get_attr"}:
-                continue
-            if node.op == "call_function" and node.target in shape_only_ops:
-                continue
-            if node.op == "call_method" and node.target in shape_only_ops:
-                continue
-            return False
-        return True
 
     def _requires_grad(self, name, tensor):
         if not tensor.is_floating_point():

@@ -33,6 +33,7 @@ _SYSTEM_PROMPT = """\
 3. 设备选择固定写法：device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 4. 只允许使用 torch、transformers、graph_net 及 Python 标准库（os/pathlib/json 等）
 5. 只输出代码块，格式：```python\\n...代码...\\n```，禁止输出任何说明文字
+6. 脚本必须简洁：禁止添加未要求的错误处理、fallback 逻辑、文件系统遍历或冗余注释。只修复导致报错的输入构造或调用方式，保持行数与原始脚本接近
 
 ## 【输入构造规范 - 按 model_type 选择对应方案】
 
@@ -228,6 +229,26 @@ class LLMCodeFixer:
     # Internal helpers
     # ------------------------------------------------------------------
 
+    @staticmethod
+    def _compact_script(script: str) -> str:
+        """Remove blank lines and pure comment lines to shrink prompt size."""
+        lines = script.splitlines()
+        compacted = []
+        for line in lines:
+            stripped = line.strip()
+            if stripped == "" or stripped.startswith("#"):
+                continue
+            compacted.append(line.rstrip())
+        return "\n".join(compacted)
+
+    @staticmethod
+    def _truncate_error(error_msg: str, max_chars: int = 1200) -> str:
+        if len(error_msg) <= max_chars:
+            return error_msg
+        # Keep tail (usually contains the actual error) + head for context
+        half = max_chars // 2
+        return error_msg[:half] + "\n... (truncated) ...\n" + error_msg[-half:]
+
     def _build_prompt(
         self,
         original_script: str,
@@ -240,6 +261,15 @@ class LLMCodeFixer:
         model_dir_str = str(model_dir).replace("\\", "/")
         system = _SYSTEM_PROMPT.format(name=safe_name)
         key_fields = self._extract_key_fields(model_dir)
+
+        # Compact script to reduce prompt bloat (keep structure, drop empty/comment lines)
+        compact_script = self._compact_script(original_script)
+        # If still very long, fall back to raw script so we don't lose critical logic
+        if len(compact_script) < len(original_script) * 0.3:
+            compact_script = original_script
+
+        truncated_error = self._truncate_error(error_msg)
+
         return (
             f"{system}\n\n"
             f"---\n\n"
@@ -247,12 +277,12 @@ class LLMCodeFixer:
             f"### 模型信息\n"
             f"- model_id: `{model_id}`\n"
             f"- config_dir: `{model_dir_str}`\n"
-            f"- 关键配置字段（优先以此为准）:\n```json\n{key_fields}\n```\n\n"
-            f"### config.json（完整参考）\n```json\n{config_json}\n```\n\n"
-            f"### 失败脚本\n```python\n{original_script}\n```\n\n"
-            f"### 错误信息\n```\n{error_msg}\n```\n\n"
+            f"- 关键配置字段:\n```json\n{key_fields}\n```\n\n"
+            f"### 失败脚本\n```python\n{compact_script}\n```\n\n"
+            f"### 错误信息\n```\n{truncated_error}\n```\n\n"
             f"### 输出要求\n"
-            f"直接输出修复后的完整脚本，用 ```python\\n...\\n``` 包裹，不附加任何说明："
+            f"直接输出修复后的完整脚本，用 ```python\\n...\\n``` 包裹，不附加任何说明。"
+            f"脚本必须简洁，禁止添加未要求的 fallback 或文件遍历代码："
         )
 
     def _call_ducc(self, prompt: str) -> str:

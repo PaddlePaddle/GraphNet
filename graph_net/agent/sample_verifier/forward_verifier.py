@@ -7,7 +7,10 @@ from pathlib import Path
 
 from graph_net.agent.sample_verifier.base import BaseSampleVerifier
 from graph_net.agent.sample_verifier.basic_sample_verifier import BasicSampleVerifier
-from graph_net.agent.utils.exceptions import SampleVerificationError
+from graph_net.agent.utils.exceptions import (
+    GraphExtractionErrorCategory,
+    SampleVerificationError,
+)
 
 # Inline eager runner — executed in a subprocess to isolate CUDA state.
 # Loads GraphModule from model.py, reconstructs tensors from weight_meta.py,
@@ -85,7 +88,7 @@ class ForwardVerifier(BaseSampleVerifier):
         except Exception as e:
             raise SampleVerificationError(
                 f"Forward verification failed: {e}",
-                error_category="forward_verify_failed",
+                error_category=GraphExtractionErrorCategory.FORWARD_VERIFY_FAILED,
             ) from e
 
     def _run_forward(self, model_path: Path) -> tuple[bool, bool]:

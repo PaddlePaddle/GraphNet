@@ -4,7 +4,10 @@ import json
 from pathlib import Path
 
 from graph_net.agent.sample_verifier.base import BaseSampleVerifier
-from graph_net.agent.utils.exceptions import SampleVerificationError
+from graph_net.agent.utils.exceptions import (
+    GraphExtractionErrorCategory,
+    SampleVerificationError,
+)
 
 
 class BasicSampleVerifier(BaseSampleVerifier):
@@ -40,5 +43,5 @@ class BasicSampleVerifier(BaseSampleVerifier):
         except Exception as e:
             raise SampleVerificationError(
                 f"Verification failed: {e}",
-                error_category="sample_incomplete",
+                error_category=GraphExtractionErrorCategory.SAMPLE_INCOMPLETE,
             ) from e

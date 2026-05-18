@@ -9,7 +9,10 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 
-from graph_net.agent.utils.exceptions import CodeGenerationError
+from graph_net.agent.utils.exceptions import (
+    CodeGenerationError,
+    GraphExtractionErrorCategory,
+)
 
 # Candidate binary names / paths to search for ducc CLI
 _DUCC_CANDIDATES = [
@@ -313,14 +316,14 @@ class LLMCodeFixer:
         except subprocess.TimeoutExpired:
             raise CodeGenerationError(
                 f"ducc -p timed out after {self.timeout}s",
-                error_category="llm_timeout",
+                error_category=GraphExtractionErrorCategory.LLM_TIMEOUT,
             )
 
         if result.returncode != 0:
             raise CodeGenerationError(
                 f"ducc -p exited with code {result.returncode}.\n"
                 f"stderr: {result.stderr[:500]}",
-                error_category="llm_exit_error",
+                error_category=GraphExtractionErrorCategory.LLM_EXIT_ERROR,
             )
 
         output = result.stdout.strip()

@@ -11,7 +11,10 @@ from pathlib import Path
 from typing import Optional
 
 from graph_net.agent.graph_extractor.base import BaseGraphExtractor
-from graph_net.agent.utils.exceptions import GraphExtractionError
+from graph_net.agent.utils.exceptions import (
+    GraphExtractionError,
+    GraphExtractionErrorCategory,
+)
 
 # Constants
 DEFAULT_TIMEOUT = 1000  # ~17 minutes for large models
@@ -137,7 +140,7 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
                 proc.communicate()  # 回收僵尸进程
                 raise GraphExtractionError(
                     f"Script execution timed out after {self.timeout} seconds",
-                    error_category="script_timeout",
+                    error_category=GraphExtractionErrorCategory.SCRIPT_TIMEOUT,
                 )
             finally:
                 ProcessGroupTracker.unregister(pgid)
@@ -148,7 +151,7 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
                     f"Script execution failed with return code {proc.returncode}.\n"
                     f"Command: {sys.executable} {code_path}\n"
                     f"Error output:\n{error_msg}",
-                    error_category="script_execution_failed",
+                    error_category=GraphExtractionErrorCategory.SCRIPT_EXECUTION_FAILED,
                 )
 
             # Find output directory using multiple strategies
@@ -159,7 +162,7 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
                     f"Output directory not found for model: {model_id}.\n"
                     f"Searched in workspace: {self.workspace}\n"
                     f"Please check if the extraction script executed successfully.",
-                    error_category="output_dir_not_found",
+                    error_category=GraphExtractionErrorCategory.OUTPUT_DIR_NOT_FOUND,
                 )
 
             return output_dir

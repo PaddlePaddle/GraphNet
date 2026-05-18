@@ -13,11 +13,9 @@ from graph_net.agent.code_generator import TemplateCodeGenerator
 from graph_net.agent.code_generator.llm_code_fixer import LLMCodeFixer
 from graph_net.agent.graph_extractor import SubprocessGraphExtractor
 from graph_net.agent.model_fetcher import HFFetcher
-from graph_net.agent.utils.error_classifier import (
-    GraphExtractionErrorCategory,
-    GraphExtractionErrorClassifier,
-)
+from graph_net.agent.utils.error_classifier import GraphExtractionErrorClassifier
 from graph_net.agent.utils.exceptions import (
+    GraphExtractionErrorCategory,
     MetadataAnalysisError,
     CodeGenerationError,
     GraphExtractionError,
@@ -185,10 +183,6 @@ class GraphNetAgent:
         All other categories (timeout, infrastructure, missing model, etc.)
         are not fixable by rewriting the script.
         """
-        from graph_net.agent.utils.error_classifier import (
-            GraphExtractionErrorClassifier,
-        )
-
         category = GraphExtractionErrorClassifier.classify_from_exception(err)
         return category == GraphExtractionErrorCategory.SCRIPT_EXECUTION_FAILED
 

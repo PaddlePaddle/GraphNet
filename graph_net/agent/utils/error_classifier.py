@@ -7,38 +7,9 @@ performed here — keywords belong in the code that raises the exception.
 
 from collections import defaultdict
 from dataclasses import dataclass
-from enum import Enum
 from typing import Dict, List, Optional
 
-
-class GraphExtractionErrorCategory(str, Enum):
-    """Known categories of extraction failure."""
-
-    # Pre-extraction failures
-    MODEL_NOT_FOUND = "model_not_found"
-    MODEL_FORBIDDEN = "model_forbidden"
-    MODEL_DOWNLOAD_ERROR = "model_download_error"
-
-    # Script generation / analysis failures
-    ANALYSIS_ERROR = "analysis_error"
-    CODE_GEN_ERROR = "code_gen_error"
-
-    # Script execution failures
-    SCRIPT_EXECUTION_FAILED = "script_execution_failed"
-    SCRIPT_TIMEOUT = "script_timeout"
-    OUTPUT_DIR_NOT_FOUND = "output_dir_not_found"
-
-    # LLM retry failures
-    LLM_TIMEOUT = "llm_timeout"
-    LLM_EXIT_ERROR = "llm_exit_error"
-
-    # Post-extraction failures
-    SAMPLE_INCOMPLETE = "sample_incomplete"  # missing files / bad JSON
-    FORWARD_VERIFY_FAILED = "forward_verify_failed"  # eager forward pass failed
-    VERIFICATION_TIMEOUT = "verification_timeout"
-
-    # Catch-all
-    UNKNOWN = "unknown"
+from graph_net.agent.utils.exceptions import GraphExtractionErrorCategory
 
 
 @dataclass

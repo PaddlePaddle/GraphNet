@@ -11,7 +11,10 @@ except ImportError:
     snapshot_download = None
 
 from graph_net.agent.model_fetcher.base import BaseModelFetcher
-from graph_net.agent.utils.exceptions import ModelFetchError
+from graph_net.agent.utils.exceptions import (
+    GraphExtractionErrorCategory,
+    ModelFetchError,
+)
 
 # Network-related exceptions that are worth retrying
 _RETRYABLE_ERRORS = (
@@ -146,12 +149,12 @@ class HFFetcher(BaseModelFetcher):
                 if "404 Client Error" in err_text:
                     raise ModelFetchError(
                         f"Failed to download model {model_id}: {e}",
-                        error_category="model_not_found",
+                        error_category=GraphExtractionErrorCategory.MODEL_NOT_FOUND,
                     ) from e
                 if "403 Client Error" in err_text:
                     raise ModelFetchError(
                         f"Failed to download model {model_id}: {e}",
-                        error_category="model_forbidden",
+                        error_category=GraphExtractionErrorCategory.MODEL_FORBIDDEN,
                     ) from e
                 raise ModelFetchError(
                     f"Failed to download model {model_id}: {e}"

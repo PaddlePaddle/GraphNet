@@ -6,7 +6,10 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from graph_net.agent.metadata_analyzer.base import BaseMetadataAnalyzer
 from graph_net.agent.metadata_analyzer.model_metadata import ModelMetadata
-from graph_net.agent.utils.exceptions import MetadataAnalysisError
+from graph_net.agent.utils.exceptions import (
+    GraphExtractionErrorCategory,
+    MetadataAnalysisError,
+)
 
 
 # Cap sequence length to avoid OOM: attention is O(n²), graph extraction
@@ -53,7 +56,7 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
         if not config_path.exists():
             raise MetadataAnalysisError(
                 f"config.json not found in {model_dir}",
-                error_category="config_not_found",
+                error_category=GraphExtractionErrorCategory.CONFIG_NOT_FOUND,
             )
 
         try:
@@ -106,14 +109,14 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
         except json.JSONDecodeError as e:
             raise MetadataAnalysisError(
                 f"Failed to parse config.json: {e}",
-                error_category="config_parse_error",
+                error_category=GraphExtractionErrorCategory.CONFIG_PARSE_ERROR,
             ) from e
         except MetadataAnalysisError:
             raise
         except Exception as e:
             raise MetadataAnalysisError(
                 f"Failed to analyze model: {e}",
-                error_category="metadata_analysis_failed",
+                error_category=GraphExtractionErrorCategory.METADATA_ANALYSIS_FAILED,
             ) from e
 
     # ------------------------------------------------------------------

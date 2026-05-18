@@ -5,7 +5,7 @@ from typing import Optional
 
 from graph_net.agent.metadata_analyzer.model_metadata import ModelMetadata
 from graph_net.agent.code_generator.base import BaseCodeGenerator
-from graph_net.agent.utils.exceptions import CodeGenError
+from graph_net.agent.utils.exceptions import CodeGenerationError
 
 # Constants for safe vocab size calculation
 DEFAULT_VOCAB_SIZE = 30522
@@ -57,7 +57,7 @@ class TemplateCodeGenerator(BaseCodeGenerator):
 
             return script_path
         except Exception as e:
-            raise CodeGenError(f"Failed to generate code: {e}") from e
+            raise CodeGenerationError(f"Failed to generate code: {e}") from e
 
     @staticmethod
     def _model_short_name(model_id: str) -> str:

@@ -9,7 +9,7 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 
-from graph_net.agent.utils.exceptions import CodeGenError
+from graph_net.agent.utils.exceptions import CodeGenerationError
 
 # Candidate binary names / paths to search for ducc CLI
 _DUCC_CANDIDATES = [
@@ -177,7 +177,7 @@ class LLMCodeFixer:
 
         Args:
             script_path: Path to the (failed) script to fix
-            error_msg:   Captured stderr / ExtractionError message
+            error_msg:   Captured stderr / GraphExtractionError message
             model_dir:   Local model directory (contains config.json)
             model_id:    HuggingFace model ID (e.g. 'prajjwal1/bert-tiny')
             output_dir:  Directory where the fixed script should be written
@@ -187,10 +187,10 @@ class LLMCodeFixer:
             Path to the fixed script (run_model_llm_1.py / run_model_llm_2.py)
 
         Raises:
-            CodeGenError: If LLM call fails or returns no valid code
+            CodeGenerationError: If LLM call fails or returns no valid code
         """
         if not self.available:
-            raise CodeGenError(
+            raise CodeGenerationError(
                 "ducc/claude binary not available; cannot perform LLM fix."
             )
 
@@ -214,7 +214,7 @@ class LLMCodeFixer:
 
         code = _extract_code_block(llm_output)
         if not code:
-            raise CodeGenError(
+            raise CodeGenerationError(
                 f"LLM response contained no Python code block.\n"
                 f"Response (first 500 chars):\n{llm_output[:500]}"
             )
@@ -311,17 +311,21 @@ class LLMCodeFixer:
                 timeout=self.timeout,
             )
         except subprocess.TimeoutExpired:
-            raise CodeGenError(f"ducc -p timed out after {self.timeout}s")
+            raise CodeGenerationError(
+                f"ducc -p timed out after {self.timeout}s",
+                error_category="llm_timeout",
+            )
 
         if result.returncode != 0:
-            raise CodeGenError(
+            raise CodeGenerationError(
                 f"ducc -p exited with code {result.returncode}.\n"
-                f"stderr: {result.stderr[:500]}"
+                f"stderr: {result.stderr[:500]}",
+                error_category="llm_exit_error",
             )
 
         output = result.stdout.strip()
         if not output:
-            raise CodeGenError("ducc -p returned empty output.")
+            raise CodeGenerationError("ducc -p returned empty output.")
 
         return output
 

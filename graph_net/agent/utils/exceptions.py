@@ -1,37 +1,78 @@
-"""Custom exception classes for Agent"""
+"""Custom exception classes for Agent.
+
+Each exception may carry an `error_category` string so that
+error_classifier.py can route without string matching.
+"""
+
+from typing import Optional
 
 
 class AgentError(Exception):
-    """Base exception for Agent errors"""
+    """Base exception for Agent errors.
 
-    pass
+    Subclasses can set `default_category` so that raise-sites do not
+    need to repeat the category when the default is sufficient.
+    """
+
+    default_category: Optional[str] = None
+
+    def __init__(
+        self,
+        message: str,
+        error_category: Optional[str] = None,
+    ):
+        super().__init__(message)
+        self.error_category = error_category or self.default_category
 
 
 class ModelFetchError(AgentError):
-    """Raised when model fetching fails"""
+    """Raised when model fetching fails.
 
-    pass
+    Default: model_download_error.
+    Raise-sites should override for 404 (model_not_found)
+    or 403 (model_forbidden).
+    """
 
-
-class AnalysisError(AgentError):
-    """Raised when model analysis fails"""
-
-    pass
-
-
-class CodeGenError(AgentError):
-    """Raised when code generation fails"""
-
-    pass
+    default_category = "model_download_error"
 
 
-class ExtractionError(AgentError):
-    """Raised when graph extraction fails"""
+class MetadataAnalysisError(AgentError):
+    """Raised when model metadata/config analysis fails.
 
-    pass
+    Covers config missing, JSON parse errors, and unsupported architectures.
+    """
+
+    default_category = "metadata_analysis_error"
 
 
-class VerificationError(AgentError):
-    """Raised when sample verification fails"""
+class CodeGenerationError(AgentError):
+    """Raised when code generation fails.
 
-    pass
+    Default: code_gen_error.
+    Raise-sites should override for LLM-specific failures
+    (llm_timeout / llm_exit_error).
+    """
+
+    default_category = "code_gen_error"
+
+
+class GraphExtractionError(AgentError):
+    """Raised when graph extraction fails.
+
+    Default: unknown — raise-sites MUST override with one of:
+    - script_execution_failed
+    - script_timeout
+    - output_dir_not_found
+    """
+
+    default_category = "unknown"
+
+
+class SampleVerificationError(AgentError):
+    """Raised when sample verification fails.
+
+    Default: verification_failed.
+    Raise-sites may override with verification_timeout.
+    """
+
+    default_category = "verification_failed"

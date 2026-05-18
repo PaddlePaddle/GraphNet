@@ -19,6 +19,6 @@ class BaseSampleVerifier(ABC):
             True if sample is valid, False otherwise
 
         Raises:
-            VerificationError: If verification process fails
+            SampleVerificationError: If verification process fails
         """
         pass

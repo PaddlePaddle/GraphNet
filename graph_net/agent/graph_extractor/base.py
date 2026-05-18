@@ -20,6 +20,6 @@ class BaseGraphExtractor(ABC):
             Path to extracted sample directory
 
         Raises:
-            ExtractionError: If extraction fails
+            GraphExtractionError: If extraction fails
         """
         pass

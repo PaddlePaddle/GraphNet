@@ -21,6 +21,6 @@ class BaseMetadataAnalyzer(ABC):
             ModelMetadata object containing model information
 
         Raises:
-            AnalysisError: If analysis fails
+            MetadataAnalysisError: If analysis fails
         """
         pass

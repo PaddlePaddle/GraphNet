@@ -28,6 +28,6 @@ class BaseCodeGenerator(ABC):
             Path to generated script file
 
         Raises:
-            CodeGenError: If code generation fails
+            CodeGenerationError: If code generation fails
         """
         pass

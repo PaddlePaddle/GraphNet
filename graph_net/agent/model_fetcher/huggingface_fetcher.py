@@ -142,6 +142,17 @@ class HFFetcher(BaseModelFetcher):
                         f"Failed to download model {model_id} after {self.max_retries} retries: {e}"
                     ) from e
             except Exception as e:
+                err_text = str(e)
+                if "404 Client Error" in err_text:
+                    raise ModelFetchError(
+                        f"Failed to download model {model_id}: {e}",
+                        error_category="model_not_found",
+                    ) from e
+                if "403 Client Error" in err_text:
+                    raise ModelFetchError(
+                        f"Failed to download model {model_id}: {e}",
+                        error_category="model_forbidden",
+                    ) from e
                 raise ModelFetchError(
                     f"Failed to download model {model_id}: {e}"
                 ) from e

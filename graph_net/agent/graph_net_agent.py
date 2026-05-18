@@ -13,11 +13,15 @@ from graph_net.agent.code_generator import TemplateCodeGenerator
 from graph_net.agent.code_generator.llm_code_fixer import LLMCodeFixer
 from graph_net.agent.graph_extractor import SubprocessGraphExtractor
 from graph_net.agent.model_fetcher import HFFetcher
+from graph_net.agent.utils.error_classifier import (
+    GraphExtractionErrorCategory,
+    GraphExtractionErrorClassifier,
+)
 from graph_net.agent.utils.exceptions import (
-    AnalysisError,
-    CodeGenError,
-    ExtractionError,
-    VerificationError,
+    MetadataAnalysisError,
+    CodeGenerationError,
+    GraphExtractionError,
+    SampleVerificationError,
 )
 from graph_net.agent.utils.logger import setup_logger
 from graph_net.agent.utils.workspace_manager import WorkspaceManager
@@ -94,6 +98,9 @@ class GraphNetAgent:
         # Track whether the last verify succeeded only because of timeout skip
         self.last_timeout_success = False
 
+        # Error classifier for post-run reporting
+        self.error_classifier = GraphExtractionErrorClassifier()
+
     def extract_sample(self, model_id: str) -> ExtractionStatus:
         """
         Execute complete sample extraction pipeline from HuggingFace model ID.
@@ -123,7 +130,12 @@ class GraphNetAgent:
             # ── First attempt (template script) ──────────────────────────
             try:
                 sample_dir = self._extract_graph(script_path, model_id)
-            except ExtractionError as first_err:
+            except GraphExtractionError as first_err:
+                if not self._is_llm_fixable_error(first_err):
+                    self.logger.warning(
+                        f"Extraction error is not fixable by LLM, skipping retry: {first_err}"
+                    )
+                    raise first_err
                 sample_dir = self._llm_retry(
                     first_err, script_path, model_dir, model_id
                 )
@@ -137,6 +149,10 @@ class GraphNetAgent:
 
             if not self.sample_verifier.verify(sample_dir):
                 self.logger.error("Sample verification failed")
+                self.error_classifier.classify_and_record(
+                    model_id,
+                    Exception("Sample verification failed"),
+                )
                 return ExtractionStatus.VERIFY_FAILED
 
             if getattr(self.sample_verifier, "last_timeout_success", False):
@@ -148,19 +164,37 @@ class GraphNetAgent:
             self.logger.info(f"Successfully extracted sample for {model_id}")
             return ExtractionStatus.OK
 
-        except VerificationError as e:
+        except SampleVerificationError as e:
             self.logger.error(f"Extraction failed for {model_id}: {e}")
+            self.error_classifier.classify_and_record(model_id, e)
             return ExtractionStatus.VERIFY_FAILED
-        except (AnalysisError, CodeGenError, ExtractionError) as e:
+        except (MetadataAnalysisError, CodeGenerationError, GraphExtractionError) as e:
             self.logger.error(f"Extraction failed for {model_id}: {e}")
+            self.error_classifier.classify_and_record(model_id, e)
             return ExtractionStatus.EXTRACT_FAILED
         except Exception as e:
             self.logger.error(f"Unexpected error for {model_id}: {e}", exc_info=True)
+            self.error_classifier.classify_and_record(model_id, e)
             return ExtractionStatus.ERROR
+
+    @staticmethod
+    def _is_llm_fixable_error(err: GraphExtractionError) -> bool:
+        """Decide whether an extraction error is worth retrying with LLM.
+
+        Only allow LLM retry for script logic errors (non-zero return code).
+        All other categories (timeout, infrastructure, missing model, etc.)
+        are not fixable by rewriting the script.
+        """
+        from graph_net.agent.utils.error_classifier import (
+            GraphExtractionErrorClassifier,
+        )
+
+        category = GraphExtractionErrorClassifier.classify_from_exception(err)
+        return category == GraphExtractionErrorCategory.SCRIPT_EXECUTION_FAILED
 
     def _llm_retry(
         self,
-        first_err: ExtractionError,
+        first_err: GraphExtractionError,
         script_path: Path,
         model_dir: Path,
         model_id: str,
@@ -172,7 +206,7 @@ class GraphNetAgent:
         Returns:
             (sample_dir, successful_script_path)
 
-        Raises ExtractionError if LLM fix is unavailable or both attempts fail.
+        Raises GraphExtractionError if LLM fix is unavailable or both attempts fail.
         """
         if self.llm_fixer is None or not self.llm_fixer.available:
             self.logger.warning(
@@ -201,7 +235,7 @@ class GraphNetAgent:
             try:
                 sample_dir = self._extract_graph(fixed_path, model_id)
                 return sample_dir
-            except ExtractionError as retry_err:
+            except GraphExtractionError as retry_err:
                 err = retry_err
                 current_script = fixed_path  # 第二次把上一次修复的脚本+新报错再喂给 LLM
 

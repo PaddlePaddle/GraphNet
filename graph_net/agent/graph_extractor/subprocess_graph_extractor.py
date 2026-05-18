@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Optional
 
 from graph_net.agent.graph_extractor.base import BaseGraphExtractor
-from graph_net.agent.utils.exceptions import ExtractionError
+from graph_net.agent.utils.exceptions import GraphExtractionError
 
 # Constants
 DEFAULT_TIMEOUT = 1000  # ~17 minutes for large models
@@ -93,7 +93,7 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
             Path to extracted sample directory
 
         Raises:
-            ExtractionError: If extraction fails
+            GraphExtractionError: If extraction fails
         """
         try:
             # Get GraphNet root directory for PYTHONPATH
@@ -135,35 +135,38 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
                 except ProcessLookupError:
                     proc.kill()
                 proc.communicate()  # 回收僵尸进程
-                raise ExtractionError(
-                    f"Script execution timed out after {self.timeout} seconds"
+                raise GraphExtractionError(
+                    f"Script execution timed out after {self.timeout} seconds",
+                    error_category="script_timeout",
                 )
             finally:
                 ProcessGroupTracker.unregister(pgid)
 
             if proc.returncode != 0:
                 error_msg = self._format_error_message(stderr or stdout)
-                raise ExtractionError(
+                raise GraphExtractionError(
                     f"Script execution failed with return code {proc.returncode}.\n"
                     f"Command: {sys.executable} {code_path}\n"
-                    f"Error output:\n{error_msg}"
+                    f"Error output:\n{error_msg}",
+                    error_category="script_execution_failed",
                 )
 
             # Find output directory using multiple strategies
             output_dir = self._find_output_dir_robust(model_id)
 
             if not output_dir or not output_dir.exists():
-                raise ExtractionError(
+                raise GraphExtractionError(
                     f"Output directory not found for model: {model_id}.\n"
                     f"Searched in workspace: {self.workspace}\n"
-                    f"Please check if the extraction script executed successfully."
+                    f"Please check if the extraction script executed successfully.",
+                    error_category="output_dir_not_found",
                 )
 
             return output_dir
-        except ExtractionError:
+        except GraphExtractionError:
             raise
         except Exception as e:
-            raise ExtractionError(f"Failed to extract graph: {e}") from e
+            raise GraphExtractionError(f"Failed to extract graph: {e}") from e
 
     def _format_error_message(self, error_msg: str) -> str:
         """Format error message, truncating if too long"""

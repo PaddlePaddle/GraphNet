@@ -49,6 +49,7 @@ class GraphExtractor:
         mut_graph_codes=None,
         placeholder_auto_rename=False,
         workspace_path=None,
+        param_buffer_ids=None,
     ):
         self.subgraph_counter = 0
         self.name = name
@@ -64,6 +65,7 @@ class GraphExtractor:
             raise EnvironmentError(
                 "Environment variable 'GRAPH_NET_EXTRACT_WORKSPACE' is not set."
             )
+        self.param_buffer_ids = param_buffer_ids or set()
 
     def move_files(self, source_dir, target_dir):
         os.makedirs(target_dir, exist_ok=True)
@@ -150,7 +152,16 @@ class GraphExtractor:
             self.mut_graph_codes.append(base_code)
 
         # 4. Save tensor metadata
-        converted = utils.convert_state_and_inputs(params, [])
+        # Separate model weights (parameters + buffers) from real inputs in params
+        weights = {}
+        example_inputs = {}
+        for name, value in params.items():
+            if id(value) in self.param_buffer_ids:
+                weights[name] = value
+            else:
+                example_inputs[name] = value
+
+        converted = utils.convert_state_and_inputs(weights, example_inputs)
         utils.save_converted_to_text(converted, file_path=subgraph_path)
         utils.save_constraints_text(
             converted,
@@ -280,9 +291,24 @@ def extract(
         model_path = None
         if hasattr(model, "__graph_net_file_path__"):
             model_path = os.path.dirname(model.__graph_net_file_path__)
-        extractor = get_graph_extractor_maker(model_path)(
-            name, dynamic, mut_graph_codes, placeholder_auto_rename
-        )
+
+        # Collect parameter and buffer ids from the original model for distinguishing weights and inputs in __call__
+        param_buffer_ids = set()
+        for _, p in model.named_parameters():
+            param_buffer_ids.add(id(p))
+        for _, b in model.named_buffers():
+            param_buffer_ids.add(id(b))
+
+        maker = get_graph_extractor_maker(model_path)
+        if maker is GraphExtractor:
+            extractor = maker(
+                name, dynamic, mut_graph_codes, placeholder_auto_rename,
+                param_buffer_ids=param_buffer_ids,
+            )
+        else:
+            extractor = maker(
+                name, dynamic, mut_graph_codes, placeholder_auto_rename
+            )
         # return torch.compile(backend=extractor, dynamic=dynamic)
         compiled_model = torch.compile(model, backend=extractor, dynamic=dynamic)
         return compiled_model

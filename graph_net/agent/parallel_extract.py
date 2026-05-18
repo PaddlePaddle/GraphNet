@@ -171,6 +171,31 @@ def worker_fn(
         flush=True,
     )
 
+    # Orphan watcher: if main process is killed with SIGKILL, worker becomes
+    # orphaned (ppid == 1).  Detect this and kill all child process groups to
+    # prevent GPU memory leaks from run_model.py subprocesses.
+    import threading
+
+    def _orphan_watcher():
+        while True:
+            time.sleep(5)
+            if os.getppid() == 1:
+                print(
+                    f"{prefix} Parent died (orphaned), cleaning up child processes...",
+                    flush=True,
+                )
+                # Multiple rounds to catch any late-starting children
+                for _ in range(5):
+                    from graph_net.agent.graph_extractor.subprocess_graph_extractor import (
+                        kill_all_active_children,
+                    )
+
+                    kill_all_active_children()
+                    time.sleep(1)
+                os._exit(1)
+
+    threading.Thread(target=_orphan_watcher, daemon=True).start()
+
     try:
         agent = GraphNetAgent(
             workspace=workspace,

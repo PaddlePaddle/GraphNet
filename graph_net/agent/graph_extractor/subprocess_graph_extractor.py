@@ -5,6 +5,7 @@ import os
 import signal
 import subprocess
 import sys
+import threading
 import time
 from pathlib import Path
 from typing import Optional
@@ -17,6 +18,54 @@ DEFAULT_TIMEOUT = 1000  # ~17 minutes for large models
 OUTPUT_SEARCH_WINDOW = 600  # 10 minutes for finding recently created directories
 HASH_DIR_LENGTH = 40  # SHA1 hash length
 ERROR_MSG_MAX_LINES = 20  # Keep first and last N lines of error messages
+
+# ---------------------------------------------------------------------------
+# Active child process group tracking (for orphan worker cleanup)
+# ---------------------------------------------------------------------------
+
+
+class ProcessGroupTracker:
+    """Track and manage active child process groups for clean orphan worker teardown.
+
+    Uses class-level storage so any code path (extractor, orphan watcher, etc.)
+    can register/unregister/kill without passing instances around.
+    """
+
+    _pgids: set[int] = set()
+    _lock = threading.Lock()
+
+    @classmethod
+    def register(cls, pgid: int) -> None:
+        with cls._lock:
+            cls._pgids.add(pgid)
+
+    @classmethod
+    def unregister(cls, pgid: int) -> None:
+        with cls._lock:
+            cls._pgids.discard(pgid)
+
+    @classmethod
+    def kill_all(cls, sig: int = signal.SIGKILL) -> None:
+        """Kill all tracked process groups and clear the registry."""
+        with cls._lock:
+            pgids = list(cls._pgids)
+        for pgid in pgids:
+            try:
+                os.killpg(pgid, sig)
+            except (ProcessLookupError, PermissionError, OSError):
+                pass
+        with cls._lock:
+            cls._pgids.clear()
+
+    @classmethod
+    def is_empty(cls) -> bool:
+        with cls._lock:
+            return len(cls._pgids) == 0
+
+
+def kill_all_active_children() -> None:
+    """Convenience alias for backward compatibility."""
+    ProcessGroupTracker.kill_all()
 
 
 class SubprocessGraphExtractor(BaseGraphExtractor):
@@ -75,18 +124,22 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
                 # 用新进程组，方便整组 kill（避免遗留孙进程占显存）
                 start_new_session=True,
             )
+            pgid = os.getpgid(proc.pid)
+            ProcessGroupTracker.register(pgid)
             try:
                 stdout, stderr = proc.communicate(timeout=self.timeout)
             except subprocess.TimeoutExpired:
                 # 先 kill 整个进程组，确保 GPU 显存释放
                 try:
-                    os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+                    os.killpg(pgid, signal.SIGKILL)
                 except ProcessLookupError:
                     proc.kill()
                 proc.communicate()  # 回收僵尸进程
                 raise ExtractionError(
                     f"Script execution timed out after {self.timeout} seconds"
                 )
+            finally:
+                ProcessGroupTracker.unregister(pgid)
 
             if proc.returncode != 0:
                 error_msg = self._format_error_message(stderr or stdout)

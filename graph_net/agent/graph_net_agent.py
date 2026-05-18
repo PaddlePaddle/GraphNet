@@ -45,7 +45,7 @@ class GraphNetAgent:
         llm_retry: bool = True,
         extract_timeout: Optional[int] = None,
         verify_timeout: Optional[int] = None,
-        llm_timeout: int = 900,
+        llm_timeout: int = 600,
     ):
         """
         Initialize GraphNet Agent

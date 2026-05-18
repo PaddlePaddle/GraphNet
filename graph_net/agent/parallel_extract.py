@@ -248,6 +248,11 @@ def worker_fn(
             result_dict["success"] = ok
             result_dict["status"] = status.value
             result_dict["timeout_success"] = timeout_success
+            # Expose error category so the main process can decide policy
+            rec = agent.error_classifier.get_record(model_id)
+            if rec is not None:
+                result_dict["error_category"] = rec.category.value
+                result_dict["error_message"] = rec.message
         except Exception as e:
             elapsed = time.time() - t0
             print(f"{prefix} ERROR {model_id}: {e} ({elapsed:.1f}s)", flush=True)
@@ -255,6 +260,9 @@ def worker_fn(
             result_dict["status"] = ExtractionStatus.ERROR.value
             result_dict["error"] = str(e)
             result_dict["timeout_success"] = False
+            raw_cat = getattr(e, "error_category", None)
+            if raw_cat is not None:
+                result_dict["error_category"] = str(raw_cat)
 
         result_dict["elapsed"] = round(elapsed, 2)
         result_dict["timestamp"] = datetime.now().isoformat()

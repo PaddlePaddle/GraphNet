@@ -19,6 +19,7 @@ from graph_net.agent.utils.exceptions import (
     MetadataAnalysisError,
     CodeGenerationError,
     GraphExtractionError,
+    ModelFetchError,
     SampleVerificationError,
 )
 from graph_net.agent.utils.logger import setup_logger
@@ -166,7 +167,12 @@ class GraphNetAgent:
             self.logger.error(f"Extraction failed for {model_id}: {e}")
             self.error_classifier.classify_and_record(model_id, e)
             return ExtractionStatus.VERIFY_FAILED
-        except (MetadataAnalysisError, CodeGenerationError, GraphExtractionError) as e:
+        except (
+            ModelFetchError,
+            MetadataAnalysisError,
+            CodeGenerationError,
+            GraphExtractionError,
+        ) as e:
             self.logger.error(f"Extraction failed for {model_id}: {e}")
             self.error_classifier.classify_and_record(model_id, e)
             return ExtractionStatus.EXTRACT_FAILED

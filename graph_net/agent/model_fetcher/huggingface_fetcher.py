@@ -6,12 +6,16 @@ from pathlib import Path
 from typing import Optional
 
 try:
-    from huggingface_hub import snapshot_download
+    from huggingface_hub import HfApi, snapshot_download
 except ImportError:
+    HfApi = None
     snapshot_download = None
 
 from graph_net.agent.model_fetcher.base import BaseModelFetcher
-from graph_net.agent.utils.exceptions import ModelFetchError
+from graph_net.agent.utils.exceptions import (
+    GraphExtractionErrorCategory,
+    ModelFetchError,
+)
 
 # Network-related exceptions that are worth retrying
 _RETRYABLE_ERRORS = (
@@ -33,7 +37,18 @@ try:
 
     _RETRYABLE_ERRORS = _RETRYABLE_ERRORS + (LocalEntryNotFoundError,)
 except ImportError:
-    pass
+    LocalEntryNotFoundError = None
+
+try:
+    from huggingface_hub.errors import (
+        GatedRepoError,
+        HfHubHTTPError,
+        RepositoryNotFoundError,
+    )
+except ImportError:
+    GatedRepoError = None
+    HfHubHTTPError = None
+    RepositoryNotFoundError = None
 
 
 class HFFetcher(BaseModelFetcher):
@@ -66,6 +81,53 @@ class HFFetcher(BaseModelFetcher):
 
         # Resolve endpoint: explicit param > env var
         self.endpoint = endpoint or os.environ.get("HF_ENDPOINT")
+
+    def check_accessible(self, model_id: str) -> None:
+        """Check whether a HuggingFace model repo is reachable without downloading files."""
+        if HfApi is None:
+            raise ModelFetchError(
+                "huggingface_hub is not installed. "
+                "Please install it with: pip install huggingface_hub"
+            )
+
+        try:
+            if self.endpoint:
+                os.environ["HF_ENDPOINT"] = self.endpoint
+            api = HfApi(endpoint=self.endpoint)
+            api.model_info(
+                repo_id=model_id,
+                token=self.token,
+                files_metadata=False,
+            )
+        except Exception as e:
+            error_category = self._classify_hf_error(e)
+            raise ModelFetchError(
+                f"Model repo is not accessible for {model_id}: {e}",
+                error_category=error_category,
+            ) from e
+
+    @staticmethod
+    def _classify_hf_error(error: Exception) -> GraphExtractionErrorCategory:
+        """Classify HuggingFace API/download errors into extraction categories."""
+        if RepositoryNotFoundError is not None and isinstance(
+            error, RepositoryNotFoundError
+        ):
+            return GraphExtractionErrorCategory.MODEL_NOT_FOUND
+        if GatedRepoError is not None and isinstance(error, GatedRepoError):
+            return GraphExtractionErrorCategory.MODEL_FORBIDDEN
+        if HfHubHTTPError is not None and isinstance(error, HfHubHTTPError):
+            status_code = getattr(getattr(error, "response", None), "status_code", None)
+            if status_code == 404:
+                return GraphExtractionErrorCategory.MODEL_NOT_FOUND
+            if status_code in (401, 403):
+                return GraphExtractionErrorCategory.MODEL_FORBIDDEN
+
+        err_text = str(error)
+        if "404 Client Error" in err_text:
+            return GraphExtractionErrorCategory.MODEL_NOT_FOUND
+        if "401 Client Error" in err_text or "403 Client Error" in err_text:
+            return GraphExtractionErrorCategory.MODEL_FORBIDDEN
+        return GraphExtractionErrorCategory.MODEL_DOWNLOAD_ERROR
 
     def download(self, model_id: str) -> Path:
         """
@@ -143,7 +205,8 @@ class HFFetcher(BaseModelFetcher):
                     ) from e
             except Exception as e:
                 raise ModelFetchError(
-                    f"Failed to download model {model_id}: {e}"
+                    f"Failed to download model {model_id}: {e}",
+                    error_category=self._classify_hf_error(e),
                 ) from e
 
         # Should not reach here, but just in case

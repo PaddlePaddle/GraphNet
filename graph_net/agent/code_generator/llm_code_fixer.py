@@ -9,7 +9,10 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 
-from graph_net.agent.utils.exceptions import CodeGenError
+from graph_net.agent.utils.exceptions import (
+    CodeGenerationError,
+    GraphExtractionErrorCategory,
+)
 
 # Candidate binary names / paths to search for ducc CLI
 _DUCC_CANDIDATES = [
@@ -21,7 +24,7 @@ _DUCC_CANDIDATES = [
 
 _SYSTEM_PROMPT = """\
 你是 PyTorch / HuggingFace 模型计算图抽取专家。
-任务：修复一段失败的图抽取脚本，输出完整、可直接运行的 Python 脚本。
+任务：修复一段失败的图抽取脚本，输出完整、可直接运行但最小化的 Python 脚本。
 
 ## 【硬性约束 - 违反即输出无效】
 1. 抽取调用格式固定为：
@@ -33,6 +36,8 @@ _SYSTEM_PROMPT = """\
 3. 设备选择固定写法：device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 4. 只允许使用 torch、transformers、graph_net 及 Python 标准库（os/pathlib/json 等）
 5. 只输出代码块，格式：```python\\n...代码...\\n```，禁止输出任何说明文字
+6. 必须输出完整但最小化的脚本，只保留：必要 import、模型/config 加载、输入 tensor 构造、graph_net.torch.extract(...)、一次 forward 调用
+7. 禁止添加注释、helper 函数、错误处理、try/except、fallback 逻辑、重试逻辑、文件系统遍历、额外校验或无关打印。只修复导致报错的输入构造或调用方式，保持行数尽可能少
 
 ## 【输入构造规范 - 按 model_type 选择对应方案】
 
@@ -141,11 +146,11 @@ class LLMCodeFixer:
     ):
         """
         Args:
-            timeout: Max seconds to wait for ducc response.
+            timeout: Max seconds to wait for ducc response (default 360s).
             model:   Override the LLM model (e.g. 'sonnet', 'haiku').
                      If None, uses whatever ducc default is configured.
         """
-        self.timeout = timeout
+        self.timeout = timeout if timeout is not None else 360
         self.model = model
         self.logger = logging.getLogger(self.__class__.__name__)
         self._ducc_bin = _find_ducc()
@@ -176,7 +181,7 @@ class LLMCodeFixer:
 
         Args:
             script_path: Path to the (failed) script to fix
-            error_msg:   Captured stderr / ExtractionError message
+            error_msg:   Captured stderr / GraphExtractionError message
             model_dir:   Local model directory (contains config.json)
             model_id:    HuggingFace model ID (e.g. 'prajjwal1/bert-tiny')
             output_dir:  Directory where the fixed script should be written
@@ -186,10 +191,10 @@ class LLMCodeFixer:
             Path to the fixed script (run_model_llm_1.py / run_model_llm_2.py)
 
         Raises:
-            CodeGenError: If LLM call fails or returns no valid code
+            CodeGenerationError: If LLM call fails or returns no valid code
         """
         if not self.available:
-            raise CodeGenError(
+            raise CodeGenerationError(
                 "ducc/claude binary not available; cannot perform LLM fix."
             )
 
@@ -213,7 +218,7 @@ class LLMCodeFixer:
 
         code = _extract_code_block(llm_output)
         if not code:
-            raise CodeGenError(
+            raise CodeGenerationError(
                 f"LLM response contained no Python code block.\n"
                 f"Response (first 500 chars):\n{llm_output[:500]}"
             )
@@ -228,6 +233,26 @@ class LLMCodeFixer:
     # Internal helpers
     # ------------------------------------------------------------------
 
+    @staticmethod
+    def _compact_script(script: str) -> str:
+        """Remove blank lines and pure comment lines to shrink prompt size."""
+        lines = script.splitlines()
+        compacted = []
+        for line in lines:
+            stripped = line.strip()
+            if stripped == "" or stripped.startswith("#"):
+                continue
+            compacted.append(line.rstrip())
+        return "\n".join(compacted)
+
+    @staticmethod
+    def _truncate_error(error_msg: str, max_chars: int = 1200) -> str:
+        if len(error_msg) <= max_chars:
+            return error_msg
+        # Keep tail (usually contains the actual error) + head for context
+        half = max_chars // 2
+        return error_msg[:half] + "\n... (truncated) ...\n" + error_msg[-half:]
+
     def _build_prompt(
         self,
         original_script: str,
@@ -240,6 +265,15 @@ class LLMCodeFixer:
         model_dir_str = str(model_dir).replace("\\", "/")
         system = _SYSTEM_PROMPT.format(name=safe_name)
         key_fields = self._extract_key_fields(model_dir)
+
+        # Compact script to reduce prompt bloat (keep structure, drop empty/comment lines)
+        compact_script = self._compact_script(original_script)
+        # If still very long, fall back to raw script so we don't lose critical logic
+        if len(compact_script) < len(original_script) * 0.3:
+            compact_script = original_script
+
+        truncated_error = self._truncate_error(error_msg)
+
         return (
             f"{system}\n\n"
             f"---\n\n"
@@ -247,12 +281,13 @@ class LLMCodeFixer:
             f"### 模型信息\n"
             f"- model_id: `{model_id}`\n"
             f"- config_dir: `{model_dir_str}`\n"
-            f"- 关键配置字段（优先以此为准）:\n```json\n{key_fields}\n```\n\n"
-            f"### config.json（完整参考）\n```json\n{config_json}\n```\n\n"
-            f"### 失败脚本\n```python\n{original_script}\n```\n\n"
-            f"### 错误信息\n```\n{error_msg}\n```\n\n"
+            f"- 关键配置字段:\n```json\n{key_fields}\n```\n\n"
+            f"### 失败脚本\n```python\n{compact_script}\n```\n\n"
+            f"### 错误信息\n```\n{truncated_error}\n```\n\n"
             f"### 输出要求\n"
-            f"直接输出修复后的完整脚本，用 ```python\\n...\\n``` 包裹，不附加任何说明："
+            f"直接输出修复后的完整最小脚本，用 ```python\\n...\\n``` 包裹，不附加任何说明。"
+            f"只保留必要 import、模型/config 加载、输入 tensor 构造、extract 调用和一次 forward。"
+            f"禁止注释、helper、try/except、fallback、重试、文件遍历、额外校验或无关打印。"
         )
 
     def _call_ducc(self, prompt: str) -> str:
@@ -281,17 +316,21 @@ class LLMCodeFixer:
                 timeout=self.timeout,
             )
         except subprocess.TimeoutExpired:
-            raise CodeGenError(f"ducc -p timed out after {self.timeout}s")
+            raise CodeGenerationError(
+                f"ducc -p timed out after {self.timeout}s",
+                error_category=GraphExtractionErrorCategory.LLM_TIMEOUT,
+            )
 
         if result.returncode != 0:
-            raise CodeGenError(
+            raise CodeGenerationError(
                 f"ducc -p exited with code {result.returncode}.\n"
-                f"stderr: {result.stderr[:500]}"
+                f"stderr: {result.stderr[:500]}",
+                error_category=GraphExtractionErrorCategory.LLM_EXIT_ERROR,
             )
 
         output = result.stdout.strip()
         if not output:
-            raise CodeGenError("ducc -p returned empty output.")
+            raise CodeGenerationError("ducc -p returned empty output.")
 
         return output
 
@@ -312,7 +351,7 @@ class LLMCodeFixer:
 
     @staticmethod
     def _extract_key_fields(model_dir: Path) -> str:
-        """从 config.json 提取对输入构造最关键的字段，方便 LLM 直接读取。"""
+        """Extract the most important input-construction fields from config.json for the LLM."""
         config_path = model_dir / "config.json"
         if not config_path.exists():
             return "{}"
@@ -358,7 +397,7 @@ class LLMCodeFixer:
             "sample_rate",
         ]
         result = {k: cfg[k] for k in keys if k in cfg}
-        # 对嵌套 config 只取关键字段
+        # Keep only key fields from nested configs.
         for nested in ("audio_config", "vision_config", "text_config"):
             if isinstance(result.get(nested), dict):
                 result[nested] = {

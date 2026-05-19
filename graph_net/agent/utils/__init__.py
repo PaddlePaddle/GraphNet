@@ -3,17 +3,17 @@
 from graph_net.agent.utils.exceptions import (
     AgentError,
     ModelFetchError,
-    AnalysisError,
-    CodeGenError,
-    ExtractionError,
-    VerificationError,
+    MetadataAnalysisError,
+    CodeGenerationError,
+    GraphExtractionError,
+    SampleVerificationError,
 )
 
 __all__ = [
     "AgentError",
     "ModelFetchError",
-    "AnalysisError",
-    "CodeGenError",
-    "ExtractionError",
-    "VerificationError",
+    "MetadataAnalysisError",
+    "CodeGenerationError",
+    "GraphExtractionError",
+    "SampleVerificationError",
 ]

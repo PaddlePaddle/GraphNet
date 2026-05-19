@@ -6,7 +6,10 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from graph_net.agent.metadata_analyzer.base import BaseMetadataAnalyzer
 from graph_net.agent.metadata_analyzer.model_metadata import ModelMetadata
-from graph_net.agent.utils.exceptions import AnalysisError
+from graph_net.agent.utils.exceptions import (
+    GraphExtractionErrorCategory,
+    MetadataAnalysisError,
+)
 
 
 # Cap sequence length to avoid OOM: attention is O(n²), graph extraction
@@ -47,11 +50,14 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
             ModelMetadata object
 
         Raises:
-            AnalysisError: If analysis fails
+            MetadataAnalysisError: If analysis fails
         """
         config_path = model_dir / "config.json"
         if not config_path.exists():
-            raise AnalysisError(f"config.json not found in {model_dir}")
+            raise MetadataAnalysisError(
+                f"config.json not found in {model_dir}",
+                error_category=GraphExtractionErrorCategory.CONFIG_NOT_FOUND,
+            )
 
         try:
             # Primary path: load via AutoConfig to get a rich PretrainedConfig object
@@ -101,11 +107,17 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
                 architecture_type=arch_type,
             )
         except json.JSONDecodeError as e:
-            raise AnalysisError(f"Failed to parse config.json: {e}") from e
-        except AnalysisError:
+            raise MetadataAnalysisError(
+                f"Failed to parse config.json: {e}",
+                error_category=GraphExtractionErrorCategory.CONFIG_PARSE_ERROR,
+            ) from e
+        except MetadataAnalysisError:
             raise
         except Exception as e:
-            raise AnalysisError(f"Failed to analyze model: {e}") from e
+            raise MetadataAnalysisError(
+                f"Failed to analyze model: {e}",
+                error_category=GraphExtractionErrorCategory.METADATA_ANALYSIS_FAILED,
+            ) from e
 
     # ------------------------------------------------------------------
     # Architecture classification

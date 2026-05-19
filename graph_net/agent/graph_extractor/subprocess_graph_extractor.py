@@ -5,18 +5,70 @@ import os
 import signal
 import subprocess
 import sys
+import threading
 import time
 from pathlib import Path
 from typing import Optional
 
 from graph_net.agent.graph_extractor.base import BaseGraphExtractor
-from graph_net.agent.utils.exceptions import ExtractionError
+from graph_net.agent.utils.exceptions import (
+    GraphExtractionError,
+    GraphExtractionErrorCategory,
+)
 
 # Constants
 DEFAULT_TIMEOUT = 1000  # ~17 minutes for large models
 OUTPUT_SEARCH_WINDOW = 600  # 10 minutes for finding recently created directories
 HASH_DIR_LENGTH = 40  # SHA1 hash length
 ERROR_MSG_MAX_LINES = 20  # Keep first and last N lines of error messages
+
+# ---------------------------------------------------------------------------
+# Active child process group tracking (for orphan worker cleanup)
+# ---------------------------------------------------------------------------
+
+
+class ProcessGroupTracker:
+    """Track and manage active child process groups for clean orphan worker teardown.
+
+    Uses class-level storage so any code path (extractor, orphan watcher, etc.)
+    can register/unregister/kill without passing instances around.
+    """
+
+    _pgids: set[int] = set()
+    _lock = threading.Lock()
+
+    @classmethod
+    def register(cls, pgid: int) -> None:
+        with cls._lock:
+            cls._pgids.add(pgid)
+
+    @classmethod
+    def unregister(cls, pgid: int) -> None:
+        with cls._lock:
+            cls._pgids.discard(pgid)
+
+    @classmethod
+    def kill_all(cls, sig: int = signal.SIGKILL) -> None:
+        """Kill all tracked process groups and clear the registry."""
+        with cls._lock:
+            pgids = list(cls._pgids)
+        for pgid in pgids:
+            try:
+                os.killpg(pgid, sig)
+            except (ProcessLookupError, PermissionError, OSError):
+                pass
+        with cls._lock:
+            cls._pgids.clear()
+
+    @classmethod
+    def is_empty(cls) -> bool:
+        with cls._lock:
+            return len(cls._pgids) == 0
+
+
+def kill_all_active_children() -> None:
+    """Convenience alias for backward compatibility."""
+    ProcessGroupTracker.kill_all()
 
 
 class SubprocessGraphExtractor(BaseGraphExtractor):
@@ -44,7 +96,7 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
             Path to extracted sample directory
 
         Raises:
-            ExtractionError: If extraction fails
+            GraphExtractionError: If extraction fails
         """
         try:
             # Get GraphNet root directory for PYTHONPATH
@@ -72,45 +124,52 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
-                # 用新进程组，方便整组 kill（避免遗留孙进程占显存）
+                # Start a new process group so the whole group can be killed, avoiding orphaned child processes holding GPU memory.
                 start_new_session=True,
             )
+            pgid = os.getpgid(proc.pid)
+            ProcessGroupTracker.register(pgid)
             try:
                 stdout, stderr = proc.communicate(timeout=self.timeout)
             except subprocess.TimeoutExpired:
-                # 先 kill 整个进程组，确保 GPU 显存释放
+                # Kill the entire process group first to ensure GPU memory is released.
                 try:
-                    os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+                    os.killpg(pgid, signal.SIGKILL)
                 except ProcessLookupError:
                     proc.kill()
-                proc.communicate()  # 回收僵尸进程
-                raise ExtractionError(
-                    f"Script execution timed out after {self.timeout} seconds"
+                proc.communicate()  # Reap the zombie process
+                raise GraphExtractionError(
+                    f"Script execution timed out after {self.timeout} seconds",
+                    error_category=GraphExtractionErrorCategory.SCRIPT_TIMEOUT,
                 )
+            finally:
+                ProcessGroupTracker.unregister(pgid)
 
             if proc.returncode != 0:
                 error_msg = self._format_error_message(stderr or stdout)
-                raise ExtractionError(
+                raise GraphExtractionError(
                     f"Script execution failed with return code {proc.returncode}.\n"
                     f"Command: {sys.executable} {code_path}\n"
-                    f"Error output:\n{error_msg}"
+                    f"Error output:\n{error_msg}",
+                    error_category=GraphExtractionErrorCategory.SCRIPT_EXECUTION_FAILED,
                 )
 
             # Find output directory using multiple strategies
             output_dir = self._find_output_dir_robust(model_id)
 
             if not output_dir or not output_dir.exists():
-                raise ExtractionError(
+                raise GraphExtractionError(
                     f"Output directory not found for model: {model_id}.\n"
                     f"Searched in workspace: {self.workspace}\n"
-                    f"Please check if the extraction script executed successfully."
+                    f"Please check if the extraction script executed successfully.",
+                    error_category=GraphExtractionErrorCategory.OUTPUT_DIR_NOT_FOUND,
                 )
 
             return output_dir
-        except ExtractionError:
+        except GraphExtractionError:
             raise
         except Exception as e:
-            raise ExtractionError(f"Failed to extract graph: {e}") from e
+            raise GraphExtractionError(f"Failed to extract graph: {e}") from e
 
     def _format_error_message(self, error_msg: str) -> str:
         """Format error message, truncating if too long"""
@@ -208,8 +267,8 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
     def _is_valid_sample_dir(self, dir_path: Path) -> bool:
         """Check if a directory is a valid sample directory"""
         required_files = ["model.py", "graph_net.json"]
-        # 单图：根目录下有文件
+        # Single graph: files exist in the root directory.
         if all((dir_path / f).exists() for f in required_files):
             return True
-        # 多子图：subgraph_* 子目录下有文件
+        # Multiple subgraphs: files exist under subgraph_* directories.
         return any(dir_path.glob("subgraph_*/model.py"))

@@ -3,6 +3,8 @@ import torch
 import json
 import shutil
 import glob
+import hashlib
+from pathlib import Path
 from graph_net.torch import utils
 from graph_net.torch.fx_graph_serialize_util import serialize_graph_module_to_str
 
@@ -164,6 +166,10 @@ class GraphExtractor:
         write_code = utils.apply_templates(base_code)
         with open(os.path.join(subgraph_path, "model.py"), "w") as fp:
             fp.write(write_code)
+
+        # 5.1 Generate graph_hash.txt from model.py
+        graph_hash = hashlib.sha256(write_code.encode("utf-8")).hexdigest()
+        (Path(subgraph_path) / "graph_hash.txt").write_text(graph_hash)
 
         # 6. Save metadata LAST — graph_net.json serves as the
         #    completion marker: if it exists, all other files are guaranteed

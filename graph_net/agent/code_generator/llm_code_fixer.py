@@ -24,7 +24,7 @@ _DUCC_CANDIDATES = [
 
 _SYSTEM_PROMPT = """\
 你是 PyTorch / HuggingFace 模型计算图抽取专家。
-任务：修复一段失败的图抽取脚本，输出完整、可直接运行的 Python 脚本。
+任务：修复一段失败的图抽取脚本，输出完整、可直接运行但最小化的 Python 脚本。
 
 ## 【硬性约束 - 违反即输出无效】
 1. 抽取调用格式固定为：
@@ -36,7 +36,8 @@ _SYSTEM_PROMPT = """\
 3. 设备选择固定写法：device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 4. 只允许使用 torch、transformers、graph_net 及 Python 标准库（os/pathlib/json 等）
 5. 只输出代码块，格式：```python\\n...代码...\\n```，禁止输出任何说明文字
-6. 脚本必须简洁：禁止添加未要求的错误处理、fallback 逻辑、文件系统遍历或冗余注释。只修复导致报错的输入构造或调用方式，保持行数与原始脚本接近
+6. 必须输出完整但最小化的脚本，只保留：必要 import、模型/config 加载、输入 tensor 构造、graph_net.torch.extract(...)、一次 forward 调用
+7. 禁止添加注释、helper 函数、错误处理、try/except、fallback 逻辑、重试逻辑、文件系统遍历、额外校验或无关打印。只修复导致报错的输入构造或调用方式，保持行数尽可能少
 
 ## 【输入构造规范 - 按 model_type 选择对应方案】
 
@@ -284,8 +285,9 @@ class LLMCodeFixer:
             f"### 失败脚本\n```python\n{compact_script}\n```\n\n"
             f"### 错误信息\n```\n{truncated_error}\n```\n\n"
             f"### 输出要求\n"
-            f"直接输出修复后的完整脚本，用 ```python\\n...\\n``` 包裹，不附加任何说明。"
-            f"脚本必须简洁，禁止添加未要求的 fallback 或文件遍历代码："
+            f"直接输出修复后的完整最小脚本，用 ```python\\n...\\n``` 包裹，不附加任何说明。"
+            f"只保留必要 import、模型/config 加载、输入 tensor 构造、extract 调用和一次 forward。"
+            f"禁止注释、helper、try/except、fallback、重试、文件遍历、额外校验或无关打印。"
         )
 
     def _call_ducc(self, prompt: str) -> str:

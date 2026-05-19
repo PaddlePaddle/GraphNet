@@ -2,6 +2,7 @@
 
 import json
 import os
+import shutil
 from enum import Enum
 from pathlib import Path
 from typing import Optional
@@ -118,6 +119,7 @@ class GraphNetAgent:
             ExtractionStatus.ERROR           – unexpected error
         """
         self.last_timeout_success = False
+        sample_dir: Optional[Path] = None
         try:
             self.logger.info(f"Starting extraction for model: {model_id}")
 
@@ -144,6 +146,7 @@ class GraphNetAgent:
 
             if self.is_duplicate_sample(sample_dir):
                 self.logger.info("Duplicate sample detected, skipping verification")
+                self._move_sample(sample_dir, self.workspace.success_dir)
                 return ExtractionStatus.OK
 
             if not self.sample_verifier.verify(sample_dir):
@@ -152,6 +155,7 @@ class GraphNetAgent:
                     model_id,
                     Exception("Sample verification failed"),
                 )
+                self._move_sample(sample_dir, self.workspace.failed_dir)
                 return ExtractionStatus.VERIFY_FAILED
 
             if getattr(self.sample_verifier, "last_timeout_success", False):
@@ -160,12 +164,15 @@ class GraphNetAgent:
                     f"Sample verification for {model_id} passed via timeout skip"
                 )
 
+            self._move_sample(sample_dir, self.workspace.success_dir)
             self.logger.info(f"Successfully extracted sample for {model_id}")
             return ExtractionStatus.OK
 
         except SampleVerificationError as e:
             self.logger.error(f"Extraction failed for {model_id}: {e}")
             self.error_classifier.classify_and_record(model_id, e)
+            if sample_dir and sample_dir.exists():
+                self._move_sample(sample_dir, self.workspace.failed_dir)
             return ExtractionStatus.VERIFY_FAILED
         except (
             ModelFetchError,
@@ -175,10 +182,14 @@ class GraphNetAgent:
         ) as e:
             self.logger.error(f"Extraction failed for {model_id}: {e}")
             self.error_classifier.classify_and_record(model_id, e)
+            if sample_dir and sample_dir.exists():
+                self._move_sample(sample_dir, self.workspace.failed_dir)
             return ExtractionStatus.EXTRACT_FAILED
         except Exception as e:
             self.logger.error(f"Unexpected error for {model_id}: {e}", exc_info=True)
             self.error_classifier.classify_and_record(model_id, e)
+            if sample_dir and sample_dir.exists():
+                self._move_sample(sample_dir, self.workspace.failed_dir)
             return ExtractionStatus.ERROR
 
     @staticmethod
@@ -357,6 +368,15 @@ class GraphNetAgent:
         except (OSError, IOError) as e:
             self.logger.warning(f"Failed to generate graph_hash.txt: {e}")
 
+    def _move_sample(self, sample_dir: Path, dest_parent: Path) -> Path:
+        """Move sample_dir into dest_parent/, overwriting if destination exists"""
+        dest = dest_parent / sample_dir.name
+        if dest.exists():
+            shutil.rmtree(dest)
+        shutil.move(str(sample_dir), str(dest))
+        self.logger.info(f"Moved sample to: {dest}")
+        return dest
+
     def is_duplicate_sample(self, sample_dir: Path) -> bool:
         """Check if the extracted sample is a duplicate of an existing sample"""
         graph_hash_path = sample_dir / "graph_hash.txt"
@@ -366,21 +386,21 @@ class GraphNetAgent:
 
         try:
             current_hash = graph_hash_path.read_text().strip()
-            samples_root = self.workspace.samples_dir
 
-            if not samples_root.exists():
-                return False
-
-            for hash_file in samples_root.rglob("graph_hash.txt"):
-                if hash_file == graph_hash_path:
+            # Search for duplicates in success_dir (where past successful samples live)
+            for search_root in [self.workspace.success_dir, self.workspace.samples_dir]:
+                if not search_root.exists():
                     continue
-                try:
-                    existing_hash = hash_file.read_text().strip()
-                    if existing_hash == current_hash:
-                        self.logger.info(f"Duplicate found: {hash_file.parent}")
-                        return True
-                except (OSError, IOError):
-                    continue
+                for hash_file in search_root.rglob("graph_hash.txt"):
+                    if hash_file == graph_hash_path:
+                        continue
+                    try:
+                        existing_hash = hash_file.read_text().strip()
+                        if existing_hash == current_hash:
+                            self.logger.info(f"Duplicate found: {hash_file.parent}")
+                            return True
+                    except (OSError, IOError):
+                        continue
 
             return False
         except (OSError, IOError) as e:

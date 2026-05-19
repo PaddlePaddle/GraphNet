@@ -22,6 +22,9 @@ class WorkspaceManager:
             self.generated_dir,
             self.samples_dir,
             self.logs_dir,
+            self.success_dir,
+            self.failed_dir,
+            self.logs_and_lists_dir,
         ]
         for dir_path in dirs:
             dir_path.mkdir(parents=True, exist_ok=True)
@@ -45,6 +48,21 @@ class WorkspaceManager:
     def logs_dir(self) -> Path:
         """Directory for logs"""
         return self.workspace_root / "logs"
+
+    @property
+    def success_dir(self) -> Path:
+        """Directory for successfully extracted samples"""
+        return self.workspace_root / "success"
+
+    @property
+    def failed_dir(self) -> Path:
+        """Directory for failed extraction artifacts"""
+        return self.workspace_root / "failed"
+
+    @property
+    def logs_and_lists_dir(self) -> Path:
+        """Directory for result JSONs, model lists, and run logs"""
+        return self.workspace_root / "logs_and_lists"
 
     def get_model_dir(self, model_id: str) -> Path:
         """Get directory path for a specific model"""

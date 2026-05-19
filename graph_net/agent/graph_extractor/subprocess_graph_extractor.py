@@ -124,7 +124,7 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
                 text=True,
-                # 用新进程组，方便整组 kill（避免遗留孙进程占显存）
+                # Start a new process group so the whole group can be killed, avoiding orphaned child processes holding GPU memory.
                 start_new_session=True,
             )
             pgid = os.getpgid(proc.pid)
@@ -132,12 +132,12 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
             try:
                 stdout, stderr = proc.communicate(timeout=self.timeout)
             except subprocess.TimeoutExpired:
-                # 先 kill 整个进程组，确保 GPU 显存释放
+                # Kill the entire process group first to ensure GPU memory is released.
                 try:
                     os.killpg(pgid, signal.SIGKILL)
                 except ProcessLookupError:
                     proc.kill()
-                proc.communicate()  # 回收僵尸进程
+                proc.communicate()  # Reap the zombie process
                 raise GraphExtractionError(
                     f"Script execution timed out after {self.timeout} seconds",
                     error_category=GraphExtractionErrorCategory.SCRIPT_TIMEOUT,
@@ -267,8 +267,8 @@ class SubprocessGraphExtractor(BaseGraphExtractor):
     def _is_valid_sample_dir(self, dir_path: Path) -> bool:
         """Check if a directory is a valid sample directory"""
         required_files = ["model.py", "graph_net.json"]
-        # 单图：根目录下有文件
+        # Single graph: files exist in the root directory.
         if all((dir_path / f).exists() for f in required_files):
             return True
-        # 多子图：subgraph_* 子目录下有文件
+        # Multiple subgraphs: files exist under subgraph_* directories.
         return any(dir_path.glob("subgraph_*/model.py"))

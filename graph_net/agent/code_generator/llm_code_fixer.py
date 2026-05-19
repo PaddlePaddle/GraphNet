@@ -349,7 +349,7 @@ class LLMCodeFixer:
 
     @staticmethod
     def _extract_key_fields(model_dir: Path) -> str:
-        """从 config.json 提取对输入构造最关键的字段，方便 LLM 直接读取。"""
+        """Extract the most important input-construction fields from config.json for the LLM."""
         config_path = model_dir / "config.json"
         if not config_path.exists():
             return "{}"
@@ -395,7 +395,7 @@ class LLMCodeFixer:
             "sample_rate",
         ]
         result = {k: cfg[k] for k in keys if k in cfg}
-        # 对嵌套 config 只取关键字段
+        # Keep only key fields from nested configs.
         for nested in ("audio_config", "vision_config", "text_config"):
             if isinstance(result.get(nested), dict):
                 result[nested] = {

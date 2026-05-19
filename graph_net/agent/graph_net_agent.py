@@ -237,7 +237,7 @@ class GraphNetAgent:
                 return sample_dir
             except GraphExtractionError as retry_err:
                 err = retry_err
-                current_script = fixed_path  # 第二次把上一次修复的脚本+新报错再喂给 LLM
+                current_script = fixed_path  # On the second attempt, feed the previous fixed script and new error back to the LLM
 
         raise err
 
@@ -303,7 +303,7 @@ class GraphNetAgent:
         return sample_dir
 
     def _fix_model_name(self, sample_dir: Path, model_id: str) -> None:
-        """将 graph_net.json 中的 model_name 修正为原始 HuggingFace model_id（org/model）"""
+        """Update model_name in graph_net.json to the original HuggingFace model_id (org/model)."""
         for json_path in [
             sample_dir / "graph_net.json",
             *sample_dir.glob("subgraph_*/graph_net.json"),

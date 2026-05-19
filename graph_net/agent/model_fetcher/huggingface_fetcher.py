@@ -96,7 +96,6 @@ class HFFetcher(BaseModelFetcher):
             api = HfApi(endpoint=self.endpoint)
             api.model_info(
                 repo_id=model_id,
-                repo_type="model",
                 token=self.token,
                 files_metadata=False,
             )

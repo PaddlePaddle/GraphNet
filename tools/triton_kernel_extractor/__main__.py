@@ -213,6 +213,74 @@ def _run_analyze(args: argparse.Namespace) -> None:
 
 
 # ---------------------------------------------------------------------------
+# Subcommand: dedup
+# ---------------------------------------------------------------------------
+
+
+def _add_dedup_parser(subparsers: argparse._SubParsersAction) -> None:
+    parser = subparsers.add_parser(
+        "dedup",
+        help="Deduplicate extracted Triton kernels by source content.",
+        description=(
+            "Walk extracted triton_kernel/*.py files across samples and "
+            "compute dedup statistics.  Two kernels from different subgraphs "
+            "are considered duplicates when their normalized source code is "
+            "identical.  This is kernel-level dedup (by compiled Triton "
+            "kernel content), distinct from graph-level dedup via graph_hash.txt."
+        ),
+    )
+    parser.add_argument(
+        "--input-dir",
+        type=Path,
+        required=True,
+        help=(
+            "Root directory containing per-sample subdirectories with "
+            "triton_kernel/*.py files (output of the extract pipeline step)."
+        ),
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        required=True,
+        help="Output JSON path for the dedup report.",
+    )
+    parser.set_defaults(func=_run_dedup)
+
+
+def _run_dedup(args: argparse.Namespace) -> None:
+    from .kernel_dedup import dedup_kernels
+    import json
+
+    logger.info("Scanning: %s", args.input_dir)
+    report = dedup_kernels(args.input_dir)
+    if not report:
+        logger.warning("No data to report.")
+        return
+
+    # Print summary.
+    logger.info("")
+    logger.info("=== Kernel Dedup Report ===")
+    logger.info("Total samples scanned:       %d", report["total_samples"])
+    logger.info("Total kernel instances:       %d", report["total_kernel_instances"])
+    logger.info("Unique kernel hashes:         %d", report["unique_kernel_hashes"])
+    logger.info("Dedup rate:                   %.1f%%", report["dedup_rate_percent"])
+    logger.info("Avg kernels per sample:       %.2f", report["avg_kernels_per_sample"])
+    logger.info("")
+    logger.info("Top kernel types by frequency:")
+    for name, count in list(report["kernel_name_freq"].items())[:20]:
+        bar = "#" * min(count, 60)
+        logger.info("  %-50s %4d  %s", name, count, bar)
+
+    # Write JSON.
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(
+        json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
+    logger.info("")
+    logger.info("Report saved to: %s", args.output)
+
+
+# ---------------------------------------------------------------------------
 # Backward-compatible argument detection
 # ---------------------------------------------------------------------------
 
@@ -225,7 +293,7 @@ def _needs_implicit_extract(argv: list[str]) -> bool:
     """
     if not argv:
         return False
-    known_subcommands = {"extract", "analyze"}
+    known_subcommands = {"extract", "analyze", "dedup"}
     first = argv[0]
     if first in known_subcommands:
         return False
@@ -263,6 +331,7 @@ def main(argv: list[str] | None = None) -> None:
     subparsers = parser.add_subparsers(dest="command")
     _add_extract_parser(subparsers)
     _add_analyze_parser(subparsers)
+    _add_dedup_parser(subparsers)
 
     args = parser.parse_args(argv)
 

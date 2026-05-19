@@ -128,9 +128,7 @@ def dedup_kernels(input_dir: Path) -> dict:
         "unique_kernel_hashes": unique,
         "dedup_rate_percent": dedup_rate,
         "avg_kernels_per_sample": avg,
-        "kernel_name_freq": dict(
-            kernel_name_counter.most_common()
-        ),
+        "kernel_name_freq": dict(kernel_name_counter.most_common()),
         "per_sample": per_sample,
     }
 
@@ -179,7 +177,7 @@ def main(argv: list[str] | None = None) -> None:
     print(f"Unique kernel hashes:         {report['unique_kernel_hashes']}")
     print(f"Dedup rate:                   {report['dedup_rate_percent']}%")
     print(f"Avg kernels per sample:       {report['avg_kernels_per_sample']}")
-    print(f"\nTop kernel types by frequency:")
+    print("\nTop kernel types by frequency:")
     for name, count in list(report["kernel_name_freq"].items())[:20]:
         bar = "#" * min(count, 40)
         print(f"  {name:50s} {count:4d}  {bar}")

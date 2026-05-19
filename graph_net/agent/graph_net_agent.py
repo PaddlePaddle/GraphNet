@@ -249,6 +249,19 @@ class GraphNetAgent:
 
     def _fetch_model(self, model_id: str) -> Path:
         """Download model from HuggingFace Hub"""
+        self.logger.info(f"Checking model repo accessibility: {model_id}")
+        try:
+            self.model_fetcher.check_accessible(model_id)
+        except ModelFetchError as e:
+            if e.error_category in (
+                GraphExtractionErrorCategory.MODEL_NOT_FOUND,
+                GraphExtractionErrorCategory.MODEL_FORBIDDEN,
+            ):
+                raise
+            self.logger.warning(
+                f"Model repo precheck failed for {model_id}, continuing to download: {e}"
+            )
+
         self.logger.info(f"Fetching model: {model_id}")
         model_dir = self.model_fetcher.download(model_id)
         self.logger.info(f"Model downloaded to: {model_dir}")

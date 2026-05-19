@@ -79,34 +79,15 @@ class TemplateCodeGenerator(BaseCodeGenerator):
         short_name = self._model_short_name(model_metadata.model_id)
 
         code = f"""import torch
-try:
-    from transformers import AutoModel
-except ImportError:
-    raise ImportError("transformers is required. Install with: pip install transformers")
-
 import graph_net
 
-def main():
-    # Load model
-{self._indent(load_code, 4)}
+{load_code}
 
-    # Prepare inputs
-{self._indent(input_code, 4)}
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = model.to(device).eval()
+{input_code}
 
-    # Extract graph
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = model.to(device).eval()
-
-    # Move inputs to same device as model
-    inputs = {{k: v.to(device) for k, v in inputs.items()}}
-
-    wrapped = graph_net.torch.extract(name="{short_name}", dynamic=False)(model).eval()
-
-    with torch.no_grad():
-        wrapped(**inputs)
-
-if __name__ == "__main__":
-    main()
+graph_net.torch.extract(name="{short_name}", dynamic=False)(model).eval()(**inputs)
 """
         return code
 
@@ -118,37 +99,19 @@ if __name__ == "__main__":
         input_code = self._generate_input_code(model_metadata)
         short_name = self._model_short_name(model_metadata.model_id)
 
-        # Diffusion model forward takes positional args, not **inputs dict
         code = f"""import torch
-try:
-    from diffusers import UNet2DConditionModel
-except ImportError:
-    raise ImportError("diffusers is required. Install with: pip install diffusers")
-
 import graph_net
 
-def main():
-    # Load model
-{self._indent(load_code, 4)}
+{load_code}
 
-    # Prepare inputs
-{self._indent(input_code, 4)}
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = model.to(device).eval()
+{input_code}
 
-    # Extract graph
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = model.to(device).eval()
-
-    sample = inputs["sample"].to(device)
-    timestep = inputs["timestep"].to(device)
-    encoder_hidden_states = inputs["encoder_hidden_states"].to(device)
-
-    wrapped = graph_net.torch.extract(name="{short_name}", dynamic=False)(model).eval()
-
-    with torch.no_grad():
-        wrapped(sample, timestep, encoder_hidden_states)
-
-if __name__ == "__main__":
-    main()
+sample = inputs["sample"]
+timestep = inputs["timestep"]
+encoder_hidden_states = inputs["encoder_hidden_states"]
+graph_net.torch.extract(name="{short_name}", dynamic=False)(model).eval()(sample, timestep, encoder_hidden_states)
 """
         return code
 
@@ -199,7 +162,7 @@ if __name__ == "__main__":
 
     def _generate_input_code(self, model_metadata: ModelMetadata) -> str:
         """Generate input tensor construction code based on model metadata"""
-        lines = ["inputs = {}"]
+        lines = ["inputs = {"]
 
         for name, shape in model_metadata.input_shapes.items():
             dtype = model_metadata.input_dtypes.get(name, "int64")
@@ -209,18 +172,18 @@ if __name__ == "__main__":
             if dtype == "int64":
                 if "input_ids" in name.lower() or "decoder_input_ids" in name.lower():
                     safe_vocab_size = self._calculate_safe_vocab_size(model_metadata)
-                    lines.append(
-                        f'inputs["{name}"] = torch.randint(0, {safe_vocab_size}, {shape_tuple}, dtype={torch_dtype})'
+                    value = (
+                        f"torch.randint(0, {safe_vocab_size}, {shape_tuple}, "
+                        f"dtype={torch_dtype}).to(device)"
                     )
                 else:
-                    lines.append(
-                        f'inputs["{name}"] = torch.ones({shape_tuple}, dtype={torch_dtype})'
-                    )
+                    value = f"torch.ones({shape_tuple}, dtype={torch_dtype}).to(device)"
             else:
-                lines.append(
-                    f'inputs["{name}"] = torch.randn({shape_tuple}, dtype={torch_dtype})'
-                )
+                value = f"torch.randn({shape_tuple}, dtype={torch_dtype}).to(device)"
 
+            lines.append(f'    "{name}": {value},')
+
+        lines.append("}")
         return "\n".join(lines)
 
     def _get_torch_dtype(self, dtype: str) -> str:
@@ -261,8 +224,3 @@ if __name__ == "__main__":
             or "xlm_roberta" in model_type
             or "roberta" in model_type
         )
-
-    def _indent(self, text: str, spaces: int) -> str:
-        """Indent text by specified spaces"""
-        indent = " " * spaces
-        return "\n".join(indent + line for line in text.split("\n"))

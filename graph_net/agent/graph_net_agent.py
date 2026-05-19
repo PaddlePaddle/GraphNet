@@ -236,6 +236,12 @@ class GraphNetAgent:
                 sample_dir = self._extract_graph(fixed_path, model_id)
                 return sample_dir
             except GraphExtractionError as retry_err:
+                if not self._is_llm_fixable_error(retry_err):
+                    self.logger.warning(
+                        "LLM-fixed script failed with non-fixable error, "
+                        f"skipping remaining retries: {retry_err}"
+                    )
+                    raise
                 err = retry_err
                 current_script = fixed_path  # On the second attempt, feed the previous fixed script and new error back to the LLM
 

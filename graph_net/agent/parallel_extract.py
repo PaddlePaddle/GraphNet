@@ -407,7 +407,7 @@ def _parse_args() -> argparse.Namespace:
         "--verify-timeout",
         type=int,
         default=None,
-        help="Timeout in seconds for forward verification (default: 300 on GPU, 1200 on CPU)",
+        help="Timeout in seconds for forward verification (default: 300 on GPU, 600 on CPU)",
     )
     parser.add_argument(
         "--use-llm",
@@ -450,9 +450,7 @@ def _resolve_config(args: argparse.Namespace):
         extract_timeout = (
             args.extract_timeout if args.extract_timeout is not None else 2000
         )
-        verify_timeout = (
-            args.verify_timeout if args.verify_timeout is not None else 1200
-        )
+        verify_timeout = args.verify_timeout if args.verify_timeout is not None else 600
 
     return workspace, gpus, num_workers, extract_timeout, verify_timeout
 

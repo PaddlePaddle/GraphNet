@@ -117,3 +117,55 @@ agent = GraphNetAgent(llm_retry=False)
 ```
 
 LLM retry 需要 `ducc` 或 `claude` 在 `PATH` 中可用。
+
+## 辅助脚本
+
+`graph_net/agent/scripts/` 目录下提供批量任务相关的辅助脚本：
+
+### check_extraction_progress.sh
+
+一键查看当前抽取任务的运行状态。
+
+```bash
+# 自动查找最新日志
+bash graph_net/agent/scripts/check_extraction_progress.sh
+
+# 或指定日志文件
+bash graph_net/agent/scripts/check_extraction_progress.sh $HOME/workspace/logs_and_lists/batch7_safe_run.log
+```
+
+输出包括：进程状态（PID、CPU/内存、Worker 数）、日志最新进度、成功/失败统计、处理速度估算、预计剩余时间、磁盘空间、样本目录文件数。
+
+### analyze_extraction_log.sh
+
+分析已完成批次的抽取日志，输出失败分布和根因统计。
+
+```bash
+bash graph_net/agent/scripts/analyze_extraction_log.sh $HOME/workspace/logs_and_lists/batch7_safe_run.log
+```
+
+输出包括：总体统计（成功率）、失败原因一级分布、模型过大分布、异常类型分布（ValueError/Dynamo/IndexError 等）、HTTP 状态码分布、辅助文件（生成已处理和成功模型列表到 `/tmp/`）。
+
+### gen_hash_and_dedup.py
+
+子图去重脚本。遍历抽取结果目录，为每个子图的 `model.py` 生成 SHA256 哈希，找出内容完全相同的子图并生成去重报告，支持一键删除重复目录。
+
+```bash
+# 仅分析，不删除
+python graph_net/agent/scripts/gen_hash_and_dedup.py ./success_20260515_merged
+
+# 分析并直接删除重复目录（保留每组第一个）
+python graph_net/agent/scripts/gen_hash_and_dedup.py ./success_20260515_merged --remove
+```
+
+输出包括：生成的 `graph_hash.txt` 数量、唯一子图数、重复组数、可删除数量，以及详细的去重报告 `dedup_report.txt`。
+
+> **为什么去重率高**：同一基础模型的微调变体（fine-tune variants）通常共享完全相同的计算图，只是权重不同。实测可缩减 90%+（85K 子图 → 1.5K 唯一子图，2.3 GB → 172 MB）。
+
+**环境变量**：以上脚本默认使用 `$HOME/workspace/` 下的目录，可通过环境变量覆盖：
+
+```bash
+export GRAPHNET_LOG_DIR=/your/path/logs_and_lists
+export GRAPHNET_SUCCESS_DIR=/your/path/success
+export GRAPHNET_SAMPLES_DIR=/your/path/samples
+```

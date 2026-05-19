@@ -46,7 +46,7 @@ class GraphNetAgent:
         llm_retry: bool = True,
         extract_timeout: Optional[int] = None,
         verify_timeout: Optional[int] = None,
-        llm_timeout: int = 600,
+        llm_timeout: int = 360,
     ):
         """
         Initialize GraphNet Agent
@@ -61,7 +61,7 @@ class GraphNetAgent:
                               (default None -> 1000s).
             verify_timeout:   Timeout in seconds for forward verification subprocess
                               (default None -> 300s).
-            llm_timeout:      Timeout in seconds for LLM script fix (default: 600).
+            llm_timeout:      Timeout in seconds for LLM script fix (default: 360).
         """
         if workspace is None:
             workspace = os.environ.get(

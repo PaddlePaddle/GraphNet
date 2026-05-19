@@ -192,6 +192,17 @@ class GraphNetAgent:
                 self._move_sample(sample_dir, self.workspace.failed_dir)
             return ExtractionStatus.ERROR
 
+    @staticmethod
+    def _is_llm_fixable_error(err: GraphExtractionError) -> bool:
+        """Decide whether an extraction error is worth retrying with LLM.
+
+        Only allow LLM retry for script logic errors (non-zero return code).
+        All other categories (timeout, infrastructure, missing model, etc.)
+        are not fixable by rewriting the script.
+        """
+        category = GraphExtractionErrorClassifier.classify_from_exception(err)
+        return category == GraphExtractionErrorCategory.SCRIPT_EXECUTION_FAILED
+
     def _llm_retry(
         self,
         first_err: GraphExtractionError,

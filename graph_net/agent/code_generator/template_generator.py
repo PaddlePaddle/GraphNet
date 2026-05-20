@@ -1,5 +1,6 @@
 """Template-based code generator implementation"""
 
+import json
 from pathlib import Path
 from typing import Optional
 
@@ -136,29 +137,36 @@ graph_net.torch.extract(name="{short_name}", dynamic=False)(model).eval()(sample
             )
         else:
             # text, moe, vision, multimodal, audio, None → AutoModel
-            # If model_type is not present in config.json (e.g. prajjwal1/bert-tiny),
-            # inject the inferred model_type so AutoConfig can resolve the class.
             model_type = model_metadata.model_type
-            if model_type:
+            if model_type and self._config_missing_model_type(model_dir):
                 return (
                     f"import json as _json, os as _os, tempfile as _tmp\n"
                     f"from transformers import AutoConfig, AutoModel\n"
                     f'_raw = _json.load(open(_os.path.join("{model_path}", "config.json")))\n'
-                    f'if "model_type" not in _raw:\n'
-                    f'    _raw["model_type"] = "{model_type}"\n'
-                    f"    _td = _tmp.mkdtemp()\n"
-                    f'    _json.dump(_raw, open(_os.path.join(_td, "config.json"), "w"))\n'
-                    f"    _config = AutoConfig.from_pretrained(_td, trust_remote_code=True)\n"
-                    f"else:\n"
-                    f'    _config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
+                    f'_raw["model_type"] = "{model_type}"\n'
+                    f"_td = _tmp.mkdtemp()\n"
+                    f'_json.dump(_raw, open(_os.path.join(_td, "config.json"), "w"))\n'
+                    f"_config = AutoConfig.from_pretrained(_td, trust_remote_code=True)\n"
                     f"model = AutoModel.from_config(_config)"
                 )
-            else:
-                return (
-                    f"from transformers import AutoConfig, AutoModel\n"
-                    f'_config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
-                    f"model = AutoModel.from_config(_config)"
-                )
+
+            return (
+                f"from transformers import AutoConfig, AutoModel\n"
+                f'_config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
+                f"model = AutoModel.from_config(_config)"
+            )
+
+    @staticmethod
+    def _config_missing_model_type(model_dir: Path) -> bool:
+        config_path = model_dir / "config.json"
+        if not config_path.exists():
+            return False
+        try:
+            return "model_type" not in json.loads(
+                config_path.read_text(encoding="utf-8")
+            )
+        except (OSError, json.JSONDecodeError):
+            return False
 
     def _generate_input_code(self, model_metadata: ModelMetadata) -> str:
         """Generate input tensor construction code based on model metadata"""

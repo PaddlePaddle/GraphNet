@@ -6,8 +6,8 @@
 
 ### 基础依赖
 ```bash
-pip install torch transformers accelerate
-pip install huggingface_hub>=0.20.0
+pip install "torch>=2.9.0" accelerate
+pip install "transformers>=5.8.1" "huggingface_hub>=1.15.0"
 ```
 
 ## 环境配置

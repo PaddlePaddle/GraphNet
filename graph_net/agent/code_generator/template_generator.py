@@ -6,14 +6,15 @@ from typing import Optional
 
 from graph_net.agent.metadata_analyzer.model_metadata import ModelMetadata
 from graph_net.agent.code_generator.base import BaseCodeGenerator
-from graph_net.agent.utils.exceptions import CodeGenerationError
-from graph_net.agent.vlm_model_types import (
+from graph_net.agent.model_type_utils import (
     VLM_FAMILY_GEMMA3,
     VLM_FAMILY_INTERNVL,
     VLM_FAMILY_LLAVA,
     VLM_FAMILY_QWEN,
     get_vlm_family,
+    select_auto_model_class,
 )
+from graph_net.agent.utils.exceptions import CodeGenerationError
 
 # Constants for safe vocab size calculation
 DEFAULT_VOCAB_SIZE = 30522
@@ -130,38 +131,34 @@ graph_net.torch.extract(name="{short_name}", dynamic=False)(model).eval()(sample
         model_path = str(model_dir).replace("\\", "/")
         arch = model_metadata.architecture_type
 
-        if arch == "seq2seq":
-            return (
-                f"from transformers import AutoConfig, AutoModelForSeq2SeqLM\n"
-                f'_config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
-                f"model = AutoModelForSeq2SeqLM.from_config(_config)"
-            )
-        elif arch == "diffusion":
+        if arch == "diffusion":
             return (
                 f"from diffusers import UNet2DConditionModel\n"
                 f'_config = UNet2DConditionModel.load_config("{model_path}")\n'
                 f"model = UNet2DConditionModel.from_config(_config)"
             )
-        else:
-            # text, moe, vision, multimodal, audio, None → AutoModel
-            model_type = model_metadata.model_type
-            if model_type and self._config_missing_model_type(model_dir):
-                return (
-                    f"import json as _json, os as _os, tempfile as _tmp\n"
-                    f"from transformers import AutoConfig, AutoModel\n"
-                    f'_raw = _json.load(open(_os.path.join("{model_path}", "config.json")))\n'
-                    f'_raw["model_type"] = "{model_type}"\n'
-                    f"_td = _tmp.mkdtemp()\n"
-                    f'_json.dump(_raw, open(_os.path.join(_td, "config.json"), "w"))\n'
-                    f"_config = AutoConfig.from_pretrained(_td, trust_remote_code=True)\n"
-                    f"model = AutoModel.from_config(_config)"
-                )
 
+        model_class = select_auto_model_class(
+            model_metadata.model_type, model_metadata.architecture_type
+        )
+        model_type = model_metadata.model_type
+        if model_type and self._config_missing_model_type(model_dir):
             return (
-                f"from transformers import AutoConfig, AutoModel\n"
-                f'_config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
-                f"model = AutoModel.from_config(_config)"
+                f"import json as _json, os as _os, tempfile as _tmp\n"
+                f"from transformers import AutoConfig, {model_class}\n"
+                f'_raw = _json.load(open(_os.path.join("{model_path}", "config.json")))\n'
+                f'_raw["model_type"] = "{model_type}"\n'
+                f"_td = _tmp.mkdtemp()\n"
+                f'_json.dump(_raw, open(_os.path.join(_td, "config.json"), "w"))\n'
+                f"_config = AutoConfig.from_pretrained(_td, trust_remote_code=True)\n"
+                f"model = {model_class}.from_config(_config)"
             )
+
+        return (
+            f"from transformers import AutoConfig, {model_class}\n"
+            f'_config = AutoConfig.from_pretrained("{model_path}", trust_remote_code=True)\n'
+            f"model = {model_class}.from_config(_config)"
+        )
 
     @staticmethod
     def _config_missing_model_type(model_dir: Path) -> bool:

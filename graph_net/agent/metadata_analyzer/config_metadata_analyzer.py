@@ -6,17 +6,18 @@ from typing import Any, Dict, List, Optional, Tuple
 
 from graph_net.agent.metadata_analyzer.base import BaseMetadataAnalyzer
 from graph_net.agent.metadata_analyzer.model_metadata import ModelMetadata
-from graph_net.agent.utils.exceptions import (
-    GraphExtractionErrorCategory,
-    MetadataAnalysisError,
-)
-from graph_net.agent.vlm_model_types import (
+from graph_net.agent.model_type_utils import (
     VLM_FAMILY_GEMMA3,
     VLM_FAMILY_INTERNVL,
     VLM_FAMILY_LLAVA,
     VLM_FAMILY_QWEN,
     get_vlm_family,
-    is_image_token_vlm,
+    is_audio_model_type,
+    is_multimodal_model_type,
+)
+from graph_net.agent.utils.exceptions import (
+    GraphExtractionErrorCategory,
+    MetadataAnalysisError,
 )
 
 
@@ -184,49 +185,17 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
 
         # 2. Audio models
         #    Use the union of transformers' audio task mapping tables — no hardcoded list.
-        try:
-            from transformers.models.auto.modeling_auto import (
-                MODEL_FOR_AUDIO_CLASSIFICATION_MAPPING_NAMES,
-                MODEL_FOR_CTC_MAPPING_NAMES,
-                MODEL_FOR_SPEECH_SEQ_2_SEQ_MAPPING_NAMES,
-                MODEL_FOR_TEXT_TO_SPECTROGRAM_MAPPING_NAMES,
-                MODEL_FOR_TEXT_TO_WAVEFORM_MAPPING_NAMES,
-            )
-
-            all_audio: set = (
-                set(MODEL_FOR_SPEECH_SEQ_2_SEQ_MAPPING_NAMES)
-                | set(MODEL_FOR_AUDIO_CLASSIFICATION_MAPPING_NAMES)
-                | set(MODEL_FOR_CTC_MAPPING_NAMES)
-                | set(MODEL_FOR_TEXT_TO_WAVEFORM_MAPPING_NAMES)
-                | set(MODEL_FOR_TEXT_TO_SPECTROGRAM_MAPPING_NAMES)
-            )
-            if model_type in all_audio:
-                return "audio"
-        except ImportError:
-            # Attribute-based fallback
-            if _cfg_get(cfg_obj, "num_mel_bins") or cfg_dict.get("num_mel_bins"):
-                return "audio"
-            if _cfg_get(cfg_obj, "feat_extract_norm") or cfg_dict.get(
-                "feat_extract_norm"
-            ):
-                return "audio"
+        if is_audio_model_type(model_type):
+            return "audio"
+        # Attribute-based fallback
+        if _cfg_get(cfg_obj, "num_mel_bins") or cfg_dict.get("num_mel_bins"):
+            return "audio"
+        if _cfg_get(cfg_obj, "feat_extract_norm") or cfg_dict.get("feat_extract_norm"):
+            return "audio"
 
         # 3. Multimodal VLMs
-        #    Use transformers' multimodal task mapping tables — no hardcoded list.
-        try:
-            from transformers.models.auto.modeling_auto import (
-                MODEL_FOR_IMAGE_TEXT_TO_TEXT_MAPPING_NAMES,
-                MODEL_FOR_MULTIMODAL_LM_MAPPING_NAMES,
-            )
-
-            all_multimodal: set = set(MODEL_FOR_IMAGE_TEXT_TO_TEXT_MAPPING_NAMES) | set(
-                MODEL_FOR_MULTIMODAL_LM_MAPPING_NAMES
-            )
-            if model_type in all_multimodal:
-                return "multimodal"
-        except ImportError:
-            pass
-        if is_image_token_vlm(model_type):
+        #    Use transformers' multimodal task mapping tables plus exact VLM family map.
+        if is_multimodal_model_type(model_type):
             return "multimodal"
         # Fallback: check sub_configs / dict keys for vision+text pair
         if cfg_obj is not None:

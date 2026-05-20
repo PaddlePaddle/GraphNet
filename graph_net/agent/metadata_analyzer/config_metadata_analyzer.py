@@ -10,11 +10,22 @@ from graph_net.agent.utils.exceptions import (
     GraphExtractionErrorCategory,
     MetadataAnalysisError,
 )
+from graph_net.agent.vlm_model_types import (
+    VLM_FAMILY_GEMMA3,
+    VLM_FAMILY_INTERNVL,
+    VLM_FAMILY_LLAVA,
+    VLM_FAMILY_QWEN,
+    get_vlm_family,
+    is_image_token_vlm,
+)
 
 
 # Cap sequence length to avoid OOM: attention is O(n²), graph extraction
 # only needs a short sequence to trace the computation graph.
 _MAX_SEQ_LEN = 128
+# Larger cap used only for known VLM families that require image-token prefixes.
+_MAX_VLM_SEQ_LEN = 512
+_VLM_TEXT_TAIL = 16
 # Cap image size to avoid OOM on high-resolution configs.
 _MAX_IMAGE_SIZE = 512
 _EMBEDDING_WEIGHT_KEYS = [
@@ -30,6 +41,30 @@ def _cfg_get(cfg: Any, key: str, default: Any = None) -> Any:
     if isinstance(cfg, dict):
         return cfg.get(key, default)
     return getattr(cfg, key, default)
+
+
+def _get_vision_config(cfg_obj: Any, cfg_dict: Dict) -> Any:
+    return _cfg_get(cfg_obj, "vision_config") or cfg_dict.get("vision_config", {})
+
+
+def _get_vision_field(cfg_obj: Any, cfg_dict: Dict, key: str, default: Any) -> Any:
+    for vis_cfg in (_cfg_get(cfg_obj, "vision_config"), cfg_dict.get("vision_config")):
+        value = _cfg_get(vis_cfg, key, None)
+        if value is not None:
+            return value
+    return _cfg_get(cfg_obj, key) or cfg_dict.get(key, default)
+
+
+def _normalize_square_size(raw_size: Any, default: int = 224) -> int:
+    if raw_size is None:
+        raw_size = default
+    if isinstance(raw_size, (list, tuple)):
+        raw_size = raw_size[0]
+    return int(raw_size)
+
+
+def _cap_seq_len(raw_len: Any, cap: int = _MAX_SEQ_LEN) -> int:
+    return min(int(raw_len), cap)
 
 
 class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
@@ -191,6 +226,8 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
                 return "multimodal"
         except ImportError:
             pass
+        if is_image_token_vlm(model_type):
+            return "multimodal"
         # Fallback: check sub_configs / dict keys for vision+text pair
         if cfg_obj is not None:
             sub_configs = getattr(cfg_obj, "sub_configs", {})
@@ -348,8 +385,24 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
             raw_len = _cfg_get(cfg_obj, "max_position_embeddings") or cfg_dict.get(
                 "max_position_embeddings", 512
             )
-        seq_len = min(int(raw_len), _MAX_SEQ_LEN)
+        seq_len = _cap_seq_len(raw_len)
 
+        model_type = _cfg_get(cfg_obj, "model_type") or cfg_dict.get("model_type")
+        family = get_vlm_family(model_type)
+        vlm_handlers = {
+            VLM_FAMILY_QWEN: lambda: self._inputs_qwen_vlm(cfg_obj, cfg_dict, seq_len),
+            VLM_FAMILY_LLAVA: lambda: self._inputs_llava(cfg_obj, cfg_dict),
+            VLM_FAMILY_GEMMA3: lambda: self._inputs_gemma3(cfg_obj, cfg_dict),
+            VLM_FAMILY_INTERNVL: lambda: self._inputs_internvl(cfg_obj, cfg_dict),
+        }
+        if family in vlm_handlers:
+            return vlm_handlers[family]()
+
+        return self._inputs_generic_multimodal(cfg_obj, cfg_dict, seq_len)
+
+    def _inputs_generic_multimodal(
+        self, cfg_obj: Any, cfg_dict: Dict, seq_len: int
+    ) -> Tuple[Dict[str, List[int]], Dict[str, str]]:
         # Vision branch — prefer sub vision_config
         vis_cfg = _cfg_get(cfg_obj, "vision_config") or cfg_dict.get(
             "vision_config", {}
@@ -367,9 +420,7 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
             num_channels = _cfg_get(cfg_obj, "num_channels") or cfg_dict.get(
                 "num_channels", 3
             )
-        if isinstance(raw_size, (list, tuple)):
-            raw_size = raw_size[0]
-        image_size = min(int(raw_size), _MAX_IMAGE_SIZE)
+        image_size = min(_normalize_square_size(raw_size), _MAX_IMAGE_SIZE)
 
         shapes = {
             "input_ids": [1, seq_len],
@@ -380,6 +431,121 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
             "input_ids": "int64",
             "attention_mask": "int64",
             "pixel_values": "float32",
+        }
+        return shapes, dtypes
+
+    def _inputs_qwen_vlm(
+        self, cfg_obj: Any, cfg_dict: Dict, seq_len: int
+    ) -> Tuple[Dict[str, List[int]], Dict[str, str]]:
+        patch_size = int(_get_vision_field(cfg_obj, cfg_dict, "patch_size", 14))
+        temporal_patch_size = int(
+            _get_vision_field(cfg_obj, cfg_dict, "temporal_patch_size", 2)
+        )
+        num_channels = int(_get_vision_field(cfg_obj, cfg_dict, "num_channels", 3))
+        shapes = {
+            "input_ids": [1, seq_len],
+            "attention_mask": [1, seq_len],
+            "pixel_values": [
+                4,
+                num_channels * temporal_patch_size * patch_size * patch_size,
+            ],
+            "image_grid_thw": [1, 3],
+        }
+        dtypes = {
+            "input_ids": "int64",
+            "attention_mask": "int64",
+            "pixel_values": "float32",
+            "image_grid_thw": "int64",
+        }
+        return shapes, dtypes
+
+    def _inputs_llava(
+        self, cfg_obj: Any, cfg_dict: Dict
+    ) -> Tuple[Dict[str, List[int]], Dict[str, str]]:
+        patch_size = int(_get_vision_field(cfg_obj, cfg_dict, "patch_size", 14))
+        raw_size = min(
+            _normalize_square_size(
+                _get_vision_field(cfg_obj, cfg_dict, "image_size", 224)
+            ),
+            112,
+        )
+        image_size = max(patch_size, (raw_size // patch_size) * patch_size)
+        num_channels = int(_get_vision_field(cfg_obj, cfg_dict, "num_channels", 3))
+        num_image_tokens = (image_size // patch_size) ** 2
+        if (
+            _cfg_get(cfg_obj, "vision_feature_select_strategy")
+            or cfg_dict.get("vision_feature_select_strategy")
+        ) == "full":
+            num_image_tokens += 1
+        seq_len = min(
+            max(num_image_tokens + _VLM_TEXT_TAIL, _MAX_SEQ_LEN), _MAX_VLM_SEQ_LEN
+        )
+        shapes = {
+            "input_ids": [1, seq_len],
+            "attention_mask": [1, seq_len],
+            "pixel_values": [1, num_channels, image_size, image_size],
+        }
+        dtypes = {
+            "input_ids": "int64",
+            "attention_mask": "int64",
+            "pixel_values": "float32",
+        }
+        return shapes, dtypes
+
+    def _inputs_gemma3(
+        self, cfg_obj: Any, cfg_dict: Dict
+    ) -> Tuple[Dict[str, List[int]], Dict[str, str]]:
+        mm_tokens = int(
+            _cfg_get(cfg_obj, "mm_tokens_per_image")
+            or cfg_dict.get("mm_tokens_per_image", 256)
+        )
+        seq_len = min(max(mm_tokens + _VLM_TEXT_TAIL, _MAX_SEQ_LEN), _MAX_VLM_SEQ_LEN)
+        image_size = min(
+            _normalize_square_size(
+                _get_vision_field(cfg_obj, cfg_dict, "image_size", 224)
+            ),
+            _MAX_IMAGE_SIZE,
+        )
+        num_channels = int(_get_vision_field(cfg_obj, cfg_dict, "num_channels", 3))
+        shapes = {
+            "input_ids": [1, seq_len],
+            "attention_mask": [1, seq_len],
+            "pixel_values": [1, num_channels, image_size, image_size],
+        }
+        dtypes = {
+            "input_ids": "int64",
+            "attention_mask": "int64",
+            "pixel_values": "float32",
+        }
+        return shapes, dtypes
+
+    def _inputs_internvl(
+        self, cfg_obj: Any, cfg_dict: Dict
+    ) -> Tuple[Dict[str, List[int]], Dict[str, str]]:
+        num_image_token = int(
+            _cfg_get(cfg_obj, "num_image_token") or cfg_dict.get("num_image_token", 256)
+        )
+        seq_len = min(
+            max(num_image_token + _VLM_TEXT_TAIL, _MAX_SEQ_LEN), _MAX_VLM_SEQ_LEN
+        )
+        image_size = min(
+            _normalize_square_size(
+                _get_vision_field(cfg_obj, cfg_dict, "image_size", 224)
+            ),
+            _MAX_IMAGE_SIZE,
+        )
+        num_channels = int(_get_vision_field(cfg_obj, cfg_dict, "num_channels", 3))
+        shapes = {
+            "input_ids": [1, seq_len],
+            "attention_mask": [1, seq_len],
+            "pixel_values": [1, num_channels, image_size, image_size],
+            "image_flags": [1, 1],
+        }
+        dtypes = {
+            "input_ids": "int64",
+            "attention_mask": "int64",
+            "pixel_values": "float32",
+            "image_flags": "int64",
         }
         return shapes, dtypes
 

@@ -136,6 +136,7 @@ def worker_fn(
     extract_timeout: int,
     verify_timeout: int,
     llm_retry: bool,
+    max_model_size_b: float = 20.0,
 ) -> None:
     """
     Worker function, runs in a dedicated subprocess bound to a single GPU or CPU.
@@ -203,6 +204,7 @@ def worker_fn(
             llm_retry=llm_retry,
             extract_timeout=extract_timeout,
             verify_timeout=verify_timeout,
+            max_model_size_b=max_model_size_b,
         )
     except Exception as e:
         print(f"{prefix} Failed to initialize agent: {e}", flush=True)
@@ -415,6 +417,14 @@ def _parse_args() -> argparse.Namespace:
         default=False,
         help="Enable LLM retry for failed extractions",
     )
+    parser.add_argument(
+        "--max-model-size-b",
+        type=str,
+        default="auto",
+        help="Maximum model size in billions of parameters to attempt. "
+        "'auto' calculates from total RAM / workers (default); "
+        "or specify manually, e.g. '10' for 10B.",
+    )
     return parser.parse_args()
 
 
@@ -459,15 +469,44 @@ def _resolve_config(args: argparse.Namespace):
         )
         verify_timeout = args.verify_timeout if args.verify_timeout is not None else 300
 
-    return workspace, gpus, num_workers, extract_timeout, verify_timeout
+    # Resolve max_model_size_b
+    if args.max_model_size_b == "auto":
+        try:
+            import psutil
+
+            total_ram_gb = psutil.virtual_memory().total / 1024**3
+        except ImportError:
+            total_ram_gb = 256.0  # conservative fallback
+        max_model_size_b = total_ram_gb * 0.7 / num_workers / 4
+        print(
+            f"[INFO] max_model_size_b=auto → {max_model_size_b:.1f}B "
+            f"(RAM={total_ram_gb:.0f}GB, workers={num_workers})"
+        )
+    else:
+        max_model_size_b = float(args.max_model_size_b)
+        print(f"[INFO] max_model_size_b={max_model_size_b:.1f}B (manually set)")
+
+    return (
+        workspace,
+        gpus,
+        num_workers,
+        extract_timeout,
+        verify_timeout,
+        max_model_size_b,
+    )
 
 
 def main() -> int:
     args = _parse_args()
 
-    workspace, gpus, num_workers, extract_timeout, verify_timeout = _resolve_config(
-        args
-    )
+    (
+        workspace,
+        gpus,
+        num_workers,
+        extract_timeout,
+        verify_timeout,
+        max_model_size_b,
+    ) = _resolve_config(args)
     llm_retry = args.use_llm
 
     model_ids = _load_model_ids(args)
@@ -510,6 +549,7 @@ def main() -> int:
                 extract_timeout,
                 verify_timeout,
                 llm_retry,
+                max_model_size_b,
             ),
             name=f"worker-{worker_id}"
             + (f"-gpu{gpu_id}" if gpu_id is not None else "-cpu"),

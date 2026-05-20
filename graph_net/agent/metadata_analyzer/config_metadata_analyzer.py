@@ -37,20 +37,23 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
     when available to leverage rich config object properties for architecture detection.
     """
 
-    def analyze(self, model_dir: Path) -> ModelMetadata:
+    def analyze(self, model_dir: Path, max_param_b: float = 20.0) -> ModelMetadata:
         """
         Analyze model by parsing config.json (with transformers AutoConfig if available).
         Also handles diffusers-style configs that lack a 'model_type' key but have
         '_class_name' (e.g., UNet2DConditionModel).
 
         Args:
-            model_dir: Path to model directory
+            model_dir:   Path to model directory
+            max_param_b: Maximum allowed estimated parameter count in billions.
+                         Models exceeding this limit are rejected with AnalysisError.
+                         Default 20B.
 
         Returns:
             ModelMetadata object
 
         Raises:
-            MetadataAnalysisError: If analysis fails
+            MetadataAnalysisError: If analysis fails or model is too large
         """
         config_path = model_dir / "config.json"
         if not config_path.exists():
@@ -74,6 +77,16 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
             # Always parse raw dict as fallback / supplementary info
             with open(config_path, "r", encoding="utf-8") as f:
                 cfg_dict = json.load(f)
+
+            # Reject models that are too large to load even with random weights
+            param_b = self._estimate_param_count_billion(cfg_dict)
+            if param_b > max_param_b:
+                raise MetadataAnalysisError(
+                    f"Model too large to extract: estimated {param_b:.1f}B parameters "
+                    f"(limit {max_param_b:.1f}B). "
+                    f"Loading random fp32 weights would require ~{param_b * 4:.0f}GB RAM.",
+                    error_category=GraphExtractionErrorCategory.METADATA_ANALYSIS_FAILED,
+                )
 
             arch_type = self._classify_architecture(cfg_obj, cfg_dict)
             input_shapes, input_dtypes = self._extract_input_info(
@@ -488,6 +501,85 @@ class ConfigMetadataAnalyzer(BaseMetadataAnalyzer):
         } <= keys:
             return "bert"
         return None
+
+    @staticmethod
+    def _estimate_param_count_billion(config: Dict) -> float:
+        """Rough estimate of model parameter count in billions.
+
+        Formula covers standard Transformer decoder/encoder:
+          - Per layer: attention (4 × hidden²) + FFN (3 × hidden × intermediate, SwiGLU style)
+          - Embedding: 2 × vocab_size × hidden_size (input + output, unshared)
+        MoE models: total params ≈ num_experts × expert_params, but only a few
+        experts are active per token.  We use total params here because all expert
+        weights must be loaded into memory even when inactive.
+        """
+        hidden_size = config.get("hidden_size", 768) or 768
+        num_layers = config.get("num_hidden_layers", 12) or 12
+        intermediate_size = (
+            config.get("intermediate_size") or config.get("ffn_dim") or hidden_size * 4
+        )
+        vocab_size = config.get("vocab_size", 32000) or 32000
+
+        # MoE: total expert count (all experts loaded into RAM)
+        num_experts = (
+            config.get("num_experts")
+            or config.get("num_local_experts")
+            or config.get("moe_num_experts")
+            or 1
+        )
+
+        attn_params = 4 * hidden_size * hidden_size  # Q, K, V, O
+        ffn_params = 3 * hidden_size * intermediate_size  # gate, up, down (SwiGLU)
+        expert_ffn_params = ffn_params * int(num_experts)
+        embed_params = 2 * vocab_size * hidden_size  # input + output embedding
+
+        total = num_layers * (attn_params + expert_ffn_params) + embed_params
+        return total / 1e9
+
+    @staticmethod
+    def _estimate_oom_risk(config: Dict) -> str:
+        """Estimate GPU OOM risk from config fields.
+
+        Returns 'low', 'medium', or 'high'.
+        'high' means the model should fall back to CPU to avoid OOM.
+        """
+        # Large models (>7B params) need >28GB GPU RAM in fp32 → CPU fallback
+        param_b = ConfigMetadataAnalyzer._estimate_param_count_billion(config)
+        if param_b > 7.0:
+            return "high"
+        if param_b > 3.0:
+            return "medium"
+
+        vocab_size = config.get("vocab_size", 0) or 0
+        hidden_size = config.get("hidden_size", 768) or 768
+        num_layers = config.get("num_hidden_layers", 12) or 12
+        num_experts = config.get("num_experts") or config.get("num_local_experts") or 1
+        # Raw context window: models may allocate internal attention buffers
+        # based on max_position_embeddings regardless of actual input length
+        raw_ctx_len = config.get("max_position_embeddings", 512) or 512
+        seq_len = min(raw_ctx_len, 2048)
+
+        # Models with very large context may allocate causal mask buffers of
+        # size max_position_embeddings × max_position_embeddings internally
+        if raw_ctx_len > 65536:
+            return "high"
+        if raw_ctx_len > 16384:
+            return "medium"
+
+        # lm_head output tensor (MB): batch=1 × seq_len × vocab_size × fp32
+        lm_head_mb = seq_len * vocab_size * 4 / 1024**2
+        # Activations estimate (MB): layers × seq_len × hidden_size × fp32
+        activation_mb = num_layers * seq_len * hidden_size * 4 / 1024**2
+        # MoE amplification (cap at 8 concurrent experts)
+        moe_factor = min(int(num_experts), 8) if int(num_experts) > 1 else 1
+
+        total_est_mb = (lm_head_mb + activation_mb) * moe_factor
+
+        if total_est_mb > 8000:
+            return "high"
+        if total_est_mb > 3000:
+            return "medium"
+        return "low"
 
     def _get_model_id(self, model_dir: Path, config: Dict) -> str:
         """Get model ID from directory or config."""

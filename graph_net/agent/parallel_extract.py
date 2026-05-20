@@ -102,18 +102,15 @@ def get_gpu_ids(args) -> List[int]:
 
     Returns:
         List of GPU indices if specified or detected.
-        Falls back to _get_default_gpus() if args.gpus is None.
-        Returns [] when --gpus is explicitly empty (CPU-only mode).
+        Falls back to _get_default_gpus() if args.gpus is None, empty, or invalid.
     """
     if args.gpus is not None:
         gpus_str = args.gpus.strip()
-        if gpus_str == "":
-            # Explicitly empty --gpus means CPU-only mode
-            return []
-        try:
-            return [int(g.strip()) for g in gpus_str.split(",") if g.strip()]
-        except ValueError:
-            print(f"[WARN] Invalid --gpus value: {args.gpus}, using default GPUs")
+        if gpus_str:
+            try:
+                return [int(g.strip()) for g in gpus_str.split(",") if g.strip()]
+            except ValueError:
+                print(f"[WARN] Invalid --gpus value: {args.gpus}, using default GPUs")
 
     return _get_default_gpus()
 
@@ -386,7 +383,7 @@ def _parse_args() -> argparse.Namespace:
         "--gpus",
         type=str,
         default=None,
-        help="Comma-separated GPU indices to use (set to '' for CPU-only mode)",
+        help="Comma-separated GPU indices to use (default: auto-detect all available GPUs)",
     )
     parser.add_argument(
         "--cpu-workers",
@@ -438,20 +435,13 @@ def _resolve_config(args: argparse.Namespace):
     )
     print(f"[INFO] Workspace: {workspace}")
 
-    # Resolve GPU list first; --gpus "" explicitly forces CPU-only mode
-    gpus = get_gpu_ids(args)
-
-    if gpus:
-        num_workers = len(gpus)
-        print(f"[INFO] GPU mode: {num_workers} workers on GPUs {gpus}")
-        extract_timeout = (
-            args.extract_timeout if args.extract_timeout is not None else 1000
-        )
-        verify_timeout = args.verify_timeout if args.verify_timeout is not None else 300
-    else:
-        # CPU-only mode: either --gpus explicitly empty or no CUDA available.
-        # Default to half of CPU cores to avoid overloading the system,
-        # since each worker is a heavy process (model loading + graph extraction).
+    # Decide GPU vs CPU mode: if --cpu-workers is set, force CPU-only mode.
+    # If no CUDA available, also fall back to CPU mode.
+    if (args.cpu_workers and args.cpu_workers > 0) or get_device_type() == "cpu":
+        # CPU-only mode. Default to half of CPU cores to avoid overloading the
+        # system, since each worker is a heavy process (model loading + graph
+        # extraction).
+        gpus = []
         num_workers = (
             args.cpu_workers if args.cpu_workers else max(1, (os.cpu_count() or 2) // 2)
         )
@@ -460,6 +450,14 @@ def _resolve_config(args: argparse.Namespace):
             args.extract_timeout if args.extract_timeout is not None else 2000
         )
         verify_timeout = args.verify_timeout if args.verify_timeout is not None else 600
+    else:
+        gpus = get_gpu_ids(args)
+        num_workers = len(gpus)
+        print(f"[INFO] GPU mode: {num_workers} workers on GPUs {gpus}")
+        extract_timeout = (
+            args.extract_timeout if args.extract_timeout is not None else 1000
+        )
+        verify_timeout = args.verify_timeout if args.verify_timeout is not None else 300
 
     return workspace, gpus, num_workers, extract_timeout, verify_timeout
 

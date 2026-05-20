@@ -332,12 +332,19 @@ class GraphNetAgent:
         self.logger.info(f"Graph extracted to: {sample_dir}")
         return sample_dir
 
+    def _get_subgraph_dirs(self, sample_dir: Path) -> list[Path]:
+        """Return list of subgraph directories.
+
+        For single-graph models, returns [sample_dir].
+        For multi-subgraph models, returns [subgraph_0, subgraph_1, ...] sorted.
+        """
+        subgraph_dirs = sorted(sample_dir.glob("subgraph_*/"))
+        return subgraph_dirs if subgraph_dirs else [sample_dir]
+
     def _fix_model_name(self, sample_dir: Path, model_id: str) -> None:
         """Update model_name in graph_net.json to the original HuggingFace model_id (org/model)."""
-        for json_path in [
-            sample_dir / "graph_net.json",
-            *sample_dir.glob("subgraph_*/graph_net.json"),
-        ]:
+        for target_dir in self._get_subgraph_dirs(sample_dir):
+            json_path = target_dir / "graph_net.json"
             if not json_path.exists():
                 continue
             try:
@@ -349,47 +356,20 @@ class GraphNetAgent:
                 self.logger.warning(f"Failed to fix model_name in {json_path}: {e}")
 
     def _generate_graph_hash(self, sample_dir: Path) -> None:
-        """Generate graph_hash.txt from model.py.
-
-        - Single-graph: hash root model.py → sample_dir/graph_hash.txt
-        - Multi-subgraph: hash each subgraph_N/model.py → subgraph_N/graph_hash.txt
-          (no top-level graph_hash.txt for multi-subgraph models)
-        """
-        root_model = sample_dir / "model.py"
-        if root_model.exists():
-            # Single-graph model
-            graph_hash_path = sample_dir / "graph_hash.txt"
-            if graph_hash_path.exists():
-                return
+        """Generate graph_hash.txt from model.py for each subgraph."""
+        for target_dir in self._get_subgraph_dirs(sample_dir):
+            model_py = target_dir / "model.py"
+            hash_path = target_dir / "graph_hash.txt"
+            if hash_path.exists() or not model_py.exists():
+                continue
             try:
-                graph_hash = get_sha256_hash(root_model.read_text())
-                graph_hash_path.write_text(graph_hash)
-                self.logger.info(f"Generated graph_hash.txt: {graph_hash[:16]}...")
+                graph_hash = get_sha256_hash(model_py.read_text())
+                hash_path.write_text(graph_hash)
+                rel = hash_path.relative_to(sample_dir)
+                self.logger.info(f"Generated {rel}: {graph_hash[:16]}...")
             except (OSError, IOError) as e:
-                self.logger.warning(f"Failed to generate graph_hash.txt: {e}")
-        else:
-            # Multi-subgraph model: generate per-subgraph hashes
-            subgraph_dirs = sorted(sample_dir.glob("subgraph_*"))
-            if not subgraph_dirs:
-                self.logger.warning(
-                    f"No model.py or subgraph dirs found in {sample_dir}"
-                )
-                return
-            for subgraph_dir in subgraph_dirs:
-                model_py = subgraph_dir / "model.py"
-                hash_path = subgraph_dir / "graph_hash.txt"
-                if hash_path.exists() or not model_py.exists():
-                    continue
-                try:
-                    graph_hash = get_sha256_hash(model_py.read_text())
-                    hash_path.write_text(graph_hash)
-                    self.logger.info(
-                        f"Generated {subgraph_dir.name}/graph_hash.txt: {graph_hash[:16]}..."
-                    )
-                except (OSError, IOError) as e:
-                    self.logger.warning(
-                        f"Failed to generate graph_hash.txt for {subgraph_dir}: {e}"
-                    )
+                rel = hash_path.relative_to(sample_dir)
+                self.logger.warning(f"Failed to generate {rel}: {e}")
 
     def _move_sample(self, sample_dir: Path, dest_parent: Path) -> Path:
         """Move sample_dir into dest_parent/, overwriting if destination exists"""
@@ -403,59 +383,39 @@ class GraphNetAgent:
     def is_duplicate_sample(self, sample_dir: Path) -> bool:
         """Check if the extracted sample is a duplicate of an existing sample.
 
-        - Single-graph: compare root graph_hash.txt against existing root hashes.
-        - Multi-subgraph: compare frozenset of all subgraph_*/graph_hash.txt hashes.
+        Collects all subgraph graph_hash.txt hashes into a frozenset and compares
+        against existing samples. Works for both single-graph and multi-subgraph.
         """
+
+        def _collect_hashes(path: Path) -> frozenset[str]:
+            hashes = set()
+            for target_dir in self._get_subgraph_dirs(path):
+                hash_path = target_dir / "graph_hash.txt"
+                if hash_path.exists():
+                    try:
+                        hashes.add(hash_path.read_text().strip())
+                    except (OSError, IOError):
+                        pass
+            return frozenset(hashes)
+
         try:
-            root_model = sample_dir / "model.py"
-            if root_model.exists():
-                # Single-graph
-                graph_hash_path = sample_dir / "graph_hash.txt"
-                if not graph_hash_path.exists():
-                    return False
-                current_hash = graph_hash_path.read_text().strip()
-                for search_root in [
-                    self.workspace.success_dir,
-                    self.workspace.samples_dir,
-                ]:
-                    if not search_root.exists():
+            current_hashes = _collect_hashes(sample_dir)
+            if not current_hashes:
+                return False
+
+            for search_root in [
+                self.workspace.success_dir,
+                self.workspace.samples_dir,
+            ]:
+                if not search_root.exists():
+                    continue
+                for existing_dir in search_root.iterdir():
+                    if not existing_dir.is_dir() or existing_dir == sample_dir:
                         continue
-                    for existing_dir in search_root.iterdir():
-                        if not existing_dir.is_dir() or existing_dir == sample_dir:
-                            continue
-                        hash_file = existing_dir / "graph_hash.txt"
-                        if not hash_file.exists():
-                            continue
-                        try:
-                            if hash_file.read_text().strip() == current_hash:
-                                self.logger.info(f"Duplicate found: {existing_dir}")
-                                return True
-                        except (OSError, IOError):
-                            continue
-            else:
-                # Multi-subgraph: compare the set of subgraph hashes
-                current_hashes = frozenset(
-                    h.read_text().strip()
-                    for h in sample_dir.glob("subgraph_*/graph_hash.txt")
-                )
-                if not current_hashes:
-                    return False
-                for search_root in [
-                    self.workspace.success_dir,
-                    self.workspace.samples_dir,
-                ]:
-                    if not search_root.exists():
-                        continue
-                    for existing_dir in search_root.iterdir():
-                        if not existing_dir.is_dir() or existing_dir == sample_dir:
-                            continue
-                        existing_hashes = frozenset(
-                            h.read_text().strip()
-                            for h in existing_dir.glob("subgraph_*/graph_hash.txt")
-                        )
-                        if existing_hashes and existing_hashes == current_hashes:
-                            self.logger.info(f"Duplicate found: {existing_dir}")
-                            return True
+                    existing_hashes = _collect_hashes(existing_dir)
+                    if existing_hashes and existing_hashes == current_hashes:
+                        self.logger.info(f"Duplicate found: {existing_dir}")
+                        return True
         except (OSError, IOError) as e:
             self.logger.warning(f"Failed to check duplicate: {e}")
         return False

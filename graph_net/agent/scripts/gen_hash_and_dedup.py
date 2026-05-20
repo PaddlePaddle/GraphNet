@@ -57,16 +57,17 @@
 # 依赖：Python 3.6+
 # =============================================================================
 
-import hashlib
 import os
 import sys
 from collections import defaultdict
 
+# Ensure graph_net is importable when running this script standalone
+_SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+_GRAPHNET_ROOT = os.path.join(_SCRIPT_DIR, "..", "..", "..")
+if _GRAPHNET_ROOT not in sys.path:
+    sys.path.insert(0, _GRAPHNET_ROOT)
 
-def get_sha256_hash(content):
-    m = hashlib.sha256()
-    m.update(content.encode("utf-8"))
-    return m.hexdigest()
+from graph_net.hash_util import get_sha256_hash  # noqa: E402
 
 
 def find_model_files(workspace):

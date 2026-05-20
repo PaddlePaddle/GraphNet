@@ -102,15 +102,18 @@ def get_gpu_ids(args) -> List[int]:
 
     Returns:
         List of GPU indices if specified or detected.
-        Falls back to _get_default_gpus() if args.gpus is None, empty, or invalid.
+        Falls back to _get_default_gpus() if args.gpus is None.
+        Returns [] when --gpus is explicitly empty (CPU-only mode).
     """
     if args.gpus is not None:
         gpus_str = args.gpus.strip()
-        if gpus_str:
-            try:
-                return [int(g.strip()) for g in gpus_str.split(",") if g.strip()]
-            except ValueError:
-                print(f"[WARN] Invalid --gpus value: {args.gpus}, using default GPUs")
+        if gpus_str == "":
+            # Explicitly empty --gpus means CPU-only mode
+            return []
+        try:
+            return [int(g.strip()) for g in gpus_str.split(",") if g.strip()]
+        except ValueError:
+            print(f"[WARN] Invalid --gpus value: {args.gpus}, using default GPUs")
 
     return _get_default_gpus()
 
@@ -383,13 +386,13 @@ def _parse_args() -> argparse.Namespace:
         "--gpus",
         type=str,
         default=None,
-        help="Comma-separated GPU indices to use (GPU mode; if set, ignores --num-workers)",
+        help="Comma-separated GPU indices to use (set to '' for CPU-only mode)",
     )
     parser.add_argument(
-        "--num-workers",
+        "--cpu-workers",
         type=int,
         default=None,
-        help="Number of worker processes in CPU mode (default: CPU count)",
+        help="Number of worker processes in CPU-only mode (default: half of CPU cores)",
     )
     parser.add_argument(
         "--output",
@@ -435,18 +438,24 @@ def _resolve_config(args: argparse.Namespace):
     )
     print(f"[INFO] Workspace: {workspace}")
 
-    if get_device_type() == "cuda":
-        gpus = get_gpu_ids(args)
+    # Resolve GPU list first; --gpus "" explicitly forces CPU-only mode
+    gpus = get_gpu_ids(args)
+
+    if gpus:
         num_workers = len(gpus)
-        print(f"[INFO] GPU mode (torch fallback): {gpus}")
+        print(f"[INFO] GPU mode: {num_workers} workers on GPUs {gpus}")
         extract_timeout = (
             args.extract_timeout if args.extract_timeout is not None else 1000
         )
         verify_timeout = args.verify_timeout if args.verify_timeout is not None else 300
     else:
-        gpus = []
-        num_workers = args.num_workers if args.num_workers else 1
-        print(f"[INFO] CPU mode: {num_workers} workers")
+        # CPU-only mode: either --gpus explicitly empty or no CUDA available.
+        # Default to half of CPU cores to avoid overloading the system,
+        # since each worker is a heavy process (model loading + graph extraction).
+        num_workers = (
+            args.cpu_workers if args.cpu_workers else max(1, (os.cpu_count() or 2) // 2)
+        )
+        print(f"[INFO] CPU-only mode: {num_workers} workers")
         extract_timeout = (
             args.extract_timeout if args.extract_timeout is not None else 2000
         )
@@ -468,7 +477,10 @@ def main() -> int:
         print("[ERROR] Empty model list, nothing to do")
         return 1
 
-    print(f"[INFO] Total models: {len(model_ids)}, workers: {num_workers}")
+    if gpus:
+        print(f"[INFO] Total models: {len(model_ids)}, GPU workers: {num_workers}")
+    else:
+        print(f"[INFO] Total models: {len(model_ids)}, CPU workers: {num_workers}")
 
     # --- Populate shared task queue ---
     task_queue: multiprocessing.Queue = multiprocessing.Queue()
@@ -479,8 +491,9 @@ def main() -> int:
     result_queue: multiprocessing.Queue = multiprocessing.Queue()
 
     start_time = datetime.now()
+    worker_type = "GPU" if gpus else "CPU"
     print(
-        f"\n[START] {start_time.strftime('%Y-%m-%d %H:%M:%S')} — launching {num_workers} workers\n"
+        f"\n[START] {start_time.strftime('%Y-%m-%d %H:%M:%S')} — launching {num_workers} {worker_type} workers\n"
     )
 
     processes = []

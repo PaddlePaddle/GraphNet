@@ -137,8 +137,9 @@ echo ""
 echo "====== 统计汇总 ======"
 
 # 从日志统计
-TOTAL_IN_LOG=$(grep -cE "Starting extraction for|Successfully extracted|Extraction failed for" "$LOG_FILE" 2>/dev/null || echo 0)
-SUCCESS_IN_LOG=$(grep -c "Successfully extracted" "$LOG_FILE" 2>/dev/null || echo 0)
+# 注：日志中成功的主要标记是 "Graph extracted to"（而非 "Successfully extracted"）
+TOTAL_IN_LOG=$(grep -cE "Starting extraction for|Graph extracted to|Extraction failed for" "$LOG_FILE" 2>/dev/null || echo 0)
+SUCCESS_IN_LOG=$(grep -c "Graph extracted to" "$LOG_FILE" 2>/dev/null || echo 0)
 FAILED_IN_LOG=$(grep -c "Extraction failed for" "$LOG_FILE" 2>/dev/null || echo 0)
 
 # 从 PROGRESS 行提取进度

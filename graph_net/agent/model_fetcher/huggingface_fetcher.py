@@ -1,6 +1,7 @@
 """HuggingFace model fetcher implementation"""
 
 import os
+import signal
 import time
 from pathlib import Path
 from typing import Optional
@@ -16,6 +17,13 @@ from graph_net.agent.utils.exceptions import (
     GraphExtractionErrorCategory,
     ModelFetchError,
 )
+
+
+class _DownloadTimeoutError(Exception):
+    """Raised when snapshot_download exceeds the overall time budget."""
+
+    pass
+
 
 # Network-related exceptions that are worth retrying
 _RETRYABLE_ERRORS = (
@@ -133,6 +141,10 @@ class HFFetcher(BaseModelFetcher):
         """
         Download model from HuggingFace Hub with retry on network errors.
 
+        A **hard overall timeout** (signal.alarm) guards `snapshot_download` so that
+        if a single file hangs indefinitely (e.g. TCP connection stays open but no
+        data arrives), the call is aborted instead of blocking forever.
+
         Args:
             model_id: HuggingFace model ID (e.g., "bert-base-uncased")
 
@@ -148,6 +160,13 @@ class HFFetcher(BaseModelFetcher):
                 "Please install it with: pip install huggingface_hub"
             )
 
+        # Set a stricter download timeout to avoid getting stuck on large/slow files
+        # (default is 10s; we bump to 30s to accommodate slow networks while still
+        # preventing indefinite hangs).
+        os.environ["HF_HUB_DOWNLOAD_TIMEOUT"] = os.environ.get(
+            "HF_HUB_DOWNLOAD_TIMEOUT", "30"
+        )
+
         last_err = None
         for attempt in range(1, self.max_retries + 1):
             try:
@@ -155,28 +174,44 @@ class HFFetcher(BaseModelFetcher):
                 if self.endpoint:
                     os.environ["HF_ENDPOINT"] = self.endpoint
 
-                local_dir = snapshot_download(
-                    repo_id=model_id,
-                    cache_dir=str(self.cache_dir) if self.cache_dir else None,
-                    token=self.token,
-                    ignore_patterns=[
-                        "*.bin",
-                        "*.safetensors",
-                        "*.pt",
-                        "*.pth",
-                        "*.gguf",
-                        "*.ot",
-                        "*.zip",
-                        "*.tflite",
-                        "*.mlmodel",
-                        "*.onnx",
-                        "*.msgpack",
-                        "flax_model*",
-                        "tf_model*",
-                        "rust_model*",
-                    ],
-                )
-                return Path(local_dir)
+                # Hard overall timeout for the entire snapshot_download call.
+                # HF_HUB_DOWNLOAD_TIMEOUT=30 only controls individual HTTP requests;
+                # huggingface_hub's internal retry/resume logic can still loop forever
+                # when a connection stalls without raising an exception.  We therefore
+                # enforce a 120-second wall-clock ceiling on the whole operation.
+                def _alarm_handler(signum, frame):
+                    raise _DownloadTimeoutError(
+                        f"Overall download timeout (120s) exceeded for {model_id}"
+                    )
+
+                old_handler = signal.signal(signal.SIGALRM, _alarm_handler)
+                signal.alarm(120)
+                try:
+                    local_dir = snapshot_download(
+                        repo_id=model_id,
+                        cache_dir=str(self.cache_dir) if self.cache_dir else None,
+                        token=self.token,
+                        ignore_patterns=[
+                            "*.bin",
+                            "*.safetensors",
+                            "*.pt",
+                            "*.pth",
+                            "*.gguf",
+                            "*.ot",
+                            "*.zip",
+                            "*.tflite",
+                            "*.mlmodel",
+                            "*.onnx",
+                            "*.msgpack",
+                            "flax_model*",
+                            "tf_model*",
+                            "rust_model*",
+                        ],
+                    )
+                    return Path(local_dir)
+                finally:
+                    signal.alarm(0)
+                    signal.signal(signal.SIGALRM, old_handler)
 
             except _RETRYABLE_ERRORS as e:
                 last_err = e
@@ -203,6 +238,10 @@ class HFFetcher(BaseModelFetcher):
                     raise ModelFetchError(
                         f"Failed to download model {model_id} after {self.max_retries} retries: {e}"
                     ) from e
+            except _DownloadTimeoutError as e:
+                raise ModelFetchError(
+                    f"Failed to download model {model_id}: {e}"
+                ) from e
             except Exception as e:
                 raise ModelFetchError(
                     f"Failed to download model {model_id}: {e}",

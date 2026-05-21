@@ -14,7 +14,9 @@ logger = logging.getLogger(__name__)
 # Compiled regex that replaces the original perl one-liner:
 #
 #   perl -0777 -ne '
-#       while (/async_compile\.triton\(\x27([^\x27]+)\x27,\s*\x27\x27\x27(.*?)\x27\x27\x27/gs) {
+#       while (
+#         /async_compile\.triton\(\x27([^\x27]+)\x27,\s*\x27\x27\x27(.*?)\x27\x27\x27/gs
+#       ) {
 #           print "===KERNEL_NAME===$1\n$2\n===KERNEL_END===\n";
 #       }'
 #
@@ -172,9 +174,7 @@ def _find_best_ptx(
         ]
         if len(metadata_matches) == 1:
             try:
-                return metadata_matches[0].read_text(
-                    encoding="utf-8", errors="replace"
-                )
+                return metadata_matches[0].read_text(encoding="utf-8", errors="replace")
             except OSError:
                 logger.warning("Cannot read PTX file: %s", metadata_matches[0])
                 return None
@@ -226,7 +226,7 @@ def extract_triton_kernels(
     cache_dir: Path,
     output_dir: Path,
 ) -> tuple[int, int, int, int, int]:
-    """Walk kept samples, extract autotuning-selected triton kernels and corresponding PTX.
+    """Walk kept samples and extract selected triton kernels with PTX.
 
     For every kept sample that contains ``original_graph/graph_hash.txt``:
 

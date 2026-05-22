@@ -163,14 +163,14 @@ class TensorMeta:
             return value
         if math.isnan(value) or math.isinf(value):
             return f'float("{value}")'
-        return f"{value:.3f}"
+        return f"{value:.6f}"
 
     def _format_data(self, data):
         if data is None:
             return "None"
         elif isinstance(data, list):
             return "[{}]".format(
-                ", ".join(f"{x:.6f}" if isinstance(x, float) else str(x) for x in data)
+                ", ".join(self._get_limited_precision_float_str(x) for x in data)
             )
         else:
             return repr(data)

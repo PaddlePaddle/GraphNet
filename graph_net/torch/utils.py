@@ -22,11 +22,9 @@ def apply_templates(forward_code: str) -> str:
 def get_limited_precision_float_str(value):
     if not isinstance(value, float):
         return value
-    if math.isnan(value):
-        return "float('nan')"
-    if math.isinf(value):
-        return "float('inf')" if value > 0 else "float('-inf')"
-    return f"{value:.3f}"
+    if math.isnan(value) or math.isinf(value):
+        return f'float("{value}")'
+    return f"{value:.6f}"
 
 
 def convert_state_and_inputs_impl(state_dict, example_inputs):
@@ -131,16 +129,11 @@ def save_converted_to_text(converted, file_path):
             return "None"
         elif isinstance(data, torch.Tensor):
             if data.dtype.is_floating_point:
-
-                def float_to_str(x):
-                    if math.isinf(x):
-                        return "float('inf')" if x > 0 else "float('-inf')"
-                    if math.isnan(x):
-                        return "float('nan')"
-                    return f"{x:.6f}"
-
                 return "[{}]".format(
-                    ", ".join(float_to_str(x) for x in data.flatten().tolist())
+                    ", ".join(
+                        get_limited_precision_float_str(x)
+                        for x in data.flatten().tolist()
+                    )
                 )
             else:
                 return "[{}]".format(", ".join(f"{x}" for x in data.flatten().tolist()))

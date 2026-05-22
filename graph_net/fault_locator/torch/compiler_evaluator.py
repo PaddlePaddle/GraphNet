@@ -51,21 +51,43 @@ class CompilerEvaluator(DeclareConfigMixin):
 
     def _execute_benchmark(self, allow_list_path: Path, log_file: Path):
         """
-        Invokes the torch.test_compiler module and redirects output to a log file.
+        Invokes the torch.eval_backend_diff module and redirects output to a log file.
         Uses sys.executable to ensure the same Python environment is used.
         """
+        import base64
+        import json
+
+        ref_config = {
+            "backend_config": {
+                "compiler": "nope",
+                "device": self.config["device"],
+                "model_path_prefix": self.config["model_path_prefix"],
+            }
+        }
+
+        target_config = {
+            "backend_config": {
+                "compiler": self.config["compiler"],
+                "device": self.config["device"],
+                "model_path_prefix": self.config["model_path_prefix"],
+            }
+        }
+
+        ref_config_b64 = base64.b64encode(json.dumps(ref_config).encode()).decode()
+        target_config_b64 = base64.b64encode(
+            json.dumps(target_config).encode()
+        ).decode()
+
         cmd = [
             sys.executable,
             "-m",
-            "graph_net_bench.torch.test_compiler",
-            "--model-path-prefix",
-            f"{self.config['model_path_prefix']}/",
-            "--allow-list",
+            "graph_net_bench.torch.eval_backend_diff",
+            "--model-path-list",
             str(allow_list_path),
-            "--compiler",
-            self.config["compiler"],
-            "--device",
-            self.config["device"],
+            "--reference-config",
+            ref_config_b64,
+            "--target-config",
+            target_config_b64,
         ]
         print(" ".join(cmd))
         with log_file.open("w") as f:

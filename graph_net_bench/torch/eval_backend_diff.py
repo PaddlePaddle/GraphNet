@@ -154,7 +154,7 @@ def eval_multi_models(args, model_path_prefix=None, use_model_list=False):
     failed_samples = []
     for sample_idx, model_path in enumerate(model_paths):
         print(
-            f"[{sample_idx}] {module_name}, model_path: {model_path}",
+            f"[{sample_idx}][Processing] {module_name}, model_path: {model_path}",
             file=sys.stderr,
             flush=True,
         )
@@ -189,20 +189,37 @@ def eval_multi_models(args, model_path_prefix=None, use_model_list=False):
             print(f"- {model_path}", file=sys.stderr, flush=True)
 
 
+def _build_args_for_perf(
+    config: dict, model_path: str, output_path: str
+) -> types.SimpleNamespace:
+    """
+    TODO: Remove or modify this function for args building
+    when finish refactoring eval_backend_perf to new runner-backend structure.
+    """
+    backend_config = config.get("backend_config", {})
+    return types.SimpleNamespace(
+        model_path=model_path,
+        output_path=output_path,
+        compiler=backend_config.get("compiler", ""),
+        device=backend_config.get("device", "cuda"),
+        seed=backend_config.get("seed", 123),
+        warmup=config.get("warmup", 3),
+        trials=config.get("trials", 5),
+        log_prompt=backend_config.get("log_prompt", "graph-net-bench-log"),
+        model_path_prefix=backend_config.get("model_path_prefix"),
+        backend_config=backend_config.get("backend_config"),
+    )
+
+
 def eval_single_model(args):
+    ref_config = test_compiler_util.convert_to_dict(args.reference_config)
+    target_config = test_compiler_util.convert_to_dict(args.target_config)
+
     ref_dir = "/tmp/eval_perf_diff/reference"
     target_dir = "/tmp/eval_perf_diff/target"
 
-    ref_args = types.SimpleNamespace(
-        model_path=args.model_path,
-        output_path=ref_dir,
-        **test_compiler_util.convert_to_dict(args.reference_config),
-    )
-    target_args = types.SimpleNamespace(
-        model_path=args.model_path,
-        output_path=target_dir,
-        **test_compiler_util.convert_to_dict(args.target_config),
-    )
+    ref_args = _build_args_for_perf(ref_config, args.model_path, ref_dir)
+    target_args = _build_args_for_perf(target_config, args.model_path, target_dir)
 
     eval_single_model_with_single_backend(ref_args)
     eval_single_model_with_single_backend(target_args)
@@ -230,11 +247,12 @@ def eval_single_model(args):
 
 def main(args):
     ref_config = test_compiler_util.convert_to_dict(args.reference_config)
-    model_path_prefix = ref_config.get("model_path_prefix")
+    backend_config = ref_config.get("backend_config", {})
+    model_path_prefix = backend_config.get("model_path_prefix")
 
     if args.model_path_list and model_path_prefix:
         eval_multi_models(args, model_path_prefix, use_model_list=True)
-    elif os.path.isdir(args.model_path):
+    elif args.model_path and os.path.isdir(args.model_path):
         if path_utils.is_single_model_dir(args.model_path):
             eval_single_model(args)
         else:

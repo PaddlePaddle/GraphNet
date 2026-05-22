@@ -10,21 +10,35 @@ python3 -m graph_net_bench.torch.eval_backend_diff \
     --model-path-list $model_list \
     --reference-config $(base64 -w 0 <<EOF
 {
-    "compiler": "nope",
-    "device": "cuda",
+    "runner_type": "local",
+    "backend_path": "graph_net_bench.torch.backend.nope_backend",
+    "backend_class": "NopeBackend",
     "warmup": 1,
     "trials": 1,
-    "model_path_prefix": "$AI4C_ROOT"
+    "backend_config": {
+        "compiler": "nope",
+        "device": "cuda",
+        "seed": 123,
+        "log_prompt": "graph-net-bench-log",
+        "model_path_prefix": "$AI4C_ROOT"
+    }
 }
 EOF
 ) \
     --target-config $(base64 -w 0 <<EOF
 {
-    "compiler": "nope",
-    "device": "cuda",
+    "runner_type": "local",
+    "backend_path": "graph_net_bench.torch.backend.nope_backend",
+    "backend_class": "NopeBackend",
     "warmup": 1,
     "trials": 1,
-    "model_path_prefix": "$AI4C_ROOT"
+    "backend_config": {
+        "compiler": "nope",
+        "device": "cuda",
+        "seed": 123,
+        "log_prompt": "graph-net-bench-log",
+        "model_path_prefix": "$AI4C_ROOT"
+    }
 }
 EOF
 ) 2>&1 | tee "$OUTPUT_PATH/validation.log"

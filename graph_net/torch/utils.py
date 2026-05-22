@@ -75,6 +75,8 @@ def convert_state_and_inputs_impl(state_dict, example_inputs):
         processed_inputs = process_tensor(example_inputs)
     elif isinstance(example_inputs, (list, tuple)):
         processed_inputs = [process_tensor(t) for t in example_inputs]
+    elif isinstance(example_inputs, dict):
+        processed_inputs = {k: process_tensor(v) for k, v in example_inputs.items()}
     else:
         processed_inputs = {"type": "unknown", "value": example_inputs}
 
@@ -181,13 +183,28 @@ def save_converted_to_text(converted, file_path):
         return lines
 
     input_infos = converted["input_info"]
-    if isinstance(input_infos, dict):
-        input_infos = [input_infos]
 
     input_lines = []
-    for idx, input_info in enumerate(input_infos):
-        input_info["name"] = f"input_{idx}"
-        input_lines.extend(process_tensor_info(input_info, name_prefix="Program_input"))
+    if isinstance(input_infos, dict) and input_infos:
+        # Check if it's a dict of named tensor infos (e.g., placeholder inputs)
+        first_val = next(iter(input_infos.values()))
+        if isinstance(first_val, dict) and "type" in first_val:
+            # Named inputs: {name: tensor_info}
+            for name, input_info in input_infos.items():
+                input_info["name"] = name
+                input_lines.extend(process_tensor_info(input_info, name_prefix="Program_input"))
+        else:
+            # Single input info dict (e.g., a single tensor's info)
+            input_infos = [input_infos]
+            for idx, input_info in enumerate(input_infos):
+                input_info["name"] = f"input_{idx}"
+                input_lines.extend(process_tensor_info(input_info, name_prefix="Program_input"))
+    else:
+        if isinstance(input_infos, dict):
+            input_infos = [input_infos]
+        for idx, input_info in enumerate(input_infos):
+            input_info["name"] = f"input_{idx}"
+            input_lines.extend(process_tensor_info(input_info, name_prefix="Program_input"))
 
     with open(f"{file_path}/input_meta.py", "w") as f:
         f.write("\n".join(input_lines))

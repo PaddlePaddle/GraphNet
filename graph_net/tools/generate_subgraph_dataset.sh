@@ -1,20 +1,22 @@
 #!/bin/bash
 set -x
 
+GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
+
 MIN_SEQ_OPS=${1:-4}
 MAX_SEQ_OPS=${2:-64}
-GPU_ID=${3:-0}
+GPU_ID=${3:-7}
+MODEL_LIST=${5:-"$GRAPH_NET_ROOT/graph_net/config/torch100_samples_list.txt"}
+DECOMPOSE_WORKSPACE=${4:-"/tmp/subgraph_dataset_workspace"}
+USE_SUBPROCESS=${5:-1}
 
 OP_RANGE=$MIN_SEQ_OPS-$MAX_SEQ_OPS
 
 export CUDA_VISIBLE_DEVICES="${GPU_ID}"
 
-GRAPH_NET_ROOT=$(python3 -c "import graph_net; import os; print(os.path.dirname(os.path.dirname(graph_net.__file__)))")
 RESUME="true"
 
-DECOMPOSE_WORKSPACE=/tmp/subgraph_dataset_workspace
 OUTPUT_DIR=$DECOMPOSE_WORKSPACE/outputs
-DB_PATH=$OUTPUT_DIR/GraphNet.db
 
 DEVICE_REWRITED_SAMPLE_DIR=$DECOMPOSE_WORKSPACE/01_device_rewrited_samples
 DIM_GENERALIZED_SAMPLE_DIR=$DECOMPOSE_WORKSPACE/02_dimension_generalized_samples
@@ -25,15 +27,15 @@ RENAMED_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/06_renamed_typical_subgraphs
 DEDUP_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/07_deduplicated_typical_subgraphs
 
 # fusible_subgraphs
-CUMSUM_NUM_KERNELS_DIR=$DECOMPOSE_WORKSPACE/08_cumsum_num_kernels
-FUSIBLE_SUBGRAPH_RANGE_DIR=$DECOMPOSE_WORKSPACE/09_fusible_subgraph_ranges
-GROUPED_FUSIBLE_SUBGRAPH_RANGE_DIR=$DECOMPOSE_WORKSPACE/10_grouped_fusible_subgraph_ranges
-DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/11_dimension_generalized_fusible_subgraphs
-RENAMED_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/12_renamed_dimension_generalized_fusible_subgraphs
-DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/13_deduplicated_dimension_generalized_fusible_subgraphs
-DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/14_dtype_generalized_fusible_subgraphs
-BACKWARD_GRAPH_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/15_backward_fusible_subgraphs
-# FUSIBLE_SUBGRAPH_UNITTEST_DIR=$DECOMPOSE_WORKSPACE/16_fusible_subgraphs_unittests
+CUMSUM_NUM_KERNELS_DIR=$DECOMPOSE_WORKSPACE/1-08_cumsum_num_kernels
+FUSIBLE_SUBGRAPH_RANGE_DIR=$DECOMPOSE_WORKSPACE/1-09_fusible_subgraph_ranges
+GROUPED_FUSIBLE_SUBGRAPH_RANGE_DIR=$DECOMPOSE_WORKSPACE/1-10_grouped_fusible_subgraph_ranges
+DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/1-11_dimension_generalized_fusible_subgraphs
+RENAMED_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/1-12_renamed_dimension_generalized_fusible_subgraphs
+DEDUP_DIM_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/1-13_deduplicated_dimension_generalized_fusible_subgraphs
+DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/1-14_dtype_generalized_fusible_subgraphs
+BACKWARD_GRAPH_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/1-15_backward_fusible_subgraphs
+# FUSIBLE_SUBGRAPH_UNITTEST_DIR=$DECOMPOSE_WORKSPACE/16_fusible_kernelbench_unittests
 
 # typical_subgraphs
 DIM_GENERALIZED_TYPICAL_SUBGRAPH_DIR=$DECOMPOSE_WORKSPACE/2-08_dimension_generalized_typical_subgraphs
@@ -46,16 +48,14 @@ BACKWARD_GRAPH_TYPICAL_OUTPUT_DIR=$DECOMPOSE_WORKSPACE/2-12_backward_typical_sub
 mkdir -p $DECOMPOSE_WORKSPACE
 mkdir -p $OUTPUT_DIR
 
-model_list="$GRAPH_NET_ROOT/graph_net/config/torch100_samples_list.txt"
-
 device_rewrited_sample_list=${DECOMPOSE_WORKSPACE}/device_rewrited_sample_list.txt
-range_decomposed_subgraph_list=${DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_sample_list.txt
-deduplicated_subgraph_list=${DECOMPOSE_WORKSPACE}/deduplicated_subgraph_sample_list.txt
+range_decomposed_subgraph_list=${DECOMPOSE_WORKSPACE}/range_decomposed_subgraph_list.txt
+deduplicated_subgraph_list=${DECOMPOSE_WORKSPACE}/deduplicated_subgraph_list.txt
 
 # fusible_subgraphs
-dimension_generalized_subgraph_list=${DECOMPOSE_WORKSPACE}/dimension_generalized_subgraph_sample_list.txt
-deduplicated_fusible_subgraphs_list=${DECOMPOSE_WORKSPACE}/deduplicated_dimension_generalized_subgraph_sample_list.txt
-dtype_generalized_subgraphs_list=${DECOMPOSE_WORKSPACE}/dtype_generalized_subgraphs_sample_list.txt
+dimension_generalized_subgraph_list=${DECOMPOSE_WORKSPACE}/dimension_generalized_fusible_subgraph_list.txt
+deduplicated_fusible_subgraphs_list=${DECOMPOSE_WORKSPACE}/deduplicated_dimension_generalized_fusible_subgraph_list.txt
+dtype_generalized_subgraphs_list=${DECOMPOSE_WORKSPACE}/dtype_generalized_fusible_subgraph_list.txt
 
 # typical_subgraphs
 dimension_generalized_typical_subgraph_list=${DECOMPOSE_WORKSPACE}/dimension_generalized_typical_subgraph_list.txt
@@ -63,7 +63,7 @@ deduplicated_typical_subgraph_list=${DECOMPOSE_WORKSPACE}/deduplicated_dimension
 dtype_generalized_typical_subgraph_list=${DECOMPOSE_WORKSPACE}/dtype_generalized_typical_subgraph_list.txt
 
 
-if [[ "$model_list" == *"/torch_samples_list.txt" ]]; then
+if [[ "$USE_SUBPROCESS" == "1" ]]; then
     USE_SUBPROCESS_ARGS="--use-subprocess"
 else
     USE_SUBPROCESS_ARGS=""
@@ -85,7 +85,7 @@ function generate_subgraph_list() {
     local sample_list="$2"
     echo ">>> Generate subgraph_sample_list for samples under ${target_dir}."
     echo ">>>"
-    cat $model_list \
+    cat $MODEL_LIST \
         | grep -v '# ' \
         | xargs -I {} find ${target_dir}/{} -name "model.py" \
         | xargs dirname \
@@ -97,7 +97,7 @@ function rewrite_device() {
     echo ">>> [1] Rewrite devices for subgraph samples under ${GRAPH_NET_ROOT}."
     echo ">>>"
     python3 -m graph_net.model_path_handler \
-        --model-path-list ${model_list} \
+        --model-path-list ${MODEL_LIST} \
         --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/device_rewrite_sample_pass.py",
@@ -131,14 +131,14 @@ function dimension_generalizer(){
 }
 EOF
 )
-    cp -rf $DEVICE_REWRITED_SAMPLE_DIR $DIM_GENERALIZED_SAMPLE_DIR/9
+    cp -rf $DEVICE_REWRITED_SAMPLE_DIR/* $DIM_GENERALIZED_SAMPLE_DIR/9/
 }
 
 function generate_op_names() {
-    echo ">>> [3] Generate op_names.txt for samples in ${model_list}."
+    echo ">>> [3] Generate op_names.txt for samples in ${MODEL_LIST}."
     echo ">>>"
     python3 -m graph_net.model_path_handler ${USE_SUBPROCESS_ARGS} \
-        --model-path-list $model_list \
+        --model-path-list $MODEL_LIST \
         --handler-config=$(base64 -w 0 <<EOF
 {
     "handler_path": "$GRAPH_NET_ROOT/graph_net/torch/sample_pass/op_names_extractor.py",
@@ -154,11 +154,11 @@ EOF
 }
 
 function generate_split_point() {
-    echo ">>> [4] Generate subgraph_ranges.json for samples in ${model_list}."
+    echo ">>> [4] Generate subgraph_ranges.json for samples in ${MODEL_LIST}."
     echo ">>>   MIN_SEQ_OPS: ${MIN_SEQ_OPS}, MAX_SEQ_OPS: ${MAX_SEQ_OPS}"
     echo ">>>"
     python3 -m graph_net.apply_sample_pass \
-        --model-path-list $model_list \
+        --model-path-list $MODEL_LIST \
         --sample-pass-file-path $GRAPH_NET_ROOT/graph_net/torch/sample_pass/typical_sequence_split_points.py \
         --sample-pass-class-name TypicalSequenceSplitPointsGenerator \
         --sample-pass-config=$(base64 -w 0 <<EOF
@@ -599,7 +599,7 @@ function generate_fusible_subgraphs() {
     generate_generalized_subgraph_list ${DTYPE_GENERALIZED_FUSIBLE_SUBGRAPH_DIR} ${dtype_generalized_subgraphs_list}
 
     # extract backward graphs (train_forward, train_backward, eval_forward)
-    backward_graph_extractor 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_backward_graph_extractor_fusible_${suffix}.txt
+    # backward_graph_extractor 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_backward_graph_extractor_${suffix}.txt
 
     # generate kernelbench format unittest
     # generate_unittests 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_${suffix}.txt
@@ -622,7 +622,7 @@ function generate_typical_subgraphs() {
     generate_generalized_subgraph_list ${DTYPE_GENERALIZED_TYPICAL_SUBGRAPH_DIR} ${dtype_generalized_typical_subgraph_list}
 
     # extract backward graphs (train_forward, train_backward, eval_forward)
-    backward_graph_extractor_typical 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_backward_graph_extractor_typical_${suffix}.txt
+    #backward_graph_extractor_typical 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_backward_graph_extractor_typical_${suffix}.txt
 
     # generate kernelbench format unittest
     # generate_unittest_for_typical_subgraphs 2>&1 | tee ${DECOMPOSE_WORKSPACE}/log_unittests_typical_subgraphs_${suffix}.txt
@@ -643,7 +643,7 @@ function main() {
 }
 
 function summary() {
-    num_original_samples=`cat $model_list | grep "^samples/" | wc -l`
+    num_original_samples=`cat $MODEL_LIST | grep "^samples/" | wc -l`
     echo "Number of original graphnet samples: $num_original_samples"
 
     num_device_rewrited_samples=`find ${DEVICE_REWRITED_SAMPLE_DIR} -name "model.py" | wc -l`

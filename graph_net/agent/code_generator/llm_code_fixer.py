@@ -57,6 +57,9 @@ _SYSTEM_PROMPT = """\
 
 **多模态类**（clip/blip/flava/align 等）：
   同时传文本分支（input_ids + attention_mask）和视觉分支（pixel_values）
+  - Qwen-VL（qwen2_vl/qwen2_5_vl/qwen3_vl）：需要 image_grid_thw，且 pixel_values 是展平 patch，形如 (4, channels * temporal_patch_size * patch_size * patch_size)，不是 BCHW。
+  - LLaVA/Gemma3：若报图像特征和图像 token 数不匹配，必须把 input_ids 前缀覆盖为 image_token_index，覆盖数量分别按视觉 patch 数或 mm_tokens_per_image。
+  - InternVL：通常需要 image_flags，并把 input_ids 前缀覆盖为 img_context_token_id（或 image_token_index），数量为 num_image_token。
 
 **音频类**（wav2vec2/hubert/whisper/clap/unispeech 等）：
   - wav2vec2/hubert/unispeech：input_values = torch.randn(1, 16000).to(device)
@@ -94,6 +97,10 @@ _SYSTEM_PROMPT = """\
 | 报错关键词 | 修复方法 |
 |---|---|
 | "You have to specify pixel_values" | 补充 pixel_values 输入 |
+| "grid_thw" / "image_grid_thw" | Qwen-VL 需要 image_grid_thw=torch.tensor([[1,2,2]])，pixel_values 用展平 patch shape |
+| "Image features and image tokens do not match" | LLaVA/Gemma3 需要把 input_ids 前缀覆盖为 image_token_index，数量匹配图像 token 数 |
+| "tokens: 0, features:" | input_ids 中缺少图像 token，按对应 VLM 家族写入 image_token_index/img_context_token_id 前缀 |
+| "image_flags" | InternVL 需要 image_flags=torch.ones((1,1), dtype=torch.long) |
 | "index out of range in self" / embedding 越界 | input_ids 上界 > vocab_size，改为 min(vocab_size-1, 30000) |
 | "NoneType has no attribute" | 对应输入字段为 None，补充正确 tensor |
 | "running_mean should contain X elements" | BatchNorm channel 维度不对，检查 input_features shape 的 channel 轴 |
@@ -372,7 +379,14 @@ class LLMCodeFixer:
             "audio_config",
             "vision_config",
             "text_config",
+            "image_token_index",
+            "mm_tokens_per_image",
+            "vision_feature_select_strategy",
+            "img_context_token_id",
+            "num_image_token",
             "patch_size",
+            "temporal_patch_size",
+            "spatial_merge_size",
             "num_mel_bins",
             "chunk_length",
             # MoE routing (field names vary across models)
@@ -407,6 +421,14 @@ class LLMCodeFixer:
                         "vocab_size",
                         "image_size",
                         "num_channels",
+                        "patch_size",
+                        "temporal_patch_size",
+                        "spatial_merge_size",
+                        "image_token_index",
+                        "mm_tokens_per_image",
+                        "vision_feature_select_strategy",
+                        "img_context_token_id",
+                        "num_image_token",
                         "num_mel_bins",
                         "hidden_size",
                         "num_local_experts",

@@ -12,6 +12,7 @@ import sys
 from concurrent.futures import Future, ProcessPoolExecutor, as_completed
 from pathlib import Path
 
+from .cache_pruner import prune_compilation_cache
 from .config import PipelineConfig
 from .sample_enumerator import compute_unique_dir
 
@@ -63,6 +64,10 @@ def _compile_one_sample(
     """Compile a single graph sample on a specific GPU.
 
     Returns one of ``"compiled"``, ``"skipped"``, or ``"failed"``.
+
+    After each compile attempt, prune the sample-local TorchInductor cache
+    immediately so that large intermediate artifacts do not accumulate across
+    many samples.
     """
     unique_dir = compute_unique_dir(sample_path, graph_dir)
 
@@ -123,6 +128,8 @@ def _compile_one_sample(
                 shutil.copytree(str(item), str(dest), dirs_exist_ok=True)
             else:
                 shutil.copy2(str(item), str(dest))
+
+    prune_compilation_cache(sample_cache_dir)
 
     if result.returncode != 0:
         return "failed"

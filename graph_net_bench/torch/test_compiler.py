@@ -267,7 +267,9 @@ def test_single_model(args):
         )
 
         torch.manual_seed(runtime_seed)
-        if not isinstance(expected_out, tuple):
+        if isinstance(expected_out, list):
+            expected_out = tuple(expected_out)
+        elif not isinstance(expected_out, tuple):
             expected_out = (expected_out,)
     except (TypeError, RuntimeError) as e:
         print(f"Eager model execution failed: {str(e)}", file=sys.stderr)
@@ -288,7 +290,9 @@ def test_single_model(args):
             compiled_model_call, args, compiler
         )
 
-        if not isinstance(compiled_out, tuple):
+        if isinstance(compiled_out, list):
+            compiled_out = tuple(compiled_out)
+        elif not isinstance(compiled_out, tuple):
             compiled_out = (compiled_out,)
         if args.compiler == "xla":
             compiled_out = tuple(item.to("cpu").to("cuda") for item in compiled_out)
@@ -352,7 +356,11 @@ def compare_correctness(expected_out, compiled_out, args):
         ]
 
     def _align_output_device(outs, device):
-        return [x.to(device) if x.device != device else x for x in outs]
+        if isinstance(outs, torch.Tensor):
+            return outs.to(device) if outs.device != device else outs
+        if isinstance(outs, (list, tuple)):
+            return type(outs)(_align_output_device(x, device) for x in outs)
+        return outs
 
     eager_dtypes = _get_output_dtypes(expected_out)
     compiled_dtypes = _get_output_dtypes(compiled_out)

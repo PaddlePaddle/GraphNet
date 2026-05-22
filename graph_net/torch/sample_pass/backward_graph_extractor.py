@@ -27,7 +27,7 @@ class BackwardGraphExtractor:
         module, forward_inputs = get_torch_module_and_inputs(
             self.model_path, use_dummy_inputs=False, device=self.device
         )
-        module.train()
+        module.eval()
 
         eval_forward_dir = os.path.join(
             self.output_dir, "eval_forward", self.rel_model_path
@@ -35,6 +35,10 @@ class BackwardGraphExtractor:
         if not os.path.exists(eval_forward_dir):
             shutil.copytree(self.model_path, eval_forward_dir)
 
+        forward_inputs = [
+            inp.detach().clone() if isinstance(inp, torch.Tensor) else inp
+            for inp in forward_inputs
+        ]
         forward_inputs = self.set_requires_grad_for_forward_inputs(
             self.model_path, module, forward_inputs
         )

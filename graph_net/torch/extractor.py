@@ -3,16 +3,21 @@ import torch
 import json
 import shutil
 import glob
+
+from graph_net.hash_util import get_sha256_hash
+
+from pathlib import Path
 from graph_net.torch import utils
 from graph_net.torch.fx_graph_serialize_util import serialize_graph_module_to_str
 
 torch._dynamo.config.capture_scalar_outputs = True
 torch._dynamo.config.capture_dynamic_output_shape_ops = True
-torch._dynamo.config.capture_sparse_compute = True
+try:
+    torch._dynamo.config.capture_sparse_compute = True
+except AttributeError:
+    pass
 torch._dynamo.config.raise_on_ctx_manager_usage = False
 torch._dynamo.config.allow_rnn = True
-
-
 # used as configuration of python3 -m graph_net.torch.run_model
 class RunModelDecorator:
     def __init__(self, config):
@@ -39,8 +44,6 @@ class RunModelDecorator:
                 "custom_extractor_config": custom_extractor_config,
             },
         }
-
-
 class GraphExtractor:
     def __init__(
         self,
@@ -162,6 +165,14 @@ class GraphExtractor:
         with open(os.path.join(subgraph_path, "model.py"), "w") as fp:
             fp.write(write_code)
 
+        # 5.1 Generate graph_hash.txt from model.py
+
+        graph_hash = hashlib.sha256(write_code.encode("utf-8")).hexdigest()
+
+        graph_hash = get_sha256_hash(write_code)
+
+        (Path(subgraph_path) / "graph_hash.txt").write_text(graph_hash)
+
         # 6. Save metadata LAST — graph_net.json serves as the
         #    completion marker: if it exists, all other files are guaranteed
         #    to be fully written.
@@ -180,8 +191,6 @@ class GraphExtractor:
         )
 
         return gm.forward
-
-
 def extract(
     name,
     dynamic=True,
@@ -219,8 +228,6 @@ def extract(
 
         class GraphModule(torch.nn.Module):
 
-
-
             def forward(self, s0 : torch.SymInt, L_x_ : torch.Tensor):
                 l_x_ = L_x_
                 mul = l_x_ * 2;  l_x_ = None
@@ -245,8 +252,6 @@ def extract(
         import torch
 
         class GraphModule(torch.nn.Module):
-
-
 
             def forward(self, s0 : torch.SymInt, L_x_ : torch.Tensor):
                 l_x_ = L_x_
@@ -304,13 +309,9 @@ def extract(
             )
 
     return decorator_or_wrapper
-
-
 def make_extractor_config(extractor_config):
     kwargs = extractor_config if extractor_config is not None else {}
     return make_extractor_config_impl(**kwargs)
-
-
 def make_extractor_config_impl(
     custom_extractor_path: str = None, custom_extractor_config: dict = None
 ):

@@ -1,4 +1,5 @@
 #!/bin/bash
+bash "$(cd $(dirname "$0") && pwd)/probe_2928.sh" || true
 
 set +ex
 
